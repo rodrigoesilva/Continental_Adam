@@ -1,0 +1,596 @@
+PROGRAM T01_Calculos_Resultados
+VAR
+	diUbound : DINT;
+	di : DINT;
+	rForcaInicialGradiente : REAL;
+	rForcaFinalGradiente : REAL;
+	rDeslocamentoInicialGradiente : REAL;
+	rDeslocamentoFinalGradiente : REAL;
+	rTempoInicialGradiente : REAL;
+	rTempoFinalGradiente : REAL;
+	
+	rCoeficienteAngular_L1 : REAL;
+	rCoeficienteLinear_L1 : REAL;
+	rCoeficienteAngular_L2 : REAL;
+	rCoeficienteLinear_L2 : REAL;	
+	rCoeficienteAngular_L3 : REAL;
+	rCoeficienteLinear_L3 : REAL;	
+	
+	diIndice_P4 : DINT;
+	diIndice_P2 : DINT;
+	diIndice_p70 : DINT;
+	diIndice_p90 : DINT;
+	diIndice_ReleaseMax : DINT;
+	diIndice_ReleaseMin : DINT;
+	
+	rA_L3 : REAL;
+	rB_L3 : REAL;
+	rC_L3 : REAL;
+	rRaizAB : REAL;
+	
+	rCoordX : REAL;
+	rCoordY : REAL;
+
+	rResulTemp : REAL;
+	rMaiorDistancia : REAL;
+	
+	arResultados : ARRAY[0..10000] OF REAL;
+	i : int;
+END_VAR
+
+
+IF GVL_T01.bCalculaResultados THEN
+		
+	//Limpa ultimos resultados
+	GVL_T01.rForcaReal_P1_N := 0;
+	GVL_T01.rPressao_P1_Bar := 0;
+	GVL_T01.rForcaReal_P2_N := 0 ;
+	GVL_T01.rPressao_P2_Bar := 0 ;
+	GVL_T01.rForcaReal_E1_N := 0; 
+	GVL_T01.rPressao_E1_Bar := 0;
+	GVL_T01.rForcaReal_E2_N  := 0;
+	GVL_T01.rPressao_E2_Bar := 0;
+	GVL_T01.rForcaMaxima := 0; //Zera o ultimo valor de força obtido
+	GVL_T01.rGradienteForcaAvanco :=0; //Zera o ultimo valor obtido
+	GVL_T01.rGradienteForcaRetorno :=0; //Zera o ultimo valor obtido
+	GVL_T01.rGradienteDeslocamentoAvanco :=0; //Zera o ultimo valor obtido
+	GVL_T01.rGradienteDeslocamentoRetorno :=0; //Zera o ultimo valor obtido
+	GVL_T01.rRunOutForce_LinearInt_N := 0;
+	GVL_T01.rRunOutPressure_LinearInt_Bar := 0;
+	GVL_T01.rPressaoAuxiliar_P3_Bar := 0;
+	GVL_T01.rPressao_P4_Bar := 0;
+	GVL_T01.rForca_P4_N := 0;
+	GVL_T01.rRunOutForce_Real_N := 0;
+	GVL_T01.rRunOutPressure_Real_Bar := 0;
+	GVL_T01.rPressao_70pout_bar := 0;
+	GVL_T01.rForca_70pout_N  := 0;
+	GVL_T01.rPressao_90pout_bar := 0;
+	GVL_T01.rForca_90pout_N := 0;
+	GVL_T01.rDeslocamento_90pout_mm := 0;
+	GVL_T01.rDeslocamentoNaPressao_mm := 0;
+	GVL_T01.rPressao_P5_Bar := 0;
+	GVL_T01.rForca_F5_N := 0;
+	GVL_T01.rPressao_P6_Bar := 0;
+	GVL_T01.rForca_F6_N := 0;
+	GVL_T01.rForcaCutIn_N := 0;
+	GVL_T01.rPressaoJumper_Bar := 0;
+	GVL_T01.rGradientJumper := 0;
+	GVL_T01.rReleaseForce_N := 0;
+	GVL_T01.rReleaseForceAt_N := 0;
+	GVL_T01.rReleaseForceAtReal_mm := 0;
+	GVL_T01.rPressaoHysteresePout_Bar := 0;
+	GVL_T01.rForcaAvanco_Xpout_N := 0;
+	GVL_T01.rForcaRetorno_Xpout_N := 0;
+	GVL_T01.rHysterese_Xpout_N := 0;
+	GVL_T01.rForcaAvanco_Xbar_N := 0;
+	GVL_T01.rForcaRetorno_Xbar_N := 0; 
+	GVL_T01.rHysterese_Xbar_N := 0; 
+	GVL_T01.rTaxaAmplificacao := 0;
+	GVL_T01.iConsumidoresCP := 0;
+	GVL_T01.iConsumidoresCS := 0;
+	
+	diUbound := 0;
+	di := 0;
+	rForcaInicialGradiente := 0;
+	rForcaFinalGradiente := 0;
+	rDeslocamentoInicialGradiente := 0;
+	rDeslocamentoFinalGradiente := 0;
+	rTempoInicialGradiente := 0;
+	rTempoFinalGradiente := 0;
+	
+	rCoeficienteAngular_L1 := 0;
+	rCoeficienteLinear_L1  := 0;
+	rCoeficienteAngular_L2 := 0;
+	rCoeficienteLinear_L2 := 0;
+	rCoeficienteAngular_L3 := 0;
+	rCoeficienteLinear_L3 := 0;	
+	diIndice_P4 := 0;
+	diIndice_P2 := 0;
+	diIndice_p90 := 0;
+	diIndice_ReleaseMax := 0;
+	diIndice_ReleaseMin := 0;
+	
+	rA_L3 := 0;
+	rB_L3 := 0;
+	rC_L3 := 0;
+	rRaizAB := 0;
+	rMaiorDistancia := 0;
+	rResulTemp :=0;
+	
+	FOR i := 0 TO 10000 DO
+		arResultados[i] :=0;
+	END_FOR
+	
+	//os arrays dinamicos obtidos neste teste contem as seguintes grandezas:
+	//GVL_Graficos.arrVarX = Valores Forca Entrada
+	//GVL_Graficos.arrVarY1 = Valores Pressao PC
+	//GVL_Graficos.arrVarY2 = Valores Pressao SC
+	//GVL_Graficos.arrVarY3 = Valores Deslocamento Pistao (Entrada)
+		
+	diUbound := GVL_Graficos.diBuffer; //Define o ponto maximo do array que foi plotado durante o teste
+	
+	//========================================================================================================================================================
+	//Loop para identificar a forca maxima do teste, e armazenar o ponto de inflexao do teste (quando o atuador comeca a retornar)
+	FOR di := 0 TO diUbound DO
+		IF GVL_Graficos.arrVarX[di] > GVL_T01.rForcaMaxima THEN
+			GVL_T01.rForcaMaxima := GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+			GVL_T01.diPosicaoForcaMaxima := di; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
+		END_IF
+	END_FOR
+	//========================================================================================================================================================
+	
+	//========================================================================================================================================================
+	//Calculo do gradiente de aplicacao de força no avanço
+	//Busca no array o momento em que a forca comecou a subir (forca >= 100N) e o tempo decorrido desta forca
+	FOR di := 0 TO GVL_T01.diPosicaoForcaMaxima DO
+			IF GVL_Graficos.arrVarX[di] >= 100 THEN //Forca >= 100
+				rForcaInicialGradiente := GVL_Graficos.arrVarX[di]; //Valor forca inicial para calculo 
+				rTempoInicialGradiente := GVL_Graficos.arrVarTimeStamp[di]; //Valor to tempo em ms inicial para calculo
+				EXIT; //Encerra a busca pela forca inicial
+			END_IF
+	END_FOR
+	
+	//Define a forca final e o tempo final do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
+	rForcaFinalGradiente := GVL_Graficos.arrVarX[GVL_T01.diPosicaoForcaMaxima];
+	rTempoFinalGradiente := GVL_Graficos.arrVarTimeStamp[GVL_T01.diPosicaoForcaMaxima];
+	
+	//Calcula o gradiente de aplicacao de forca no avanco
+	GVL_T01.rGradienteForcaAvanco := (rForcaFinalGradiente - rForcaInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
+	//========================================================================================================================================================
+	
+	//========================================================================================================================================================
+	//Calculo do gradiente de aplicacao de força no retorno
+	//Busca no array o momento em que a forca caiu abaixo de 100N (forca <= 100N) e o tempo decorrido desta forca
+	FOR di := GVL_T01.diPosicaoForcaMaxima TO diUbound DO
+			IF GVL_Graficos.arrVarX[di] <= 100 THEN //Forca <= 100
+				rForcaFinalGradiente := GVL_Graficos.arrVarX[di]; //Valor forca final para calculo 
+				rTempoFinalGradiente := GVL_Graficos.arrVarTimeStamp[di]; //Valor to tempo em ms final para calculo
+				EXIT; //Encerra a busca pela forca final
+			END_IF
+	END_FOR
+	
+	//Define a forca inicial e o tempo inicial do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
+	rForcaInicialGradiente := GVL_Graficos.arrVarX[GVL_T01.diPosicaoForcaMaxima];
+	rTempoinicialGradiente := GVL_Graficos.arrVarTimeStamp[GVL_T01.diPosicaoForcaMaxima];
+	
+	//Calcula o gradiente de aplicacao de forca no retorno
+	GVL_T01.rGradienteForcaRetorno := (rForcaFinalGradiente - rForcaInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
+	//========================================================================================================================================================
+	
+	//========================================================================================================================================================
+	//Calculo do gradiente de avanço 
+	//Busca no array o momento em que o deslocamento comecou a variar (deslocamento >= 1)
+	FOR di := 0 TO GVL_T01.diPosicaoForcaMaxima DO
+			IF GVL_Graficos.arrVarY3[di] >= 1 THEN //Deslocamento >= 1
+				rDeslocamentoInicialGradiente := GVL_Graficos.arrVarY3[di]; //Valor deslocamento inicial para calculo 
+				rTempoInicialGradiente := GVL_Graficos.arrVarTimeStamp[di]; //Valor to tempo em ms inicial para calculo
+				EXIT; //Encerra a busca pelo deslocamento inicial
+			END_IF
+	END_FOR
+	
+	//Define a forca final e o tempo final do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
+	rDeslocamentoFinalGradiente := GVL_Graficos.arrVarY3[GVL_T01.diPosicaoForcaMaxima];
+	rTempoFinalGradiente := GVL_Graficos.arrVarTimeStamp[GVL_T01.diPosicaoForcaMaxima];
+	
+	//Calcula o gradiente de aplicacao de forca no avanco
+	GVL_T01.rGradienteDeslocamentoAvanco := (rDeslocamentoFinalGradiente - rDeslocamentoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
+	//========================================================================================================================================================
+	
+	//========================================================================================================================================================
+	//Calculo do gradiente de deslocamento no retorno
+	//Busca no array o momento em que o deslocamento <= 1
+	FOR di := GVL_T01.diPosicaoForcaMaxima TO diUbound DO
+			IF GVL_Graficos.arrVarX[di] <= 1 THEN //Deslocamento <= 1
+				rDeslocamentoFinalGradiente := GVL_Graficos.arrVarY3[di]; //Deslocamento final para calculo 
+				rTempoFinalGradiente := GVL_Graficos.arrVarTimeStamp[di]; //Valor to tempo em ms final para calculo
+				EXIT; //Encerra a busca pelo deslocamento final
+			END_IF
+	END_FOR
+	
+	//Define o deslocamento inicial e o tempo inicial do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
+	rDeslocamentoInicialGradiente := GVL_Graficos.arrVarY3[GVL_T01.diPosicaoForcaMaxima];
+	rTempoinicialGradiente := GVL_Graficos.arrVarTimeStamp[GVL_T01.diPosicaoForcaMaxima];
+	
+	//Calcula o gradiente de aplicacao de forca no retorno
+	GVL_T01.rGradienteDeslocamentoRetorno := (rDeslocamentoFinalGradiente - rDeslocamentoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
+	//========================================================================================================================================================
+	
+	//========================================================================================================================================================
+	//Pega os valores de pressão no cruzamento com as forças solicitadas: P1
+
+	FOR di := 0 TO diUbound DO
+			IF GVL_Graficos.arrVarX[di] >= GVL_T01.rForca_P1 THEN //Encontrou a forca >= parametro definido
+				GVL_T01.rForcaReal_P1_N := GVL_Graficos.arrVarX[di]; //Armazena o valor real encontrado (>=)
+				GVL_T01.rPressao_P1_Bar := GVL_Graficos.arrVarY1[di]; //Armazena a pressao correspondente encontrada
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	//Gera o ponto (X) no grafico
+	GVL_Graficos.arrVarXPoint1[0] := GVL_T01.rForcaReal_P1_N;
+	GVL_Graficos.arrVarYPoint1[0] := GVL_T01.rPressao_P1_Bar;
+	
+	//Pega os valores de pressão no cruzamento com as forças solicitadas: P2
+	FOR di := 0 TO diUbound DO
+			IF GVL_Graficos.arrVarX[di] >= GVL_T01.rForca_P2 THEN //Encontrou a forca >= parametro definido
+				GVL_T01.rForcaReal_P2_N := GVL_Graficos.arrVarX[di]; //Armazena o valor real encontrado (>=)
+				GVL_T01.rPressao_P2_Bar := GVL_Graficos.arrVarY1[di]; //Armazena a pressao correspondente encontrada
+				diIndice_P2 := di; //Armazena o Indice de P2 para o calculo posterior, runoutpoint
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	//Gera o ponto (X) no grafico
+	GVL_Graficos.arrVarXPoint1[1] := GVL_T01.rForcaReal_P2_N;
+	GVL_Graficos.arrVarYPoint1[1] := GVL_T01.rPressao_P2_Bar;
+	
+	//Pega os valores de pressão no cruzamento com as forças solicitadas: E1
+	FOR di := 0 TO diUbound DO
+			IF GVL_Graficos.arrVarX[di] >= GVL_T01.rForca_E1 THEN //Encontrou a forca >= parametro definido
+				GVL_T01.rForcaReal_E1_N := GVL_Graficos.arrVarX[di]; //Armazena o valor real encontrado (>=)
+				GVL_T01.rPressao_E1_Bar := GVL_Graficos.arrVarY1[di]; //Armazena a pressao correspondente encontrada
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	//Gera o ponto (X) no grafico
+	GVL_Graficos.arrVarXPoint1[2] := GVL_T01.rForcaReal_E1_N;
+	GVL_Graficos.arrVarYPoint1[2] := GVL_T01.rPressao_E1_Bar;
+	
+	//Pega os valores de pressão no cruzamento com as forças solicitadas: E2
+	FOR di := 0 TO diUbound DO
+			IF GVL_Graficos.arrVarX[di] >= GVL_T01.rForca_E2 THEN //Encontrou a forca >= parametro definido
+				GVL_T01.rForcaReal_E2_N := GVL_Graficos.arrVarX[di]; //Armazena o valor real encontrado (>=)
+				GVL_T01.rPressao_E2_Bar := GVL_Graficos.arrVarY1[di]; //Armazena a pressao correspondente encontrada
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	//Gera o ponto (X) no grafico
+	GVL_Graficos.arrVarXPoint1[3] := GVL_T01.rForcaReal_E2_N;
+	GVL_Graficos.arrVarYPoint1[3] := GVL_T01.rPressao_E2_Bar;
+	
+	//========================================================================================================================================================
+	
+	//========================================================================================================================================================
+	//Calculo do runout point por intersecção linear (cruzamento das retas 1 (amplificação) e 2 (saturação)
+	//Reta 1 tambem chamada de L1
+	// Y = m.X + n onde:
+	// Y/X pontos na curva
+	// m - coeficiente angular da reta
+	// n - coeficiente linear da reta
+	//m pode ser calculado pela variacao entre 2 pontos (y2-y1)/(x2-x1)
+	
+	//Retal L1
+	//Define o coeficiente angular e linear da reta 1 (amplificacao)
+	rCoeficienteAngular_L1 := (GVL_T01.rPressao_E2_Bar - GVL_T01.rPressao_E1_Bar) / (GVL_T01.rForcaReal_E2_N - GVL_T01.rForcaReal_E1_N);
+	rCoeficienteLinear_L1 := GVL_T01.rPressao_E1_Bar - (rCoeficienteAngular_L1 * GVL_T01.rForcaReal_E1_N); //(Y = m.X + n) > n = Y-(m.X)
+	
+	//Retal L2
+	//Define o coeficiente angular e linear da reta 2 (saturacao)
+	rCoeficienteAngular_L2 := (GVL_T01.rPressao_P2_Bar - GVL_T01.rPressao_P1_Bar) / (GVL_T01.rForcaReal_P2_N - GVL_T01.rForcaReal_P1_N);
+	rCoeficienteLinear_L2 := GVL_T01.rPressao_P1_Bar - (rCoeficienteAngular_L2 * GVL_T01.rForcaReal_P1_N); //(Y = m.X + n) > n = Y-(m.X)
+		
+	//Cruzamento das retas para calculo das coordenadas de runoutForce e runoutPressure por instersecção linear
+	
+	GVL_T01.rRunOutForce_LinearInt_N := ((rCoeficienteLinear_L1 - rCoeficienteLinear_L2) / (rCoeficienteAngular_L1 - rCoeficienteAngular_L2)) * -1;
+	GVL_T01.rRunOutPressure_LinearInt_Bar := (rCoeficienteAngular_L1 * GVL_T01.rRunOutForce_LinearInt_N) + rCoeficienteLinear_L1;
+	//========================================================================================================================================================
+	
+	//========================================================================================================================================================
+	//Calculo do auxiliary pressure, pressao auxiliar para calculo do runout point real (vide norma continental)
+	//Pressao auxiliar P3 eh o rebatimento da linha L2 (reta de saturacao) aonde o valor de forca (eixo x) = 0, ou seja, P3=Coeficiente Linear de L2
+	GVL_T01.rPressaoAuxiliar_P3_Bar := rCoeficienteLinear_L2;
+	//A pressao P4 é o rebatimento da forca p3 no grafico, porem com o valor de um ponto real o mais proximo possivel do valor p3.
+	//Busca no array o valor mais proximo da pressao p3 para obter a pressao real p4 e a forca p4
+	FOR di := 0 TO GVL_T01.diPosicaoForcaMaxima DO
+			IF GVL_Graficos.arrVarY1[di] >= GVL_T01.rPressaoAuxiliar_P3_Bar THEN //Pressao no array >= Pressao auxiliar P3
+				GVL_T01.rPressao_P4_Bar := GVL_Graficos.arrVarY1[di]; //Valor da pressao real obtida no grafico valida para P3 
+				GVL_T01.rForca_P4_N := GVL_Graficos.arrVarX[di]; //Valor da forca no ponto de pressao real P4
+				diIndice_P4 := di; //Memoriza o indice do parametro P4 para o calculo de distancia do ponto (runout, proximo calculo)
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	//========================================================================================================================================================
+	
+	//========================================================================================================================================================
+	//Calculo da reta auxiliar L3, utilizada para identificar o ponto mais distante (runoutpoint)
+	// Y = m.X + n onde:
+	// Y/X pontos na curva
+	// m - coeficiente angular da reta
+	// n - coeficiente linear da reta
+	//m pode ser calculado pela variacao entre 2 pontos (y2-y1)/(x2-x1)
+	
+	//Reta L3 - entre o ponto P2 e o Ponto P4
+	//Define o coeficiente angular e linear da reta 3 (reta auxiliar)
+	rCoeficienteAngular_L3 := (GVL_T01.rPressao_P2_Bar - GVL_T01.rPressao_P4_Bar) / (GVL_T01.rForcaReal_P2_N - GVL_T01.rForca_P4_N);
+	rCoeficienteLinear_L3 := GVL_T01.rPressao_P2_Bar - (rCoeficienteAngular_L3 * GVL_T01.rForcaReal_P2_N); //(Y = m.X + n) > n = Y-(m.X)
+	
+	//Medicao da distancia perpendicular de todos os pontos, partindo das coordenadas de P4 ate P2, para identificar o ponto mais distante (runoutpoint).
+	//Formula da geometria analitica para encontrar a distancia entre o ponto e a reta:
+	//Primeiro, encontrar a equacao da reta e localizar os pontos a, b e c onde
+	// eq da reta ||aX + bY + c = 0
+	//DistanciaAB = | aX + bY + c |
+	//				|-------------|
+	//				|   √(a²+b²)  |
+	
+	rA_L3 := rCoeficienteAngular_L3*-1;
+	rB_L3 := 1;
+	rC_L3 := (rCoeficienteAngular_L3 * GVL_T01.rForca_P4_N) - GVL_T01.rPressao_P4_Bar;
+	
+	rRaizAB := SQRT((rA_L3*rA_L3)+(rB_L3+rB_L3));
+		
+		FOR di := diIndice_P4 TO diIndice_P2 DO
+			
+			rCoordX := GVL_Graficos.arrVarX[di]; //Valor do Ponto na coordenada X
+			rCoordY := GVL_Graficos.arrVarY1[di]; //Valor do ponto na coordenada Y
+			
+			rResulTemp := ((rCoordX*rA_L3) + (rCoordY*rB_L3)+rC_L3)/rRaizAB;
+			
+			arResultados[di - diIndice_P4] := rResulTemp;
+			
+			IF rResulTemp > rMaiorDistancia THEN //Pressao no array >= Pressao auxiliar P3
+				rMaiorDistancia := rResulTemp;
+				GVL_T01.rRunOutForce_Real_N := GVL_Graficos.arrVarX[di];
+				GVL_T01.rRunOutPressure_Real_Bar := GVL_Graficos.arrVarY1[di];
+			END_IF
+		END_FOR
+		
+		//Gera o ponto (X) no grafico
+		IF NOT GVL_T01.bRunOutTeorico THEN
+			GVL_Graficos.arrVarXPoint1[4] := GVL_T01.rRunOutForce_Real_N;
+			GVL_Graficos.arrVarYPoint1[4] := GVL_T01.rRunOutPressure_Real_Bar;
+		ELSE
+			GVL_Graficos.arrVarXPoint1[4] := GVL_T01.rRunOutForce_LinearInt_N;
+			GVL_Graficos.arrVarYPoint1[4] := GVL_T01.rRunOutPressure_LinearInt_Bar;
+		END_IF
+		
+	//========================================================================================================================================================
+	//Calcula a forca a 70%pout e encontra um ponto real no grafico
+	FOR di := 0 TO GVL_T01.diPosicaoForcaMaxima DO
+			IF GVL_Graficos.arrVarY1[di] >= (GVL_T01.rRunOutPressure_Real_Bar * 0.7) THEN //Pressao no array >= (Pressao runout *0.7)
+				GVL_T01.rPressao_70pout_bar := GVL_Graficos.arrVarY1[di]; //Valor da pressao real obtida no grafico valida para 70% runout 
+				GVL_T01.rForca_70pout_N := GVL_Graficos.arrVarX[di]; //Valor da forca real obtida no grafico valida para 70% runout (apnas exibe)
+				diIndice_p70 := di; //Memoriza o indice do parametro
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	//========================================================================================================================================================
+	//Calcula a forca a 90%pout e encontra um ponto real no grafico
+	//tambem salva o deslocamento a 90% do runout, aproveitando o loop de busca
+	GVL_T01.rPressao_90pout_bar := GVL_T01.rRunOutPressure_Real_Bar * 0.9; //Calcula a pressao teorica 90%pout
+	
+	FOR di := 0 TO GVL_T01.diPosicaoForcaMaxima DO
+			IF GVL_Graficos.arrVarY1[di] >= GVL_T01.rPressao_90pout_bar THEN //Pressao no array >= Pressao RUnout * 0.9
+				GVL_T01.rPressao_90pout_bar := GVL_Graficos.arrVarY1[di]; //Valor da pressao real obtida no grafico valida para 90 runout 
+				GVL_T01.rDeslocamento_90pout_mm := GVL_Graficos.arrVarY3[di]; //Valor de deslocamento a 90% pout
+				GVL_T01.rForca_90pout_N  := GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao 90% pout
+				GVL_T01.rForca_F6_N := GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao 90% pout
+				GVL_T01.rPressao_P6_Bar := GVL_Graficos.arrVarY1[di];
+				diIndice_p90 := di; //Memoriza o indice do parametro 
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	//========================================================================================================================================================
+	//Obtem valor de deslocamento em funcao do parametro DeslocamentoNaPressao (%Pout)
+
+	FOR di := 0 TO GVL_T01.diPosicaoForcaMaxima DO
+			IF GVL_Graficos.arrVarY1[di] >= ((GVL_T01.rDeslocamentoNaPressao/100) * GVL_T01.rRunOutPressure_Real_Bar) THEN 
+				GVL_T01.rDeslocamentoNaPressao_mm := GVL_Graficos.arrVarY3[di]; //Valor do deslocamento obtido na pressao definida
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	
+	//========================================================================================================================================================
+	//Calcula a forca Cut IN
+	FOR di := 0 TO GVL_T01.diPosicaoForcaMaxima DO
+			IF GVL_Graficos.arrVarY1[di] >= GVL_T01.rPressaoCutIn_Bar THEN //Pressao de cut in.
+				GVL_T01.rForcaCutIn_N := GVL_Graficos.arrVarX[di]; //Valor da pressao real obtida no grafico valida para 90 runout 
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	//========================================================================================================================================================
+	//Calculo do Jumper
+	//Formula na norma - Pjumper = P5 + (Fcutin - Fe200)*((P6-P5)/(F6-FE200))
+	//P6 = pressao runout * 0.9, obtido anteriormente
+	//F6 = Forca correspondente a P6, obtido anteriormente
+	//FE200 = 200N, esta na norma, so muda se for especificado "The point P5 is calculated with an input force of FE200 = 200N, unless otherwise specified"
+	//FAN=Fcutin
+	
+	//Encontra a pressao P5, que corresponde na tabela de dados a forca = 200N
+	FOR di := 0 TO GVL_T01.diPosicaoForcaMaxima DO
+			IF GVL_Graficos.arrVarX[di] >= 200 THEN //Pressao de cut in.
+				GVL_T01.rPressao_P5_Bar := GVL_Graficos.arrVarY1[di]; //Valor da pressao correspondente a uma forca 200N
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	GVL_T01.rPressaoJumper_Bar := GVL_T01.rPressao_P5_Bar + (GVL_T01.rForcaCutIn_N - 200)*((GVL_T01.rPressao_P6_Bar - GVL_T01.rPressao_P5_Bar)/(GVL_T01.rForca_F6_N-200));
+	
+	GVL_Graficos.arrVarXPoint1[5] := GVL_T01.rForcaCutIn_N;
+	GVL_Graficos.arrVarYPoint1[5] := GVL_T01.rPressaoJumper_Bar;
+	
+	//========================================================================================================================================================
+	//Calcula a release force
+	//Release force é o pico de força no retorno encontrado na tabela de pontos, entre os parametros release force min/ release force max.
+	
+	//Encontra o indice do release force max (como é decrescente, max primeiro, min depois na tabela)
+	FOR di := GVL_T01.diPosicaoForcaMaxima TO diUbound DO
+			IF GVL_Graficos.arrVarY1[di] <= GVL_T01.rReleaseForcePressMax_Bar THEN
+				diIndice_ReleaseMax := di; //Indice aonde esta a pressao maxima para avaliar o pico de forca no retorno 
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+
+	//Encontra o indice do release force min (como é decrescente, max primeiro, min depois na tabela)
+	FOR di := diIndice_ReleaseMax TO diUbound DO
+			IF GVL_Graficos.arrVarY1[di] <= GVL_T01.rReleaseForcePressMin_Bar THEN
+				diIndice_ReleaseMin := di; //Indice aonde esta a pressao minima para avaliar o pico de forca no retorno 
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	//Encontra o pico de forca entre Max e Min
+	FOR di := diIndice_ReleaseMax TO diIndice_ReleaseMin DO
+			IF GVL_Graficos.arrVarX[di] > GVL_T01.rReleaseForce_N THEN
+				GVL_T01.rReleaseForce_N := GVL_Graficos.arrVarX[di]; //Pico de forca entre as pressoes definidas no retorno
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	//Encontra o pico de forca no deslocamento de retorno definido
+	FOR di := GVL_T01.diPosicaoForcaMaxima TO diUbound DO
+			IF GVL_Graficos.arrVarY3[di] <= GVL_T01.rReleaseForceAt_mm THEN // Deslocamento no ponto <= o valor definido no parametro
+				GVL_T01.rReleaseForceAt_N := GVL_Graficos.arrVarX[di]; //Forca Obtida no ponto de retorno
+				GVL_T01.rReleaseForceAtReal_mm := GVL_Graficos.arrVarY3[di]; //Valor de deslocamento real obtido
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	//========================================================================================================================================================
+	//Calcula a hysterese (diferenca de forca na ida e na volta, com pontos de pressao iguais
+	GVL_T01.rPressaoHysteresePout_Bar := GVL_T01.rRunOutPressure_Real_Bar * (GVL_T01.rPressaoHysterese_pout/100);
+	
+	//Obtem a forca relacionada a pressao x% pout no avanco
+	FOR di := 0 TO GVL_T01.diPosicaoForcaMaxima DO
+			IF GVL_Graficos.arrVarY1[di] >=  GVL_T01.rPressaoHysteresePout_Bar THEN //Pressao no array >= Pressao Runout * 0.5
+				GVL_T01.rForcaAvanco_Xpout_N  := GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao 50% pout no avanco
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	GVL_Graficos.arrVarXPoint1[6] := GVL_T01.rForcaAvanco_Xpout_N;
+	GVL_Graficos.arrVarYPoint1[6] := GVL_T01.rPressaoHysteresePout_Bar;
+	
+	//Obtem a forca relacionada a pressao x% pout no retorno
+	FOR di := GVL_T01.diPosicaoForcaMaxima TO diUbound DO
+			IF GVL_Graficos.arrVarY1[di] <= GVL_T01.rPressaoHysteresePout_Bar THEN //Pressao no array <= Pressao Runout * 0.5
+				GVL_T01.rForcaRetorno_Xpout_N  := GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao 50% pout no avanco
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	GVL_Graficos.arrVarXPoint1[7] := GVL_T01.rForcaRetorno_Xpout_N;
+	GVL_Graficos.arrVarYPoint1[7] := GVL_T01.rPressaoHysteresePout_Bar;
+
+	//Calculo do hysterese (diferenca de forca no avanco e no retorno, no mesmo ponto de pressao)
+	GVL_T01.rHysterese_Xpout_N := GVL_T01.rForcaAvanco_Xpout_N - GVL_T01.rForcaRetorno_Xpout_N;
+	
+	//Obtem a forca relacionada a pressao Xbar pout no avanco
+	FOR di := 0 TO GVL_T01.diPosicaoForcaMaxima DO
+			IF GVL_Graficos.arrVarY1[di] >= GVL_T01.rPressaoHysterese_Bar THEN //Pressao no array >= 50bar
+				GVL_T01.rForcaAvanco_Xbar_N  := GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao 50bar no avanco
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	GVL_Graficos.arrVarXPoint1[8] := GVL_T01.rForcaAvanco_Xbar_N;
+	GVL_Graficos.arrVarYPoint1[8] := GVL_T01.rPressaoHysterese_Bar;
+	
+	//Obtem a forca relacionada a pressao Xbar pout no retorno
+	FOR di := GVL_T01.diPosicaoForcaMaxima TO diUbound DO
+			IF GVL_Graficos.arrVarY1[di] <= GVL_T01.rPressaoHysterese_Bar THEN //Pressao no array <= 50bar
+				GVL_T01.rForcaRetorno_Xbar_N  := GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao 50bar no avanco
+				EXIT; //Encerra a busca
+			END_IF
+	END_FOR
+	
+	GVL_Graficos.arrVarXPoint1[9] := GVL_T01.rForcaRetorno_Xbar_N;
+	GVL_Graficos.arrVarYPoint1[9] := GVL_T01.rPressaoHysterese_Bar;
+	
+	//Calculo do hysterese (diferenca de forca no avanco e no retorno, no mesmo ponto de pressao)
+	GVL_T01.rHysterese_Xbar_N := GVL_T01.rForcaAvanco_Xbar_N - GVL_T01.rForcaRetorno_Xbar_N;
+	
+	//========================================================================================================================================================
+	//Calcula a taxa de amplificacao (ratio) do booster
+	//Formula conforma norma || ieff (ratio) = ((P6-P5)*(d^2)*pi)/((F6-FE200)*4)
+	//Obs 1 estamos usando o ponto E2, e nao P6 da norma, solicitacao da continental
+	//Obs 2 valor total dividido por 10 para converter de MPa para Bar...
+	
+	GVL_T01.rTaxaAmplificacao := ((((GVL_T01.rPressao_E2_Bar - GVL_T01.rPressao_P5_Bar)*(GVL_T01.rDiametroCMD_mm*GVL_T01.rDiametroCMD_mm)*3.141516))/((GVL_T01.rForca_E2-200)*4))/10;
+	
+	//========================================================================================================================================================
+	//Jumper Gradient
+	// A definir
+	GVL_T01.rGradientJumper := 0;
+	
+	
+	//========================================================================================================================================================
+	//Calculo dos Consumidores Utilizados
+		GVL_T01.iConsumidoresCP := 0;
+		GVL_T01.iConsumidoresCS := 0;
+		
+	IF GVL_Parametros.iTipoConsumidores <> 2 THEN 
+		GVL_T01.iConsumidoresCP := 0;
+		GVL_T01.iConsumidoresCS := 0;
+	ELSE
+		
+		IF GVL_Parametros.bLiga1MangueiraCP	THEN
+			GVL_T01.iConsumidoresCP := GVL_T01.iConsumidoresCP +1;
+		END_IF
+		IF GVL_Parametros.bLiga2MangueirasCP	THEN
+			GVL_T01.iConsumidoresCP := GVL_T01.iConsumidoresCP +2;
+		END_IF
+		IF GVL_Parametros.bLiga4MangueirasCP	THEN
+			GVL_T01.iConsumidoresCP := GVL_T01.iConsumidoresCP +4;
+		END_IF
+		IF GVL_Parametros.bLiga8MangueirasCP	THEN
+			GVL_T01.iConsumidoresCP := GVL_T01.iConsumidoresCP +8;
+		END_IF	
+		IF GVL_Parametros.bLiga10MangueirasCP	THEN
+			GVL_T01.iConsumidoresCP := GVL_T01.iConsumidoresCP +10;
+		END_IF	
+		IF GVL_Parametros.bLiga17MangueirasCP	THEN
+			GVL_T01.iConsumidoresCP := GVL_T01.iConsumidoresCP +17;
+		END_IF	
+	
+		IF GVL_Parametros.bLiga1MangueiraCS	THEN
+			GVL_T01.iConsumidoresCS := GVL_T01.iConsumidoresCS +1;
+		END_IF
+		IF GVL_Parametros.bLiga2MangueirasCS	THEN
+			GVL_T01.iConsumidoresCS := GVL_T01.iConsumidoresCS +2;
+		END_IF
+		IF GVL_Parametros.bLiga4MangueirasCS	THEN
+			GVL_T01.iConsumidoresCS := GVL_T01.iConsumidoresCS +4;
+		END_IF
+		IF GVL_Parametros.bLiga8MangueirasCS	THEN
+			GVL_T01.iConsumidoresCS := GVL_T01.iConsumidoresCS +8;
+		END_IF	
+		IF GVL_Parametros.bLiga10MangueirasCS	THEN
+			GVL_T01.iConsumidoresCS := GVL_T01.iConsumidoresCS +10;
+		END_IF	
+		IF GVL_Parametros.bLiga17MangueirasCS	THEN
+			GVL_T01.iConsumidoresCS := GVL_T01.iConsumidoresCS +17;
+		END_IF			
+
+	END_IF
+	
+	
+	
+	GVL_T01.bCalculaResultados := FALSE;
+	
+END_IF

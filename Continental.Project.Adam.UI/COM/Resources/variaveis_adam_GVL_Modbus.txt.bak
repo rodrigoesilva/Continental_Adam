@@ -1,0 +1,340 @@
+{attribute 'qualified_only'}
+VAR_GLOBAL
+
+	//Analogicas - CLP -> C#
+	dwPressaoCS_Bar AT %QW313 : DWORD ;
+	dwpressaoCP_Bar AT %QW315 : DWORD;
+	dwPressaoBubbleTest_Bar AT %QW317 : DWORD;
+	dwPressaoHidraulica_Bar AT %QW319 : DWORD;
+	dwVacuo_Bar AT %QW321 : DWORD;
+	dwDeslocamentoDiferencial_mm AT %QW323 : DWORD;
+	dwDeslocamentoEntradaBooster_mm AT %QW325 : DWORD;
+	dwDeslocamentoSaidaBooster_mm AT %QW327 : DWORD;
+	dwForcaEntradaBooster_N AT %QW329 : DWORD;
+	dwForcaSaidaBooster_N AT %QW331 : DWORD;
+	dwTemperaturaAmbiente_C AT %QW333 : DWORD;
+	dwUmidadeRelativa AT %QW335 : DWORD;
+	
+	//Auto - CLP -> C#
+	bAlarmeAtivo AT %QX674.0 :  BOOL;
+	bMostraMensagemAlarme AT %QX674.1 : BOOL;
+	iMensagemAlarme AT %QW341 : INT;
+	bAlertaAtivo AT %QX674.2 : BOOL;
+	bMostraMensagemAlerta AT %QX674.3 : BOOL;
+	iMensagemAlerta AT %QW342 : INT;
+	bSegurancaOK AT %QX674.4: BOOL;
+	bCondicoesBasicas AT %QX674.5 : BOOL;
+	bHandShakeCLP AT %QX674.6  : BOOL;	//Bit Oscilador Gerado pelo CLP
+
+	bEixoReferenciado AT %QX674.7 : BOOL;
+
+	bCondicaoInicial AT %QX675.0 : BOOL; 					//Condicao inicial do ciclo
+
+	bCicloFinalizado  AT %QX675.1 : BOOL; 					//Final de ciclo
+	bEmCiclo AT %QX675.2 : BOOL;
+	iPasso AT %QW343 : INT;								//Passo do teste em execução
+	bIniciaGravacao  AT %QX675.3  : BOOL; 					//Iniciar o armazenamento dos dados
+	bIniciaGravacao2  AT %QX675.4 : BOOL; 					//Iniciar o armazenamento dos dados 2 (Teste Eficiencia)
+	bFinalizaGravacao  AT %QX675.5 : BOOL; 					//Finalizar o armazenamento dos dados
+	
+	
+	//Espelhos Entradas Digitais
+	bSens_S0402 AT %QX676.0  : BOOL; 						//- S04.02 - Sensor Nível Baixo Reservatório Óleo
+	bSens_S0423 AT %QX676.1 : BOOL; 						//- S04.23 - Sensor Recipiente Coleta Óleo Cheio
+	bSens_S0405 AT %QX676.2 : BOOL; 						//- S04.05 - Filtro Linha Hidráulica Superior Saturado
+	bSens_S0415 AT %QX676.3 : BOOL; 						//- S04.15 - Filtro Linha Hidráulica Inferior Saturado
+	bSens_S0102 AT %QX676.4 : BOOL; 						//- S01.02 - Pressostato Geral - Baixa Pressão de Rede
+	bSens_S0701 AT %QX676.5 : BOOL; 						//- S07.01 - Sensor Segurança Atuação Cilindro Z1
+	bSens_S0702 AT %QX676.6 : BOOL; 						//- S07.02 - Presença Arco Atuação/Proteção Motor
+	bSens_S0703 AT %QX676.7 : BOOL; 						//- S07.03 - Presença Arco Atuação/Proteção Motor
+	bDisjuntorBombaVacuo_Q003 AT %QX677.0 : BOOL;
+	bDisjuntorBombaHidraulica_Q002 AT %QX677.1 : BOOL;
+
+	bEmergencia AT %QX677.2 : BOOL; 						//- A01.05.DI1 - Feedback Emergência
+	bAlimentacaoSaidas AT %QX677.3 : BOOL; 					//- 3L+ - Feedback Tensão Alimentação Saídas
+	bAlimentacaoSensores AT %QX677.4 : BOOL; 				//- 2L+ - Feedback Tensão Alimentação Sensores
+	bProtecoes AT %QX677.5 : BOOL; 	
+	
+//==============================================================================
+	//Auto - CLP <- C#
+	bPartidaGeral AT %QX258.0 : BOOL; 						//Botao Start
+	bParadaGeral AT %QX258.1 : BOOL;						//Botao Stop	
+	bResetGeral AT %QX258.2 : BOOL;							//Botao Reset
+	bIniciaCiclo AT %QX258.3 : BOOL; 						//Comando para iniciar o teste
+	uiTesteSelecionado AT %QW123 : UINT;					//Teste selecionado para execução
+	iHandShakePC AT %QW124 : INT;							//Bit Oscilador Gerado pelo PC
+	iMontagemArco AT %QW125 : INT;									//0=irrelevante 1=sem arco 2=com arco
+
+	iModoTrabalho AT %QW126: INT;
+	bModoManual AT %QX258.5 : BOOL;
+	bModoAuto AT %QX258.6 : BOOL;
+	bModoPasso AT %QX258.7 : BOOL;
+	bBypassPortas AT %QX259.0 : BOOL;
+	bGravacaoIniciada AT %QX259.1 : BOOL;					//Confirmação de dados sendo lidos
+	bGravacaoIniciada2 AT %QX259.2 : BOOL;					//Confirmação de dados sendo lidos 2 (Teste Eficiencia)
+	bGravacaoFinalizada AT %QX259.3 : BOOL; 				//Dados armazenados
+
+	bMemJogPositivo AT %QX259.4 : BOOL;						//Comando de Jog Positivo do Motor em Modo Auto
+	bMemJogNegativo AT %QX259.5 : BOOL;						//Comando de Jog Negativo do Motor em Modo Auto
+	
+	//Manual - CLP <- C#
+	dwManSetPointPressao_PV1 AT %QW113 : DWORD;				//Y01.02 PV1 Valv. Proporcional Pressao Cilindro`Principal - Z1	
+	dwManSetPointVazao_PV3 AT %QW115 : DWORD;				//Y01.06 PV3 Valv. Proporcional Vazão Cilindro Principal - Z1
+	dwManSetPointVacuo_PV2 AT %QW117  : DWORD;				//Y07.05 PV2 Válvula Proporcional Vácuo Booster
+	dwManSetPointPressao_PV4 AT %QW119  : DWORD;			//Y01.16 PV4 Contra Pressão Desejada (Efeito Mola Pneum.) Eixo Elétrico M3
+	dwManSetPointPressao_PV5 AT %QW121  : DWORD;			//Y03.22 PV5 Valv. Proporcional Pressao Bubble Test
+		
+	bManJogPositivo AT %QX259.6 : BOOL;						//Comando de Jog Positivo do Motor em Modo Manual
+	bManJogNegativo AT %QX259.7 : BOOL;						//Comando de Jog Negativo do Motor em Modo Manual
+	
+	bManBombaVacuo_K003 AT %QX260.0 : BOOL;					//K00.03 Comando Bomba Vacuo
+	bManBombaDreno_K001 AT %QX260.1 : BOOL;					//K00.01 Comando Bomba para Dreno
+	bManBombaPressao_K002 AT %QX260.2 : BOOL;				//K00.02 Comando Bomba para Pressão
+	
+	bManValv_MV1 AT %QX260.3 : BOOL;						//Y00.01 MV1 Valvula Alimentação Ar Comprimido
+	bManValv_MV2 AT %QX260.4 : BOOL;						//Y00.04 MV2 Valvula Desliga Circuito Teste
+	bManValv_MV3 AT %QX260.5 : BOOL;						//Y00.05 MV3 Valvula Dreno/Sangrador
+	bManValv_MV4 AT %QX260.6 : BOOL;						//Y00.07 MV4 Valvula Abre/Habilita Furo Respiro
+	bManValv_MV5 AT %QX260.7 : BOOL;						//Y04.21 MV5 Valvula Abre/Habilita Orifício
+	bManValv_MV6 AT %QX261.0 : BOOL;						//Y07.09 MV6 Valvula Passagem Vacuo Reservatorio para o Booster
+	bManValv_MV7 AT %QX261.1 : BOOL;						//Y07.12 MV7 Valvula Dreno/Alivio Vacuo no Booster
+	bManValv_MV8 AT %QX261.2 : BOOL;						//Y07.06 MV8 Valvula Abertura/Passagem Vacuo Bomba para Reservatorio
+	bManValv_MV9 AT %QX261.3 : BOOL;						//Y00.08 MV9 Valvula Alivio Camara Primaria (Visor CP)
+	bManValv_MV10 AT %QX261.4 : BOOL;						//Y00.09 MV10 Valvula Alivio Camara Secundaria (Visor CS)
+	
+	bManValv_MV13 AT %QX261.5 : BOOL;						//Y02.01 MV13 Valvula Solta Trava KP Pistão Z1
+	bManValv_MV14 AT %QX261.6 : BOOL;						//Y03.20 MV14 Valvula Habilita Pressão Bubble Test
+	bManValv_MV15 AT %QX261.7 : BOOL;						//Y01.15 MV15 Valvula Contra Presaso 4 Bar Atuador Z1
+	bManValv_MV16 AT %QX262.0 : BOOL;						//Y01.12 MV16 Valvula Contra Pressao 1 Bar Atuador Z1
+	bManValv_MV17 AT %QX262.1 : BOOL;						//Y03.05 MV17 Valvula Habilita Bubbla Test - Aplica a pressão de 0-1 Bar
+	bManValv_MV18 AT %QX262.2 : BOOL;						//Y03.09 MV18 Valvula Habilita Sopro Bubble Test - Aplica 5 Bar no Bubble Test
+	
+	bManValv_MV20 AT %QX262.3 : BOOL;						//Y00.12 MV20 Valvula Consumo Original Camara Primaria CP
+	bManValv_MV21 AT %QX262.4 : BOOL;						//Y00.13 MV21 Valvula Consumo Original Camara Secundaria CS
+	bManValv_MV22 AT %QX262.5 : BOOL;						//Y00.14 MV22 Valvula Liga Mangueiras Consumo Auxiliares CP
+	bManValv_MV23 AT %QX262.6 : BOOL;						//Y00.15 MV23 Valvula Liga Mangueiras Consumo Auxiliares CS
+	bManValv_MV24 AT %QX262.7 : BOOL;						//Y00.18 MV24 Valvula Liga 1 Mangueira Consumo CP
+	bManValv_MV25 AT %QX263.0 : BOOL;						//Y00.19 MV25 Valvula Liga 2 Mangueiras Consumo CP
+	bManValv_MV26 AT %QX263.1 : BOOL;						//Y00.20 MV26 Valvula Liga 4 Mangueiras Consumo CP
+	bManValv_MV27 AT %QX263.2 : BOOL;						//Y00.21 MV27 Valvula Liga 8 Mangueiras Consumo CP
+	bManValv_MV28 AT %QX263.3 : BOOL;						//Y00.22 MV28 Valvula Liga 10 Mangueiras Consumo CP
+	bManValv_MV29 AT %QX263.4 : BOOL;						//Y00.23 MV29 Valvula Liga 17 Mangueiras Consumo CP
+
+	bManValv_MV30 AT %QX263.5 : BOOL;						//Y00.24 MV30 Valvula Liga 1 Mangueira Consumo CS
+	bManValv_MV31 AT %QX263.6 : BOOL;						//Y00.25 MV31 Valvula Liga 2 Mangueiras Consumo CS
+	bManValv_MV32 AT %QX263.7 : BOOL;						//Y00.26 MV32 Valvula Liga 4 Mangueiras Consumo CS
+	bManValv_MV33 AT %QX264.0 : BOOL;						//Y00.27 MV33 Valvula Liga 8 Mangueiras Consumo CS
+	bManValv_MV34 AT %QX264.1 : BOOL;						//Y00.28 MV34 Valvula Liga 10 Mangueiras Consumo CS
+	bManValv_MV35 AT %QX264.2 : BOOL;						//Y00.29 MV35 Valvula Liga 17 Mangueiras Consumo CS
+	bManValv_MV36 AT %QX264.3 : BOOL;						//Y00.31 MV36 Valvula Sangria 1 Mangueira Consumo CP
+	bManValv_MV37 AT %QX264.4 : BOOL;						//Y00.32 MV37 Valvula Sangria 2 Mangueiras Consumo CP
+	bManValv_MV38 AT %QX264.5 : BOOL;						//Y00.33 MV38 Valvula Sangria 4 Mangueiras Consumo CP
+	bManValv_MV39 AT %QX264.6 : BOOL;						//Y00.34 MV39 Valvula Sangria 8 Mangueiras Consumo CP
+	
+	bManValv_MV40 AT %QX264.7 : BOOL;						//Y00.35 MV40 Valvula Sangria 10 Mangueiras Consumo CP
+	bManValv_MV41 AT %QX265.0 : BOOL;						//Y00.36 MV41 Valvula Sangria 17 Mangueiras Consumo CP
+	bManValv_MV42 AT %QX265.1 : BOOL;						//Y00.37 MV42 Valvula Sangria 1 Mangueira Consumo CS
+	bManValv_MV43 AT %QX265.2 : BOOL;						//Y00.38 MV43 Valvula Sangria 2 Mangueiras Consumo CS
+	bManValv_MV44 AT %QX265.3 : BOOL;						//Y00.39 MV44 Valvula Sangria 4 Mangueiras Consumo CS
+	bManValv_MV45 AT %QX265.4 : BOOL;						//Y00.40 MV45 Valvula Sangria 8 Mangueiras Consumo CS
+	bManValv_MV46 AT %QX265.5 : BOOL;						//Y00.41 MV46 Valvula Sangria 10 Mangueiras Consumo CS
+	bManValv_MV47 AT %QX265.6 : BOOL;						//Y00.42 MV47 Valvula Sangria 17 Mangueiras Consumo CS
+	
+	//Parametros CLP <- C#
+	//============================================================================================================================
+	//Parametros comuns
+	
+	wModo AT %QW133 : INT; // 1-Pneumatico Lento 2-Pneumatico Rapido 3- E-Drive
+	
+	//Forca Maxima do teste
+	dwForcaMaxima_N AT %QW134 : DWORD; // (2200 N) Limite de forca de entrada, limitado a 10KN, mas podemos limitar a 5KN
+		
+	//Pneumatic Slow
+	dwGradienteForca_Ns AT %QW136 : DWORD; //(200 Ns) Limitado a 10KN, mas deve ser limitado a foca x pressao do atuador pneumático
+	
+	//Pneumatic Fast
+	dwGradienteForca AT %QW138 : DWORD; //0-100%
+	
+	//E-Motor
+	dwVelocidadeAtuacao_mm_s AT %QW140 : DWORD; //(Velocidade de atuação do eixo elético em mm/s (limitar a 200mm/s)
+	
+	//Controle Vacuo	
+	dwVacuoNominal_Bar AT %QW142 : DWORD;	 //Vacuo Nominal do teste, limitado a -1;
+	
+	//Trava do Pistao
+	bHabilitaTravaPistao AT %QX294.0 : BOOL; 	
+	
+	//Bypass da Tara 
+	wBypassTara AT %QW146 : WORD;		//Bit0 - rDeslocamentoDiferencial_mm_Lin
+							//Bit1 - rForcaEntradaBooster_N_Lin
+							//Bit2 - rForcaSaidaBooster_N_Lin
+							//Bit3 - rDeslocamentoSaidaBooster_mm_Lin
+							//Bit4 - rDeslocamentoEntradaBooster_mm_Lin
+							//Bit5 - rPressaoCS_Bar_Lin
+							//Bit6 - rPressaoCP_Bar_Lin
+							//Bit7 - rPressaoBubbleTest_Bar_Lin
+							//Bit8 - rPressaoHidraulica_Bar_Lin
+	
+	//Consumidores (Hose Consumers)
+	wTipoConsumidores AT %QW144  : WORD;	//0=OFF 1=Original 2=Hose
+	bConsumidorOriginalCP AT %QX288.0 : BOOL;
+	bConsumidorOriginalCS AT %QX288.1 : BOOL;
+	bMangueirasConsumoCP AT %QX288.2 : BOOL;
+	bMangueirasConsumoCS AT %QX288.3 : BOOL;
+	bLiga1MangueiraCP AT %QX288.4 : BOOL;			
+	bLiga2MangueirasCP AT %QX288.5 : BOOL;			
+	bLiga4MangueirasCP AT %QX288.6 : BOOL;			
+	bLiga8mangueirasCP AT %QX288.7 : BOOL;			
+	bLiga10MangueirasCP AT %QX289.0 : BOOL;			
+	bLiga17MangueirasCP AT %QX289.1 : BOOL;		
+	bLiga1MangueiraCS AT %QX289.2 : BOOL;			
+	bLiga2MangueirasCS AT %QX289.3 : BOOL;			
+	bLiga4MangueirasCS AT %QX289.4  : BOOL;			
+	bLiga8mangueirasCS AT %QX289.5 : BOOL;			
+	bLiga10MangueirasCS AT %QX289.6 : BOOL;			
+	bLiga17MangueirasCS AT %QX289.7 : BOOL;		
+	
+
+	// Parametros específicos
+	// 01 - Força Pressão + Vacuo
+			//
+			
+	// 02 - Força Força + Vacuo
+			//
+			
+	// 03 - Força Pressão - Vacuo
+			//
+			
+	// 04 - Força Força - Vacuo
+			//
+			
+	// 05 - Vaccum Leakage - Released Position
+			dwTempoTeste_T05 AT %QW153 : DWORD; 					//Tempo Execução Teste
+			dwTempoEstabilizacao_T05 AT %QW155 : DWORD; 			//Tempo Estabilização do Vácuo
+			
+	// 06 - Vacuum Leakage Fully Applied Position
+			dwTempoTeste_T06 AT %QW157 : DWORD;						//Tempo Execução Teste
+			dwTempoEstabilizacao_T06 AT %QW159 : DWORD;				//Tempo Estabilização do Vácuo
+			dwForcaMaximaAbsoluta_T06 AT %QW161 : DWORD;			//Forca maxima para o teste simples + absoluto
+			dwForcaMaximaRelativa_T06 AT %QW163 : DWORD;			//Forca maxima para o teste simples + relativo
+			bForcaAbsoluta_T06 AT %QX298.0  : BOOL;								//0 = Relativa 1 = Absoluto
+			
+	// 07 - Vacuum Leakage Lap Position
+			dwTempoTeste_T07 AT %QW165 : DWORD;						//Tempo Execução Teste
+			dwTempoEstabilizacao_T07 AT %QW167 : DWORD;				//Tempo Estabilização do Vácuo
+			
+			dwForcaRelativaAvanco_T07 AT %QW169 : DWORD;			//Força que será buscada no primeiro movimento (Caso "Use single Force" não esteja selecionado). %EOUT
+			dwForcaRelativaRetorno_T07 AT %QW171 : DWORD;			//Força de retorno que será o ponto de partida para o segundo movimento %EOUT
+			dwForcaRelativaFinal_T07 AT %QW173 : DWORD;				//Força que será buscada no segundo movimento e utilizada para o teste %EOUT
+			
+			bTesteSimples_T07 AT %QX298.1 : BOOL;								//Caso selecionado, o teste tera apenas 1 acionamento 
+			bForcaAbsoluta_T07 AT %QX298.2 : BOOL;								//0 = Relativa 1 = Absoluto
+			dwForcaMaximaAbsoluta_T07 AT %QW175 : DWORD;			//Forca maxima para o teste simples + absoluto
+			dwForcaMaximaRelativa_T07 AT %QW177 : DWORD;			//Forca maxima para o teste simples + relativo
+			
+	// 08 - Hydraulic Leakage Fully Applied Position
+			dwTempoTeste_T08 AT %QW179 : DWORD;						//Tempo Execução Teste
+			dwTempoEstabilizacao_T08 AT %QW181 : DWORD;				//Tempo Estabilização do Vácuo									
+			bForcaAbsoluta_T08 AT %QX298.3 : BOOL;								//0 = Relativa 1 = Absoluto - Relativo = % EOUT
+			dwForcaMaximaAbsoluta_T08 AT %QW183 : DWORD;			//Forca maxima para o teste Valor absoluto (N)
+			dwForcaMaximaRelativa_T08 AT %QW185 : DWORD;			//Forca maxima para o teste Valor Relativo (% EOUT)
+	
+	// 09 - Hydraulic Leakage at Low Pressure										
+			dwTempoTeste_T09 AT %QW187 : DWORD;					//Tempo Execução Teste
+			dwTempoEstabilizacao_T09 AT %QW189 : DWORD;			//Tempo Estabilização da pressão
+			dwPressaoTeste_T09 AT %QW191 : DWORD;					//Pressao target para iniciar o teste	
+		
+	// 10 - Hydraulic Leakage at High Pressure	
+			dwTempoTeste_T10 AT %QW193 : DWORD;					//Tempo Execução Teste
+			dwTempoEstabilizacao_T10 AT %QW195 : DWORD;			//Tempo Estabilização da pressão
+			dwPressaoTeste_T10 AT %QW197 : DWORD;					//Pressao target para iniciar o teste	
+			
+	// 11 - Actuation Slow
+	
+	// 12 - Actuation Fast
+			dwForcaInicialAbsoluta_T12 AT %QW199 : DWORD;			//Ponto de força para inicio do calculo de tempo
+			dwForcaFinalRelativa_T12 AT %QW201 : DWORD;			//Ponto final para calculo do tempo de atuação
+			dwForcaCalculoRetorno_T12 AT %QW203 : DWORD;			//Força para calculo do tempo de retonor
+			
+	// 13 - Pressure Diference
+	
+	// 14 - Input/Output Travel
+	
+	// 15 - Adjustment Input Travel vs Input Force
+	
+	// 16 - Adjustment Hose Consumer
+	
+	// 17 - Lost Travel ACU Hydraulic
+	
+	// 18 - Lost Travel ACU Hydraulic Electrical Actuation
+	
+	// 19 - Lost Travel ACU Pneumatic Primary
+			dwTempoSopro_T19 AT %QW205 : DWORD;						//Tempo de sopro de 5 bar
+			dwDeslocamentoTeste_T19 AT %QW207 : DWORD;				//Deslocamento inicial do motor
+			dwPressaoSistemaFechado_T19 AT %QW209 : DWORD;			//Pressao desejada com o sistema fechado
+			dwPressaoSistemaAberto_T19 AT %QW211 : DWORD;			//Pressao desejada com o sistema aberto
+			bConfirmaP1_T19 AT %QX298.4 : BOOL;						//Confirnação Pressão 0.2 bar
+			bCancelaP1_T19 AT %QX298.5 : BOOL;						//Confirnação Pressão 0.2 bar
+			bConfirmaP2_T19 AT %QX298.6 : BOOL;						//Confirnação Pressão 0.3 bar
+			bCancelaP2_T19 AT %QX298.7 : BOOL;						//Confirnação Pressão 0.3 bar
+
+	
+	// 20 - Lost Travel ACU Pneumatic Secondary
+			dwTempoSopro_T20 AT %QW213 : DWORD;					//Tempo de sopro de 5 bar
+			dwDeslocamentoTeste_T20 AT %QW215 : DWORD;			//Deslocamento inicial do motor
+			dwPressaoSistemaFechado_T20 AT %QW217 : DWORD;		//Pressao desejada com o sistema fechado
+			dwPressaoSistemaAberto_T20 AT %QW219 : DWORD;			//Pressao desejada com o sistema aberto
+			bConfirmaP1_T20 AT %QX299.0 : BOOL;						//Confirnação Pressão 0.2 bar
+			bCancelaP1_T20 AT %QX299.1 : BOOL;						//Confirnação Pressão 0.2 bar
+			bConfirmaP2_T20 AT %QX299.2 : BOOL;						//Confirnação Pressão 0.3 bar
+			bCancelaP2_T20 AT %QX299.3 : BOOL;						//Confirnação Pressão 0.3 bar
+			
+	// 21 - Pedal Feeling Characteristics
+	
+	// 22 - Actuation Release Mechanical Actuation
+
+	// 23 - Breather Hole Central Valve Open
+			bExecutarAcionamento_T23 AT %QX299.4 : BOOL;			//Solicita a execução de 1 acionamento no gradiente, antes de executar o teste
+			dwPressaoHidraulicaMin_T23 AT %QW221 : DWORD;			//Pressao Hidraulica Minima para iniicar o teste
+			dwPressaoHidraulicaMax_T23 AT %QW221 : DWORD;			//Pressao Hidraulica maxima para iniciar o teste									
+										
+	// 24 - Efficiency
+			dwIntervalo_T24 AT %QW225 : DWORD;						//Intervalo entra a execução dos testes
+			dwForcaMaximaModoRapido_T24 AT %QW227 : DWORD;			//Força maxima aplicada no modo rápido
+			wTipoGrafico_T24 AT %QW229 : WORD;						//Tipo de gráfico a ser exibido [0 X-Forca Entrada/Y-PressaoCP] [1 X-Tempo/Y-Pressao CP]
+			
+	// 25 - Force/Pressure - Dual Ratio
+	
+	// 26 - Force/Force - Dual Ratio
+	
+	// 27 - Adam Finding Switching Point With TMC
+			dwVelocidadeRetorno_mms_T27 AT %QW230 : DWORD;			//Velocidade de retorno do atuador eletrico
+			dwVelocidade_Avanco1_mms_T27 AT %QW232 : DWORD;			//Velocidade de avanço 1 do atuador eletrico									
+			dwVelocidade_Avanco2_mms_T27 AT %QW234 : DWORD;			//Velocidade de avanço 1 do atuador eletrico
+			dwVelocidade_Avanco3_mms_T27 AT %QW236 : DWORD;			//Velocidade de avanço 1 do atuador eletrico
+			dwVelocidade_Avanco4_mms_T27 AT %QW238 : DWORD;			//Velocidade de avanço 1 do atuador eletrico
+			dwVelocidade_Avanco5_mms_T27 AT %QW240 : DWORD;			//Velocidade de avanço 1 do atuador eletrico
+			wTipoGrafico_T27 AT %QW242 : WORD;						//Tipo de gráfico a ser exibido 0=ForcaxPressao 1=Deslocamento Diferencial
+			bContinuaTeste_T27 AT %QX299.5 : BOOL;
+			bFinalizaTeste_T27 AT %QX299.6 : BOOL;
+	
+	// 28 - Adam Finding Switching Point Without TMC
+			dwVelocidadeRetorno_mms_T28 AT %QW243 : DWORD;			//Velocidade de retorno do atuador eletrico
+			dwVelocidade_Avanco1_mms_T28 AT %QW245 : DWORD;			//Velocidade de avanço 1 do atuador eletrico									
+			dwVelocidade_Avanco2_mms_T28 AT %QW247 : DWORD;			//Velocidade de avanço 1 do atuador eletrico
+			dwVelocidade_Avanco3_mms_T28 AT %QW249 : DWORD;			//Velocidade de avanço 1 do atuador eletrico
+			dwVelocidade_Avanco4_mms_T28 AT %QW251 : DWORD;			//Velocidade de avanço 1 do atuador eletrico
+			dwVelocidade_Avanco5_mms_T28 AT %QW253 : DWORD;			//Velocidade de avanço 1 do atuador eletrico						
+			wTipoGrafico_T28 AT %QW255 : WORD;						//Tipo de gráfico a ser exibido 0=ForcaxPressao 1=Deslocamento Diferencial
+			bContinuaTeste_T28 AT %QX299.7 : BOOL;
+			bFinalizaTeste_T28 AT %QX300.0: BOOL;
+			
+	// 29 - Bleed
+			wNumeroAtuacoes_T29 AT %QW256 : WORD;					//Numero de Vezes que o atuador irá avancar
+			wNumeroRepeticoes_T29 AT %QW257 : WORD;				//Numero de repeticoes do ciclo
+			dwTempoBombeamento_T29 AT %QW258 : DWORD;					//Tempo de bombeamento do oleo
+
+	
+	//=============================================================================================================================
+	
+END_VAR

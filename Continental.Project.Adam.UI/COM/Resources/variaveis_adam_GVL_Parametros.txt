@@ -1,0 +1,115 @@
+{attribute 'qualified_only'}
+VAR_GLOBAL
+	
+	//============================================================================================================================
+	//Parametros comuns
+	
+	iModo : INT; // 1-Pneumatico Lento 2-Pneumatico Rapido 3- E-Drive
+	
+	//Forca Maxima do teste
+	rForcaMaxima_N : REAL; // (2200 N) Limite de forca de entrada, limitado a 10KN, mas podemos limitar a 5KN
+		
+	//Pneumatic Slow
+	rGradienteForca_Ns : REAL; //(200 Ns) Limitado a 10KN, mas deve ser limitado a foca x pressao do atuador pneumático
+	
+	//Pneumatic Fast
+	rGradienteForca : REAL; //0-100%
+	
+	//E-Motor
+	rVelocidadeAtuacao_mm_s : REAL; //(Velocidade de atuação do eixo elético em mm/s (limitar a 200mm/s)
+	
+	//Controle Vacuo	
+	rVacuoNominal_Bar : REAL;	 //Vacuo Nominal do teste, limitado a -1;
+	
+	//Trava do Pistao
+	bHabilitaTravaPistao : BOOL; 	
+	
+	//Bypass da Tara 
+	wBypassTara : WORD;		//Bit0 - rDeslocamentoDiferencial_mm_Lin
+							//Bit1 - rForcaEntradaBooster_N_Lin
+							//Bit2 - rForcaSaidaBooster_N_Lin
+							//Bit3 - rDeslocamentoSaidaBooster_mm_Lin
+							//Bit4 - rDeslocamentoEntradaBooster_mm_Lin
+							//Bit5 - rPressaoCS_Bar_Lin
+							//Bit6 - rPressaoCP_Bar_Lin
+							//Bit7 - rPressaoBubbleTest_Bar_Lin
+							//Bit8 - rPressaoHidraulica_Bar_Lin
+	
+	//Consumidores (Hose Consumers)
+	iTipoConsumidores  : INT;	//0=OFF 1=Original 2=Hose
+	bConsumidorOriginalCP : BOOL;
+	bConsumidorOriginalCS : BOOL;
+	bMangueirasConsumoCP : BOOL;
+	bMangueirasConsumoCS : BOOL;
+	bLiga1MangueiraCP : BOOL;			
+	bLiga2MangueirasCP : BOOL;			
+	bLiga4MangueirasCP : BOOL;			
+	bLiga8mangueirasCP : BOOL;			
+	bLiga10MangueirasCP : BOOL;			
+	bLiga17MangueirasCP : BOOL;		
+	bLiga1MangueiraCS : BOOL;			
+	bLiga2MangueirasCS : BOOL;			
+	bLiga4MangueirasCS : BOOL;			
+	bLiga8mangueirasCS : BOOL;			
+	bLiga10MangueirasCS : BOOL;			
+	bLiga17MangueirasCS : BOOL;		
+	//=============================================================================================================================
+	
+	// 19 - Lost Travel ACU Pneumatic Primary
+			rTempoSopro_T19 : REAL;						//Tempo de sopro de 5 bar
+			rDeslocamentoTeste_T19 : REAL;				//Deslocamento inicial do motor
+			rPressaoSistemaFechado_T19 : REAL;			//Pressao desejada com o sistema fechado
+			rPressaoSistemaAberto_T19 : REAL;			//Pressao desejada com o sistema aberto
+			bConfirmaP1_T19 : BOOL;						//Confirnação Pressão 0.2 bar
+			bCancelaP1_T19 : BOOL;						//Confirnação Pressão 0.2 bar
+			bConfirmaP2_T19 : BOOL;						//Confirnação Pressão 0.3 bar
+			bCancelaP2_T19 : BOOL;						//Confirnação Pressão 0.3 bar
+
+	
+	// 20 - Lost Travel ACU Pneumatic Secondary
+			rTempoSopro_T20 : REAL;						//Tempo de sopro de 5 bar
+			rDeslocamentoTeste_T20 : REAL;				//Deslocamento inicial do motor
+			rPressaoSistemaFechado_T20 : REAL;			//Pressao desejada com o sistema fechado
+			rPressaoSistemaAberto_T20 : REAL;			//Pressao desejada com o sistema aberto
+			bConfirmaP1_T20 : BOOL;						//Confirnação Pressão 0.2 bar
+			bCancelaP1_T20 : BOOL;						//Confirnação Pressão 0.2 bar
+			bConfirmaP2_T20 : BOOL;						//Confirnação Pressão 0.3 bar
+			bCancelaP2_T20 : BOOL;						//Confirnação Pressão 0.3 bar
+			
+	// 21 - Pedal Feeling Characteristics
+	
+	// 22 - Actuation Release Mechanical Actuation
+
+	// 23 - Breather Hole Central Valve Open
+			bExecutarAcionamento_T23 : BOOL;			//Solicita a execução de 1 acionamento no gradiente, antes de executar o teste
+			rPressaoHidraulicaMin_T23 : REAL;			//Pressao Hidraulica Minima para iniicar o teste
+			rPressaoHidraulicaMax_T23 : REAL;			//Pressao Hidraulica maxima para iniciar o teste									
+										
+	// 24 - Efficiency
+			rIntervalo_T24 : REAL;						//Intervalo entra a execução dos testes
+			rForcaMaximaModoRapido_T24 : REAL;			//Força maxima aplicada no modo rápido
+			iTipoGrafico_T24 : INT;						//Tipo de gráfico a ser exibido [0 X-Forca Entrada/Y-PressaoCP] [1 X-Tempo/Y-Pressao CP]
+			
+	// 25 - Force/Pressure - Dual Ratio
+	
+	// 26 - Force/Force - Dual Ratio
+	
+	// 27 - Adam Finding Switching Point With TMC
+			rVelocidadeRetorno_mms_T27 : REAL;							//Velocidade de retorno do atuador eletrico
+			arrVelocidade_Avanco_mms_T27 : ARRAY[1..5] OF REAL;			//Velocidade de avanço 1 do atuador eletrico									
+			iTipoGrafico_T27 : INT;										//Tipo de gráfico a ser exibido 0=ForcaxPressao 1=Deslocamento Diferencial
+			bContinuaTeste_T27 : BOOL;
+			bFinalizaTeste_T27 : BOOL;
+	
+	// 28 - Adam Finding Switching Point Without TMC
+			rVelocidadeRetorno_mms_T28 : REAL;							//Velocidade de retorno do atuador eletrico
+			arrVelocidade_Avanco_mms_T28 : ARRAY[1..5] OF REAL;			//Velocidade de avanço 1 do atuador eletrico						
+			iTipoGrafico_T28 : INT;										//Tipo de gráfico a ser exibido 0=ForcaxPressao 1=Deslocamento Diferencial
+			bContinuaTeste_T28 : BOOL;
+			bFinalizaTeste_T28 : BOOL;
+			
+	// 29 - Bleed
+			iNumeroAtuacoes_T29 : INT;					//Numero de Vezes que o atuador irá avancar
+			iNumeroRepeticoes_T29 : INT;				//Numero de repeticoes do ciclo
+			rTempoBombeamento_T29 : REAL;					//Tempo de bombeamento do oleo
+END_VAR

@@ -1,0 +1,16 @@
+GVL_Analogicas
+
+VAR_GLOBAL
+rPressaoCS_Bar : REAL;
+rPressaoCP_Bar : REAL;
+rPressaoBubbleTest_Bar : REAL;
+rPressaoHidraulica_Bar : REAL;
+rVacuo_Bar : REAL;
+rDeslocamentoDiferencial_mm : REAL;
+rDeslocamentoEntradaBooster_mm : REAL;
+rDeslocamentoSaidaBooster_mm : REAL;
+rForcaEntradaBooster_N : REAL;
+rForcaSaidaBooster_N : REAL;
+rTemperaturaAmbiente_C : REAL;
+rUmidadeRelativa : REAL;
+END_VAR

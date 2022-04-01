@@ -1,0 +1,63 @@
+{attribute 'qualified_only'}
+VAR_GLOBAL
+	//Automatico		
+	iPasso : INT;
+	strPasso : STRING[100];
+	bCondicaoInicial: BOOL; 				//Condicao inicial do ciclo
+	bIniciaCiclo: BOOL; 					//Comando para iniciar o teste
+	bCicloFinalizado: BOOL; 				//Final de ciclo
+	bEmCiclo: BOOL;
+	iMontagemArco : INT := 2;		//0=irrelevante 1=sem arco 2=com arco
+	
+	//
+	bCalculaResultados : BOOL;
+	
+	//Parametros do teste
+	rForca_P1 : REAL; //Forca no ponto P1 (xForca yPressao que deve ser coletada neste ponto) reta saturacao
+	rForca_P2 : REAL; //Forca no ponto P2 (xForca yPressao que deve ser coletada neste ponto) reta saturacao
+	rForca_E1 : REAL; //Forca no ponto E1 (xForca yPressao que deve ser coletada neste ponto) reta amplificacao
+	rForca_E2 : REAL; //Forca no ponto E2 (xForca yPressao que deve ser coletada neste ponto) reta amplificacao
+	rReleaseForceFoutMin_N : REAL; //Forca Fout para calculo da forca no retorno, valor minimo
+	rReleaseForceFoutMax_N : REAL; //Forca Fout para calculo da forca no retorno, valor maximo
+	rReleaseForceAt_mm : REAL; //Deslocamento para mostrar a forca no retorno.
+	rPressaoCutIn_Bar : REAL; //Pressao na qual eh obtida a forca de cut-in, Padrao normalizado 0.2, mas como parametro pois pode mudar um dia.
+	
+	//
+	
+	//Resultados do teste
+	rVacuoInicial : REAL;
+	rTemperaturaInicial : REAL;
+	diPosicaoForcaMaxima : DINT; //indice do array que indica o pico de forca, tambem indica que o gráfico começou a "voltar" a partir daqui
+	rForcaMaxima : REAL;
+	rDeslocamentoMaximo : REAL;
+	rGradienteForcaAvanco : REAL;
+	rGradienteDeslocamentoAvanco : REAL;
+	rGradienteForcaRetorno : REAL;
+	rGradienteDeslocamentoRetorno : REAL;
+	rForcaReal_P1_N : REAL;
+	rForcaOut_P1_N : REAL;
+	rForcaReal_P2_N : REAL;
+	rForcaOut_P2_N : REAL;
+	rForcaReal_E1_N : REAL;
+	rForcaOut_E1_N : REAL;
+	rForcaReal_E2_N : REAL;
+	rForcaOut_E2_N : REAL;
+	
+	rDeslocamentoNaForca_mm : REAL; //Deslocamento obtido atraves do parametro "DeslocamentoNaForca (%Fout)
+	
+	rForcaOut_P5_N : REAL;
+	rForca_F5_N : REAL;
+	rForcaOut_P6_N : REAL;
+	rForca_F6_N : REAL;
+	
+	rForcaCutIn_N : REAL; 
+	
+	rForcaOutJumper_N : REAL;
+	rGradientJumper : REAL;
+	
+	rReleaseForce_N : REAL; //Forca no retorno entre as pressoes max min definidas
+	rReleaseForceAt_N : REAL; // Forca no retorno no pondo de deslocamento definido
+	
+	rReleaseForceAtReal_mm : REAL; //Deslocamento real no qual o release force foi coletado
+	
+END_VAR

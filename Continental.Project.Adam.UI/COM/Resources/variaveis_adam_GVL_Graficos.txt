@@ -1,0 +1,51 @@
+{attribute 'qualified_only'}
+VAR_GLOBAL
+	arrVarX : ARRAY[0..100000] OF REAL;
+	arrVarY1 : ARRAY [0..100000] OF REAL;
+	arrVarY2 : ARRAY [0..100000] OF REAL;
+	arrVarY3 : ARRAY [0..100000] OF REAL;
+	arrVarY4 : ARRAY [0..100000] OF REAL;
+	arrVarY5 : ARRAY [0..100000] OF REAL;
+	arrVarXPoint1 : ARRAY [0..10] OF REAL;
+	arrVarYPoint1 : ARRAY [0..10] OF REAL;
+	arrVarTimeStamp : ARRAY [0..100000] OF REAL;
+	rEscalaX : REAL;
+	rEscalaY1 : REAL;
+	rEscalaY2 : REAL;
+	rEscalaY3 : REAL;
+	rEscalaY4 : REAL;
+	diBuffer : DINT;
+	Curva1 : VisuStructXYChartCurve;
+	Curva2 : VisuStructXYChartCurve;
+	Curva3 : VisuStructXYChartCurve;
+	Curva4 : VisuStructXYChartCurve;
+	Curva5 : VisuStructXYChartCurve;
+	EixoX : VisuStructXYChartAxis;
+	EixoY1 : VisuStructXYChartAxis;
+	EixoY2 : VisuStructXYChartAxis;
+	EixoY3 : VisuStructXYChartAxis;
+	EixoY4 : VisuStructXYChartAxis;
+	bHabilitaZoom : BOOL;
+	bDesabilitaZoom : BOOL;
+	bHabilitaExpandir : BOOL;
+	bDesabilitaExpandir : BOOL;
+	bResetEixos : BOOL;
+	bLimpaGrafico : BOOL;
+	uiTesteSelecionado : UINT;
+	
+	strNomeEixoX : STRING[30];
+	strNomeEixoY1 : STRING[30];
+	strNomeEixoY2 : STRING[30];
+	strNomeEixoY3 : STRING[30];
+	strNomeEixoY4 : STRING[30];
+	
+	strUnidadeX : STRING[10];
+	strUnidadeY1 : STRING[10];
+	strUnidadeY2 : STRING[10];
+	strUnidadeY3: STRING(10);
+	strUnidadeY4 : STRING[10];
+	
+	bOcultaY2 : BOOL;
+	bOcultaY3 : BOOL;
+	bOcultaY4 : BOOL;
+END_VAR

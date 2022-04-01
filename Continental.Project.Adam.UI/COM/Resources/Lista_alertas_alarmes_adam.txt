@@ -1,0 +1,22 @@
+GVL_Geral.iMensagemAlarme
+
+0	=		'Ethercat Failure'
+1	=		'Emergency Stop'
+2	=		'Security Failure/Protection Cover Open'
+3	=		'Low Pressure'
+4	=		'Servomotor Error'
+5	=		'Circuit Breaker Open - Vacuum Pump K00.03'
+6	=		'Circuit Breaker Open - Pump/Drain K00.02'
+7	=		'Output Power Supply Failure (3L+)'
+8	=		'Input Power Supply Failure (2L+)'
+101	=		'Normal Operation'
+
+GVL_Geral.iMensagemAlerta
+
+0	=		'S04.02 - Oil Reservoir Low Level'
+1	=		'S04.23 - Oil Collection Bowl Full'
+2	=		'S04.05 - Saturated Hidraulic Filter (Top)'
+3	=		'S04.15 - Saturated Hidraulic Filter (Below)'
+4	=		'Motor Bow Wrong Assembly(1)'
+5	=		'Motor Bow Wrong Assmbly(2)'
+101 =		''

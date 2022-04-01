@@ -1,0 +1,102 @@
+{attribute 'qualified_only'}
+VAR_GLOBAL
+	
+	//Automatico		
+	iPasso : INT;
+	strPasso : STRING[100];
+	bCondicaoInicial: BOOL; 				//Condicao inicial do ciclo
+	bIniciaCiclo: BOOL; 					//Comando para iniciar o teste
+	bCicloFinalizado: BOOL; 				//Final de ciclo
+	bEmCiclo: BOOL;
+	iMontagemArco : INT := 2;		//0=irrelevante 1=sem arco 2=com arco
+	
+	//
+	bCalculaResultados : BOOL;
+	
+	//Parametros do teste
+	bRunOutTeorico : BOOL;
+	rForca_P1 : REAL; //Forca no ponto P1 (xForca yPressao que deve ser coletada neste ponto) reta saturacao
+	rForca_P2 : REAL; //Forca no ponto P2 (xForca yPressao que deve ser coletada neste ponto) reta saturacao
+	rForca_E1 : REAL; //Forca no ponto E1 (xForca yPressao que deve ser coletada neste ponto) reta amplificacao
+	rForca_E2 : REAL; //Forca no ponto E2 (xForca yPressao que deve ser coletada neste ponto) reta amplificacao
+	rPressaoHysterese_pout : REAL; //Calculo da pressao = X%pout(runout)
+	rPressaoHysterese_Bar : REAL; //Pressao calculada (% pout)
+	rDeslocamentoNaPressao : REAL; //Obter o  valor do deslocamento na pressao definida aqui (em % de pout)
+	rReleaseForcePressMin_Bar : REAL; //Pressao para calculo da forca no retorno, valor minimo
+	rReleaseForcePressMax_Bar : REAL; //Pressao para calculo da forca no retorno, valor maximo
+	rReleaseForceAt_mm : REAL; //Deslocamento para mostrar a forca no retorno.
+	rPressaoCutIn_Bar : REAL; //Pressao na qual eh obtida a forca de cut-in, Padrao normalizado 0.2, mas como parametro pois pode mudar um dia.
+	rDiametroCMD_mm : REAL; //Diametro do CMD
+	rGradienteJumper_P1_Bar : REAL;
+	rGradienteJumper_P2_Bar : REAL;
+	
+	//
+	
+	//Resultados do teste
+	rVacuoInicial : REAL;
+	rTemperaturaInicial : REAL;
+	iConsumidoresCP : INT;
+	iConsumidoresCS : INT;
+	diPosicaoForcaMaxima : DINT; //indice do array que indica o pico de forca, tambem indica que o gráfico começou a "voltar" a partir daqui
+	rForcaMaxima : REAL;
+	rDeslocamentoMaximo : REAL;
+	rGradienteForcaAvanco : REAL;
+	rGradienteDeslocamentoAvanco : REAL;
+	rGradienteForcaRetorno : REAL;
+	rGradienteDeslocamentoRetorno : REAL;
+	rForcaReal_P1_N : REAL;
+	rPressao_P1_Bar : REAL;
+	rForcaReal_P2_N : REAL;
+	rPressao_P2_Bar : REAL;
+	rForcaReal_E1_N : REAL;
+	rPressao_E1_Bar : REAL;
+	rForcaReal_E2_N : REAL;
+	rPressao_E2_Bar : REAL;
+	
+	rPressaoAuxiliar_P3_Bar : REAL;
+	
+	rPressao_P4_Bar : REAL;
+	rForca_P4_N : REAL;
+	
+	rRunOutForce_LinearInt_N : REAL;
+	rRunOutPressure_LinearInt_Bar : REAL;
+	
+	rRunOutForce_Real_N : REAL;
+	rRunOutPressure_Real_Bar : REAL;
+	
+	rPressao_70pout_bar : REAL;
+	rForca_70pout_N : REAL;
+	
+	rPressao_90pout_bar : REAL;
+	rForca_90pout_N : REAL;
+	rDeslocamento_90pout_mm : REAL;
+	rDeslocamentoNaPressao_mm : REAL; //Deslocamento obtido atraves do parametro "DeslocamentoNaPressao (%Pout)
+	
+	rPressao_P5_Bar : REAL;
+	rForca_F5_N : REAL;
+	rPressao_P6_Bar : REAL;
+	rForca_F6_N : REAL;
+	
+	rForcaCutIn_N : REAL; 
+	
+	rPressaoJumper_Bar : REAL;
+	rGradientJumper : REAL;
+	
+	rReleaseForce_N : REAL; //Forca no retorno entre as pressoes max min definidas
+	rReleaseForceAt_N : REAL; // Forca no retorno no pondo de deslocamento definido
+	
+	rReleaseForceAtReal_mm : REAL; //Deslocamento real no qual o release force foi coletado
+	
+	rTaxaAmplificacao : REAL;
+	
+
+	rPressaoHysteresePout_Bar : REAL;//
+	rForcaAvanco_Xpout_N : REAL; //Forca obtida no avanco correspondente a pressao 50pout
+	rForcaRetorno_Xpout_N : REAL; //Forca obtida no retorno correspontente a pressao 50pout
+	rHysterese_Xpout_N : REAL; //Forca obtida no avanco - forca obtida no retorno correspondente a pressao 50% pout
+	rForcaAvanco_Xbar_N : REAL; //Forca obtida no avanco correspondente a pressao 50bar
+	rForcaRetorno_Xbar_N : REAL; //Forca obtida no retorno correspontente a pressao 50pout
+	rHysterese_Xbar_N : REAL; //Forca obtida no avanco - forca obtida no retorno correspondente a pressao 50bar
+	
+
+END_VAR

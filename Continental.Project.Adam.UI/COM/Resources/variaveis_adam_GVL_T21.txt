@@ -1,0 +1,48 @@
+{attribute 'qualified_only'}
+VAR_GLOBAL
+	//Automatico		
+	iPasso : INT;
+	strPasso : STRING[100];
+	bCondicaoInicial: BOOL; 				//Condicao inicial do ciclo
+	bIniciaCiclo: BOOL; 					//Comando para iniciar o teste
+	bCicloFinalizado: BOOL; 				//Final de ciclo
+	bEmCiclo: BOOL;
+	iMontagemArco : INT := 0;		//0=irrelevante 1=sem arco 2=com arco
+	
+	//
+	bCalculaResultados : BOOL;
+	
+	//Parametros do teste
+	rPressaoCutIn_Bar : REAL; //Pressao na qual eh obtida a forca de cut-in, Padrao normalizado 0.2, mas como parametro pois pode mudar um dia.
+
+	//
+	
+	//Resultados do teste
+	rVacuoInicial : REAL;
+	rTemperaturaInicial : REAL;
+	iConsumidoresCP : INT;
+	iConsumidoresCS : INT;
+	diPosicaoForcaMaxima : DINT; //indice do array que indica o pico de forca, tambem indica que o gráfico começou a "voltar" a partir daqui
+	rForcaMaxima : REAL;
+	rDeslocamentoMaximo : REAL;
+	rGradienteForcaAvanco : REAL;
+	rGradienteDeslocamentoAvanco : REAL;
+	rGradienteForcaRetorno : REAL;
+	rGradienteDeslocamentoRetorno : REAL;
+
+	rRunOutForce_Real_N : REAL;
+	rRunOutPressure_Real_Bar : REAL;
+	
+	rDeslocamentoNoJumper_mm : REAL; //
+
+	rPressao_90pout_bar : REAL; //Pressao 90% pressao runout (T01)
+	rForca_90pout_N : REAL; //Forca90% pressao runout (T01)
+	rForcaCutIn_N : REAL; //Pressao 90% pressao runout (T01)
+	rForca_F6_N : REAL; //Forca90% pressao runout (T01) a menos que determinem algo
+	rPressao_P6_Bar : REAL; //Pressao 90% pressao runout (T01) a menos que determinem algo
+	
+	rPressao_P5_Bar : real; //Pressao com a forca E200, (200N)
+	
+	rPressaoJumper_Bar : REAL;
+
+END_VAR

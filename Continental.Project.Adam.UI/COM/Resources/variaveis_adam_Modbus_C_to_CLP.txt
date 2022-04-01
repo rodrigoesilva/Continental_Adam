@@ -1,0 +1,252 @@
+C# p/ CLP				
+		Endereço Modbus		
+CS_dwManSetPointPressao_PV1_LW	%	0	%	
+CS_dwManSetPointPressao_PV1_HW	%	1	%	
+CS_dwManSetPointVazao_PV3_LW	%	2	%	
+CS_dwManSetPointVazao_PV3_HW	%	3	%	
+CS_dwManSetPointVacuo_PV2_LW	%	4	%	
+CS_dwManSetPointVacuo_PV2_HW	%	5	%	
+CS_dwManSetPointPressao_PV4_LW	%	6	%	
+CS_dwManSetPointPressao_PV4_HW	%	7	%	
+CS_dwManSetPointPressao_PV5_LW	%	8	%	
+CS_dwManSetPointPressao_PV5_HW	%	9	%	
+CS_wTesteSelecionado	%	10	%	
+CS_wHandShakePC	%	11	%	
+CS_wMontagemArco	%	12	%	
+CS_wModoTrabalho	%	13	%	
+CS_wConfirmacaoCicloFinalizado	%	14	%	
+CS_	%	15	%	
+CS_	%	16	%	
+CS_	%	17	%	
+CS_	%	18	%	
+CS_	%	19	%	
+CS_wModo	%	20	%	
+CS_dwForcaMaxima_N_LW	%	21	%	
+CS_dwForcaMaxima_N_HW	%	22	%	
+CS_dwGradienteForca_Ns_LW	%	23	%	
+CS_dwGradienteForca_Ns_HW	%	24	%	
+CS_dwGradienteForca_LW	%	25	%	
+CS_dwGradienteForca_HW	%	26	%	
+CS_dwVelocidadeAtuacao_mm_s_LW	%	27	%	
+CS_dwVelocidadeAtuacao_mm_s_HW	%	28	%	
+CS_dwVacuoNominal_Bar_LW	%	29	%	
+CS_dwVacuoNominal_Bar_HW	%	30	%	
+CS_wTipoConsumidores	%	31	%	
+CS_wHoseConsumers	%	32	%	
+CS_wTaraSensores	%	33	%	
+CS_wHabilitaTravaPistao	%	34	%	
+CS_	%	35	%	
+CS_	%	36	%	
+CS_	%	37	%	
+CS_	%	38	%	
+CS_	%	39	%	
+CS_dwTempoTeste_T05_LW	%	40	%	
+CS_dwTempoTeste_T05_HW	%	41	%	
+CS_dwTempoEstabilizacao_T05_LW	%	42	%	
+CS_dwTempoEstabilizacao_T05_HW	%	43	%	
+CS_dwTempoTeste_T06_LW	%	44	%	
+CS_dwTempoTeste_T06_HW	%	45	%	
+CS_dwTempoEstabilizacao_T06_LW	%	46	%	
+CS_dwTempoEstabilizacao_T06_HW	%	47	%	
+CS_dwForcaMaximaAbsoluta_T06_LW	%	48	%	
+CS_dwForcaMaximaAbsoluta_T06_HW	%	49	%	
+CS_dwForcaMaximaRelativa_T06_LW	%	50	%	
+CS_dwForcaMaximaRelativa_T06_HW	%	51	%	
+CS_dwTempoTeste_T07_LW	%	52	%	
+CS_dwTempoTeste_T07_HW	%	53	%	
+CS_dwTempoEstabilizacao_T07_LW	%	54	%	
+CS_dwTempoEstabilizacao_T07_HW	%	55	%	
+CS_dwForcaRelativaAvanco_T07_LW	%	56	%	
+CS_dwForcaRelativaAvanco_T07_HW	%	57	%	
+CS_dwForcaRelativaRetorno_T07_LW	%	58	%	
+CS_dwForcaRelativaRetorno_T07_HW	%	59	%	
+CS_dwForcaRelativaFinal_T07_LW	%	60	%	
+CS_dwForcaRelativaFinal_T07_HW	%	61	%	
+CS_dwForcaMaximaRelativa_T07_LW	%	62	%	
+CS_dwForcaMaximaRelativa_T07_HW	%	63	%	
+CS_dwForcaMaximaAbsoluta_T07_LW	%	64	%	
+CS_dwForcaMaximaAbsoluta_T07_HW	%	65	%	
+CS_dwTempoTeste_T08_LW	%	66	%	
+CS_dwTempoTeste_T08_HW	%	67	%	
+CS_dwTempoEstabilizacao_T08_LW	%	68	%	
+CS_dwTempoEstabilizacao_T08_HW	%	69	%	
+CS_dwForcaMaximaRelativa_T08_LW	%	70	%	
+CS_dwForcaMaximaRelativa_T08_HW	%	71	%	
+CS_dwForcaMaximaAbsoluta_T08_LW	%	72	%	
+CS_dwForcaMaximaAbsoluta_T08_HW	%	73	%	
+CS_dwTempoTeste_T09_LW	%	74	%	
+CS_dwTempoTeste_T09_HW	%	75	%	
+CS_dwTempoEstabilizacao_T09_LW	%	76	%	
+CS_dwTempoEstabilizacao_T09_HW	%	77	%	
+CS_dwPressaoTeste_T09_LW	%	78	%	
+CS_dwPressaoTeste_T09_HW	%	79	%	
+CS_dwTempoTeste_T10_LW	%	80	%	
+CS_dwTempoTeste_T10_HW	%	81	%	
+CS_dwTempoEstabilizacao_T10_LW	%	82	%	
+CS_dwTempoEstabilizacao_T10_HW	%	83	%	
+CS_dwPressaoTeste_T10_LW	%	84	%	
+CS_dwPressaoTeste_T10_HW	%	85	%	
+CS_dwForcaInicialAbsoluta_T12_LW	%	86	%	
+CS_dwForcaInicialAbsoluta_T12_HW	%	87	%	
+CS_dwForcaFinalRelativa_T12_LW	%	88	%	
+CS_dwForcaFinalRelativa_T12_HW	%	89	%	
+CS_dwForcaCalculoRetorno_T12_LW	%	90	%	
+CS_dwForcaCalculoRetorno_T12_HW	%	91	%	
+CS_dwTempoSopro_T19_LW	%	92	%	
+CS_dwTempoSopro_T19_HW	%	93	%	
+CS_dwDeslocamentoTeste_T19_LW	%	94	%	
+CS_dwDeslocamentoTeste_T19_HW	%	95	%	
+CS_dwPressaoSistemaFechado_T19_LW	%	96	%	
+CS_dwPressaoSistemaFechado_T19_HW	%	97	%	
+CS_dwPressaoSistemaAberto_T19_LW	%	98	%	
+CS_dwPressaoSistemaAberto_T19_HW	%	99	%	
+CS_dwTempoSopro_T20_LW	%	100	%	
+CS_dwTempoSopro_T20_HW	%	101	%	
+CS_dwDeslocamentoTeste_T20_LW	%	102	%	
+CS_dwDeslocamentoTeste_T20_HW	%	103	%	
+CS_dwPressaoSistemaFechado_T20_LW	%	104	%	
+CS_dwPressaoSistemaFechado_T20_HW	%	105	%	
+CS_dwPressaoSistemaAberto_T20_LW	%	106	%	
+CS_dwPressaoSistemaAberto_T20_HW	%	107	%	
+CS_dwPressaoHidraulicaMin_T23_LW	%	108	%	
+CS_dwPressaoHidraulicaMin_T23_HW	%	109	%	
+CS_dwPressaoHidraulicaMax_T23_LW	%	110	%	
+CS_dwPressaoHidraulicaMax_T23_HW	%	111	%	
+CS_dwIntervalo_T24_LW	%	112	%	
+CS_dwIntervalo_T24_HW	%	113	%	
+CS_dwForcaMaximaModoRapido_T24_LW	%	114	%	
+CS_dwForcaMaximaModoRapido_T24_HW	%	115	%	
+CS_wTipoGrafico_T24	%	116	%	
+CS_dwVelocidadeRetorno_mms_T27_LW	%	117	%	
+CS_dwVelocidadeRetorno_mms_T27_HW	%	118	%	
+CS_dwVelocidade_Avanco1_mms_T27_LW	%	119	%	
+CS_dwVelocidade_Avanco1_mms_T27_HW	%	120	%	
+CS_dwVelocidade_Avanco2_mms_T27_LW	%	121	%	
+CS_dwVelocidade_Avanco2_mms_T27_HW	%	122	%	
+CS_dwVelocidade_Avanco3_mms_T27_LW	%	123	%	
+CS_dwVelocidade_Avanco3_mms_T27_HW	%	124	%	
+CS_dwVelocidade_Avanco4_mms_T27_LW	%	125	%	
+CS_dwVelocidade_Avanco4_mms_T27_HW	%	126	%	
+CS_dwVelocidade_Avanco5_mms_T27_LW	%	127	%	
+CS_dwVelocidade_Avanco5_mms_T27_HW	%	128	%	
+CS_wTipoGrafico_T27	%	129	%	
+CS_dwVelocidadeRetorno_mms_T28_LW	%	130	%	
+CS_dwVelocidadeRetorno_mms_T28_HW	%	131	%	
+CS_dwVelocidade_Avanco1_mms_T28_LW	%	132	%	
+CS_dwVelocidade_Avanco1_mms_T28_HW	%	133	%	
+CS_dwVelocidade_Avanco2_mms_T28_LW	%	134	%	
+CS_dwVelocidade_Avanco2_mms_T28_HW	%	135	%	
+CS_dwVelocidade_Avanco3_mms_T28_LW	%	136	%	
+CS_dwVelocidade_Avanco3_mms_T28_HW	%	137	%	
+CS_dwVelocidade_Avanco4_mms_T28_LW	%	138	%	
+CS_dwVelocidade_Avanco4_mms_T28_HW	%	139	%	
+CS_dwVelocidade_Avanco5_mms_T28_LW	%	140	%	
+CS_dwVelocidade_Avanco5_mms_T28_HW	%	141	%	
+CS_wTipoGrafico_T28	%	142	%	
+CS_wNumeroAtuacoes_T29	%	143	%	
+CS_wNumeroRepeticoes_T29	%	144	%	
+CS_dwTempoBombeamento_T29_LW	%	145	%	
+CS_dwTempoBombeamento_T29_HW	%	146	%	
+CS_	%	147	%	
+CS_	%	148	%	
+CS_	%	149	%	
+CS_wForcaAbsoluta_T06	%	150	%	0=false 1=true
+CS_wTesteSimples_T07	%	151	%	0=false 1=true
+CS_wForcaAbsoluta_T07	%	152	%	0=false 1=true
+CS_wForcaAbsoluta_T08	%	153	%	0=false 1=true
+CS_wConfirmaP1_T19	%	154	%	0=false 1=true
+CS_wCancelaP1_T19	%	155	%	0=false 1=true
+CS_wConfirmaP2_T19	%	156	%	0=false 1=true
+CS_wCancelaP2_T19	%	157	%	0=false 1=true
+CS_bConfirmaP1_T20	%	158	%	0=false 1=true
+CS_wCancelaP1_T20	%	159	%	0=false 1=true
+CS_wConfirmaP2_T20	%	160	%	0=false 1=true
+CS_wCancelaP2_T20	%	161	%	0=false 1=true
+CS_wExecutarAcionamento_T23	%	162	%	0=false 1=true
+CS_wContinuaTeste_T27	%	163	%	0=false 1=true
+CS_wFinalizaTeste_T27	%	164	%	0=false 1=true
+CS_wContinuaTeste_T28	%	165	%	0=false 1=true
+CS_wFinalizaTeste_T28	%	166	%	0=false 1=true
+CS_	%	167	%	
+CS_	%	168	%	
+CS_	%	169	%	0=false 1=true
+CS_wPartidaGeral	%	170	%	0=false 1=true
+CS_wParadaGeral	%	171	%	0=false 1=true
+CS_wResetGeral	%	172	%	0=false 1=true
+CS_wIniciaCiclo	%	173	%	0=false 1=true
+CS_wModoManual	%	174	%	0=false 1=true
+CS_wModoAuto	%	175	%	0=false 1=true
+CS_wModoPasso	%	176	%	0=false 1=true
+CS_wBypassPortas	%	177	%	0=false 1=true
+CS_wGravacaoIniciada	%	178	%	0=false 1=true
+CS_wGravacaoIniciada2	%	179	%	0=false 1=true
+CS_wGravacaoFinalizada	%	180	%	0=false 1=true
+CS_wConsumidorOriginalCP	%	181	%	0=false 1=true
+CS_wConsumidorOriginalCS	%	182	%	0=false 1=true
+CS_wMangueirasConsumoCP	%	183	%	0=false 1=true
+CS_wMangueirasConsumoCS	%	184	%	0=false 1=true
+CS_wLiga1MangueiraCP	%	185	%	0=false 1=true
+CS_wLiga2MangueirasCP	%	186	%	0=false 1=true
+CS_wLiga4MangueirasCP	%	187	%	0=false 1=true
+CS_wLiga8MangueirasCP	%	188	%	0=false 1=true
+CS_wLiga10MangueirasCP	%	189	%	0=false 1=true
+CS_wLiga17MangueirasCP	%	190	%	0=false 1=true
+CS_wLiga1MangueiraCS	%	191	%	0=false 1=true
+CS_wLiga2MangueirasCS	%	192	%	0=false 1=true
+CS_wLiga4MangueirasCS	%	193	%	0=false 1=true
+CS_wLiga8MangueirasCS	%	194	%	0=false 1=true
+CS_wLiga10MangueirasCS	%	195	%	0=false 1=true
+CS_wLiga17MangueirasCS	%	196	%	0=false 1=true
+CS_	%	197	%	
+CS_	%	198	%	
+CS_wMemJogPositivo	%	199	%	0=false 1=true
+CS_wMemJogNegativo	%	200	%	0=false 1=true
+CS_wManJogPositivo	%	201	%	0=false 1=true
+CS_wManJogNegativo	%	202	%	0=false 1=true
+CS_wManBombaVacuo_K003	%	203	%	0=false 1=true
+CS_wManBombaDreno_K001	%	204	%	0=false 1=true
+CS_wManBombaPressao_K002	%	205	%	0=false 1=true
+CS_wManValv_MV1	%	206	%	0=false 1=true
+CS_wManValv_MV2	%	207	%	0=false 1=true
+CS_wManValv_MV3	%	208	%	0=false 1=true
+CS_wManValv_MV4	%	209	%	0=false 1=true
+CS_wManValv_MV5	%	210	%	0=false 1=true
+CS_wManValv_MV6	%	211	%	0=false 1=true
+CS_wManValv_MV7	%	212	%	0=false 1=true
+CS_wManValv_MV8	%	213	%	0=false 1=true
+CS_wManValv_MV9	%	214	%	0=false 1=true
+CS_wManValv_MV10	%	215	%	0=false 1=true
+CS_wManValv_MV13	%	216	%	0=false 1=true
+CS_wManValv_MV14	%	217	%	0=false 1=true
+CS_wManValv_MV15	%	218	%	0=false 1=true
+CS_wManValv_MV16	%	219	%	0=false 1=true
+CS_wManValv_MV17	%	220	%	0=false 1=true
+CS_wManValv_MV18	%	221	%	0=false 1=true
+CS_wManValv_MV20	%	222	%	0=false 1=true
+CS_wManValv_MV21	%	223	%	0=false 1=true
+CS_wManValv_MV22	%	224	%	0=false 1=true
+CS_wManValv_MV23	%	225	%	0=false 1=true
+CS_wManValv_MV24	%	226	%	0=false 1=true
+CS_wManValv_MV25	%	227	%	0=false 1=true
+CS_wManValv_MV26	%	228	%	0=false 1=true
+CS_wManValv_MV27	%	229	%	0=false 1=true
+CS_wManValv_MV28	%	230	%	0=false 1=true
+CS_wManValv_MV29	%	231	%	0=false 1=true
+CS_wManValv_MV30	%	232	%	0=false 1=true
+CS_wManValv_MV31	%	233	%	0=false 1=true
+CS_wManValv_MV32	%	234	%	0=false 1=true
+CS_wManValv_MV33	%	235	%	0=false 1=true
+CS_wManValv_MV34	%	236	%	0=false 1=true
+CS_wManValv_MV35	%	237	%	0=false 1=true
+CS_wManValv_MV36	%	238	%	0=false 1=true
+CS_wManValv_MV37	%	239	%	0=false 1=true
+CS_wManValv_MV38	%	240	%	0=false 1=true
+CS_wManValv_MV39	%	241	%	0=false 1=true
+CS_wManValv_MV40	%	242	%	0=false 1=true
+CS_wManValv_MV41	%	243	%	0=false 1=true
+CS_wManValv_MV42	%	244	%	0=false 1=true
+CS_wManValv_MV43	%	245	%	0=false 1=true
+CS_wManValv_MV44	%	246	%	0=false 1=true
+CS_wManValv_MV45	%	247	%	0=false 1=true
+CS_wManValv_MV46	%	248	%	0=false 1=true
+CS_wManValv_MV47	%	249	%	0=false 1=true

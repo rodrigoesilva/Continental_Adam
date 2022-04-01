@@ -1,0 +1,100 @@
+CLP p/ C#				
+		Endereço Modbus		
+CS_dwPressaoCS_Bar_LW	%	0	%	
+CS_dwPressaoCS_Bar_HW	%	1	%	
+CS_dwpressaoCP_Bar_LW	%	2	%	
+CS_dwpressaoCP_Bar_HW	%	3	%	
+CS_dwPressaoBubbleTest_Bar_LW	%	4	%	
+CS_dwPressaoBubbleTest_Bar_HW	%	5	%	
+CS_dwPressaoHidraulica_Bar_LW	%	6	%	
+CS_dwPressaoHidraulica_Bar_HW	%	7	%	
+CS_dwVacuo_Bar_LW	%	8	%	
+CS_dwVacuo_Bar_HW	%	9	%	
+CS_dwDeslocamentoDiferencial_mm_LW	%	10	%	
+CS_dwDeslocamentoDiferencial_mm_HW	%	11	%	
+CS_dwDeslocamentoEntradaBooster_mm_LW	%	12	%	
+CS_dwDeslocamentoEntradaBooster_mm_HW	%	13	%	
+CS_dwDeslocamentoSaidaBooster_mm_LW	%	14	%	
+CS_dwDeslocamentoSaidaBooster_mm_HW	%	15	%	
+CS_dwForcaEntradaBooster_N_LW	%	16	%	
+CS_dwForcaEntradaBooster_N_HW	%	17	%	
+CS_dwForcaSaidaBooster_N_LW	%	18	%	
+CS_dwForcaSaidaBooster_N_HW	%	19	%	
+CS_dwTemperaturaAmbiente_C_LW	%	20	%	
+CS_dwTemperaturaAmbiente_C_HW	%	21	%	
+CS_dwUmidadeRelativa_LW	%	22	%	
+CS_dwUmidadeRelativa_HW	%	23	%	
+CS_dwVacuoInicial_LW	%	24	%	
+CS_dwVacuoInicial_HW	%	25	%	
+CS_dwVacuoFinal_LW	%	26	%	
+CS_dwVacuoFinal_HW	%	27	%	
+CS_wMensagemAlarme	%	28	%	
+CS_wMensagemAlerta	%	29	%	
+CS_wPasso	%	30	%	
+CS_wAlarmeAtivo	%	31	%	0=false 1=true
+CS_wMostraMensagemAlarme	%	32	%	0=false 1=true
+CS_wAlertaAtivo	%	33	%	0=false 1=true
+CS_wMostraMensagemAlerta	%	34	%	0=false 1=true
+CS_wSegurancaOK	%	35	%	0=false 1=true
+CS_wCondicoesBasicas	%	36	%	0=false 1=true
+CS_wHandShakeCLP	%	37	%	0=false 1=true
+CS_wEixoReferenciado	%	38	%	0=false 1=true
+CS_wCondicaoInicial	%	39	%	0=false 1=true
+CS_wCicloFinalizado	%	40	%	0=false 1=true
+CS_wEmCiclo	%	41	%	0=false 1=true
+CS_wIniciaGravacao	%	42	%	0=false 1=true
+CS_wIniciaGravacao2	%	43	%	0=false 1=true
+CS_wFinalizaGravacao	%	44	%	0=false 1=true
+CS_wSens_S0402	%	45	%	0=false 1=true
+CS_wSens_S0423	%	46	%	0=false 1=true
+CS_wSens_S0405	%	47	%	0=false 1=true
+CS_wSens_S0415	%	48	%	0=false 1=true
+CS_wSens_S0102	%	49	%	0=false 1=true
+CS_wSens_S0701	%	50	%	0=false 1=true
+CS_wSens_S0702	%	51	%	0=false 1=true
+CS_wSens_S0703	%	52	%	0=false 1=true
+CS_wDisjuntorBombaVacuo_Q003	%	53	%	0=false 1=true
+CS_wDisjuntorBombaHidraulica_Q002	%	54	%	0=false 1=true
+CS_wEmergencia	%	55	%	0=false 1=true
+CS_wSomaConsumidoresCP	%	56	%	0=false 1=true
+CS_wSomaConsumidoresCS	%	57	%	0=false 1=true
+CS_wProtecoes	%	58	%	0=false 1=true
+CS_	%	59	%	
+CS_wStatusConsumidorOriginalCP	%	60	%	0=false 1=true
+CS_wStatusConsumidorOriginalCS	%	61	%	0=false 1=true
+CS_wStatusMangueirasConsumoCP	%	62	%	0=false 1=true
+CS_wStatusMangueirasConsumoCS	%	63	%	0=false 1=true
+CS_wStatusLiga1MangueiraCP	%	64	%	0=false 1=true
+CS_wStatusLiga2MangueirasCP	%	65	%	0=false 1=true
+CS_wStatusLiga4MangueirasCP	%	66	%	0=false 1=true
+CS_wStatusLiga8MangueirasCP	%	67	%	0=false 1=true
+CS_wStatusLiga10MangueirasCP	%	68	%	0=false 1=true
+CS_wStatusLiga17MangueirasCP	%	69	%	0=false 1=true
+CS_wStatusLiga1MangueiraCS	%	70	%	0=false 1=true
+CS_wStatusLiga2MangueirasCS	%	71	%	0=false 1=true
+CS_wStatusLiga4MangueirasCS	%	72	%	0=false 1=true
+CS_wStatusLiga8MangueirasCS	%	73	%	0=false 1=true
+CS_wStatusLiga10MangueirasCS	%	74	%	0=false 1=true
+CS_wStatusLiga17MangueirasCS	%	75	%	0=false 1=true
+CS_wStatusLiga1MangueiraSangriaCP	%	76	%	0=false 1=true
+CS_wStatusLiga2MangueirasSangriaCP	%	77	%	0=false 1=true
+CS_wStatusLiga4MangueirasSangriaCP	%	78	%	0=false 1=true
+CS_wStatusLiga8MangueirasSangriaCP	%	79	%	0=false 1=true
+CS_wStatusLiga10MangueirasSangriaCP	%	80	%	0=false 1=true
+CS_wStatusLiga17MangueirasSangriaCP	%	81	%	0=false 1=true
+CS_wStatusLiga1MangueiraSangriaCS	%	82	%	0=false 1=true
+CS_wStatusLiga2MangueirasSangriaCS	%	83	%	0=false 1=true
+CS_wStatusLiga4MangueirasSangriaCS	%	84	%	0=false 1=true
+CS_wStatusLiga8MangueirasSangriaCS	%	85	%	0=false 1=true
+CS_wStatusLiga10MangueirasSangriaCS	%	86	%	0=false 1=true
+CS_wStatusLiga17MangueirasSangriaCS	%	87	%	0=false 1=true
+CS_dwTemperaturaInicial_LW	%	88	%	
+CS_dwTemperaturaInicial_HW	%	89	%	
+CS_PressaoInicialCP_LW	%	90	%	
+CS_PressaoInicialCP_HW	%	91	%	
+CS_PressaoFinalCP_LW	%	92	%	
+CS_PressaoFinalCP_HW	%	93	%	
+CS_PressaoInicialCS_LW	%	94	%	
+CS_PressaoInicialCS_HW	%	95	%	
+CS_PressaoFinalCS_LW	%	96	%	
+CS_PressaoFinalCS_HW	%	97	%	

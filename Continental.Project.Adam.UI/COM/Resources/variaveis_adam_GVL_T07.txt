@@ -1,0 +1,58 @@
+VAR_GLOBAL
+	//Automatico		
+	iPasso : INT;
+	strPasso : STRING[100];
+	bCondicaoInicial: BOOL; 				//Condicao inicial do ciclo
+	bIniciaCiclo: BOOL; 					//Comando para iniciar o teste
+	bCicloFinalizado: BOOL; 				//Final de ciclo
+	bEmCiclo: BOOL;
+	iMontagemArco : INT := 0;		//0=irrelevante 1=sem arco 2=com arco
+	
+	//
+	bCalculaResultados : BOOL;
+	
+	//Parametros do teste
+	rTempoTeste : REAL;						//Tempo Execução Teste
+	rTempoEstabilizacao : REAL;				//Tempo Estabilização do Vácuo
+	
+	rForcaRelativaAvanco : REAL;			//Força que será buscada no primeiro movimento (Caso "Use single Force" não esteja selecionado). %EOUT
+	rForcaRelativaRetorno : REAL;			//Força de retorno que será o ponto de partida para o segundo movimento %EOUT
+	rForcaRelativaFinal : REAL;				//Força que será buscada no segundo movimento e utilizada para o teste %EOUT
+	rForcaRelativaAvanco_N : REAL;			//Resultado Runout Force * rForcaRelativaAvanco
+	rForcaRelativaRetorno_N : REAL;			//Resultado Runout Force * rForcaRelativaRetorno
+	rForcaRelativaFinal_N : REAL;			//Resultado Runout Force * rForcaRelativaFinal
+	
+	bTesteSimples : BOOL;					//Caso selecionado, o teste tera apenas 1 acionamento 
+	bForcaAbsoluta : BOOL;					//0 = Relativa 1 = Absoluto
+	rForcaMaximaAbsoluta_N : REAL;			//Forca maxima para o teste simples + absoluto
+	rForcaMaximaRelativa : REAL;			//Forca maxima para o teste simples + relativo
+	rForcaMaximaRelativa_N : REAL;			//Resultado Runout Force * rForcaMaximaRelativa
+
+
+	rRunOutForceRef : REAL; 					// Run Out Force Utilizada como referencia do teste (Parametros e ao mesmo tempo mostrado como resultado)
+	
+	//Parametros e resultados do teste
+	rVacuoInicial : REAL;
+	rTemperaturaInicial : REAL;
+	rTempoInicial : REAL;
+	rVacuoFinal : REAL;
+	rTempoFinal : REAL;
+	iConsumidoresCP : INT;
+	iConsumidoresCS : INT;
+	rForcaMaxima : REAL;
+
+	//Forcas relativas
+	rForcaRelativaAvancoReal_N : REAL;			//Resultado Runout Force * rForcaRelativaAvanco
+	rForcaRelativaRetornoReal_N : REAL;			//Resultado Runout Force * rForcaRelativaRetorno
+	rForcaRelativaFinalReal_N : REAL;			//Resultado Runout Force * rForcaRelativaFinal
+	
+	rDeslocamentoEmFmax : REAL; 			//Obter o  valor do deslocamento na forca Fmax
+	rDeslocamentoEmFRelativaAvanco : REAL;	//Obter o  valor do deslocamento na forca Relativa de Avanco
+	rDeslocamentoEmFRelativaRetorno : REAL;	//Obter o  valor do deslocamento na forca Relativa de Retorno
+	rDeslocamentoEmFRelativaFinal : REAL;	//Obter o  valor do deslocamento na forca Relativa Final
+	rPerdaVacuo : REAL;
+	rTempoTotal : REAL;
+	
+			
+
+END_VAR

@@ -1,0 +1,33 @@
+VAR_GLOBAL
+	//Automatico		
+	iPasso : INT;
+	strPasso : STRING[100];
+	bCondicaoInicial: BOOL; 				//Condicao inicial do ciclo
+	bIniciaCiclo: BOOL; 					//Comando para iniciar o teste
+	bCicloFinalizado: BOOL; 				//Final de ciclo
+	bEmCiclo: BOOL;
+	iMontagemArco : INT := 0;		//0=irrelevante 1=sem arco 2=com arco
+	
+	//
+	bCalculaResultados : BOOL;
+	
+	//Parametros do teste
+	rTempoTeste : REAL;							//Tempo Execução Teste
+	rTempoEstabilizacao : REAL;					//Tempo Estabilização do Vácuo									
+	rPressaoTeste_Bar : REAL;					//Target de pressao para realizacao do test
+			
+	//Parametros e resultados do teste
+	rVacuoInicial : REAL;
+	rTemperaturaInicial : REAL;
+	rVacuoFinal : REAL;
+	rForcaMaxima : REAL;
+	rPressaoMaxima : REAL;
+	rDeslocamentoEmPMax : REAL;
+	rPerdaVacuo : REAL;
+	rPressaoInicialCP : REAL;
+	rPressaoFinalCP : REAL;
+	rPerdaPressaoCP : REAL;
+	rPressaoInicialCS : REAL;
+	rPressaoFinalCS : REAL;
+	rPerdaPressaoCS : REAL;
+END_VAR

@@ -1,0 +1,30 @@
+VAR_GLOBAL
+	//Automatico		
+	iPasso : INT;
+	strPasso : STRING[100];
+	bCondicaoInicial: BOOL; 				//Condicao inicial do ciclo
+	bIniciaCiclo: BOOL; 					//Comando para iniciar o teste
+	bCicloFinalizado: BOOL; 				//Final de ciclo
+	bEmCiclo: BOOL;
+	iMontagemArco : INT := 0;		//0=irrelevante 1=sem arco 2=com arco
+	
+	//
+	bCalculaResultados : BOOL;
+	
+	//Parametros do teste
+	
+	//
+	
+	//Resultados do teste
+	rVacuoInicial : REAL;
+	rTemperaturaInicial : REAL;
+	iConsumidoresCP : INT;
+	iConsumidoresCS : INT;
+	rForcaMaxima : REAL;
+	diPosicaoForcaMaxima : DINT;
+	rGradienteForcaAvanco : REAL;
+	rGradienteDeslocamentoAvanco : REAL;
+	rGradienteForcaRetorno : REAL;
+	rGradienteDeslocamentoRetorno : REAL;
+
+END_VAR

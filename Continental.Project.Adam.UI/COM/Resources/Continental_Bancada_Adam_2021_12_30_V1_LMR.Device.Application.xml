@@ -1,0 +1,898 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Symbolconfiguration xmlns="http://www.3s-software.com/schemas/Symbolconfiguration.xsd">
+  <Header>
+    <Version>3.5.14.0</Version>
+    <SymbolConfigObject version="3.5.15.30" runtimeid="3.5.15.30" libversion="3.5.15.20" compiler="3.5.15.40" lmm="3.5.15.0" profile="CODESYS V3.5 SP15 Patch 4+" settings="SupportOPCUA, LayoutCalculator=OptimizedClientSideLayoutCalculator" />
+    <ProjectInfo name="Continental_Bancada_Adam_2021_12_30_V1_LMR" devicename="Device" appname="Application" />
+  </Header>
+  <TypeList>
+    <TypeSimple name="T_BIT_X_0" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="0" />
+    <TypeSimple name="T_BIT_X_1" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="1" />
+    <TypeSimple name="T_BIT_X_2" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="2" />
+    <TypeSimple name="T_BIT_X_3" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="3" />
+    <TypeSimple name="T_BIT_X_4" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="4" />
+    <TypeSimple name="T_BIT_X_5" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="5" />
+    <TypeSimple name="T_BIT_X_6" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="6" />
+    <TypeSimple name="T_BIT_X_7" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="7" />
+    <TypeSimple name="T_BOOL" size="1" swapsize="0" typeclass="Bool" iecname="BOOL" />
+    <TypeSimple name="T_DINT" size="4" swapsize="4" typeclass="DInt" iecname="DINT" />
+    <TypeSimple name="T_DWORD" size="4" swapsize="4" typeclass="DWord" iecname="DWORD" />
+    <TypeSimple name="T_INT" size="2" swapsize="2" typeclass="Int" iecname="INT" />
+    <TypeSimple name="T_REAL" size="4" swapsize="4" typeclass="Real" iecname="REAL" />
+    <TypeSimple name="T_STRING" size="81" swapsize="0" typeclass="String" iecname="STRING" />
+    <TypeSimple name="T_STRING_100_" size="101" swapsize="0" typeclass="String" iecname="STRING(100)" />
+    <TypeSimple name="T_TIME" size="4" swapsize="4" typeclass="Time" iecname="TIME" />
+    <TypeSimple name="T_UDINT" size="4" swapsize="4" typeclass="UDInt" iecname="UDINT" />
+    <TypeSimple name="T_UINT" size="2" swapsize="2" typeclass="UInt" iecname="UINT" />
+    <TypeSimple name="T_USINT" size="1" swapsize="1" typeclass="USInt" iecname="USINT" />
+    <TypeSimple name="T_WORD" size="2" swapsize="2" typeclass="Word" iecname="WORD" />
+    <TypeArray name="T_ARRAY__0__10000__OF_REAL" size="40004" nativesize="40004" typeclass="Array" iecname="ARRAY [0..10000] OF REAL" basetype="T_REAL">
+      <ArrayDim minrange="0" maxrange="10000" />
+    </TypeArray>
+    <TypeArray name="T_ARRAY__0__100__OF_BOOL" size="101" nativesize="101" typeclass="Array" iecname="ARRAY [0..100] OF BOOL" basetype="T_BOOL">
+      <ArrayDim minrange="0" maxrange="100" />
+    </TypeArray>
+    <TypeArray name="T_ARRAY__0__100__OF_INT" size="202" nativesize="202" typeclass="Array" iecname="ARRAY [0..100] OF INT" basetype="T_INT">
+      <ArrayDim minrange="0" maxrange="100" />
+    </TypeArray>
+    <TypeArray name="T_ARRAY__0__9__OF_TIME" size="40" nativesize="40" typeclass="Array" iecname="ARRAY [0..9] OF TIME" basetype="T_TIME">
+      <ArrayDim minrange="0" maxrange="9" />
+    </TypeArray>
+    <TypeUserDef name="T_AXIS_STATE" size="2" nativesize="2" swapsize="2" typeclass="Enum" iecname="AXIS_STATE" basetype="T_INT">
+      <UserDefElement type="T_AXIS_STATE" iecname="ErrorStop" enumvalue="0" />
+      <UserDefElement type="T_AXIS_STATE" iecname="Disabled" enumvalue="1" />
+      <UserDefElement type="T_AXIS_STATE" iecname="Standstill" enumvalue="2" />
+      <UserDefElement type="T_AXIS_STATE" iecname="Stopping" enumvalue="3" />
+      <UserDefElement type="T_AXIS_STATE" iecname="Homing" enumvalue="4" />
+      <UserDefElement type="T_AXIS_STATE" iecname="DiscreteMotion" enumvalue="5" />
+      <UserDefElement type="T_AXIS_STATE" iecname="ContinuousMotion" enumvalue="6" />
+      <UserDefElement type="T_AXIS_STATE" iecname="SynchronizedMotion" enumvalue="7" />
+    </TypeUserDef>
+    <TypeUserDef name="T_DERIVATIVE" size="37" nativesize="44" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="DERIVATIVE">
+      <UserDefElement iecname="IN" type="T_REAL" byteoffset="0" vartype="VAR_INPUT" />
+      <UserDefElement iecname="TM" type="T_DWORD" byteoffset="4" vartype="VAR_INPUT" />
+      <UserDefElement iecname="RESET" type="T_BOOL" byteoffset="8" vartype="VAR_INPUT" />
+      <UserDefElement iecname="OUT" type="T_REAL" byteoffset="12" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="X3" type="T_REAL" byteoffset="16" vartype="VAR" />
+      <UserDefElement iecname="X2" type="T_REAL" byteoffset="20" vartype="VAR" />
+      <UserDefElement iecname="X1" type="T_REAL" byteoffset="24" vartype="VAR" />
+      <UserDefElement iecname="T2" type="T_DWORD" byteoffset="28" vartype="VAR" />
+      <UserDefElement iecname="T1" type="T_DWORD" byteoffset="32" vartype="VAR" />
+      <UserDefElement iecname="_Init" type="T_BOOL" byteoffset="36" vartype="VAR" />
+    </TypeUserDef>
+    <TypeUserDef name="T_DEVICE_CONTROL" size="2" nativesize="2" swapsize="2" typeclass="Enum" iecname="DEVICE_CONTROL" basetype="T_INT">
+      <UserDefElement type="T_DEVICE_CONTROL" iecname="ByFieldbus" enumvalue="0" />
+      <UserDefElement type="T_DEVICE_CONTROL" iecname="ByEngineeringSoftware" enumvalue="1" />
+    </TypeUserDef>
+    <TypeUserDef name="T_ETrigA" size="6" nativesize="20" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="ETrigA">
+      <UserDefElement iecname="xExecute" type="T_BOOL" byteoffset="0" vartype="VAR_INPUT" />
+      <UserDefElement iecname="xAbort" type="T_BOOL" byteoffset="1" vartype="VAR_INPUT" />
+      <UserDefElement iecname="xDone" type="T_BOOL" byteoffset="2" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="xBusy" type="T_BOOL" byteoffset="3" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="xError" type="T_BOOL" byteoffset="4" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="xAborted" type="T_BOOL" byteoffset="5" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_INIT_ERROR" size="2" nativesize="2" swapsize="2" typeclass="Enum" iecname="INIT_ERROR" basetype="T_UINT">
+      <UserDefElement type="T_INIT_ERROR" iecname="init_NoError" enumvalue="0" />
+      <UserDefElement type="T_INIT_ERROR" iecname="init_PdoPointerToNull" enumvalue="1" />
+      <UserDefElement type="T_INIT_ERROR" iecname="init_EthercatMasterNotFound" enumvalue="2" />
+      <UserDefElement type="T_INIT_ERROR" iecname="init_EthercatSlaveNotFound" enumvalue="3" />
+      <UserDefElement type="T_INIT_ERROR" iecname="init_ErrorWhileReadingSdoList" enumvalue="4" />
+      <UserDefElement type="T_INIT_ERROR" iecname="init_ErrorWhileReadingSdoListLength" enumvalue="5" />
+      <UserDefElement type="T_INIT_ERROR" iecname="init_ErrorSlaveNotInOperational" enumvalue="6" />
+    </TypeUserDef>
+    <TypeUserDef name="T_INTEGRAL" size="17" nativesize="24" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="INTEGRAL">
+      <UserDefElement iecname="IN" type="T_REAL" byteoffset="0" vartype="VAR_INPUT" />
+      <UserDefElement iecname="TM" type="T_DWORD" byteoffset="4" vartype="VAR_INPUT" />
+      <UserDefElement iecname="RESET" type="T_BOOL" byteoffset="8" vartype="VAR_INPUT" />
+      <UserDefElement iecname="OUT" type="T_REAL" byteoffset="12" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="OVERFLOW" type="T_BOOL" byteoffset="16" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_BUFFER_MODE" size="2" nativesize="2" swapsize="2" typeclass="Enum" iecname="MC_BUFFER_MODE" basetype="T_INT">
+      <UserDefElement type="T_MC_BUFFER_MODE" iecname="mcAborting" enumvalue="0" />
+      <UserDefElement type="T_MC_BUFFER_MODE" iecname="mcBuffered" enumvalue="1" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_DIRECTION" size="2" nativesize="2" swapsize="2" typeclass="Enum" iecname="MC_DIRECTION" basetype="T_WORD">
+      <UserDefElement type="T_MC_DIRECTION" iecname="mcNormal" enumvalue="0" />
+      <UserDefElement type="T_MC_DIRECTION" iecname="mcNegativeDirection" enumvalue="64" />
+      <UserDefElement type="T_MC_DIRECTION" iecname="mcPositiveDirection" enumvalue="128" />
+      <UserDefElement type="T_MC_DIRECTION" iecname="mcShortestWay" enumvalue="192" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_JOG_MODE" size="2" nativesize="2" swapsize="2" typeclass="Enum" iecname="MC_JOG_MODE" basetype="T_UINT">
+      <UserDefElement type="T_MC_JOG_MODE" iecname="mcDefault" enumvalue="0" />
+      <UserDefElement type="T_MC_JOG_MODE" iecname="mcOnlyVelocity1" enumvalue="1" />
+      <UserDefElement type="T_MC_JOG_MODE" iecname="mcOnlyVelocity2" enumvalue="2" />
+    </TypeUserDef>
+    <TypeUserDef name="T_R_TRIG" size="2" nativesize="8" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="R_TRIG">
+      <UserDefElement iecname="CLK" type="T_BOOL" byteoffset="0" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Q" type="T_BOOL" byteoffset="1" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_TON" size="16" nativesize="28" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="TON">
+      <UserDefElement iecname="IN" type="T_BOOL" byteoffset="0" vartype="VAR_INPUT" />
+      <UserDefElement iecname="PT" type="T_TIME" byteoffset="4" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Q" type="T_BOOL" byteoffset="8" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ET" type="T_TIME" byteoffset="12" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_TP" size="16" nativesize="24" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="TP">
+      <UserDefElement iecname="IN" type="T_BOOL" byteoffset="0" vartype="VAR_INPUT" />
+      <UserDefElement iecname="PT" type="T_TIME" byteoffset="4" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Q" type="T_BOOL" byteoffset="8" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ET" type="T_TIME" byteoffset="12" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_VERSION" size="8" nativesize="8" typeclass="Userdef" pouclass="STRUCTURE" iecname="VERSION">
+      <UserDefElement iecname="uiMajor" type="T_UINT" byteoffset="0" vartype="VAR" />
+      <UserDefElement iecname="uiMinor" type="T_UINT" byteoffset="2" vartype="VAR" />
+      <UserDefElement iecname="uiServicePack" type="T_UINT" byteoffset="4" vartype="VAR" />
+      <UserDefElement iecname="uiPatch" type="T_UINT" byteoffset="6" vartype="VAR" />
+    </TypeUserDef>
+    <TypeUserDef name="T_AXIS_REF_FESTO" size="129" nativesize="508" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="AXIS_REF_FESTO">
+      <UserDefElement iecname="InitErrorInfo" type="T_INIT_ERROR" byteoffset="0" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="AxisState" type="T_AXIS_STATE" byteoffset="2" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ActiveMoveFB" type="T_TYPE_REFERENCE" byteoffset="4" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ActiveHaltFB" type="T_TYPE_REFERENCE" byteoffset="8" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ActiveParameterFB" type="T_TYPE_REFERENCE_1" byteoffset="12" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ActualPosition" type="T_REAL" byteoffset="16" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="ActualTorque" type="T_REAL" byteoffset="20" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="ActualVelocity" type="T_REAL" byteoffset="24" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="AxisError" type="T_BOOL" byteoffset="28" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="AxisErrorID" type="T_WORD" byteoffset="30" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="AxisErrorString" type="T_STRING" byteoffset="32" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="AxisWarning" type="T_BOOL" byteoffset="113" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="DeviceControl" type="T_DEVICE_CONTROL" byteoffset="114" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="Enabled" type="T_BOOL" byteoffset="116" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="HomingValid" type="T_BOOL" byteoffset="117" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="IsMoving" type="T_BOOL" byteoffset="118" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="SDOsInitialized" type="T_BOOL" byteoffset="119" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="SetpointAcknowledge" type="T_BOOL" byteoffset="120" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="SlaveConnectorFlags" type="T_DWORD" byteoffset="124" vartype="VAR" propertytype="variable" />
+      <UserDefElement iecname="TargetReached" type="T_BOOL" byteoffset="128" vartype="VAR" propertytype="variable" />
+    </TypeUserDef>
+    <TypeUserDef name="T_BLINK" size="32" nativesize="44" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="BLINK">
+      <UserDefElement iecname="ENABLE" type="T_BOOL" byteoffset="0" vartype="VAR_INPUT" />
+      <UserDefElement iecname="TIMELOW" type="T_TIME" byteoffset="4" vartype="VAR_INPUT" />
+      <UserDefElement iecname="TIMEHIGH" type="T_TIME" byteoffset="8" vartype="VAR_INPUT" />
+      <UserDefElement iecname="OUT" type="T_BOOL" byteoffset="12" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="CLOCK" type="T_TP" byteoffset="16" vartype="VAR" />
+    </TypeUserDef>
+    <TypeUserDef name="T_PID" size="152" nativesize="176" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="PID">
+      <UserDefElement iecname="ACTUAL" type="T_REAL" byteoffset="0" vartype="VAR_INPUT" />
+      <UserDefElement iecname="SET_POINT" type="T_REAL" byteoffset="4" vartype="VAR_INPUT" />
+      <UserDefElement iecname="KP" type="T_REAL" byteoffset="8" vartype="VAR_INPUT" />
+      <UserDefElement iecname="TN" type="T_REAL" byteoffset="12" vartype="VAR_INPUT" />
+      <UserDefElement iecname="TV" type="T_REAL" byteoffset="16" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Y_MANUAL" type="T_REAL" byteoffset="20" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Y_OFFSET" type="T_REAL" byteoffset="24" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Y_MIN" type="T_REAL" byteoffset="28" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Y_MAX" type="T_REAL" byteoffset="32" vartype="VAR_INPUT" />
+      <UserDefElement iecname="MANUAL" type="T_BOOL" byteoffset="36" vartype="VAR_INPUT" />
+      <UserDefElement iecname="RESET" type="T_BOOL" byteoffset="37" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Y" type="T_REAL" byteoffset="40" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="LIMITS_ACTIVE" type="T_BOOL" byteoffset="44" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="OVERFLOW" type="T_BOOL" byteoffset="45" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="CLOCK" type="T_TON" byteoffset="48" vartype="VAR" />
+      <UserDefElement iecname="I" type="T_INTEGRAL" byteoffset="64" vartype="VAR" />
+      <UserDefElement iecname="D" type="T_DERIVATIVE" byteoffset="84" vartype="VAR" />
+      <UserDefElement iecname="TMDIFF" type="T_DWORD" byteoffset="124" vartype="VAR" />
+      <UserDefElement iecname="ERROR" type="T_REAL" byteoffset="128" vartype="VAR" />
+      <UserDefElement iecname="_Init" type="T_BOOL" byteoffset="132" vartype="VAR" />
+      <UserDefElement iecname="Y_ADDOFFSET" type="T_REAL" byteoffset="136" vartype="VAR" />
+      <UserDefElement iecname="KPcopy" type="T_REAL" byteoffset="140" vartype="VAR" />
+      <UserDefElement iecname="TNcopy" type="T_REAL" byteoffset="144" vartype="VAR" />
+      <UserDefElement iecname="TVcopy" type="T_REAL" byteoffset="148" vartype="VAR" />
+    </TypeUserDef>
+    <TypeUserDef name="T_ReadNbrSlaves" size="14" nativesize="64" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="ReadNbrSlaves" basetype="T_ETrigA">
+      <UserDefElement iecname="xExecute" type="T_BOOL" byteoffset="0" vartype="VAR_INPUT" inherited_from="T_ETrigA" />
+      <UserDefElement iecname="xAbort" type="T_BOOL" byteoffset="1" vartype="VAR_INPUT" inherited_from="T_ETrigA" />
+      <UserDefElement iecname="xDone" type="T_BOOL" byteoffset="2" vartype="VAR_OUTPUT" inherited_from="T_ETrigA" />
+      <UserDefElement iecname="xBusy" type="T_BOOL" byteoffset="3" vartype="VAR_OUTPUT" inherited_from="T_ETrigA" />
+      <UserDefElement iecname="xError" type="T_BOOL" byteoffset="4" vartype="VAR_OUTPUT" inherited_from="T_ETrigA" />
+      <UserDefElement iecname="xAborted" type="T_BOOL" byteoffset="5" vartype="VAR_OUTPUT" inherited_from="T_ETrigA" />
+      <UserDefElement iecname="usiCom" type="T_USINT" byteoffset="6" vartype="VAR_INPUT" />
+      <UserDefElement iecname="udiTimeOut" type="T_UDINT" byteoffset="8" vartype="VAR_INPUT" />
+      <UserDefElement iecname="wNumberSlaves" type="T_WORD" byteoffset="12" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeSimple name="T_REFERENCE_TO_AXIS_REF_FESTO_REF" size="129" swapsize="0" typeclass="Reference" iecname="REFERENCE TO AXIS_REF_FESTO_REF" basetype="T_AXIS_REF_FESTO" />
+    <TypeUserDef name="T_MC_Home_Festo" size="229" nativesize="124" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_Home_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Execute" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Position" type="T_REAL" byteoffset="132" vartype="VAR_INPUT" />
+      <UserDefElement iecname="HomingMethod" type="T_DINT" byteoffset="136" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Done" type="T_BOOL" byteoffset="140" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Busy" type="T_BOOL" byteoffset="141" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Active" type="T_BOOL" byteoffset="142" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="CommandAborted" type="T_BOOL" byteoffset="143" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="144" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="146" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="148" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_Jog_Festo" size="223" nativesize="140" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_Jog_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="JogPositive" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="JogNegative" type="T_BOOL" byteoffset="130" vartype="VAR_INPUT" />
+      <UserDefElement iecname="JogMode" type="T_MC_JOG_MODE" byteoffset="132" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Velocity1" type="T_BOOL" byteoffset="134" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Velocity2" type="T_BOOL" byteoffset="135" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Busy" type="T_BOOL" byteoffset="136" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="CommandAborted" type="T_BOOL" byteoffset="137" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="138" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="140" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="142" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_MoveAbsolute_Festo" size="245" nativesize="164" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_MoveAbsolute_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Execute" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="ContinuousUpdate" type="T_BOOL" byteoffset="130" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Position" type="T_REAL" byteoffset="132" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Velocity" type="T_REAL" byteoffset="136" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Acceleration" type="T_REAL" byteoffset="140" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Deceleration" type="T_REAL" byteoffset="144" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Jerk" type="T_REAL" byteoffset="148" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Direction" type="T_MC_DIRECTION" byteoffset="152" vartype="VAR_INPUT" />
+      <UserDefElement iecname="BufferMode" type="T_MC_BUFFER_MODE" byteoffset="154" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Done" type="T_BOOL" byteoffset="156" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Busy" type="T_BOOL" byteoffset="157" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Active" type="T_BOOL" byteoffset="158" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="CommandAborted" type="T_BOOL" byteoffset="159" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="160" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="162" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="164" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_MoveAdditive_Festo" size="245" nativesize="164" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_MoveAdditive_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Execute" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="ContinuousUpdate" type="T_BOOL" byteoffset="130" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Distance" type="T_REAL" byteoffset="132" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Velocity" type="T_REAL" byteoffset="136" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Acceleration" type="T_REAL" byteoffset="140" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Deceleration" type="T_REAL" byteoffset="144" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Jerk" type="T_REAL" byteoffset="148" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Direction" type="T_MC_DIRECTION" byteoffset="152" vartype="VAR_INPUT" />
+      <UserDefElement iecname="BufferMode" type="T_MC_BUFFER_MODE" byteoffset="154" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Done" type="T_BOOL" byteoffset="156" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Busy" type="T_BOOL" byteoffset="157" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Active" type="T_BOOL" byteoffset="158" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="CommandAborted" type="T_BOOL" byteoffset="159" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="160" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="162" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="164" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_MoveRelative_Festo" size="245" nativesize="164" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_MoveRelative_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Execute" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="ContinuousUpdate" type="T_BOOL" byteoffset="130" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Distance" type="T_REAL" byteoffset="132" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Velocity" type="T_REAL" byteoffset="136" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Acceleration" type="T_REAL" byteoffset="140" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Deceleration" type="T_REAL" byteoffset="144" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Jerk" type="T_REAL" byteoffset="148" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Direction" type="T_MC_DIRECTION" byteoffset="152" vartype="VAR_INPUT" />
+      <UserDefElement iecname="BufferMode" type="T_MC_BUFFER_MODE" byteoffset="154" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Done" type="T_BOOL" byteoffset="156" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Busy" type="T_BOOL" byteoffset="157" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Active" type="T_BOOL" byteoffset="158" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="CommandAborted" type="T_BOOL" byteoffset="159" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="160" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="162" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="164" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_Power_Festo" size="217" nativesize="188" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_Power_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Enable" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Status" type="T_BOOL" byteoffset="130" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Valid" type="T_BOOL" byteoffset="131" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="132" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="134" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="136" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_ReadActualPosition_Festo" size="221" nativesize="104" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_ReadActualPosition_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Enable" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Valid" type="T_BOOL" byteoffset="130" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Position" type="T_REAL" byteoffset="132" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="136" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="138" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="140" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_ReadActualTorque_Festo" size="221" nativesize="104" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_ReadActualTorque_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Enable" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Valid" type="T_BOOL" byteoffset="130" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Torque" type="T_REAL" byteoffset="132" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="136" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="138" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="140" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_ReadAxisError_Festo" size="299" nativesize="180" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_ReadAxisError_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Enable" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Valid" type="T_BOOL" byteoffset="130" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="AxisErrorID" type="T_WORD" byteoffset="132" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="AxisErrorString" type="T_STRING" byteoffset="134" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="215" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="216" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="218" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_ReadStatus_Festo" size="223" nativesize="104" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_ReadStatus_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Enable" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Valid" type="T_BOOL" byteoffset="130" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorStop" type="T_BOOL" byteoffset="131" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Disabled" type="T_BOOL" byteoffset="132" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Stopping" type="T_BOOL" byteoffset="133" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Homing" type="T_BOOL" byteoffset="134" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Standstill" type="T_BOOL" byteoffset="135" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="DiscreteMotion" type="T_BOOL" byteoffset="136" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ContinuousMotion" type="T_BOOL" byteoffset="137" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="SynchronizedMotion" type="T_BOOL" byteoffset="138" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="139" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="140" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="142" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_RecordTable_Festo" size="231" nativesize="132" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_RecordTable_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Execute" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="ContinuousUpdate" type="T_BOOL" byteoffset="130" vartype="VAR_INPUT" />
+      <UserDefElement iecname="RecordNumber" type="T_DINT" byteoffset="132" vartype="VAR_INPUT" />
+      <UserDefElement iecname="BufferMode" type="T_MC_BUFFER_MODE" byteoffset="136" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Done" type="T_BOOL" byteoffset="138" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ActualRecordNumber" type="T_DINT" byteoffset="140" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Busy" type="T_BOOL" byteoffset="144" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Active" type="T_BOOL" byteoffset="145" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="CommandAborted" type="T_BOOL" byteoffset="146" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="147" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="148" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="150" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_Reset_Festo" size="217" nativesize="136" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_Reset_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Execute" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Done" type="T_BOOL" byteoffset="130" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Busy" type="T_BOOL" byteoffset="131" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="132" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="134" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="136" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_Stop_Festo" size="217" nativesize="120" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_Stop_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Execute" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Done" type="T_BOOL" byteoffset="130" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Busy" type="T_BOOL" byteoffset="131" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="CommandAborted" type="T_BOOL" byteoffset="132" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="133" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="134" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="136" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_MC_TorqueControl_Festo" size="245" nativesize="168" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="MC_TorqueControl_Festo">
+      <UserDefElement iecname="Axis" type="T_AXIS_REF_FESTO" byteoffset="0" vartype="VAR_IN_OUT" />
+      <UserDefElement iecname="Execute" type="T_BOOL" byteoffset="129" vartype="VAR_INPUT" />
+      <UserDefElement iecname="ContinuousUpdate" type="T_BOOL" byteoffset="130" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Torque" type="T_REAL" byteoffset="132" vartype="VAR_INPUT" />
+      <UserDefElement iecname="TorqueRamp" type="T_REAL" byteoffset="136" vartype="VAR_INPUT" />
+      <UserDefElement iecname="Velocity" type="T_REAL" byteoffset="140" vartype="VAR_INPUT" />
+      <UserDefElement iecname="BufferMode" type="T_MC_BUFFER_MODE" byteoffset="144" vartype="VAR_INPUT" />
+      <UserDefElement iecname="StrokeLimitation" type="T_BOOL" byteoffset="146" vartype="VAR_INPUT" />
+      <UserDefElement iecname="NegativeStrokeLimit" type="T_REAL" byteoffset="148" vartype="VAR_INPUT" />
+      <UserDefElement iecname="PositiveStrokeLimit" type="T_REAL" byteoffset="152" vartype="VAR_INPUT" />
+      <UserDefElement iecname="InTorque" type="T_BOOL" byteoffset="156" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Busy" type="T_BOOL" byteoffset="157" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Active" type="T_BOOL" byteoffset="158" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="CommandAborted" type="T_BOOL" byteoffset="159" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="Error" type="T_BOOL" byteoffset="160" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorID" type="T_WORD" byteoffset="162" vartype="VAR_OUTPUT" />
+      <UserDefElement iecname="ErrorString" type="T_STRING" byteoffset="164" vartype="VAR_OUTPUT" />
+    </TypeUserDef>
+    <TypeUserDef name="T_stControleEixos" size="3465" nativesize="2152" typeclass="Userdef" pouclass="STRUCTURE" iecname="stControleEixos">
+      <UserDefElement iecname="Power" type="T_MC_Power_Festo" byteoffset="0" vartype="VAR" />
+      <UserDefElement iecname="Stop" type="T_MC_Stop_Festo" byteoffset="220" vartype="VAR" />
+      <UserDefElement iecname="Reset" type="T_MC_Reset_Festo" byteoffset="440" vartype="VAR" />
+      <UserDefElement iecname="Home" type="T_MC_Home_Festo" byteoffset="660" vartype="VAR" />
+      <UserDefElement iecname="Move_Absolute" type="T_MC_MoveAbsolute_Festo" byteoffset="892" vartype="VAR" />
+      <UserDefElement iecname="Move_Additive" type="T_MC_MoveAdditive_Festo" byteoffset="1140" vartype="VAR" />
+      <UserDefElement iecname="Move_Relative" type="T_MC_MoveRelative_Festo" byteoffset="1388" vartype="VAR" />
+      <UserDefElement iecname="Move_Record" type="T_MC_RecordTable_Festo" byteoffset="1636" vartype="VAR" />
+      <UserDefElement iecname="Torque_Control" type="T_MC_TorqueControl_Festo" byteoffset="1868" vartype="VAR" />
+      <UserDefElement iecname="Jog" type="T_MC_Jog_Festo" byteoffset="2116" vartype="VAR" />
+      <UserDefElement iecname="Read_Status" type="T_MC_ReadStatus_Festo" byteoffset="2340" vartype="VAR" />
+      <UserDefElement iecname="Read_Position" type="T_MC_ReadActualPosition_Festo" byteoffset="2564" vartype="VAR" />
+      <UserDefElement iecname="Read_Torque" type="T_MC_ReadActualTorque_Festo" byteoffset="2788" vartype="VAR" />
+      <UserDefElement iecname="Read_Error" type="T_MC_ReadAxisError_Festo" byteoffset="3012" vartype="VAR" />
+      <UserDefElement iecname="bEnable" type="T_BOOL" byteoffset="3311" vartype="VAR" />
+      <UserDefElement iecname="bEnabled" type="T_BOOL" byteoffset="3312" vartype="VAR" />
+      <UserDefElement iecname="bDisabled" type="T_BOOL" byteoffset="3313" vartype="VAR" />
+      <UserDefElement iecname="bStop" type="T_BOOL" byteoffset="3314" vartype="VAR" />
+      <UserDefElement iecname="bReset" type="T_BOOL" byteoffset="3315" vartype="VAR" />
+      <UserDefElement iecname="bHoming" type="T_BOOL" byteoffset="3316" vartype="VAR" />
+      <UserDefElement iecname="bStartMove" type="T_BOOL" byteoffset="3317" vartype="VAR" />
+      <UserDefElement iecname="bAck" type="T_BOOL" byteoffset="3318" vartype="VAR" />
+      <UserDefElement iecname="bMC" type="T_BOOL" byteoffset="3319" vartype="VAR" />
+      <UserDefElement iecname="bTorque_Control" type="T_BOOL" byteoffset="3320" vartype="VAR" />
+      <UserDefElement iecname="bTorque_Continuo" type="T_BOOL" byteoffset="3321" vartype="VAR" />
+      <UserDefElement iecname="bJog_Positivo" type="T_BOOL" byteoffset="3322" vartype="VAR" />
+      <UserDefElement iecname="bJog_Negativo" type="T_BOOL" byteoffset="3323" vartype="VAR" />
+      <UserDefElement iecname="bErro_Ativo" type="T_BOOL" byteoffset="3324" vartype="VAR" />
+      <UserDefElement iecname="bHome_Done" type="T_BOOL" byteoffset="3325" vartype="VAR" />
+      <UserDefElement iecname="iTipo_Jog" type="T_INT" byteoffset="3326" vartype="VAR" />
+      <UserDefElement iecname="rPosicao" type="T_REAL" byteoffset="3328" vartype="VAR" />
+      <UserDefElement iecname="rVelocidade" type="T_REAL" byteoffset="3332" vartype="VAR" />
+      <UserDefElement iecname="rAceleracao" type="T_REAL" byteoffset="3336" vartype="VAR" />
+      <UserDefElement iecname="rDesaceleracao" type="T_REAL" byteoffset="3340" vartype="VAR" />
+      <UserDefElement iecname="rJerk" type="T_REAL" byteoffset="3344" vartype="VAR" />
+      <UserDefElement iecname="rTorque_Nm" type="T_REAL" byteoffset="3348" vartype="VAR" />
+      <UserDefElement iecname="rRampa_Torque_Nms" type="T_REAL" byteoffset="3352" vartype="VAR" />
+      <UserDefElement iecname="rVelocidade_Torque" type="T_REAL" byteoffset="3356" vartype="VAR" />
+      <UserDefElement iecname="rVelocidade_Jog" type="T_REAL" byteoffset="3360" vartype="VAR" />
+      <UserDefElement iecname="rActual_Position" type="T_REAL" byteoffset="3364" vartype="VAR" />
+      <UserDefElement iecname="rActual_Torque" type="T_REAL" byteoffset="3368" vartype="VAR" />
+      <UserDefElement iecname="strErro" type="T_STRING" byteoffset="3372" vartype="VAR" />
+      <UserDefElement iecname="bPosiciona" type="T_BOOL" byteoffset="3453" vartype="VAR" />
+      <UserDefElement iecname="bPosicionado" type="T_BOOL" byteoffset="3454" vartype="VAR" />
+      <UserDefElement iecname="bPosicionamentoRelativo" type="T_BOOL" byteoffset="3455" vartype="VAR" />
+      <UserDefElement iecname="bJanela_Posicao" type="T_BOOL" byteoffset="3456" vartype="VAR" />
+      <UserDefElement iecname="bFalha_ACK" type="T_BOOL" byteoffset="3457" vartype="VAR" />
+      <UserDefElement iecname="bFalha_MC" type="T_BOOL" byteoffset="3458" vartype="VAR" />
+      <UserDefElement iecname="bEixoEmCondicao" type="T_BOOL" byteoffset="3459" vartype="VAR" />
+      <UserDefElement iecname="iTentativas_ACK" type="T_INT" byteoffset="3460" vartype="VAR" />
+      <UserDefElement iecname="iTentativas_MC" type="T_INT" byteoffset="3462" vartype="VAR" />
+      <UserDefElement iecname="bReinicializa" type="T_BOOL" byteoffset="3464" vartype="VAR" />
+    </TypeUserDef>
+    <TypeSimple name="T_TYPE_REFERENCE" size="4" swapsize="4" typeclass="Userdef" iecname="TYPE_REFERENCE" />
+    <TypeSimple name="T_TYPE_REFERENCE_1" size="4" swapsize="4" typeclass="Userdef" iecname="TYPE_REFERENCE" />
+  </TypeList>
+  <NodeList>
+    <Node name="Application">
+      <Node name="Ajuste_Vacuo">
+        <Node name="tEstabilizacao" type="T_TON" access="ReadWrite" />
+        <Node name="tEstanqueidade" type="T_TON" access="ReadWrite" />
+        <Node name="tTimeoutVacuo" type="T_TON" access="ReadWrite" />
+        <Node name="tVacuoEstavel" type="T_TON" access="ReadWrite" />
+        <Node name="tVacuoEstavel2" type="T_TON" access="ReadWrite" />
+        <Node name="tValvulas" type="T_TON" access="ReadWrite" />
+      </Node>
+      <Node name="Alarmes">
+        <Node name="i" type="T_INT" access="ReadWrite" />
+        <Node name="j" type="T_INT" access="ReadWrite" />
+        <Node name="k" type="T_INT" access="ReadWrite" />
+        <Node name="tAVCilZP9" type="T_TON" access="ReadWrite" />
+        <Node name="tAVElevacaoP2" type="T_TON" access="ReadWrite" />
+        <Node name="tAVElevacaoP7" type="T_TON" access="ReadWrite" />
+        <Node name="tAVGarraP1" type="T_TON" access="ReadWrite" />
+        <Node name="tAVGarraP9" type="T_TON" access="ReadWrite" />
+        <Node name="tAVOrbitadeiraP6" type="T_TON" access="ReadWrite" />
+        <Node name="tAVPisadorP2" type="T_TON" access="ReadWrite" />
+        <Node name="tAVPisadorP7" type="T_TON" access="ReadWrite" />
+        <Node name="tAVSeparadorP1" type="T_TON" access="ReadWrite" />
+        <Node name="tGraxaP6" type="T_TON" access="ReadWrite" />
+        <Node name="tMostraMensagem" type="T_TON" access="ReadWrite" />
+        <Node name="tPressao" type="T_TON" access="ReadWrite" />
+        <Node name="tRCCilZP9" type="T_TON" access="ReadWrite" />
+        <Node name="tRCElevacaoP2" type="T_TON" access="ReadWrite" />
+        <Node name="tRCElevacaoP7" type="T_TON" access="ReadWrite" />
+        <Node name="tRCGarraP1" type="T_TON" access="ReadWrite" />
+        <Node name="tRCGarraP9" type="T_TON" access="ReadWrite" />
+        <Node name="tRCOrbitadeiraP6" type="T_TON" access="ReadWrite" />
+        <Node name="tRCPisadorP2" type="T_TON" access="ReadWrite" />
+        <Node name="tRCPisadorP7" type="T_TON" access="ReadWrite" />
+        <Node name="tRCSeparadorP1" type="T_TON" access="ReadWrite" />
+        <Node name="tVerificaAlarmes" type="T_TON" access="ReadWrite" />
+      </Node>
+      <Node name="Constants">
+        <Node name="CompilerVersion" type="T_VERSION" access="Read" />
+        <Node name="RuntimeVersion" type="T_VERSION" access="Read" />
+      </Node>
+      <Node name="Controle_Geral">
+        <Node name="edChaveManualAuto" type="T_BOOL" access="ReadWrite" />
+        <Node name="tEnable" type="T_TON" access="ReadWrite" />
+        <Node name="tEnableEixoTeste" type="T_TON" access="ReadWrite" />
+      </Node>
+      <Node name="Gradiente_Pressao">
+        <Node name="etTempoDecremento" type="T_TIME" access="ReadWrite" />
+        <Node name="etTempoIncremento" type="T_TIME" access="ReadWrite" />
+        <Node name="rtDecremento" type="T_R_TRIG" access="ReadWrite" />
+        <Node name="rtIncremento" type="T_R_TRIG" access="ReadWrite" />
+        <Node name="tDecrementoForca" type="T_TON" access="ReadWrite" />
+        <Node name="tIncrementoForca" type="T_TON" access="ReadWrite" />
+      </Node>
+      <Node name="Graficos">
+        <Node name="bLimpaGrafico" type="T_BOOL" access="ReadWrite" />
+        <Node name="blk0" type="T_BLINK" access="ReadWrite" />
+        <Node name="i" type="T_INT" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_Analogicas">
+        <Node name="arrVarX" type="T_ARRAY__0__10000__OF_REAL" access="ReadWrite" />
+        <Node name="arrVarY1" type="T_ARRAY__0__10000__OF_REAL" access="ReadWrite" />
+        <Node name="arrVarY2" type="T_ARRAY__0__10000__OF_REAL" access="ReadWrite" />
+        <Node name="iAtualizaGrafico" type="T_INT" access="ReadWrite" />
+        <Node name="iBufferX" type="T_INT" access="ReadWrite" />
+        <Node name="iBufferY1" type="T_INT" access="ReadWrite" />
+        <Node name="iBufferY2" type="T_INT" access="ReadWrite" />
+        <Node name="rDeslocamentoDiferencial_mm" type="T_REAL" access="ReadWrite" />
+        <Node name="rDeslocamentoEntradaBooster_mm" type="T_REAL" access="ReadWrite" />
+        <Node name="rDeslocamentoSaidaBooster_mm" type="T_REAL" access="ReadWrite" />
+        <Node name="rEscalaX" type="T_REAL" access="ReadWrite" />
+        <Node name="rEscalaY1" type="T_REAL" access="ReadWrite" />
+        <Node name="rEscalaY2" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaEntradaBooster_kN" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaSaidaBooster_kN" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoBubbleTest_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoCP_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoCS_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoSangria_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rTemperaturaAmbiente_C" type="T_REAL" access="ReadWrite" />
+        <Node name="rUmidadeRelativa" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuo_Bar" type="T_REAL" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_CMMT_EixoTeste">
+        <Node name="stControleEixo" type="T_stControleEixos" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_ControleVacuo">
+        <Node name="bFalhaAjusteVacuo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bIniciaCiclo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLimiteAtivo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLimiteExcedido" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManual" type="T_BOOL" access="ReadWrite" />
+        <Node name="bReset" type="T_BOOL" access="ReadWrite" />
+        <Node name="bTesteEstanqueidade" type="T_BOOL" access="ReadWrite" />
+        <Node name="bVacuoAjustado" type="T_BOOL" access="ReadWrite" />
+        <Node name="iPasso" type="T_INT" access="ReadWrite" />
+        <Node name="PID_Vacuo" type="T_PID" access="ReadWrite" />
+        <Node name="rSetPointVacuo" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoMaximo_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoMinimo_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoNominal_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="strPasso" type="T_STRING_100_" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_Geral">
+        <Node name="arbAlarmes" type="T_ARRAY__0__100__OF_BOOL" access="ReadWrite" />
+        <Node name="bAlarmeAtivo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bAlarmeGlobalAtivo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bApagaRegistrosAlarmes" type="T_BOOL" access="ReadWrite" />
+        <Node name="bBypassPortas" type="T_BOOL" access="ReadWrite" />
+        <Node name="bCondicoesBasicas" type="T_BOOL" access="ReadWrite" />
+        <Node name="bEixoReferenciado" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManBombaDreno_K001" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManBombaPressao_K002" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManBombaVacuo_K003" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManJogNegativo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManJogPositivo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV1" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV10" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV13" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV14" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV15" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV16" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV17" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV18" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV2" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV20" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV21" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV22" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV23" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV24" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV25" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV26" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV27" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV28" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV29" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV3" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV30" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV31" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV32" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV33" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV34" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV35" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV36" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV37" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV38" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV39" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV4" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV40" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV41" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV42" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV43" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV44" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV45" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV46" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV47" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV5" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV6" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV7" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV8" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV9" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemBombaDreno_K001" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemBombaPressao_K002" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemBombaVacuo_K003" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemJogNegativo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemJogPositivo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV1" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV10" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV13" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV14" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV15" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV16" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV17" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV18" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV2" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV20" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV21" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV22" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV23" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV24" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV25" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV26" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV27" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV28" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV29" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV3" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV30" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV31" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV32" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV33" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV34" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV35" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV36" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV37" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV38" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV39" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV4" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV40" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV41" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV42" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV43" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV44" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV45" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV46" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV47" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV5" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV6" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV7" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV8" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV9" type="T_BOOL" access="ReadWrite" />
+        <Node name="bModoAuto" type="T_BOOL" access="ReadWrite" />
+        <Node name="bModoManual" type="T_BOOL" access="ReadWrite" />
+        <Node name="bModoPasso" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMostraMensagem" type="T_BOOL" access="ReadWrite" />
+        <Node name="bParadaGeral" type="T_BOOL" access="ReadWrite" />
+        <Node name="bPartidaGeral" type="T_BOOL" access="ReadWrite" />
+        <Node name="bResetGeral" type="T_BOOL" access="ReadWrite" />
+        <Node name="bSegurancaOK" type="T_BOOL" access="ReadWrite" />
+        <Node name="iMensagemAlarme" type="T_INT" access="ReadWrite" />
+        <Node name="rManSetPointPressao_PV1" type="T_REAL" access="ReadWrite" />
+        <Node name="rManSetPointPressao_PV4" type="T_REAL" access="ReadWrite" />
+        <Node name="rManSetPointPressao_PV5" type="T_REAL" access="ReadWrite" />
+        <Node name="rManSetPointVacuo_PV2" type="T_REAL" access="ReadWrite" />
+        <Node name="rManSetPointVazao_PV3" type="T_REAL" access="ReadWrite" />
+        <Node name="rMemSetPointPressao_PV1" type="T_REAL" access="ReadWrite" />
+        <Node name="rMemSetPointPressao_PV4" type="T_REAL" access="ReadWrite" />
+        <Node name="rMemSetPointPressao_PV5" type="T_REAL" access="ReadWrite" />
+        <Node name="rMemSetPointVacuo_PV2" type="T_REAL" access="ReadWrite" />
+        <Node name="rMemSetPointVazao_PV3" type="T_REAL" access="ReadWrite" />
+        <Node name="uiTesteSelecionado" type="T_UINT" access="ReadWrite" />
+        <Node name="wNumeroEscravosECATAtivos" type="T_WORD" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_GradientePressao">
+        <Node name="bDecremento" type="T_BOOL" access="ReadWrite" />
+        <Node name="bIncremento" type="T_BOOL" access="ReadWrite" />
+        <Node name="iPasso" type="T_INT" access="ReadWrite" />
+        <Node name="rForcaAtualZ1" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaDesejadaZ1" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaFinal" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaInicial" type="T_REAL" access="ReadWrite" />
+        <Node name="rGradienteForca" type="T_REAL" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_Parametros">
+        <Node name="bConsumidorOriginalCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bConsumidorOriginalCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bExecutarAcionamento_T23" type="T_BOOL" access="ReadWrite" />
+        <Node name="bForcaAbsoluta_T07" type="T_BOOL" access="ReadWrite" />
+        <Node name="bForcaAbsoluta_T08" type="T_BOOL" access="ReadWrite" />
+        <Node name="bHabilitamangueirasConsumo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bHabilitaTravaPistao" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga10MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga10MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga17MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga17MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga1MangueiraCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga1MangueiraCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga2MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga2MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga4MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga4MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga8mangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga8mangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMangueira1ConsumoCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMangueirasConsumoCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMangueirasConsumoCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bTesteSimples_T07" type="T_BOOL" access="ReadWrite" />
+        <Node name="bUtilizarTravaPistao" type="T_BOOL" access="ReadWrite" />
+        <Node name="ptIntervalo_T24" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T05" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T06" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T07" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T08" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T09" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T10" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoSopro_T19" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoSopro_T20" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T05" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T06" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T07" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T08" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T09" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T10" type="T_TIME" access="ReadWrite" />
+        <Node name="rDeslocamentoTeste_T19" type="T_REAL" access="ReadWrite" />
+        <Node name="rDeslocamentoTeste_T20" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaCalculoRetorno_T12" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaFinalRelativa_T12" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaInicialAbsoluta_T12" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaxima_N" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaximaAbsoluta_T07" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaximaAbsoluta_T08" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaximaRelativa_T07" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaximaRelativa_T08" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaRelativaAvanco_T07" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaRelativaFinal_T07" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaRelativaRetorno_T07" type="T_REAL" access="ReadWrite" />
+        <Node name="rGradienteForca" type="T_REAL" access="ReadWrite" />
+        <Node name="rGradienteForca_Ns" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoHidraulicaMax_T23" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoHidraulicaMin_T23" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoSistemaAberto_T19" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoSistemaAberto_T20" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoSistemaFechado_T19" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoSistemaFechado_T20" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoTeste_T09" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoTeste_T10" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoMaximo_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoMinimo_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoNominal_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco1_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco1_mms_T28" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco2_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco2_mms_T28" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco3_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco3_mms_T28" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco4_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco4_mms_T28" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco5_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco5_mms_T28" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidadeAtuacao_mm_s" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidadeRetorno_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidadeRetorno_mms_T28" type="T_REAL" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_T01">
+        <Node name="bCarregaTeste" type="T_BOOL" access="ReadWrite" />
+        <Node name="bCicloFinalizado" type="T_BOOL" access="ReadWrite" />
+        <Node name="bCondicaoInicial" type="T_BOOL" access="ReadWrite" />
+        <Node name="bEmCiclo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bFinalizaGravacao" type="T_BOOL" access="ReadWrite" />
+        <Node name="bGravacaoFinalizada" type="T_BOOL" access="ReadWrite" />
+        <Node name="bGravacaoIniciada" type="T_BOOL" access="ReadWrite" />
+        <Node name="bHabilitaTravaPistao" type="T_BOOL" access="ReadWrite" />
+        <Node name="bIniciaCiclo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bIniciaGravacao" type="T_BOOL" access="ReadWrite" />
+        <Node name="bParada" type="T_BOOL" access="ReadWrite" />
+        <Node name="bPartida" type="T_BOOL" access="ReadWrite" />
+        <Node name="bReset" type="T_BOOL" access="ReadWrite" />
+        <Node name="bUtilizarTravaPistao" type="T_BOOL" access="ReadWrite" />
+        <Node name="iModo" type="T_INT" access="ReadWrite" />
+        <Node name="iPasso" type="T_INT" access="ReadWrite" />
+        <Node name="rDeslocamentoMaximo" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaxima" type="T_REAL" access="ReadWrite" />
+        <Node name="strPasso" type="T_STRING_100_" access="ReadWrite" />
+      </Node>
+      <Node name="IoConfig_Globals_Mapping">
+        <Node name="eaTemperaturaAmbiente_B2001" type="T_UINT" access="Read" directaddress="%IW1" />
+        <Node name="eaUmidadeRelativa_B2002" type="T_UINT" access="Read" directaddress="%IW2" />
+        <Node name="edAlimentacaoSaids" type="T_BIT_X_1" access="Read" directaddress="%IX295.1" />
+        <Node name="edAlimentacaoSensores" type="T_BIT_X_2" access="Read" directaddress="%IX295.2" />
+        <Node name="edBotaoLigaComando" type="T_BIT_X_0" access="Read" directaddress="%IX0.0" />
+        <Node name="edBotaoReset" type="T_BIT_X_1" access="Read" directaddress="%IX0.1" />
+        <Node name="edDisjuntorBombaHidraulica_Q002" type="T_BIT_X_6" access="Read" directaddress="%IX294.6" />
+        <Node name="edDisjuntorBombaVacuo_Q003" type="T_BIT_X_5" access="Read" directaddress="%IX294.5" />
+        <Node name="edEmergencia" type="T_BIT_X_0" access="Read" directaddress="%IX295.0" />
+        <Node name="edProtecoes" type="T_BIT_X_3" access="Read" directaddress="%IX295.3" />
+        <Node name="edSens_S0102" type="T_BIT_X_4" access="Read" directaddress="%IX294.4" />
+        <Node name="edSens_S0402" type="T_BIT_X_0" access="Read" directaddress="%IX294.0" />
+        <Node name="edSens_S0405" type="T_BIT_X_2" access="Read" directaddress="%IX294.2" />
+        <Node name="edSens_S0415" type="T_BIT_X_3" access="Read" directaddress="%IX294.3" />
+        <Node name="edSens_S0423" type="T_BIT_X_1" access="Read" directaddress="%IX294.1" />
+        <Node name="edSens_S0701" type="T_BIT_X_7" access="Read" directaddress="%IX294.7" />
+        <Node name="edSens_S0702" type="T_BIT_X_2" access="Read" directaddress="%IX296.2" />
+        <Node name="edSens_S0703" type="T_BIT_X_3" access="Read" directaddress="%IX296.3" />
+        <Node name="rDeslocamentoDiferencial_mm" type="T_REAL" access="Read" directaddress="%IB17" />
+        <Node name="rDeslocamentoDiferencial_mm_Lin" type="T_REAL" access="Read" directaddress="%IB49" />
+        <Node name="rDeslocamentoEntradaBooster_mm" type="T_REAL" access="Read" directaddress="%IB25" />
+        <Node name="rDeslocamentoEntradaBooster_mm_Lin" type="T_REAL" access="Read" directaddress="%IB57" />
+        <Node name="rDeslocamentoSaidaBooster_mm" type="T_REAL" access="Read" directaddress="%IB23" />
+        <Node name="rDeslocamentoSaidaBooster_mm_Lin" type="T_REAL" access="Read" directaddress="%IB55" />
+        <Node name="rForcaEntradaBooster_kN" type="T_REAL" access="Read" directaddress="%IB19" />
+        <Node name="rForcaEntradaBooster_kN_Lin" type="T_REAL" access="Read" directaddress="%IB51" />
+        <Node name="rForcaSaidaBooster_kN" type="T_REAL" access="Read" directaddress="%IB21" />
+        <Node name="rForcaSaidaBooster_kN_Lin" type="T_REAL" access="Read" directaddress="%IB53" />
+        <Node name="rPressaoBubbleTest_Bar" type="T_REAL" access="Read" directaddress="%IB37" />
+        <Node name="rPressaoBubbleTest_Bar_Lin" type="T_REAL" access="Read" directaddress="%IB63" />
+        <Node name="rPressaoCP_Bar" type="T_REAL" access="Read" directaddress="%IB35" />
+        <Node name="rPressaoCP_Bar_Lin" type="T_REAL" access="Read" directaddress="%IB61" />
+        <Node name="rPressaoCS_Bar" type="T_REAL" access="Read" directaddress="%IB33" />
+        <Node name="rPressaoCS_Bar_Lin" type="T_REAL" access="Read" directaddress="%IB59" />
+        <Node name="rPressaoSangria_Bar" type="T_REAL" access="Read" directaddress="%IB39" />
+        <Node name="rPressaoSangria_Bar_Lin" type="T_REAL" access="Read" directaddress="%IB65" />
+        <Node name="rVacuo_Bar" type="T_REAL" access="Read" directaddress="%IB41" />
+        <Node name="rVacuo_Bar_Lin" type="T_REAL" access="Read" directaddress="%IB67" />
+        <Node name="rVelocidadeJog" type="T_REAL" access="ReadWrite" directaddress="%QB55" />
+        <Node name="saValvPressaoTeste_PV1" type="T_UINT" access="ReadWrite" directaddress="%QW1" />
+        <Node name="saValvProporcional_PV4" type="T_UINT" access="ReadWrite" directaddress="%QW4" />
+        <Node name="saValvProporcional_PV5" type="T_UINT" access="ReadWrite" directaddress="%QW5" />
+        <Node name="saValvPropVacuo_PV2" type="T_UINT" access="ReadWrite" directaddress="%QW3" />
+        <Node name="saValvVazaoTeste_PV3" type="T_UINT" access="ReadWrite" directaddress="%QW2" />
+        <Node name="sdBombaDreno_K001" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX178.1" />
+        <Node name="sdBombaPressao_K002" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX178.2" />
+        <Node name="sdBombaVacuo_K003" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX178.0" />
+        <Node name="sdHabilitaPropVacuo" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX0.3" />
+        <Node name="sdLedFalha" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX0.2" />
+        <Node name="sdResetEmergencia" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX0.0" />
+        <Node name="sdResetPortas" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX0.1" />
+        <Node name="sdValv_MV1" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX178.3" />
+        <Node name="sdValv_MV10" type="T_BIT_X_4" access="ReadWrite" directaddress="%QX179.4" />
+        <Node name="sdValv_MV13" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX179.7" />
+        <Node name="sdValv_MV14" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX185.1" />
+        <Node name="sdValv_MV15" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX180.0" />
+        <Node name="sdValv_MV16" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX180.1" />
+        <Node name="sdValv_MV17" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX180.2" />
+        <Node name="sdValv_MV18" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX180.3" />
+        <Node name="sdValv_MV2" type="T_BIT_X_4" access="ReadWrite" directaddress="%QX178.4" />
+        <Node name="sdValv_MV20" type="T_BIT_X_5" access="ReadWrite" directaddress="%QX180.5" />
+        <Node name="sdValv_MV21" type="T_BIT_X_6" access="ReadWrite" directaddress="%QX180.6" />
+        <Node name="sdValv_MV22" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX180.7" />
+        <Node name="sdValv_MV23" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX181.0" />
+        <Node name="sdValv_MV24" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX181.1" />
+        <Node name="sdValv_MV25" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX181.2" />
+        <Node name="sdValv_MV26" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX181.3" />
+        <Node name="sdValv_MV27" type="T_BIT_X_4" access="ReadWrite" directaddress="%QX181.4" />
+        <Node name="sdValv_MV28" type="T_BIT_X_5" access="ReadWrite" directaddress="%QX181.5" />
+        <Node name="sdValv_MV29" type="T_BIT_X_6" access="ReadWrite" directaddress="%QX181.6" />
+        <Node name="sdValv_MV3" type="T_BIT_X_5" access="ReadWrite" directaddress="%QX178.5" />
+        <Node name="sdValv_MV30" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX181.7" />
+        <Node name="sdValv_MV31" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX182.0" />
+        <Node name="sdValv_MV32" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX182.1" />
+        <Node name="sdValv_MV33" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX182.2" />
+        <Node name="sdValv_MV34" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX182.3" />
+        <Node name="sdValv_MV35" type="T_BIT_X_4" access="ReadWrite" directaddress="%QX182.4" />
+        <Node name="sdValv_MV36" type="T_BIT_X_5" access="ReadWrite" directaddress="%QX182.5" />
+        <Node name="sdValv_MV37" type="T_BIT_X_6" access="ReadWrite" directaddress="%QX182.6" />
+        <Node name="sdValv_MV38" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX182.7" />
+        <Node name="sdValv_MV39" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX183.0" />
+        <Node name="sdValv_MV4" type="T_BIT_X_6" access="ReadWrite" directaddress="%QX178.6" />
+        <Node name="sdValv_MV40" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX183.1" />
+        <Node name="sdValv_MV41" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX183.2" />
+        <Node name="sdValv_MV42" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX183.3" />
+        <Node name="sdValv_MV43" type="T_BIT_X_4" access="ReadWrite" directaddress="%QX183.4" />
+        <Node name="sdValv_MV44" type="T_BIT_X_5" access="ReadWrite" directaddress="%QX183.5" />
+        <Node name="sdValv_MV45" type="T_BIT_X_6" access="ReadWrite" directaddress="%QX183.6" />
+        <Node name="sdValv_MV46" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX183.7" />
+        <Node name="sdValv_MV47" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX184.7" />
+        <Node name="sdValv_MV5" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX178.7" />
+        <Node name="sdValv_MV6" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX179.0" />
+        <Node name="sdValv_MV7" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX179.1" />
+        <Node name="sdValv_MV8" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX179.2" />
+        <Node name="sdValv_MV9" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX179.3" />
+      </Node>
+      <Node name="PersistentVars">
+        <Node name="ariRegistrosAlarmes" type="T_ARRAY__0__100__OF_INT" access="ReadWrite" />
+        <Node name="arptTempoAlarmes" type="T_ARRAY__0__9__OF_TIME" access="ReadWrite" />
+        <Node name="rDiametroAtuadorZ1" type="T_REAL" access="ReadWrite" />
+        <Node name="rOffset_PV2" type="T_REAL" access="ReadWrite" />
+      </Node>
+      <Node name="PLC_PRG">
+        <Node name="bConfig_OK_Ethercat" type="T_BOOL" access="ReadWrite" />
+        <Node name="bErro_Ethercat" type="T_BOOL" access="ReadWrite" />
+        <Node name="bRestart_Ethercat" type="T_BOOL" access="ReadWrite" />
+        <Node name="bStop_Ethercat" type="T_BOOL" access="ReadWrite" />
+        <Node name="ECATSlaves" type="T_ReadNbrSlaves" access="ReadWrite" />
+        <Node name="tLeituraSlaves" type="T_TON" access="ReadWrite" />
+        <Node name="tReinicializacao" type="T_TON" access="ReadWrite" />
+        <Node name="tRestart" type="T_TON" access="ReadWrite" />
+      </Node>
+    </Node>
+  </NodeList>
+</Symbolconfiguration>

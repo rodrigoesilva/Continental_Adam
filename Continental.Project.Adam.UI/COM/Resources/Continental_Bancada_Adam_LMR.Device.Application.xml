@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Symbolconfiguration xmlns="http://www.3s-software.com/schemas/Symbolconfiguration.xsd">
+  <Header>
+    <Version>3.5.14.0</Version>
+    <SymbolConfigObject version="3.5.15.30" runtimeid="3.5.15.30" libversion="3.5.15.20" compiler="3.5.15.40" lmm="3.5.15.0" profile="CODESYS V3.5 SP15 Patch 4+" settings="SupportOPCUA, LayoutCalculator=OptimizedClientSideLayoutCalculator" />
+    <ProjectInfo name="Continental_Bancada_Adam_2021_12_14_V1_LMR" devicename="Device" appname="Application" />
+  </Header>
+  <NodeList>
+    <Node name="Application">
+      <Node name="Ajuste_Vacuo">
+        <Node name="tEstabilizacao" type="T_TON" access="ReadWrite" />
+        <Node name="tEstanqueidade" type="T_TON" access="ReadWrite" />
+        <Node name="tTimeoutVacuo" type="T_TON" access="ReadWrite" />
+        <Node name="tVacuoEstavel" type="T_TON" access="ReadWrite" />
+        <Node name="tValvulas" type="T_TON" access="ReadWrite" />
+      </Node>
+      <Node name="Alarmes">
+        <Node name="i" type="T_INT" access="ReadWrite" />
+        <Node name="j" type="T_INT" access="ReadWrite" />
+        <Node name="k" type="T_INT" access="ReadWrite" />
+        <Node name="tAVCilZP9" type="T_TON" access="ReadWrite" />
+        <Node name="tAVElevacaoP2" type="T_TON" access="ReadWrite" />
+        <Node name="tAVElevacaoP7" type="T_TON" access="ReadWrite" />
+        <Node name="tAVGarraP1" type="T_TON" access="ReadWrite" />
+        <Node name="tAVGarraP9" type="T_TON" access="ReadWrite" />
+        <Node name="tAVOrbitadeiraP6" type="T_TON" access="ReadWrite" />
+        <Node name="tAVPisadorP2" type="T_TON" access="ReadWrite" />
+        <Node name="tAVPisadorP7" type="T_TON" access="ReadWrite" />
+        <Node name="tAVSeparadorP1" type="T_TON" access="ReadWrite" />
+        <Node name="tGraxaP6" type="T_TON" access="ReadWrite" />
+        <Node name="tMostraMensagem" type="T_TON" access="ReadWrite" />
+        <Node name="tPressao" type="T_TON" access="ReadWrite" />
+        <Node name="tRCCilZP9" type="T_TON" access="ReadWrite" />
+        <Node name="tRCElevacaoP2" type="T_TON" access="ReadWrite" />
+        <Node name="tRCElevacaoP7" type="T_TON" access="ReadWrite" />
+        <Node name="tRCGarraP1" type="T_TON" access="ReadWrite" />
+        <Node name="tRCGarraP9" type="T_TON" access="ReadWrite" />
+        <Node name="tRCOrbitadeiraP6" type="T_TON" access="ReadWrite" />
+        <Node name="tRCPisadorP2" type="T_TON" access="ReadWrite" />
+        <Node name="tRCPisadorP7" type="T_TON" access="ReadWrite" />
+        <Node name="tRCSeparadorP1" type="T_TON" access="ReadWrite" />
+        <Node name="tVerificaAlarmes" type="T_TON" access="ReadWrite" />
+      </Node>
+      <Node name="Constants">
+        <Node name="CompilerVersion" type="T_VERSION" access="Read" />
+        <Node name="RuntimeVersion" type="T_VERSION" access="Read" />
+      </Node>
+      <Node name="Controle_Geral">
+        <Node name="tEnable" type="T_TON" access="ReadWrite" />
+        <Node name="tEnable2Prensa_P4" type="T_TON" access="ReadWrite" />
+        <Node name="tEnableEixoX_P1" type="T_TON" access="ReadWrite" />
+        <Node name="tEnableEixoX_P9" type="T_TON" access="ReadWrite" />
+        <Node name="tEnableEixoZ_P1" type="T_TON" access="ReadWrite" />
+        <Node name="tEnableEixoZ_P8" type="T_TON" access="ReadWrite" />
+        <Node name="tEnableGiro_P2" type="T_TON" access="ReadWrite" />
+        <Node name="tEnableGiro_P7" type="T_TON" access="ReadWrite" />
+        <Node name="tEnableGiro_P8" type="T_TON" access="ReadWrite" />
+        <Node name="tEnablePrensa_P4" type="T_TON" access="ReadWrite" />
+        <Node name="tEnableSys" type="T_TON" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_Analogicas">
+        <Node name="arrVarX" type="T_ARRAY__0__10000__OF_REAL" access="ReadWrite" />
+        <Node name="arrVarY1" type="T_ARRAY__0__10000__OF_REAL" access="ReadWrite" />
+        <Node name="arrVarY2" type="T_ARRAY__0__10000__OF_REAL" access="ReadWrite" />
+        <Node name="iAtualizaGrafico" type="T_INT" access="ReadWrite" />
+        <Node name="iBufferX" type="T_INT" access="ReadWrite" />
+        <Node name="iBufferY1" type="T_INT" access="ReadWrite" />
+        <Node name="iBufferY2" type="T_INT" access="ReadWrite" />
+        <Node name="rDeslocamentoDiferencial_mm" type="T_REAL" access="ReadWrite" />
+        <Node name="rDeslocamentoEntradaBooster_mm" type="T_REAL" access="ReadWrite" />
+        <Node name="rDeslocamentoSaidaBooster_mm" type="T_REAL" access="ReadWrite" />
+        <Node name="rEscalaX" type="T_REAL" access="ReadWrite" />
+        <Node name="rEscalaY1" type="T_REAL" access="ReadWrite" />
+        <Node name="rEscalaY2" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaEntradaBooster_kN" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaSaidaBooster_kN" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoBubbleTest_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoCP_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoCS_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoSangria_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rTemperaturaAmbiente_C" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuo_Bar" type="T_REAL" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_CMMT_EixoTeste">
+        <Node name="stControleEixo" type="T_stControleEixos" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_ControleVacuo">
+        <Node name="bFalhaAjusteVacuo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bIniciaCiclo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLimiteAtivo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLimiteExcedido" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManual" type="T_BOOL" access="ReadWrite" />
+        <Node name="bReset" type="T_BOOL" access="ReadWrite" />
+        <Node name="bTesteEstanqueidade" type="T_BOOL" access="ReadWrite" />
+        <Node name="bVacuoAjustado" type="T_BOOL" access="ReadWrite" />
+        <Node name="iPasso" type="T_INT" access="ReadWrite" />
+        <Node name="PID_Vacuo" type="T_PID" access="ReadWrite" />
+        <Node name="rControleVacuo" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoMaximo_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoMinimo_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoNominal_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="strPasso" type="T_STRING_100_" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_Geral">
+        <Node name="arbAlarmes" type="T_ARRAY__0__100__OF_BOOL" access="ReadWrite" />
+        <Node name="bAlarmeAtivo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bAlarmeGlobalAtivo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bApagaRegistrosAlarmes" type="T_BOOL" access="ReadWrite" />
+        <Node name="bBypassPortas" type="T_BOOL" access="ReadWrite" />
+        <Node name="bCondicoesBasicas" type="T_BOOL" access="ReadWrite" />
+        <Node name="bEixoReferenciado" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManBombaDreno_K001" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManBombaPressao_K002" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManBombaVacuo_K003" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV1" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV10" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV13" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV14" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV15" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV16" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV17" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV18" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV2" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV20" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV21" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV22" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV23" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV24" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV25" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV26" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV27" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV28" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV29" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV3" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV30" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV31" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV32" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV33" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV34" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV35" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV36" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV37" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV38" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV39" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV4" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV40" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV41" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV42" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV43" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV44" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV45" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV46" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV47" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV5" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV6" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV7" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV8" type="T_BOOL" access="ReadWrite" />
+        <Node name="bManValv_MV9" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemBombaDreno_K001" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemBombaPressao_K002" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemBombaVacuo_K003" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV1" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV10" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV13" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV14" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV15" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV16" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV17" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV18" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV2" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV20" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV21" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV22" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV23" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV24" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV25" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV26" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV27" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV28" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV29" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV3" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV30" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV31" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV32" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV33" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV34" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV35" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV36" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV37" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV38" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV39" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV4" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV40" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV41" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV42" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV43" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV44" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV45" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV46" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV47" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV5" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV6" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV7" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV8" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMemValv_MV9" type="T_BOOL" access="ReadWrite" />
+        <Node name="bModoAuto" type="T_BOOL" access="ReadWrite" />
+        <Node name="bModoManual" type="T_BOOL" access="ReadWrite" />
+        <Node name="bModoPasso" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMostraMensagem" type="T_BOOL" access="ReadWrite" />
+        <Node name="bParadaGeral" type="T_BOOL" access="ReadWrite" />
+        <Node name="bPartidaGeral" type="T_BOOL" access="ReadWrite" />
+        <Node name="bResetGeral" type="T_BOOL" access="ReadWrite" />
+        <Node name="bSegurancaOK" type="T_BOOL" access="ReadWrite" />
+        <Node name="iMensagemAlarme" type="T_INT" access="ReadWrite" />
+        <Node name="rManSetPointPressao_PV1" type="T_REAL" access="ReadWrite" />
+        <Node name="rManSetPointPressao_PV5" type="T_REAL" access="ReadWrite" />
+        <Node name="rManSetPointVacuo_PV2" type="T_REAL" access="ReadWrite" />
+        <Node name="rManSetPointVazao_PV3" type="T_REAL" access="ReadWrite" />
+        <Node name="rManSetPontPressao_PV4" type="T_REAL" access="ReadWrite" />
+        <Node name="rMemSetPointPressao_PV1" type="T_REAL" access="ReadWrite" />
+        <Node name="rMemSetPointPressao_PV5" type="T_REAL" access="ReadWrite" />
+        <Node name="rMemSetPointVacuo_PV2" type="T_REAL" access="ReadWrite" />
+        <Node name="rMemSetPointVazao_PV3" type="T_REAL" access="ReadWrite" />
+        <Node name="rMemSetPontPressao_PV4" type="T_REAL" access="ReadWrite" />
+        <Node name="uiTesteSelecionado" type="T_UINT" access="ReadWrite" />
+        <Node name="wNumeroEscravosECATAtivos" type="T_WORD" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_Gradiente_Forca_UpDown">
+        <Node name="bDecremento" type="T_BOOL" access="ReadWrite" />
+        <Node name="bIncremento" type="T_BOOL" access="ReadWrite" />
+        <Node name="iPasso" type="T_INT" access="ReadWrite" />
+        <Node name="rAreaZ1" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaAtualZ1" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaDesejadaZ1" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaFinal" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaInicial" type="T_REAL" access="ReadWrite" />
+        <Node name="rGradienteForca" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoZ1" type="T_REAL" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_GradientePressao">
+        <Node name="bDecremento" type="T_BOOL" access="ReadWrite" />
+        <Node name="bIncremento" type="T_BOOL" access="ReadWrite" />
+        <Node name="iPasso" type="T_INT" access="ReadWrite" />
+        <Node name="rForcaAtualZ1" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaDesejadaZ1" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaFinal" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaInicial" type="T_REAL" access="ReadWrite" />
+        <Node name="rGradienteForca" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoZ1" type="T_REAL" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_Parametros">
+        <Node name="bConsumidorOriginalCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bConsumidorOriginalCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bExecutarAcionamento_T23" type="T_BOOL" access="ReadWrite" />
+        <Node name="bForcaAbsoluta_T07" type="T_BOOL" access="ReadWrite" />
+        <Node name="bForcaAbsoluta_T08" type="T_BOOL" access="ReadWrite" />
+        <Node name="bHabilitamangueirasConsumo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bHabilitaTravaPistao" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga10MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga10MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga17MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga17MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga1MangueiraCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga1MangueiraCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga2MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga2MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga4MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga4MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga8mangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga8mangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMangueira1ConsumoCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMangueirasConsumoCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMangueirasConsumoCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bTesteSimples_T07" type="T_BOOL" access="ReadWrite" />
+        <Node name="bUtilizarTravaPistao" type="T_BOOL" access="ReadWrite" />
+        <Node name="ptIntervalo_T24" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T05" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T06" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T07" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T08" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T09" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoEstabilizacao_T10" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoSopro_T19" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoSopro_T20" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T05" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T06" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T07" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T08" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T09" type="T_TIME" access="ReadWrite" />
+        <Node name="ptTempoTeste_T10" type="T_TIME" access="ReadWrite" />
+        <Node name="rDeslocamentoTeste_T19" type="T_REAL" access="ReadWrite" />
+        <Node name="rDeslocamentoTeste_T20" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaCalculoRetorno_T12" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaFinalRelativa_T12" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaInicialAbsoluta_T12" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaxima_N" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaximaAbsoluta_T07" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaximaAbsoluta_T08" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaximaRelativa_T07" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaMaximaRelativa_T08" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaRelativaAvanco_T07" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaRelativaFinal_T07" type="T_REAL" access="ReadWrite" />
+        <Node name="rForcaRelativaRetorno_T07" type="T_REAL" access="ReadWrite" />
+        <Node name="rGradienteForca" type="T_REAL" access="ReadWrite" />
+        <Node name="rGradienteForca_Ns" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoHidraulicaMax_T23" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoHidraulicaMin_T23" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoSistemaAberto_T19" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoSistemaAberto_T20" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoSistemaFechado_T19" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoSistemaFechado_T20" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoTeste_T09" type="T_REAL" access="ReadWrite" />
+        <Node name="rPressaoTeste_T10" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoMaximo_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoMinimo_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoNominal_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco1_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco1_mms_T28" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco2_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco2_mms_T28" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco3_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco3_mms_T28" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco4_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco4_mms_T28" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco5_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidade_Avanco5_mms_T28" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidadeAtuacao_mm_s" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidadeRetorno_mms_T27" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidadeRetorno_mms_T28" type="T_REAL" access="ReadWrite" />
+      </Node>
+      <Node name="GVL_T01">
+        <Node name="bCarregaTeste" type="T_BOOL" access="ReadWrite" />
+        <Node name="bCicloFinalizado" type="T_BOOL" access="ReadWrite" />
+        <Node name="bCondicaoInicial" type="T_BOOL" access="ReadWrite" />
+        <Node name="bConsumidorOriginalCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bConsumidorOriginalCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bEmCiclo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bFinalizaGravacao" type="T_BOOL" access="ReadWrite" />
+        <Node name="bGravacaoFinalizada" type="T_BOOL" access="ReadWrite" />
+        <Node name="bGravacaoIniciada" type="T_BOOL" access="ReadWrite" />
+        <Node name="bHabilitamangueirasConsumo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bHabilitaTravaPistao" type="T_BOOL" access="ReadWrite" />
+        <Node name="bIniciaCiclo" type="T_BOOL" access="ReadWrite" />
+        <Node name="bIniciaGravacao" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga10MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga10MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga17MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga17MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga1MangueiraCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga1MangueiraCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga2MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga2MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga4MangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga4MangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga8mangueirasCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bLiga8mangueirasCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMangueira1ConsumoCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMangueirasConsumoCP" type="T_BOOL" access="ReadWrite" />
+        <Node name="bMangueirasConsumoCS" type="T_BOOL" access="ReadWrite" />
+        <Node name="bParada" type="T_BOOL" access="ReadWrite" />
+        <Node name="bPartida" type="T_BOOL" access="ReadWrite" />
+        <Node name="bReset" type="T_BOOL" access="ReadWrite" />
+        <Node name="bUtilizarTravaPistao" type="T_BOOL" access="ReadWrite" />
+        <Node name="iModo" type="T_INT" access="ReadWrite" />
+        <Node name="iPasso" type="T_INT" access="ReadWrite" />
+        <Node name="rForcaMaxima_N" type="T_REAL" access="ReadWrite" />
+        <Node name="rGradienteForcaEntrada_Ns" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoMaximo_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoMinimo_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVacuoNominal_Bar" type="T_REAL" access="ReadWrite" />
+        <Node name="rVelocidadeAtuacao_mm_s" type="T_REAL" access="ReadWrite" />
+        <Node name="strPasso" type="T_STRING_100_" access="ReadWrite" />
+      </Node>
+      <Node name="IoConfig_Globals_Mapping">
+        <Node name="eaTemperaturaAmbiente_B2001" type="T_UINT" access="Read" directaddress="%IW1" />
+        <Node name="edAlimentacaoSensores" type="T_BIT_X_2" access="Read" directaddress="%IX263.2" />
+        <Node name="edBotaoDesligaComando" type="T_BIT_X_1" access="Read" directaddress="%IX0.1" />
+        <Node name="edBotaoLigaComando" type="T_BIT_X_0" access="Read" directaddress="%IX0.0" />
+        <Node name="edBotaoReset" type="T_BIT_X_2" access="Read" directaddress="%IX0.2" />
+        <Node name="edChaveManualAuto" type="T_BIT_X_3" access="Read" directaddress="%IX0.3" />
+        <Node name="edDisjuntorBombaHidraulica_Q002" type="T_BIT_X_6" access="Read" directaddress="%IX262.6" />
+        <Node name="edDisjuntorBombaVacuo_Q003" type="T_BIT_X_5" access="Read" directaddress="%IX262.5" />
+        <Node name="edEmergencia" type="T_BIT_X_0" access="Read" directaddress="%IX263.0" />
+        <Node name="edProtecoes" type="T_BIT_X_3" access="Read" directaddress="%IX263.3" />
+        <Node name="edSens_S0102" type="T_BIT_X_4" access="Read" directaddress="%IX262.4" />
+        <Node name="edSens_S0402" type="T_BIT_X_0" access="Read" directaddress="%IX262.0" />
+        <Node name="edSens_S0405" type="T_BIT_X_2" access="Read" directaddress="%IX262.2" />
+        <Node name="edSens_S0415" type="T_BIT_X_3" access="Read" directaddress="%IX262.3" />
+        <Node name="edSens_S0423" type="T_BIT_X_1" access="Read" directaddress="%IX262.1" />
+        <Node name="edSens_S0701" type="T_BIT_X_7" access="Read" directaddress="%IX262.7" />
+        <Node name="edSens_S0702" type="T_BIT_X_2" access="Read" directaddress="%IX264.2" />
+        <Node name="edSens_S0703" type="T_BIT_X_3" access="Read" directaddress="%IX264.3" />
+        <Node name="rDeslocamentoDiferencial_mm" type="T_REAL" access="Read" directaddress="%IB33" />
+        <Node name="rDeslocamentoEntradaBooster_mm" type="T_REAL" access="Read" directaddress="%IB41" />
+        <Node name="rDeslocamentoSaidaBooster_mm" type="T_REAL" access="Read" directaddress="%IB39" />
+        <Node name="rForcaEntradaBooster_kN" type="T_REAL" access="Read" directaddress="%IB35" />
+        <Node name="rForcaEntradaBoosterLinearizada_kN" type="T_REAL" access="Read" directaddress="%IB49" />
+        <Node name="rForcaSaidaBooster_kN" type="T_REAL" access="Read" directaddress="%IB37" />
+        <Node name="rForcaSaidaBoosterLinearizada_kN" type="T_REAL" access="Read" directaddress="%IB51" />
+        <Node name="rPressaoBubbleTest_Bar" type="T_REAL" access="Read" directaddress="%IB21" />
+        <Node name="rPressaoCP_Bar" type="T_REAL" access="Read" directaddress="%IB19" />
+        <Node name="rPressaoCS_Bar" type="T_REAL" access="Read" directaddress="%IB17" />
+        <Node name="rPressaoSangria_Bar" type="T_REAL" access="Read" directaddress="%IB23" />
+        <Node name="rVacuo_Bar" type="T_REAL" access="Read" directaddress="%IB25" />
+        <Node name="saValvPressaoTeste_PV1" type="T_UINT" access="ReadWrite" directaddress="%QW1" />
+        <Node name="saValvProporcional_PV4" type="T_UINT" access="ReadWrite" directaddress="%QW4" />
+        <Node name="saValvProporcional_PV5" type="T_UINT" access="ReadWrite" directaddress="%QW5" />
+        <Node name="saValvPropVacuo_PV2" type="T_UINT" access="ReadWrite" directaddress="%QW3" />
+        <Node name="saValvVazaoTeste_PV3" type="T_UINT" access="ReadWrite" directaddress="%QW2" />
+        <Node name="sdBombaDreno_K001" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX174.1" />
+        <Node name="sdBombaPressao_K002" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX174.2" />
+        <Node name="sdBombaVacuo_K003" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX174.0" />
+        <Node name="sdLigaComando" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX0.0" />
+        <Node name="sdReset" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX0.1" />
+        <Node name="sdValv_MV1" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX174.3" />
+        <Node name="sdValv_MV10" type="T_BIT_X_4" access="ReadWrite" directaddress="%QX175.4" />
+        <Node name="sdValv_MV13" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX175.7" />
+        <Node name="sdValv_MV14" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX181.1" />
+        <Node name="sdValv_MV15" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX176.0" />
+        <Node name="sdValv_MV16" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX176.1" />
+        <Node name="sdValv_MV17" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX176.2" />
+        <Node name="sdValv_MV18" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX176.3" />
+        <Node name="sdValv_MV2" type="T_BIT_X_4" access="ReadWrite" directaddress="%QX174.4" />
+        <Node name="sdValv_MV20" type="T_BIT_X_5" access="ReadWrite" directaddress="%QX176.5" />
+        <Node name="sdValv_MV21" type="T_BIT_X_6" access="ReadWrite" directaddress="%QX176.6" />
+        <Node name="sdValv_MV22" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX176.7" />
+        <Node name="sdValv_MV23" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX177.0" />
+        <Node name="sdValv_MV24" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX177.1" />
+        <Node name="sdValv_MV25" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX177.2" />
+        <Node name="sdValv_MV26" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX177.3" />
+        <Node name="sdValv_MV27" type="T_BIT_X_4" access="ReadWrite" directaddress="%QX177.4" />
+        <Node name="sdValv_MV28" type="T_BIT_X_5" access="ReadWrite" directaddress="%QX177.5" />
+        <Node name="sdValv_MV29" type="T_BIT_X_6" access="ReadWrite" directaddress="%QX177.6" />
+        <Node name="sdValv_MV3" type="T_BIT_X_5" access="ReadWrite" directaddress="%QX174.5" />
+        <Node name="sdValv_MV30" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX177.7" />
+        <Node name="sdValv_MV31" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX178.0" />
+        <Node name="sdValv_MV32" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX178.1" />
+        <Node name="sdValv_MV33" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX178.2" />
+        <Node name="sdValv_MV34" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX178.3" />
+        <Node name="sdValv_MV35" type="T_BIT_X_4" access="ReadWrite" directaddress="%QX178.4" />
+        <Node name="sdValv_MV36" type="T_BIT_X_5" access="ReadWrite" directaddress="%QX178.5" />
+        <Node name="sdValv_MV37" type="T_BIT_X_6" access="ReadWrite" directaddress="%QX178.6" />
+        <Node name="sdValv_MV38" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX178.7" />
+        <Node name="sdValv_MV39" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX179.0" />
+        <Node name="sdValv_MV4" type="T_BIT_X_6" access="ReadWrite" directaddress="%QX174.6" />
+        <Node name="sdValv_MV40" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX179.1" />
+        <Node name="sdValv_MV41" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX179.2" />
+        <Node name="sdValv_MV42" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX179.3" />
+        <Node name="sdValv_MV43" type="T_BIT_X_4" access="ReadWrite" directaddress="%QX179.4" />
+        <Node name="sdValv_MV44" type="T_BIT_X_5" access="ReadWrite" directaddress="%QX179.5" />
+        <Node name="sdValv_MV45" type="T_BIT_X_6" access="ReadWrite" directaddress="%QX179.6" />
+        <Node name="sdValv_MV46" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX179.7" />
+        <Node name="sdValv_MV47" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX180.7" />
+        <Node name="sdValv_MV5" type="T_BIT_X_7" access="ReadWrite" directaddress="%QX174.7" />
+        <Node name="sdValv_MV6" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX175.0" />
+        <Node name="sdValv_MV7" type="T_BIT_X_1" access="ReadWrite" directaddress="%QX175.1" />
+        <Node name="sdValv_MV8" type="T_BIT_X_2" access="ReadWrite" directaddress="%QX175.2" />
+        <Node name="sdValv_MV9" type="T_BIT_X_3" access="ReadWrite" directaddress="%QX175.3" />
+      </Node>
+      <Node name="PersistentVars">
+        <Node name="ariRegistrosAlarmes" type="T_ARRAY__0__100__OF_INT" access="ReadWrite" />
+        <Node name="arptTempoAlarmes" type="T_ARRAY__0__9__OF_TIME" access="ReadWrite" />
+        <Node name="rDiametroAtuadorZ1" type="T_REAL" access="ReadWrite" />
+        <Node name="rKP" type="T_REAL" access="ReadWrite" />
+        <Node name="rTN" type="T_REAL" access="ReadWrite" />
+        <Node name="rTV" type="T_REAL" access="ReadWrite" />
+      </Node>
+      <Node name="PLC_PRG">
+        <Node name="bConfig_OK_Ethercat" type="T_BOOL" access="ReadWrite" />
+        <Node name="bErro_Ethercat" type="T_BOOL" access="ReadWrite" />
+        <Node name="bRestart_Ethercat" type="T_BOOL" access="ReadWrite" />
+        <Node name="bStop_Ethercat" type="T_BOOL" access="ReadWrite" />
+        <Node name="ECATSlaves" type="T_ReadNbrSlaves" access="ReadWrite" />
+        <Node name="tLeituraSlaves" type="T_TON" access="ReadWrite" />
+        <Node name="tReinicializacao" type="T_TON" access="ReadWrite" />
+        <Node name="tRestart" type="T_TON" access="ReadWrite" />
+      </Node>
+      <Node name="T01_Teste_Forca_Pressao_Com_Vacuo">
+        <Node name="etTempoDecremento" type="T_TIME" access="ReadWrite" />
+        <Node name="etTempoIncremento" type="T_TIME" access="ReadWrite" />
+        <Node name="tDecrementoForca" type="T_TON" access="ReadWrite" />
+        <Node name="tIncrementoForca" type="T_TON" access="ReadWrite" />
+      </Node>
+    </Node>
+  </NodeList>
+</Symbolconfiguration>

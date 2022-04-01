@@ -1,0 +1,399 @@
+
+	
+	//Transmissao ciclica dos sinais analogicos
+	GVL_Modbus.dwPressaoCS_Bar := REAL_TO_DWORD(GVL_Analogicas.rPressaoCS_Bar*1000);
+	GVL_Modbus.dwpressaoCP_Bar := REAL_TO_DWORD(GVL_Analogicas.rPressaoCP_Bar*1000);
+	GVL_Modbus.dwPressaoBubbleTest_Bar := REAL_TO_DWORD(GVL_Analogicas.rPressaoBubbleTest_Bar*1000);
+	GVL_Modbus.dwPressaoHidraulica_Bar := REAL_TO_DWORD(GVL_Analogicas.rPressaoHidraulica_Bar*1000);
+	GVL_Modbus.dwDeslocamentoDiferencial_mm := REAL_TO_DWORD(GVL_Analogicas.rDeslocamentoDiferencial_mm*1000);
+	GVL_Modbus.dwDeslocamentoEntradaBooster_mm := REAL_TO_DWORD(GVL_Analogicas.rDeslocamentoEntradaBooster_mm*1000);
+	GVL_Modbus.dwDeslocamentoSaidaBooster_mm := REAL_TO_DWORD(GVL_Analogicas.rDeslocamentoSaidaBooster_mm*1000);
+	GVL_Modbus.dwForcaEntradaBooster_N := REAL_TO_DWORD(GVL_Analogicas.rForcaEntradaBooster_N*1000);
+	GVL_Modbus.dwForcaSaidaBooster_N := REAL_TO_DWORD(GVL_Analogicas.rForcaSaidaBooster_N*1000);
+	GVL_Modbus.dwTemperaturaAmbiente_C := REAL_TO_DWORD(GVL_Analogicas.rTemperaturaAmbiente_C*1000);
+	GVL_Modbus.dwUmidadeRelativa := REAL_TO_DWORD(GVL_Analogicas.rUmidadeRelativa*1000);
+	
+	//transmissao ciclica dos sinais de status e controle
+IF PersistentVars.bHabilitaModbusTCP THEN
+	GVL_Modbus.wAlarmeAtivo :=  BOOL_TO_WORD(GVL_Geral.bAlarmeAtivo);
+	GVL_Modbus.wMostraMensagemAlarme :=	BOOL_TO_WORD(GVL_Geral.bMostraMensagemAlarme);
+	GVL_Modbus.wMensagemAlarme := GVL_Geral.iMensagemAlarme;
+	GVL_Modbus.wAlertaAtivo := BOOL_TO_WORD(GVL_Geral. bAlertaAtivo);
+	GVL_Modbus.wMostraMensagemAlerta := BOOL_TO_WORD(GVL_Geral.bMostraMensagemAlerta);
+	GVL_Modbus.wMensagemAlerta := GVL_Geral.iMensagemAlerta;
+	GVL_Modbus.wSegurancaOK := BOOL_TO_WORD(GVL_Geral.bSegurancaOK);
+	GVL_Modbus.wCondicoesBasicas := BOOL_TO_WORD(GVL_Geral.bCondicoesBasicas);
+	GVL_Modbus.wHandShakeCLP := BOOL_TO_WORD(GVL_Geral.bHandShakeCLP);									//Bit Oscilador Gerado pelo CLP
+	GVL_Modbus.wEixoReferenciado := BOOL_TO_WORD(GVL_Geral.bEixoReferenciado);
+	GVL_Modbus.wBypassPortas := BOOL_TO_WORD(GVL_Geral.bBypassPortas);
+	
+	//Variaveis Modo Auto
+	GVL_Modbus.wCondicaoInicial := BOOL_TO_WORD(GVL_Geral.bCondicaoInicial); 							//Condicao inicial do ciclo
+
+	GVL_Modbus.wCicloFinalizado := BOOL_TO_WORD(GVL_Geral.bCicloFinalizado); 							//Final de ciclo
+	GVL_Modbus.wEmCiclo := BOOL_TO_WORD(GVL_Geral.bEmCiclo);
+	GVL_Modbus.wPasso := GVL_Geral.iPasso;																//Passo do teste em execução
+	GVL_Modbus.wIniciaGravacao := BOOL_TO_WORD(GVL_Geral.bIniciaGravacao); 								//Iniciar o armazenamento dos dados
+	GVL_Modbus.wIniciaGravacao2 := BOOL_TO_WORD(GVL_Geral.bIniciaGravacao2); 							//Iniciar o armazenamento dos dados 2 (Teste Eficiencia)
+	GVL_Modbus.wFinalizaGravacao := BOOL_TO_WORD(GVL_Geral.bFinalizaGravacao); 							//Finalizar o armazenamento dos dados
+
+	
+	//Espelhos Entradas Digitais
+	GVL_Modbus.wSens_S0402 := BOOL_TO_WORD(GVL_Geral.bSens_S0402); 										//- S04.02 - Sensor Nível Baixo Reservatório Óleo
+	GVL_Modbus.wSens_S0423 := BOOL_TO_WORD(GVL_Geral.bSens_S0423); 										//- S04.23 - Sensor Recipiente Coleta Óleo Cheio
+	GVL_Modbus.wSens_S0405 := BOOL_TO_WORD(GVL_Geral.bSens_S0405); 										//- S04.05 - Filtro Linha Hidráulica Superior Saturado
+	GVL_Modbus.wSens_S0415 := BOOL_TO_WORD(GVL_Geral.bSens_S0415); 										//- S04.15 - Filtro Linha Hidráulica Inferior Saturado
+	GVL_Modbus.wSens_S0102 := BOOL_TO_WORD(GVL_Geral.bSens_S0102); 										//- S01.02 - Pressostato Geral - Baixa Pressão de Rede
+	GVL_Modbus.wSens_S0701 := BOOL_TO_WORD(GVL_Geral.bSens_S0701); 										//- S07.01 - Sensor Segurança Atuação Cilindro Z1
+	GVL_Modbus.wSens_S0702 := BOOL_TO_WORD(GVL_Geral.bSens_S0702); 										//- S07.02 - Presença Arco Atuação/Proteção Motor
+	GVL_Modbus.wSens_S0703 := BOOL_TO_WORD(GVL_Geral.bSens_S0703); 										//- S07.03 - Presença Arco Atuação/Proteção Motor
+	GVL_Modbus.wDisjuntorBombaVacuo_Q003 := BOOL_TO_WORD(GVL_Geral.bDisjuntorBombaVacuo_Q003);
+	GVL_Modbus.wDisjuntorBombaHidraulica_Q002 := BOOL_TO_WORD(GVL_Geral.bDisjuntorBombaHidraulica_Q002);
+
+	GVL_Modbus.wEmergencia := BOOL_TO_WORD(GVL_Geral.bEmergencia); 										//- A01.05.DI1 - Feedback Emergência
+	GVL_Modbus.wAlimentacaoSaidas := BOOL_TO_WORD(GVL_Geral.bAlimentacaoSaidas); 							//- 3L+ - Feedback Tensão Alimentação Saídas
+	GVL_Modbus.wAlimentacaoSensores := BOOL_TO_WORD(GVL_Geral.bAlimentacaoSensores); 						//- 2L+ - Feedback Tensão Alimentação Sensores
+	GVL_Modbus.wProtecoes := BOOL_TO_WORD(GVL_Geral.bProtecoes); 											//- A01.05.DI4 - Feedback Protecoes/Portas
+	
+	//====================================================================================================
+	GVL_Geral.iHandShakePC := GVL_Modbus.wHandShakePC;		//Bit Oscilador Gerado pelo PC
+	GVL_Geral.bPartidaGeral := WORD_TO_BOOL(GVL_Modbus.wPartidaGeral); 	//Botao Start
+	GVL_Geral.bParadaGeral := WORD_TO_BOOL(GVL_Modbus.wParadaGeral);		//Botao Stop	
+	GVL_Geral.bResetGeral := WORD_TO_BOOL(GVL_Modbus.wResetGeral);		//Botao Reset
+	GVL_Geral.uiTesteSelecionado := GVL_Modbus.wTesteSelecionado;					//Teste selecionado para execução
+	GVL_Geral.iMontagemArco := GVL_Modbus.wMontagemArco;						//0=irrelevante 1=sem arco 2=com arco
+
+	GVL_Geral.iModoTrabalho := GVL_Modbus.wModoTrabalho;
+	
+	//GVL_Geral.bModoManual := GVL_Modbus.bModoManual;
+	//GVL_Geral.bModoAuto := GVL_Modbus.bModoAuto;
+	//GVL_Geral.bModoPasso := GVL_Modbus.bModoPasso;
+
+	GVL_Geral.bIniciaCiclo := WORD_TO_BOOL(GVL_Modbus.wIniciaCiclo); 						//Comando para iniciar o teste
+	GVL_Geral.bGravacaoIniciada := WORD_TO_BOOL(GVL_Modbus.wGravacaoIniciada);					//Confirmação de dados sendo lidos
+	GVL_Geral.bGravacaoIniciada2 := WORD_TO_BOOL(GVL_Modbus.wGravacaoIniciada2);					//Confirmação de dados sendo lidos 2 (Teste Eficiencia)
+	GVL_Geral.bGravacaoFinalizada := WORD_TO_BOOL(GVL_Modbus.wGravacaoFinalizada); 				//Dados armazenados
+
+	GVL_Geral.bMemJogPositivo := WORD_TO_BOOL(GVL_Modbus.wMemJogPositivo);						//Comando de Jog Positivo do Motor em Modo Auto
+	GVL_Geral.bMemJogNegativo := WORD_TO_BOOL(GVL_Modbus.wMemJogNegativo);						//Comando de Jog Negativo do Motor em Modo Auto
+
+	//Variaveis Modo Manual
+	IF GVL_Modbus.wModoManual = 1 THEN
+		GVL_Geral.rManSetPointPressao_PV1 := DWORD_TO_REAL(GVL_Modbus.dwManSetPointPressao_PV1)/1000;				//Y01.02 PV1 Valv. Proporcional Pressao Cilindro`Principal - Z1	
+		GVL_Geral.rManSetPointVazao_PV3 := DWORD_TO_REAL(GVL_Modbus.dwManSetPointVazao_PV3)/1000;				//Y01.06 PV3 Valv. Proporcional Vazão Cilindro Principal - Z1
+		GVL_Geral.rManSetPointVacuo_PV2 := DWORD_TO_REAL(GVL_Modbus.dwManSetPointVacuo_PV2)/1000;				//Y07.05 PV2 Válvula Proporcional Vácuo Booster
+		GVL_Geral.rManSetPointPressao_PV4 := DWORD_TO_REAL(GVL_Modbus.dwManSetPointPressao_PV4)/1000;				//Y01.16 PV4 Contra Pressão Desejada (Efeito Mola Pneum.) Eixo Elétrico M3
+		GVL_Geral.rManSetPointPressao_PV5 := DWORD_TO_REAL(GVL_Modbus.dwManSetPointPressao_PV5)/1000;				//Y03.22 PV5 Valv. Proporcional Pressao Bubble Test
+		
+		GVL_Geral.bManJogPositivo := WORD_TO_BOOL(GVL_Modbus.wMemJogPositivo);						//Comando de Jog Positivo do Motor em Modo Manual
+		GVL_Geral.bManJogNegativo := WORD_TO_BOOL(GVL_Modbus.wMemJogNegativo);						//Comando de Jog Negativo do Motor em Modo Manual
+		
+		GVL_Geral.bManBombaVacuo_K003 := WORD_TO_BOOL(GVL_Modbus.wManBombaVacuo_K003);					//K00.03 Comando Bomba Vacuo
+		GVL_Geral.bManBombaDreno_K001 := WORD_TO_BOOL(GVL_Modbus.wManBombaDreno_K001);					//K00.01 Comando Bomba para Dreno
+		GVL_Geral.bManBombaPressao_K002 := WORD_TO_BOOL(GVL_Modbus.wManBombaPressao_K002);				//K00.02 Comando Bomba para Pressão
+		GVL_Geral.bManValv_MV1 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV1);						//Y00.01 MV1 Valvula Alimentação Ar Comprimido
+		
+		GVL_Geral.bManValv_MV2 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV2);						//Y00.04 MV2 Valvula Desliga Circuito Teste
+		GVL_Geral.bManValv_MV3 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV3);						//Y00.05 MV3 Valvula Dreno/Sangrador
+		GVL_Geral.bManValv_MV4 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV4);						//Y00.07 MV4 Valvula Abre/Habilita Furo Respiro
+		GVL_Geral.bManValv_MV5 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV5);						//Y04.21 MV5 Valvula Abre/Habilita Orifício
+		
+		GVL_Geral.bManValv_MV6 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV6);							//Y07.09 MV6 Valvula Passagem Vacuo Reservatorio para o Booster
+		GVL_Geral.bManValv_MV7 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV7);							//Y07.12 MV7 Valvula Dreno/Alivio Vacuo no Booster
+		GVL_Geral.bManValv_MV8 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV8);						//Y07.06 MV8 Valvula Abertura/Passagem Vacuo Bomba para Reservatorio
+		
+		GVL_Geral.bManValv_MV9 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV9);						//Y00.08 MV9 Valvula Alivio Camara Primaria (Visor CP)
+		GVL_Geral.bManValv_MV10 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV10);						//Y00.09 MV10 Valvula Alivio Camara Secundaria (Visor CS)
+		
+		GVL_Geral.bManValv_MV13 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV13);						//Y02.01 MV13 Valvula Solta Trava KP Pistão Z1
+		GVL_Geral.bManValv_MV14 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV14);						//Y03.20 MV14 Valvula Habilita Pressão Bubble Test
+		GVL_Geral.bManValv_MV15 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV15);						//Y01.15 MV15 Valvula Contra Presaso 4 Bar Atuador Z1
+		GVL_Geral.bManValv_MV16 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV6);						//Y01.12 MV16 Valvula Contra Pressao 1 Bar Atuador Z1
+		
+		GVL_Geral.bManValv_MV17 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV17);						//Y03.05 MV17 Valvula Habilita Bubbla Test - Aplica a pressão de 0-1 Bar
+		GVL_Geral.bManValv_MV18 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV18);						//Y03.09 MV18 Valvula Habilita Sopro Bubble Test - Aplica 5 Bar no Bubble Test
+
+		
+		GVL_Geral.bManValv_MV20 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV20);						//Y00.12 MV20 Valvula Consumo Original Camara Primaria CP
+		GVL_Geral.bManValv_MV21 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV21);						//Y00.13 MV21 Valvula Consumo Original Camara Secundaria CS
+		
+		GVL_Geral.bManValv_MV22 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV22);						//Y00.14 MV22 Valvula Liga Mangueiras Consumo Auxiliares CP
+		GVL_Geral.bManValv_MV23 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV23);						//Y00.15 MV23 Valvula Liga Mangueiras Consumo Auxiliares CS
+		
+		GVL_Geral.bManValv_MV24 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV24);						//Y00.18 MV24 Valvula Liga 1 Mangueira Consumo CP
+		GVL_Geral.bManValv_MV25 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV25);						//Y00.19 MV25 Valvula Liga 2 Mangueiras Consumo CP
+		GVL_Geral.bManValv_MV26 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV26);						//Y00.20 MV26 Valvula Liga 4 Mangueiras Consumo CP
+		GVL_Geral.bManValv_MV27 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV27);						//Y00.21 MV27 Valvula Liga 8 Mangueiras Consumo CP
+		GVL_Geral.bManValv_MV28 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV28);						//Y00.22 MV28 Valvula Liga 10 Mangueiras Consumo CP
+		GVL_Geral.bManValv_MV29 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV29);						//Y00.23 MV29 Valvula Liga 17 Mangueiras Consumo CP
+		
+		GVL_Geral.bManValv_MV30 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV30);						//Y00.24 MV30 Valvula Liga 1 Mangueira Consumo CS
+		GVL_Geral.bManValv_MV31 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV31);						//Y00.25 MV31 Valvula Liga 2 Mangueiras Consumo CS
+		GVL_Geral.bManValv_MV32 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV32);						//Y00.26 MV32 Valvula Liga 4 Mangueiras Consumo CS
+		GVL_Geral.bManValv_MV33 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV33);						//Y00.27 MV33 Valvula Liga 8 Mangueiras Consumo CS
+		GVL_Geral.bManValv_MV34 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV34);						//Y00.28 MV34 Valvula Liga 10 Mangueiras Consumo CS
+		GVL_Geral.bManValv_MV35 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV35);						//Y00.29 MV35 Valvula Liga 17 Mangueiras Consumo CS
+		
+		GVL_Geral.bManValv_MV36 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV36);						//Y00.31 MV36 Valvula Sangria 1 Mangueira Consumo CP
+		GVL_Geral.bManValv_MV37 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV37);						//Y00.32 MV37 Valvula Sangria 2 Mangueiras Consumo CP
+		GVL_Geral.bManValv_MV38 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV38);						//Y00.33 MV38 Valvula Sangria 4 Mangueiras Consumo CP
+		GVL_Geral.bManValv_MV39 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV39);						//Y00.34 MV39 Valvula Sangria 8 Mangueiras Consumo CP
+		GVL_Geral.bManValv_MV40 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV40);						//Y00.35 MV40 Valvula Sangria 10 Mangueiras Consumo CP
+		GVL_Geral.bManValv_MV41 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV41);						//Y00.36 MV41 Valvula Sangria 17 Mangueiras Consumo CP
+		
+		GVL_Geral.bManValv_MV42 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV42);						//Y00.37 MV42 Valvula Sangria 1 Mangueira Consumo CS
+		GVL_Geral.bManValv_MV43 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV43);						//Y00.38 MV43 Valvula Sangria 2 Mangueiras Consumo CS
+		GVL_Geral.bManValv_MV44 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV44);						//Y00.39 MV44 Valvula Sangria 4 Mangueiras Consumo CS
+		GVL_Geral.bManValv_MV45 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV45);						//Y00.40 MV45 Valvula Sangria 8 Mangueiras Consumo CS
+		GVL_Geral.bManValv_MV46 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV46);						//Y00.41 MV46 Valvula Sangria 10 Mangueiras Consumo CS
+		GVL_Geral.bManValv_MV47 := WORD_TO_BOOL(GVL_Modbus.wManValv_MV47);						//Y00.42 MV47 Valvula Sangria 17 Mangueiras Consumo CS
+	END_IF
+	//Conversao dos parametros
+	//Parametros comuns
+	
+	GVL_Parametros.iModo := GVL_Modbus.wModo; // 1-Pneumatico Lento 2-Pneumatico Rapido 3- E-Drive
+	
+	//Forca Maxima do teste
+	GVL_Parametros.rForcaMaxima_N := DWORD_TO_REAL(GVL_Modbus.dwForcaMaxima_N)/1000; // (2200 N) Limite de forca de entrada, limitado a 10KN, mas podemos limitar a 5KN
+		
+	//Pneumatic Slow
+	GVL_Parametros.rGradienteForca_Ns := DWORD_TO_REAL(GVL_Modbus.dwGradienteForca_Ns)/1000; //(200 Ns) Limitado a 10KN, mas deve ser limitado a foca x pressao do atuador pneumático
+	
+	//Pneumatic Fast
+	GVL_Parametros.rGradienteForca := DWORD_TO_REAL(GVL_Modbus.dwGradienteForca)/1000; //0-100%
+	
+	//E-Motor
+	GVL_Parametros.rVelocidadeAtuacao_mm_s := DWORD_TO_REAL(GVL_Modbus.dwVelocidadeAtuacao_mm_s)/1000; //(Velocidade de atuação do eixo elético em mm/s (limitar a 200mm/s)
+	
+	//Controle Vacuo	
+	GVL_Parametros.rVacuoNominal_Bar := DWORD_TO_REAL(GVL_Modbus.dwVacuoNominal_Bar)/1000;	 //Vacuo Nominal do teste, limitado a -1;
+	
+	//Trava do Pistao
+	GVL_Parametros.bHabilitaTravaPistao := WORD_TO_BOOL(GVL_Modbus.wHabilitaTravaPistao); 	
+	
+	//Bypass da Tara 
+	GVL_Parametros.wBypassTara := GVL_Modbus.wBypassTara;		//Bit0 - rDeslocamentoDiferencial_mm_Lin
+																//Bit1 - rForcaEntradaBooster_N_Lin
+																//Bit2 - rForcaSaidaBooster_N_Lin
+																//Bit3 - rDeslocamentoSaidaBooster_mm_Lin
+																//Bit4 - rDeslocamentoEntradaBooster_mm_Lin
+																//Bit5 - rPressaoCS_Bar_Lin
+																//Bit6 - rPressaoCP_Bar_Lin
+																//Bit7 - rPressaoBubbleTest_Bar_Lin
+																//Bit8 - rPressaoHidraulica_Bar_Lin
+	
+	//Consumidores (Hose Consumers)
+	GVL_Parametros.iTipoConsumidores := GVL_Modbus.wTipoConsumidores ;	//0=OFF 1=Original 2=Hose
+	GVL_Parametros.bConsumidorOriginalCP := WORD_TO_BOOL(GVL_Modbus.wConsumidorOriginalCP);
+	GVL_Parametros.bConsumidorOriginalCS := WORD_TO_BOOL(GVL_Modbus.wConsumidorOriginalCS);
+	GVL_Parametros.bMangueirasConsumoCP := WORD_TO_BOOL(GVL_Modbus.wMangueirasConsumoCP);
+	GVL_Parametros.bMangueirasConsumoCS := WORD_TO_BOOL(GVL_Modbus.wMangueirasConsumoCS);
+	GVL_Parametros.bLiga1MangueiraCP := WORD_TO_BOOL(GVL_Modbus.wLiga1MangueiraCP);			
+	GVL_Parametros.bLiga2MangueirasCP := WORD_TO_BOOL(GVL_Modbus.wLiga2MangueirasCP);			
+	GVL_Parametros.bLiga4MangueirasCP := WORD_TO_BOOL(GVL_Modbus.wLiga4MangueirasCP);			
+	GVL_Parametros.bLiga8mangueirasCP := WORD_TO_BOOL(GVL_Modbus.wLiga8MangueirasCP);			
+	GVL_Parametros.bLiga10MangueirasCP := WORD_TO_BOOL(GVL_Modbus.wLiga10MangueirasCP);			
+	GVL_Parametros.bLiga17MangueirasCP := WORD_TO_BOOL(GVL_Modbus.wLiga17MangueirasCP);			
+	GVL_Parametros.bLiga1MangueiraCS := WORD_TO_BOOL(GVL_Modbus.wLiga1MangueiraCS);			
+	GVL_Parametros.bLiga2MangueirasCS := WORD_TO_BOOL(GVL_Modbus.wLiga2MangueirasCS);				
+	GVL_Parametros.bLiga4MangueirasCS := WORD_TO_BOOL(GVL_Modbus.wLiga4MangueirasCS);				
+	GVL_Parametros.bLiga8mangueirasCS := WORD_TO_BOOL(GVL_Modbus.wLiga8MangueirasCS);				
+	GVL_Parametros.bLiga10MangueirasCS := WORD_TO_BOOL(GVL_Modbus.wLiga10MangueirasCS);				
+	GVL_Parametros.bLiga17MangueirasCS := WORD_TO_BOOL(GVL_Modbus.wLiga17MangueirasCS);		
+	//=============================================================================================================================
+	
+	// Parametros específicos
+	CASE GVL_Geral.uiTesteSelecionado  OF
+		
+	1:
+	;
+	// 01 - Força Pressão + Vacuo
+			//
+			
+	2:
+	;
+	// 02 - Força Força + Vacuo
+			//
+			
+	3:
+	;
+	// 03 - Força Pressão - Vacuo
+			//
+			
+	4:
+	;
+	// 04 - Força Força - Vacuo
+			//
+	5:
+	// 05 - Vaccum Leakage - Released Position
+			GVL_Parametros.rTempoTeste_T05 := DWORD_TO_REAL(GVL_Modbus.dwTempoTeste_T05)/1000; 								//Tempo Execução Teste
+			GVL_Parametros.rTempoEstabilizacao_T05 := DWORD_TO_REAL(GVL_Modbus.dwTempoEstabilizacao_T05)/1000; 				//Tempo Estabilização do Vácuo
+	6:
+	
+	// 06 - Vacuum Leakage Fully Applied Position
+			GVL_Parametros.rTempoTeste_T06 := DWORD_TO_REAL(GVL_Modbus.dwTempoTeste_T06)/1000;								//Tempo Execução Teste
+			GVL_Parametros.rTempoEstabilizacao_T06 := DWORD_TO_REAL(GVL_Modbus.dwTempoEstabilizacao_T06)/1000;				//Tempo Estabilização do Vácuo
+			GVL_Parametros.rForcaMaximaAbsoluta_T06 := DWORD_TO_REAL(GVL_Modbus.dwForcaMaximaAbsoluta_T06)/1000;			//Forca maxima para o teste simples + absoluto
+			GVL_Parametros.rForcaMaximaRelativa_T06 := DWORD_TO_REAL(GVL_Modbus.dwForcaMaximaRelativa_T06)/1000;			//Forca maxima para o teste simples + relativo
+			GVL_Parametros.bForcaAbsoluta_T06 := WORD_TO_BOOL(GVL_Modbus.wForcaAbsoluta_T06);												//0 = Relativa 1 = Absoluto
+	
+	7:
+	
+	// 07 - Vacuum Leakage Lap Position
+			GVL_Parametros.rTempoTeste_T07 := DWORD_TO_REAL(GVL_Modbus.dwTempoTeste_T07)/1000;								//Tempo Execução Teste
+			GVL_Parametros.rTempoEstabilizacao_T07 := DWORD_TO_REAL(GVL_Modbus.dwTempoEstabilizacao_T07)/1000;				//Tempo Estabilização do Vácuo
+			
+			GVL_Parametros.rForcaRelativaAvanco_T07 := DWORD_TO_REAL(GVL_Modbus.dwForcaRelativaAvanco_T07)/1000;			//Força que será buscada no primeiro movimento (Caso "Use single Force" não esteja selecionado). %EOUT
+			GVL_Parametros.rForcaRelativaRetorno_T07 := DWORD_TO_REAL(GVL_Modbus.dwForcaRelativaRetorno_T07)/1000;			//Força de retorno que será o ponto de partida para o segundo movimento %EOUT
+			GVL_Parametros.rForcaRelativaFinal_T07 := DWORD_TO_REAL(GVL_Modbus.dwForcaRelativaFinal_T07)/1000;				//Força que será buscada no segundo movimento e utilizada para o teste %EOUT
+			
+			GVL_Parametros.bTesteSimples_T07 := WORD_TO_BOOL(GVL_Modbus.wTesteSimples_T07);												//Caso selecionado, o teste tera apenas 1 acionamento 
+			GVL_Parametros.bForcaAbsoluta_T07 := WORD_TO_BOOL(GVL_Modbus.wForcaAbsoluta_T07);												//0 = Relativa 1 = Absoluto
+			GVL_Parametros.rForcaMaximaAbsoluta_T07 := DWORD_TO_REAL(GVL_Modbus.dwForcaMaximaAbsoluta_T07)/1000;			//Forca maxima para o teste simples + absoluto
+			GVL_Parametros.rForcaMaximaRelativa_T07 := DWORD_TO_REAL(GVL_Modbus.dwForcaMaximaRelativa_T07)/1000;			//Forca maxima para o teste simples + relativo
+			
+	8:
+	
+	// 08 - Hydraulic Leakage Fully Applied Position
+			GVL_Parametros.rTempoTeste_T08 := DWORD_TO_REAL(GVL_Modbus.dwTempoTeste_T08)/1000;								//Tempo Execução Teste
+			GVL_Parametros.rTempoEstabilizacao_T08 := DWORD_TO_REAL(GVL_Modbus.dwTempoEstabilizacao_T08)/1000;				//Tempo Estabilização do Vácuo									
+			GVL_Parametros.bForcaAbsoluta_T08 := WORD_TO_BOOL(GVL_Modbus.wForcaAbsoluta_T08);												//0 = Relativa 1 = Absoluto - Relativo = % EOUT
+			GVL_Parametros.rForcaMaximaAbsoluta_T08 := DWORD_TO_REAL(GVL_Modbus.dwForcaMaximaAbsoluta_T08)/1000;			//Forca maxima para o teste Valor absoluto (N)
+			GVL_Parametros.rForcaMaximaRelativa_T08 := DWORD_TO_REAL(GVL_Modbus.dwForcaMaximaRelativa_T08)/1000;			//Forca maxima para o teste Valor Relativo (% EOUT)
+			
+	9:
+	
+	// 09 - Hydraulic Leakage at Low Pressure										
+			GVL_Parametros.rTempoTeste_T09 := DWORD_TO_REAL(GVL_Modbus.dwTempoTeste_T09)/1000;								//Tempo Execução Teste
+			GVL_Parametros.rTempoEstabilizacao_T09 := DWORD_TO_REAL(GVL_Modbus.dwTempoEstabilizacao_T09)/1000;				//Tempo Estabilização da pressão
+			GVL_Parametros.rPressaoTeste_T09 := DWORD_TO_REAL(GVL_Modbus.dwPressaoTeste_T09)/1000;							//Pressao target para iniciar o teste	
+	
+	10:
+	
+	// 10 - Hydraulic Leakage at High Pressure	
+			GVL_Parametros.rTempoTeste_T10 := DWORD_TO_REAL(GVL_Modbus.dwTempoTeste_T10)/1000;								//Tempo Execução Teste
+			GVL_Parametros.rTempoEstabilizacao_T10 := DWORD_TO_REAL(GVL_Modbus.dwTempoEstabilizacao_T10)/1000;				//Tempo Estabilização da pressão
+			GVL_Parametros.rPressaoTeste_T10 := DWORD_TO_REAL(GVL_Modbus.dwPressaoTeste_T10)/1000;							//Pressao target para iniciar o teste	
+			
+	11:
+	;
+	// 11 - Actuation Slow
+	
+	12:
+	
+	// 12 - Actuation Fast
+			GVL_Parametros.rForcaInicialAbsoluta_T12 := DWORD_TO_REAL(GVL_Modbus.dwForcaInicialAbsoluta_T12)/1000;			//Ponto de força para inicio do calculo de tempo
+			GVL_Parametros.rForcaFinalRelativa_T12 := DWORD_TO_REAL(GVL_Modbus.dwForcaFinalRelativa_T12)/1000;				//Ponto final para calculo do tempo de atuação
+			GVL_Parametros.rForcaCalculoRetorno_T12 := DWORD_TO_REAL(GVL_Modbus.dwForcaCalculoRetorno_T12)/1000;			//Força para calculo do tempo de retonor
+			
+	13:
+	
+	// 13 - Pressure Diference
+	;
+	14:
+	;
+	// 14 - Input/Output Travel
+	
+	15:
+	;
+	// 15 - Adjustment Input Travel vs Input Force
+	
+	16:
+	;
+	// 16 - Adjustment Hose Consumer
+	
+	17:
+	;
+	// 17 - Lost Travel ACU Hydraulic
+	
+	18:
+	;
+	// 18 - Lost Travel ACU Hydraulic Electrical Actuation
+	
+	19:
+	
+	// 19 - Lost Travel ACU Pneumatic Primary
+			GVL_Parametros.rTempoSopro_T19 := DWORD_TO_REAL(GVL_Modbus.dwTempoSopro_T19)/1000;								//Tempo de sopro de 5 bar
+			GVL_Parametros.rDeslocamentoTeste_T19 := DWORD_TO_REAL(GVL_Modbus.dwDeslocamentoTeste_T19)/1000;				//Deslocamento inicial do motor
+			GVL_Parametros.rPressaoSistemaFechado_T19 := DWORD_TO_REAL(GVL_Modbus.dwPressaoSistemaFechado_T19)/1000;		//Pressao desejada com o sistema fechado
+			GVL_Parametros.rPressaoSistemaAberto_T19 := DWORD_TO_REAL(GVL_Modbus.dwPressaoSistemaAberto_T19)/1000;			//Pressao desejada com o sistema aberto
+			GVL_Parametros.bConfirmaP1_T19 := WORD_TO_BOOL(GVL_Modbus.wConfirmaP1_T19);													//Confirnação Pressão 0.2 bar
+			GVL_Parametros.bCancelaP1_T19 := WORD_TO_BOOL(GVL_Modbus.wCancelaP1_T19);														//Confirnação Pressão 0.2 bar
+			GVL_Parametros.bConfirmaP2_T19 := WORD_TO_BOOL(GVL_Modbus.wConfirmaP2_T19);													//Confirnação Pressão 0.3 bar
+			GVL_Parametros.bCancelaP2_T19 := WORD_TO_BOOL(GVL_Modbus.wCancelaP2_T19);														//Confirnação Pressão 0.3 bar
+			
+	20:
+	// 20 - Lost Travel ACU Pneumatic Secondary
+			GVL_Parametros.rTempoSopro_T20 := DWORD_TO_REAL(GVL_Modbus.dwTempoSopro_T20)/1000;								//Tempo de sopro de 5 bar
+			GVL_Parametros.rDeslocamentoTeste_T20 := DWORD_TO_REAL(GVL_Modbus.dwDeslocamentoTeste_T20)/1000;				//Deslocamento inicial do motor
+			GVL_Parametros.rPressaoSistemaFechado_T20 := DWORD_TO_REAL(GVL_Modbus.dwPressaoSistemaFechado_T20)/1000;		//Pressao desejada com o sistema fechado
+			GVL_Parametros.rPressaoSistemaAberto_T20 := DWORD_TO_REAL(GVL_Modbus.dwPressaoSistemaAberto_T20)/1000;			//Pressao desejada com o sistema aberto
+			GVL_Parametros.bConfirmaP1_T20 := WORD_TO_BOOL(GVL_Modbus.wConfirmaP1_T20);													//Confirnação Pressão 0.2 bar
+			GVL_Parametros.bCancelaP1_T20 := WORD_TO_BOOL(GVL_Modbus.wCancelaP1_T20);														//Confirnação Pressão 0.2 bar
+			GVL_Parametros.bConfirmaP2_T20 := WORD_TO_BOOL(GVL_Modbus.wConfirmaP2_T20);													//Confirnação Pressão 0.3 bar
+			GVL_Parametros.bCancelaP2_T20 := WORD_TO_BOOL(GVL_Modbus.wCancelaP2_T20);														//Confirnação Pressão 0.3 bar
+			
+	21:
+	;
+	// 21 - Pedal Feeling Characteristics
+	
+	22:
+	;
+	// 22 - Actuation Release Mechanical Actuation
+	
+	23:
+	
+	// 23 - Breather Hole Central Valve Open
+			GVL_Parametros.bExecutarAcionamento_T23 := WORD_TO_BOOL(GVL_Modbus.wExecutarAcionamento_T23);									//Solicita a execução de 1 acionamento no gradiente, antes de executar o teste
+			GVL_Parametros.rPressaoHidraulicaMin_T23 := DWORD_TO_REAL(GVL_Modbus.dwPressaoHidraulicaMin_T23)/1000;			//Pressao Hidraulica Minima para iniicar o teste
+			GVL_Parametros.rPressaoHidraulicaMax_T23 := DWORD_TO_REAL(GVL_Modbus.dwPressaoHidraulicaMax_T23)/1000;			//Pressao Hidraulica maxima para iniciar o teste	
+			
+	24:
+	
+	// 24 - Efficiency
+			GVL_Parametros.rIntervalo_T24 := DWORD_TO_REAL(GVL_Modbus.dwIntervalo_T24)/1000;									//Intervalo entra a execução dos testes
+			GVL_Parametros.rForcaMaximaModoRapido_T24 := DWORD_TO_REAL(GVL_Modbus.dwForcaMaximaModoRapido_T24)/1000;			//Força maxima aplicada no modo rápido
+			GVL_Parametros.iTipoGrafico_T24 := GVL_Modbus.wTipoGrafico_T24;														//Tipo de gráfico a ser exibido [0 X-Forca Entrada/Y-PressaoCP] [1 X-Tempo/Y-Pressao CP]
+			
+	25:
+	;
+	// 25 - Force/Pressure - Dual Ratio
+	
+	26:
+	;
+	// 26 - Force/Force - Dual Ratio
+	
+	27:
+	
+	// 27 - Adam Finding Switching Point With TMC
+			GVL_Parametros.rVelocidadeRetorno_mms_T27 := DWORD_TO_REAL(GVL_Modbus.dwVelocidadeRetorno_mms_T27)/1000;;				//Velocidade de retorno do atuador eletrico
+			GVL_Parametros.arrVelocidade_Avanco_mms_T27[1] := DWORD_TO_REAL(GVL_Modbus.dwVelocidade_Avanco1_mms_T27)/1000;			//Velocidade de avanço 1 do atuador eletrico		
+			GVL_Parametros.arrVelocidade_Avanco_mms_T27[2] := DWORD_TO_REAL(GVL_Modbus.dwVelocidade_Avanco2_mms_T27)/1000;			//Velocidade de avanço 2 do atuador eletrico	
+			GVL_Parametros.arrVelocidade_Avanco_mms_T27[3] := DWORD_TO_REAL(GVL_Modbus.dwVelocidade_Avanco3_mms_T27)/1000;			//Velocidade de avanço 3 do atuador eletrico	
+			GVL_Parametros.arrVelocidade_Avanco_mms_T27[4] := DWORD_TO_REAL(GVL_Modbus.dwVelocidade_Avanco4_mms_T27)/1000;			//Velocidade de avanço 4 do atuador eletrico	
+			GVL_Parametros.arrVelocidade_Avanco_mms_T27[5] := DWORD_TO_REAL(GVL_Modbus.dwVelocidade_Avanco5_mms_T27)/1000;			//Velocidade de avanço 5 do atuador eletrico	
+			GVL_Parametros.iTipoGrafico_T27 := GVL_Modbus.wTipoGrafico_T28;															//Tipo de gráfico a ser exibido 0=ForcaxPressao 1=Deslocamento Diferencial
+			GVL_Parametros.bContinuaTeste_T27 := WORD_TO_BOOL(GVL_Modbus.wContinuaTeste_T27);
+			GVL_Parametros.bFinalizaTeste_T27 := WORD_TO_BOOL(GVL_Modbus.wFinalizaTeste_T27);
+	28:
+	
+	// 28 - Adam Finding Switching Point Without TMC
+			GVL_Parametros.rVelocidadeRetorno_mms_T28 := DWORD_TO_REAL(GVL_Modbus.dwVelocidadeRetorno_mms_T28)/1000;;				//Velocidade de retorno do atuador eletrico
+			GVL_Parametros.arrVelocidade_Avanco_mms_T28[1] := DWORD_TO_REAL(GVL_Modbus.dwVelocidade_Avanco1_mms_T28)/1000;			//Velocidade de avanço 1 do atuador eletrico		
+			GVL_Parametros.arrVelocidade_Avanco_mms_T28[2] := DWORD_TO_REAL(GVL_Modbus.dwVelocidade_Avanco2_mms_T28)/1000;			//Velocidade de avanço 2 do atuador eletrico	
+			GVL_Parametros.arrVelocidade_Avanco_mms_T28[3] := DWORD_TO_REAL(GVL_Modbus.dwVelocidade_Avanco3_mms_T28)/1000;			//Velocidade de avanço 3 do atuador eletrico	
+			GVL_Parametros.arrVelocidade_Avanco_mms_T28[4] := DWORD_TO_REAL(GVL_Modbus.dwVelocidade_Avanco4_mms_T28)/1000;			//Velocidade de avanço 4 do atuador eletrico	
+			GVL_Parametros.arrVelocidade_Avanco_mms_T28[5] := DWORD_TO_REAL(GVL_Modbus.dwVelocidade_Avanco5_mms_T28)/1000;			//Velocidade de avanço 5 do atuador eletrico	
+			GVL_Parametros.iTipoGrafico_T28 := GVL_Modbus.wTipoGrafico_T28;															//Tipo de gráfico a ser exibido 0=ForcaxPressao 1=Deslocamento Diferencial
+			GVL_Parametros.bContinuaTeste_T28 := WORD_TO_BOOL(GVL_Modbus.wContinuaTeste_T28);
+			GVL_Parametros.bFinalizaTeste_T28 := WORD_TO_BOOL(GVL_Modbus.wFinalizaTeste_T28);
+	29:
+	
+	// 29 - Bleed
+			GVL_Parametros.iNumeroAtuacoes_T29 := GVL_Modbus.wNumeroAtuacoes_T29;					//Numero de Vezes que o atuador irá avancar
+			GVL_Parametros.iNumeroRepeticoes_T29 := GVL_Modbus.wNumeroRepeticoes_T29;				//Numero de repeticoes do ciclo
+			GVL_Parametros.rTempoBombeamento_T29 := DWORD_TO_REAL(GVL_Modbus.dwTempoBombeamento_T29)/1000;					//Tempo de bombeamento do oleo
+	
+	END_CASE
+END_IF
+

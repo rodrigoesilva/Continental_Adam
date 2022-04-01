@@ -1,0 +1,18 @@
+{attribute 'qualified_only'}
+VAR_GLOBAL
+
+	//Analogicas - CLP -> C#
+	dwPressaoCS_Bar AT %QW313 : DWORD ;
+	dwpressaoCP_Bar AT %QW315 : DWORD;
+	dwPressaoBubbleTest_Bar AT %QW317 : DWORD;
+	dwPressaoHidraulica_Bar AT %QW319 : DWORD;
+	dwVacuo_Bar AT %QW321 : DWORD;
+	dwDeslocamentoDiferencial_mm AT %QW323 : DWORD;
+	dwDeslocamentoEntradaBooster_mm AT %QW325 : DWORD;
+	dwDeslocamentoSaidaBooster_mm AT %QW327 : DWORD;
+	dwForcaEntradaBooster_N AT %QW329 : DWORD;
+	dwForcaSaidaBooster_N AT %QW331 : DWORD;
+	dwTemperaturaAmbiente_C AT %QW333 : DWORD;
+	dwUmidadeRelativa AT %QW335 : DWORD;
+	
+END_VAR

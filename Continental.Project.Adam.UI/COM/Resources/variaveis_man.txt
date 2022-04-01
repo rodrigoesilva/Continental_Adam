@@ -1,0 +1,66 @@
+	//Variaveis Modo Manual
+	GVL_Geral.rPressaoDesejadaManZ1 : REAL;				//Y01.02 PV1 Valv. Proporcional Pressao Cilindro Z1	
+	GVL_Geral.rVazaoDesejadaManZ1 : REAL;					//Y01.06 PV3 Valv. Proporcional Vazão Cilindro Z1
+	GVL_Geral.rVacuoDesejadoBoosterMan : REAL;			//Y07.05 PV2 Válvula Proporcional Vácuo Booster
+	GVL_Geral.rPressaoDesejadaMolaEixoEletricoMan : REAL;	//Y01.16 PV4 Contra Pressão Desejada (Efeito Mola Pneum.) Eixo Z1
+	GVL_Geral.rPressaoDesejadaBubbleTestMan : REAL;		//Y03.22 PV5 Valv. Proporcional Pressao Bubble Test
+	
+	GVL_Geral.bManBombaVacuo : BOOL;						//K00.03 Comando Bomba Vacuo
+	GVL_Geral.bManBombaDreno : BOOL;						//K00.01 Comando Bomba para Dreno
+	GVL_Geral.bManBombaPressao : BOOL;					//K00.02 Comando Bomba para Pressão
+	GVL_Geral.bManValvPressaoGeral : BOOL;				//Y00.01 MV1 Valvula Alimentação Ar Comprimido
+	
+	GVL_Geral.bManValvCircuitoTesteOFF : BOOL;			//Y00.04 MV2 Valvula Desliga Circuito Teste
+	GVL_Geral.bManValvDreno : BOOL;						//Y00.05 MV3 Valvula Dreno/Sangrador
+	GVL_Geral.bManValvRespiro : BOOL;						//Y00.07 MV4 Valvula Abre/Habilita Furo Respiro
+	GVL_Geral.bManValvOrificio : BOOL;					//Y04.21 MV5 Valvula Abre/Habilita Orifício
+	
+	GVL_Geral.bManValvVacuoBooster : BOOL;				//Y07.09 MV6 Valvula Passagem Vacuo Reservatorio para o Booster
+	GVL_Geral.bManValvAlivioVacuo	: BOOL;					//Y07.12 MV7 Valvula Dreno/Alivio Vacuo no Booster
+	GVL_Geral.bManValvVacuoBomba : BOOL;					//Y07.06 MV8 Valvula Abertura/Passagem Vacuo Bomba para Reservatorio
+	
+	GVL_Geral.bManValvCamaraPrimariaCP : BOOL;			//Y00.08 MV9 Valvula Alivio Camara Primaria (Visor CP)
+	GVL_Geral.bManValvCamaraSecundariaCS : BOOL;			//Y00.09 MV10 Valvula Alivio Camara Secundaria (Visor CS)
+	
+	GVL_Geral.bManValvTravaPistaoZ1 : BOOL;				//Y02.01 MV13 Valvula Solta Trava KP Pistão Z1
+	
+	GVL_Geral.bManValvContraPressao4BarZ1 : BOOL;			//Y01.15 MV15 Valvula Contra Presaso 4 Bar Atuador Z1
+	GVL_Geral.bManValvContraPressao1BarZ1 : BOOL;			//Y01.12 MV16 Valvula Contra Pressao 1 Bar Atuador Z1
+	
+	GVL_Geral.bManValvHabilitaBubbleTest : BOOL;			//Y03.05 MV17 Valvula Habilita Bubbla Test - Aplica a pressão de 0-1 Bar
+	GVL_Geral.bManValvSoproBubbleTest : BOOL;				//Y03.09 MV18 Valvula Habilita Sopro Bubble Test - Aplica 5 Bar no Bubble Test
+	GVL_Geral.bManValvHabilitaPressaoBubbleTest : BOOL;	//Y03.20 MV14 Valvula Habilita Pressão Bubble Test
+	
+	GVL_Geral.bManValvConsumoOriginalCP : BOOL;			//Y00.12 MV20 Valvula Consumo Original Camara Primaria CP
+	GVL_Geral.bManValvConsumoOriginalCS : BOOL;			//Y00.13 MV21 Valvula Consumo Original Camara Secundaria CS
+	
+	GVL_Geral.bManValvLigaMangueirasConsumoCP : BOOL;		//Y00.14 MV22 Valvula Liga Mangueiras Consumo Auxiliares CP
+	GVL_Geral.bManValvLigaMangueirasConsumoCS : BOOL;		//Y00.15 MV23 Valvula Liga Mangueiras Consumo Auxiliares CS
+	
+	GVL_Geral.bManValvLiga1MangueiraCP : BOOL;			//Y00.18 MV24 Valvula Liga 1 Mangueira Consumo CP
+	GVL_Geral.bManValvLiga2MangueirasCP : BOOL;			//Y00.19 MV25 Valvula Liga 2 Mangueiras Consumo CP
+	GVL_Geral.bManValvLiga4MangueirasCP : BOOL;			//Y00.20 MV26 Valvula Liga 4 Mangueiras Consumo CP
+	GVL_Geral.bManValvLiga8mangueirasCP : BOOL;			//Y00.21 MV27 Valvula Liga 8 Mangueiras Consumo CP
+	GVL_Geral.bManValvLiga10MangueirasCP : BOOL;			//Y00.22 MV28 Valvula Liga 10 Mangueiras Consumo CP
+	GVL_Geral.bManValvLiga17MangueirasCP : BOOL;			//Y00.23 MV29 Valvula Liga 17 Mangueiras Consumo CP
+	
+	GVL_Geral.bManValvLiga1MangueiraCS : BOOL;			//Y00.24 MV30 Valvula Liga 1 Mangueira Consumo CS
+	GVL_Geral.bManValvLiga2MangueirasCS : BOOL;			//Y00.25 MV31 Valvula Liga 2 Mangueiras Consumo CS
+	GVL_Geral.bManValvLiga4MangueirasCS : BOOL;			//Y00.26 MV32 Valvula Liga 4 Mangueiras Consumo CS
+	GVL_Geral.bManValvLiga8mangueirasCS : BOOL;			//Y00.27 MV33 Valvula Liga 8 Mangueiras Consumo CS
+	GVL_Geral.bManValvLiga10MangueirasCS : BOOL;			//Y00.28 MV34 Valvula Liga 10 Mangueiras Consumo CS
+	GVL_Geral.bManValvLiga17MangueirasCS : BOOL;			//Y00.29 MV35 Valvula Liga 17 Mangueiras Consumo CS
+	
+	GVL_Geral.bManValvSangria1MangueiraCP : BOOL;			//Y00.31 MV36 Valvula Sangria 1 Mangueira Consumo CP
+	GVL_Geral.bManValvSangria2MangueirasCP : BOOL;		//Y00.32 MV37 Valvula Sangria 2 Mangueiras Consumo CP
+	GVL_Geral.bManValvSangria4MangueirasCP : BOOL;		//Y00.33 MV38 Valvula Sangria 4 Mangueiras Consumo CP
+	GVL_Geral.bManValvSangria8mangueirasCP : BOOL;		//Y00.34 MV39 Valvula Sangria 8 Mangueiras Consumo CP
+	GVL_Geral.bManValvSangria10MangueirasCP : BOOL;		//Y00.35 MV40 Valvula Sangria 10 Mangueiras Consumo CP
+	GVL_Geral.bManValvSangria17MangueirasCP : BOOL;		//Y00.36 MV41 Valvula Sangria 17 Mangueiras Consumo CP
+	
+	GVL_Geral.bManValvSangria1MangueiraCS : BOOL;			//Y00.37 MV42 Valvula Sangria 1 Mangueira Consumo CS
+	GVL_Geral.bManValvSangria2MangueirasCS : BOOL;		//Y00.38 MV43 Valvula Sangria 2 Mangueiras Consumo CS
+	GVL_Geral.bManValvSangria4MangueirasCS : BOOL;		//Y00.39 MV44 Valvula Sangria 4 Mangueiras Consumo CS
+	GVL_Geral.bManValvSangria8mangueirasCS : BOOL;		//Y00.40 MV45 Valvula Sangria 8 Mangueiras Consumo CS
+	GVL_Geral.bManValvSangria10MangueirasCS : BOOL;		//Y00.41 MV46 Valvula Sangria 10 Mangueiras Consumo CS
+	GVL_Geral.bManValvSangria17MangueirasCS : BOOL;		//Y00.42 MV47 Valvula Sangria 17 Mangueiras Consumo CS

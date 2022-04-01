@@ -1,0 +1,220 @@
+GVL_Geral
+
+VAR_GLOBAL
+	arbAlarmes : ARRAY[0..100] OF BOOL;
+	arstrAlarmes : ARRAY[0..100] OF STRING[50];
+	bAlarmeAtivo: BOOL;
+	bAlarmeGlobalAtivo : BOOL;
+	bApagaRegistrosAlarmes : BOOL;
+	bMostraMensagemAlarme : BOOL;
+	iMensagemAlarme : INT;
+	strAlarme : STRING[50];
+
+	arbAlertas : ARRAY[0..100] OF BOOL;
+	arstrAlertas : ARRAY[0..100] OF STRING[50];
+	bAlertaAtivo: BOOL;
+	bAlertaGlobalAtivo : BOOL;
+	bApagaRegistrosAlertas : BOOL;
+	bMostraMensagemAlerta : BOOL;
+	iMensagemAlerta : INT;
+	strAlerta : STRING[50];
+	
+	bSegurancaOK: BOOL;
+	bCondicoesBasicas: BOOL;
+	
+	bHandShakeCLP : BOOL;	//Bit Oscilador Gerado pelo CLP
+	iHandShakePC : INT;	//Bit Oscilador Gerado pelo PC
+	
+	
+	bPartidaGeral: BOOL; 	//Botao Start
+	bParadaGeral: BOOL;		//Botao Stop	
+	bResetGeral: BOOL;		//Botao Reset
+	uiTesteSelecionado : UINT;					//Teste selecionado para execução
+	iMontagemArco : INT;						//0=irrelevante 1=sem arco 2=com arco
+
+	iModoTrabalho : INT;
+	bModoManual: BOOL;
+	bModoAuto : BOOL;
+	bModoPasso : BOOL;
+	
+	bEixoReferenciado : BOOL;
+	
+	bBypassPortas : BOOL;
+	
+	//Variaveis Modo Auto
+	rMemSetPointPressao_PV1 : REAL;				//Y01.02 PV1 Valv. Proporcional Pressao Cilindro`Principal - Z1	
+	rMemSetPointVazao_PV3 : REAL;				//Y01.06 PV3 Valv. Proporcional Vazão Cilindro Principal - Z1
+	rMemSetPointVacuo_PV2 : REAL;				//Y07.05 PV2 Válvula Proporcional Vácuo Booster
+	rMemSetPointPressao_PV4 : REAL;				//Y01.16 PV4 Contra Pressão Desejada (Efeito Mola Pneum.) Eixo Elétrico M3
+	rMemSetPointPressao_PV5 : REAL;				//Y03.22 PV5 Valv. Proporcional Pressao Bubble Test
+	
+	bCondicaoInicial: BOOL; 					//Condicao inicial do ciclo
+	bIniciaCiclo: BOOL; 						//Comando para iniciar o teste
+	bCicloFinalizado: BOOL; 					//Final de ciclo
+	bEmCiclo: BOOL;
+	iPasso : INT;								//Passo do teste em execução
+	strPasso : STRING[100];						//Descricao do passo do teste em execucao
+	bIniciaGravacao : BOOL; 					//Iniciar o armazenamento dos dados
+	bGravacaoIniciada : BOOL;					//Confirmação de dados sendo lidos
+	bIniciaGravacao2 : BOOL; 					//Iniciar o armazenamento dos dados 2 (Teste Eficiencia)
+	bGravacaoIniciada2 : BOOL;					//Confirmação de dados sendo lidos 2 (Teste Eficiencia)
+	bFinalizaGravacao : BOOL; 					//Finalizar o armazenamento dos dados
+	bGravacaoFinalizada : BOOL; 				//Dados armazenados
+	bPulsoS0701 : bool;							//Evento HW Interrupt de Pulso Sensor S0701;
+	
+	bMemJogPositivo : BOOL;						//Comando de Jog Positivo do Motor em Modo Auto
+	bMemJogNegativo : BOOL;						//Comando de Jog Negativo do Motor em Modo Auto
+	
+	bMemBombaVacuo_K003 : BOOL;					//K00.03 Comando Bomba Vacuo
+	bMemBombaDreno_K001 : BOOL;					//K00.01 Comando Bomba para Dreno
+	bMemBombaPressao_K002 : BOOL;				//K00.02 Comando Bomba para Pressão
+	bMemValv_MV1 : BOOL;						//Y00.01 MV1 Valvula Alimentação Ar Comprimido
+	
+	bMemValv_MV2 : BOOL;						//Y00.04 MV2 Valvula Desliga Circuito Teste
+	bMemValv_MV3 : BOOL;						//Y00.05 MV3 Valvula Dreno/Sangrador
+	bMemValv_MV4 : BOOL;						//Y00.07 MV4 Valvula Abre/Habilita Furo Respiro
+	bMemValv_MV5 : BOOL;						//Y04.21 MV5 Valvula Abre/Habilita Orifício
+	
+	bMemValv_MV6: BOOL;							//Y07.09 MV6 Valvula Passagem Vacuo Reservatorio para o Booster
+	bMemValv_MV7: BOOL;							//Y07.12 MV7 Valvula Dreno/Alivio Vacuo no Booster
+	bMemValv_MV8 : BOOL;						//Y07.06 MV8 Valvula Abertura/Passagem Vacuo Bomba para Reservatorio
+	
+	bMemValv_MV9 : BOOL;						//Y00.08 MV9 Valvula Alivio Camara Primaria (Visor CP)
+	bMemValv_MV10 : BOOL;						//Y00.09 MV10 Valvula Alivio Camara Secundaria (Visor CS)
+	
+	bMemValv_MV13 : BOOL;						//Y02.01 MV13 Valvula Solta Trava KP Pistão Z1
+	
+	bMemValv_MV15 : BOOL;						//Y01.15 MV15 Valvula Contra Presaso 4 Bar Atuador Z1
+	bMemValv_MV16 : BOOL;						//Y01.12 MV16 Valvula Contra Pressao 1 Bar Atuador Z1
+	
+	bMemValv_MV17 : BOOL;						//Y03.05 MV17 Valvula Habilita Bubbla Test - Aplica a pressão de 0-1 Bar
+	bMemValv_MV18 : BOOL;						//Y03.09 MV18 Valvula Habilita Sopro Bubble Test - Aplica 5 Bar no Bubble Test
+	bMemValv_MV14 : BOOL;						//Y03.20 MV14 Valvula Habilita Pressão Bubble Test
+	
+	bMemValv_MV20 : BOOL;						//Y00.12 MV20 Valvula Consumo Original Camara Primaria CP
+	bMemValv_MV21 : BOOL;						//Y00.13 MV21 Valvula Consumo Original Camara Secundaria CS
+	
+	bMemValv_MV22: BOOL;						//Y00.14 MV22 Valvula Liga Mangueiras Consumo Auxiliares CP
+	bMemValv_MV23 : BOOL;						//Y00.15 MV23 Valvula Liga Mangueiras Consumo Auxiliares CS
+	
+	bMemValv_MV24 : BOOL;						//Y00.18 MV24 Valvula Liga 1 Mangueira Consumo CP
+	bMemValv_MV25 : BOOL;						//Y00.19 MV25 Valvula Liga 2 Mangueiras Consumo CP
+	bMemValv_MV26 : BOOL;						//Y00.20 MV26 Valvula Liga 4 Mangueiras Consumo CP
+	bMemValv_MV27 : BOOL;						//Y00.21 MV27 Valvula Liga 8 Mangueiras Consumo CP
+	bMemValv_MV28 : BOOL;						//Y00.22 MV28 Valvula Liga 10 Mangueiras Consumo CP
+	bMemValv_MV29 : BOOL;						//Y00.23 MV29 Valvula Liga 17 Mangueiras Consumo CP
+	
+	bMemValv_MV30 : BOOL;						//Y00.24 MV30 Valvula Liga 1 Mangueira Consumo CS
+	bMemValv_MV31 : BOOL;						//Y00.25 MV31 Valvula Liga 2 Mangueiras Consumo CS
+	bMemValv_MV32 : BOOL;						//Y00.26 MV32 Valvula Liga 4 Mangueiras Consumo CS
+	bMemValv_MV33 : BOOL;						//Y00.27 MV33 Valvula Liga 8 Mangueiras Consumo CS
+	bMemValv_MV34 : BOOL;						//Y00.28 MV34 Valvula Liga 10 Mangueiras Consumo CS
+	bMemValv_MV35 : BOOL;						//Y00.29 MV35 Valvula Liga 17 Mangueiras Consumo CS
+	
+	bMemValv_MV36 : BOOL;						//Y00.31 MV36 Valvula Sangria 1 Mangueira Consumo CP
+	bMemValv_MV37 : BOOL;						//Y00.32 MV37 Valvula Sangria 2 Mangueiras Consumo CP
+	bMemValv_MV38 : BOOL;						//Y00.33 MV38 Valvula Sangria 4 Mangueiras Consumo CP
+	bMemValv_MV39 : BOOL;						//Y00.34 MV39 Valvula Sangria 8 Mangueiras Consumo CP
+	bMemValv_MV40 : BOOL;						//Y00.35 MV40 Valvula Sangria 10 Mangueiras Consumo CP
+	bMemValv_MV41 : BOOL;						//Y00.36 MV41 Valvula Sangria 17 Mangueiras Consumo CP
+	
+	bMemValv_MV42 : BOOL;						//Y00.37 MV42 Valvula Sangria 1 Mangueira Consumo CS
+	bMemValv_MV43 : BOOL;						//Y00.38 MV43 Valvula Sangria 2 Mangueiras Consumo CS
+	bMemValv_MV44 : BOOL;						//Y00.39 MV44 Valvula Sangria 4 Mangueiras Consumo CS
+	bMemValv_MV45 : BOOL;						//Y00.40 MV45 Valvula Sangria 8 Mangueiras Consumo CS
+	bMemValv_MV46 : BOOL;						//Y00.41 MV46 Valvula Sangria 10 Mangueiras Consumo CS
+	bMemValv_MV47 : BOOL;						//Y00.42 MV47 Valvula Sangria 17 Mangueiras Consumo CS
+	
+
+	//Variaveis Modo Manual
+	rManSetPointPressao_PV1 : REAL;				//Y01.02 PV1 Valv. Proporcional Pressao Cilindro`Principal - Z1	
+	rManSetPointVazao_PV3 : REAL;				//Y01.06 PV3 Valv. Proporcional Vazão Cilindro Principal - Z1
+	rManSetPointVacuo_PV2 : REAL;				//Y07.05 PV2 Válvula Proporcional Vácuo Booster
+	rManSetPointPressao_PV4 : REAL;				//Y01.16 PV4 Contra Pressão Desejada (Efeito Mola Pneum.) Eixo Elétrico M3
+	rManSetPointPressao_PV5 : REAL;				//Y03.22 PV5 Valv. Proporcional Pressao Bubble Test
+	
+	bManJogPositivo : BOOL;						//Comando de Jog Positivo do Motor em Modo Manual
+	bManJogNegativo : BOOL;						//Comando de Jog Negativo do Motor em Modo Manual
+	
+	bManBombaVacuo_K003 : BOOL;					//K00.03 Comando Bomba Vacuo
+	bManBombaDreno_K001 : BOOL;					//K00.01 Comando Bomba para Dreno
+	bManBombaPressao_K002 : BOOL;				//K00.02 Comando Bomba para Pressão
+	bManValv_MV1 : BOOL;						//Y00.01 MV1 Valvula Alimentação Ar Comprimido
+	
+	bManValv_MV2 : BOOL;						//Y00.04 MV2 Valvula Desliga Circuito Teste
+	bManValv_MV3 : BOOL;						//Y00.05 MV3 Valvula Dreno/Sangrador
+	bManValv_MV4 : BOOL;						//Y00.07 MV4 Valvula Abre/Habilita Furo Respiro
+	bManValv_MV5 : BOOL;						//Y04.21 MV5 Valvula Abre/Habilita Orifício
+	
+	bManValv_MV6: BOOL;							//Y07.09 MV6 Valvula Passagem Vacuo Reservatorio para o Booster
+	bManValv_MV7: BOOL;							//Y07.12 MV7 Valvula Dreno/Alivio Vacuo no Booster
+	bManValv_MV8 : BOOL;						//Y07.06 MV8 Valvula Abertura/Passagem Vacuo Bomba para Reservatorio
+	
+	bManValv_MV9 : BOOL;						//Y00.08 MV9 Valvula Alivio Camara Primaria (Visor CP)
+	bManValv_MV10 : BOOL;						//Y00.09 MV10 Valvula Alivio Camara Secundaria (Visor CS)
+	
+	bManValv_MV13 : BOOL;						//Y02.01 MV13 Valvula Solta Trava KP Pistão Z1
+	
+	bManValv_MV15 : BOOL;						//Y01.15 MV15 Valvula Contra Presaso 4 Bar Atuador Z1
+	bManValv_MV16 : BOOL;						//Y01.12 MV16 Valvula Contra Pressao 1 Bar Atuador Z1
+	
+	bManValv_MV17 : BOOL;						//Y03.05 MV17 Valvula Habilita Bubbla Test - Aplica a pressão de 0-1 Bar
+	bManValv_MV18 : BOOL;						//Y03.09 MV18 Valvula Habilita Sopro Bubble Test - Aplica 5 Bar no Bubble Test
+	bManValv_MV14 : BOOL;						//Y03.20 MV14 Valvula Habilita Pressão Bubble Test
+	
+	bManValv_MV20 : BOOL;						//Y00.12 MV20 Valvula Consumo Original Camara Primaria CP
+	bManValv_MV21 : BOOL;						//Y00.13 MV21 Valvula Consumo Original Camara Secundaria CS
+	
+	bManValv_MV22: BOOL;						//Y00.14 MV22 Valvula Liga Mangueiras Consumo Auxiliares CP
+	bManValv_MV23 : BOOL;						//Y00.15 MV23 Valvula Liga Mangueiras Consumo Auxiliares CS
+	
+	bManValv_MV24 : BOOL;						//Y00.18 MV24 Valvula Liga 1 Mangueira Consumo CP
+	bManValv_MV25 : BOOL;						//Y00.19 MV25 Valvula Liga 2 Mangueiras Consumo CP
+	bManValv_MV26 : BOOL;						//Y00.20 MV26 Valvula Liga 4 Mangueiras Consumo CP
+	bManValv_MV27 : BOOL;						//Y00.21 MV27 Valvula Liga 8 Mangueiras Consumo CP
+	bManValv_MV28 : BOOL;						//Y00.22 MV28 Valvula Liga 10 Mangueiras Consumo CP
+	bManValv_MV29 : BOOL;						//Y00.23 MV29 Valvula Liga 17 Mangueiras Consumo CP
+	
+	bManValv_MV30 : BOOL;						//Y00.24 MV30 Valvula Liga 1 Mangueira Consumo CS
+	bManValv_MV31 : BOOL;						//Y00.25 MV31 Valvula Liga 2 Mangueiras Consumo CS
+	bManValv_MV32 : BOOL;						//Y00.26 MV32 Valvula Liga 4 Mangueiras Consumo CS
+	bManValv_MV33 : BOOL;						//Y00.27 MV33 Valvula Liga 8 Mangueiras Consumo CS
+	bManValv_MV34 : BOOL;						//Y00.28 MV34 Valvula Liga 10 Mangueiras Consumo CS
+	bManValv_MV35 : BOOL;						//Y00.29 MV35 Valvula Liga 17 Mangueiras Consumo CS
+	
+	bManValv_MV36 : BOOL;						//Y00.31 MV36 Valvula Sangria 1 Mangueira Consumo CP
+	bManValv_MV37 : BOOL;						//Y00.32 MV37 Valvula Sangria 2 Mangueiras Consumo CP
+	bManValv_MV38 : BOOL;						//Y00.33 MV38 Valvula Sangria 4 Mangueiras Consumo CP
+	bManValv_MV39 : BOOL;						//Y00.34 MV39 Valvula Sangria 8 Mangueiras Consumo CP
+	bManValv_MV40 : BOOL;						//Y00.35 MV40 Valvula Sangria 10 Mangueiras Consumo CP
+	bManValv_MV41 : BOOL;						//Y00.36 MV41 Valvula Sangria 17 Mangueiras Consumo CP
+	
+	bManValv_MV42 : BOOL;						//Y00.37 MV42 Valvula Sangria 1 Mangueira Consumo CS
+	bManValv_MV43 : BOOL;						//Y00.38 MV43 Valvula Sangria 2 Mangueiras Consumo CS
+	bManValv_MV44 : BOOL;						//Y00.39 MV44 Valvula Sangria 4 Mangueiras Consumo CS
+	bManValv_MV45 : BOOL;						//Y00.40 MV45 Valvula Sangria 8 Mangueiras Consumo CS
+	bManValv_MV46 : BOOL;						//Y00.41 MV46 Valvula Sangria 10 Mangueiras Consumo CS
+	bManValv_MV47 : BOOL;						//Y00.42 MV47 Valvula Sangria 17 Mangueiras Consumo CS
+	
+	//Geral
+	wNumeroEscravosECATAtivos : WORD;
+	
+	//Espelhos Entradas Digitais
+	bSens_S0402 : BOOL; 						//- S04.02 - Sensor Nível Baixo Reservatório Óleo
+	bSens_S0423 : BOOL; 						//- S04.23 - Sensor Recipiente Coleta Óleo Cheio
+	bSens_S0405 : BOOL; 						//- S04.05 - Filtro Linha Hidráulica Superior Saturado
+	bSens_S0415 : BOOL; 						//- S04.15 - Filtro Linha Hidráulica Inferior Saturado
+	bSens_S0102 : BOOL; 						//- S01.02 - Pressostato Geral - Baixa Pressão de Rede
+	bSens_S0701 : BOOL; 						//- S07.01 - Sensor Segurança Atuação Cilindro Z1
+	bSens_S0702 : BOOL; 						//- S07.02 - Presença Arco Atuação/Proteção Motor
+	bSens_S0703 : BOOL; 						//- S07.03 - Presença Arco Atuação/Proteção Motor
+	bDisjuntorBombaVacuo_Q003 : BOOL;
+	bDisjuntorBombaHidraulica_Q002 : BOOL;
+
+	bEmergencia : BOOL; 						//- A01.05.DI1 - Feedback Emergência
+	bAlimentacaoSaidas : BOOL; 					//- 3L+ - Feedback Tensão Alimentação Saídas
+	bAlimentacaoSensores : BOOL; 				//- 2L+ - Feedback Tensão Alimentação Sensores
+	bProtecoes : BOOL; 							//- A01.05.DI4 - Feedback Protecoes/Portas
+
+
+END_VAR

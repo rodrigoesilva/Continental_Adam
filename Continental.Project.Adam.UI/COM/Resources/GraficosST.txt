@@ -1,0 +1,833 @@
+PROGRAM GraficosST
+VAR
+	rtIniciaGravacao : R_TRIG;
+	Blink1 : BLINK;
+	rtBlink1 : R_TRIG;
+	i : DINT;
+	bGravando : BOOL;
+	bGravando2 : BOOL;
+	M_T_TempoExecucao : OSCAT_BASIC.M_T;
+	ptTempoCiclo : TIME;
+	etTempoCiclo : TIME;
+END_VAR
+
+//Reinicia os graficos caso o programa selecionado seja mudado
+IF 	GVL_Geral.uiTesteSelecionado <> GVL_Graficos.uiTesteSelecionado 
+OR	GVL_Graficos.bResetEixos THEN
+
+		GVL_Graficos.bResetEixos := FALSE;
+		GVL_Graficos.uiTesteSelecionado := GVL_Geral.uiTesteSelecionado;
+
+		CASE GVL_Geral.uiTesteSelecionado OF
+			
+		1,3,13,25:
+			GVL_Graficos.rEscalaX := 1500;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.1";
+			GVL_Graficos.rEscalaY1 := 150;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.3";
+			GVL_Graficos.rEscalaY2 := 150;
+			GVL_Graficos.EixoY2.wsTLLabel := "EixosGrafico.4";
+			GVL_Graficos.rEscalaY3 := 0;
+			GVL_Graficos.EixoY3.wsTLLabel := "";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+			
+			GVL_Graficos.strNomeEixoX := 'Input Force (N)';
+			GVL_Graficos.strNomeEixoY1 := 'Pressure PC (bar)';
+			GVL_Graficos.strNomeEixoY2 := 'Pressure SC (bar)';
+			GVL_Graficos.strNomeEixoY3 := '';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 'N';
+			GVL_Graficos.strUnidadeY1 := 'bar';
+			GVL_Graficos.strUnidadeY2 := 'bar';
+			GVL_Graficos.strUnidadeY3 := '';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := FALSE;
+			GVL_Graficos.bOcultaY3 := TRUE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+			
+		2,4,26:
+			GVL_Graficos.rEscalaX := 1500;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.1";
+			GVL_Graficos.rEscalaY1 := 4000;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.2";
+			GVL_Graficos.rEscalaY2 := 0;
+			GVL_Graficos.EixoY2.wsTLLabel := "";
+			GVL_Graficos.rEscalaY3 := 0;
+			GVL_Graficos.EixoY3.wsTLLabel := "";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+			
+			GVL_Graficos.strNomeEixoX := 'Input Force (N)';
+			GVL_Graficos.strNomeEixoY1 := 'Output Force (N)';
+			GVL_Graficos.strNomeEixoY2 := '';
+			GVL_Graficos.strNomeEixoY3 := '';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 'N';
+			GVL_Graficos.strUnidadeY1 := 'N';
+			GVL_Graficos.strUnidadeY2 := '';
+			GVL_Graficos.strUnidadeY3 := '';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := TRUE;
+			GVL_Graficos.bOcultaY3 := TRUE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+		
+		5,6,7:
+			GVL_Graficos.rEscalaX := 30;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.0";
+			GVL_Graficos.rEscalaY1 := -1;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.7";
+			GVL_Graficos.rEscalaY2 := 0;
+			GVL_Graficos.EixoY2.wsTLLabel := "";
+			GVL_Graficos.rEscalaY3 := 0;
+			GVL_Graficos.EixoY3.wsTLLabel := "";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+			
+			GVL_Graficos.strNomeEixoX := 'Time (s)';
+			GVL_Graficos.strNomeEixoY1 := 'Vacuum (bar)';
+			GVL_Graficos.strNomeEixoY2 := '';
+			GVL_Graficos.strNomeEixoY3 := '';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 's';
+			GVL_Graficos.strUnidadeY1 := 'bar';
+			GVL_Graficos.strUnidadeY2 := '';
+			GVL_Graficos.strUnidadeY3 := '';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := TRUE;
+			GVL_Graficos.bOcultaY3 := TRUE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+			
+		8,9,10:
+			GVL_Graficos.rEscalaX := 30;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.0";
+			GVL_Graficos.rEscalaY1 := -1;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.7";
+			GVL_Graficos.rEscalaY2 := 150;
+			GVL_Graficos.EixoY2.wsTLLabel := "EixosGrafico.3";
+			GVL_Graficos.rEscalaY3 := 150;
+			GVL_Graficos.EixoY3.wsTLLabel := "EixosGrafico.4";
+			GVL_Graficos.rEscalaY4 := 50;
+			GVL_Graficos.EixoY4.wsTLLabel := "EixosGrafico.5";
+			
+			GVL_Graficos.strNomeEixoX := 'Time (s)';
+			GVL_Graficos.strNomeEixoY1 := 'Vacuum (bar)';
+			GVL_Graficos.strNomeEixoY2 := 'Pressure PC (bar)';
+			GVL_Graficos.strNomeEixoY3 := 'Pressure SC (bar)';
+			GVL_Graficos.strNomeEixoY4 := 'Piston Travel (mm)';
+			
+			GVL_Graficos.strUnidadeX := 's';
+			GVL_Graficos.strUnidadeY1 := 'bar';
+			GVL_Graficos.strUnidadeY2 := 'bar';
+			GVL_Graficos.strUnidadeY3 := 'bar';
+			GVL_Graficos.strUnidadeY4 := 'mm';
+	
+			GVL_Graficos.bOcultaY2 := FALSE;
+			GVL_Graficos.bOcultaY3 := FALSE;
+			GVL_Graficos.bOcultaY4 := FALSE;
+			
+		11,12:
+			GVL_Graficos.rEscalaX := 30;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.0";
+			GVL_Graficos.rEscalaY1 := 1500;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.1";
+			GVL_Graficos.rEscalaY2 := 0;
+			GVL_Graficos.EixoY2.wsTLLabel := "";
+			GVL_Graficos.rEscalaY3 := 0;
+			GVL_Graficos.EixoY3.wsTLLabel := "";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+			
+			GVL_Graficos.strNomeEixoX := 'Time (s)';
+			GVL_Graficos.strNomeEixoY1 := 'Input Force (N)';
+			GVL_Graficos.strNomeEixoY2 := '';
+			GVL_Graficos.strNomeEixoY3 := '';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 's';
+			GVL_Graficos.strUnidadeY1 := 'N';
+			GVL_Graficos.strUnidadeY2 := '';
+			GVL_Graficos.strUnidadeY3 := '';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := TRUE;
+			GVL_Graficos.bOcultaY3 := TRUE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+			
+		14:
+			GVL_Graficos.rEscalaX := 50;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.5";
+			GVL_Graficos.rEscalaY1 := 50;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.6";
+			GVL_Graficos.rEscalaY2 := 0;
+			GVL_Graficos.EixoY2.wsTLLabel := "";
+			GVL_Graficos.rEscalaY3 := 0;
+			GVL_Graficos.EixoY3.wsTLLabel := "";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+			
+			GVL_Graficos.strNomeEixoX := 'Piston Travel (mm)';
+			GVL_Graficos.strNomeEixoY1 := 'TMC Travel (mm)';
+			GVL_Graficos.strNomeEixoY2 := '';
+			GVL_Graficos.strNomeEixoY3 := '';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 'mm';
+			GVL_Graficos.strUnidadeY1 := 'mm';
+			GVL_Graficos.strUnidadeY2 := '';
+			GVL_Graficos.strUnidadeY3 := '';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := TRUE;
+			GVL_Graficos.bOcultaY3 := TRUE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+		
+		15:		
+			GVL_Graficos.rEscalaX := 1500;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.1";
+			GVL_Graficos.rEscalaY1 := 50;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.5";
+			GVL_Graficos.rEscalaY2 := 0;
+			GVL_Graficos.EixoY2.wsTLLabel := "";
+			GVL_Graficos.rEscalaY3 := 0;
+			GVL_Graficos.EixoY3.wsTLLabel := "";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+	
+			GVL_Graficos.strNomeEixoX := 'Input Force (N)';
+			GVL_Graficos.strNomeEixoY1 := 'Piston Travel (mm)';
+			GVL_Graficos.strNomeEixoY2 := '';
+			GVL_Graficos.strNomeEixoY3 := '';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 'N';
+			GVL_Graficos.strUnidadeY1 := 'mm';
+			GVL_Graficos.strUnidadeY2 := '';
+			GVL_Graficos.strUnidadeY3 := '';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := TRUE;
+			GVL_Graficos.bOcultaY3 := TRUE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+	
+		16,17,18:
+			GVL_Graficos.rEscalaX := 50;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.5";
+			GVL_Graficos.rEscalaY1 := 150;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.3";
+			GVL_Graficos.rEscalaY2 := 150;
+			GVL_Graficos.EixoY2.wsTLLabel := "EixosGrafico.4";
+			GVL_Graficos.rEscalaY3 := 0;
+			GVL_Graficos.EixoY3.wsTLLabel := "";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+			
+			GVL_Graficos.strNomeEixoX := 'Piston Travel (mm)';
+			GVL_Graficos.strNomeEixoY1 := 'Pressure PC (bar)';
+			GVL_Graficos.strNomeEixoY2 := 'Pressure SC (bar)';
+			GVL_Graficos.strNomeEixoY3 := '';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 'mm';
+			GVL_Graficos.strUnidadeY1 := 'bar';
+			GVL_Graficos.strUnidadeY2 := 'bar';
+			GVL_Graficos.strUnidadeY3 := '';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := FALSE;
+			GVL_Graficos.bOcultaY3 := TRUE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+
+		19,20:
+			GVL_Graficos.rEscalaX := 20;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.5";
+			GVL_Graficos.rEscalaY1 := 1;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.8";
+			GVL_Graficos.rEscalaY2 := 0;
+			GVL_Graficos.EixoY2.wsTLLabel := "";
+			GVL_Graficos.rEscalaY3 := 0;
+			GVL_Graficos.EixoY3.wsTLLabel := "";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+			
+			GVL_Graficos.strNomeEixoX := 'Piston Travel (mm)';
+			GVL_Graficos.strNomeEixoY1 := 'Test Pressure (bar)';
+			GVL_Graficos.strNomeEixoY2 := '';
+			GVL_Graficos.strNomeEixoY3 := '';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 'mm';
+			GVL_Graficos.strUnidadeY1 := 'bar';
+			GVL_Graficos.strUnidadeY2 := '';
+			GVL_Graficos.strUnidadeY3 := '';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := TRUE;
+			GVL_Graficos.bOcultaY3 := TRUE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+		
+		21:
+			GVL_Graficos.rEscalaX := 50;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.5";
+			GVL_Graficos.rEscalaY1 := 150;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.3";
+			GVL_Graficos.rEscalaY2 := 1500;
+			GVL_Graficos.EixoY2.wsTLLabel := "EixosGrafico.1";
+			GVL_Graficos.rEscalaY3 := 0;
+			GVL_Graficos.EixoY3.wsTLLabel := "";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+	
+			GVL_Graficos.strNomeEixoX := 'Piston Travel (mm)';
+			GVL_Graficos.strNomeEixoY1 := 'Pressure PC (bar)';
+			GVL_Graficos.strNomeEixoY2 := 'Input Force (N)';
+			GVL_Graficos.strNomeEixoY3 := '';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 'mm';
+			GVL_Graficos.strUnidadeY1 := 'bar';
+			GVL_Graficos.strUnidadeY2 := 'N';
+			GVL_Graficos.strUnidadeY3 := '';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := FALSE;
+			GVL_Graficos.bOcultaY3 := TRUE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+
+		22:
+			GVL_Graficos.rEscalaX := 10;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.0";
+			GVL_Graficos.rEscalaY1 := 2000;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.1";
+			GVL_Graficos.rEscalaY2 := 150;
+			GVL_Graficos.EixoY2.wsTLLabel := "EixosGrafico.3";
+			GVL_Graficos.rEscalaY3 := 40;
+			GVL_Graficos.EixoY3.wsTLLabel := "EixosGrafico.5";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+			
+			GVL_Graficos.strNomeEixoX := 'Time (s)';
+			GVL_Graficos.strNomeEixoY1 := 'Input Force (N)';
+			GVL_Graficos.strNomeEixoY2 := 'Pressure PC (bar)';
+			GVL_Graficos.strNomeEixoY3 := 'Piston Travel (mm)';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 's';
+			GVL_Graficos.strUnidadeY1 := 'N';
+			GVL_Graficos.strUnidadeY2 := 'bar';
+			GVL_Graficos.strUnidadeY3 := 'mm';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := FALSE;
+			GVL_Graficos.bOcultaY3 := FALSE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+			
+		23:
+			GVL_Graficos.rEscalaX := 20;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.0";
+			GVL_Graficos.rEscalaY1 := 2;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.9";
+			GVL_Graficos.rEscalaY2 := 0;
+			GVL_Graficos.EixoY2.wsTLLabel := "";
+			GVL_Graficos.rEscalaY3 := 0;
+			GVL_Graficos.EixoY3.wsTLLabel := "";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+			
+			GVL_Graficos.strNomeEixoX := 'Time (s)';
+			GVL_Graficos.strNomeEixoY1 := 'Fill Pressure (bar)';
+			GVL_Graficos.strNomeEixoY2 := '';
+			GVL_Graficos.strNomeEixoY3 := '';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 's';
+			GVL_Graficos.strUnidadeY1 := 'bar';
+			GVL_Graficos.strUnidadeY2 := '';
+			GVL_Graficos.strUnidadeY3 := '';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := TRUE;
+			GVL_Graficos.bOcultaY3 := TRUE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+			
+		24:
+				IF GVL_Parametros.iTipoGrafico_T24 = 0 THEN
+					GVL_Graficos.rEscalaX := 1500;
+					GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.1";
+					GVL_Graficos.rEscalaY1 := 150;
+					GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.3";
+					GVL_Graficos.rEscalaY2 := 150;
+					GVL_Graficos.EixoY2.wsTLLabel := "EixosGrafico.3";
+					GVL_Graficos.rEscalaY3 := 0;
+					GVL_Graficos.EixoY3.wsTLLabel := "";
+					GVL_Graficos.rEscalaY4 := 0;
+					GVL_Graficos.EixoY4.wsTLLabel := "";
+					
+					GVL_Graficos.strNomeEixoX := 'Input Force (N)';
+					GVL_Graficos.strNomeEixoY1 := 'Pressure PC (bar)';
+					GVL_Graficos.strNomeEixoY2 := 'Pressure PC (bar)';
+					GVL_Graficos.strNomeEixoY3 := '';
+					GVL_Graficos.strNomeEixoY4 := '';
+					
+					GVL_Graficos.strUnidadeX := 'N';
+					GVL_Graficos.strUnidadeY1 := 'bar';
+					GVL_Graficos.strUnidadeY2 := 'bar';
+					GVL_Graficos.strUnidadeY3 := '';
+					GVL_Graficos.strUnidadeY4 := '';
+			
+					GVL_Graficos.bOcultaY2 := FALSE;
+					GVL_Graficos.bOcultaY3 := TRUE;
+					GVL_Graficos.bOcultaY4 := TRUE;
+			
+				ELSE
+					GVL_Graficos.rEscalaX := 60;
+					GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.0";
+					GVL_Graficos.rEscalaY1 := 150;
+					GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.3";
+					GVL_Graficos.rEscalaY2 := 150;
+					GVL_Graficos.EixoY2.wsTLLabel := "EixosGrafico.3";
+					GVL_Graficos.rEscalaY3 := 0;
+					GVL_Graficos.EixoY3.wsTLLabel := "";
+					GVL_Graficos.rEscalaY4 := 0;
+					GVL_Graficos.EixoY4.wsTLLabel := "";
+					
+					GVL_Graficos.strNomeEixoX := 'Time (s)';
+					GVL_Graficos.strNomeEixoY1 := 'Pressure PC (bar)';
+					GVL_Graficos.strNomeEixoY2 := 'Pressure PC (bar)';
+					GVL_Graficos.strNomeEixoY3 := '';
+					GVL_Graficos.strNomeEixoY4 := '';
+					
+					GVL_Graficos.strUnidadeX := 's';
+					GVL_Graficos.strUnidadeY1 := 'bar';
+					GVL_Graficos.strUnidadeY2 := 'bar';
+					GVL_Graficos.strUnidadeY3 := '';
+					GVL_Graficos.strUnidadeY4 := '';
+			
+					GVL_Graficos.bOcultaY2 := FALSE;
+					GVL_Graficos.bOcultaY3 := TRUE;
+					GVL_Graficos.bOcultaY4 := TRUE;
+					
+				END_IF
+				
+	27:
+				IF GVL_Parametros.iTipoGrafico_T27 = 0 THEN
+					GVL_Graficos.rEscalaX := 1500;
+					GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.1";
+					GVL_Graficos.rEscalaY1 := 150;
+					GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.3";
+					GVL_Graficos.rEscalaY2 := 0;
+					GVL_Graficos.EixoY2.wsTLLabel := "";
+					GVL_Graficos.rEscalaY3 := 0;
+					GVL_Graficos.EixoY3.wsTLLabel := "";
+					GVL_Graficos.rEscalaY4 := 0;
+					GVL_Graficos.EixoY4.wsTLLabel := "";
+					
+					GVL_Graficos.strNomeEixoX := 'Input Force (N)';
+					GVL_Graficos.strNomeEixoY1 := 'Pressure PC (bar)';
+					GVL_Graficos.strNomeEixoY2 := '';
+					GVL_Graficos.strNomeEixoY3 := '';
+					GVL_Graficos.strNomeEixoY4 := '';
+					
+					GVL_Graficos.strUnidadeX := 'N';
+					GVL_Graficos.strUnidadeY1 := 'bar';
+					GVL_Graficos.strUnidadeY2 := '';
+					GVL_Graficos.strUnidadeY3 := '';
+					GVL_Graficos.strUnidadeY4 := '';
+			
+					GVL_Graficos.bOcultaY2 := FALSE;
+					GVL_Graficos.bOcultaY3 := TRUE;
+					GVL_Graficos.bOcultaY4 := TRUE;
+			
+				ELSE
+					
+					GVL_Graficos.rEscalaX := 60;
+					GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.0";
+					GVL_Graficos.rEscalaY1 := 1500;
+					GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.1";
+					GVL_Graficos.rEscalaY2 := 150;
+					GVL_Graficos.EixoY2.wsTLLabel := "EixosGrafico.3";
+					GVL_Graficos.rEscalaY3 := 40;
+					GVL_Graficos.EixoY3.wsTLLabel := "EixosGrafico.5";
+					GVL_Graficos.rEscalaY4 := 10;
+					GVL_Graficos.EixoY4.wsTLLabel := "EixosGrafico.10";
+					
+					GVL_Graficos.strNomeEixoX := 'Time (s)';
+					GVL_Graficos.strNomeEixoY1 := 'Input Force (N)';
+					GVL_Graficos.strNomeEixoY2 := 'Pressure PC (bar)';
+					GVL_Graficos.strNomeEixoY3 := 'Piston Travel (mm)';
+					GVL_Graficos.strNomeEixoY4 := 'Diff. Travel (mm)';
+					
+					GVL_Graficos.strUnidadeX := 's';
+					GVL_Graficos.strUnidadeY1 := 'N';
+					GVL_Graficos.strUnidadeY2 := 'bar';
+					GVL_Graficos.strUnidadeY3 := 'mm';
+					GVL_Graficos.strUnidadeY4 := 'mm';
+			
+					GVL_Graficos.bOcultaY2 := FALSE;
+					GVL_Graficos.bOcultaY3 := FALSE;
+					GVL_Graficos.bOcultaY4 := FALSE;
+					
+				END_IF
+				
+	28:
+				IF GVL_Parametros.iTipoGrafico_T27 = 0 THEN
+					GVL_Graficos.rEscalaX := 1500;
+					GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.1";
+					GVL_Graficos.rEscalaY1 := 4000;
+					GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.2";
+					GVL_Graficos.rEscalaY2 := 0;
+					GVL_Graficos.EixoY2.wsTLLabel := "";
+					GVL_Graficos.rEscalaY3 := 0;
+					GVL_Graficos.EixoY3.wsTLLabel := "";
+					GVL_Graficos.rEscalaY4 := 0;
+					GVL_Graficos.EixoY4.wsTLLabel := "";
+					
+					GVL_Graficos.strNomeEixoX := 'Input Force (N)';
+					GVL_Graficos.strNomeEixoY1 := 'Output Force (N)';
+					GVL_Graficos.strNomeEixoY2 := '';
+					GVL_Graficos.strNomeEixoY3 := '';
+					GVL_Graficos.strNomeEixoY4 := '';
+					
+					GVL_Graficos.strUnidadeX := 'N';
+					GVL_Graficos.strUnidadeY1 := 'N';
+					GVL_Graficos.strUnidadeY2 := '';
+					GVL_Graficos.strUnidadeY3 := '';
+					GVL_Graficos.strUnidadeY4 := '';
+			
+					GVL_Graficos.bOcultaY2 := FALSE;
+					GVL_Graficos.bOcultaY3 := TRUE;
+					GVL_Graficos.bOcultaY4 := TRUE;
+			
+				ELSE
+					
+					GVL_Graficos.rEscalaX := 60;
+					GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.0";
+					GVL_Graficos.rEscalaY1 := 1500;
+					GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.1";
+					GVL_Graficos.rEscalaY2 := 4000;
+					GVL_Graficos.EixoY2.wsTLLabel := "EixosGrafico.2";
+					GVL_Graficos.rEscalaY3 := 40;
+					GVL_Graficos.EixoY3.wsTLLabel := "EixosGrafico.5";
+					GVL_Graficos.rEscalaY4 := 10;
+					GVL_Graficos.EixoY4.wsTLLabel := "EixosGrafico.10";
+					
+					GVL_Graficos.strNomeEixoX := 'Time (s)';
+					GVL_Graficos.strNomeEixoY1 := 'Input Force (N)';
+					GVL_Graficos.strNomeEixoY2 := 'Output Force (N)';
+					GVL_Graficos.strNomeEixoY3 := 'Piston Travel (mm)';
+					GVL_Graficos.strNomeEixoY4 := 'Diff. Travel (mm)';
+					
+					GVL_Graficos.strUnidadeX := 's';
+					GVL_Graficos.strUnidadeY1 := 'N';
+					GVL_Graficos.strUnidadeY2 := 'N';
+					GVL_Graficos.strUnidadeY3 := 'mm';
+					GVL_Graficos.strUnidadeY4 := 'mm';
+			
+					GVL_Graficos.bOcultaY2 := FALSE;
+					GVL_Graficos.bOcultaY3 := FALSE;
+					GVL_Graficos.bOcultaY4 := FALSE;
+					
+				END_IF
+				
+	29:
+			GVL_Graficos.rEscalaX := 120;
+			GVL_Graficos.EixoX.wsTLLabel := "EixosGrafico.0";
+			GVL_Graficos.rEscalaY1 := 1500;
+			GVL_Graficos.EixoY1.wsTLLabel := "EixosGrafico.1";
+			GVL_Graficos.rEscalaY2 := 150;
+			GVL_Graficos.EixoY2.wsTLLabel := "EixosGrafico.3";
+			GVL_Graficos.rEscalaY3 := 150;
+			GVL_Graficos.EixoY3.wsTLLabel := "EixosGrafico.4";
+			GVL_Graficos.rEscalaY4 := 0;
+			GVL_Graficos.EixoY4.wsTLLabel := "";
+			
+			GVL_Graficos.strNomeEixoX := 'Time (s)';
+			GVL_Graficos.strNomeEixoY1 := 'Input Force (N)';
+			GVL_Graficos.strNomeEixoY2 := 'Pressure PC (bar)';
+			GVL_Graficos.strNomeEixoY3 := 'Pressure SC (bar)';
+			GVL_Graficos.strNomeEixoY4 := '';
+			
+			GVL_Graficos.strUnidadeX := 's';
+			GVL_Graficos.strUnidadeY1 := 'N';
+			GVL_Graficos.strUnidadeY2 := 'bar';
+			GVL_Graficos.strUnidadeY3 := 'bar';
+			GVL_Graficos.strUnidadeY4 := '';
+	
+			GVL_Graficos.bOcultaY2 := FALSE;
+			GVL_Graficos.bOcultaY3 := FALSE;
+			GVL_Graficos.bOcultaY4 := TRUE;
+					
+					
+			
+				
+		END_CASE
+		
+		GVL_Graficos.EixoX.rMin := 0;
+		GVL_Graficos.EixoX.rMax := GVL_Graficos.rEscalaX;
+		GVL_Graficos.EixoY1.rMin := 0;
+		GVL_Graficos.EixoY1.rMax := GVL_Graficos.rEscalaY1;
+		GVL_Graficos.EixoY2.rMin := 0;
+		GVL_Graficos.EixoY2.rMax := GVL_Graficos.rEscalaY2;
+		GVL_Graficos.EixoY3.rMin := 0;
+		GVL_Graficos.EixoY3.rMax := GVL_Graficos.rEscalaY3;
+		GVL_Graficos.EixoY4.rMin := 0;
+		GVL_Graficos.EixoY4.rMax := GVL_Graficos.rEscalaY4;
+		
+END_IF
+
+//Reinicia os buffers
+IF GVL_Graficos.diBuffer >= 100000 THEN
+	GVL_Graficos.diBuffer := 0;
+END_IF
+
+//Reinicia os buffers ao comecar um novo teste
+rtIniciaGravacao(CLK:=GVL_Geral.bIniciaGravacao);
+IF rtIniciaGravacao.Q THEN
+		GVL_Graficos.diBuffer := 0;
+END_IF
+
+//
+IF  	GVL_Geral.bIniciaGravacao 
+OR		GVL_Geral.bIniciaGravacao2 
+THEN
+			bGravando := TRUE;
+ELSE
+			bGravando := FALSE;
+END_IF
+	
+	IF GVL_Graficos.bLimpaGrafico THEN
+		FOR i := 0 TO 100000 DO
+		GVL_Graficos.arrVarX[i] := 0;
+		GVL_Graficos.arrVarY1[i] := 0;
+		GVL_Graficos.arrVarY2[i] := 0;
+		GVL_Graficos.arrVarY3[i] := 0;
+		GVL_Graficos.arrVarY4[i] := 0;
+		GVL_Graficos.arrVarY5[i] := 0;
+		GVL_Graficos.arrVarTimeStamp[i] := 0.0;
+	END_FOR
+	
+	FOR i := 0 TO 10 DO
+		GVL_Graficos.arrVarXPoint1[i] := 0;
+		GVL_Graficos.arrVarYPoint1[i] := 0;
+	END_FOR
+
+	GVL_Graficos.bLimpaGrafico := FALSE;
+
+END_IF
+
+
+//FB Para contagem do tempo decorrido de ciclo
+M_T_TempoExecucao
+	(	IN := bGravando OR bGravando2,
+		TMAX := ,
+		RST := NOT bGravando AND NOT bGravando2,
+		PT => ptTempoCiclo,
+		ET => etTempoCiclo
+	);
+	
+//
+Blink1(ENABLE:= bGravando, TIMELOW:= T#1MS, TIMEHIGH:= T#1MS);
+rtBlink1(CLK:= Blink1.OUT);
+		
+IF bGravando THEN
+	
+		CASE GVL_Geral.uiTesteSelecionado OF
+			
+		1,3,13,25:		
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+			GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rPressaoCS_Bar_Lin;
+			GVL_Graficos.arrVarY3[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+			
+		2,4,26:		
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+	
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rForcaSaidaBooster_N_Lin;
+			GVL_Graficos.arrVarY3[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+
+			
+		5,6,7:
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rVacuo_Bar_Lin;
+			GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+			GVL_Graficos.arrVarY3[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+
+		8,9,10:
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rVacuo_Bar_Lin;
+			GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+			GVL_Graficos.arrVarY3[GVL_Graficos.diBuffer] := rPressaoCS_Bar_Lin;
+			GVL_Graficos.arrVarY4[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;	
+			GVL_Graficos.arrVarY5[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;	
+			
+		11:
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+			GVL_Graficos.arrVarY3[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+
+		12:
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+			GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+			GVL_Graficos.arrVarY3[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+			GVL_Graficos.arrVarY4[GVL_Graficos.diBuffer] := rPressaoCS_Bar_Lin;
+		
+		14:		
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rDeslocamentoSaidaBooster_mm_Lin;
+			
+		15:		
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+			
+		16,17,18:	
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+			GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rPressaoCS_Bar_Lin;
+			
+		19,20: 	
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+		
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rPressaoBubbleTest_Bar_Lin;
+		
+		21:
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+			GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+					
+		22:	
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+			GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+			GVL_Graficos.arrVarY3[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+			
+		23:	
+			GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+			GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+			GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rPressaoHidraulica_Bar_Lin;
+			
+		24:
+				
+			IF GVL_Parametros.iTipoGrafico_T24 = 0 THEN
+				IF 		GVL_Geral.bIniciaGravacao 
+				AND NOT GVL_T24.bIgnoraDadosRetorno THEN		
+
+						GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+			
+						GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+						GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+						GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := 0;
+													
+				END_IF
+				
+				IF 		GVL_Geral.bIniciaGravacao2 
+				AND NOT GVL_T24.bIgnoraDadosRetorno THEN
+				
+							GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+							
+							GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+							GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := 0;
+							GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+				END_IF
+			ELSE
+				GVL_Graficos.diBuffer :=	GVL_Graficos.diBuffer +1;
+				
+				IF GVL_Geral.bIniciaGravacao THEN
+							GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+							GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+							GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := 0;
+				END_IF
+				
+				IF 		GVL_Geral.bIniciaGravacao2 THEN 
+							GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+							GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := 0;
+							GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+				END_IF
+				
+					
+			END_IF
+			
+		27:
+			
+			IF GVL_Parametros.iTipoGrafico_T27 = 0 THEN
+					GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+
+					GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+					GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;												
+			ELSE
+				
+					GVL_Graficos.diBuffer :=	 GVL_Graficos.diBuffer +1;
+				
+					GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+					GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+					GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+					GVL_Graficos.arrVarY3[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+					GVL_Graficos.arrVarY4[GVL_Graficos.diBuffer] := rDeslocamentoDiferencial_mm_Lin;
+								
+			END_IF
+			
+		28:
+			
+			IF GVL_Parametros.iTipoGrafico_T28 = 0 THEN
+					GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+
+					GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+					GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rForcaSaidaBooster_N_Lin;
+													
+			ELSE
+				
+					GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+				
+					GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+					GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+					GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rForcaSaidaBooster_N_Lin;
+					GVL_Graficos.arrVarY3[GVL_Graficos.diBuffer] := rDeslocamentoEntradaBooster_mm_Lin;
+					GVL_Graficos.arrVarY4[GVL_Graficos.diBuffer] := rDeslocamentoDiferencial_mm_Lin;
+								
+			END_IF
+			
+		29:
+						
+					GVL_Graficos.diBuffer := GVL_Graficos.diBuffer +1;
+				
+					GVL_Graficos.arrVarX[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+					GVL_Graficos.arrVarY1[GVL_Graficos.diBuffer] := rForcaEntradaBooster_N_Lin;
+					GVL_Graficos.arrVarY2[GVL_Graficos.diBuffer] := rPressaoCP_Bar_Lin;
+					GVL_Graficos.arrVarY3[GVL_Graficos.diBuffer] := rPressaoCS_Bar_Lin;
+			
+		END_CASE
+		
+		GVL_Graficos.arrVarTimeStamp[GVL_Graficos.diBuffer] := TIME_TO_REAL(etTempoCiclo)/1000;
+END_IF
+
+
+		 

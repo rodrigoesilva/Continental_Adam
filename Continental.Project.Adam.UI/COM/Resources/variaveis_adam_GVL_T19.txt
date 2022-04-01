@@ -1,0 +1,40 @@
+VAR_GLOBAL
+	//Automatico		
+	iPasso : INT;
+	strPasso : STRING[100];
+	bCondicaoInicial: BOOL; 				//Condicao inicial do ciclo
+	bIniciaCiclo: BOOL; 					//Comando para iniciar o teste
+	bCicloFinalizado: BOOL; 				//Final de ciclo
+	bEmCiclo: BOOL;
+	iMontagemArco : INT := 2;		//0=irrelevante 1=sem arco 2=com arco
+	
+	
+	//
+	bCalculaResultados : BOOL;
+	
+	//Parametros do teste
+	rTempoSopro : REAL;						//Tempo de sopro de 5 bar
+	rDeslocamentoTeste : REAL;				//Deslocamento inicial do motor
+	rPressaoSistemaFechado_Bar : REAL;			//Pressao desejada com o sistema fechado
+	rPressaoSistemaAberto_Bar : REAL;			//Pressao desejada com o sistema aberto
+	bConfirmaP1 : BOOL;						//Confirnação Pressão 0.2 bar
+	bCancelaP1 : BOOL;						//Confirnação Pressão 0.2 bar
+	bConfirmaP2 : BOOL;						//Confirnação Pressão 0.3 bar
+	bCancelaP2 : BOOL;						//Confirnação Pressão 0.3 bar
+	rDeslocamentoNaPressao_Bar : REAL;		//Pressao para coletar o deslocamento
+
+	//
+	
+	//Resultados do teste
+	rVacuoInicial : REAL;
+	rTemperaturaInicial : REAL;
+	rForcaMaxima : REAL;
+	diPosicaoForcaMaxima : DINT;
+	rDeslocamentoNaPressao_mm : REAL;
+	rPressaoSistemaFechadoReal_Bar : REAL;
+	rPressaoSistemaAbertoReal_Bar : REAL;
+	rGradienteForcaAvanco : REAL;
+	rGradienteDeslocamentoAvanco : REAL;
+	rGradienteForcaRetorno : REAL;
+	rGradienteDeslocamentoRetorno : REAL;
+END_VAR

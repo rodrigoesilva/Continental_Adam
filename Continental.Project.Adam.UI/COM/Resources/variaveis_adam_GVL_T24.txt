@@ -1,0 +1,41 @@
+VAR_GLOBAL
+	{region}//Automatico		
+				iPasso : INT;
+				strPasso : STRING[100];
+				bCondicaoInicial: BOOL; 				//Condicao inicial do ciclo
+				bIniciaCiclo: BOOL; 					//Comando para iniciar o teste
+				bCicloFinalizado: BOOL; 				//Final de ciclo
+				bEmCiclo: BOOL;
+				iMontagemArco : INT := 0;		//0=irrelevante 1=sem arco 2=com arco
+				bIgnoraDadosRetorno : BOOL; //Nao plota os dados se este flag estiver ligado
+				bCalculaResultados : BOOL;
+	{endregion}
+	{region}//Parametros do teste
+				rIntervalo : REAL;											//Intervalo entra a execução dos testes
+				rForcaMaximaModoRapido : REAL;			//Força maxima aplicada no modo rápido
+				iTipoGrafico : INT;										//Tipo de gráfico a ser exibido [0 X-Forca Entrada/Y-PressaoCP] [1 X-Tempo/Y-Pressao CP]
+				rInicioGradientePressao_Bar : REAL;
+				rFimGradientePressao_Bar : REAL;
+				rEficienciaNaForca_N : REAL;		 
+	{endregion}
+		 
+	{region}//resultados do teste
+				rVacuoInicial : REAL;
+				rTemperaturaInicial : REAL;
+				rForcaMaximaSlow : REAL;
+				diPosicaoForcaMaximaSlow : DINT;
+				rForcaMaximaFast : REAL;
+				diPosicaoForcaMaximaFast : DINT;
+				diInicioBufferFast : DINT;
+				iConsumidoresCP : INT;
+				iConsumidoresCS : INT;
+				rGradientePressaoSlow : REAL;
+				rGradientePressaoFast : REAL;
+				rForcaEficienciaSlow : REAL;
+				rForcaEficienciaFast : REAL;
+				rEficiencia : REAL;
+	{endregion}
+
+	
+
+END_VAR

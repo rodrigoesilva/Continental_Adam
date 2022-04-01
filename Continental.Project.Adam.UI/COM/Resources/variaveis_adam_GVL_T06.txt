@@ -1,0 +1,37 @@
+VAR_GLOBAL
+	//Automatico		
+	iPasso : INT;
+	strPasso : STRING[100];
+	bCondicaoInicial: BOOL; 				//Condicao inicial do ciclo
+	bIniciaCiclo: BOOL; 					//Comando para iniciar o teste
+	bCicloFinalizado: BOOL; 				//Final de ciclo
+	bEmCiclo: BOOL;
+	iMontagemArco : INT := 0;		//0=irrelevante 1=sem arco 2=com arco
+		
+	//
+	bCalculaResultados : BOOL;
+	
+	//Parametros do teste
+	rTempoTeste : REAL;						//Tempo Execução Teste
+	rTempoEstabilizacao : REAL;					//Tempo Estabilização do Vácuo
+	rForcaMaximaAbsoluta_N : REAL;				//Forca maxima para o teste simples + absoluto
+	rForcaMaximaRelativa : REAL;				//Forca maxima para o teste simples + relativo
+	bForcaAbsoluta : BOOL;						//0 = Relativa 1 = Absoluto
+	rRunOutForceRef : REAL; 					// Run Out Force Utilizada como referencia do teste (Parametros e ao mesmo tempo mostrado como resultado)
+	
+	//Parametros e resultados do teste
+	rVacuoInicial : REAL;
+	rTemperaturaInicial : REAL;
+	rTempoInicial : REAL;
+	rVacuoFinal : REAL;
+	rTempoFinal : REAL;
+	iConsumidoresCP : INT;
+	iConsumidoresCS : INT;
+	rForcaMaxima : REAL;
+	
+	rForcaMaximaRelativa_N : REAL; //Valor da forca maxima relativa
+	rDeslocamentoEmFmax : REAL; //Obter o  valor do deslocamento na forca Fmax
+	rPerdaVacuo : REAL;
+	rTempoTotal : REAL;
+
+END_VAR
