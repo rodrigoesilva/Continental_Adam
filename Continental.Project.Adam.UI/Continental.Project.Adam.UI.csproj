@@ -358,7 +358,7 @@
     <Compile Include="BLL\BLL_Main_Tab_ActionParameters.cs" />
     <Compile Include="BLL\BLL_Main_Tab_TableParameters.cs" />
     <Compile Include="BLL\BLL_Manager_SelectEvalProgram.cs" />
-    <Compile Include="BLL\BLL_Operational_LoadEval.cs" />
+    <Compile Include="BLL\BLL_Operational_Project.cs" />
     <Compile Include="BLL\BLL_Security_Login.cs" />
     <Compile Include="BLL\BLL_Security_User.cs" />
     <Compile Include="COM\ComHBM.cs" />
@@ -411,8 +411,8 @@
     <Compile Include="Helper\HelperLog.cs" />
     <Compile Include="Helper\Tests\HelperTestBase.cs" />
     <Compile Include="Models\COM\Model_GVL.cs" />
-    <Compile Include="Models\Manager\ManagerTestAvailable.cs" />
-    <Compile Include="Models\Manager\ManagerTestGroup.cs" />
+    <Compile Include="Models\Manager\Model_Manager_TestAvailable.cs" />
+    <Compile Include="Models\Manager\Model_Manager_TestGroup.cs" />
     <Compile Include="Models\Operational\Model_Operational_ManualActuation.cs" />
     <Compile Include="Models\Operational\Model_Operational_Project.cs" />
     <Compile Include="Models\Operational\Model_Operational_TestTableParameters.cs" />
@@ -442,11 +442,11 @@
     <Compile Include="Form_Manager_CreateEvalGroup.Designer.cs">
       <DependentUpon>Form_Manager_CreateEvalGroup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_Operational_LoadEval.cs">
+    <Compile Include="Form_Operational_Project.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_Operational_LoadEval.Designer.cs">
-      <DependentUpon>Form_Operational_LoadEval.cs</DependentUpon>
+    <Compile Include="Form_Operational_Project.Designer.cs">
+      <DependentUpon>Form_Operational_Project.cs</DependentUpon>
     </Compile>
     <Compile Include="Form_Manager_SelectEvalProgram.cs">
       <SubType>Form</SubType>
@@ -546,8 +546,8 @@
     <EmbeddedResource Include="Form_Manager_CreateEvalGroup.resx">
       <DependentUpon>Form_Manager_CreateEvalGroup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form_Operational_LoadEval.resx">
-      <DependentUpon>Form_Operational_LoadEval.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Operational_Project.resx">
+      <DependentUpon>Form_Operational_Project.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Manager_SelectEvalProgram.resx">
       <DependentUpon>Form_Manager_SelectEvalProgram.cs</DependentUpon>

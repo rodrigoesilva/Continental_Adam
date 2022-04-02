@@ -768,7 +768,7 @@ namespace Continental.Project.Adam.UI.COM
         {
             String path = !string.IsNullOrEmpty(pathTestFile) ? pathTestFile : @"D:\HBM_SaveAquisitionTxtData.txt";
 
-            HelperTestBase.currentTestFile.PrjTestFileName = path;
+            HelperTestBase.currentProjectTest.PrjTestFileName = path;
             //
             //this.RunContinuousMeasurementBt.Enabled = false;
             List<string> lstStr = new List<string>();
@@ -956,7 +956,7 @@ namespace Continental.Project.Adam.UI.COM
                                 else
                                     File.AppendAllLines(path, _helperApp.sbexterno.ToString().Split(Environment.NewLine.ToCharArray()));
 
-                                HelperTestBase.currentTestFile.is_Created = _helperApp.CheckFileExists(path);
+                                HelperTestBase.currentProjectTest.is_Created = _helperApp.CheckFileExists(path);
 
                                 _helperApp.sbexterno.Clear();
                             }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Continental.Project.Adam.UI.Models.Manager
 {
-    public class ManagerTestGroup
+    public class Model_Manager_TestGroup
     {
         public long Id { get; set; }
         public string Group { get; set; }

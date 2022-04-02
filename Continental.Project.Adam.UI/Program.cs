@@ -13,8 +13,8 @@ namespace Continental.Project.Adam.UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form_Adam_Welcome());
-            //Application.Run(new trash.Form_Tests());
+            //Application.Run(new Form_Adam_Welcome());
+            Application.Run(new trash.Form_Tests());
             //Application.Run(new TesteGrafico.Form2());
 
             //MODBUS

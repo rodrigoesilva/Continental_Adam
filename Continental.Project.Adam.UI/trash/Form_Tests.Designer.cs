@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.btn_LoadEval = new System.Windows.Forms.Button();
             this.btn_Bleed = new System.Windows.Forms.Button();
             this.btn_ManualActuation = new System.Windows.Forms.Button();
@@ -83,21 +83,19 @@
             // 
             // btn_LoadEval
             // 
-            this.btn_LoadEval.Location = new System.Drawing.Point(12, 700);
-            this.btn_LoadEval.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_LoadEval.Location = new System.Drawing.Point(9, 569);
             this.btn_LoadEval.Name = "btn_LoadEval";
-            this.btn_LoadEval.Size = new System.Drawing.Size(128, 73);
+            this.btn_LoadEval.Size = new System.Drawing.Size(96, 59);
             this.btn_LoadEval.TabIndex = 49;
-            this.btn_LoadEval.Text = "LoadEval";
+            this.btn_LoadEval.Text = "Project";
             this.btn_LoadEval.UseVisualStyleBackColor = true;
             this.btn_LoadEval.Click += new System.EventHandler(this.btn_LoadEval_Click);
             // 
             // btn_Bleed
             // 
-            this.btn_Bleed.Location = new System.Drawing.Point(287, 535);
-            this.btn_Bleed.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Bleed.Location = new System.Drawing.Point(215, 435);
             this.btn_Bleed.Name = "btn_Bleed";
-            this.btn_Bleed.Size = new System.Drawing.Size(116, 73);
+            this.btn_Bleed.Size = new System.Drawing.Size(87, 59);
             this.btn_Bleed.TabIndex = 50;
             this.btn_Bleed.Text = "Bleed";
             this.btn_Bleed.UseVisualStyleBackColor = true;
@@ -105,10 +103,9 @@
             // 
             // btn_ManualActuation
             // 
-            this.btn_ManualActuation.Location = new System.Drawing.Point(287, 618);
-            this.btn_ManualActuation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_ManualActuation.Location = new System.Drawing.Point(215, 502);
             this.btn_ManualActuation.Name = "btn_ManualActuation";
-            this.btn_ManualActuation.Size = new System.Drawing.Size(116, 73);
+            this.btn_ManualActuation.Size = new System.Drawing.Size(87, 59);
             this.btn_ManualActuation.TabIndex = 51;
             this.btn_ManualActuation.Text = "ManualActuation";
             this.btn_ManualActuation.UseVisualStyleBackColor = true;
@@ -116,10 +113,9 @@
             // 
             // btn_SelectTubeConsumers
             // 
-            this.btn_SelectTubeConsumers.Location = new System.Drawing.Point(287, 783);
-            this.btn_SelectTubeConsumers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_SelectTubeConsumers.Location = new System.Drawing.Point(215, 636);
             this.btn_SelectTubeConsumers.Name = "btn_SelectTubeConsumers";
-            this.btn_SelectTubeConsumers.Size = new System.Drawing.Size(116, 73);
+            this.btn_SelectTubeConsumers.Size = new System.Drawing.Size(87, 59);
             this.btn_SelectTubeConsumers.TabIndex = 52;
             this.btn_SelectTubeConsumers.Text = "SelectTubeConsumers";
             this.btn_SelectTubeConsumers.UseVisualStyleBackColor = true;
@@ -127,10 +123,9 @@
             // 
             // btn_SelectEvalProgram
             // 
-            this.btn_SelectEvalProgram.Location = new System.Drawing.Point(148, 783);
-            this.btn_SelectEvalProgram.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_SelectEvalProgram.Location = new System.Drawing.Point(111, 636);
             this.btn_SelectEvalProgram.Name = "btn_SelectEvalProgram";
-            this.btn_SelectEvalProgram.Size = new System.Drawing.Size(131, 73);
+            this.btn_SelectEvalProgram.Size = new System.Drawing.Size(98, 59);
             this.btn_SelectEvalProgram.TabIndex = 53;
             this.btn_SelectEvalProgram.Text = "SelectEvalProgram";
             this.btn_SelectEvalProgram.UseVisualStyleBackColor = true;
@@ -138,10 +133,9 @@
             // 
             // btn_CreateEvalGroup
             // 
-            this.btn_CreateEvalGroup.Location = new System.Drawing.Point(12, 783);
-            this.btn_CreateEvalGroup.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_CreateEvalGroup.Location = new System.Drawing.Point(9, 636);
             this.btn_CreateEvalGroup.Name = "btn_CreateEvalGroup";
-            this.btn_CreateEvalGroup.Size = new System.Drawing.Size(128, 73);
+            this.btn_CreateEvalGroup.Size = new System.Drawing.Size(96, 59);
             this.btn_CreateEvalGroup.TabIndex = 54;
             this.btn_CreateEvalGroup.Text = "CreateEvalGroup";
             this.btn_CreateEvalGroup.UseVisualStyleBackColor = true;
@@ -149,10 +143,9 @@
             // 
             // btn_B
             // 
-            this.btn_B.Location = new System.Drawing.Point(537, 576);
-            this.btn_B.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_B.Location = new System.Drawing.Point(403, 468);
             this.btn_B.Name = "btn_B";
-            this.btn_B.Size = new System.Drawing.Size(119, 102);
+            this.btn_B.Size = new System.Drawing.Size(89, 83);
             this.btn_B.TabIndex = 58;
             this.btn_B.Text = "B";
             this.btn_B.UseVisualStyleBackColor = true;
@@ -160,10 +153,9 @@
             // 
             // btn_A
             // 
-            this.btn_A.Location = new System.Drawing.Point(411, 576);
-            this.btn_A.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_A.Location = new System.Drawing.Point(308, 468);
             this.btn_A.Name = "btn_A";
-            this.btn_A.Size = new System.Drawing.Size(119, 102);
+            this.btn_A.Size = new System.Drawing.Size(89, 83);
             this.btn_A.TabIndex = 57;
             this.btn_A.Text = "A";
             this.btn_A.UseVisualStyleBackColor = true;
@@ -171,10 +163,9 @@
             // 
             // mbtn_MB
             // 
-            this.mbtn_MB.Location = new System.Drawing.Point(537, 535);
-            this.mbtn_MB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mbtn_MB.Location = new System.Drawing.Point(403, 435);
             this.mbtn_MB.Name = "mbtn_MB";
-            this.mbtn_MB.Size = new System.Drawing.Size(119, 31);
+            this.mbtn_MB.Size = new System.Drawing.Size(89, 25);
             this.mbtn_MB.TabIndex = 56;
             this.mbtn_MB.Text = "&MB";
             this.mbtn_MB.UseSelectable = true;
@@ -182,10 +173,9 @@
             // 
             // mbtn_MA
             // 
-            this.mbtn_MA.Location = new System.Drawing.Point(411, 535);
-            this.mbtn_MA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mbtn_MA.Location = new System.Drawing.Point(308, 435);
             this.mbtn_MA.Name = "mbtn_MA";
-            this.mbtn_MA.Size = new System.Drawing.Size(119, 31);
+            this.mbtn_MA.Size = new System.Drawing.Size(89, 25);
             this.mbtn_MA.TabIndex = 55;
             this.mbtn_MA.Text = "&MA";
             this.mbtn_MA.UseSelectable = true;
@@ -193,10 +183,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(347, 730);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Location = new System.Drawing.Point(260, 593);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(56, 47);
+            this.button2.Size = new System.Drawing.Size(42, 38);
             this.button2.TabIndex = 60;
             this.button2.Text = "Form2";
             this.button2.UseVisualStyleBackColor = true;
@@ -205,10 +194,9 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.button1.Location = new System.Drawing.Point(287, 734);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Location = new System.Drawing.Point(215, 596);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(52, 39);
+            this.button1.Size = new System.Drawing.Size(39, 32);
             this.button1.TabIndex = 59;
             this.button1.Text = "Form2";
             this.button1.UseVisualStyleBackColor = false;
@@ -216,10 +204,9 @@
             // 
             // btn_Exit
             // 
-            this.btn_Exit.Location = new System.Drawing.Point(12, 535);
-            this.btn_Exit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Exit.Location = new System.Drawing.Point(9, 435);
             this.btn_Exit.Name = "btn_Exit";
-            this.btn_Exit.Size = new System.Drawing.Size(128, 73);
+            this.btn_Exit.Size = new System.Drawing.Size(96, 59);
             this.btn_Exit.TabIndex = 49;
             this.btn_Exit.Text = "Exit";
             this.btn_Exit.UseVisualStyleBackColor = true;
@@ -227,10 +214,9 @@
             // 
             // btn_Main
             // 
-            this.btn_Main.Location = new System.Drawing.Point(148, 535);
-            this.btn_Main.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Main.Location = new System.Drawing.Point(111, 435);
             this.btn_Main.Name = "btn_Main";
-            this.btn_Main.Size = new System.Drawing.Size(131, 73);
+            this.btn_Main.Size = new System.Drawing.Size(98, 59);
             this.btn_Main.TabIndex = 49;
             this.btn_Main.Text = "Main";
             this.btn_Main.UseVisualStyleBackColor = true;
@@ -238,10 +224,9 @@
             // 
             // btnCalibration
             // 
-            this.btnCalibration.Location = new System.Drawing.Point(148, 700);
-            this.btnCalibration.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCalibration.Location = new System.Drawing.Point(111, 569);
             this.btnCalibration.Name = "btnCalibration";
-            this.btnCalibration.Size = new System.Drawing.Size(131, 73);
+            this.btnCalibration.Size = new System.Drawing.Size(98, 59);
             this.btnCalibration.TabIndex = 61;
             this.btnCalibration.Text = "Calibration";
             this.btnCalibration.UseVisualStyleBackColor = true;
@@ -255,10 +240,9 @@
             // 
             // btn_NewPass
             // 
-            this.btn_NewPass.Location = new System.Drawing.Point(12, 618);
-            this.btn_NewPass.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_NewPass.Location = new System.Drawing.Point(9, 502);
             this.btn_NewPass.Name = "btn_NewPass";
-            this.btn_NewPass.Size = new System.Drawing.Size(128, 73);
+            this.btn_NewPass.Size = new System.Drawing.Size(96, 59);
             this.btn_NewPass.TabIndex = 49;
             this.btn_NewPass.Text = "Security_NewPassword";
             this.btn_NewPass.UseVisualStyleBackColor = true;
@@ -266,10 +250,9 @@
             // 
             // btn_Security_UserLevel
             // 
-            this.btn_Security_UserLevel.Location = new System.Drawing.Point(148, 618);
-            this.btn_Security_UserLevel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Security_UserLevel.Location = new System.Drawing.Point(111, 502);
             this.btn_Security_UserLevel.Name = "btn_Security_UserLevel";
-            this.btn_Security_UserLevel.Size = new System.Drawing.Size(131, 73);
+            this.btn_Security_UserLevel.Size = new System.Drawing.Size(98, 59);
             this.btn_Security_UserLevel.TabIndex = 49;
             this.btn_Security_UserLevel.Text = "Security_UserLevel";
             this.btn_Security_UserLevel.UseVisualStyleBackColor = true;
@@ -277,18 +260,17 @@
             // 
             // chart2
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart2.Legends.Add(legend2);
-            this.chart2.Location = new System.Drawing.Point(1649, 26);
-            this.chart2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            chartArea1.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart2.Legends.Add(legend1);
+            this.chart2.Location = new System.Drawing.Point(1237, 21);
             this.chart2.Name = "chart2";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(161, 459);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart2.Series.Add(series1);
+            this.chart2.Size = new System.Drawing.Size(121, 373);
             this.chart2.TabIndex = 67;
             this.chart2.Text = "chart2";
             // 
@@ -299,18 +281,16 @@
             "1",
             "2",
             "3"});
-            this.cboTab.Location = new System.Drawing.Point(287, 700);
-            this.cboTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboTab.Location = new System.Drawing.Point(215, 569);
             this.cboTab.Name = "cboTab";
-            this.cboTab.Size = new System.Drawing.Size(115, 24);
+            this.cboTab.Size = new System.Drawing.Size(87, 21);
             this.cboTab.TabIndex = 64;
             // 
             // btntab
             // 
-            this.btntab.Location = new System.Drawing.Point(537, 697);
-            this.btntab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btntab.Location = new System.Drawing.Point(403, 566);
             this.btntab.Name = "btntab";
-            this.btntab.Size = new System.Drawing.Size(119, 26);
+            this.btntab.Size = new System.Drawing.Size(89, 21);
             this.btntab.TabIndex = 57;
             this.btntab.Text = "Btn TAB";
             this.btntab.UseVisualStyleBackColor = true;
@@ -318,10 +298,9 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(12, 495);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnStart.Location = new System.Drawing.Point(9, 402);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(119, 33);
+            this.btnStart.Size = new System.Drawing.Size(89, 27);
             this.btnStart.TabIndex = 57;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -329,10 +308,9 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(287, 495);
-            this.btnStop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnStop.Location = new System.Drawing.Point(215, 402);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(119, 32);
+            this.btnStop.Size = new System.Drawing.Size(89, 26);
             this.btnStop.TabIndex = 57;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -348,10 +326,10 @@
             "Pneumatic Slow",
             "Pneumatic Fast",
             "E-Motor"});
-            this.mcbo_tabActParam_GenSettings_CoBActuationMode.Location = new System.Drawing.Point(1515, 587);
-            this.mcbo_tabActParam_GenSettings_CoBActuationMode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.mcbo_tabActParam_GenSettings_CoBActuationMode.Location = new System.Drawing.Point(1136, 477);
+            this.mcbo_tabActParam_GenSettings_CoBActuationMode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.mcbo_tabActParam_GenSettings_CoBActuationMode.Name = "mcbo_tabActParam_GenSettings_CoBActuationMode";
-            this.mcbo_tabActParam_GenSettings_CoBActuationMode.Size = new System.Drawing.Size(255, 35);
+            this.mcbo_tabActParam_GenSettings_CoBActuationMode.Size = new System.Drawing.Size(192, 35);
             this.mcbo_tabActParam_GenSettings_CoBActuationMode.Style = MetroFramework.MetroColorStyle.Orange;
             this.mcbo_tabActParam_GenSettings_CoBActuationMode.TabIndex = 123;
             this.mcbo_tabActParam_GenSettings_CoBActuationMode.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -362,10 +340,10 @@
             // 
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.FormattingEnabled = true;
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.ItemHeight = 23;
-            this.mcbo_tabActParam_GenSettings_CoBSelectTest.Location = new System.Drawing.Point(1515, 538);
-            this.mcbo_tabActParam_GenSettings_CoBSelectTest.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.mcbo_tabActParam_GenSettings_CoBSelectTest.Location = new System.Drawing.Point(1136, 437);
+            this.mcbo_tabActParam_GenSettings_CoBSelectTest.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.Name = "mcbo_tabActParam_GenSettings_CoBSelectTest";
-            this.mcbo_tabActParam_GenSettings_CoBSelectTest.Size = new System.Drawing.Size(265, 29);
+            this.mcbo_tabActParam_GenSettings_CoBSelectTest.Size = new System.Drawing.Size(200, 29);
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.Style = MetroFramework.MetroColorStyle.Orange;
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.TabIndex = 122;
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.UseSelectable = true;
@@ -374,10 +352,9 @@
             // mTile_LCurrentSelectedTest
             // 
             this.mTile_LCurrentSelectedTest.ActiveControl = null;
-            this.mTile_LCurrentSelectedTest.Location = new System.Drawing.Point(899, 518);
-            this.mTile_LCurrentSelectedTest.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mTile_LCurrentSelectedTest.Location = new System.Drawing.Point(674, 421);
             this.mTile_LCurrentSelectedTest.Name = "mTile_LCurrentSelectedTest";
-            this.mTile_LCurrentSelectedTest.Size = new System.Drawing.Size(609, 55);
+            this.mTile_LCurrentSelectedTest.Size = new System.Drawing.Size(457, 45);
             this.mTile_LCurrentSelectedTest.Style = MetroFramework.MetroColorStyle.Orange;
             this.mTile_LCurrentSelectedTest.TabIndex = 124;
             this.mTile_LCurrentSelectedTest.Text = "LCurrentSelectedTest";
@@ -389,10 +366,9 @@
             // 
             // btnSaveImg
             // 
-            this.btnSaveImg.Location = new System.Drawing.Point(411, 730);
-            this.btnSaveImg.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSaveImg.Location = new System.Drawing.Point(308, 593);
             this.btnSaveImg.Name = "btnSaveImg";
-            this.btnSaveImg.Size = new System.Drawing.Size(119, 31);
+            this.btnSaveImg.Size = new System.Drawing.Size(89, 25);
             this.btnSaveImg.TabIndex = 57;
             this.btnSaveImg.Text = "Save Img";
             this.btnSaveImg.UseVisualStyleBackColor = true;
@@ -400,10 +376,9 @@
             // 
             // btnSavePDF
             // 
-            this.btnSavePDF.Location = new System.Drawing.Point(537, 730);
-            this.btnSavePDF.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSavePDF.Location = new System.Drawing.Point(403, 593);
             this.btnSavePDF.Name = "btnSavePDF";
-            this.btnSavePDF.Size = new System.Drawing.Size(119, 31);
+            this.btnSavePDF.Size = new System.Drawing.Size(89, 25);
             this.btnSavePDF.TabIndex = 57;
             this.btnSavePDF.Text = "Save Pdf";
             this.btnSavePDF.UseVisualStyleBackColor = true;
@@ -411,10 +386,9 @@
             // 
             // btnSaveTxt
             // 
-            this.btnSaveTxt.Location = new System.Drawing.Point(411, 805);
-            this.btnSaveTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSaveTxt.Location = new System.Drawing.Point(308, 654);
             this.btnSaveTxt.Name = "btnSaveTxt";
-            this.btnSaveTxt.Size = new System.Drawing.Size(119, 31);
+            this.btnSaveTxt.Size = new System.Drawing.Size(89, 25);
             this.btnSaveTxt.TabIndex = 57;
             this.btnSaveTxt.Text = "Save Txt";
             this.btnSaveTxt.UseVisualStyleBackColor = true;
@@ -422,10 +396,9 @@
             // 
             // btnSaveCsv
             // 
-            this.btnSaveCsv.Location = new System.Drawing.Point(537, 766);
-            this.btnSaveCsv.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSaveCsv.Location = new System.Drawing.Point(403, 622);
             this.btnSaveCsv.Name = "btnSaveCsv";
-            this.btnSaveCsv.Size = new System.Drawing.Size(119, 31);
+            this.btnSaveCsv.Size = new System.Drawing.Size(89, 25);
             this.btnSaveCsv.TabIndex = 57;
             this.btnSaveCsv.Text = "Save Csv";
             this.btnSaveCsv.UseVisualStyleBackColor = true;
@@ -433,10 +406,9 @@
             // 
             // btnSaveXls
             // 
-            this.btnSaveXls.Location = new System.Drawing.Point(411, 766);
-            this.btnSaveXls.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSaveXls.Location = new System.Drawing.Point(308, 622);
             this.btnSaveXls.Name = "btnSaveXls";
-            this.btnSaveXls.Size = new System.Drawing.Size(119, 31);
+            this.btnSaveXls.Size = new System.Drawing.Size(89, 25);
             this.btnSaveXls.TabIndex = 57;
             this.btnSaveXls.Text = "Save Xls";
             this.btnSaveXls.UseVisualStyleBackColor = true;
@@ -444,10 +416,9 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(537, 805);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnClear.Location = new System.Drawing.Point(403, 654);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(119, 31);
+            this.btnClear.Size = new System.Drawing.Size(89, 25);
             this.btnClear.TabIndex = 57;
             this.btnClear.Text = "CLEAR";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -455,10 +426,9 @@
             // 
             // btnLoadActualTestOnlyData
             // 
-            this.btnLoadActualTestOnlyData.Location = new System.Drawing.Point(899, 602);
-            this.btnLoadActualTestOnlyData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLoadActualTestOnlyData.Location = new System.Drawing.Point(674, 489);
             this.btnLoadActualTestOnlyData.Name = "btnLoadActualTestOnlyData";
-            this.btnLoadActualTestOnlyData.Size = new System.Drawing.Size(245, 33);
+            this.btnLoadActualTestOnlyData.Size = new System.Drawing.Size(184, 27);
             this.btnLoadActualTestOnlyData.TabIndex = 57;
             this.btnLoadActualTestOnlyData.Text = "Load Actual Test Txt Only Data";
             this.btnLoadActualTestOnlyData.UseVisualStyleBackColor = true;
@@ -467,40 +437,36 @@
             // lblStart
             // 
             this.lblStart.AutoSize = true;
-            this.lblStart.Location = new System.Drawing.Point(1512, 802);
-            this.lblStart.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblStart.Location = new System.Drawing.Point(1134, 652);
             this.lblStart.Name = "lblStart";
-            this.lblStart.Size = new System.Drawing.Size(52, 17);
+            this.lblStart.Size = new System.Drawing.Size(39, 13);
             this.lblStart.TabIndex = 125;
             this.lblStart.Text = "lblStart";
             // 
             // lblStop
             // 
             this.lblStop.AutoSize = true;
-            this.lblStop.Location = new System.Drawing.Point(1519, 837);
-            this.lblStop.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblStop.Location = new System.Drawing.Point(1139, 680);
             this.lblStop.Name = "lblStop";
-            this.lblStop.Size = new System.Drawing.Size(51, 17);
+            this.lblStop.Size = new System.Drawing.Size(39, 13);
             this.lblStop.TabIndex = 125;
             this.lblStop.Text = "lblStop";
             // 
             // lblClock
             // 
             this.lblClock.AutoSize = true;
-            this.lblClock.Location = new System.Drawing.Point(1512, 750);
-            this.lblClock.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblClock.Location = new System.Drawing.Point(1134, 609);
             this.lblClock.Name = "lblClock";
-            this.lblClock.Size = new System.Drawing.Size(56, 17);
+            this.lblClock.Size = new System.Drawing.Size(44, 13);
             this.lblClock.TabIndex = 126;
             this.lblClock.Text = "lblClock";
             // 
             // lblClockTick
             // 
             this.lblClockTick.AutoSize = true;
-            this.lblClockTick.Location = new System.Drawing.Point(1519, 871);
-            this.lblClockTick.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblClockTick.Location = new System.Drawing.Point(1139, 708);
             this.lblClockTick.Name = "lblClockTick";
-            this.lblClockTick.Size = new System.Drawing.Size(82, 17);
+            this.lblClockTick.Size = new System.Drawing.Size(65, 13);
             this.lblClockTick.TabIndex = 127;
             this.lblClockTick.Text = "lblClockTick";
             // 
@@ -513,10 +479,9 @@
             // lblClockTick2
             // 
             this.lblClockTick2.AutoSize = true;
-            this.lblClockTick2.Location = new System.Drawing.Point(1512, 710);
-            this.lblClockTick2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblClockTick2.Location = new System.Drawing.Point(1134, 577);
             this.lblClockTick2.Name = "lblClockTick2";
-            this.lblClockTick2.Size = new System.Drawing.Size(90, 17);
+            this.lblClockTick2.Size = new System.Drawing.Size(71, 13);
             this.lblClockTick2.TabIndex = 127;
             this.lblClockTick2.Text = "lblClockTick2";
             // 
@@ -528,10 +493,9 @@
             // 
             // btnLoadActualTestComplete
             // 
-            this.btnLoadActualTestComplete.Location = new System.Drawing.Point(897, 684);
-            this.btnLoadActualTestComplete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLoadActualTestComplete.Location = new System.Drawing.Point(673, 556);
             this.btnLoadActualTestComplete.Name = "btnLoadActualTestComplete";
-            this.btnLoadActualTestComplete.Size = new System.Drawing.Size(247, 33);
+            this.btnLoadActualTestComplete.Size = new System.Drawing.Size(185, 27);
             this.btnLoadActualTestComplete.TabIndex = 128;
             this.btnLoadActualTestComplete.Text = "Load Actual Test File Completed";
             this.btnLoadActualTestComplete.UseVisualStyleBackColor = true;
@@ -539,10 +503,9 @@
             // 
             // btnLoadExistingTestComplete
             // 
-            this.btnLoadExistingTestComplete.Location = new System.Drawing.Point(897, 727);
-            this.btnLoadExistingTestComplete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLoadExistingTestComplete.Location = new System.Drawing.Point(673, 591);
             this.btnLoadExistingTestComplete.Name = "btnLoadExistingTestComplete";
-            this.btnLoadExistingTestComplete.Size = new System.Drawing.Size(247, 33);
+            this.btnLoadExistingTestComplete.Size = new System.Drawing.Size(185, 27);
             this.btnLoadExistingTestComplete.TabIndex = 128;
             this.btnLoadExistingTestComplete.Text = "Load Existing Test File Completed";
             this.btnLoadExistingTestComplete.UseVisualStyleBackColor = true;
@@ -550,10 +513,9 @@
             // 
             // btnLoadExistingTestOnlyData
             // 
-            this.btnLoadExistingTestOnlyData.Location = new System.Drawing.Point(899, 645);
-            this.btnLoadExistingTestOnlyData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLoadExistingTestOnlyData.Location = new System.Drawing.Point(674, 524);
             this.btnLoadExistingTestOnlyData.Name = "btnLoadExistingTestOnlyData";
-            this.btnLoadExistingTestOnlyData.Size = new System.Drawing.Size(245, 33);
+            this.btnLoadExistingTestOnlyData.Size = new System.Drawing.Size(184, 27);
             this.btnLoadExistingTestOnlyData.TabIndex = 57;
             this.btnLoadExistingTestOnlyData.Text = "Load Existing Test Txt Only Data";
             this.btnLoadExistingTestOnlyData.UseVisualStyleBackColor = true;
@@ -561,10 +523,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(899, 802);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button3.Location = new System.Drawing.Point(674, 652);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(247, 33);
+            this.button3.Size = new System.Drawing.Size(185, 27);
             this.button3.TabIndex = 128;
             this.button3.Text = "Load Existing Test File Completed";
             this.button3.UseVisualStyleBackColor = true;
@@ -572,18 +533,17 @@
             // 
             // devChart
             // 
-            this.devChart.Location = new System.Drawing.Point(13, 6);
-            this.devChart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.devChart.Location = new System.Drawing.Point(10, 5);
             this.devChart.Name = "devChart";
             this.devChart.SeriesSerializable = new DevExpress.XtraCharts.Series[0];
-            this.devChart.Size = new System.Drawing.Size(1495, 466);
+            this.devChart.Size = new System.Drawing.Size(1121, 379);
             this.devChart.TabIndex = 130;
             // 
             // Form_Tests
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1540, 846);
+            this.ClientSize = new System.Drawing.Size(1155, 687);
             this.Controls.Add(this.devChart);
             this.Controls.Add(this.chart2);
             this.Controls.Add(this.button3);
@@ -626,7 +586,6 @@
             this.Controls.Add(this.btn_SelectTubeConsumers);
             this.Controls.Add(this.btn_SelectEvalProgram);
             this.Controls.Add(this.btn_CreateEvalGroup);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form_Tests";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form_Tests";

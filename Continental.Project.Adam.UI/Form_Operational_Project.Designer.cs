@@ -1,7 +1,7 @@
 ﻿
 namespace Continental.Project.Adam.UI
 {
-    partial class Form_Operational_LoadEval
+    partial class Form_Operational_Project
     {
         /// <summary>
         /// Required designer variable.
@@ -30,9 +30,9 @@ namespace Continental.Project.Adam.UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Operational_LoadEval));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Operational_Project));
             this.mbtn_BDeleteTest = new MetroFramework.Controls.MetroButton();
-            this.mbtn_BLoadMeasurement = new MetroFramework.Controls.MetroButton();
+            this.mbtn_BLoadTest = new MetroFramework.Controls.MetroButton();
             this.mbtn_BExportSeries = new MetroFramework.Controls.MetroButton();
             this.mbtn_Ok = new MetroFramework.Controls.MetroButton();
             this.mchk_CBExportExcelSeries = new MetroFramework.Controls.MetroCheckBox();
@@ -60,48 +60,49 @@ namespace Continental.Project.Adam.UI
             this.mtxt_Booster = new MetroFramework.Controls.MetroTextBox();
             this.mtxt_Tmc = new MetroFramework.Controls.MetroTextBox();
             this.mpnl_AvailableProjects = new MetroFramework.Controls.MetroPanel();
-            this.grid_LVExplorer = new System.Windows.Forms.DataGridView();
+            this.grid_ProjectTest = new System.Windows.Forms.DataGridView();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.mTile_AvailableProjects = new MetroFramework.Controls.MetroTile();
-            this.tree_TVExplorer = new System.Windows.Forms.TreeView();
+            this.tree_Projects = new System.Windows.Forms.TreeView();
             this.ILExplorer = new System.Windows.Forms.ImageList(this.components);
             this.DlgOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.DlgSaveFile = new System.Windows.Forms.SaveFileDialog();
+            this.mbtn_BDeleteProject = new MetroFramework.Controls.MetroButton();
             this.mpnl_Comment.SuspendLayout();
             this.mpnl_CurrentProject.SuspendLayout();
             this.mpnl_AvailableProjects.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grid_LVExplorer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grid_ProjectTest)).BeginInit();
             this.SuspendLayout();
             // 
             // mbtn_BDeleteTest
             // 
             this.mbtn_BDeleteTest.Enabled = false;
             this.mbtn_BDeleteTest.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.mbtn_BDeleteTest.Location = new System.Drawing.Point(10, 653);
+            this.mbtn_BDeleteTest.Location = new System.Drawing.Point(12, 699);
             this.mbtn_BDeleteTest.Name = "mbtn_BDeleteTest";
-            this.mbtn_BDeleteTest.Size = new System.Drawing.Size(624, 45);
+            this.mbtn_BDeleteTest.Size = new System.Drawing.Size(310, 45);
             this.mbtn_BDeleteTest.TabIndex = 0;
             this.mbtn_BDeleteTest.Text = "&Delete Test";
             this.mbtn_BDeleteTest.UseSelectable = true;
             this.mbtn_BDeleteTest.Click += new System.EventHandler(this.mbtn_BDeleteTest_Click);
             // 
-            // mbtn_BLoadMeasurement
+            // mbtn_BLoadTest
             // 
-            this.mbtn_BLoadMeasurement.Enabled = false;
-            this.mbtn_BLoadMeasurement.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.mbtn_BLoadMeasurement.Location = new System.Drawing.Point(10, 704);
-            this.mbtn_BLoadMeasurement.Name = "mbtn_BLoadMeasurement";
-            this.mbtn_BLoadMeasurement.Size = new System.Drawing.Size(624, 45);
-            this.mbtn_BLoadMeasurement.TabIndex = 2;
-            this.mbtn_BLoadMeasurement.Text = "&Load Test";
-            this.mbtn_BLoadMeasurement.UseSelectable = true;
-            this.mbtn_BLoadMeasurement.Click += new System.EventHandler(this.mbtn_BLoadMeasurement_Click);
+            this.mbtn_BLoadTest.Enabled = false;
+            this.mbtn_BLoadTest.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.mbtn_BLoadTest.Location = new System.Drawing.Point(328, 699);
+            this.mbtn_BLoadTest.Name = "mbtn_BLoadTest";
+            this.mbtn_BLoadTest.Size = new System.Drawing.Size(310, 45);
+            this.mbtn_BLoadTest.TabIndex = 2;
+            this.mbtn_BLoadTest.Text = "&Load Test";
+            this.mbtn_BLoadTest.UseSelectable = true;
+            this.mbtn_BLoadTest.Click += new System.EventHandler(this.mbtn_BLoadTest_Click);
             // 
             // mbtn_BExportSeries
             // 
             this.mbtn_BExportSeries.Enabled = false;
             this.mbtn_BExportSeries.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.mbtn_BExportSeries.Location = new System.Drawing.Point(674, 653);
+            this.mbtn_BExportSeries.Location = new System.Drawing.Point(674, 699);
             this.mbtn_BExportSeries.Name = "mbtn_BExportSeries";
             this.mbtn_BExportSeries.Size = new System.Drawing.Size(450, 45);
             this.mbtn_BExportSeries.TabIndex = 3;
@@ -124,9 +125,9 @@ namespace Continental.Project.Adam.UI
             this.mchk_CBExportExcelSeries.AutoSize = true;
             this.mchk_CBExportExcelSeries.Enabled = false;
             this.mchk_CBExportExcelSeries.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.mchk_CBExportExcelSeries.Location = new System.Drawing.Point(674, 719);
+            this.mchk_CBExportExcelSeries.Location = new System.Drawing.Point(674, 659);
             this.mchk_CBExportExcelSeries.Name = "mchk_CBExportExcelSeries";
-            this.mchk_CBExportExcelSeries.Size = new System.Drawing.Size(71, 25);
+            this.mchk_CBExportExcelSeries.Size = new System.Drawing.Size(66, 25);
             this.mchk_CBExportExcelSeries.TabIndex = 5;
             this.mchk_CBExportExcelSeries.Text = "Excel";
             this.mchk_CBExportExcelSeries.UseSelectable = true;
@@ -136,9 +137,9 @@ namespace Continental.Project.Adam.UI
             this.mchk_CBExportBitmapSeries.AutoSize = true;
             this.mchk_CBExportBitmapSeries.Enabled = false;
             this.mchk_CBExportBitmapSeries.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.mchk_CBExportBitmapSeries.Location = new System.Drawing.Point(851, 719);
+            this.mchk_CBExportBitmapSeries.Location = new System.Drawing.Point(851, 659);
             this.mchk_CBExportBitmapSeries.Name = "mchk_CBExportBitmapSeries";
-            this.mchk_CBExportBitmapSeries.Size = new System.Drawing.Size(95, 25);
+            this.mchk_CBExportBitmapSeries.Size = new System.Drawing.Size(89, 25);
             this.mchk_CBExportBitmapSeries.TabIndex = 6;
             this.mchk_CBExportBitmapSeries.Text = "Pictures";
             this.mchk_CBExportBitmapSeries.UseSelectable = true;
@@ -148,9 +149,9 @@ namespace Continental.Project.Adam.UI
             this.mchk_CBPrintSeries.AutoSize = true;
             this.mchk_CBPrintSeries.Enabled = false;
             this.mchk_CBPrintSeries.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.mchk_CBPrintSeries.Location = new System.Drawing.Point(1060, 719);
+            this.mchk_CBPrintSeries.Location = new System.Drawing.Point(1060, 659);
             this.mchk_CBPrintSeries.Name = "mchk_CBPrintSeries";
-            this.mchk_CBPrintSeries.Size = new System.Drawing.Size(68, 25);
+            this.mchk_CBPrintSeries.Size = new System.Drawing.Size(64, 25);
             this.mchk_CBPrintSeries.TabIndex = 7;
             this.mchk_CBPrintSeries.Text = "Print";
             this.mchk_CBPrintSeries.UseSelectable = true;
@@ -207,7 +208,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_Comment.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_Comment.Location = new System.Drawing.Point(5, 15);
             this.mlbl_Comment.Name = "mlbl_Comment";
-            this.mlbl_Comment.Size = new System.Drawing.Size(78, 20);
+            this.mlbl_Comment.Size = new System.Drawing.Size(74, 19);
             this.mlbl_Comment.TabIndex = 9;
             this.mlbl_Comment.Text = "Comment";
             // 
@@ -247,13 +248,14 @@ namespace Continental.Project.Adam.UI
             this.mlbl_TestingDate.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_TestingDate.Location = new System.Drawing.Point(5, 514);
             this.mlbl_TestingDate.Name = "mlbl_TestingDate";
-            this.mlbl_TestingDate.Size = new System.Drawing.Size(97, 20);
+            this.mlbl_TestingDate.Size = new System.Drawing.Size(91, 19);
             this.mlbl_TestingDate.TabIndex = 26;
             this.mlbl_TestingDate.Text = "Testing Date";
             // 
             // mTileCurrentProject
             // 
             this.mTileCurrentProject.ActiveControl = null;
+            this.mTileCurrentProject.Enabled = false;
             this.mTileCurrentProject.Location = new System.Drawing.Point(0, 1);
             this.mTileCurrentProject.Name = "mTileCurrentProject";
             this.mTileCurrentProject.Size = new System.Drawing.Size(350, 60);
@@ -261,11 +263,10 @@ namespace Continental.Project.Adam.UI
             this.mTileCurrentProject.TabIndex = 21;
             this.mTileCurrentProject.Text = "Current Project";
             this.mTileCurrentProject.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mTileCurrentProject.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.mTileCurrentProject.Theme = MetroFramework.MetroThemeStyle.Light;
             this.mTileCurrentProject.TileTextFontSize = MetroFramework.MetroTileTextSize.Tall;
             this.mTileCurrentProject.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.mTileCurrentProject.UseSelectable = true;
-            this.mTileCurrentProject.Click += new System.EventHandler(this.mTileCurrentProject_Click);
             // 
             // mlbl_Booster
             // 
@@ -273,7 +274,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_Booster.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_Booster.Location = new System.Drawing.Point(5, 227);
             this.mlbl_Booster.Name = "mlbl_Booster";
-            this.mlbl_Booster.Size = new System.Drawing.Size(77, 20);
+            this.mlbl_Booster.Size = new System.Drawing.Size(73, 19);
             this.mlbl_Booster.TabIndex = 25;
             this.mlbl_Booster.Text = "Booster #";
             // 
@@ -283,7 +284,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_ProductionDate.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_ProductionDate.Location = new System.Drawing.Point(5, 343);
             this.mlbl_ProductionDate.Name = "mlbl_ProductionDate";
-            this.mlbl_ProductionDate.Size = new System.Drawing.Size(123, 20);
+            this.mlbl_ProductionDate.Size = new System.Drawing.Size(118, 19);
             this.mlbl_ProductionDate.TabIndex = 23;
             this.mlbl_ProductionDate.Text = "Production Date";
             // 
@@ -293,7 +294,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_Tmc.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_Tmc.Location = new System.Drawing.Point(5, 285);
             this.mlbl_Tmc.Name = "mlbl_Tmc";
-            this.mlbl_Tmc.Size = new System.Drawing.Size(54, 20);
+            this.mlbl_Tmc.Size = new System.Drawing.Size(51, 19);
             this.mlbl_Tmc.TabIndex = 24;
             this.mlbl_Tmc.Text = "TMC #";
             // 
@@ -303,7 +304,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_TO.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_TO.Location = new System.Drawing.Point(5, 401);
             this.mlbl_TO.Name = "mlbl_TO";
-            this.mlbl_TO.Size = new System.Drawing.Size(48, 20);
+            this.mlbl_TO.Size = new System.Drawing.Size(46, 19);
             this.mlbl_TO.TabIndex = 22;
             this.mlbl_TO.Text = "T.O. #";
             // 
@@ -344,7 +345,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_Tester.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_Tester.Location = new System.Drawing.Point(5, 459);
             this.mlbl_Tester.Name = "mlbl_Tester";
-            this.mlbl_Tester.Size = new System.Drawing.Size(52, 20);
+            this.mlbl_Tester.Size = new System.Drawing.Size(49, 19);
             this.mlbl_Tester.TabIndex = 21;
             this.mlbl_Tester.Text = "Tester";
             // 
@@ -416,7 +417,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_Ident.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_Ident.Location = new System.Drawing.Point(5, 111);
             this.mlbl_Ident.Name = "mlbl_Ident";
-            this.mlbl_Ident.Size = new System.Drawing.Size(59, 20);
+            this.mlbl_Ident.Size = new System.Drawing.Size(55, 19);
             this.mlbl_Ident.TabIndex = 12;
             this.mlbl_Ident.Text = "Ident #";
             // 
@@ -426,7 +427,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_CustomerType.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_CustomerType.Location = new System.Drawing.Point(5, 169);
             this.mlbl_CustomerType.Name = "mlbl_CustomerType";
-            this.mlbl_CustomerType.Size = new System.Drawing.Size(139, 20);
+            this.mlbl_CustomerType.Size = new System.Drawing.Size(132, 19);
             this.mlbl_CustomerType.TabIndex = 13;
             this.mlbl_CustomerType.Text = "Custommer / Type";
             // 
@@ -587,10 +588,10 @@ namespace Continental.Project.Adam.UI
             // 
             // mpnl_AvailableProjects
             // 
-            this.mpnl_AvailableProjects.Controls.Add(this.grid_LVExplorer);
+            this.mpnl_AvailableProjects.Controls.Add(this.grid_ProjectTest);
             this.mpnl_AvailableProjects.Controls.Add(this.progressBar);
             this.mpnl_AvailableProjects.Controls.Add(this.mTile_AvailableProjects);
-            this.mpnl_AvailableProjects.Controls.Add(this.tree_TVExplorer);
+            this.mpnl_AvailableProjects.Controls.Add(this.tree_Projects);
             this.mpnl_AvailableProjects.HorizontalScrollbarBarColor = true;
             this.mpnl_AvailableProjects.HorizontalScrollbarHighlightOnWheel = false;
             this.mpnl_AvailableProjects.HorizontalScrollbarSize = 10;
@@ -602,20 +603,20 @@ namespace Continental.Project.Adam.UI
             this.mpnl_AvailableProjects.VerticalScrollbarHighlightOnWheel = false;
             this.mpnl_AvailableProjects.VerticalScrollbarSize = 10;
             // 
-            // grid_LVExplorer
+            // grid_ProjectTest
             // 
-            this.grid_LVExplorer.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.grid_LVExplorer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grid_LVExplorer.Location = new System.Drawing.Point(411, 100);
-            this.grid_LVExplorer.MultiSelect = false;
-            this.grid_LVExplorer.Name = "grid_LVExplorer";
-            this.grid_LVExplorer.ReadOnly = true;
-            this.grid_LVExplorer.RowHeadersWidth = 51;
-            this.grid_LVExplorer.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.grid_LVExplorer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grid_LVExplorer.Size = new System.Drawing.Size(530, 400);
-            this.grid_LVExplorer.TabIndex = 94;
-            this.grid_LVExplorer.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grid_LVExplorer_CellMouseClick);
+            this.grid_ProjectTest.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.grid_ProjectTest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grid_ProjectTest.Location = new System.Drawing.Point(411, 100);
+            this.grid_ProjectTest.MultiSelect = false;
+            this.grid_ProjectTest.Name = "grid_ProjectTest";
+            this.grid_ProjectTest.ReadOnly = true;
+            this.grid_ProjectTest.RowHeadersWidth = 51;
+            this.grid_ProjectTest.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.grid_ProjectTest.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.grid_ProjectTest.Size = new System.Drawing.Size(530, 400);
+            this.grid_ProjectTest.TabIndex = 94;
+            this.grid_ProjectTest.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grid_ProjectTest_CellMouseClick);
             // 
             // progressBar
             // 
@@ -640,15 +641,15 @@ namespace Continental.Project.Adam.UI
             this.mTile_AvailableProjects.UseSelectable = true;
             this.mTile_AvailableProjects.Click += new System.EventHandler(this.mbtn_Ok_Click);
             // 
-            // tree_TVExplorer
+            // tree_Projects
             // 
-            this.tree_TVExplorer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tree_TVExplorer.Location = new System.Drawing.Point(5, 100);
-            this.tree_TVExplorer.Name = "tree_TVExplorer";
-            this.tree_TVExplorer.Size = new System.Drawing.Size(400, 400);
-            this.tree_TVExplorer.TabIndex = 3;
-            this.tree_TVExplorer.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_TVExplorer_NodeMouseClick);
-            this.tree_TVExplorer.TabIndexChanged += new System.EventHandler(this.tree_TVExplorer_TabIndexChanged);
+            this.tree_Projects.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tree_Projects.Location = new System.Drawing.Point(5, 100);
+            this.tree_Projects.Name = "tree_Projects";
+            this.tree_Projects.Size = new System.Drawing.Size(400, 400);
+            this.tree_Projects.TabIndex = 3;
+            this.tree_Projects.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_Projects_NodeMouseClick);
+            this.tree_Projects.TabIndexChanged += new System.EventHandler(this.tree_Projects_TabIndexChanged);
             // 
             // ILExplorer
             // 
@@ -660,7 +661,19 @@ namespace Continental.Project.Adam.UI
             // 
             this.DlgOpenFile.FileName = "openFileDialog1";
             // 
-            // Form_Operational_LoadEval
+            // mbtn_BDeleteProject
+            // 
+            this.mbtn_BDeleteProject.Enabled = false;
+            this.mbtn_BDeleteProject.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.mbtn_BDeleteProject.Location = new System.Drawing.Point(12, 648);
+            this.mbtn_BDeleteProject.Name = "mbtn_BDeleteProject";
+            this.mbtn_BDeleteProject.Size = new System.Drawing.Size(626, 45);
+            this.mbtn_BDeleteProject.TabIndex = 2;
+            this.mbtn_BDeleteProject.Text = "Delete &Project";
+            this.mbtn_BDeleteProject.UseSelectable = true;
+            this.mbtn_BDeleteProject.Click += new System.EventHandler(this.mbtn_BDeleteProject_Click);
+            // 
+            // Form_Operational_Project
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -674,25 +687,26 @@ namespace Continental.Project.Adam.UI
             this.Controls.Add(this.mchk_CBExportExcelSeries);
             this.Controls.Add(this.mbtn_Ok);
             this.Controls.Add(this.mbtn_BExportSeries);
-            this.Controls.Add(this.mbtn_BLoadMeasurement);
+            this.Controls.Add(this.mbtn_BLoadTest);
             this.Controls.Add(this.mbtn_BDeleteTest);
+            this.Controls.Add(this.mbtn_BDeleteProject);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1500, 1000);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1000, 650);
-            this.Name = "Form_Operational_LoadEval";
+            this.Name = "Form_Operational_Project";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Continental - ADAM Functional Test Bench - Load Available Projects";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Operational_LoadEval_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_Operational_LoadEval_FormClosed);
-            this.Load += new System.EventHandler(this.Form_Operational_LoadEval_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Operational_Project_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_Operational_Project_FormClosed);
+            this.Load += new System.EventHandler(this.Form_Operational_Project_Load);
             this.mpnl_Comment.ResumeLayout(false);
             this.mpnl_Comment.PerformLayout();
             this.mpnl_CurrentProject.ResumeLayout(false);
             this.mpnl_CurrentProject.PerformLayout();
             this.mpnl_AvailableProjects.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.grid_LVExplorer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grid_ProjectTest)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -701,7 +715,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         private MetroFramework.Controls.MetroButton mbtn_BDeleteTest;
-        private MetroFramework.Controls.MetroButton mbtn_BLoadMeasurement;
+        private MetroFramework.Controls.MetroButton mbtn_BLoadTest;
         private MetroFramework.Controls.MetroButton mbtn_BExportSeries;
         private MetroFramework.Controls.MetroButton mbtn_Ok;
         private MetroFramework.Controls.MetroCheckBox mchk_CBExportExcelSeries;
@@ -713,7 +727,7 @@ namespace Continental.Project.Adam.UI
         private MetroFramework.Controls.MetroPanel mpnl_CurrentProject;
         private MetroFramework.Controls.MetroTextBox mtxt_EIdent;
         private MetroFramework.Controls.MetroPanel mpnl_AvailableProjects;
-        private System.Windows.Forms.TreeView tree_TVExplorer;
+        private System.Windows.Forms.TreeView tree_Projects;
         private MetroFramework.Controls.MetroLabel mlbl_TestingDate;
         private MetroFramework.Controls.MetroLabel mlbl_Booster;
         private MetroFramework.Controls.MetroLabel mlbl_Tmc;
@@ -735,6 +749,7 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.OpenFileDialog DlgOpenFile;
         private System.Windows.Forms.SaveFileDialog DlgSaveFile;
-        private System.Windows.Forms.DataGridView grid_LVExplorer;
+        private System.Windows.Forms.DataGridView grid_ProjectTest;
+        private MetroFramework.Controls.MetroButton mbtn_BDeleteProject;
     }
 }

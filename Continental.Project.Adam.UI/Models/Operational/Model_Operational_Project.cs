@@ -1,11 +1,12 @@
 ﻿using Continental.Project.Adam.UI.Enum;
+using Continental.Project.Adam.UI.Models.Manager;
 using Continental.Project.Adam.UI.Models.Security;
 
 namespace Continental.Project.Adam.UI.Models.Operational
 {
     public class Model_Operational_Project
     {
-        public long Id { get; set; }
+        public long IdProject { get; set; }
         public string Identification { get; set; }
         public string CustomerType { get; set; }
         public string Booster { get; set; }
@@ -22,5 +23,7 @@ namespace Continental.Project.Adam.UI.Models.Operational
         public string PrjTestFileName { get; set; }
 
         public Model_SecurityUser User { get; set; }
+
+        public Model_Manager_TestAvailable TestAvailable { get; set; }
     }
 }

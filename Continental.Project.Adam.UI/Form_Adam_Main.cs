@@ -402,13 +402,13 @@ namespace Continental.Project.Adam.UI
         #region BUTTONS HEADER
         private void mbtn_BStart_Click(object sender, EventArgs e)
         {
-            TEST_StartCommand();
+            TEST_Start_Command();
 
             tbc_Main.SelectedTab = tbc_Main.TabPages["tab_CPX_Visu"];
         }
         private void mbtn_BStop_Click(object sender, EventArgs e)
         {
-            TEST_StopCommand();
+            TEST_Stop_Command();
         }
         private void mtbn_PrintPramList_Click(object sender, EventArgs e)
         {
@@ -504,7 +504,7 @@ namespace Continental.Project.Adam.UI
             //hide a tab by removing it from the TabPages collection
             if (!_helperApp.AppUseSimulateLocal)
             {
-                bool bTabAccessOk = tab_TableParametersEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentTestFile.is_Created;
+                bool bTabAccessOk = tab_TableParametersEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
 
                 if (e.TabPage == tab_TableParameters)
                     if (!bTabAccessOk)
@@ -536,7 +536,7 @@ namespace Continental.Project.Adam.UI
                         }
                         else
                         {
-                            if (tab_TableParametersEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentTestFile.is_Created)
+                            if (tab_TableParametersEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created)
                             {
                                 tbc_Main.SelectedTab = tbc_Main.TabPages["tab_TableParameters"];
 
@@ -579,7 +579,7 @@ namespace Continental.Project.Adam.UI
             }
             else
                 if (!_bAppStart)
-                    ReadSimulateTestFile();
+                TXTFileHBM_LoadData();
         }
 
         private void OpenURLInBrowser(string url)
@@ -1910,11 +1910,11 @@ namespace Continental.Project.Adam.UI
                     HelperTestBase.eExamType = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(sel_ix);
 
                     if (HelperTestBase.eExamType == eEXAMTYPE.ET_USER_DEFINED)
-                        HelperTestBase.currentTestFile.is_user_defined = true;
+                        HelperTestBase.currentProjectTest.is_user_defined = true;
 
                     //  // save edited data & load corresp. data of new selection, if user defined test
                     if (HelperTestBase.eExamType != eEXAMTYPE.ET_NONE)
-                        if (HelperTestBase.currentTestFile.is_user_defined)
+                        if (HelperTestBase.currentProjectTest.is_user_defined)
                         {
                             if (last_sel_ix >= 0)
                             {
@@ -1946,7 +1946,7 @@ namespace Continental.Project.Adam.UI
                     HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado);
 
                     tab_TableParametersEnable = false;
-                    HelperTestBase.currentTestFile.is_Created = false;
+                    HelperTestBase.currentProjectTest.is_Created = false;
 
                     _bCoBSelectTestSelected = false;
 
@@ -4417,7 +4417,7 @@ namespace Continental.Project.Adam.UI
         #region TEST PROCESS
 
         #region START SEQUENCE PROCESS
-        public void TEST_StartCommand()
+        public void TEST_Start_Command()
         {
             try
             {
@@ -4431,22 +4431,18 @@ namespace Continental.Project.Adam.UI
                     MessageBox.Show("No test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 else
                 {
-                    if (_helperApp.AppUseSimulateLocal)
+                    if (!HelperTestBase.currentProjectTest.is_Created)
                     {
-                        if (DialogResult.No == MessageBox.Show("\tSTART SIMULATE MODE!" + "\n\n\n" + "Do you want following with SIMULATED Test ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                        if (DialogResult.No == MessageBox.Show("\tPROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                             return;
-                        else
-                            LogTestSequence("BTN START SIMULATE MODE");
                     }
-                    else
-                    {
-                        string strMsg = String.Concat("\tSTART APPLICATION TEST!", "\n\n\n", "\tDo you want following with Test ? ", "\n\n\n", $"\t{EnumExtensionMethods.GetDescriptionEXAMTYPE(HelperTestBase.eExamType)}");
 
-                        if (DialogResult.No == MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
-                            return;
-                        else
-                            LogTestSequence("BTN START");
-                    }
+                    string strMsg = String.Concat("\tSTART TEST PROCESS !", "\n\n\n", "\tDo you want following with Test ? ", "\n\n\n", $"\t{EnumExtensionMethods.GetDescriptionEXAMTYPE(HelperTestBase.eExamType)}");
+
+                    if (DialogResult.No == MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                        return;
+                    else
+                        LogTestSequence("BTN START");
 
                     #region Start Command
 
@@ -4472,7 +4468,7 @@ namespace Continental.Project.Adam.UI
 
                                 if (_helperApp.CheckFileExists(_prjTestFilename))
                                 {
-                                    HelperTestBase.currentTestFile.is_Created = true;
+                                    HelperTestBase.currentProjectTest.is_Created = true;
                                     LogTestSequence("SIMULATE MODE OK");
                                 }
                                 else
@@ -4528,7 +4524,7 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public bool TEST_StartSequence()
+        public bool TEST_Start_Sequence()
         {
             //// abort here, if nothing to do...
             if (HelperTestBase.eExamType == eEXAMTYPE.ET_NONE || HelperApp.uiTesteSelecionado == 0)
@@ -4541,7 +4537,7 @@ namespace Continental.Project.Adam.UI
                 LogTestSequence("TESTE SEQUENCE START");
 
                 //// abort here, if any precondition violated...
-                if (!TEST_StartValidatePreCondition())
+                if (!TEST_Start_ValidatePreCondition())
                     return false;
 
                 if (mchk_tabActParam_GenSettings_CBStartFromSelection.Checked)
@@ -4567,7 +4563,7 @@ namespace Continental.Project.Adam.UI
                         break;
                 }
 
-                HelperTestBase.currentTestFile.TestingDate = _strTimeStamp;
+                HelperTestBase.currentProjectTest.TestingDate = _strTimeStamp;
 
                 #region Escrita Modbus Parametros comuns
 
@@ -4661,7 +4657,7 @@ namespace Continental.Project.Adam.UI
 
                 _helperCom.SelecaoPrograma();
 
-                ChartClear(devChart);
+                CHART_Clear(devChart);
 
                 _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado);
 
@@ -4674,7 +4670,7 @@ namespace Continental.Project.Adam.UI
 
             return true;
         }
-        private bool TEST_StartValidatePreCondition()
+        private bool TEST_Start_ValidatePreCondition()
         {
             //// abort here, if nothing to do...
             //if (!HelperTestBase.currentTestFile.is_Created)
@@ -4786,7 +4782,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region STOP SEQUENCE PROCESS
-        public void TEST_StopCommand()
+        public void TEST_Stop_Command()
         {
             try
             {
@@ -4810,7 +4806,7 @@ namespace Continental.Project.Adam.UI
 
                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wParadaGeral }, 0);
 
-                ChartClear(devChart);
+                CHART_Clear(devChart);
 
                 LogTestSequence("TESTE SEQUENCE STOP");
             }
@@ -4820,14 +4816,14 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public bool TEST_StopSequence()
+        public bool TEST_Stop_Sequence()
         {
             LogTestSequence("BTN STOP"); ;
 
             //// abort here, if nothing to do...
-            if (!HelperTestBase.currentTestFile.is_Created)
+            if (!HelperTestBase.currentProjectTest.is_Created)
             {
-                if (DialogResult.No == MessageBox.Show("NOT CREATED TEST FILE!" + "\n\n\n" + "Do you want STOP with SIMULATED Test ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                if (DialogResult.No == MessageBox.Show("NOT CREATED TEST FILE!" + "\n\n\n" + "Do you want STOP with SIMULATED Test ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                     return false;
             }
 
@@ -4837,7 +4833,7 @@ namespace Continental.Project.Adam.UI
             //if (!TEST_StopValidatePreCondition())
             //    return false;
 
-            ChartClear(devChart);
+            CHART_Clear(devChart);
 
             return true;
         }
@@ -4845,75 +4841,132 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region DATA RECORD PROCESS
-        private void TEST_DataRecordStart()
+        private void TEST_DataRecord_Start()
         {
-            if (!HelperMODBUS.CS_wGravacaoIniciada)
+            try
             {
-                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wGravacaoIniciada }, 1);
-
-                ////INFO GRAVACAO
-                mbtn_BRecordStart.BackColor = colorON;
-                mbtn_BRecording.BackColor = colorON;
-
-                HelperTestBase.running = true;
-
-                LogTestSequence("CMD START RECORD DATA HBM ");
-
-                timerHBM.Enabled = true;
-
-                //HBM_SaveAquisitionTxtData();
-
-                //if (_helperApp.bgWorker.IsBusy != true)
-                //    _helperApp.bgWorker.RunWorkerAsync();
-            }
-            else
-            {
-                mbtn_BRecordStart.BackColor = colorOFF;
-                mbtn_BRecording.BackColor = colorOFF;
-            }
-        }
-        private void TEST_DataRecordStop()
-        {
-            if (!HelperMODBUS.CS_wGravacaoFinalizada)
-            {
-                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wGravacaoFinalizada }, 1);
-
-                //INFO GRAVACAO
-                mbtn_BRecordStop.BackColor = colorOFF;
-                mbtn_BRecording.BackColor = colorOFF;
-
-                HelperTestBase.running = false;
-
-                LogTestSequence("CMD STOP RECORD DATA HBM ");
-
-                if (!HelperTestBase.currentTestFile.is_Created)
+                if (!HelperMODBUS.CS_wGravacaoIniciada)
                 {
-                    if (sbexterno.Length > 0)
-                    {
-                        if (CreateSimulateTestFile())
-                        {
-                            timerHBM.Enabled = false;
+                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wGravacaoIniciada }, 1);
 
-                            ////TODO MSG concluido
-                            //if (DialogResult.No == MessageBox.Show("\t TEST CONCLUDED !" + "\n\n\n" + "Do you want SAVE DATA this Test ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
-                            //{
-                            //    //delet files test
-                            //    MessageBox.Show("Test data DELETED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            //    return;
-                            //}  
-                            //else
-                                ReadSimulateTestFile();
+                    ////INFO GRAVACAO
+                    mbtn_BRecordStart.BackColor = colorON;
+                    mbtn_BRecording.BackColor = colorON;
 
-                            HBM_ClearBufferAquisitionData();
-                        }
-                        else
-                            MessageBox.Show("Failed, create test file !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    HelperTestBase.running = true;
+
+                    LogTestSequence("CMD START RECORD DATA HBM ");
+
+                    timerHBM.Enabled = true;
+
+                    //HBM_SaveAquisitionTxtData();
+
+                    //if (_helperApp.bgWorker.IsBusy != true)
+                    //    _helperApp.bgWorker.RunWorkerAsync();
                 }
                 else
-                    MessageBox.Show("Failed, test existing file !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                {
+                    mbtn_BRecordStart.BackColor = colorOFF;
+                    mbtn_BRecording.BackColor = colorOFF;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+        private void TEST_DataRecord_Stop()
+        {
+            try
+            {
+                if (!HelperMODBUS.CS_wGravacaoFinalizada)
+                {
+                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wGravacaoFinalizada }, 1);
 
-                //_helperApp.bgWorker.CancelAsync();
+                    //INFO GRAVACAO
+                    mbtn_BRecordStop.BackColor = colorOFF;
+                    mbtn_BRecording.BackColor = colorOFF;
+
+                    HelperTestBase.running = false;
+
+                    LogTestSequence("CMD STOP RECORD DATA HBM ");
+
+                    if (!HelperTestBase.currentProjectTest.is_Created)
+                    {
+                        if (sbexterno.Length > 0)
+                        {
+                            if (CreateSimulateTestFile())
+                            {
+                                timerHBM.Enabled = false;
+
+                                TEST_Concluded_Command();
+
+                                HBM_ClearBufferAquisitionData();
+                            }
+                            else
+                                MessageBox.Show("Failed, create test file !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                        MessageBox.Show("Failed, test existing file !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    //_helperApp.bgWorker.CancelAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region CONCLUDED SEQUENCE PROCESS
+        private void TEST_Concluded_Command()
+        {
+            try
+            {
+                string strMsgConcluded = String.Concat("\tTEST CONCLUDED !", "\n\n\n", "\tDo you want SAVE DATA this Test ? ", "\n\n\n", $"\t{HelperApp.strNomeTesteSelecionado}");
+
+                if (DialogResult.No == MessageBox.Show(strMsgConcluded, _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                {
+                    //delet files test
+                    TEST_Concluded_DeleteData();
+
+                    MessageBox.Show("Test data DELETED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                else
+                {
+                    if (!HelperTestBase.currentProjectTest.is_Created)
+                    {
+                        if (DialogResult.No == MessageBox.Show("\tPROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                            return;
+                    }
+                    else
+                    {
+                        TXTFileHBM_LoadData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+        private void TEST_Concluded_DeleteData()
+        {
+            try
+            {
+                TXTFileHBM_DeleteData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
             }
         }
 
@@ -4923,6 +4976,7 @@ namespace Continental.Project.Adam.UI
 
         #region TXT FILE TEST
 
+        #region TXT File Create
         private bool CreateSimulateTestFile()
         {
             #region Name File Test
@@ -4981,33 +5035,44 @@ namespace Continental.Project.Adam.UI
             //clean data test file
             sbexterno.Clear();
 
-            HelperTestBase.currentTestFile.PrjTestFileName = _prjTestFilename;
+            HelperTestBase.currentProjectTest.PrjTestFileName = _prjTestFilename;
 
-            return HelperTestBase.currentTestFile.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
+            return HelperTestBase.currentProjectTest.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
         }
-        private bool ReadSimulateTestFile()
+
+        #endregion
+
+        #region TXT File Create
+        private void TXTFileHBM_DeleteData()
         {
-            #region Initial
+        }
 
-            string fileName = string.Empty;
+        #endregion
 
-            string pathWithFileName = string.Empty;
-
-            //clean List Array Data
-            for (int i = 0; i < lstStrChReadFileArr.Length; i++)
-            {
-                if (lstStrChReadFileArr[i] != null)
-                    lstStrChReadFileArr[i].Clear();
-            }
-
-            #endregion
-
+        #region TXT File Load
+        private bool TXTFileHBM_LoadData()
+        {
             try
             {
+                #region Define
+
+                string fileName = string.Empty;
+
+                string pathWithFileName = string.Empty;
+
+                //clean List Array Data
+                for (int i = 0; i < lstStrChReadFileArr.Length; i++)
+                {
+                    if (lstStrChReadFileArr[i] != null)
+                        lstStrChReadFileArr[i].Clear();
+                }
+
+                #endregion
+
                 if (_helperApp.AppUseSimulateLocal)
                 {
                     if (HelperApp.uiTesteSelecionado > 0)
-                        LoadFileTest();
+                        TXTFileHBM_LoadData_AppUseSimulateLocal();
                 }
                 else
                 {
@@ -5024,9 +5089,9 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        fileName = HelperTestBase.currentTestFile.PrjTestFileName.Replace(_initialDirPathTestFile, "");
+                        fileName = HelperTestBase.currentProjectTest.PrjTestFileName.Replace(_initialDirPathTestFile, "");
 
-                        pathWithFileName = HelperTestBase.currentTestFile.PrjTestFileName;
+                        pathWithFileName = HelperTestBase.currentProjectTest.PrjTestFileName;
 
                         if (!string.IsNullOrEmpty(pathWithFileName))
                             lstStrChReadFileArr = _helperApp.ReadExistTestFileTextArrNew(fileName, pathWithFileName);
@@ -5067,7 +5132,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 LogTestSequence("TESTE CALC CONCLUDED");
 
-                                if (!ChartLoadActualTestComplete())
+                                if (!CHART_LoadActualTestComplete())
                                     MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 else
                                 {
@@ -5076,7 +5141,7 @@ namespace Continental.Project.Adam.UI
                                 }
 
                                 tab_TableParametersEnable = true;
-                                HelperTestBase.currentTestFile.is_Created = true;
+                                HelperTestBase.currentProjectTest.is_Created = true;
 
                                 if (tbc_Main.SelectedIndex != 0)
                                     ActivePage(0);
@@ -5100,43 +5165,10 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+
             return true;
         }
-        public void InsertHeaderToFile(List<string> lstFiledata)
-        {
-
-            //List<double> dblList = lstStrAnalogVarY01.Select(x => double.Parse(x)).ToList();
-            //var min = dblList.Min();
-            //var msx = dblList.Max();
-            //int index = dblList.IndexOf(msx);
-            //double average = dblList.Count > 0 ? dblList.Average() : 0.0;
-
-            //var find = lstStrTimestamp.ElementAt(index);
-
-            //var lstFiledata = _helperApp.ReadTextFileToList(pathWithFileName);
-
-            lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
-
-            var strSbHeader = String.Concat(_helperApp.AppendTxtData_Header_ActuationType().ToString(), Environment.NewLine);
-
-            sbDataFile.Insert(0, strSbHeader);
-
-            string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
-
-            sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
-
-            ////Create File Acquisition
-            _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
-            File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
-            //File.AppendAllText(_prjTestFilename, sbDataFile.ToString());
-
-            //List<string>[] lstStrChReadFileArr = new List<string>[5];
-        }
-        private void StartSimulate()
-        {
-            tab_ActionParameters_Set();
-        }
-        private void LoadFileTest()
+        private void TXTFileHBM_LoadData_AppUseSimulateLocal()
         {
             OpenFileDialog theDialog = new OpenFileDialog();
             theDialog.Title = "Open Text File";
@@ -5150,7 +5182,7 @@ namespace Continental.Project.Adam.UI
 
                     var pathWithFileName = theDialog.FileName;
 
-                    HelperTestBase.currentTestFile.PrjTestFileName = pathWithFileName;
+                    HelperTestBase.currentProjectTest.PrjTestFileName = pathWithFileName;
 
                     if (!string.IsNullOrEmpty(pathWithFileName))
                         lstStrChReadFileArr = _helperApp.ReadExistTestFileTextArrNew(fileName, pathWithFileName);
@@ -5192,7 +5224,7 @@ namespace Continental.Project.Adam.UI
                         {
                             LogTestSequence("TESTE CALC CONCLUDED");
 
-                            if (!ChartLoadActualTestComplete())
+                            if (!CHART_LoadActualTestComplete())
                                 MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else
                             {
@@ -5213,6 +5245,47 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
         }
+
+        #endregion
+
+        #region TXT File Header
+        public void InsertHeaderToFile(List<string> lstFiledata)
+        {
+
+            //List<double> dblList = lstStrAnalogVarY01.Select(x => double.Parse(x)).ToList();
+            //var min = dblList.Min();
+            //var msx = dblList.Max();
+            //int index = dblList.IndexOf(msx);
+            //double average = dblList.Count > 0 ? dblList.Average() : 0.0;
+
+            //var find = lstStrTimestamp.ElementAt(index);
+
+            //var lstFiledata = _helperApp.ReadTextFileToList(pathWithFileName);
+
+            lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
+
+            var strSbHeader = String.Concat(_helperApp.AppendTxtData_Header_ActuationType().ToString(), Environment.NewLine);
+
+            sbDataFile.Insert(0, strSbHeader);
+
+            string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
+
+            sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
+
+            ////Create File Acquisition
+            _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
+            File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
+            //File.AppendAllText(_prjTestFilename, sbDataFile.ToString());
+
+            //List<string>[] lstStrChReadFileArr = new List<string>[5];
+        }
+        private void StartSimulate()
+        {
+            tab_ActionParameters_Set();
+        }
+
+        #endregion
+
         #endregion
 
         #region REPORT PDF
@@ -5223,7 +5296,7 @@ namespace Continental.Project.Adam.UI
             {
                 string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
 
-                string strFileName = HelperTestBase.currentTestFile.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+                string strFileName = HelperTestBase.currentProjectTest.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
                 string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, strFileName, _helperApp.AppPath_ChartImageExtension);
 
@@ -5242,13 +5315,13 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region CHART
-        private void ChartClear(ChartControl chart)
+        private void CHART_Clear(ChartControl chart)
         {
             chart.DataSource = null;
             chart.Titles.Clear();
             chart.Series.Clear();
         }
-        private bool ChartLoadActualTestComplete()
+        private bool CHART_LoadActualTestComplete()
         {
             try
             {
@@ -5257,7 +5330,7 @@ namespace Continental.Project.Adam.UI
                     HelperTestBase.Model_GVL = _modelGVL;
 
                     //ChartLoadData(HelperTestBase.Model_GVL.GVL_Graficos, lstDblChReadFileArr);
-                    bool bCreateChart = ChartBinddDataConfig(HelperTestBase.Model_GVL.GVL_Graficos, lstDblChReadFileArr);
+                    bool bCreateChart = CHART_BinddDataConfig(HelperTestBase.Model_GVL.GVL_Graficos, lstDblChReadFileArr);
 
                     if (!bCreateChart)
                     {
@@ -5266,7 +5339,7 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        if (!ChartExportImage())
+                        if (!CHART_ExportImage())
                             MessageBox.Show("Failed, Chart Export !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         // ChartPointsAnnottion(HelperTestBase.Model_GVL.GVL_Graficos);
@@ -5292,7 +5365,7 @@ namespace Continental.Project.Adam.UI
 
             return true;
         }
-        public bool ChartBinddDataConfig(GVL_Graficos modelChartGVL, List<double>[] lstDblChReadFileArr)
+        public bool CHART_BinddDataConfig(GVL_Graficos modelChartGVL, List<double>[] lstDblChReadFileArr)
         {
             try
             {
@@ -5310,10 +5383,10 @@ namespace Continental.Project.Adam.UI
                 #region  Create a new chart.
 
                 if (devChart.Series.Count > 0)
-                    ChartClear(devChart);
+                    CHART_Clear(devChart);
 
 
-                if (!ChartCreateSerie(modelChartGVL, lstDblChReadFileArr))
+                if (!CHART_CreateSerie(modelChartGVL, lstDblChReadFileArr))
                 {
                     MessageBox.Show("Chart Create Series Failed!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
@@ -5598,7 +5671,7 @@ namespace Continental.Project.Adam.UI
 
             return true;
         }
-        public bool ChartCreateSerie(GVL_Graficos modelChartGVL, List<double>[] lstDblChReadFileArr)
+        public bool CHART_CreateSerie(GVL_Graficos modelChartGVL, List<double>[] lstDblChReadFileArr)
         {
             bool bCharSeriesOK = false;
 
@@ -5634,7 +5707,7 @@ namespace Continental.Project.Adam.UI
                 if (HelperApp.uiTesteSelecionado > 0)
                 {
                     if (devChart.Series.Count > 0)
-                        ChartClear(devChart);
+                        CHART_Clear(devChart);
 
                     #region Create a scatter line series.
 
@@ -6739,13 +6812,13 @@ namespace Continental.Project.Adam.UI
 
             return bCharSeriesOK;
         }
-        private bool ChartExportImage()
+        private bool CHART_ExportImage()
         {
             try
             {
                 string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
 
-                string fileName = HelperTestBase.currentTestFile.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, _helperApp.AppPath_ChartImageExtension);
+                string fileName = HelperTestBase.currentProjectTest.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, _helperApp.AppPath_ChartImageExtension);
 
                 string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, fileName);
 
@@ -6762,7 +6835,7 @@ namespace Continental.Project.Adam.UI
         }
 
         //Metodo para maracaco de X no chart
-        public void ChartPointsAnnottion(GVL_Graficos modelChartGVL)
+        public void CHART_PointsAnnottion(GVL_Graficos modelChartGVL)
         {
             try
             {
@@ -6965,7 +7038,7 @@ namespace Continental.Project.Adam.UI
                 {
                     LogTestSequence("Evento by CLP - CS_wIniciaGravacao");
 
-                    TEST_DataRecordStart();
+                    TEST_DataRecord_Start();
                 }
                 else
                 {
@@ -6979,7 +7052,7 @@ namespace Continental.Project.Adam.UI
                 {
                     LogTestSequence("Evento by CLP - CS_wFinalizaGravacao");
 
-                    TEST_DataRecordStop();
+                    TEST_DataRecord_Stop();
                 }
                 else
                 {
@@ -7132,7 +7205,6 @@ namespace Continental.Project.Adam.UI
                 sbexterno.Clear();
             }
         }
-
         private void HBM_Disconnect()
         {
             if (_daqMeasurement != null)
@@ -7143,7 +7215,6 @@ namespace Continental.Project.Adam.UI
                     AddToProtocol("\n\n\n\n\n\n\n\n\n **************** \n\n\n\n\n\n");
                 }
         }
-
         private void HBM_SaveAquisitionTxtData()
         {
             _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
@@ -7371,7 +7442,7 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                _prjTestFilename = HelperTestBase.currentTestFile.PrjTestFileName;
+                _prjTestFilename = HelperTestBase.currentProjectTest.PrjTestFileName;
 
                 List<string> lstChNames = new List<string>();
 
@@ -7385,7 +7456,7 @@ namespace Continental.Project.Adam.UI
 
                         _comHBM.HBM_SaveRunContinuousMeasurement(_prjTestFilename, lstChNames);
 
-                        HelperTestBase.currentTestFile.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
+                        HelperTestBase.currentProjectTest.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
                     }
                     else
                         MessageBox.Show("HBM_SaveAquisitionTxtData - HBM RunContinuous Measurement Data acquisition is already running !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -7419,7 +7490,7 @@ namespace Continental.Project.Adam.UI
                     sw.WriteLine(finalString);
                 }
 
-                HelperTestBase.currentTestFile.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
+                HelperTestBase.currentProjectTest.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
 
                 //_helperApp.AquisitionTxtData(HelperTestBase.strTimeStamp, HelperTestBase.dblAnalogVar01, HelperTestBase.dblAnalogVar02, HelperTestBase.dblAnalogVar03, HelperTestBase.dblAnalogVar04);
             }
@@ -8225,7 +8296,7 @@ namespace Continental.Project.Adam.UI
             lst_MemoEventLog.Items.Clear();
             txtLogTestSequence.Text = string.Empty;
 
-            HelperTestBase.currentTestFile.is_Created = false;
+            HelperTestBase.currentProjectTest.is_Created = false;
         }
 
         #endregion

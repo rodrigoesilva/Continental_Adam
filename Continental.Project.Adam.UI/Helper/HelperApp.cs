@@ -16819,8 +16819,8 @@ namespace Continental.Project.Adam.UI.Helper
         {
             List<string> lstReturnRead = new List<string>();
 
-            string FileName = string.Concat(dirPathTestFile, HelperTestBase.currentTestFile.PrjTestFileName);
-            string SafeFileName = HelperTestBase.currentTestFile.PrjTestFileName;
+            string FileName = string.Concat(dirPathTestFile, HelperTestBase.currentProjectTest.PrjTestFileName);
+            string SafeFileName = HelperTestBase.currentProjectTest.PrjTestFileName;
 
             if (!string.IsNullOrEmpty(FileName))
                 lstReturnRead = ReadExistTestFileText(SafeFileName, FileName);
@@ -17348,6 +17348,39 @@ namespace Continental.Project.Adam.UI.Helper
 
             return eEXAMTYPE.ET_NONE;
         }
+        #endregion
+
+        #region Session Project
+
+        private static int _uiProjectSelecionado;
+        private static string _strIdentProjectSelecionado;
+
+        private static int _uiProjectTestSelecionado;
+        private static string _strProjectTestSelecionado;
+
+        //get e set
+        public static int uiProjectSelecionado
+        {
+            get { return HelperApp._uiProjectSelecionado; }
+            set { HelperApp._uiProjectSelecionado = value; }
+        }
+        public static string strIdentProjectSelecionado
+        {
+            get { return HelperApp._strIdentProjectSelecionado; }
+            set { HelperApp._strIdentProjectSelecionado = value; }
+        }
+
+        public static int uiProjectTestSelecionado
+        {
+            get { return HelperApp._uiProjectTestSelecionado; }
+            set { HelperApp._uiProjectTestSelecionado = value; }
+        }
+        public static string strProjectTestSelecionado
+        {
+            get { return HelperApp._strProjectTestSelecionado; }
+            set { HelperApp._strProjectTestSelecionado = value; }
+        }
+
         #endregion
 
         #region Session Test

@@ -365,6 +365,53 @@ namespace Continental.Project.Adam.UI.DAL
 
         #endregion
 
+        #region ExecuteScalar
+        public int ExecuteScalar(string query)
+        {
+            return ExecuteScalar(query, CommandType.Text, ConnectionState.CloseConnectionOnExit);
+        }
+
+        public int ExecuteScalar(string query, CommandType commandtype)
+        {
+            return ExecuteScalar(query, commandtype, ConnectionState.CloseConnectionOnExit);
+        }
+
+        public int ExecuteScalar(string query, ConnectionState connectionstate)
+        {
+            return ExecuteScalar(query, CommandType.Text, connectionstate);
+        }
+
+        public int ExecuteScalar(string query, CommandType commandtype, ConnectionState connectionstate)
+        {
+            sqlCommand.CommandText = query;
+            sqlCommand.CommandType = commandtype;
+            int i = -1;
+            try
+            {
+                if (sqlConnection.State == System.Data.ConnectionState.Closed)
+                    sqlConnection.Open();
+
+                object objResult = sqlCommand.ExecuteScalar(); // ExecuteScalar fails on null
+
+                if (objResult.GetType() != typeof(DBNull))
+                    i = Convert.ToInt32(objResult);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  ExecuteScalar : " + ex.Message);
+                throw (ex);
+            }
+            finally
+            {
+                sqlCommand.Parameters.Clear();
+                if (connectionstate == ConnectionState.CloseConnectionOnExit)
+                    sqlConnection.Close();
+            }
+            return i;
+        }
+
+        #endregion
+
         #region Dispose
         public void Dispose()
         {

@@ -268,7 +268,7 @@ namespace Continental.Project.Adam.UI
             //helperAdam.SMProjectClick(sender);
 
             //MessageBox.Show("subMenu_Project_Project_Click !", helperApp.msgAppName);
-            _helperApp.Form_Open(new Form_Operational_LoadEval(eEXAMTYPE.ET_NONE, string.Empty));
+            _helperApp.Form_Open(new Form_Operational_Project(eEXAMTYPE.ET_NONE, string.Empty));
         }
 
         private void subMenu_Project_PrintGraphics_Click(object sender, EventArgs e)
@@ -316,7 +316,7 @@ namespace Continental.Project.Adam.UI
 
             MessageBox.Show("subMenu_TestProg_Start_Click !", _helperApp.appMsg_Name);
 
-            _formMain.TEST_StartCommand();
+            _formMain.TEST_Start_Command();
         }
 
         private void subMenu_TestProg_STop_Click(object sender, EventArgs e)
@@ -325,7 +325,7 @@ namespace Continental.Project.Adam.UI
 
             MessageBox.Show("subMenu_TestProg_STop_Click !", _helperApp.appMsg_Name);
 
-            _formMain.TEST_StopCommand();
+            _formMain.TEST_Stop_Command();
         }
 
         private void subMenu_TestProg_CreateUserDefinedTest_Click(object sender, EventArgs e)

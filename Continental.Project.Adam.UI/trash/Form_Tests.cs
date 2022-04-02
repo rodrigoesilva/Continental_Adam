@@ -287,7 +287,7 @@ namespace Continental.Project.Adam.UI.trash
             //    SetNewTestProgram(sel_examtype, udt_filename);
             //}
 
-            _helperApp.Form_Open(new Form_Operational_LoadEval(sel_examtype, udt_filename));
+            _helperApp.Form_Open(new Form_Operational_Project(sel_examtype, udt_filename));
         }
 
         private void btn_Bleed_Click(object sender, EventArgs e)
@@ -395,7 +395,7 @@ namespace Continental.Project.Adam.UI.trash
         }
         private void parada()
         {
-            path = string.Concat(dirPathTestFile, HelperTestBase.currentTestFile.PrjTestFileName);
+            path = string.Concat(dirPathTestFile, HelperTestBase.currentProjectTest.PrjTestFileName);
 
             if (DialogResult.Yes == MessageBox.Show("Please confirm before proceed" + "\n" + "Do you want to save this Test ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
             {
@@ -554,11 +554,11 @@ namespace Continental.Project.Adam.UI.trash
                 HelperTestBase.eExamType = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(sel_ix);
 
                 if (HelperTestBase.eExamType == eEXAMTYPE.ET_USER_DEFINED)
-                    HelperTestBase.currentTestFile.is_user_defined = true;
+                    HelperTestBase.currentProjectTest.is_user_defined = true;
 
                 //  // save edited data & load corresp. data of new selection, if user defined test
                 if (HelperTestBase.eExamType != eEXAMTYPE.ET_NONE)
-                    if (HelperTestBase.currentTestFile.is_user_defined)
+                    if (HelperTestBase.currentProjectTest.is_user_defined)
                     {
                         if (last_sel_ix >= 0)
                         {
