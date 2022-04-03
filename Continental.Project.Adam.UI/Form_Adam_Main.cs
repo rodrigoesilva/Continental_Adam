@@ -1939,6 +1939,27 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
+        #region TAB - ActuationParameters - General Settings - Chk Output
+        private void rad_EvaluationParameters_CBOutputPC_CheckedChanged(object sender, EventArgs e)
+        {
+            int statusCheck = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : 0;
+
+            _modelGVL.GVL_Parametros.iTipoConsumidores = statusCheck;
+
+            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoConsumidores }, Convert.ToDouble(_modelGVL.GVL_Parametros.iTipoConsumidores));
+        }
+
+        private void rad_EvaluationParameters_CBOutputSC_CheckedChanged(object sender, EventArgs e)
+        {
+            int statusCheck = rad_EvaluationParameters_CBOutputSC.Checked ? 1 : 0;
+
+            _modelGVL.GVL_Parametros.iTipoConsumidores = statusCheck;
+
+            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoConsumidores }, Convert.ToDouble(_modelGVL.GVL_Parametros.iTipoConsumidores));
+        }
+
+        #endregion
+
         #region TAB - ActuationParameters - General Settings - Buttons Parameters
         private void mbtn_GeneralSettings_BLoadAdjSettings_Click(object sender, EventArgs e)
         {
@@ -8670,5 +8691,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #endregion
+
+       
     }
 }

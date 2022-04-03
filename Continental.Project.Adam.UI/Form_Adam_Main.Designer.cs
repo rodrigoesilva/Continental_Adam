@@ -1656,6 +1656,7 @@ namespace Continental.Project.Adam.UI
             this.mPnl_tabActParam_GenralSettings.Controls.Add(this.mbtn_tabActParam_GenSettings_BLoadAdjSettings);
             this.mPnl_tabActParam_GenralSettings.Controls.Add(this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests);
             this.mPnl_tabActParam_GenralSettings.Controls.Add(this.mbtn_tabActParam_GenSettings_BLoadLastestParams);
+            this.mPnl_tabActParam_GenralSettings.Controls.Add(this.grpOutput);
             this.mPnl_tabActParam_GenralSettings.HorizontalScrollbarBarColor = true;
             this.mPnl_tabActParam_GenralSettings.HorizontalScrollbarHighlightOnWheel = false;
             this.mPnl_tabActParam_GenralSettings.HorizontalScrollbarSize = 10;
@@ -1670,11 +1671,12 @@ namespace Continental.Project.Adam.UI
             // mchk_tabActParam_GenSettings_CBLock
             // 
             this.mchk_tabActParam_GenSettings_CBLock.AutoSize = true;
-            this.mchk_tabActParam_GenSettings_CBLock.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.mchk_tabActParam_GenSettings_CBLock.Location = new System.Drawing.Point(16, 694);
+            this.mchk_tabActParam_GenSettings_CBLock.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.mchk_tabActParam_GenSettings_CBLock.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
+            this.mchk_tabActParam_GenSettings_CBLock.Location = new System.Drawing.Point(44, 693);
             this.mchk_tabActParam_GenSettings_CBLock.Margin = new System.Windows.Forms.Padding(2);
             this.mchk_tabActParam_GenSettings_CBLock.Name = "mchk_tabActParam_GenSettings_CBLock";
-            this.mchk_tabActParam_GenSettings_CBLock.Size = new System.Drawing.Size(118, 25);
+            this.mchk_tabActParam_GenSettings_CBLock.Size = new System.Drawing.Size(101, 19);
             this.mchk_tabActParam_GenSettings_CBLock.Style = MetroFramework.MetroColorStyle.Orange;
             this.mchk_tabActParam_GenSettings_CBLock.TabIndex = 123;
             this.mchk_tabActParam_GenSettings_CBLock.Text = "Piston Lock";
@@ -1718,19 +1720,19 @@ namespace Continental.Project.Adam.UI
             // 
             // metroPanel1
             // 
-            this.metroPanel1.Controls.Add(this.grpRadConsumer);
             this.metroPanel1.Controls.Add(this.mTile_tabActionParam_Consumer);
             this.metroPanel1.Controls.Add(this.mlbl_GeneralSettings_LTubeConsSC);
             this.metroPanel1.Controls.Add(this.mlbl_GeneralSettings_LTubeConsPC);
             this.metroPanel1.Controls.Add(this.mtxt_GeneralSettings_ETubeConsumerSCPressSide);
             this.metroPanel1.Controls.Add(this.mtxt_GeneralSettings_ETubeConsumerPCPressSide);
             this.metroPanel1.Controls.Add(this.mbtn_GeneralSettings_BSelectTubeCons);
+            this.metroPanel1.Controls.Add(this.grpRadConsumer);
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(0, 507);
+            this.metroPanel1.Location = new System.Drawing.Point(0, 538);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(520, 175);
+            this.metroPanel1.Size = new System.Drawing.Size(520, 150);
             this.metroPanel1.TabIndex = 120;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
@@ -1740,9 +1742,9 @@ namespace Continental.Project.Adam.UI
             // 
             this.grpRadConsumer.Controls.Add(this.rad_GeneralSettings_CBHoseConsumer);
             this.grpRadConsumer.Controls.Add(this.rad_GeneralSettings_CBOriginalConsumer);
-            this.grpRadConsumer.Location = new System.Drawing.Point(16, 46);
+            this.grpRadConsumer.Location = new System.Drawing.Point(16, 36);
             this.grpRadConsumer.Name = "grpRadConsumer";
-            this.grpRadConsumer.Size = new System.Drawing.Size(494, 46);
+            this.grpRadConsumer.Size = new System.Drawing.Size(494, 45);
             this.grpRadConsumer.TabIndex = 109;
             this.grpRadConsumer.TabStop = false;
             // 
@@ -1750,7 +1752,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.rad_GeneralSettings_CBHoseConsumer.AutoSize = true;
             this.rad_GeneralSettings_CBHoseConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_GeneralSettings_CBHoseConsumer.Location = new System.Drawing.Point(296, 18);
+            this.rad_GeneralSettings_CBHoseConsumer.Location = new System.Drawing.Point(296, 19);
             this.rad_GeneralSettings_CBHoseConsumer.Name = "rad_GeneralSettings_CBHoseConsumer";
             this.rad_GeneralSettings_CBHoseConsumer.Size = new System.Drawing.Size(136, 20);
             this.rad_GeneralSettings_CBHoseConsumer.TabIndex = 0;
@@ -1763,7 +1765,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.rad_GeneralSettings_CBOriginalConsumer.AutoSize = true;
             this.rad_GeneralSettings_CBOriginalConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_GeneralSettings_CBOriginalConsumer.Location = new System.Drawing.Point(61, 18);
+            this.rad_GeneralSettings_CBOriginalConsumer.Location = new System.Drawing.Point(28, 19);
             this.rad_GeneralSettings_CBOriginalConsumer.Name = "rad_GeneralSettings_CBOriginalConsumer";
             this.rad_GeneralSettings_CBOriginalConsumer.Size = new System.Drawing.Size(153, 20);
             this.rad_GeneralSettings_CBOriginalConsumer.TabIndex = 0;
@@ -1804,7 +1806,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_GeneralSettings_LTubeConsSC.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
             this.mlbl_GeneralSettings_LTubeConsSC.Lines = new string[] {
         "SC"};
-            this.mlbl_GeneralSettings_LTubeConsSC.Location = new System.Drawing.Point(16, 142);
+            this.mlbl_GeneralSettings_LTubeConsSC.Location = new System.Drawing.Point(16, 118);
             this.mlbl_GeneralSettings_LTubeConsSC.MaxLength = 32767;
             this.mlbl_GeneralSettings_LTubeConsSC.Name = "mlbl_GeneralSettings_LTubeConsSC";
             this.mlbl_GeneralSettings_LTubeConsSC.PasswordChar = '\0';
@@ -1839,7 +1841,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_GeneralSettings_LTubeConsPC.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
             this.mlbl_GeneralSettings_LTubeConsPC.Lines = new string[] {
         "PC"};
-            this.mlbl_GeneralSettings_LTubeConsPC.Location = new System.Drawing.Point(16, 98);
+            this.mlbl_GeneralSettings_LTubeConsPC.Location = new System.Drawing.Point(16, 88);
             this.mlbl_GeneralSettings_LTubeConsPC.MaxLength = 32767;
             this.mlbl_GeneralSettings_LTubeConsPC.Name = "mlbl_GeneralSettings_LTubeConsPC";
             this.mlbl_GeneralSettings_LTubeConsPC.PasswordChar = '\0';
@@ -1871,7 +1873,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_GeneralSettings_ETubeConsumerSCPressSide.CustomButton.UseSelectable = true;
             this.mtxt_GeneralSettings_ETubeConsumerSCPressSide.CustomButton.Visible = false;
             this.mtxt_GeneralSettings_ETubeConsumerSCPressSide.Lines = new string[0];
-            this.mtxt_GeneralSettings_ETubeConsumerSCPressSide.Location = new System.Drawing.Point(233, 141);
+            this.mtxt_GeneralSettings_ETubeConsumerSCPressSide.Location = new System.Drawing.Point(233, 117);
             this.mtxt_GeneralSettings_ETubeConsumerSCPressSide.MaxLength = 32767;
             this.mtxt_GeneralSettings_ETubeConsumerSCPressSide.Name = "mtxt_GeneralSettings_ETubeConsumerSCPressSide";
             this.mtxt_GeneralSettings_ETubeConsumerSCPressSide.PasswordChar = '\0';
@@ -1902,7 +1904,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_GeneralSettings_ETubeConsumerPCPressSide.CustomButton.UseSelectable = true;
             this.mtxt_GeneralSettings_ETubeConsumerPCPressSide.CustomButton.Visible = false;
             this.mtxt_GeneralSettings_ETubeConsumerPCPressSide.Lines = new string[0];
-            this.mtxt_GeneralSettings_ETubeConsumerPCPressSide.Location = new System.Drawing.Point(233, 98);
+            this.mtxt_GeneralSettings_ETubeConsumerPCPressSide.Location = new System.Drawing.Point(233, 88);
             this.mtxt_GeneralSettings_ETubeConsumerPCPressSide.MaxLength = 32767;
             this.mtxt_GeneralSettings_ETubeConsumerPCPressSide.Name = "mtxt_GeneralSettings_ETubeConsumerPCPressSide";
             this.mtxt_GeneralSettings_ETubeConsumerPCPressSide.PasswordChar = '\0';
@@ -1920,9 +1922,9 @@ namespace Continental.Project.Adam.UI
             // 
             // mbtn_GeneralSettings_BSelectTubeCons
             // 
-            this.mbtn_GeneralSettings_BSelectTubeCons.Location = new System.Drawing.Point(402, 98);
+            this.mbtn_GeneralSettings_BSelectTubeCons.Location = new System.Drawing.Point(402, 84);
             this.mbtn_GeneralSettings_BSelectTubeCons.Name = "mbtn_GeneralSettings_BSelectTubeCons";
-            this.mbtn_GeneralSettings_BSelectTubeCons.Size = new System.Drawing.Size(108, 68);
+            this.mbtn_GeneralSettings_BSelectTubeCons.Size = new System.Drawing.Size(108, 58);
             this.mbtn_GeneralSettings_BSelectTubeCons.TabIndex = 63;
             this.mbtn_GeneralSettings_BSelectTubeCons.Text = "Select";
             this.mbtn_GeneralSettings_BSelectTubeCons.UseSelectable = true;
@@ -1982,9 +1984,9 @@ namespace Continental.Project.Adam.UI
             this.mpnl_CurrentProject.HorizontalScrollbarBarColor = true;
             this.mpnl_CurrentProject.HorizontalScrollbarHighlightOnWheel = false;
             this.mpnl_CurrentProject.HorizontalScrollbarSize = 10;
-            this.mpnl_CurrentProject.Location = new System.Drawing.Point(0, 341);
+            this.mpnl_CurrentProject.Location = new System.Drawing.Point(0, 385);
             this.mpnl_CurrentProject.Name = "mpnl_CurrentProject";
-            this.mpnl_CurrentProject.Size = new System.Drawing.Size(520, 157);
+            this.mpnl_CurrentProject.Size = new System.Drawing.Size(520, 145);
             this.mpnl_CurrentProject.TabIndex = 119;
             this.mpnl_CurrentProject.VerticalScrollbarBarColor = true;
             this.mpnl_CurrentProject.VerticalScrollbarHighlightOnWheel = false;
@@ -2008,7 +2010,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_GeneralSettings_LParGenVaccumMax.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
             this.mlbl_GeneralSettings_LParGenVaccumMax.Lines = new string[] {
         "Vaccum max."};
-            this.mlbl_GeneralSettings_LParGenVaccumMax.Location = new System.Drawing.Point(16, 119);
+            this.mlbl_GeneralSettings_LParGenVaccumMax.Location = new System.Drawing.Point(16, 113);
             this.mlbl_GeneralSettings_LParGenVaccumMax.MaxLength = 32767;
             this.mlbl_GeneralSettings_LParGenVaccumMax.Name = "mlbl_GeneralSettings_LParGenVaccumMax";
             this.mlbl_GeneralSettings_LParGenVaccumMax.PasswordChar = '\0';
@@ -2043,7 +2045,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_GeneralSettings_LParGenVaccumMin.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
             this.mlbl_GeneralSettings_LParGenVaccumMin.Lines = new string[] {
         "Vaccum min."};
-            this.mlbl_GeneralSettings_LParGenVaccumMin.Location = new System.Drawing.Point(16, 87);
+            this.mlbl_GeneralSettings_LParGenVaccumMin.Location = new System.Drawing.Point(16, 81);
             this.mlbl_GeneralSettings_LParGenVaccumMin.MaxLength = 32767;
             this.mlbl_GeneralSettings_LParGenVaccumMin.Name = "mlbl_GeneralSettings_LParGenVaccumMin";
             this.mlbl_GeneralSettings_LParGenVaccumMin.PasswordChar = '\0';
@@ -2078,7 +2080,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_GeneralSettings_LParGenVaccum.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
             this.mlbl_GeneralSettings_LParGenVaccum.Lines = new string[] {
         "Vaccum"};
-            this.mlbl_GeneralSettings_LParGenVaccum.Location = new System.Drawing.Point(16, 53);
+            this.mlbl_GeneralSettings_LParGenVaccum.Location = new System.Drawing.Point(16, 47);
             this.mlbl_GeneralSettings_LParGenVaccum.MaxLength = 32767;
             this.mlbl_GeneralSettings_LParGenVaccum.Name = "mlbl_GeneralSettings_LParGenVaccum";
             this.mlbl_GeneralSettings_LParGenVaccum.PasswordChar = '\0';
@@ -2097,7 +2099,7 @@ namespace Continental.Project.Adam.UI
             // 
             // mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R
             // 
-            this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Location = new System.Drawing.Point(485, 52);
+            this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Location = new System.Drawing.Point(485, 46);
             this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Name = "mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R";
             this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Size = new System.Drawing.Size(25, 25);
             this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.TabIndex = 51;
@@ -2107,7 +2109,7 @@ namespace Continental.Project.Adam.UI
             // 
             // mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L
             // 
-            this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Location = new System.Drawing.Point(233, 53);
+            this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Location = new System.Drawing.Point(233, 47);
             this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Name = "mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L";
             this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Size = new System.Drawing.Size(25, 25);
             this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.TabIndex = 54;
@@ -2131,7 +2133,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_GeneralSettings_EParGenVaccumMax.CustomButton.Visible = false;
             this.mtxt_GeneralSettings_EParGenVaccumMax.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.mtxt_GeneralSettings_EParGenVaccumMax.Lines = new string[0];
-            this.mtxt_GeneralSettings_EParGenVaccumMax.Location = new System.Drawing.Point(264, 119);
+            this.mtxt_GeneralSettings_EParGenVaccumMax.Location = new System.Drawing.Point(264, 113);
             this.mtxt_GeneralSettings_EParGenVaccumMax.MaxLength = 32767;
             this.mtxt_GeneralSettings_EParGenVaccumMax.Name = "mtxt_GeneralSettings_EParGenVaccumMax";
             this.mtxt_GeneralSettings_EParGenVaccumMax.PasswordChar = '\0';
@@ -2165,7 +2167,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_GeneralSettings_EParGenVaccumMin.CustomButton.Visible = false;
             this.mtxt_GeneralSettings_EParGenVaccumMin.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.mtxt_GeneralSettings_EParGenVaccumMin.Lines = new string[0];
-            this.mtxt_GeneralSettings_EParGenVaccumMin.Location = new System.Drawing.Point(264, 86);
+            this.mtxt_GeneralSettings_EParGenVaccumMin.Location = new System.Drawing.Point(264, 80);
             this.mtxt_GeneralSettings_EParGenVaccumMin.MaxLength = 32767;
             this.mtxt_GeneralSettings_EParGenVaccumMin.Name = "mtxt_GeneralSettings_EParGenVaccumMin";
             this.mtxt_GeneralSettings_EParGenVaccumMin.PasswordChar = '\0';
@@ -2202,7 +2204,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.Lines = new string[] {
         "bar"};
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.Location = new System.Drawing.Point(402, 119);
+            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.Location = new System.Drawing.Point(402, 113);
             this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.MaxLength = 32767;
             this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.Name = "mtxt_GeneralSettings_Unit_EParGenVaccumMax";
             this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.PasswordChar = '\0';
@@ -2238,7 +2240,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.Lines = new string[] {
         "bar"};
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.Location = new System.Drawing.Point(402, 86);
+            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.Location = new System.Drawing.Point(402, 80);
             this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.MaxLength = 32767;
             this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.Name = "mtxt_GeneralSettings_Unit_EParGenVaccumMin";
             this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.PasswordChar = '\0';
@@ -2274,7 +2276,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_GeneralSettings_Unit_EParGenVaccum.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.mtxt_GeneralSettings_Unit_EParGenVaccum.Lines = new string[] {
         "bar"};
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.Location = new System.Drawing.Point(402, 53);
+            this.mtxt_GeneralSettings_Unit_EParGenVaccum.Location = new System.Drawing.Point(402, 47);
             this.mtxt_GeneralSettings_Unit_EParGenVaccum.MaxLength = 32767;
             this.mtxt_GeneralSettings_Unit_EParGenVaccum.Name = "mtxt_GeneralSettings_Unit_EParGenVaccum";
             this.mtxt_GeneralSettings_Unit_EParGenVaccum.PasswordChar = '\0';
@@ -2307,7 +2309,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_GeneralSettings_EParGenVaccum.CustomButton.Visible = false;
             this.mtxt_GeneralSettings_EParGenVaccum.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.mtxt_GeneralSettings_EParGenVaccum.Lines = new string[0];
-            this.mtxt_GeneralSettings_EParGenVaccum.Location = new System.Drawing.Point(264, 53);
+            this.mtxt_GeneralSettings_EParGenVaccum.Location = new System.Drawing.Point(264, 47);
             this.mtxt_GeneralSettings_EParGenVaccum.MaxLength = 32767;
             this.mtxt_GeneralSettings_EParGenVaccum.Name = "mtxt_GeneralSettings_EParGenVaccum";
             this.mtxt_GeneralSettings_EParGenVaccum.PasswordChar = '\0';
@@ -2355,7 +2357,7 @@ namespace Continental.Project.Adam.UI
             // mbtn_tabActParam_GenSettings_BSaveCurrentParams
             // 
             this.mbtn_tabActParam_GenSettings_BSaveCurrentParams.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.mbtn_tabActParam_GenSettings_BSaveCurrentParams.Location = new System.Drawing.Point(5, 291);
+            this.mbtn_tabActParam_GenSettings_BSaveCurrentParams.Location = new System.Drawing.Point(5, 337);
             this.mbtn_tabActParam_GenSettings_BSaveCurrentParams.Name = "mbtn_tabActParam_GenSettings_BSaveCurrentParams";
             this.mbtn_tabActParam_GenSettings_BSaveCurrentParams.Size = new System.Drawing.Size(505, 40);
             this.mbtn_tabActParam_GenSettings_BSaveCurrentParams.TabIndex = 68;
@@ -2367,10 +2369,11 @@ namespace Continental.Project.Adam.UI
             // 
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.AutoSize = true;
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.mchk_tabActParam_GenSettings_CBStartFromSelection.Location = new System.Drawing.Point(16, 134);
+            this.mchk_tabActParam_GenSettings_CBStartFromSelection.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
+            this.mchk_tabActParam_GenSettings_CBStartFromSelection.Location = new System.Drawing.Point(44, 176);
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.Margin = new System.Windows.Forms.Padding(2);
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.Name = "mchk_tabActParam_GenSettings_CBStartFromSelection";
-            this.mchk_tabActParam_GenSettings_CBStartFromSelection.Size = new System.Drawing.Size(409, 25);
+            this.mchk_tabActParam_GenSettings_CBStartFromSelection.Size = new System.Drawing.Size(445, 25);
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.Style = MetroFramework.MetroColorStyle.Orange;
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.TabIndex = 56;
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.Text = "Start From actual selection (NOT from 1 st entry)";
@@ -2383,7 +2386,7 @@ namespace Continental.Project.Adam.UI
             // mbtn_tabActParam_GenSettings_BLoadAdjSettings
             // 
             this.mbtn_tabActParam_GenSettings_BLoadAdjSettings.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.mbtn_tabActParam_GenSettings_BLoadAdjSettings.Location = new System.Drawing.Point(5, 201);
+            this.mbtn_tabActParam_GenSettings_BLoadAdjSettings.Location = new System.Drawing.Point(5, 247);
             this.mbtn_tabActParam_GenSettings_BLoadAdjSettings.Name = "mbtn_tabActParam_GenSettings_BLoadAdjSettings";
             this.mbtn_tabActParam_GenSettings_BLoadAdjSettings.Size = new System.Drawing.Size(505, 40);
             this.mbtn_tabActParam_GenSettings_BLoadAdjSettings.TabIndex = 67;
@@ -2395,10 +2398,11 @@ namespace Continental.Project.Adam.UI
             // 
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.AutoSize = true;
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Location = new System.Drawing.Point(16, 168);
+            this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
+            this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Location = new System.Drawing.Point(44, 210);
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Margin = new System.Windows.Forms.Padding(2);
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Name = "mchk_tabActParam_GenSettings_CBSWaitBetweenTests";
-            this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Size = new System.Drawing.Size(365, 25);
+            this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Size = new System.Drawing.Size(392, 25);
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Style = MetroFramework.MetroColorStyle.Orange;
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.TabIndex = 57;
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Text = "Wait for user conf. between two single test";
@@ -2408,7 +2412,7 @@ namespace Continental.Project.Adam.UI
             // mbtn_tabActParam_GenSettings_BLoadLastestParams
             // 
             this.mbtn_tabActParam_GenSettings_BLoadLastestParams.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.mbtn_tabActParam_GenSettings_BLoadLastestParams.Location = new System.Drawing.Point(5, 246);
+            this.mbtn_tabActParam_GenSettings_BLoadLastestParams.Location = new System.Drawing.Point(5, 292);
             this.mbtn_tabActParam_GenSettings_BLoadLastestParams.Name = "mbtn_tabActParam_GenSettings_BLoadLastestParams";
             this.mbtn_tabActParam_GenSettings_BLoadLastestParams.Size = new System.Drawing.Size(505, 40);
             this.mbtn_tabActParam_GenSettings_BLoadLastestParams.TabIndex = 66;
@@ -2421,7 +2425,6 @@ namespace Continental.Project.Adam.UI
             this.mPnl_tabActParam_EvaluationParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mPnl_tabActParam_EvaluationParameters.Controls.Add(this.grid_tabActionParam_EvalParam);
             this.mPnl_tabActParam_EvaluationParameters.Controls.Add(this.mTile_tabActParam_EvaluationParameters);
-            this.mPnl_tabActParam_EvaluationParameters.Controls.Add(this.grpOutput);
             this.mPnl_tabActParam_EvaluationParameters.HorizontalScrollbarBarColor = true;
             this.mPnl_tabActParam_EvaluationParameters.HorizontalScrollbarHighlightOnWheel = false;
             this.mPnl_tabActParam_EvaluationParameters.HorizontalScrollbarSize = 10;
@@ -2436,11 +2439,11 @@ namespace Continental.Project.Adam.UI
             // grid_tabActionParam_EvalParam
             // 
             this.grid_tabActionParam_EvalParam.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grid_tabActionParam_EvalParam.Location = new System.Drawing.Point(5, 86);
+            this.grid_tabActionParam_EvalParam.Location = new System.Drawing.Point(5, 51);
             this.grid_tabActionParam_EvalParam.Name = "grid_tabActionParam_EvalParam";
             this.grid_tabActionParam_EvalParam.RowHeadersWidth = 51;
             this.grid_tabActionParam_EvalParam.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.grid_tabActionParam_EvalParam.Size = new System.Drawing.Size(890, 471);
+            this.grid_tabActionParam_EvalParam.Size = new System.Drawing.Size(890, 506);
             this.grid_tabActionParam_EvalParam.TabIndex = 94;
             this.grid_tabActionParam_EvalParam.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellClick);
             this.grid_tabActionParam_EvalParam.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellContentClick);
@@ -2466,7 +2469,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.grpOutput.Controls.Add(this.rad_EvaluationParameters_CBOutputSC);
             this.grpOutput.Controls.Add(this.rad_EvaluationParameters_CBOutputPC);
-            this.grpOutput.Location = new System.Drawing.Point(291, 47);
+            this.grpOutput.Location = new System.Drawing.Point(5, 125);
             this.grpOutput.Name = "grpOutput";
             this.grpOutput.Size = new System.Drawing.Size(505, 46);
             this.grpOutput.TabIndex = 110;
@@ -2477,25 +2480,27 @@ namespace Continental.Project.Adam.UI
             // 
             this.rad_EvaluationParameters_CBOutputSC.AutoSize = true;
             this.rad_EvaluationParameters_CBOutputSC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_EvaluationParameters_CBOutputSC.Location = new System.Drawing.Point(296, 18);
+            this.rad_EvaluationParameters_CBOutputSC.Location = new System.Drawing.Point(307, 19);
             this.rad_EvaluationParameters_CBOutputSC.Name = "rad_EvaluationParameters_CBOutputSC";
             this.rad_EvaluationParameters_CBOutputSC.Size = new System.Drawing.Size(94, 20);
             this.rad_EvaluationParameters_CBOutputSC.TabIndex = 0;
             this.rad_EvaluationParameters_CBOutputSC.TabStop = true;
             this.rad_EvaluationParameters_CBOutputSC.Text = "Output SC";
             this.rad_EvaluationParameters_CBOutputSC.UseVisualStyleBackColor = true;
+            this.rad_EvaluationParameters_CBOutputSC.CheckedChanged += new System.EventHandler(this.rad_EvaluationParameters_CBOutputSC_CheckedChanged);
             // 
             // rad_EvaluationParameters_CBOutputPC
             // 
             this.rad_EvaluationParameters_CBOutputPC.AutoSize = true;
             this.rad_EvaluationParameters_CBOutputPC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_EvaluationParameters_CBOutputPC.Location = new System.Drawing.Point(61, 18);
+            this.rad_EvaluationParameters_CBOutputPC.Location = new System.Drawing.Point(39, 19);
             this.rad_EvaluationParameters_CBOutputPC.Name = "rad_EvaluationParameters_CBOutputPC";
             this.rad_EvaluationParameters_CBOutputPC.Size = new System.Drawing.Size(94, 20);
             this.rad_EvaluationParameters_CBOutputPC.TabIndex = 0;
             this.rad_EvaluationParameters_CBOutputPC.TabStop = true;
             this.rad_EvaluationParameters_CBOutputPC.Text = "Output PC";
             this.rad_EvaluationParameters_CBOutputPC.UseVisualStyleBackColor = true;
+            this.rad_EvaluationParameters_CBOutputPC.CheckedChanged += new System.EventHandler(this.rad_EvaluationParameters_CBOutputPC_CheckedChanged);
             // 
             // mPnl_tabActParam_Actuation
             // 
@@ -3409,7 +3414,7 @@ namespace Continental.Project.Adam.UI
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1167, 884);
+            this.ClientSize = new System.Drawing.Size(1910, 1030);
             this.ControlBox = false;
             this.Controls.Add(this.mpnl_Eventlog);
             this.Controls.Add(this.metroPanel2);
