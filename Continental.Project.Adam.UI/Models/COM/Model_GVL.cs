@@ -401,6 +401,8 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bOcultaY3;   // BOOL;
         public bool bOcultaY4;   // BOOL;
 
+        public int iOutput;	//0=OFF 1=OutputPC 2=OutpuctSC
+
         #region Use C#
         public bool bDadosCalculados;
 
@@ -432,6 +434,8 @@ namespace Continental.Project.Adam.UI.Models.COM
         #region Parametros comuns
 
         public int iModo; // 1-Pneumatico Lento 2-Pneumatico Rapido 3- E-Drive
+
+        public int iOutput;	//0=OFF 1=OutputPC 2=OutpuctSC
 
         //Forca Maxima do teste
         public double rForcaMaxima_N; // (2200 N) Limite de forca de entrada, limitado a 10KN, mas podemos limitar a 5KN

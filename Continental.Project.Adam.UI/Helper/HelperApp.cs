@@ -3836,15 +3836,17 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #region Scales Chart
 
-                _modelGVLCalc.GVL_Graficos.EixoX.rMin = 0;
+                     int iStartEscalaMin = 9;
+
+                _modelGVLCalc.GVL_Graficos.EixoX.rMin = iStartEscalaMin;
                 _modelGVLCalc.GVL_Graficos.EixoX.rMax = _modelGVLCalc.GVL_Graficos.rEscalaX;
-                _modelGVLCalc.GVL_Graficos.EixoY1.rMin = 0;
+                _modelGVLCalc.GVL_Graficos.EixoY1.rMin = iStartEscalaMin;
                 _modelGVLCalc.GVL_Graficos.EixoY1.rMax = _modelGVLCalc.GVL_Graficos.rEscalaY1;
-                _modelGVLCalc.GVL_Graficos.EixoY2.rMin = 0;
+                _modelGVLCalc.GVL_Graficos.EixoY2.rMin = iStartEscalaMin;
                 _modelGVLCalc.GVL_Graficos.EixoY2.rMax = _modelGVLCalc.GVL_Graficos.rEscalaY2;
-                _modelGVLCalc.GVL_Graficos.EixoY3.rMin = 0;
+                _modelGVLCalc.GVL_Graficos.EixoY3.rMin = iStartEscalaMin;
                 _modelGVLCalc.GVL_Graficos.EixoY3.rMax = _modelGVLCalc.GVL_Graficos.rEscalaY3;
-                _modelGVLCalc.GVL_Graficos.EixoY4.rMin = 0;
+                _modelGVLCalc.GVL_Graficos.EixoY4.rMin = iStartEscalaMin;
                 _modelGVLCalc.GVL_Graficos.EixoY4.rMax = _modelGVLCalc.GVL_Graficos.rEscalaY4;
 
                 #endregion
@@ -4278,8 +4280,18 @@ namespace Continental.Project.Adam.UI.Helper
 
                 _modelGVL.GVL_Graficos.arrVarTimeStamp = lstDblReturnReadFile[0].ToArray();
                 _modelGVL.GVL_Graficos.arrVarX = lstDblReturnReadFile[2].ToArray();
-                _modelGVL.GVL_Graficos.arrVarY1 = lstDblReturnReadFile[7].ToArray();
-                _modelGVL.GVL_Graficos.arrVarY2 = lstDblReturnReadFile[6].ToArray();
+
+                if (_modelGVL.GVL_Parametros.iOutput == 1) //OutputPC
+                {
+                    _modelGVL.GVL_Graficos.arrVarY1 = lstDblReturnReadFile[7].ToArray();
+                    _modelGVL.GVL_Graficos.arrVarY2 = lstDblReturnReadFile[6].ToArray();
+                }
+                else  //OutputSC
+                {
+                    _modelGVL.GVL_Graficos.arrVarY1 = lstDblReturnReadFile[6].ToArray();
+                    _modelGVL.GVL_Graficos.arrVarY2 = lstDblReturnReadFile[7].ToArray();
+                }
+                
                 _modelGVL.GVL_Graficos.arrVarY3 = lstDblReturnReadFile[5].ToArray();
 
                 #endregion
@@ -12917,12 +12929,14 @@ namespace Continental.Project.Adam.UI.Helper
             GVL_Graficos.dictXMarkedPoint.Clear();
             GVL_Graficos.dictYMarkedPoint.Clear();
         }
-        public GVL_Graficos ChartValidate(int uiTesteSelecionado, List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = null)
+        public GVL_Graficos ChartValidate(int uiTesteSelecionado, int iOutput, List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = null)
         {
             try
             {
                 if (uiTesteSelecionado > 0)
                 {
+                    GVL_Graficos.iOutput = iOutput;
+
                     GVL_Graficos.bResetEixos = true;
                     GVL_Graficos.uiTesteSelecionado = uiTesteSelecionado;
 
@@ -12973,7 +12987,7 @@ namespace Continental.Project.Adam.UI.Helper
                                     : "bar";
 
                                 GVL_Graficos.strNomeEixoX = string.Concat("Input Force", " ", unitX);
-                                GVL_Graficos.strNomeEixoY1 = string.Concat("Pressure PC", " ", unitY1);
+                                GVL_Graficos.strNomeEixoY1 = GVL_Graficos.iOutput == 2 ? string.Concat("Pressure SC", " ", unitY2) : string.Concat("Pressure PC", " ", unitY1);
                                 GVL_Graficos.strNomeEixoY2 = string.Concat("Pressure SC", " ", unitY2);
                                 GVL_Graficos.strNomeEixoY3 = string.Empty;
                                 GVL_Graficos.strNomeEixoY4 = string.Empty;
@@ -12984,9 +12998,11 @@ namespace Continental.Project.Adam.UI.Helper
                                 GVL_Graficos.strUnidadeY3 = string.Empty;
                                 GVL_Graficos.strUnidadeY4 = string.Empty;
 
-                                GVL_Graficos.bOcultaY2 = false;
+                                GVL_Graficos.bOcultaY2 = GVL_Graficos.iOutput > 0 ? true : false;
                                 GVL_Graficos.bOcultaY3 = true;
                                 GVL_Graficos.bOcultaY4 = true;
+
+                                
 
                                 break;
                             }
@@ -14012,15 +14028,17 @@ namespace Continental.Project.Adam.UI.Helper
                             break;
                     }
 
-                    GVL_Graficos.EixoX.rMin = 0;
+                    int iStartEscalaMin = 9;
+
+                    GVL_Graficos.EixoX.rMin = iStartEscalaMin;
                     GVL_Graficos.EixoX.rMax = GVL_Graficos.rEscalaX;
-                    GVL_Graficos.EixoY1.rMin = 0;
+                    GVL_Graficos.EixoY1.rMin = iStartEscalaMin;
                     GVL_Graficos.EixoY1.rMax = GVL_Graficos.rEscalaY1;
-                    GVL_Graficos.EixoY2.rMin = 0;
+                    GVL_Graficos.EixoY2.rMin = iStartEscalaMin;
                     GVL_Graficos.EixoY2.rMax = GVL_Graficos.rEscalaY2;
-                    GVL_Graficos.EixoY3.rMin = 0;
+                    GVL_Graficos.EixoY3.rMin = iStartEscalaMin;
                     GVL_Graficos.EixoY3.rMax = GVL_Graficos.rEscalaY3;
-                    GVL_Graficos.EixoY4.rMin = 0;
+                    GVL_Graficos.EixoY4.rMin = iStartEscalaMin;
                     GVL_Graficos.EixoY4.rMax = GVL_Graficos.rEscalaY4;
                 }
 

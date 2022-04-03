@@ -150,7 +150,7 @@ namespace Continental.Project.Adam.UI
         int iConsumerType = 0;
         int iConsumerPC = 0;
         int iConsumerSC = 0;
-        bool bPistonLock =false;
+        bool bPistonLock = false;
 
         #endregion
 
@@ -430,7 +430,7 @@ namespace Continental.Project.Adam.UI
         {
             CHART_ExportImage();
         }
-        
+
         #endregion
 
         private void DisableButtonStart()
@@ -615,13 +615,18 @@ namespace Continental.Project.Adam.UI
         {
             if (HelperApp.uiTesteSelecionado != 0)
             {
-                if(!TAB_TableResults_Grid_GetData(HelperApp.uiTesteSelecionado.ToString()))
-                    MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                var metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mpnl_Table_GivingOut");
+
+                var lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
+
+                if (lstChk.Count() == 0)
+                {
+                    if (!TAB_TableResults_Grid_GetData(HelperApp.uiTesteSelecionado.ToString()))
+                        MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else
-            {
                 MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
         }
 
         #endregion
@@ -744,21 +749,21 @@ namespace Continental.Project.Adam.UI
 
             TAB_TableResult_Grid.Columns["ResultParam_Caption"].HeaderCell.Value = "Result"; //Parameter Result
             TAB_TableResult_Grid.Columns["ResultParam_Caption"].Visible = true;
-            TAB_TableResult_Grid.Columns["ResultParam_Caption"].Width = 450;
+            TAB_TableResult_Grid.Columns["ResultParam_Caption"].Width = 350;
             TAB_TableResult_Grid.Columns["ResultParam_Caption"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
             TAB_TableResult_Grid.Columns["ResultParam_Nominal"].HeaderText = "Nominal"; //Col02
             TAB_TableResult_Grid.Columns["ResultParam_Nominal"].Visible = true;
             TAB_TableResult_Grid.Columns["ResultParam_Nominal"].ReadOnly = false;
-            TAB_TableResult_Grid.Columns["ResultParam_Nominal"].Width = 350;
+            TAB_TableResult_Grid.Columns["ResultParam_Nominal"].Width = 250;
 
             TAB_TableResult_Grid.Columns["ResultParam_Measured"].HeaderText = "Measured"; //Col03
             TAB_TableResult_Grid.Columns["ResultParam_Measured"].Visible = true;
-            TAB_TableResult_Grid.Columns["ResultParam_Measured"].Width = 200;
+            TAB_TableResult_Grid.Columns["ResultParam_Measured"].Width = 150;
 
             TAB_TableResult_Grid.Columns["ResultParam_Unit"].HeaderCell.Value = "Unit";
             TAB_TableResult_Grid.Columns["ResultParam_Unit"].Visible = true; //UNIT
-            TAB_TableResult_Grid.Columns["ResultParam_Unit"].Width = 150;
+            TAB_TableResult_Grid.Columns["ResultParam_Unit"].Width = 120;
 
             #endregion
 
@@ -801,7 +806,7 @@ namespace Continental.Project.Adam.UI
             {
                 HelperApp.lstTempResultParam
                     .Where(x => x.IdResultParam > 0 && x.IdResultParam.Equals(idResultParam))
-                    .FirstOrDefault().ResultParam_Nominal = strResultParam_Nominal?.ToString()?.Trim();;
+                    .FirstOrDefault().ResultParam_Nominal = strResultParam_Nominal?.ToString()?.Trim(); ;
 
                 HelperApp.lstResultParamFormated = HelperApp.lstTempResultParam;
 
@@ -906,6 +911,13 @@ namespace Continental.Project.Adam.UI
                 mtxt_Actuation_Unit_E1ParMaxForce.Enabled = false;
                 mtxt_Actuation_Unit_E1ParForceGrad.Enabled = false;
 
+
+                #region TAB_ActuationParameters - Evoluation Parameters - Set data
+
+                grpOutput.Visible = false;
+
+                #endregion
+
                 #region TAB_ActuationParameters - General Settings - Set Combo Actuation Mode
 
                 if (mcbo_tabActParam_GenSettings_CoBActuationMode.Items.Count <= 0)
@@ -922,7 +934,46 @@ namespace Continental.Project.Adam.UI
                     TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Populate();
 
                 if (mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex != 0)
+                {
                     mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = HelperApp.uiTesteSelecionado;
+
+                    #region Radio Output
+
+                    switch (mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex)
+                    {
+                        case 1:     //Force Diagrams - Force/Pressure With Vacuum
+                        case 3:     //Force Diagrams - Force/Pressure Without Vacuum
+                        case 17:    //Lost Travel ACU - Hydraulic
+                        case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
+                            {
+                                if(HelperTestBase.Model_GVL.GVL_Graficos.iOutput == 1)
+                                    rad_EvaluationParameters_CBOutputPC.Checked = true;
+                                else
+                                    rad_EvaluationParameters_CBOutputSC.Checked = true;
+
+                                grpOutput.Visible = true;
+
+                                break;
+                            }
+                        default:
+                            {
+                                rad_EvaluationParameters_CBOutputPC.Checked = false;
+                                rad_EvaluationParameters_CBOutputSC.Checked = false;
+
+                                grpOutput.Visible = false;
+
+                                break;
+                            }
+                    }
+
+                    _modelGVL.GVL_Parametros.iOutput = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : 0;
+
+                    _modelGVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
+
+                    HelperTestBase.Model_GVL.GVL_Graficos = _modelGVL.GVL_Graficos;
+
+                    #endregion
+                }
 
                 #endregion
 
@@ -945,12 +996,6 @@ namespace Continental.Project.Adam.UI
                     mtxt_Actuation_E1ParMaxForce.Text = _notReadValue;
                     mtxt_Actuation_E1ParForceGrad.Text = _notReadValue;
                 }
-
-                #endregion
-
-                #region TAB_ActuationParameters - Evoluation Parameters - Set data
-
-                grpOutput.Visible = false;
 
                 #endregion
 
@@ -994,7 +1039,7 @@ namespace Continental.Project.Adam.UI
                 var dblValue = _helperApp.NumberDoubleCheck(strValue);
 
                 if (dblValue < 0)
-                    dblValue =(dblValue * -1);
+                    dblValue = (dblValue * -1);
 
                 switch (strName.Trim())
                 {
@@ -1167,7 +1212,7 @@ namespace Continental.Project.Adam.UI
                             TAB_ActuationParameters_Actuation_GradientForce_Change(strName, strGradientForceValue);
 
                             mtxt_Actuation_E1ParForceGrad.Text = strGradientForceValue;
-                        } 
+                        }
                         else
                             mtxt_Actuation_E1ParForceGrad.Text = _notReadValue;
 
@@ -1712,7 +1757,7 @@ namespace Continental.Project.Adam.UI
                     HelperTestBase.ForceGradient = Math.Round(Convert.ToDouble(strGradientForceValue), 2);
             }
 
-                HelperApp.uiActuationMode = idxSelected;
+            HelperApp.uiActuationMode = idxSelected;
             HelperTestBase.ActuationType = HelperApp.uiActuationMode;
 
             HelperApp.strActuationMode = mcbo_tabActParam_GenSettings_CoBActuationMode.Text.Trim();
@@ -1821,10 +1866,6 @@ namespace Continental.Project.Adam.UI
 
                         HelperApp.uiTesteSelecionado = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
 
-                        TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
-
-                        _bCoBSelectTestSelected = true;
-
                         #region Radio Output
 
                         switch (idxSelected)
@@ -1852,9 +1893,19 @@ namespace Continental.Project.Adam.UI
                                 }
                         }
 
+                        _modelGVL.GVL_Parametros.iOutput = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : 0;
 
+                        _modelGVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
+
+                        HelperTestBase.Model_GVL.GVL_Graficos = _modelGVL.GVL_Graficos;
 
                         #endregion
+
+                        TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
+
+                        _bCoBSelectTestSelected = true;
+
+
 
                         EnableButtonStart();
                     }
@@ -1921,7 +1972,7 @@ namespace Continental.Project.Adam.UI
                             //SetNewBasicTestProgram((eEXAMTYPE)(CoBSelectTest->Items->Objects[sel_ix]));
                         }
 
-                    HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado);
+                    HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput);
 
                     tab_TableResultsEnable = false;
                     HelperTestBase.currentProjectTest.is_Created = false;
@@ -1944,18 +1995,22 @@ namespace Continental.Project.Adam.UI
         {
             int statusCheck = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : 0;
 
-            _modelGVL.GVL_Parametros.iTipoConsumidores = statusCheck;
+            _modelGVL.GVL_Parametros.iOutput = statusCheck;
 
-            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoConsumidores }, Convert.ToDouble(_modelGVL.GVL_Parametros.iTipoConsumidores));
+            HelperTestBase.Model_GVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
+
+            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wOutput }, Convert.ToDouble(_modelGVL.GVL_Parametros.iOutput));
         }
 
         private void rad_EvaluationParameters_CBOutputSC_CheckedChanged(object sender, EventArgs e)
         {
-            int statusCheck = rad_EvaluationParameters_CBOutputSC.Checked ? 1 : 0;
+            int statusCheck = rad_EvaluationParameters_CBOutputSC.Checked ? 2 : 0;
 
-            _modelGVL.GVL_Parametros.iTipoConsumidores = statusCheck;
+            _modelGVL.GVL_Parametros.iOutput = statusCheck;
 
-            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoConsumidores }, Convert.ToDouble(_modelGVL.GVL_Parametros.iTipoConsumidores));
+            HelperTestBase.Model_GVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
+
+            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wOutput }, Convert.ToDouble(_modelGVL.GVL_Parametros.iOutput));
         }
 
         #endregion
@@ -2132,7 +2187,7 @@ namespace Continental.Project.Adam.UI
             switch (iConsumerType)
             {
                 case 1:
-                    rad_GeneralSettings_CBOriginalConsumer.Checked = true;             
+                    rad_GeneralSettings_CBOriginalConsumer.Checked = true;
                     break;
                 case 2:
                     rad_GeneralSettings_CBHoseConsumer.Checked = true;
@@ -2195,7 +2250,7 @@ namespace Continental.Project.Adam.UI
                 TAB_ActuationParameters_WriteComInputTxt(strName, strValue);
 
                 mtxt_Actuation_E1ParMaxForce.Text = strValue;
-            }  
+            }
         }
         private void mtxt_Actuation_E1ParMaxForce_TextChanged(object sender, EventArgs e)
         {
@@ -2211,7 +2266,7 @@ namespace Continental.Project.Adam.UI
                     dblValue = (dblValue * -1);
 
                 TAB_ActuationParameters_Actuation_MaxForce_Change(strName, strValue);
-            }  
+            }
         }
         private void mtxt_Actuation_E1ParMaxForce_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -2538,7 +2593,7 @@ namespace Continental.Project.Adam.UI
                                     string strEvalParam_UnitSymbol = row.Field<string>("UnitSymbol")?.ToString()?.Trim();
 
                                     grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex] = TextBoxCell_Id;
-                                    grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex].Value = iEvalParam_Id;                                    
+                                    grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex].Value = iEvalParam_Id;
 
                                     grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = TextBoxCell_Caption;
                                     grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = strEvalParam_Caption;
@@ -2615,13 +2670,13 @@ namespace Continental.Project.Adam.UI
             string strName = ((System.Windows.Forms.DataGridView)sender).CurrentRow.Cells["EvalParam_Hi"].Value.ToString();
             string strValue = ((System.Windows.Forms.DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
 
-                if (!string.IsNullOrEmpty(strValue) && row != null)
-                {
-                    List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+            if (!string.IsNullOrEmpty(strValue) && row != null)
+            {
+                List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
-                    if (HelperApp.uiTesteSelecionado > 0)
+                if (HelperApp.uiTesteSelecionado > 0)
                     TAB_ActuationParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters);
-                }
+            }
             //tab_ActionParameters_WriteComEditGridEvalParameters(row.Index, strName, strValue);
         }
         private void grid_tabActionParam_EvalParam_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -2826,11 +2881,11 @@ namespace Continental.Project.Adam.UI
                                             break;
 
                                         case "EJumperGradientP2": //Jumper Gradient P2 = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dblValue; 
+                                            HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dblValue;
                                             break;
 
                                         case "CBUseLinearIntersection": //checkbox - 
-                                                //HelperTestBase.Model_GVL.GVL_T01.bRunOutTeorico = false; 
+                                                                        //HelperTestBase.Model_GVL.GVL_T01.bRunOutTeorico = false; 
                                             break;
 
                                         default:
@@ -2891,7 +2946,7 @@ namespace Continental.Project.Adam.UI
                                         case "EHysteresisAtForce": //Hysteresis at Pressure(%) = 
                                             HelperTestBase.Model_GVL.GVL_T02.rForcaHysterese_pout = dblValue;
                                             break;
-                                           
+
                                         case "ERelForceRemainAtTravel": //Release Force Remaining at = 
                                             HelperTestBase.Model_GVL.GVL_T02.rReleaseForceAt_mm = dblValue;
                                             break;
@@ -2921,7 +2976,7 @@ namespace Continental.Project.Adam.UI
                             case 3:     //Force Diagrams - Force/Pressure Without Vacuum
                                 {
                                     #region Case Param
-                                    
+
                                     switch (strName.Trim())
                                     {
                                         case "EForceScale":
@@ -2979,7 +3034,7 @@ namespace Continental.Project.Adam.UI
 
                                     switch (strName.Trim())
                                     {
-                                        
+
                                         case "EForceScaleI":
                                             break;
 
@@ -3194,7 +3249,7 @@ namespace Continental.Project.Adam.UI
                                             break;
 
                                         case "CBUseSingleInputForce": //Utilizar valor absoluto de forca
-                                                        break;
+                                            break;
 
                                         case "EInputForce": //Forca Absoluta
                                             HelperTestBase.Model_GVL.GVL_T08.rForcaMaximaAbsoluta_N = dblValue;
@@ -3305,7 +3360,7 @@ namespace Continental.Project.Adam.UI
 
                                     switch (strName.Trim())
                                     {
-                                        
+
 
                                         case "EScaleTime":
                                             break;
@@ -3363,7 +3418,7 @@ namespace Continental.Project.Adam.UI
 
                                     switch (strName.Trim())
                                     {
-                                        
+
                                         case "EIForceScale":
                                             break;
 
@@ -3430,7 +3485,7 @@ namespace Continental.Project.Adam.UI
                                     #region Case Param                                   
 
                                     switch (strName.Trim())
-                                    {                                        
+                                    {
 
                                         case "EScaleTravel":
                                             break;
@@ -3657,7 +3712,7 @@ namespace Continental.Project.Adam.UI
                             case 21:    //Pedal Feeling Characteristics
                                 {
                                     #region Case Param
-                                    
+
                                     switch (strName.Trim())
                                     {
 
@@ -3715,7 +3770,7 @@ namespace Continental.Project.Adam.UI
                                             break;
 
                                         case "CBMaxPress1": //
-                                             //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
+                                                            //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
                                             break;
                                         case "CBOutPress1": //
                                             //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
@@ -3737,17 +3792,17 @@ namespace Continental.Project.Adam.UI
                                             break;
 
                                         case "ERelTimeToTravelLeft": //
-                                                           //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
+                                                                     //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
                                             break;
 
                                         case "ETravelAtPOut": //
-                                                            //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
+                                                              //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
                                             break;
                                         case "EPressGradAt1": //
-                                                             //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
+                                                              //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
                                             break;
                                         case "EPressGradAt2": //
-                                                           //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
+                                                              //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
                                             break;
 
                                         default:
@@ -3763,7 +3818,7 @@ namespace Continental.Project.Adam.UI
                             case 23:    //Breather Hole / Central Valve open
                                 {
                                     #region Case Param
-                                    
+
                                     switch (strName.Trim())
                                     {
 
@@ -4450,7 +4505,7 @@ namespace Continental.Project.Adam.UI
                         //MessageBox.Show(parent, message, title, MessageBoxButtons.OK,
                         //MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.RightAlign & MessageBoxOptions.RtlReading);
 
-                        if (false) 
+                        if (false)
                         {
                             if (!bgWorker.IsBusy)
                             {
@@ -4654,7 +4709,7 @@ namespace Continental.Project.Adam.UI
 
                 CHART_Clear(devChart);
 
-                _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado);
+                _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput);
 
                 HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.GVL_Graficos;
 
@@ -5326,6 +5381,13 @@ namespace Continental.Project.Adam.UI
             {
                 if (_modelGVL.GVL_Graficos.arrVarX.Count() != 1000000)
                 {
+
+                    int outputChecked = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : rad_EvaluationParameters_CBOutputSC.Checked ? 2 : 0;
+
+                    _modelGVL.GVL_Parametros.iOutput = outputChecked;
+
+                    _modelGVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
+
                     HelperTestBase.Model_GVL = _modelGVL;
 
                     //ChartLoadData(HelperTestBase.Model_GVL.GVL_Graficos, lstDblChReadFileArr);
@@ -5371,7 +5433,15 @@ namespace Continental.Project.Adam.UI
                 #region Variable
                 List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
-                _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, lstInfoEvaluationParameters);
+                int outputChecked = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : rad_EvaluationParameters_CBOutputSC.Checked ? 2 : 0;
+
+                _modelGVL.GVL_Parametros.iOutput = outputChecked;
+
+                _modelGVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
+
+                HelperTestBase.Model_GVL = _modelGVL;
+
+                _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput, lstInfoEvaluationParameters);
 
                 HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.GVL_Graficos;
 
@@ -5464,20 +5534,22 @@ namespace Continental.Project.Adam.UI
 
                             #region Y01 - Blue
 
+                            Color setColor = devChart.Series[0].View.Color;
+
                             //diagram.AxisY.Title.EnableAntialiasing = DefaultBoolean.False;
                             //diagram.AxisY.Title.Font = new Font("Tahoma", 8, FontStyle.Regular);
-                            diagram.AxisY.Title.Text = chartGVL.strNomeEixoY1;
+                            diagram.AxisY.Title.Text = chartGVL.iOutput == 2 ? chartGVL.strNomeEixoY2 : chartGVL.strNomeEixoY1;
                             diagram.AxisY.Title.Visibility = DefaultBoolean.True;
-                            diagram.AxisY.Title.TextColor = Color.Blue;
-                            diagram.AxisY.Label.TextColor = Color.Blue;
+                            diagram.AxisY.Title.TextColor = setColor;
+                            diagram.AxisY.Label.TextColor = setColor;
                             diagram.AxisY.Alignment = AxisAlignment.Near;
-                            diagram.AxisY.Color = Color.Blue;
-                            
+                            diagram.AxisY.Color = setColor;
+
                             diagram.AxisY.VisualRange.Auto = false;
-                            diagram.AxisY.VisualRange.MinValue = chartGVL.EixoY1.rMin;
-                            diagram.AxisY.VisualRange.MaxValue = chartGVL.EixoY1.rMax;
-                            diagram.AxisY.Range.MinValue = chartGVL.EixoY1.rMin;
-                            diagram.AxisY.Range.MaxValue = chartGVL.EixoY1.rMax;
+                            diagram.AxisY.VisualRange.MinValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMin : chartGVL.EixoY1.rMin;
+                            diagram.AxisY.VisualRange.MaxValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMax : chartGVL.EixoY1.rMax;
+                            diagram.AxisY.Range.MinValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMin : chartGVL.EixoY1.rMin;
+                            diagram.AxisY.Range.MaxValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMax : chartGVL.EixoY1.rMax;
 
                             #endregion
 
@@ -5487,15 +5559,16 @@ namespace Continental.Project.Adam.UI
 
                             if (countSeries >= 3)
                             {
-
                                 if (diagram.SecondaryAxesY.Count > 0)
                                     diagram.SecondaryAxesY.Clear();
 
                                 #region Y02
 
+                                chartGVL.bOcultaY2 = chartGVL.iOutput > 0 ? true : false;
+
                                 if (!chartGVL.bOcultaY2)
                                 {
-                                    Color setColor = devChart.Series[1].View.Color;
+                                    setColor = devChart.Series[1].View.Color;
 
                                     //// Create two secondary axes, and add them to the chart's Diagram.
                                     SecondaryAxisY EixoY2 = new SecondaryAxisY(chartGVL.strNomeEixoY2);
@@ -5524,7 +5597,7 @@ namespace Continental.Project.Adam.UI
 
                                 if (!chartGVL.bOcultaY3)
                                 {
-                                    Color setColor = devChart.Series[2].View.Color;
+                                    setColor = devChart.Series[2].View.Color;
 
                                     //// Create two secondary axes, and add them to the chart's Diagram.
                                     SecondaryAxisY EixoY3 = new SecondaryAxisY(chartGVL.strNomeEixoY3);
@@ -5553,7 +5626,7 @@ namespace Continental.Project.Adam.UI
 
                                 if (!chartGVL.bOcultaY4)
                                 {
-                                    Color setColor = devChart.Series[1].View.Color;
+                                    setColor = devChart.Series[1].View.Color;
 
                                     //// Create two secondary axes, and add them to the chart's Diagram.
                                     SecondaryAxisY EixoY4 = new SecondaryAxisY(chartGVL.strNomeEixoY4);
@@ -5702,7 +5775,6 @@ namespace Continental.Project.Adam.UI
 
                 #endregion
 
-            
                 if (HelperApp.uiTesteSelecionado > 0)
                 {
                     if (devChart.Series.Count > 0)
@@ -5713,7 +5785,7 @@ namespace Continental.Project.Adam.UI
                     //Series 01
                     Series series1 = new Series(modelChartGVL.strNomeEixoY1, ViewType.ScatterLine);
                     series1.ArgumentScaleType = ScaleType.Numerical;
-                    series1.View.Color = Color.Blue;
+                    series1.View.Color = modelChartGVL.iOutput == 2 ? Color.Green : Color.Blue;
 
                     //Series 02
                     Series series2 = new Series(modelChartGVL.strNomeEixoY2, ViewType.ScatterLine);
@@ -5759,10 +5831,33 @@ namespace Continental.Project.Adam.UI
                                     //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
                                     //GVL_Graficos.strNomeEixoY2 = "Pressure SC (bar)";
 
-                                    for (i = 0; i <= totalPointsCount - 1; i++)
+                                    switch (modelChartGVL.iOutput)
                                     {
-                                        series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
-                                        series2.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh06_PressureSC[i]));
+                                        case 1:
+                                            {
+                                                for (i = 0; i <= totalPointsCount - 1; i++)
+                                                {
+                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
+                                                }
+                                            }
+                                            break;
+                                        case 2:
+                                            {
+                                                for (i = 0; i <= totalPointsCount - 1; i++)
+                                                {
+                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh06_PressureSC[i]));
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            {
+                                                for (i = 0; i <= totalPointsCount - 1; i++)
+                                                {
+                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
+                                                    series2.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh06_PressureSC[i]));
+                                                }
+                                            }
+                                            break;
                                     }
 
                                     #endregion
@@ -5777,9 +5872,9 @@ namespace Continental.Project.Adam.UI
                                                 PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T01.rForca_P2, _modelGVL.GVL_T01.rPressao_P2_Bar));
                                                 PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T01.rForca_E1, _modelGVL.GVL_T01.rPressao_E1_Bar));
                                                 PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T01.rForca_E2, _modelGVL.GVL_T01.rPressao_E2_Bar));
-                                                
+
                                                 if (_modelGVL.GVL_T01.bRunOutTeorico)//Ponto Runout depende do flag selecionado
-                                                    PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T01.rRunOutForce_LinearInt_N, _modelGVL.GVL_T01.rRunOutPressure_LinearInt_Bar));                                                
+                                                    PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T01.rRunOutForce_LinearInt_N, _modelGVL.GVL_T01.rRunOutPressure_LinearInt_Bar));
                                                 else
                                                     PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T01.rRunOutForce_Real_N, _modelGVL.GVL_T01.rRunOutPressure_Real_Bar));
 
@@ -6371,9 +6466,9 @@ namespace Continental.Project.Adam.UI
                                         default:
                                             break;
                                     }
-                                            #endregion
+                                    #endregion
 
-                                            devChart.Series.AddRange(new Series[] { series1, PontosChart });
+                                    devChart.Series.AddRange(new Series[] { series1, PontosChart });
                                 }
                                 catch (Exception ex)
                                 {
@@ -6781,7 +6876,7 @@ namespace Continental.Project.Adam.UI
 
                                     #endregion
 
-                                    devChart.Series.AddRange(new Series[] { series1, series2, series3,PontosChart });
+                                    devChart.Series.AddRange(new Series[] { series1, series2, series3, PontosChart });
                                 }
                                 catch (Exception ex)
                                 {
@@ -8692,6 +8787,6 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-       
+
     }
 }

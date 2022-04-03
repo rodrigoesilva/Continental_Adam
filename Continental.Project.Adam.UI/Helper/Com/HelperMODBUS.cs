@@ -2013,6 +2013,7 @@ namespace Continental.Project.Adam.UI.Helper.Com
         #region W20 -> W34
 
         private  static int _CS_wModo;                            //%20% - GVL PARAM iModo - 1-Pneumatico Lento 2-Pneumatico Rapido 3- E-Drive
+        private static int _CS_wOutput;                            // iOutput 0=OFF 1=OutputPC 2=OutputSC
         private  static double _CS_dwForcaMaxima_N_LW;            //%21% - Forca Maxima do teste rForcaMaxima_N - (2200 N) Limite de forca de entrada, limitado a 10KN, mas podemos limitar a 5KN
         private  static double _CS_dwForcaMaxima_N_HW;            //%22% - 
         private  static double _CS_dwGradienteForca_Ns_LW;        //%23% - Pneumatic Slow - //(200 Ns) Limitado a 10KN, mas deve ser limitado a foca x pressao do atuador pneumático
@@ -2030,49 +2031,46 @@ namespace Continental.Project.Adam.UI.Helper.Com
 
         public static int CS_wModo
         {
-
             get { return HelperMODBUS._CS_wModo; }
             set { HelperMODBUS._CS_wModo = value; }
         }
+        public static int CS_wOutput
+        {
+            get { return HelperMODBUS._CS_wOutput; }
+            set { HelperMODBUS._CS_wOutput = value; }
+        }
         public static double CS_dwForcaMaxima_N_LW
         {
-
             get { return HelperMODBUS._CS_dwForcaMaxima_N_LW; }
             set { HelperMODBUS._CS_dwForcaMaxima_N_LW = value; }
         }
         public static double CS_dwForcaMaxima_N_HW
         {
-
             get { return HelperMODBUS._CS_dwForcaMaxima_N_HW; }
             set { HelperMODBUS._CS_dwForcaMaxima_N_HW = value; }
         }
         public static double CS_dwGradienteForca_Ns_LW
         {
-
             get { return HelperMODBUS._CS_dwGradienteForca_Ns_LW; }
             set { HelperMODBUS._CS_dwGradienteForca_Ns_LW = value; }
         }
         public static double CS_dwGradienteForca_Ns_HW
         {
-
             get { return HelperMODBUS._CS_dwGradienteForca_Ns_HW; }
             set { HelperMODBUS._CS_dwGradienteForca_Ns_HW = value; }
         }
         public static double CS_dwGradienteForca_LW
         {
-
             get { return HelperMODBUS._CS_dwGradienteForca_LW; }
             set { HelperMODBUS._CS_dwGradienteForca_LW = value; }
         }
         public static double CS_dwGradienteForca_HW
         {
-
             get { return HelperMODBUS._CS_dwGradienteForca_HW; }
             set { HelperMODBUS._CS_dwGradienteForca_HW = value; }
         }
         public static double CS_dwVelocidadeAtuacao_mm_s_LW
         {
-
             get { return HelperMODBUS._CS_dwVelocidadeAtuacao_mm_s_LW; }
             set { HelperMODBUS._CS_dwVelocidadeAtuacao_mm_s_LW = value; }
         }
