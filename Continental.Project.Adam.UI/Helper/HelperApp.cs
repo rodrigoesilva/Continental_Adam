@@ -16833,11 +16833,11 @@ namespace Continental.Project.Adam.UI.Helper
         #endregion
 
         #region REPORT PDF
-        public void Report_CreatePDF(string strImgChart, string strFileName)
+        public void Report_CreatePDF(string strImgChart, string strFileName, int gridResultRowsCount)
         {
             try
             {
-                #region Define
+                #region REPORT - Define Variables
 
                 string dirReportResources = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppReport_PathResources);
 
@@ -16860,13 +16860,27 @@ namespace Continental.Project.Adam.UI.Helper
 
                 string strInfo = "INFO - CONTI";
 
-                var lstResultParamFormated = HelperApp.lstResultParamFormated;
+                var lstResultParam = HelperApp.lstResultParam;
+
+                var lstResultParamFormated = HelperApp.lstResultParamFormated != null ? gridResultRowsCount == Convert.ToInt32(HelperApp.lstResultParamFormated.Count) ? HelperApp.lstResultParamFormated : null : null;
 
                 var lstEvaluationParameters = HelperApp.lstEvaluationParameters;
 
                 #endregion
 
-                #region Define Document
+                #region REPORT - Check Exists
+
+                if (File.Exists(outputFile))
+                {
+                    if (DialogResult.No == MessageBox.Show("  File Report already exists!" + "\n\n\n" + "Do you want ovewrite report test ? ", appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                        return;
+                    else
+                        File.Delete(outputFile);
+                }
+
+                #endregion
+
+                #region REPORT - Define Document
 
                 PdfADocument pdfDoc = new PdfADocument(
                     new PdfWriter(outputFile),
@@ -16889,7 +16903,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #endregion
 
-                #region Define Images
+                #region REPORT - Define Images
 
                 iText.Layout.Element.Image imgTest_Logo = new iText.Layout.Element.Image(ImageDataFactory.Create(reportImgLogo));
 
@@ -16905,7 +16919,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #endregion
 
-                #region Define Report Layout
+                #region REPORT - Define Layout
 
                 Table table = new Table(UnitValue.CreatePercentArray(12))
                     .UseAllAvailableWidth()
@@ -17034,8 +17048,6 @@ namespace Continental.Project.Adam.UI.Helper
                     .SetTextAlignment(TextAlignment.CENTER)
                      .SetFont(fontBold)
                     .SetFontSize(sizeFont_TableResultHeader)
-                    .SetBorder(Border.NO_BORDER)
-                    .SetBorderRight(new SolidBorder(1))
                     .Add(new Paragraph("Result"));
                 table.AddCell(cellTableHeader_Result);
 
@@ -17057,7 +17069,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #region Table Result Content
 
-                countForTable = lstResultParamFormated.Count < maxSizeChartAreaTable ? lstResultParamFormated.Count : maxSizeChartAreaTable;
+                countForTable = lstResultParamFormated?.Count < maxSizeChartAreaTable ? lstResultParamFormated.Count : maxSizeChartAreaTable;
 
                 for (int i = 0; i < countForTable; i++)
                 {
@@ -17197,16 +17209,22 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #endregion
 
-                #region Generate Document
+                #region REPORT - Generate Document
 
                 document.Add(table);
                 document.Close();
 
-                //Save to a pdf file
-                //FileInfo file = new FileInfo(dirReportTestPath);
-                //file.Directory.Create();
+                #endregion
 
-                System.Diagnostics.Process.Start(outputFile);
+                #region REPORT - Save/Open Document
+
+                if (!File.Exists(outputFile))
+                    MessageBox.Show("Failed, create report file !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    if (DialogResult.Yes == MessageBox.Show("\tFile Report Saved!" + "\n\n\n" + "Do you want Open report test ? ", appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                        System.Diagnostics.Process.Start(outputFile);
+                }               
 
                 #endregion
             }
@@ -17419,6 +17437,8 @@ namespace Continental.Project.Adam.UI.Helper
         #region Session Tabs
 
         private static List<ActuationParameters_EvaluationParameters> _lstEvaluationParameters = new List<ActuationParameters_EvaluationParameters>();
+        private static List<Model_Operational_TestTableParameters> _lstResultParam = new List<Model_Operational_TestTableParameters>();
+        private static List<Model_Operational_TestTableParameters> _lstTempResultParam = new List<Model_Operational_TestTableParameters>();
         private static List<Model_Operational_TestTableParameters> _lstResultParamFormated = new List<Model_Operational_TestTableParameters>();
 
         public static List<ActuationParameters_EvaluationParameters> lstEvaluationParameters
@@ -17426,6 +17446,18 @@ namespace Continental.Project.Adam.UI.Helper
             get { return HelperApp._lstEvaluationParameters; }
             set { HelperApp._lstEvaluationParameters = value; }
         }
+        public static List<Model_Operational_TestTableParameters> lstResultParam
+        {
+            get { return HelperApp._lstResultParam; }
+            set { HelperApp._lstResultParam = value; }
+        }
+
+        public static List<Model_Operational_TestTableParameters> lstTempResultParam
+        {
+            get { return HelperApp._lstTempResultParam; }
+            set { HelperApp._lstTempResultParam = value; }
+        }
+
         public static List<Model_Operational_TestTableParameters> lstResultParamFormated
         {
             get { return HelperApp._lstResultParamFormated; }

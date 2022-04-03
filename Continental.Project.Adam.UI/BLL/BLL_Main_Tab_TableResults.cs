@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Continental.Project.Adam.UI.BLL
 {
-    public class BLL_Main_Tab_TableParameters
+    public class BLL_Main_Tab_TableResults
     {
         public ComDB db = new ComDB();
 

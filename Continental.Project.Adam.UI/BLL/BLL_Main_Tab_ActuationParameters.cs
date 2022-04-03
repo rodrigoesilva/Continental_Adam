@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Continental.Project.Adam.UI.BLL
 {
-    public class BLL_Main_Tab_ActionParameters
+    public class BLL_Main_Tab_ActuationParameters
     {
         public ComDB db = new ComDB();
 
-        #region tab_ActionParameters - Panel Action Mode
+        #region Tab_ActuationParameters - Panel Action Mode
         public DataTable PopulateActionMode()
         {
             try
@@ -44,7 +44,7 @@ namespace Continental.Project.Adam.UI.BLL
 
         #endregion
 
-        #region tab_ActionParameters - Panel General Settings
+        #region Tab_ActuationParameters - Panel General Settings
         public DataTable PopulateActionParametersByTest(string IdTestAvailable)
         {
             int statusAtivo = 1;
@@ -85,7 +85,7 @@ namespace Continental.Project.Adam.UI.BLL
 
         #endregion
 
-        #region tab_ActionParameters - Panel Grid Evaluation Parameters
+        #region Tab_ActuationParameters - Panel Grid Evaluation Parameters
         public DataTable PopulateGridEvalParametersByTest(string IdTestAvailable)
         {
             int statusAtivo = 1;

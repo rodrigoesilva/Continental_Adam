@@ -129,7 +129,7 @@ namespace Continental.Project.Adam.UI
         private string _prjTestFilename = string.Empty;
         private string _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
-        private bool tab_TableParametersEnable = false;
+        private bool tab_TableResultsEnable = false;
 
         public StringBuilder sbDataFile = new StringBuilder();
 
@@ -232,6 +232,9 @@ namespace Continental.Project.Adam.UI
 
             Form_Adam_InitializeComponents();
         }
+        #endregion
+
+        #region FORM MAIN
         private void Form_Adam_InitializeComponents()
         {
             try
@@ -274,19 +277,19 @@ namespace Continental.Project.Adam.UI
             this.WindowState = FormWindowState.Maximized;
 
             //TabPages collection
-            tbc_Main_SelectedIndexChanged(sender, e);
+            TAB_Main_SelectedIndexChanged(sender, e);
             //ActivePage(2);
 
 
-            EnableMetroButtonControls();
+            CONTROLS_EnableMetroButton();
 
-            LogClear();
+            LOG_Clear();
 
-            BindLogViewEvents();
+            LOG_BindViewEvents();
 
             BindDataParam();
 
-            LogTestSequence(_helperApp.AppMsg_Welcome);
+            LOG_TestSequence(_helperApp.AppMsg_Welcome);
 
         }
         private void Form_Adam_Main_Shown(object sender, EventArgs e)
@@ -300,34 +303,42 @@ namespace Continental.Project.Adam.UI
             if (!timerMODBUS.Enabled)
                 timerMODBUS.Enabled = true;
         }
-        private void EnableMetroButtonControls()
+
+        #endregion
+
+        #region CONTROLS
+        private void CONTROLS_EnableMetroButton()
         {
             var lstMetroButton1 = new List<Control>();
             var lstMetroButton2 = new List<Control>();
 
-            foreach (var metroPanel in GetAllControls(this, typeof(MetroFramework.Controls.MetroPanel)))
-                lstMetroButton1 = GetAllControls(metroPanel, typeof(MetroButton));
+            foreach (var metroPanel in CONTROLS_GetAll(this, typeof(MetroFramework.Controls.MetroPanel)))
+                lstMetroButton1 = CONTROLS_GetAll(metroPanel, typeof(MetroButton));
             foreach (var metroButton in lstMetroButton1.Cast<MetroButton>().ToList())
                 metroButton.UseCustomBackColor = true;
 
-            foreach (var tabControl in GetAllControls(this, typeof(System.Windows.Forms.TabControl)))
-                lstMetroButton2 = GetAllControls(tabControl, typeof(MetroButton));
+            foreach (var tabControl in CONTROLS_GetAll(this, typeof(System.Windows.Forms.TabControl)))
+                lstMetroButton2 = CONTROLS_GetAll(tabControl, typeof(MetroButton));
             foreach (var metroButton in lstMetroButton2.Cast<MetroButton>().ToList())
                 metroButton.UseCustomBackColor = true;
 
-            var lstMetroButton3 = GetAllControls(this, typeof(MetroButton));
+            var lstMetroButton3 = CONTROLS_GetAll(this, typeof(MetroButton));
             foreach (var metroButton in lstMetroButton3.Cast<MetroButton>().ToList())
                 metroButton.UseCustomBackColor = true;
         }
-        public List<Control> GetAllControls(Control control, Type type)
+        public List<Control> CONTROLS_GetAll(Control control, Type type)
         {
             var controls = control.Controls.Cast<Control>();
 
-            return controls.SelectMany(ctrl => GetAllControls(ctrl, type))
+            return controls.SelectMany(ctrl => CONTROLS_GetAll(ctrl, type))
                                       .Concat(controls)
                                       .Where(c => c.GetType() == type)
                                       .ToList();
         }
+
+        #endregion
+
+        #region BIND
         public void BindDataParam()
         {
             if (HelperApp.uiTesteSelecionado > 0)
@@ -404,7 +415,7 @@ namespace Continental.Project.Adam.UI
         {
             TEST_Start_Command();
 
-            tbc_Main.SelectedTab = tbc_Main.TabPages["tab_CPX_Visu"];
+            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_CPX_Visu"];
         }
         private void mbtn_BStop_Click(object sender, EventArgs e)
         {
@@ -417,27 +428,9 @@ namespace Continental.Project.Adam.UI
         }
         private void mbtn_PrintGraphics_Click(object sender, EventArgs e)
         {
-            //_helperAdam.SMPrintParameterListClick(sender);
-            SaveChartImageToFile(devChart, ImageFormat.Png, "D:\\PROJETOS\\CONTINENTAL\\SOURCE\\Chart.png");
-            Image image = GetChartImage(devChart, ImageFormat.Png);
-            image.Save("D:\\PROJETOS\\CONTINENTAL\\SOURCE\\Chart2.png");
+            CHART_ExportImage();
         }
-
-        private Image GetChartImage(ChartControl chart, ImageFormat format)
-        {
-            Image image = null;
-            using (MemoryStream s = new MemoryStream())
-            {
-                chart.ExportToImage(strMessageToDisplayLog, format);
-                image = Image.FromStream(s);
-            }
-            return image;
-        }
-
-        private void SaveChartImageToFile(ChartControl chart, ImageFormat format, String filename)
-        {
-            chart.ExportToImage(filename, format);
-        }
+        
         #endregion
 
         private void DisableButtonStart()
@@ -498,62 +491,62 @@ namespace Continental.Project.Adam.UI
 
         #region TABS
 
-        #region tab - Main
-        private void tbc_Main_Selecting(object sender, TabControlCancelEventArgs e)
+        #region TAB - Main
+        private void TAB_Main_Selecting(object sender, TabControlCancelEventArgs e)
         {
             //hide a tab by removing it from the TabPages collection
             if (!_helperApp.AppUseSimulateLocal)
             {
-                bool bTabAccessOk = tab_TableParametersEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
+                bool bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
 
-                if (e.TabPage == tab_TableParameters)
+                if (e.TabPage == tab_TableResults)
                     if (!bTabAccessOk)
                         e.Cancel = true;
             }
         }
-        private void tbc_Main_SelectedIndexChanged(object sender, EventArgs e)
+        private void TAB_Main_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ActivePage(tbc_Main.SelectedIndex);
-        }   
-        public void ActivePage(int tabIdx)
+            TAB_Main_ActivePage(TAB_Main.SelectedIndex);
+        }
+        public void TAB_Main_ActivePage(int tabIdx)
         {
             switch (tabIdx)
             {
                 case 0://tab_Diagram1_1
                     {
-                        tbc_Main.SelectedTab = tbc_Main.TabPages["tab_Diagram"];
+                        TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
 
-                        tab_Diagram_SetChart();
+                        TAB_DiagramChart_SetData();
                         break;
                     }
-                case 1://tab_TableParameters
+                case 1://TAB_TableResult
                     {
                         if (_helperApp.AppUseSimulateLocal)
                         {
-                            tbc_Main.SelectedTab = tbc_Main.TabPages["tab_TableParameters"];
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
 
-                            tab_TableParameters_setData();
+                            TAB_TableResult_SetData();
                         }
                         else
                         {
-                            if (tab_TableParametersEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created)
+                            if (tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created)
                             {
-                                tbc_Main.SelectedTab = tbc_Main.TabPages["tab_TableParameters"];
+                                TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
 
-                                tab_TableParameters_setData();
+                                TAB_TableResult_SetData();
                             }
                         }
 
                         break;
                     }
-                case 2://tab_ActionParameters
+                case 2://TAB_ActuationParameters
                     {
-                        tbc_Main.SelectedTab = tbc_Main.TabPages["tab_ActionParameters"];
+                        TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
-                        tab_ActionParameters_Set();
+                        TAB_ActuationParameters_SetData();
 
                         //show a tab by adding it to the TabPages collection
-                        tab_TableParametersEnable = true;
+                        tab_TableResultsEnable = true;
 
                         break;
                     }
@@ -563,12 +556,12 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_Diagram_Chart
-        public void tab_Diagram_SetChart()
+        #region TAB - Diagram_Chart
+        public void TAB_DiagramChart_SetData()
         {
             if (!_helperApp.AppUseSimulateLocal)
             {
-                var tabVisu = tbc_Main.TabPages["tab_CPX_Visu"];
+                var tabVisu = TAB_Main.TabPages["tab_CPX_Visu"];
 
                 if (tabVisu == null)
                 {
@@ -581,12 +574,11 @@ namespace Continental.Project.Adam.UI
                 if (!_bAppStart)
                 TXTFileHBM_LoadData();
         }
-
         private void OpenURLInBrowser(string url)
         {
             try
             {
-                tbc_Main.SuspendLayout();
+                TAB_Main.SuspendLayout();
 
                 //url = "http://www.smashcat.org/av/canvas_test/";
 
@@ -601,11 +593,11 @@ namespace Continental.Project.Adam.UI
 
                 tabWebVisuCPX.Controls.Add(webBrowser);
 
-                tbc_Main.TabPages.Add(tabWebVisuCPX);
+                TAB_Main.TabPages.Add(tabWebVisuCPX);
 
-                tbc_Main.SelectedTab = tabWebVisuCPX;
+                TAB_Main.SelectedTab = tabWebVisuCPX;
 
-                tbc_Main.ResumeLayout(true);
+                TAB_Main.ResumeLayout(true);
             }
             catch (UriFormatException ex)
             {
@@ -616,14 +608,14 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_TableParameters
+        #region TAB - TableResults
 
-        #region tab_TableParameters - Common
-        private void tab_TableParameters_setData()
+        #region TAB - TableResults - Common
+        private void TAB_TableResult_SetData()
         {
             if (HelperApp.uiTesteSelecionado != 0)
             {
-                if(!tab_TableParameters_GetDataResults(HelperApp.uiTesteSelecionado.ToString()))
+                if(!TAB_TableResults_Grid_GetData(HelperApp.uiTesteSelecionado.ToString()))
                     MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
@@ -631,65 +623,164 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        private void tab_TableParameters_ResultParameters_Grid_Format()
+
+        #endregion
+
+        #region TAB - TableResults - Grid
+        private bool TAB_TableResults_Grid_GetData(string strIdxTestSelected)
         {
-            //Columns
-            for (int i = 0; i < grid_tabTable_SGOnline.Columns.Count; i++)
+            try
             {
-                grid_tabTable_SGOnline.Columns[i].Visible = false;
-                grid_tabTable_SGOnline.Columns[i].ReadOnly = true;
-                grid_tabTable_SGOnline.Columns[i].HeaderCell.Value = String.Empty;
-                grid_tabTable_SGOnline.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                grid_tabTable_SGOnline.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                grid_tabTable_SGOnline.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                grid_tabTable_SGOnline.Columns[i].Resizable = DataGridViewTriState.False;
+                #region Get Grids Info
+
+                //data info Grid Results
+                BLL_Main_Tab_TableResults _bll_Main_TableResults = new BLL_Main_Tab_TableResults();
+
+                DataTable dtTableResults = _bll_Main_TableResults.PopulateGridTableResultsByTest(strIdxTestSelected);
+
+                if (dtTableResults.Rows.Count == 0)
+                {
+                    MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                else
+                {
+                    #region CheckBoxes Result Parameters
+
+                    List<Model_Operational_TestTableParameters> listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam);
+
+                    HelperApp.lstResultParam.Clear();
+
+                    HelperApp.lstResultParam = listResultParam;
+
+                    //bind Checkboxes Table Results
+                    TAB_TableResults_CheckBoxes(listResultParam);
+
+                    #endregion
+                }
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                var exc = ex.Message;
+                MessageBox.Show(exc);
+                return false;
+            }
+
+            return true;
+        }
+        private void TAB_TableResult_Grid_Format(int chkId, string chkName, bool chkChecked)
+        {
+            List<Model_Operational_TestTableParameters> listTempResultParam = HelperApp.lstTempResultParam;
+
+            Model_Operational_TestTableParameters itemResultParam_Element = HelperApp.lstResultParam.ElementAt(chkId); //.Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+            if (itemResultParam_Element != null)
+            {
+                Model_Operational_TestTableParameters itemResultParam_Name = HelperApp.lstResultParam.Where(x => x.IdResultParam > 0 && x.ResultParam_Name.Equals(chkName)).FirstOrDefault(); //.Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                Model_Operational_TestTableParameters itemResultParam = itemResultParam_Element == itemResultParam_Name ? itemResultParam_Element : itemResultParam_Name;
+
+                if (chkChecked)
+                    listTempResultParam.Add(itemResultParam);
+                else
+                    listTempResultParam.Remove(itemResultParam);
+            }
+
+            List<Model_Operational_TestTableParameters> listResultParam = HelperApp.lstResultParam;
+
+            BindingSource source = new BindingSource();
+            source.DataSource = listTempResultParam;
+
+            TAB_TableResult_Grid.DataSource = source;
+
+            HelperApp.lstTempResultParam = listTempResultParam;
+
+            for (int i = 0; i < TAB_TableResult_Grid.Rows.Count; i++)
+            {
+                var row = TAB_TableResult_Grid.Rows[i];
+
+                var rowValue = row.Cells["IdResultParam"].Value;
+
+                //TAB_TableResult_Grid.Rows[i].Cells["IdResultParam"].Style.ForeColor = TAB_TableResult_Grid.Rows[i].Cells["IdResultParam"].Value != null ? Color.Black : Color.White;
+            }
+
+            #region Format Info Columns
+
+            //TAB_TableResult_Grid.RowHeadersVisible = false;
+            //TAB_TableResult_Grid.ColumnHeadersVisible = true;
+
+
+            for (int i = 0; i < TAB_TableResult_Grid.Columns.Count; i++)
+            {
+                TAB_TableResult_Grid.Columns[i].Visible = false;
+                TAB_TableResult_Grid.Columns[i].ReadOnly = true;
+                TAB_TableResult_Grid.Columns[i].HeaderCell.Value = String.Empty;
+                TAB_TableResult_Grid.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                TAB_TableResult_Grid.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                TAB_TableResult_Grid.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                TAB_TableResult_Grid.Columns[i].Resizable = DataGridViewTriState.False;
             }
 
             //Changes grid's column's header's font size to 10.
-            grid_tabTable_SGOnline.ColumnHeadersDefaultCellStyle.Font = new Font("", 10.0f, FontStyle.Bold);
+            TAB_TableResult_Grid.ColumnHeadersDefaultCellStyle.Font = new Font("", 10.0f, FontStyle.Bold);
             //Changes grid's data's font size to 8.
-            grid_tabTable_SGOnline.Font = new Font("", 8.0f);
+            TAB_TableResult_Grid.Font = new Font("", 8.0f);
 
             //grid's column's
 
             //hide grid's column's
-            grid_tabTable_SGOnline.Columns[0].Visible = false; //ID
-            grid_tabTable_SGOnline.Columns[0].Width = 0;
+            TAB_TableResult_Grid.Columns[0].Visible = false; //ID
+            TAB_TableResult_Grid.Columns[0].Width = 0;
 
-            grid_tabTable_SGOnline.Columns["IdResultParam"].HeaderCell.Value = string.Empty;//ID
-            grid_tabTable_SGOnline.Columns["IdResultParam"].Visible = true;
-            grid_tabTable_SGOnline.Columns["IdResultParam"].Width = 0;
+            TAB_TableResult_Grid.Columns["IdResultParam"].HeaderCell.Value = string.Empty;//ID
+            TAB_TableResult_Grid.Columns["IdResultParam"].Visible = true;
+            TAB_TableResult_Grid.Columns["IdResultParam"].Width = 0;
 
-            grid_tabTable_SGOnline.Columns["ResultParam_Name"].HeaderCell.Value = string.Empty; //ResultParam_Name
-            grid_tabTable_SGOnline.Columns["ResultParam_Name"].Visible = true;
-            grid_tabTable_SGOnline.Columns["ResultParam_Name"].Width = 0;
+            TAB_TableResult_Grid.Columns["ResultParam_Name"].HeaderCell.Value = string.Empty; //ResultParam_Name
+            TAB_TableResult_Grid.Columns["ResultParam_Name"].Visible = true;
+            TAB_TableResult_Grid.Columns["ResultParam_Name"].Width = 0;
 
-            grid_tabTable_SGOnline.Columns["ResultParam_Caption"].HeaderCell.Value = "Result"; //Parameter Result
-            grid_tabTable_SGOnline.Columns["ResultParam_Caption"].Visible = true;
-            grid_tabTable_SGOnline.Columns["ResultParam_Caption"].Width = 350;
-            grid_tabTable_SGOnline.Columns["ResultParam_Caption"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            TAB_TableResult_Grid.Columns["ResultParam_Caption"].HeaderCell.Value = "Result"; //Parameter Result
+            TAB_TableResult_Grid.Columns["ResultParam_Caption"].Visible = true;
+            TAB_TableResult_Grid.Columns["ResultParam_Caption"].Width = 450;
+            TAB_TableResult_Grid.Columns["ResultParam_Caption"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
-            grid_tabTable_SGOnline.Columns["ResultParam_Nominal"].HeaderText = "Nominal"; //Col02
-            grid_tabTable_SGOnline.Columns["ResultParam_Nominal"].Visible = true;
-            grid_tabTable_SGOnline.Columns["ResultParam_Nominal"].ReadOnly = false;
-            grid_tabTable_SGOnline.Columns["ResultParam_Nominal"].Width = 250;
+            TAB_TableResult_Grid.Columns["ResultParam_Nominal"].HeaderText = "Nominal"; //Col02
+            TAB_TableResult_Grid.Columns["ResultParam_Nominal"].Visible = true;
+            TAB_TableResult_Grid.Columns["ResultParam_Nominal"].ReadOnly = false;
+            TAB_TableResult_Grid.Columns["ResultParam_Nominal"].Width = 350;
 
-            grid_tabTable_SGOnline.Columns["ResultParam_Measured"].HeaderText = "Measured"; //Col03
-            grid_tabTable_SGOnline.Columns["ResultParam_Measured"].Visible = true;
-            grid_tabTable_SGOnline.Columns["ResultParam_Measured"].Width = 150;
+            TAB_TableResult_Grid.Columns["ResultParam_Measured"].HeaderText = "Measured"; //Col03
+            TAB_TableResult_Grid.Columns["ResultParam_Measured"].Visible = true;
+            TAB_TableResult_Grid.Columns["ResultParam_Measured"].Width = 200;
 
-            grid_tabTable_SGOnline.Columns["ResultParam_Unit"].HeaderCell.Value = "Unit";
-            grid_tabTable_SGOnline.Columns["ResultParam_Unit"].Visible = true; //UNIT
-            grid_tabTable_SGOnline.Columns["ResultParam_Unit"].Width = 100;
+            TAB_TableResult_Grid.Columns["ResultParam_Unit"].HeaderCell.Value = "Unit";
+            TAB_TableResult_Grid.Columns["ResultParam_Unit"].Visible = true; //UNIT
+            TAB_TableResult_Grid.Columns["ResultParam_Unit"].Width = 150;
 
-            //set focus
-            var rowIndex = grid_tabTable_SGOnline.Rows.Count - 1;
+            #endregion
 
-            grid_tabTable_SGOnline.CurrentCell = grid_tabTable_SGOnline.Rows[rowIndex].Cells[4];
-            grid_tabTable_SGOnline.Rows[rowIndex].Selected = true;
-            grid_tabTable_SGOnline.Rows[rowIndex].Cells[3].Selected = true;
+            #region set focus
+
+            //int rowsCount = TAB_TableResult_Grid.Rows.Count;
+
+            //if (rowsCount > 1)
+            //{
+            //    var rowIndex = rowsCount - 1;
+
+            //    TAB_TableResult_Grid.CurrentCell = TAB_TableResult_Grid.Rows[rowIndex].Cells["ResultParam_Caption"];
+            //    TAB_TableResult_Grid.Rows[rowIndex].Selected = true;
+            //    TAB_TableResult_Grid.Rows[rowIndex].Cells["ResultParam_Caption"].Selected = true;
+            //}
+
+            #endregion
+
+
+            HelperApp.lstResultParamFormated = HelperApp.lstTempResultParam;
         }
-        private void grid_tabTable_SGOnline_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void TAB_TableResult_Grid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
@@ -698,17 +789,23 @@ namespace Continental.Project.Adam.UI
                 string strResultParam_Nominal = ((System.Windows.Forms.DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
 
                 if (!string.IsNullOrEmpty(strResultParam_Nominal) && row != null)
-                    tab_TableParameters_WriteNominalGridResultParameters(row, strIdTestAvailable, strResultParam_Nominal);
+                    TAB_TableResults_Grid_WriteNominaParameters(row, strIdTestAvailable, strResultParam_Nominal);
             }
         }
-        public void tab_TableParameters_WriteNominalGridResultParameters(DataGridViewRow row, string strIdTestAvailable, string strResultParam_Nominal)
+        private void TAB_TableResults_Grid_WriteNominaParameters(DataGridViewRow row, string strIdTestAvailable, string strResultParam_Nominal)
         {
             int idResultParam = !string.IsNullOrEmpty(row.Cells["IdResultParam"].Value?.ToString()?.Trim()) ? Convert.ToInt32(row.Cells["IdResultParam"].Value?.ToString()?.Trim()) : 0;
             int idTestAvailable = !string.IsNullOrEmpty(strIdTestAvailable) ? Convert.ToInt32(strIdTestAvailable) : 0;
 
             if (idResultParam > 0 && idTestAvailable > 0 && idTestAvailable == HelperApp.uiTesteSelecionado)
             {
-                BLL_Main_Tab_TableParameters _bll_Main_TableResults = new BLL_Main_Tab_TableParameters();
+                HelperApp.lstTempResultParam
+                    .Where(x => x.IdResultParam > 0 && x.IdResultParam.Equals(idResultParam))
+                    .FirstOrDefault().ResultParam_Nominal = strResultParam_Nominal?.ToString()?.Trim();;
+
+                HelperApp.lstResultParamFormated = HelperApp.lstTempResultParam;
+
+                BLL_Main_Tab_TableResults _bll_Main_TableResults = new BLL_Main_Tab_TableResults();
 
                 bool retUpdate = _bll_Main_TableResults.UpdateGridTableResultsByTest(idResultParam, idTestAvailable, strResultParam_Nominal.Trim());
 
@@ -727,67 +824,18 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_TableParameters - Results Parameters - Grid
-        private bool tab_TableParameters_GetDataResults(string strIdxTestSelected)
-        {
-            try
-            {
-                #region Get Grids Info
-
-                //data info Grid Results
-                BLL_Main_Tab_TableParameters _bll_Main_TableResults = new BLL_Main_Tab_TableParameters();
-
-                DataTable dtTableResults = _bll_Main_TableResults.PopulateGridTableResultsByTest(strIdxTestSelected);
-
-                if (dtTableResults.Rows.Count == 0)
-                {
-                    MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return false;
-                }
-                else
-                {
-                    #region Result Parameters
-
-                    //grid_tabTable_SGOnline.DataSource = dtTableResults;
-
-                    List<Model_Operational_TestTableParameters> listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam);
-
-                    grid_tabTable_SGOnline.DataSource = listResultParam;
-
-                    tab_TableParameters_ResultParameters_Grid_Format();
-
-                    //bind Checkboxes Table Parameters
-                    tab_TableParameters_CheckBoxesResults(listResultParam);
-
-                    #endregion
-                }
-
-                #endregion
-            }
-            catch (Exception ex)
-            {
-                var exc = ex.Message;
-                MessageBox.Show(exc);
-                return false;
-            }
-
-            return true;
-        }
-
-        #endregion
-
-        #region tab_TableParameters - Results Parameters - CheckBox
-        private void tab_TableParameters_CheckBoxesResults(List<Model_Operational_TestTableParameters> listResultParam)
+        #region TAB - TableResults - CheckBox
+        private void TAB_TableResults_CheckBoxes(List<Model_Operational_TestTableParameters> listResultParam)
         {
             try
             {
                 if (HelperApp.uiTesteSelecionado != 0)
                 {
-                    var metroPnl = GetAllControls(this, typeof(MetroPanel)).Find(a => a.Name == "mpnl_Table_GivingOut");
+                    var metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mpnl_Table_GivingOut");
 
-                    var lstChkMetro = GetAllControls(metroPnl, typeof(MetroCheckBox)).OrderBy(m => m.Text);
+                    var lstChkMetro = CONTROLS_GetAll(metroPnl, typeof(MetroCheckBox)).OrderBy(m => m.Text);
 
-                    var lstChk = GetAllControls(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
+                    var lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
 
                     //clear chk exitente no panel
                     foreach (var ctrl in lstChkMetro.Select((value, i) => (value, i)))
@@ -813,9 +861,9 @@ namespace Continental.Project.Adam.UI
 
                         //MetroCheckBox mChkBox = new MetroCheckBox();
                         CheckBox mChkBox = new CheckBox();
-                        mChkBox.CheckedChanged += tab_TableParameters_ChkResults_CheckedChanged;
+                        mChkBox.CheckedChanged += TAB_TableResults_CheckBoxes_CheckedChanged;
                         mChkBox.Tag = i.ToString();
-                        mChkBox.Name = string.Concat("chk_tab_TableParameters_ChkResults", i);
+                        mChkBox.Name = !string.IsNullOrEmpty(strResultParam_Name) ? strResultParam_Name : string.Concat("tab_TableResults_Chk", i);
                         mChkBox.Text = strResultParam_Caption;
                         mChkBox.AutoSize = true;
                         mChkBox.Font = new Font("", 8.0f, FontStyle.Bold);
@@ -823,71 +871,6 @@ namespace Continental.Project.Adam.UI
                                                                         //horizontal = box.Location = new Point(i * 50, 10); 
                         metroPnl.AddControl(mChkBox);
                     }
-
-                    //for (int i = 0; i < listResultParam.Count(); i++)
-                    //{
-                    //    var ctrl = lstChk.Select((value, idx) => (value, idx));
-
-                    //    var chk = ctrl.Select(x => x.value).ElementAt(i);
-
-                    //    long ResultParam_Id = listResultParam[i].IdResultParam;
-
-                    //    string strResultParam_Name = listResultParam[i].ResultParam_Name?.Trim();
-
-                    //    string strResultParam_Caption = listResultParam[i].ResultParam_Caption?.Trim();
-
-                    //    //var idxCtrl = Convert.ToInt32(chk.Name.ToString().Replace("mchk_tabTable_Chk", string.Empty)) - 1;
-
-                    //    //if (i == idxCtrl)
-                    //    //    chk.Text = strResultParam_Caption;
-                    //    //else
-                    //    //{
-                    //    //    if (idxCtrl <= listResultParam.Count())
-                    //    //    {
-                    //    //        chk.Text = strResultParam_Caption;
-                    //    //    }
-                    //    //    else
-                    //    //    {
-                    //    //        chk.Text = string.Concat("nao_", i);// string.Empty;
-                    //    //    }
-
-                    //    //}
-
-                    //    chk.Name = strResultParam_Name;
-                    //    chk.Text = strResultParam_Caption;
-
-                    //    box = new MetroCheckBox();
-                    //    box.Tag = i.ToString();
-                    //    box.Text = string.Concat("box_", i, "_", strResultParam_Caption);
-                    //    box.AutoSize = true;
-                    //    box.Font = new Font("", 8.0f);
-
-                    //    box.Location = new Point(15, (i+3) * 25); //vertical
-                    //                                           //box.Location = new Point(i * 50, 10); //horizontal
-                    //    metroPnl.AddControl(box);
-                    //}
-
-
-                    //foreach (var ctrl in lstChk.Select((value, i) => (value, i)))
-                    //{
-                    //    var idx = ctrl.i;
-
-                    //    var chk = ctrl.value;
-
-                    //    var idxCtrl = Convert.ToInt32(chk.Name.ToString().Replace("mchk_tabTable_Chk", string.Empty)) - 1;
-
-                    //    if (idx == idxCtrl)
-                    //        chk.Text = listResultParam.ElementAt(idx).ResultParam_Caption.Trim();
-                    //    else
-                    //    {
-                    //        if (idxCtrl <= listResultParam.Count())
-                    //        {
-                    //            chk.Text = listResultParam.ElementAt(idxCtrl).ResultParam_Caption;
-                    //        }
-                    //        else
-                    //            chk.Text = string.Empty;
-                    //    }
-                    //}
                 }
 
             }
@@ -897,51 +880,53 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(exc);
             }
         }
-        private void tab_TableParameters_ChkResults_CheckedChanged(object sender, EventArgs e)
+        private void TAB_TableResults_CheckBoxes_CheckedChanged(object sender, EventArgs e)
         {
-            int chkId = Convert.ToInt32(((System.Windows.Forms.Control)sender).Tag.ToString());
-            string chkName = ((System.Windows.Forms.Control)sender).Name.ToString();
-            string chkText = ((System.Windows.Forms.ButtonBase)sender).Text.ToString();
+            int chkId = Convert.ToInt32(((System.Windows.Forms.Control)sender).Tag?.ToString()?.Trim());
+            string chkName = ((System.Windows.Forms.Control)sender).Name?.ToString()?.Trim();
+            string chkText = ((System.Windows.Forms.ButtonBase)sender).Text?.ToString()?.Trim();
             bool chkChecked = ((System.Windows.Forms.CheckBox)sender).Checked;
+
+            TAB_TableResult_Grid_Format(chkId, chkName, chkChecked);
         }
 
         #endregion
 
         #endregion
 
-        #region tab_ActionParameters
+        #region TAB - ActuationParameters
 
-        #region tab_ActionParameters - Common
-        private void tab_ActionParameters_Set()
+        #region TAB - ActuationParameters - Common
+        private void TAB_ActuationParameters_SetData()
         {
             try
             {
-                #region tab_ActionParameters - General Settings - Set Data
+                #region TAB_ActuationParameters - General Settings - Set Data
 
                 mtxt_Actuation_Unit_E1ParMaxForce.Enabled = false;
                 mtxt_Actuation_Unit_E1ParForceGrad.Enabled = false;
 
-                #region tab_ActionParameters - General Settings - Set Combo Actuation Mode
+                #region TAB_ActuationParameters - General Settings - Set Combo Actuation Mode
 
                 if (mcbo_tabActParam_GenSettings_CoBActuationMode.Items.Count <= 0)
-                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Populate();
+                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Populate();
 
                 if (mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex != 0)
                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = HelperApp.uiActuationMode;
 
                 #endregion
 
-                #region tab_ActionParameters - General Settings - Set Combo Tests
+                #region TAB_ActuationParameters - General Settings - Set Combo Tests
 
                 if (mcbo_tabActParam_GenSettings_CoBSelectTest.Items.Count <= 0)
-                    tab_ActionParameters_GeneralSettings_CoBSelectTest_Populate();
+                    TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Populate();
 
                 if (mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex != 0)
                     mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = HelperApp.uiTesteSelecionado;
 
                 #endregion
 
-                #region tab_ActionParameters - General Settings - Set Consumers
+                #region TAB_ActuationParameters - General Settings - Set Consumers
 
                 if (mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex == 0)
                 {
@@ -953,7 +938,7 @@ namespace Continental.Project.Adam.UI
 
                 #endregion
 
-                #region tab_ActionParameters - Actuation - Set data
+                #region TAB_ActuationParameters - Actuation - Set data
 
                 if (HelperApp.uiTesteSelecionado == 0)
                 {
@@ -963,7 +948,13 @@ namespace Continental.Project.Adam.UI
 
                 #endregion
 
-                tab_ActionParameters_PopulateData(HelperApp.uiTesteSelecionado);
+                #region TAB_ActuationParameters - Evoluation Parameters - Set data
+
+                grpOutput.Visible = false;
+
+                #endregion
+
+                TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado);
 
                 _bAppStart = false;
             }
@@ -973,7 +964,7 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(exc);
             }
         }
-        public bool tab_ActionParameters_ValidateInputTxt(object sender, KeyPressEventArgs e)
+        private bool TAB_ActuationParameters_ValidateInputTxt(object sender, KeyPressEventArgs e)
         {
             char ch = e.KeyChar;
 
@@ -985,7 +976,7 @@ namespace Continental.Project.Adam.UI
 
             return false;
         }
-        public void tab_ActionParameters_ValidateInputBtnMinPlus(string strName, string strValue, double paramStep, string strTypeAction)
+        private void TAB_ActuationParameters_ValidateInputBtnMinPlus(string strName, string strValue, double paramStep, string strTypeAction)
         {
             if (!string.IsNullOrEmpty(strValue))
             {
@@ -993,10 +984,10 @@ namespace Continental.Project.Adam.UI
 
                 strValue = (dblValue < 0 ? (dblValue + paramStep) : (dblValue - paramStep)).ToString("N2");
 
-                tab_ActionParameters_WriteComInputTxt(strName, strValue);
+                TAB_ActuationParameters_WriteComInputTxt(strName, strValue);
             }
         }
-        public void tab_ActionParameters_WriteComInputTxt(string strName, string strValue)
+        private void TAB_ActuationParameters_WriteComInputTxt(string strName, string strValue)
         {
             try
             {
@@ -1069,8 +1060,8 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_ActionParameters - Populate Data
-        public bool tab_ActionParameters_PopulateData(int uiTesteSelecionado)
+        #region TAB - ActuationParameters - Populate Data
+        private bool TAB_ActuationParameters_PopulateData(int uiTesteSelecionado)
         {
             try
             {
@@ -1096,7 +1087,7 @@ namespace Continental.Project.Adam.UI
 
                             if (!_bCoBSelectTestSelected)
                             {
-                                bool bReturn = tab_ActionParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
+                                bool bReturn = TAB_ActuationParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
 
                                 if (bReturn)
                                     _bCoBSelectTestSelected = true;
@@ -1119,11 +1110,11 @@ namespace Continental.Project.Adam.UI
 
             return true;
         }
-        private bool tab_ActionParameters_GetDataInfo(string strIdxTestSelected)
+        private bool TAB_ActuationParameters_GetDataInfo(string strIdxTestSelected)
         {
             try
             {
-                BLL_Main_Tab_ActionParameters _bll_Main_Tab_ActionParameters = new BLL_Main_Tab_ActionParameters();
+                BLL_Main_Tab_ActuationParameters _bll_Main_Tab_ActionParameters = new BLL_Main_Tab_ActuationParameters();
 
                 DataTable dtActionParameter = _bll_Main_Tab_ActionParameters.PopulateActionParametersByTest(strIdxTestSelected);
 
@@ -1140,18 +1131,18 @@ namespace Continental.Project.Adam.UI
 
                         //General Settings - CBO Actuation Mode
                         IdActuationMode = row.Field<int>("IdActuationMode");
-                        tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(IdActuationMode);
+                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(IdActuationMode);
 
                         //General Settings - Panel Vacuum
                         strVacuumValue = !string.IsNullOrEmpty(row.Field<decimal?>("Vacuum").ToString()) ? row.Field<decimal?>("Vacuum").ToString() : "0";
-                        tab_ActionParameters_GeneralSettings_Vaccum_Change(strVacuumValue);
+                        TAB_ActuationParameters_GeneralSettings_Vaccum_Change(strVacuumValue);
 
                         //General Settings - Panel Consumers
                         iConsumerType = row.Field<int>("IdConsumerType");
                         iConsumerPC = !string.IsNullOrEmpty(row.Field<int?>("PC").ToString()) ? row.Field<int>("PC") : 0;
                         iConsumerSC = !string.IsNullOrEmpty(row.Field<int?>("SC").ToString()) ? row.Field<int>("SC") : 0;
                         bPistonLock = row.Field<bool>("Chk_PistonLock");
-                        tab_ActionParameters_GeneralSettings_Consumers_Change(iConsumerType, iConsumerPC, iConsumerSC, bPistonLock);
+                        TAB_ActuationParameters_GeneralSettings_Consumers_Change(iConsumerType, iConsumerPC, iConsumerSC, bPistonLock);
 
                         #endregion
 
@@ -1163,7 +1154,7 @@ namespace Continental.Project.Adam.UI
 
                         if (!string.IsNullOrEmpty(strMaxForceValue))
                         {
-                            tab_ActionParameters_Actuation_MaxForce_Change(strName, strMaxForceValue);
+                            TAB_ActuationParameters_Actuation_MaxForce_Change(strName, strMaxForceValue);
                         }
                         else
                             mtxt_Actuation_E1ParMaxForce.Text = _notReadValue;
@@ -1173,7 +1164,7 @@ namespace Continental.Project.Adam.UI
 
                         if (!string.IsNullOrEmpty(strGradientForceValue))
                         {
-                            tab_ActionParameters_Actuation_GradientForce_Change(strName, strGradientForceValue);
+                            TAB_ActuationParameters_Actuation_GradientForce_Change(strName, strGradientForceValue);
 
                             mtxt_Actuation_E1ParForceGrad.Text = strGradientForceValue;
                         } 
@@ -1197,16 +1188,16 @@ namespace Continental.Project.Adam.UI
                         if (dtGridEvalParameters.Rows.Count > 0)
                         {
                             //Rows Format
-                            tab_ActionParameters_EvalParameters_Grid_GridRowType(dtGridEvalParameters);
+                            TAB_ActuationParameters_EvalParameters_Grid_GridRowType(dtGridEvalParameters);
 
                             //grid_tabActionParam_EvalParam.DataSource = dtGridEvalParameters;
 
-                            tab_ActionParameters_EvalParameters_Grid_Format();
+                            TAB_ActuationParameters_EvalParameters_Grid_Format();
 
                             List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                             if (HelperApp.uiTesteSelecionado > 0)
-                                tab_ActionParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters);
+                                TAB_ActuationParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters);
                         }
                         else
                         {
@@ -1230,14 +1221,14 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_ActionParameters - Panel General Settings
+        #region TAB - ActuationParameters - Panel General Settings
 
-        #region tab_ActionParameters - General Settings - CBO Actuation Mode
-        private void tab_ActionParameters_GeneralSettings_CoBActuationMode_Populate()
+        #region TAB - ActuationParameters - General Settings - CBO Actuation Mode
+        private void TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Populate()
         {
             _bAppStart = true;
 
-            BLL_Main_Tab_ActionParameters _bll_Main_Tab_ActionParameters = new BLL_Main_Tab_ActionParameters();
+            BLL_Main_Tab_ActuationParameters _bll_Main_Tab_ActionParameters = new BLL_Main_Tab_ActuationParameters();
 
             DataTable dt = _bll_Main_Tab_ActionParameters.PopulateActionMode();
 
@@ -1269,7 +1260,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1284,7 +1275,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1299,7 +1290,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1314,7 +1305,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1334,7 +1325,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1349,7 +1340,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1364,7 +1355,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1379,7 +1370,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1394,7 +1385,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1409,7 +1400,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1424,7 +1415,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1439,7 +1430,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1454,7 +1445,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1469,7 +1460,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1484,7 +1475,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1499,7 +1490,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1514,7 +1505,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1529,7 +1520,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1544,7 +1535,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1559,7 +1550,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1574,7 +1565,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1589,7 +1580,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1604,7 +1595,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1619,7 +1610,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1634,7 +1625,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1649,7 +1640,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1664,7 +1655,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1679,7 +1670,7 @@ namespace Continental.Project.Adam.UI
                                     return;
                                 }
                                 else
-                                    tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
 
                                 break;
                             }
@@ -1695,7 +1686,7 @@ namespace Continental.Project.Adam.UI
                 }
             }
         }
-        private void tab_ActionParameters_GeneralSettings_CoBActuationMode_Change(int idxSelected)
+        private void TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(int idxSelected)
         {
             mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = idxSelected;
 
@@ -1781,8 +1772,8 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_ActionParameters - General Settings - CBO Test Type
-        private void tab_ActionParameters_GeneralSettings_CoBSelectTest_Populate()
+        #region TAB - ActuationParameters - General Settings - CBO Test Type
+        private void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Populate()
         {
             _bAppStart = true;
 
@@ -1803,10 +1794,10 @@ namespace Continental.Project.Adam.UI
         {
             int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
 
-            tab_ActionParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
+            TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
 
         }
-        public void tab_ActionParameters_GeneralSettings_CoBSelectTest_Change(int idxSelected, string origin)
+        public void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(int idxSelected, string origin)
         {
             if (!_bAppStart)
             {
@@ -1830,50 +1821,37 @@ namespace Continental.Project.Adam.UI
 
                         HelperApp.uiTesteSelecionado = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
 
-                        tab_ActionParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
+                        TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
 
                         _bCoBSelectTestSelected = true;
 
-                        #region teste disponivel
+                        #region Radio Output
 
-                        /*
                         switch (idxSelected)
                         {
                             case 1:     //Force Diagrams - Force/Pressure With Vacuum
-                            case 2:     //Force Diagrams - Force/Force With Vacuum
                             case 3:     //Force Diagrams - Force/Pressure Without Vacuum
-                            case 5:     //Vaccum Leakage - Released Position
-                            case 6:     //Vacuum Leakage - Fully Applied Position
-                            case 7:     //Vacuum Leakage - Lap Position
-                            case 8:      //Hydraulic Leakage - Fully Applied Position
-                            case 9:     //Hydraulic Leakage - At Low Pressure
-                            case 10:    //Hydraulic Leakage - At High Pressure
                             case 17:    //Lost Travel ACU - Hydraulic
+                            case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
                                 {
-                                    if (origin.Equals("Form_Manager_SelectEvalProgram"))
-                                       mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = HelperApp.uiTesteSelecionado;
+                                    rad_EvaluationParameters_CBOutputPC.Checked = true;
+                                    rad_EvaluationParameters_CBOutputSC.Checked = false;
 
-                                   HelperApp.uiTesteSelecionado = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
-
-                                    tab_ActionParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
-
-                                    _bCoBSelectTestSelected = true;
+                                    grpOutput.Visible = true;
 
                                     break;
                                 }
                             default:
                                 {
-                                    mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = 0;
+                                    rad_EvaluationParameters_CBOutputPC.Checked = false;
+                                    rad_EvaluationParameters_CBOutputSC.Checked = false;
 
-                                    _bCoBSelectTestSelected = false;
-
-                                    MessageBox.Show("Warning, unavailable test option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    grpOutput.Visible = false;
 
                                     break;
-
                                 }
                         }
-                        */
+
 
 
                         #endregion
@@ -1883,7 +1861,7 @@ namespace Continental.Project.Adam.UI
                 }
             }
         }
-        public void tab_ActionParameters_GeneralSettings_CoBSelectTest_SetChange(int idTest)
+        public void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(int idTest)
         {
             if (idTest == 0 && _bCoBSelectTestSelected)
             {
@@ -1945,12 +1923,12 @@ namespace Continental.Project.Adam.UI
 
                     HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado);
 
-                    tab_TableParametersEnable = false;
+                    tab_TableResultsEnable = false;
                     HelperTestBase.currentProjectTest.is_Created = false;
 
                     _bCoBSelectTestSelected = false;
 
-                    tab_ActionParameters_PopulateData(HelperApp.uiTesteSelecionado);
+                    TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado);
 
                     last_sel_ix = sel_ix;
                 }
@@ -1961,7 +1939,7 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_ActionParameters - General Settings - Buttons Parameters
+        #region TAB - ActuationParameters - General Settings - Buttons Parameters
         private void mbtn_GeneralSettings_BLoadAdjSettings_Click(object sender, EventArgs e)
         {
             //_helperAdam.BLoadAdjSettingsClick(sender);
@@ -1978,8 +1956,8 @@ namespace Continental.Project.Adam.UI
         }
         #endregion
 
-        #region tab_ActionParameters - General Settings - Panel Vacuum
-        private void tab_ActionParameters_GeneralSettings_Vaccum_Change(string strValue)
+        #region TAB - ActuationParameters - General Settings - Panel Vacuum
+        private void TAB_ActuationParameters_GeneralSettings_Vaccum_Change(string strValue)
         {
             if (!string.IsNullOrEmpty(strValue))
             {
@@ -2026,7 +2004,7 @@ namespace Continental.Project.Adam.UI
         }
         private void mtxt_GeneralSettings_EParGenVaccum_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = tab_ActionParameters_ValidateInputTxt(sender, e);
+            e.Handled = TAB_ActuationParameters_ValidateInputTxt(sender, e);
         }
         private void mtxt_GeneralSettings_EParGenVaccum_Leave(object sender, EventArgs e)
         {
@@ -2034,7 +2012,7 @@ namespace Continental.Project.Adam.UI
 
             string strValue = ((MetroFramework.Controls.MetroTextBox)sender).Text;
 
-            tab_ActionParameters_GeneralSettings_Vaccum_Change(strValue);
+            TAB_ActuationParameters_GeneralSettings_Vaccum_Change(strValue);
         }
         private void mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L_Click(object sender, EventArgs e)
         {
@@ -2110,7 +2088,7 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_ActionParameters - General Settings - Panel Consumers
+        #region TAB - ActuationParameters - General Settings - Panel Consumers
 
         private void rad_GeneralSettings_CBOriginalConsumer_CheckedChanged(object sender, EventArgs e)
         {
@@ -2120,7 +2098,6 @@ namespace Continental.Project.Adam.UI
 
             _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoConsumidores }, Convert.ToDouble(_modelGVL.GVL_Parametros.iTipoConsumidores));
         }
-
         private void rad_GeneralSettings_CBHoseConsumer_CheckedChanged(object sender, EventArgs e)
         {
             int statusCheck = rad_GeneralSettings_CBHoseConsumer.Checked ? 2 : 0;
@@ -2129,8 +2106,7 @@ namespace Continental.Project.Adam.UI
 
             _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoConsumidores }, Convert.ToDouble(_modelGVL.GVL_Parametros.iTipoConsumidores));
         }
-
-        private void tab_ActionParameters_GeneralSettings_Consumers_Change(int iConsumerType, int iConsumerPC, int iConsumerSC, bool bPistonLock)
+        private void TAB_ActuationParameters_GeneralSettings_Consumers_Change(int iConsumerType, int iConsumerPC, int iConsumerSC, bool bPistonLock)
         {
             switch (iConsumerType)
             {
@@ -2164,7 +2140,7 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_ActionParameters - General Settings - CHK Piston Lock
+        #region TAB - ActuationParameters - General Settings - CHK Piston Lock
         private void mchk_tabActParam_GenSettings_CBLock_CheckedChanged(object sender, EventArgs e)
         {
             string strStatusCheck = mchk_tabActParam_GenSettings_CBLock.Checked ? "True" : "False";
@@ -2185,17 +2161,17 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_ActionParameters - Panel Actuation
+        #region TAB - ActuationParameters - Panel Actuation
 
-        #region tab_ActionParameters - Panel Actuation - Max Force
-        private void tab_ActionParameters_Actuation_MaxForce_Change(string strName, string strValue)
+        #region TAB - ActuationParameters - Panel Actuation - Max Force
+        private void TAB_ActuationParameters_Actuation_MaxForce_Change(string strName, string strValue)
         {
             if (string.IsNullOrEmpty(strName))
                 strName = "mtxt_Actuation_E1ParMaxForce";
 
             if (!string.IsNullOrEmpty(strValue) && !strValue.Equals(_notReadValue))
             {
-                tab_ActionParameters_WriteComInputTxt(strName, strValue);
+                TAB_ActuationParameters_WriteComInputTxt(strName, strValue);
 
                 mtxt_Actuation_E1ParMaxForce.Text = strValue;
             }  
@@ -2213,13 +2189,12 @@ namespace Continental.Project.Adam.UI
                 if (dblValue < 0)
                     dblValue = (dblValue * -1);
 
-                //if (dblValue != HelperTestBase.MaxForce)
-                    tab_ActionParameters_Actuation_MaxForce_Change(strName, strValue);
+                TAB_ActuationParameters_Actuation_MaxForce_Change(strName, strValue);
             }  
         }
         private void mtxt_Actuation_E1ParMaxForce_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = tab_ActionParameters_ValidateInputTxt(sender, e);
+            e.Handled = TAB_ActuationParameters_ValidateInputTxt(sender, e);
         }
         private void mtxt_Actuation_E1ParMaxForce_Leave(object sender, EventArgs e)
         {
@@ -2227,7 +2202,7 @@ namespace Continental.Project.Adam.UI
 
             string strValue = ((MetroFramework.Controls.MetroTextBox)sender).Text;
 
-            tab_ActionParameters_Actuation_MaxForce_Change(strName, strValue);
+            TAB_ActuationParameters_Actuation_MaxForce_Change(strName, strValue);
         }
         private void mbtn_Actuation_Minus_E1ParMaxForce_Accel_L_Click(object sender, EventArgs e)
         {
@@ -2250,7 +2225,7 @@ namespace Continental.Project.Adam.UI
 
                 strValue = String.Format("{0:0.00}", dblValue);
 
-                tab_ActionParameters_Actuation_MaxForce_Change(string.Empty, strValue);
+                TAB_ActuationParameters_Actuation_MaxForce_Change(string.Empty, strValue);
             }
         }
         private void mbtn_Actuation_Plus_E1ParMaxForce_Accel_R_Click(object sender, EventArgs e)
@@ -2274,20 +2249,20 @@ namespace Continental.Project.Adam.UI
 
                 strValue = String.Format("{0:0.00}", dblValue);
 
-                tab_ActionParameters_Actuation_MaxForce_Change(string.Empty, strValue);
+                TAB_ActuationParameters_Actuation_MaxForce_Change(string.Empty, strValue);
             }
         }
 
         #endregion
 
-        #region tab_ActionParameters - Panel Actuation - Gradient Force
-        private void tab_ActionParameters_Actuation_GradientForce_Change(string strName, string strValue)
+        #region TAB - ActuationParameters - Panel Actuation - Gradient Force
+        private void TAB_ActuationParameters_Actuation_GradientForce_Change(string strName, string strValue)
         {
             if (string.IsNullOrEmpty(strName))
                 strName = "mtxt_Actuation_E1ParForceGrad";
 
             if (!string.IsNullOrEmpty(strValue) && !strValue.Equals(_notReadValue))
-                tab_ActionParameters_WriteComInputTxt(strName, strValue);
+                TAB_ActuationParameters_WriteComInputTxt(strName, strValue);
         }
         private void mtxt_Actuation_E1ParForceGrad_TextChanged(object sender, EventArgs e)
         {
@@ -2302,13 +2277,12 @@ namespace Continental.Project.Adam.UI
                 if (dblValue < 0)
                     dblValue = (dblValue * -1);
 
-                //if (dblValue != HelperTestBase.ForceGradient)
-                    tab_ActionParameters_Actuation_GradientForce_Change(strName, strValue);
+                TAB_ActuationParameters_Actuation_GradientForce_Change(strName, strValue);
             }
         }
         private void mtxt_Actuation_E1ParForceGrad_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = tab_ActionParameters_ValidateInputTxt(sender, e);
+            e.Handled = TAB_ActuationParameters_ValidateInputTxt(sender, e);
         }
         private void mtxt_Actuation_E1ParForceGrad_Leave(object sender, EventArgs e)
         {
@@ -2316,7 +2290,7 @@ namespace Continental.Project.Adam.UI
 
             string strValue = ((MetroFramework.Controls.MetroTextBox)sender).Text;
 
-            tab_ActionParameters_Actuation_GradientForce_Change(strName, strValue);
+            TAB_ActuationParameters_Actuation_GradientForce_Change(strName, strValue);
         }
         private void mbtn_Actuation_Minus_E1ParForceGrad_Accel_L_Click(object sender, EventArgs e)
         {
@@ -2371,10 +2345,10 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region tab_ActionParameters - Panel Evaluation Parameters
+        #region TAB - ActuationParameters - Panel Evaluation Parameters
 
-        #region tab_ActionParameters - Evaluation Parameters - Grid
-        private void tab_ActionParameters_EvalParameters_Grid_Format()
+        #region TAB - ActuationParameters - Evaluation Parameters - Grid
+        private void TAB_ActuationParameters_EvalParameters_Grid_Format()
         {
             try
             {
@@ -2433,7 +2407,7 @@ namespace Continental.Project.Adam.UI
             }
 
         }
-        private void tab_ActionParameters_EvalParameters_Grid_GridRowType(DataTable dtGridEvalParameters)
+        private void TAB_ActuationParameters_EvalParameters_Grid_GridRowType(DataTable dtGridEvalParameters)
         {
             try
             {
@@ -2625,7 +2599,7 @@ namespace Continental.Project.Adam.UI
                     List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                     if (HelperApp.uiTesteSelecionado > 0)
-                        tab_ActionParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters);
+                    TAB_ActuationParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters);
                 }
             //tab_ActionParameters_WriteComEditGridEvalParameters(row.Index, strName, strValue);
         }
@@ -2735,7 +2709,7 @@ namespace Continental.Project.Adam.UI
                 }
             }
         }
-        public void tab_ActionParameters_WriteComGridEvalParameters(List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters)
+        public void TAB_ActuationParameters_WriteComGridEvalParameters(List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters)
         {
             for (int i = 0; i < lstInfoEvaluationParameters.Count; i++)
             {
@@ -2757,7 +2731,7 @@ namespace Continental.Project.Adam.UI
                         dblValue = (dblValue * -1);
 
                     if (HelperApp.uiTesteSelecionado > 4)
-                        tab_ActionParameters_WriteComEditGridEvalParameters(iRowIndex, strName, strValue);
+                        TAB_ActuationParameters_WriteComEditGridEvalParameters(iRowIndex, strName, strValue);
                     else
                     {
                         switch (HelperApp.uiTesteSelecionado)
@@ -4200,7 +4174,7 @@ namespace Continental.Project.Adam.UI
                 }
             }
         }
-        public void tab_ActionParameters_WriteComEditGridEvalParameters(int iRowIndex, string strName, string strValue)
+        public void TAB_ActuationParameters_WriteComEditGridEvalParameters(int iRowIndex, string strName, string strValue)
         {
             if (!string.IsNullOrEmpty(strValue))
             {
@@ -4378,7 +4352,7 @@ namespace Continental.Project.Adam.UI
                     {
                         if (timerHBM.Enabled)
                         {
-                            LogTestSequence(" TIMER HBM : ");
+                            LOG_TestSequence(" TIMER HBM : ");
 
                             HBM_SaveAquisitionTxtData();
                         }
@@ -4442,7 +4416,7 @@ namespace Continental.Project.Adam.UI
                     if (DialogResult.No == MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         return;
                     else
-                        LogTestSequence("BTN START");
+                        LOG_TestSequence("BTN START");
 
                     #region Start Command
 
@@ -4469,10 +4443,10 @@ namespace Continental.Project.Adam.UI
                                 if (_helperApp.CheckFileExists(_prjTestFilename))
                                 {
                                     HelperTestBase.currentProjectTest.is_Created = true;
-                                    LogTestSequence("SIMULATE MODE OK");
+                                    LOG_TestSequence("SIMULATE MODE OK");
                                 }
                                 else
-                                    LogTestSequence("SIMULATE MODE NOK");
+                                    LOG_TestSequence("SIMULATE MODE NOK");
 
                             }
 
@@ -4482,7 +4456,7 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        LogClear();
+                        LOG_Clear();
 
                         HBM_ClearBufferAquisitionData();
 
@@ -4492,7 +4466,7 @@ namespace Continental.Project.Adam.UI
 
                         //if (TEST_StartSequence())
                         //{
-                        LogTestSequence(String.Concat(" TEST Start Sequence - ", HelperApp.uiTesteSelecionado, " Type - ", EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString()));
+                        LOG_TestSequence(String.Concat(" TEST Start Sequence - ", HelperApp.uiTesteSelecionado, " Type - ", EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString()));
 
                         _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wCicloFinalizado }, 0);
 
@@ -4509,7 +4483,7 @@ namespace Continental.Project.Adam.UI
                         if (!HelperMODBUS.CS_wModoAuto)
                             _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wModoAuto }, 1);
 
-                        LogTestSequence("CS_wPartidaGeral OK");
+                        LOG_TestSequence("CS_wPartidaGeral OK");
                         //}
                         //else
                         //    MessageBox.Show("TEST Start Sequence Failed!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -4534,7 +4508,7 @@ namespace Continental.Project.Adam.UI
             }
             else
             {
-                LogTestSequence("TESTE SEQUENCE START");
+                LOG_TestSequence("TESTE SEQUENCE START");
 
                 //// abort here, if any precondition violated...
                 if (!TEST_Start_ValidatePreCondition())
@@ -4666,7 +4640,7 @@ namespace Continental.Project.Adam.UI
                 // ActivePage(0);
             }
 
-            LogTestSequence("TESTE SEQUENCE START");
+            LOG_TestSequence("TESTE SEQUENCE START");
 
             return true;
         }
@@ -4774,7 +4748,7 @@ namespace Continental.Project.Adam.UI
                 return false;
             }
 
-            LogTestSequence("TESTE SEQUENCE ValidatePreCondition OK");
+            LOG_TestSequence("TESTE SEQUENCE ValidatePreCondition OK");
 
             return true;
         }
@@ -4786,7 +4760,7 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                LogTestSequence("BTN STOP");
+                LOG_TestSequence("BTN STOP");
 
                 HBM_ClearBufferAquisitionData();
 
@@ -4798,7 +4772,7 @@ namespace Continental.Project.Adam.UI
 
                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wGravacaoFinalizada }, 1);
 
-                LogTestSequence("CMD STOP RECORD DATA HBM ");
+                LOG_TestSequence("CMD STOP RECORD DATA HBM ");
 
                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wParadaGeral }, 1);
 
@@ -4808,7 +4782,7 @@ namespace Continental.Project.Adam.UI
 
                 CHART_Clear(devChart);
 
-                LogTestSequence("TESTE SEQUENCE STOP");
+                LOG_TestSequence("TESTE SEQUENCE STOP");
             }
             catch (Exception ex)
             {
@@ -4818,7 +4792,7 @@ namespace Continental.Project.Adam.UI
         }
         public bool TEST_Stop_Sequence()
         {
-            LogTestSequence("BTN STOP"); ;
+            LOG_TestSequence("BTN STOP"); ;
 
             //// abort here, if nothing to do...
             if (!HelperTestBase.currentProjectTest.is_Created)
@@ -4827,7 +4801,7 @@ namespace Continental.Project.Adam.UI
                     return false;
             }
 
-            LogTestSequence("TESTE SEQUENCE STOP");
+            LOG_TestSequence("TESTE SEQUENCE STOP");
 
             //// abort here, if any precondition violated...
             //if (!TEST_StopValidatePreCondition())
@@ -4855,7 +4829,7 @@ namespace Continental.Project.Adam.UI
 
                     HelperTestBase.running = true;
 
-                    LogTestSequence("CMD START RECORD DATA HBM ");
+                    LOG_TestSequence("CMD START RECORD DATA HBM ");
 
                     timerHBM.Enabled = true;
 
@@ -4890,7 +4864,7 @@ namespace Continental.Project.Adam.UI
 
                     HelperTestBase.running = false;
 
-                    LogTestSequence("CMD STOP RECORD DATA HBM ");
+                    LOG_TestSequence("CMD STOP RECORD DATA HBM ");
 
                     if (!HelperTestBase.currentProjectTest.is_Created)
                     {
@@ -4998,12 +4972,12 @@ namespace Continental.Project.Adam.UI
                 if (!File.Exists(_prjTestFilename))
                 {
                     File.WriteAllText(_prjTestFilename, sbexterno.ToString());
-                    LogTestSequence("CreateSimulateTestFile - WriteAllText");
+                    LOG_TestSequence("CreateSimulateTestFile - WriteAllText");
                 }
                 else
                 {
                     File.AppendAllLines(_prjTestFilename, sbexterno.ToString().Split(Environment.NewLine.ToCharArray()));
-                    LogTestSequence("CreateSimulateTestFile - AppendAllLines");
+                    LOG_TestSequence("CreateSimulateTestFile - AppendAllLines");
                 }
             }
             catch (DirectoryNotFoundException dirNotFoundException)
@@ -5108,7 +5082,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 string strMsg = "Failed, calc step test -  not calculated !";
 
-                                LogTestSequence(strMsg);
+                                LOG_TestSequence(strMsg);
 
                                 MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return false;
@@ -5123,14 +5097,14 @@ namespace Continental.Project.Adam.UI
                             {
                                 string strMsg = "Failed, test information not calculated !";
 
-                                LogTestSequence(strMsg);
+                                LOG_TestSequence(strMsg);
 
                                 MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return false;
                             }
                             else
                             {
-                                LogTestSequence("TESTE CALC CONCLUDED");
+                                LOG_TestSequence("TESTE CALC CONCLUDED");
 
                                 if (!CHART_LoadActualTestComplete())
                                     MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -5140,15 +5114,15 @@ namespace Continental.Project.Adam.UI
                                         MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
 
-                                tab_TableParametersEnable = true;
+                                tab_TableResultsEnable = true;
                                 HelperTestBase.currentProjectTest.is_Created = true;
 
-                                if (tbc_Main.SelectedIndex != 0)
-                                    ActivePage(0);
+                                if (TAB_Main.SelectedIndex != 0)
+                                    TAB_Main_ActivePage(0);
 
                                 //InsertHeaderToFile(_helperApp.lstStrReturnReadFileLines);
 
-                                LogTestSequence("TESTE SEQUENCE STOP AND CONCLUDED");
+                                LOG_TestSequence("TESTE SEQUENCE STOP AND CONCLUDED");
                             }
                         }
                         else
@@ -5201,7 +5175,7 @@ namespace Continental.Project.Adam.UI
                         {
                             string strMsg = "Failed, calc step test -  not calculated !";
 
-                            LogTestSequence(strMsg);
+                            LOG_TestSequence(strMsg);
 
                             MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
@@ -5215,21 +5189,21 @@ namespace Continental.Project.Adam.UI
                         {
                             string strMsg = "Failed, test information not calculated !";
 
-                            LogTestSequence(strMsg);
+                            LOG_TestSequence(strMsg);
 
                             MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
                         else
                         {
-                            LogTestSequence("TESTE CALC CONCLUDED");
+                            LOG_TestSequence("TESTE CALC CONCLUDED");
 
                             if (!CHART_LoadActualTestComplete())
                                 MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else
                             {
-                                if (!ReportPDF())
-                                    MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                //if (!ReportPDF())
+                                //    MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                                 // ChartPointsAnnottion(HelperTestBase.Model_GVL.GVL_Graficos);
                             }
@@ -5249,7 +5223,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TXT File Header
-        public void InsertHeaderToFile(List<string> lstFiledata)
+        public void TXTFileHBM_InsertHeader(List<string> lstFiledata)
         {
 
             //List<double> dblList = lstStrAnalogVarY01.Select(x => double.Parse(x)).ToList();
@@ -5279,28 +5253,32 @@ namespace Continental.Project.Adam.UI
 
             //List<string>[] lstStrChReadFileArr = new List<string>[5];
         }
-        private void StartSimulate()
-        {
-            tab_ActionParameters_Set();
-        }
 
         #endregion
 
         #endregion
 
         #region REPORT PDF
-
         public bool ReportPDF()
         {
             try
             {
-                string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
+                if (HelperApp.uiTesteSelecionado != 0)
+                {
+                    string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
 
-                string strFileName = HelperTestBase.currentProjectTest.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+                    string strFileName = HelperTestBase.currentProjectTest.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
-                string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, strFileName, _helperApp.AppPath_ChartImageExtension);
+                    string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, strFileName, _helperApp.AppPath_ChartImageExtension);
 
-                _helperApp.Report_CreatePDF(dirReportChartImagehWithFileName, strFileName);
+                    int gridResultRowsCount = TAB_TableResult_Grid.Rows.Count;
+
+                    _helperApp.Report_CreatePDF(dirReportChartImagehWithFileName, strFileName, gridResultRowsCount);
+                }
+                else
+                {
+                    MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             catch (Exception ex)
             {
@@ -6822,6 +6800,9 @@ namespace Continental.Project.Adam.UI
 
                 string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, fileName);
 
+                if (!File.Exists(dirReportChartImagehWithFileName))
+                    File.Delete(dirReportChartImagehWithFileName);
+
                 devChart.ExportToImage(dirReportChartImagehWithFileName, ImageFormat.Jpeg);
             }
             catch (Exception ex)
@@ -6949,7 +6930,7 @@ namespace Continental.Project.Adam.UI
 
                             string msg = "TEST CONCLUDED";
 
-                            LogTestSequence(msg);
+                            LOG_TestSequence(msg);
 
                             mTile_LCurrentSelectedTest.Text = msg;
 
@@ -7036,7 +7017,7 @@ namespace Continental.Project.Adam.UI
 
                 if (HelperMODBUS.CS_wIniciaGravacao)
                 {
-                    LogTestSequence("Evento by CLP - CS_wIniciaGravacao");
+                    LOG_TestSequence("Evento by CLP - CS_wIniciaGravacao");
 
                     TEST_DataRecord_Start();
                 }
@@ -7050,7 +7031,7 @@ namespace Continental.Project.Adam.UI
 
                 if (HelperMODBUS.CS_wFinalizaGravacao)
                 {
-                    LogTestSequence("Evento by CLP - CS_wFinalizaGravacao");
+                    LOG_TestSequence("Evento by CLP - CS_wFinalizaGravacao");
 
                     TEST_DataRecord_Stop();
                 }
@@ -7219,7 +7200,7 @@ namespace Continental.Project.Adam.UI
         {
             _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
-            LogTestSequence("Evento - HBM_ReadValues");
+            LOG_TestSequence("Evento - HBM_ReadValues");
 
             String path = @"D:\HBM_SaveAquisitionTxtData.txt";
             this.RunContinuousMeasurementBt.Enabled = false;
@@ -8245,8 +8226,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region LOG Events
-
-        public void BindLogViewEvents()
+        public void LOG_BindViewEvents()
         {
             lvLog.View = View.Details;
             // Display grid lines.
@@ -8268,18 +8248,16 @@ namespace Continental.Project.Adam.UI
             lvLog.Columns[1].Width = 200;
             lvLog.Columns[2].Width = 70;
         }
-
-        public void LogTestSequence(string msg)
+        public void LOG_TestSequence(string msg)
         {
-            LogTestSequenceTxt(msg);
+            LOG_TestSequenceTxt(msg);
 
             ListViewItem LVI = new ListViewItem(_strTimeStamp);
             LVI.SubItems.Add(msg.Trim());
             LVI.SubItems.Add(HelperApp.UserName);
             lvLog.Items.Add(LVI);
         }
-
-        public void LogTestSequenceTxt(string msg)
+        public void LOG_TestSequenceTxt(string msg)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -8289,8 +8267,7 @@ namespace Continental.Project.Adam.UI
 
             txtLogTestSequence.Text = sb.ToString();
         }
-
-        public void LogClear()
+        public void LOG_Clear()
         {
             lvLog.Clear();
             lst_MemoEventLog.Items.Clear();
