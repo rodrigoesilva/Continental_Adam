@@ -20,6 +20,7 @@ namespace Continental.Project.Adam.UI.Models.Operational
 
         public bool is_user_defined { get; set; }
         public bool is_Created { get; set; }
+        public bool is_OnLIne { get; set; }
         public string PrjTestFileName { get; set; }
 
         public Model_SecurityUser User { get; set; }

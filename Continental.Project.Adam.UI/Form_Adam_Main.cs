@@ -277,8 +277,9 @@ namespace Continental.Project.Adam.UI
             this.WindowState = FormWindowState.Maximized;
 
             //TabPages collection
-            TAB_Main_SelectedIndexChanged(sender, e);
-            //TAB_Main_ActivePage(2);
+           // TAB_Main.SelectedIndex = 2;
+            //TAB_Main_SelectedIndexChanged(sender, e);
+            TAB_Main_ActivePage(2);
 
             CONTROLS_EnableMetroButton();
 
@@ -505,15 +506,15 @@ namespace Continental.Project.Adam.UI
         #region TAB - Main
         private void TAB_Main_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            ////hide a tab by removing it from the TabPages collection
-            //if (!_helperApp.AppUseSimulateLocal)
-            //{
-            //    bool bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
+            //hide a tab by removing it from the TabPages collection
+            if (!_helperApp.AppUseSimulateLocal)
+            {
+                bool bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
 
-            //    if (e.TabPage == tab_TableResults)
-            //        if (!bTabAccessOk)
-            //            e.Cancel = true;
-            //}
+                if (e.TabPage == tab_TableResults)
+                    if (!bTabAccessOk)
+                        e.Cancel = true;
+            }
         }
         private void TAB_Main_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -549,16 +550,25 @@ namespace Continental.Project.Adam.UI
                     }
                 case 2://TAB_ActuationParameters
                     {
-                        TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
-
-                        if (!_helperApp.AppUseSimulateLocal)
+                        if(TAB_Main.TabPages["tab_CPX_Visu"] == null)
                             TAB_CPXVisu_Create();
 
                         TAB_ActuationParameters_SetData();
 
+                        TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
                         //show a tab by adding it to the TabPages collection
                         tab_TableResultsEnable = true;
 
+                        break;
+                    }
+                case 3://tab_Dev
+                    {
+                        break;
+                    }
+                case 4://tab_CPX
+                    {
+                        TAB_CPXVisu_SetData();
                         break;
                     }
             }
@@ -597,8 +607,6 @@ namespace Continental.Project.Adam.UI
             {
                 TAB_Main.SuspendLayout();
 
-                //url = "http://www.smashcat.org/av/canvas_test/";
-
                 ChromiumWebBrowser webBrowser = new ChromiumWebBrowser(url);
 
                 var tabWebVisuCPX = new TabPage(url)
@@ -610,9 +618,10 @@ namespace Continental.Project.Adam.UI
 
                 tabWebVisuCPX.Controls.Add(webBrowser);
 
-                TAB_Main.TabPages.Add(tabWebVisuCPX);
+                if (TAB_Main.TabPages["tab_CPX_Visu"] == null)
+                    TAB_Main.TabPages.Add(tabWebVisuCPX);
 
-                TAB_Main.SelectedTab = tabWebVisuCPX;
+                //TAB_Main.SelectedTab = tabWebVisuCPX;
 
                 TAB_Main.ResumeLayout(true);
             }
@@ -4426,18 +4435,29 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TAB - CPX Visu
-        public void TAB_CPXVisu_Create()
+        private void TAB_CPXVisu_Create()
         {
             try
             {
                 var tabVisu = TAB_Main.TabPages["tab_CPX_Visu"];
 
                 if (tabVisu == null)
-                {
-                    string urlVisuPMX = _helperCom.Modbus_ServerVisuUrl.ToString();
+                    TAB_CPXVisu_SetData();
+            }
+            catch (Exception)
+            {
 
-                    OpenURLInBrowser(urlVisuPMX);
-                }
+                throw;
+            }
+        }
+
+        private void TAB_CPXVisu_SetData()
+        {
+            try
+            {
+                string urlVisuPMX = !_helperApp.AppUseSimulateLocal ? _helperCom.Modbus_ServerVisuUrl.ToString() : "http://www.google.com.br";
+
+                OpenURLInBrowser(urlVisuPMX);
             }
             catch (Exception)
             {
@@ -5035,6 +5055,8 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
+                        HelperTestBase.currentProjectTest.is_OnLIne = true;
+
                         TXTFileHBM_LoadData();
                     }
                 }
