@@ -56,8 +56,8 @@ namespace Continental.Project.Adam.UI
             this.mtxt_MKSLInputForce1 = new MetroFramework.Controls.MetroTextBox();
             this.lst_MemoEventLog = new System.Windows.Forms.ListBox();
             this.mbtn_BGlobalWarning = new MetroFramework.Controls.MetroButton();
-            this.mbtn_PrintGraphics = new MetroFramework.Controls.MetroButton();
-            this.mtbn_PrintPramList = new MetroFramework.Controls.MetroButton();
+            this.mbtn_BReportPDF = new MetroFramework.Controls.MetroButton();
+            this.mtbn_BExportTestToXLS = new MetroFramework.Controls.MetroButton();
             this.mbtn_BRecordStart = new MetroFramework.Controls.MetroButton();
             this.mbtn_BStart = new MetroFramework.Controls.MetroButton();
             this.mbtn_BStop = new MetroFramework.Controls.MetroButton();
@@ -130,15 +130,15 @@ namespace Continental.Project.Adam.UI
             this.mTile_tabActParam_GeneralSettings = new MetroFramework.Controls.MetroTile();
             this.mcbo_tabActParam_GenSettings_CoBActuationMode = new MetroFramework.Controls.MetroComboBox();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
-            this.grpRadConsumer = new System.Windows.Forms.GroupBox();
-            this.rad_GeneralSettings_CBHoseConsumer = new System.Windows.Forms.RadioButton();
-            this.rad_GeneralSettings_CBOriginalConsumer = new System.Windows.Forms.RadioButton();
             this.mTile_tabActionParam_Consumer = new MetroFramework.Controls.MetroTile();
             this.mlbl_GeneralSettings_LTubeConsSC = new MetroFramework.Controls.MetroTextBox();
             this.mlbl_GeneralSettings_LTubeConsPC = new MetroFramework.Controls.MetroTextBox();
             this.mtxt_GeneralSettings_ETubeConsumerSCPressSide = new MetroFramework.Controls.MetroTextBox();
             this.mtxt_GeneralSettings_ETubeConsumerPCPressSide = new MetroFramework.Controls.MetroTextBox();
             this.mbtn_GeneralSettings_BSelectTubeCons = new MetroFramework.Controls.MetroButton();
+            this.grpRadConsumer = new System.Windows.Forms.GroupBox();
+            this.rad_GeneralSettings_CBHoseConsumer = new System.Windows.Forms.RadioButton();
+            this.rad_GeneralSettings_CBOriginalConsumer = new System.Windows.Forms.RadioButton();
             this.mlbl_tabActParam_GenSettings_ActuationMode = new MetroFramework.Controls.MetroTextBox();
             this.mpnl_CurrentProject = new MetroFramework.Controls.MetroPanel();
             this.mlbl_GeneralSettings_LParGenVaccumMax = new MetroFramework.Controls.MetroTextBox();
@@ -159,12 +159,12 @@ namespace Continental.Project.Adam.UI
             this.mbtn_tabActParam_GenSettings_BLoadAdjSettings = new MetroFramework.Controls.MetroButton();
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests = new MetroFramework.Controls.MetroCheckBox();
             this.mbtn_tabActParam_GenSettings_BLoadLastestParams = new MetroFramework.Controls.MetroButton();
-            this.mPnl_tabActParam_EvaluationParameters = new MetroFramework.Controls.MetroPanel();
-            this.grid_tabActionParam_EvalParam = new System.Windows.Forms.DataGridView();
-            this.mTile_tabActParam_EvaluationParameters = new MetroFramework.Controls.MetroTile();
             this.grpOutput = new System.Windows.Forms.GroupBox();
             this.rad_EvaluationParameters_CBOutputSC = new System.Windows.Forms.RadioButton();
             this.rad_EvaluationParameters_CBOutputPC = new System.Windows.Forms.RadioButton();
+            this.mPnl_tabActParam_EvaluationParameters = new MetroFramework.Controls.MetroPanel();
+            this.grid_tabActionParam_EvalParam = new System.Windows.Forms.DataGridView();
+            this.mTile_tabActParam_EvaluationParameters = new MetroFramework.Controls.MetroTile();
             this.mPnl_tabActParam_Actuation = new MetroFramework.Controls.MetroPanel();
             this.mbtn_Actuation_Plus_E1ParForceGrad_Accel_R = new MetroFramework.Controls.MetroButton();
             this.mbtn_Actuation_Minus_E1ParForceGrad_Accel_L = new MetroFramework.Controls.MetroButton();
@@ -179,34 +179,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_Actuation_E1ParMaxForce = new MetroFramework.Controls.MetroTextBox();
             this.tab_TableResults = new System.Windows.Forms.TabPage();
             this.mpnl_Table_GivingOut = new MetroFramework.Controls.MetroPanel();
-            this.mchk_tabTable_Chk27 = new MetroFramework.Controls.MetroCheckBox();
             this.mTile_tabTable_GivingOut = new MetroFramework.Controls.MetroTile();
-            this.mchk_tabTable_Chk26 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk1 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk25 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk2 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk24 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk3 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk23 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk4 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk22 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk5 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk21 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk6 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk20 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk7 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk19 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk8 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk18 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk9 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk17 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk10 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk16 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk11 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk15 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk12 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk14 = new MetroFramework.Controls.MetroCheckBox();
-            this.mchk_tabTable_Chk13 = new MetroFramework.Controls.MetroCheckBox();
             this.mpnl_Table_Results = new MetroFramework.Controls.MetroPanel();
             this.TAB_TableResult_Grid = new System.Windows.Forms.DataGridView();
             this.mTile_tabTable_Results = new MetroFramework.Controls.MetroTile();
@@ -230,9 +203,9 @@ namespace Continental.Project.Adam.UI
             this.metroPanel1.SuspendLayout();
             this.grpRadConsumer.SuspendLayout();
             this.mpnl_CurrentProject.SuspendLayout();
+            this.grpOutput.SuspendLayout();
             this.mPnl_tabActParam_EvaluationParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid_tabActionParam_EvalParam)).BeginInit();
-            this.grpOutput.SuspendLayout();
             this.mPnl_tabActParam_Actuation.SuspendLayout();
             this.tab_TableResults.SuspendLayout();
             this.mpnl_Table_GivingOut.SuspendLayout();
@@ -807,29 +780,29 @@ namespace Continental.Project.Adam.UI
             this.mbtn_BGlobalWarning.UseCustomForeColor = true;
             this.mbtn_BGlobalWarning.UseSelectable = true;
             // 
-            // mbtn_PrintGraphics
+            // mbtn_BReportPDF
             // 
-            this.mbtn_PrintGraphics.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.mbtn_PrintGraphics.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.mbtn_PrintGraphics.Location = new System.Drawing.Point(266, 49);
-            this.mbtn_PrintGraphics.Name = "mbtn_PrintGraphics";
-            this.mbtn_PrintGraphics.Size = new System.Drawing.Size(127, 40);
-            this.mbtn_PrintGraphics.TabIndex = 33;
-            this.mbtn_PrintGraphics.Text = "Print Graphics";
-            this.mbtn_PrintGraphics.UseSelectable = true;
-            this.mbtn_PrintGraphics.Click += new System.EventHandler(this.mbtn_PrintGraphics_Click);
+            this.mbtn_BReportPDF.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.mbtn_BReportPDF.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.mbtn_BReportPDF.Location = new System.Drawing.Point(266, 49);
+            this.mbtn_BReportPDF.Name = "mbtn_BReportPDF";
+            this.mbtn_BReportPDF.Size = new System.Drawing.Size(127, 40);
+            this.mbtn_BReportPDF.TabIndex = 33;
+            this.mbtn_BReportPDF.Text = "Report PDF";
+            this.mbtn_BReportPDF.UseSelectable = true;
+            this.mbtn_BReportPDF.Click += new System.EventHandler(this.mbtn_BReportPDF_Click);
             // 
-            // mtbn_PrintPramList
+            // mtbn_BExportTestToXLS
             // 
-            this.mtbn_PrintPramList.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.mtbn_PrintPramList.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.mtbn_PrintPramList.Location = new System.Drawing.Point(266, 3);
-            this.mtbn_PrintPramList.Name = "mtbn_PrintPramList";
-            this.mtbn_PrintPramList.Size = new System.Drawing.Size(127, 40);
-            this.mtbn_PrintPramList.TabIndex = 34;
-            this.mtbn_PrintPramList.Text = "Print Pram. List";
-            this.mtbn_PrintPramList.UseSelectable = true;
-            this.mtbn_PrintPramList.Click += new System.EventHandler(this.mtbn_PrintPramList_Click);
+            this.mtbn_BExportTestToXLS.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.mtbn_BExportTestToXLS.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.mtbn_BExportTestToXLS.Location = new System.Drawing.Point(266, 3);
+            this.mtbn_BExportTestToXLS.Name = "mtbn_BExportTestToXLS";
+            this.mtbn_BExportTestToXLS.Size = new System.Drawing.Size(127, 40);
+            this.mtbn_BExportTestToXLS.TabIndex = 34;
+            this.mtbn_BExportTestToXLS.Text = "Export Test XLS";
+            this.mtbn_BExportTestToXLS.UseSelectable = true;
+            this.mtbn_BExportTestToXLS.Click += new System.EventHandler(this.mtbn_BExportTestToXLS_Click);
             // 
             // mbtn_BRecordStart
             // 
@@ -963,9 +936,9 @@ namespace Continental.Project.Adam.UI
             this.metroPanel2.Controls.Add(this.mbtn_BStop);
             this.metroPanel2.Controls.Add(this.mTile_LCurrentSelectedTest);
             this.metroPanel2.Controls.Add(this.mbtn_BStart);
-            this.metroPanel2.Controls.Add(this.mbtn_PrintGraphics);
+            this.metroPanel2.Controls.Add(this.mbtn_BReportPDF);
             this.metroPanel2.Controls.Add(this.mbtn_BGlobalWarning);
-            this.metroPanel2.Controls.Add(this.mtbn_PrintPramList);
+            this.metroPanel2.Controls.Add(this.mtbn_BExportTestToXLS);
             this.metroPanel2.HorizontalScrollbarBarColor = true;
             this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel2.HorizontalScrollbarSize = 10;
@@ -1738,42 +1711,6 @@ namespace Continental.Project.Adam.UI
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 10;
             // 
-            // grpRadConsumer
-            // 
-            this.grpRadConsumer.Controls.Add(this.rad_GeneralSettings_CBHoseConsumer);
-            this.grpRadConsumer.Controls.Add(this.rad_GeneralSettings_CBOriginalConsumer);
-            this.grpRadConsumer.Location = new System.Drawing.Point(16, 36);
-            this.grpRadConsumer.Name = "grpRadConsumer";
-            this.grpRadConsumer.Size = new System.Drawing.Size(494, 45);
-            this.grpRadConsumer.TabIndex = 109;
-            this.grpRadConsumer.TabStop = false;
-            // 
-            // rad_GeneralSettings_CBHoseConsumer
-            // 
-            this.rad_GeneralSettings_CBHoseConsumer.AutoSize = true;
-            this.rad_GeneralSettings_CBHoseConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_GeneralSettings_CBHoseConsumer.Location = new System.Drawing.Point(296, 19);
-            this.rad_GeneralSettings_CBHoseConsumer.Name = "rad_GeneralSettings_CBHoseConsumer";
-            this.rad_GeneralSettings_CBHoseConsumer.Size = new System.Drawing.Size(136, 20);
-            this.rad_GeneralSettings_CBHoseConsumer.TabIndex = 0;
-            this.rad_GeneralSettings_CBHoseConsumer.TabStop = true;
-            this.rad_GeneralSettings_CBHoseConsumer.Text = "Hose Consumer";
-            this.rad_GeneralSettings_CBHoseConsumer.UseVisualStyleBackColor = true;
-            this.rad_GeneralSettings_CBHoseConsumer.CheckedChanged += new System.EventHandler(this.rad_GeneralSettings_CBHoseConsumer_CheckedChanged);
-            // 
-            // rad_GeneralSettings_CBOriginalConsumer
-            // 
-            this.rad_GeneralSettings_CBOriginalConsumer.AutoSize = true;
-            this.rad_GeneralSettings_CBOriginalConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_GeneralSettings_CBOriginalConsumer.Location = new System.Drawing.Point(28, 19);
-            this.rad_GeneralSettings_CBOriginalConsumer.Name = "rad_GeneralSettings_CBOriginalConsumer";
-            this.rad_GeneralSettings_CBOriginalConsumer.Size = new System.Drawing.Size(153, 20);
-            this.rad_GeneralSettings_CBOriginalConsumer.TabIndex = 0;
-            this.rad_GeneralSettings_CBOriginalConsumer.TabStop = true;
-            this.rad_GeneralSettings_CBOriginalConsumer.Text = "Original Consumer";
-            this.rad_GeneralSettings_CBOriginalConsumer.UseVisualStyleBackColor = true;
-            this.rad_GeneralSettings_CBOriginalConsumer.CheckedChanged += new System.EventHandler(this.rad_GeneralSettings_CBOriginalConsumer_CheckedChanged);
-            // 
             // mTile_tabActionParam_Consumer
             // 
             this.mTile_tabActionParam_Consumer.ActiveControl = null;
@@ -1929,6 +1866,42 @@ namespace Continental.Project.Adam.UI
             this.mbtn_GeneralSettings_BSelectTubeCons.Text = "Select";
             this.mbtn_GeneralSettings_BSelectTubeCons.UseSelectable = true;
             this.mbtn_GeneralSettings_BSelectTubeCons.Click += new System.EventHandler(this.mbtn_GeneralSettings_BSelectTubeCons_Click);
+            // 
+            // grpRadConsumer
+            // 
+            this.grpRadConsumer.Controls.Add(this.rad_GeneralSettings_CBHoseConsumer);
+            this.grpRadConsumer.Controls.Add(this.rad_GeneralSettings_CBOriginalConsumer);
+            this.grpRadConsumer.Location = new System.Drawing.Point(16, 36);
+            this.grpRadConsumer.Name = "grpRadConsumer";
+            this.grpRadConsumer.Size = new System.Drawing.Size(494, 45);
+            this.grpRadConsumer.TabIndex = 109;
+            this.grpRadConsumer.TabStop = false;
+            // 
+            // rad_GeneralSettings_CBHoseConsumer
+            // 
+            this.rad_GeneralSettings_CBHoseConsumer.AutoSize = true;
+            this.rad_GeneralSettings_CBHoseConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rad_GeneralSettings_CBHoseConsumer.Location = new System.Drawing.Point(296, 19);
+            this.rad_GeneralSettings_CBHoseConsumer.Name = "rad_GeneralSettings_CBHoseConsumer";
+            this.rad_GeneralSettings_CBHoseConsumer.Size = new System.Drawing.Size(136, 20);
+            this.rad_GeneralSettings_CBHoseConsumer.TabIndex = 0;
+            this.rad_GeneralSettings_CBHoseConsumer.TabStop = true;
+            this.rad_GeneralSettings_CBHoseConsumer.Text = "Hose Consumer";
+            this.rad_GeneralSettings_CBHoseConsumer.UseVisualStyleBackColor = true;
+            this.rad_GeneralSettings_CBHoseConsumer.CheckedChanged += new System.EventHandler(this.rad_GeneralSettings_CBHoseConsumer_CheckedChanged);
+            // 
+            // rad_GeneralSettings_CBOriginalConsumer
+            // 
+            this.rad_GeneralSettings_CBOriginalConsumer.AutoSize = true;
+            this.rad_GeneralSettings_CBOriginalConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rad_GeneralSettings_CBOriginalConsumer.Location = new System.Drawing.Point(28, 19);
+            this.rad_GeneralSettings_CBOriginalConsumer.Name = "rad_GeneralSettings_CBOriginalConsumer";
+            this.rad_GeneralSettings_CBOriginalConsumer.Size = new System.Drawing.Size(153, 20);
+            this.rad_GeneralSettings_CBOriginalConsumer.TabIndex = 0;
+            this.rad_GeneralSettings_CBOriginalConsumer.TabStop = true;
+            this.rad_GeneralSettings_CBOriginalConsumer.Text = "Original Consumer";
+            this.rad_GeneralSettings_CBOriginalConsumer.UseVisualStyleBackColor = true;
+            this.rad_GeneralSettings_CBOriginalConsumer.CheckedChanged += new System.EventHandler(this.rad_GeneralSettings_CBOriginalConsumer_CheckedChanged);
             // 
             // mlbl_tabActParam_GenSettings_ActuationMode
             // 
@@ -2420,6 +2393,43 @@ namespace Continental.Project.Adam.UI
             this.mbtn_tabActParam_GenSettings_BLoadLastestParams.UseSelectable = true;
             this.mbtn_tabActParam_GenSettings_BLoadLastestParams.Click += new System.EventHandler(this.mbtn_GeneralSettings_BLoadLastestParams_Click);
             // 
+            // grpOutput
+            // 
+            this.grpOutput.Controls.Add(this.rad_EvaluationParameters_CBOutputSC);
+            this.grpOutput.Controls.Add(this.rad_EvaluationParameters_CBOutputPC);
+            this.grpOutput.Location = new System.Drawing.Point(5, 125);
+            this.grpOutput.Name = "grpOutput";
+            this.grpOutput.Size = new System.Drawing.Size(505, 46);
+            this.grpOutput.TabIndex = 110;
+            this.grpOutput.TabStop = false;
+            this.grpOutput.Visible = false;
+            // 
+            // rad_EvaluationParameters_CBOutputSC
+            // 
+            this.rad_EvaluationParameters_CBOutputSC.AutoSize = true;
+            this.rad_EvaluationParameters_CBOutputSC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rad_EvaluationParameters_CBOutputSC.Location = new System.Drawing.Point(307, 19);
+            this.rad_EvaluationParameters_CBOutputSC.Name = "rad_EvaluationParameters_CBOutputSC";
+            this.rad_EvaluationParameters_CBOutputSC.Size = new System.Drawing.Size(94, 20);
+            this.rad_EvaluationParameters_CBOutputSC.TabIndex = 0;
+            this.rad_EvaluationParameters_CBOutputSC.TabStop = true;
+            this.rad_EvaluationParameters_CBOutputSC.Text = "Output SC";
+            this.rad_EvaluationParameters_CBOutputSC.UseVisualStyleBackColor = true;
+            this.rad_EvaluationParameters_CBOutputSC.CheckedChanged += new System.EventHandler(this.rad_EvaluationParameters_CBOutputSC_CheckedChanged);
+            // 
+            // rad_EvaluationParameters_CBOutputPC
+            // 
+            this.rad_EvaluationParameters_CBOutputPC.AutoSize = true;
+            this.rad_EvaluationParameters_CBOutputPC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rad_EvaluationParameters_CBOutputPC.Location = new System.Drawing.Point(39, 19);
+            this.rad_EvaluationParameters_CBOutputPC.Name = "rad_EvaluationParameters_CBOutputPC";
+            this.rad_EvaluationParameters_CBOutputPC.Size = new System.Drawing.Size(94, 20);
+            this.rad_EvaluationParameters_CBOutputPC.TabIndex = 0;
+            this.rad_EvaluationParameters_CBOutputPC.TabStop = true;
+            this.rad_EvaluationParameters_CBOutputPC.Text = "Output PC";
+            this.rad_EvaluationParameters_CBOutputPC.UseVisualStyleBackColor = true;
+            this.rad_EvaluationParameters_CBOutputPC.CheckedChanged += new System.EventHandler(this.rad_EvaluationParameters_CBOutputPC_CheckedChanged);
+            // 
             // mPnl_tabActParam_EvaluationParameters
             // 
             this.mPnl_tabActParam_EvaluationParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -2464,43 +2474,6 @@ namespace Continental.Project.Adam.UI
             this.mTile_tabActParam_EvaluationParameters.TileTextFontSize = MetroFramework.MetroTileTextSize.Tall;
             this.mTile_tabActParam_EvaluationParameters.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.mTile_tabActParam_EvaluationParameters.UseSelectable = true;
-            // 
-            // grpOutput
-            // 
-            this.grpOutput.Controls.Add(this.rad_EvaluationParameters_CBOutputSC);
-            this.grpOutput.Controls.Add(this.rad_EvaluationParameters_CBOutputPC);
-            this.grpOutput.Location = new System.Drawing.Point(5, 125);
-            this.grpOutput.Name = "grpOutput";
-            this.grpOutput.Size = new System.Drawing.Size(505, 46);
-            this.grpOutput.TabIndex = 110;
-            this.grpOutput.TabStop = false;
-            this.grpOutput.Visible = false;
-            // 
-            // rad_EvaluationParameters_CBOutputSC
-            // 
-            this.rad_EvaluationParameters_CBOutputSC.AutoSize = true;
-            this.rad_EvaluationParameters_CBOutputSC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_EvaluationParameters_CBOutputSC.Location = new System.Drawing.Point(307, 19);
-            this.rad_EvaluationParameters_CBOutputSC.Name = "rad_EvaluationParameters_CBOutputSC";
-            this.rad_EvaluationParameters_CBOutputSC.Size = new System.Drawing.Size(94, 20);
-            this.rad_EvaluationParameters_CBOutputSC.TabIndex = 0;
-            this.rad_EvaluationParameters_CBOutputSC.TabStop = true;
-            this.rad_EvaluationParameters_CBOutputSC.Text = "Output SC";
-            this.rad_EvaluationParameters_CBOutputSC.UseVisualStyleBackColor = true;
-            this.rad_EvaluationParameters_CBOutputSC.CheckedChanged += new System.EventHandler(this.rad_EvaluationParameters_CBOutputSC_CheckedChanged);
-            // 
-            // rad_EvaluationParameters_CBOutputPC
-            // 
-            this.rad_EvaluationParameters_CBOutputPC.AutoSize = true;
-            this.rad_EvaluationParameters_CBOutputPC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_EvaluationParameters_CBOutputPC.Location = new System.Drawing.Point(39, 19);
-            this.rad_EvaluationParameters_CBOutputPC.Name = "rad_EvaluationParameters_CBOutputPC";
-            this.rad_EvaluationParameters_CBOutputPC.Size = new System.Drawing.Size(94, 20);
-            this.rad_EvaluationParameters_CBOutputPC.TabIndex = 0;
-            this.rad_EvaluationParameters_CBOutputPC.TabStop = true;
-            this.rad_EvaluationParameters_CBOutputPC.Text = "Output PC";
-            this.rad_EvaluationParameters_CBOutputPC.UseVisualStyleBackColor = true;
-            this.rad_EvaluationParameters_CBOutputPC.CheckedChanged += new System.EventHandler(this.rad_EvaluationParameters_CBOutputPC_CheckedChanged);
             // 
             // mPnl_tabActParam_Actuation
             // 
@@ -2815,34 +2788,7 @@ namespace Continental.Project.Adam.UI
             // 
             // mpnl_Table_GivingOut
             // 
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk27);
             this.mpnl_Table_GivingOut.Controls.Add(this.mTile_tabTable_GivingOut);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk26);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk1);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk25);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk2);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk24);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk3);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk23);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk4);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk22);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk5);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk21);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk6);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk20);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk7);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk19);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk8);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk18);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk9);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk17);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk10);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk16);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk11);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk15);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk12);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk14);
-            this.mpnl_Table_GivingOut.Controls.Add(this.mchk_tabTable_Chk13);
             this.mpnl_Table_GivingOut.HorizontalScrollbarBarColor = true;
             this.mpnl_Table_GivingOut.HorizontalScrollbarHighlightOnWheel = false;
             this.mpnl_Table_GivingOut.HorizontalScrollbarSize = 10;
@@ -2853,22 +2799,6 @@ namespace Continental.Project.Adam.UI
             this.mpnl_Table_GivingOut.VerticalScrollbarBarColor = true;
             this.mpnl_Table_GivingOut.VerticalScrollbarHighlightOnWheel = false;
             this.mpnl_Table_GivingOut.VerticalScrollbarSize = 10;
-            // 
-            // mchk_tabTable_Chk27
-            // 
-            this.mchk_tabTable_Chk27.AutoSize = true;
-            this.mchk_tabTable_Chk27.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk27.Location = new System.Drawing.Point(24, 647);
-            this.mchk_tabTable_Chk27.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk27.Name = "mchk_tabTable_Chk27";
-            this.mchk_tabTable_Chk27.Size = new System.Drawing.Size(132, 15);
-            this.mchk_tabTable_Chk27.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk27.TabIndex = 84;
-            this.mchk_tabTable_Chk27.Text = "Room Temperature";
-            this.mchk_tabTable_Chk27.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk27.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk27.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk27.UseSelectable = true;
             // 
             // mTile_tabTable_GivingOut
             // 
@@ -2885,422 +2815,6 @@ namespace Continental.Project.Adam.UI
             this.mTile_tabTable_GivingOut.TileTextFontSize = MetroFramework.MetroTileTextSize.Tall;
             this.mTile_tabTable_GivingOut.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.mTile_tabTable_GivingOut.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk26
-            // 
-            this.mchk_tabTable_Chk26.AutoSize = true;
-            this.mchk_tabTable_Chk26.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk26.Location = new System.Drawing.Point(24, 625);
-            this.mchk_tabTable_Chk26.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk26.Name = "mchk_tabTable_Chk26";
-            this.mchk_tabTable_Chk26.Size = new System.Drawing.Size(132, 15);
-            this.mchk_tabTable_Chk26.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk26.TabIndex = 83;
-            this.mchk_tabTable_Chk26.Text = "SC Hose Consumers";
-            this.mchk_tabTable_Chk26.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk26.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk26.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk26.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk1
-            // 
-            this.mchk_tabTable_Chk1.AutoSize = true;
-            this.mchk_tabTable_Chk1.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk1.Location = new System.Drawing.Point(24, 75);
-            this.mchk_tabTable_Chk1.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk1.Name = "mchk_tabTable_Chk1";
-            this.mchk_tabTable_Chk1.Size = new System.Drawing.Size(66, 15);
-            this.mchk_tabTable_Chk1.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk1.TabIndex = 58;
-            this.mchk_tabTable_Chk1.Text = "Vaccum";
-            this.mchk_tabTable_Chk1.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk1.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk1.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk1.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk25
-            // 
-            this.mchk_tabTable_Chk25.AutoSize = true;
-            this.mchk_tabTable_Chk25.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk25.Location = new System.Drawing.Point(24, 603);
-            this.mchk_tabTable_Chk25.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk25.Name = "mchk_tabTable_Chk25";
-            this.mchk_tabTable_Chk25.Size = new System.Drawing.Size(132, 15);
-            this.mchk_tabTable_Chk25.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk25.TabIndex = 82;
-            this.mchk_tabTable_Chk25.Text = "PC Hose Consumers";
-            this.mchk_tabTable_Chk25.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk25.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk25.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk25.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk2
-            // 
-            this.mchk_tabTable_Chk2.AutoSize = true;
-            this.mchk_tabTable_Chk2.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk2.Location = new System.Drawing.Point(24, 97);
-            this.mchk_tabTable_Chk2.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk2.Name = "mchk_tabTable_Chk2";
-            this.mchk_tabTable_Chk2.Size = new System.Drawing.Size(156, 15);
-            this.mchk_tabTable_Chk2.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk2.TabIndex = 59;
-            this.mchk_tabTable_Chk2.Text = "Force Increase Gradient";
-            this.mchk_tabTable_Chk2.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk2.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk2.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk2.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk24
-            // 
-            this.mchk_tabTable_Chk24.AutoSize = true;
-            this.mchk_tabTable_Chk24.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk24.Location = new System.Drawing.Point(24, 581);
-            this.mchk_tabTable_Chk24.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk24.Name = "mchk_tabTable_Chk24";
-            this.mchk_tabTable_Chk24.Size = new System.Drawing.Size(234, 15);
-            this.mchk_tabTable_Chk24.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk24.TabIndex = 81;
-            this.mchk_tabTable_Chk24.Text = "Jumper Gradient (89.8 N , 9.0 bar 98.1";
-            this.mchk_tabTable_Chk24.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk24.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk24.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk24.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk3
-            // 
-            this.mchk_tabTable_Chk3.AutoSize = true;
-            this.mchk_tabTable_Chk3.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk3.Location = new System.Drawing.Point(24, 119);
-            this.mchk_tabTable_Chk3.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk3.Name = "mchk_tabTable_Chk3";
-            this.mchk_tabTable_Chk3.Size = new System.Drawing.Size(178, 15);
-            this.mchk_tabTable_Chk3.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk3.TabIndex = 60;
-            this.mchk_tabTable_Chk3.Text = "Actuation Gradient Forward";
-            this.mchk_tabTable_Chk3.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk3.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk3.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk3.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk23
-            // 
-            this.mchk_tabTable_Chk23.AutoSize = true;
-            this.mchk_tabTable_Chk23.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk23.Location = new System.Drawing.Point(24, 559);
-            this.mchk_tabTable_Chk23.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk23.Name = "mchk_tabTable_Chk23";
-            this.mchk_tabTable_Chk23.Size = new System.Drawing.Size(197, 15);
-            this.mchk_tabTable_Chk23.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk23.TabIndex = 80;
-            this.mchk_tabTable_Chk23.Text = "Pressure at 70.0 % (= 1403.7 N)";
-            this.mchk_tabTable_Chk23.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk23.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk23.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk23.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk4
-            // 
-            this.mchk_tabTable_Chk4.AutoSize = true;
-            this.mchk_tabTable_Chk4.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk4.Location = new System.Drawing.Point(24, 141);
-            this.mchk_tabTable_Chk4.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk4.Name = "mchk_tabTable_Chk4";
-            this.mchk_tabTable_Chk4.Size = new System.Drawing.Size(111, 15);
-            this.mchk_tabTable_Chk4.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk4.TabIndex = 61;
-            this.mchk_tabTable_Chk4.Text = "Actuation Force";
-            this.mchk_tabTable_Chk4.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk4.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk4.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk4.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk22
-            // 
-            this.mchk_tabTable_Chk22.AutoSize = true;
-            this.mchk_tabTable_Chk22.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk22.Location = new System.Drawing.Point(24, 537);
-            this.mchk_tabTable_Chk22.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk22.Name = "mchk_tabTable_Chk22";
-            this.mchk_tabTable_Chk22.Size = new System.Drawing.Size(197, 15);
-            this.mchk_tabTable_Chk22.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk22.TabIndex = 79;
-            this.mchk_tabTable_Chk22.Text = "Pressure at 90.0 % (= 1804.8 N)";
-            this.mchk_tabTable_Chk22.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk22.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk22.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk22.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk5
-            // 
-            this.mchk_tabTable_Chk5.AutoSize = true;
-            this.mchk_tabTable_Chk5.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk5.Location = new System.Drawing.Point(24, 163);
-            this.mchk_tabTable_Chk5.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk5.Name = "mchk_tabTable_Chk5";
-            this.mchk_tabTable_Chk5.Size = new System.Drawing.Size(161, 15);
-            this.mchk_tabTable_Chk5.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk5.TabIndex = 62;
-            this.mchk_tabTable_Chk5.Text = "Force Decrease Gradient";
-            this.mchk_tabTable_Chk5.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk5.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk5.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk5.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk21
-            // 
-            this.mchk_tabTable_Chk21.AutoSize = true;
-            this.mchk_tabTable_Chk21.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk21.Location = new System.Drawing.Point(24, 515);
-            this.mchk_tabTable_Chk21.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk21.Name = "mchk_tabTable_Chk21";
-            this.mchk_tabTable_Chk21.Size = new System.Drawing.Size(130, 15);
-            this.mchk_tabTable_Chk21.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk21.TabIndex = 78;
-            this.mchk_tabTable_Chk21.Text = "Output Input Radio";
-            this.mchk_tabTable_Chk21.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk21.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk21.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk21.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk6
-            // 
-            this.mchk_tabTable_Chk6.AutoSize = true;
-            this.mchk_tabTable_Chk6.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk6.Location = new System.Drawing.Point(24, 185);
-            this.mchk_tabTable_Chk6.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk6.Name = "mchk_tabTable_Chk6";
-            this.mchk_tabTable_Chk6.Size = new System.Drawing.Size(187, 15);
-            this.mchk_tabTable_Chk6.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk6.TabIndex = 63;
-            this.mchk_tabTable_Chk6.Text = "Actuation Gradient Backward";
-            this.mchk_tabTable_Chk6.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk6.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk6.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk6.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk20
-            // 
-            this.mchk_tabTable_Chk20.AutoSize = true;
-            this.mchk_tabTable_Chk20.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk20.Location = new System.Drawing.Point(24, 493);
-            this.mchk_tabTable_Chk20.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk20.Name = "mchk_tabTable_Chk20";
-            this.mchk_tabTable_Chk20.Size = new System.Drawing.Size(122, 15);
-            this.mchk_tabTable_Chk20.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk20.TabIndex = 77;
-            this.mchk_tabTable_Chk20.Text = "Auxiliary Pressure";
-            this.mchk_tabTable_Chk20.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk20.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk20.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk20.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk7
-            // 
-            this.mchk_tabTable_Chk7.AutoSize = true;
-            this.mchk_tabTable_Chk7.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk7.Location = new System.Drawing.Point(24, 207);
-            this.mchk_tabTable_Chk7.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk7.Name = "mchk_tabTable_Chk7";
-            this.mchk_tabTable_Chk7.Size = new System.Drawing.Size(131, 15);
-            this.mchk_tabTable_Chk7.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk7.TabIndex = 64;
-            this.mchk_tabTable_Chk7.Text = "Pressure at 200.0 N";
-            this.mchk_tabTable_Chk7.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk7.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk7.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk7.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk19
-            // 
-            this.mchk_tabTable_Chk19.AutoSize = true;
-            this.mchk_tabTable_Chk19.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk19.Location = new System.Drawing.Point(24, 471);
-            this.mchk_tabTable_Chk19.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk19.Name = "mchk_tabTable_Chk19";
-            this.mchk_tabTable_Chk19.Size = new System.Drawing.Size(172, 15);
-            this.mchk_tabTable_Chk19.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk19.TabIndex = 76;
-            this.mchk_tabTable_Chk19.Text = "Realease Force at 0.10 mm";
-            this.mchk_tabTable_Chk19.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk19.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk19.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk19.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk8
-            // 
-            this.mchk_tabTable_Chk8.AutoSize = true;
-            this.mchk_tabTable_Chk8.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk8.Location = new System.Drawing.Point(24, 229);
-            this.mchk_tabTable_Chk8.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk8.Name = "mchk_tabTable_Chk8";
-            this.mchk_tabTable_Chk8.Size = new System.Drawing.Size(131, 15);
-            this.mchk_tabTable_Chk8.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk8.TabIndex = 65;
-            this.mchk_tabTable_Chk8.Text = "Pressure at 450.0 N";
-            this.mchk_tabTable_Chk8.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk8.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk8.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk8.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk18
-            // 
-            this.mchk_tabTable_Chk18.AutoSize = true;
-            this.mchk_tabTable_Chk18.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk18.Location = new System.Drawing.Point(24, 449);
-            this.mchk_tabTable_Chk18.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk18.Name = "mchk_tabTable_Chk18";
-            this.mchk_tabTable_Chk18.Size = new System.Drawing.Size(142, 15);
-            this.mchk_tabTable_Chk18.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk18.TabIndex = 75;
-            this.mchk_tabTable_Chk18.Text = "Hysteresis at 50.0 bar";
-            this.mchk_tabTable_Chk18.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk18.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk18.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk18.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk9
-            // 
-            this.mchk_tabTable_Chk9.AutoSize = true;
-            this.mchk_tabTable_Chk9.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk9.Location = new System.Drawing.Point(24, 251);
-            this.mchk_tabTable_Chk9.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk9.Name = "mchk_tabTable_Chk9";
-            this.mchk_tabTable_Chk9.Size = new System.Drawing.Size(138, 15);
-            this.mchk_tabTable_Chk9.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk9.TabIndex = 66;
-            this.mchk_tabTable_Chk9.Text = "Pressure at 1000.0 N";
-            this.mchk_tabTable_Chk9.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk9.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk9.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk9.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk17
-            // 
-            this.mchk_tabTable_Chk17.AutoSize = true;
-            this.mchk_tabTable_Chk17.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk17.Location = new System.Drawing.Point(24, 427);
-            this.mchk_tabTable_Chk17.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk17.Name = "mchk_tabTable_Chk17";
-            this.mchk_tabTable_Chk17.Size = new System.Drawing.Size(166, 15);
-            this.mchk_tabTable_Chk17.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk17.TabIndex = 74;
-            this.mchk_tabTable_Chk17.Text = "Hysteresis at 50.0 % p out";
-            this.mchk_tabTable_Chk17.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk17.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk17.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk17.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk10
-            // 
-            this.mchk_tabTable_Chk10.AutoSize = true;
-            this.mchk_tabTable_Chk10.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk10.Location = new System.Drawing.Point(24, 273);
-            this.mchk_tabTable_Chk10.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk10.Name = "mchk_tabTable_Chk10";
-            this.mchk_tabTable_Chk10.Size = new System.Drawing.Size(138, 15);
-            this.mchk_tabTable_Chk10.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk10.TabIndex = 67;
-            this.mchk_tabTable_Chk10.Text = "Pressure at 1500.0 N";
-            this.mchk_tabTable_Chk10.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk10.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk10.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk10.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk16
-            // 
-            this.mchk_tabTable_Chk16.AutoSize = true;
-            this.mchk_tabTable_Chk16.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk16.Location = new System.Drawing.Point(24, 405);
-            this.mchk_tabTable_Chk16.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk16.Name = "mchk_tabTable_Chk16";
-            this.mchk_tabTable_Chk16.Size = new System.Drawing.Size(100, 15);
-            this.mchk_tabTable_Chk16.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk16.TabIndex = 73;
-            this.mchk_tabTable_Chk16.Text = "Release Force";
-            this.mchk_tabTable_Chk16.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk16.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk16.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk16.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk11
-            // 
-            this.mchk_tabTable_Chk11.AutoSize = true;
-            this.mchk_tabTable_Chk11.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk11.Location = new System.Drawing.Point(24, 295);
-            this.mchk_tabTable_Chk11.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk11.Name = "mchk_tabTable_Chk11";
-            this.mchk_tabTable_Chk11.Size = new System.Drawing.Size(115, 15);
-            this.mchk_tabTable_Chk11.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk11.TabIndex = 68;
-            this.mchk_tabTable_Chk11.Text = "Runout Pressure";
-            this.mchk_tabTable_Chk11.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk11.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk11.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk11.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk15
-            // 
-            this.mchk_tabTable_Chk15.AutoSize = true;
-            this.mchk_tabTable_Chk15.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk15.Location = new System.Drawing.Point(24, 383);
-            this.mchk_tabTable_Chk15.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk15.Name = "mchk_tabTable_Chk15";
-            this.mchk_tabTable_Chk15.Size = new System.Drawing.Size(90, 15);
-            this.mchk_tabTable_Chk15.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk15.TabIndex = 72;
-            this.mchk_tabTable_Chk15.Text = "Cut-in Force";
-            this.mchk_tabTable_Chk15.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk15.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk15.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk15.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk12
-            // 
-            this.mchk_tabTable_Chk12.AutoSize = true;
-            this.mchk_tabTable_Chk12.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk12.Location = new System.Drawing.Point(24, 317);
-            this.mchk_tabTable_Chk12.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk12.Name = "mchk_tabTable_Chk12";
-            this.mchk_tabTable_Chk12.Size = new System.Drawing.Size(98, 15);
-            this.mchk_tabTable_Chk12.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk12.TabIndex = 69;
-            this.mchk_tabTable_Chk12.Text = "Runout Force";
-            this.mchk_tabTable_Chk12.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk12.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk12.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk12.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk14
-            // 
-            this.mchk_tabTable_Chk14.AutoSize = true;
-            this.mchk_tabTable_Chk14.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk14.Location = new System.Drawing.Point(24, 361);
-            this.mchk_tabTable_Chk14.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk14.Name = "mchk_tabTable_Chk14";
-            this.mchk_tabTable_Chk14.Size = new System.Drawing.Size(65, 15);
-            this.mchk_tabTable_Chk14.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk14.TabIndex = 71;
-            this.mchk_tabTable_Chk14.Text = "Jumper";
-            this.mchk_tabTable_Chk14.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk14.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk14.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk14.UseSelectable = true;
-            // 
-            // mchk_tabTable_Chk13
-            // 
-            this.mchk_tabTable_Chk13.AutoSize = true;
-            this.mchk_tabTable_Chk13.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabTable_Chk13.Location = new System.Drawing.Point(24, 339);
-            this.mchk_tabTable_Chk13.Margin = new System.Windows.Forms.Padding(2);
-            this.mchk_tabTable_Chk13.Name = "mchk_tabTable_Chk13";
-            this.mchk_tabTable_Chk13.Size = new System.Drawing.Size(143, 15);
-            this.mchk_tabTable_Chk13.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mchk_tabTable_Chk13.TabIndex = 70;
-            this.mchk_tabTable_Chk13.Text = "Travel at 90.0 % p out";
-            this.mchk_tabTable_Chk13.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mchk_tabTable_Chk13.UseCustomBackColor = true;
-            this.mchk_tabTable_Chk13.UseCustomForeColor = true;
-            this.mchk_tabTable_Chk13.UseSelectable = true;
             // 
             // mpnl_Table_Results
             // 
@@ -3455,14 +2969,13 @@ namespace Continental.Project.Adam.UI
             this.grpRadConsumer.ResumeLayout(false);
             this.grpRadConsumer.PerformLayout();
             this.mpnl_CurrentProject.ResumeLayout(false);
-            this.mPnl_tabActParam_EvaluationParameters.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.grid_tabActionParam_EvalParam)).EndInit();
             this.grpOutput.ResumeLayout(false);
             this.grpOutput.PerformLayout();
+            this.mPnl_tabActParam_EvaluationParameters.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grid_tabActionParam_EvalParam)).EndInit();
             this.mPnl_tabActParam_Actuation.ResumeLayout(false);
             this.tab_TableResults.ResumeLayout(false);
             this.mpnl_Table_GivingOut.ResumeLayout(false);
-            this.mpnl_Table_GivingOut.PerformLayout();
             this.mpnl_Table_Results.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TAB_TableResult_Grid)).EndInit();
             this.tab_Diagram.ResumeLayout(false);
@@ -3487,8 +3000,8 @@ namespace Continental.Project.Adam.UI
         private MetroFramework.Controls.MetroTextBox mtxt_MKSLInputForce1;
         private System.Windows.Forms.ListBox lst_MemoEventLog;
         private MetroFramework.Controls.MetroButton mbtn_BGlobalWarning;
-        private MetroFramework.Controls.MetroButton mbtn_PrintGraphics;
-        private MetroFramework.Controls.MetroButton mtbn_PrintPramList;
+        private MetroFramework.Controls.MetroButton mbtn_BReportPDF;
+        private MetroFramework.Controls.MetroButton mtbn_BExportTestToXLS;
         private MetroFramework.Controls.MetroButton mbtn_BRecordStart;
         private MetroFramework.Controls.MetroButton mbtn_BStart;
         private MetroFramework.Controls.MetroButton mbtn_BStop;
@@ -3597,34 +3110,7 @@ namespace Continental.Project.Adam.UI
         private MetroFramework.Controls.MetroTextBox mtxt_Actuation_E1ParMaxForce;
         private System.Windows.Forms.TabPage tab_TableResults;
         private MetroFramework.Controls.MetroPanel mpnl_Table_GivingOut;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk27;
         private MetroFramework.Controls.MetroTile mTile_tabTable_GivingOut;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk26;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk1;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk25;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk2;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk24;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk3;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk23;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk4;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk22;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk5;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk21;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk6;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk20;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk7;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk19;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk8;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk18;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk9;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk17;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk10;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk16;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk11;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk15;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk12;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk14;
-        private MetroFramework.Controls.MetroCheckBox mchk_tabTable_Chk13;
         private MetroFramework.Controls.MetroPanel mpnl_Table_Results;
         private System.Windows.Forms.DataGridView TAB_TableResult_Grid;
         private MetroFramework.Controls.MetroTile mTile_tabTable_Results;

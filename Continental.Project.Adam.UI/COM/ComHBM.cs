@@ -951,7 +951,7 @@ namespace Continental.Project.Adam.UI.COM
 
                             if (_helperApp.sbexterno.Length > sbMaxCap)
                             {
-                                if (!File.Exists(path))
+                                if (!_helperApp.CheckFileExists(path))
                                     File.WriteAllText(path, _helperApp.sbexterno.ToString());
                                 else
                                     File.AppendAllLines(path, _helperApp.sbexterno.ToString().Split(Environment.NewLine.ToCharArray()));

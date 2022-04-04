@@ -354,7 +354,7 @@ namespace Continental.Project.Adam.UI
             if (!string.IsNullOrEmpty(udtFilename))
             {
 
-                if (File.Exists(udtFilename))
+                if (_helperApp.CheckFileExists(udtFilename))
                 {
                     if (binFile)
                         ReadBinaryFile(udtFilename);

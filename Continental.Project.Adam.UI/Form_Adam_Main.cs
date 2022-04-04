@@ -278,8 +278,7 @@ namespace Continental.Project.Adam.UI
 
             //TabPages collection
             TAB_Main_SelectedIndexChanged(sender, e);
-            //ActivePage(2);
-
+            //TAB_Main_ActivePage(2);
 
             CONTROLS_EnableMetroButton();
 
@@ -421,16 +420,28 @@ namespace Continental.Project.Adam.UI
         {
             TEST_Stop_Command();
         }
-        private void mtbn_PrintPramList_Click(object sender, EventArgs e)
+        private void mtbn_BExportTestToXLS_Click(object sender, EventArgs e)
         {
-            ReportPDF();
             //_helperAdam.SMPrintGraphicsClick(sender);
         }
-        private void mbtn_PrintGraphics_Click(object sender, EventArgs e)
-        {
-            CHART_ExportImage();
-        }
 
+        private void mbtn_BReportPDF_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!CHART_ExportImage())
+                {
+                    MessageBox.Show("Failed, Chart Export !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                ReportPDF();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         #endregion
 
         private void DisableButtonStart()
@@ -494,15 +505,15 @@ namespace Continental.Project.Adam.UI
         #region TAB - Main
         private void TAB_Main_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            //hide a tab by removing it from the TabPages collection
-            if (!_helperApp.AppUseSimulateLocal)
-            {
-                bool bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
+            ////hide a tab by removing it from the TabPages collection
+            //if (!_helperApp.AppUseSimulateLocal)
+            //{
+            //    bool bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
 
-                if (e.TabPage == tab_TableResults)
-                    if (!bTabAccessOk)
-                        e.Cancel = true;
-            }
+            //    if (e.TabPage == tab_TableResults)
+            //        if (!bTabAccessOk)
+            //            e.Cancel = true;
+            //}
         }
         private void TAB_Main_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -529,12 +540,9 @@ namespace Continental.Project.Adam.UI
                         }
                         else
                         {
-                            if (tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created)
-                            {
-                                TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
 
-                                TAB_TableResult_SetData();
-                            }
+                            TAB_TableResult_SetData();
                         }
 
                         break;
@@ -542,6 +550,9 @@ namespace Continental.Project.Adam.UI
                 case 2://TAB_ActuationParameters
                     {
                         TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                        if (!_helperApp.AppUseSimulateLocal)
+                            TAB_CPXVisu_Create();
 
                         TAB_ActuationParameters_SetData();
 
@@ -560,19 +571,25 @@ namespace Continental.Project.Adam.UI
         public void TAB_DiagramChart_SetData()
         {
             if (!_helperApp.AppUseSimulateLocal)
-            {
-                var tabVisu = TAB_Main.TabPages["tab_CPX_Visu"];
-
-                if (tabVisu == null)
-                {
-                    string urlVisuPMX = _helperCom.Modbus_ServerVisuUrl.ToString();
-
-                    OpenURLInBrowser(urlVisuPMX);
-                }
-            }
+                TAB_CPXVisu_Create();
             else
                 if (!_bAppStart)
-                TXTFileHBM_LoadData();
+                    TXTFileHBM_LoadData();
+
+            //if (!_helperApp.AppUseSimulateLocal)
+            //{
+            //    var tabVisu = TAB_Main.TabPages["tab_CPX_Visu"];
+
+            //    if (tabVisu == null)
+            //    {
+            //        string urlVisuPMX = _helperCom.Modbus_ServerVisuUrl.ToString();
+
+            //        OpenURLInBrowser(urlVisuPMX);
+            //    }
+            //}
+            //else
+            //    if (!_bAppStart)
+            //    TXTFileHBM_LoadData();
         }
         private void OpenURLInBrowser(string url)
         {
@@ -668,8 +685,7 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var exc = ex.Message;
-                MessageBox.Show(exc);
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -4409,6 +4425,28 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
+        #region TAB - CPX Visu
+        public void TAB_CPXVisu_Create()
+        {
+            try
+            {
+                var tabVisu = TAB_Main.TabPages["tab_CPX_Visu"];
+
+                if (tabVisu == null)
+                {
+                    string urlVisuPMX = _helperCom.Modbus_ServerVisuUrl.ToString();
+
+                    OpenURLInBrowser(urlVisuPMX);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
         #endregion
 
         #region TIMERS
@@ -4946,7 +4984,7 @@ namespace Continental.Project.Adam.UI
                     {
                         if (sbexterno.Length > 0)
                         {
-                            if (CreateSimulateTestFile())
+                            if (TXTFileHBM_Create())
                             {
                                 timerHBM.Enabled = false;
 
@@ -5027,7 +5065,7 @@ namespace Continental.Project.Adam.UI
         #region TXT FILE TEST
 
         #region TXT File Create
-        private bool CreateSimulateTestFile()
+        private bool TXTFileHBM_Create()
         {
             #region Name File Test
 
@@ -5045,15 +5083,15 @@ namespace Continental.Project.Adam.UI
 
             try
             {
-                if (!File.Exists(_prjTestFilename))
+                if (!_helperApp.CheckFileExists(_prjTestFilename))
                 {
                     File.WriteAllText(_prjTestFilename, sbexterno.ToString());
-                    LOG_TestSequence("CreateSimulateTestFile - WriteAllText");
+                    LOG_TestSequence("TXTFileHBM_Create - WriteAllText");
                 }
                 else
                 {
                     File.AppendAllLines(_prjTestFilename, sbexterno.ToString().Split(Environment.NewLine.ToCharArray()));
-                    LOG_TestSequence("CreateSimulateTestFile - AppendAllLines");
+                    LOG_TestSequence("TXTFileHBM_Create - AppendAllLines");
                 }
             }
             catch (DirectoryNotFoundException dirNotFoundException)
@@ -5092,13 +5130,6 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region TXT File Create
-        private void TXTFileHBM_DeleteData()
-        {
-        }
-
-        #endregion
-
         #region TXT File Load
         private bool TXTFileHBM_LoadData()
         {
@@ -5123,6 +5154,8 @@ namespace Continental.Project.Adam.UI
                 {
                     if (HelperApp.uiTesteSelecionado > 0)
                         TXTFileHBM_LoadData_AppUseSimulateLocal();
+                    else
+                        MessageBox.Show("Teste not selected, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
@@ -5184,17 +5217,24 @@ namespace Continental.Project.Adam.UI
 
                                 if (!CHART_LoadActualTestComplete())
                                     MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                else
+
+                                if (tab_TableResultsEnable)
                                 {
-                                    if (!ReportPDF())
-                                        MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    //else
+                                    //{
+                                    //    if (!ReportPDF())
+                                    //        MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    //}
+
+                                    if (TAB_Main.SelectedIndex != 0)
+                                        TAB_Main_ActivePage(0);
                                 }
 
                                 tab_TableResultsEnable = true;
                                 HelperTestBase.currentProjectTest.is_Created = true;
 
-                                if (TAB_Main.SelectedIndex != 0)
-                                    TAB_Main_ActivePage(0);
+                                //if (TAB_Main.SelectedIndex != 0)
+                                //    TAB_Main_ActivePage(0);
 
                                 //InsertHeaderToFile(_helperApp.lstStrReturnReadFileLines);
 
@@ -5207,7 +5247,6 @@ namespace Continental.Project.Adam.UI
                             return false;
                         }
                     }
-
                 }
             }
             catch (Exception ex)
@@ -5299,35 +5338,119 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TXT File Header
-        public void TXTFileHBM_InsertHeader(List<string> lstFiledata)
+        public bool TXTFileHBM_InsertHeader(List<string> lstFiledata)
         {
+            #region Name File Test
 
-            //List<double> dblList = lstStrAnalogVarY01.Select(x => double.Parse(x)).ToList();
-            //var min = dblList.Min();
-            //var msx = dblList.Max();
-            //int index = dblList.IndexOf(msx);
-            //double average = dblList.Count > 0 ? dblList.Average() : 0.0;
+            string testTypeName = HelperApp.uiTesteSelecionado == 0 ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperTestBase.eExamType.ToString()).ToString() : EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString();
 
-            //var find = lstStrTimestamp.ElementAt(index);
+            string testIdentName = "HBM_SaveAquisitionTxtData";
 
-            //var lstFiledata = _helperApp.ReadTextFileToList(pathWithFileName);
+            string prjTestFilename = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension);
 
-            lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
+            _prjTestFilename = Path.Combine(_initialDirPathTestFile, prjTestFilename);
 
-            var strSbHeader = String.Concat(_helperApp.AppendTxtData_Header_ActuationType().ToString(), Environment.NewLine);
+            #endregion
 
-            sbDataFile.Insert(0, strSbHeader);
+            #region WRite File Test
 
-            string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
+            try
+            {
+                if (!_helperApp.CheckFileExists(_prjTestFilename))
+                {
 
-            sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
+                    lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
 
-            ////Create File Acquisition
-            _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
-            File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
-            //File.AppendAllText(_prjTestFilename, sbDataFile.ToString());
+                    var strSbHeader = String.Concat(_helperApp.AppendTxtData_Header_ActuationType().ToString(), Environment.NewLine);
 
-            //List<string>[] lstStrChReadFileArr = new List<string>[5];
+                    sbDataFile.Insert(0, strSbHeader);
+
+                    string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
+
+                    sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
+
+                    ////Create File Acquisition
+                    _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
+                    File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
+                    //File.AppendAllText(_prjTestFilename, sbDataFile.ToString());
+
+                    //List<string>[] lstStrChReadFileArr = new List<string>[5];
+                }
+                else
+                    MessageBox.Show("Failed, Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (DirectoryNotFoundException dirNotFoundException)
+            {
+                var err = string.Concat("DirectoryNotFoundException : ", dirNotFoundException.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Show a message to the user
+            }
+            catch (UnauthorizedAccessException unauthorizedAccessException)
+            {
+                var err = string.Concat("UnauthorizedAccessException : ", unauthorizedAccessException.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Show a message to the user
+            }
+            catch (IOException ioException)
+            {
+                var err = string.Concat("IOException : ", ioException.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Show a message to the user
+            }
+            catch (Exception ex)
+            {
+                var err = string.Concat("Exception : ", ex.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            #endregion
+
+            //clean data test file
+            sbexterno.Clear();
+
+            HelperTestBase.currentProjectTest.PrjTestFileName = _prjTestFilename;
+
+            return HelperTestBase.currentProjectTest.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
+        }
+
+        #endregion
+
+        #region TXT File Delete
+        private void TXTFileHBM_DeleteData()
+        {
+            try
+            {
+                if (!_helperApp.CheckFileExists(_prjTestFilename))
+                {
+                    File.Delete(_prjTestFilename);
+                    LOG_TestSequence("TXTFileHBM_DeleteData - WriteAllText");
+                }
+                else
+                    MessageBox.Show("Test file NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (DirectoryNotFoundException dirNotFoundException)
+            {
+                var err = string.Concat("DirectoryNotFoundException : ", dirNotFoundException.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Show a message to the user
+            }
+            catch (UnauthorizedAccessException unauthorizedAccessException)
+            {
+                var err = string.Concat("UnauthorizedAccessException : ", unauthorizedAccessException.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Show a message to the user
+            }
+            catch (IOException ioException)
+            {
+                var err = string.Concat("IOException : ", ioException.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Show a message to the user
+            }
+            catch (Exception ex)
+            {
+                var err = string.Concat("Exception : ", ex.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         #endregion
@@ -5341,20 +5464,26 @@ namespace Continental.Project.Adam.UI
             {
                 if (HelperApp.uiTesteSelecionado != 0)
                 {
-                    string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
+                    if (HelperTestBase.currentProjectTest.PrjTestFileName != null)
+                    {
+                        string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
 
-                    string strFileName = HelperTestBase.currentProjectTest.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+                        string strFileName = HelperTestBase.currentProjectTest.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
-                    string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, strFileName, _helperApp.AppPath_ChartImageExtension);
+                        string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, strFileName, _helperApp.AppPath_ChartImageExtension);
 
-                    int gridResultRowsCount = TAB_TableResult_Grid.Rows.Count;
+                        DataGridViewRowCollection gridResultRows = TAB_TableResult_Grid.Rows;
 
-                    _helperApp.Report_CreatePDF(dirReportChartImagehWithFileName, strFileName, gridResultRowsCount);
+                        _helperApp.Report_CreatePDF(dirReportChartImagehWithFileName, strFileName, gridResultRows);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed, currentProjectTest NOT NAME !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
                 }
                 else
-                {
                     MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
             }
             catch (Exception ex)
             {
@@ -6910,16 +7039,24 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
+                if (HelperTestBase.currentProjectTest.PrjTestFileName != null)
+                {
+                    string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
 
-                string fileName = HelperTestBase.currentProjectTest.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, _helperApp.AppPath_ChartImageExtension);
+                    string fileName = HelperTestBase.currentProjectTest.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, _helperApp.AppPath_ChartImageExtension);
 
-                string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, fileName);
+                    string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, fileName);
 
-                if (!File.Exists(dirReportChartImagehWithFileName))
-                    File.Delete(dirReportChartImagehWithFileName);
+                    if (_helperApp.CheckFileExists(dirReportChartImagehWithFileName))
+                        File.Delete(dirReportChartImagehWithFileName);
 
-                devChart.ExportToImage(dirReportChartImagehWithFileName, ImageFormat.Jpeg);
+                    devChart.ExportToImage(dirReportChartImagehWithFileName, ImageFormat.Jpeg);
+                }
+                else
+                {
+                    MessageBox.Show("Failed, currentProjectTest NOT NAME !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -7496,7 +7633,7 @@ namespace Continental.Project.Adam.UI
                             var sbMaxCap = (sbexterno.MaxCapacity * 0.1);
 
                             if (sbexterno.Length > sbMaxCap)
-                                CreateSimulateTestFile();
+                                TXTFileHBM_Create();
                         }
                         catch (Exception ex)
                         {

@@ -2888,7 +2888,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                                         strResultParam_Caption = String.Format(strResultParam_Caption, str01_ForcaP2Jumper_N, str02_GradienteJumper_P2_Bar, str03_ForcaP1Jumper_N, str04_GradienteJumper_P1_Bar);
                                         strResultParam_Measured = dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim();
-                            }
+                                    }
                                     break;
                                 default:
                                     {
@@ -2905,7 +2905,27 @@ namespace Continental.Project.Adam.UI.Helper
                         }
                     }
                     else
-                        strResultParam_Measured = keyResultParam_Value;
+                    {
+                        switch (strResultParam_Name.Trim())
+                        {
+                            case "PCHoseConsumers":
+                                {
+                                    strResultParam_Measured = dicResultParam["resultCalcTestParam_PCHoseConsumers"]?.Trim();
+                                    break;
+                                }
+                            case "SCHoseConsumers":
+                                {
+                                    strResultParam_Measured = dicResultParam["resultCalcTestParam_SCHoseConsumers"]?.Trim();
+                                    break;
+                                }
+                            default:
+                                {
+                                    strResultParam_Measured = keyResultParam_Value;
+                                    break;
+                                }
+                        }
+                    }
+                        
 
                     #endregion
 
@@ -16851,7 +16871,7 @@ namespace Continental.Project.Adam.UI.Helper
         #endregion
 
         #region REPORT PDF
-        public void Report_CreatePDF(string strImgChart, string strFileName, int gridResultRowsCount)
+        public void Report_CreatePDF(string strImgChart, string strFileName, DataGridViewRowCollection gridResultRows)
         {
             try
             {
@@ -16866,7 +16886,7 @@ namespace Continental.Project.Adam.UI.Helper
                 string reportImgChart = !string.IsNullOrEmpty(strImgChart) ? strImgChart : string.Concat(dirReportResources, "img_ReportChart.jpg");
 
                 //Path to Store PDF file
-                string dirReportTestPath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppReport_PathTests);
+                string dirReportTestPath = AppReport_PathTests.Trim(); //System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppReport_PathTests);
 
                 string outputFile = !string.IsNullOrEmpty(strFileName) ? string.Concat(dirReportTestPath, strFileName, AppReport_DefaultExtension) : string.Concat(dirReportTestPath, "ReportContinentalAdam_",DateTime.Now.ToString("ddMMMyyyyHHmmss"), AppReport_DefaultExtension);
 
@@ -16878,9 +16898,32 @@ namespace Continental.Project.Adam.UI.Helper
 
                 string strInfo = "INFO - CONTI";
 
-                var lstResultParam = HelperApp.lstResultParam;
+                List<Model_Operational_TestTableParameters> lstResultParamFormated = new List<Model_Operational_TestTableParameters>();
 
-                var lstResultParamFormated = HelperApp.lstResultParamFormated != null ? gridResultRowsCount == Convert.ToInt32(HelperApp.lstResultParamFormated.Count) ? HelperApp.lstResultParamFormated : null : null;
+                if (HelperApp.lstResultParamFormated != null)
+                {
+                    if (gridResultRows.Count == Convert.ToInt32(HelperApp.lstResultParamFormated.Count))
+                        lstResultParamFormated = HelperApp.lstResultParamFormated;
+                    else
+                    {
+                        for (int i = 0; i < gridResultRows.Count; i++)
+                        {
+                            var row = gridResultRows[i];
+
+                            lstResultParamFormated.Add(new Model_Operational_TestTableParameters()
+                            {
+                                IdResultParam = !string.IsNullOrEmpty(row.Cells["IdResultParam"].Value?.ToString()) ? Convert.ToInt32(row.Cells["IdResultParam"].Value) : 0,
+                                ResultParam_Name = !string.IsNullOrEmpty(row.Cells["ResultParam_Name"].Value?.ToString()) ? row.Cells["ResultParam_Name"].Value?.ToString() : string.Empty,
+                                ResultParam_Caption = !string.IsNullOrEmpty(row.Cells["ResultParam_Caption"].Value?.ToString()) ? row.Cells["ResultParam_Caption"].Value?.ToString() : string.Empty,
+                                ResultParam_Nominal = !string.IsNullOrEmpty(row.Cells["ResultParam_Nominal"].Value?.ToString()) ? row.Cells["ResultParam_Nominal"].Value?.ToString() : string.Empty,
+                                ResultParam_Measured = !string.IsNullOrEmpty(row.Cells["ResultParam_Measured"].Value?.ToString()) ? row.Cells["ResultParam_Measured"].Value?.ToString() : string.Empty,
+                                ResultParam_Unit = !string.IsNullOrEmpty(row.Cells["ResultParam_Unit"].Value?.ToString()) ? row.Cells["ResultParam_Unit"].Value?.ToString() : string.Empty
+                            });
+                        }
+                    }   
+                }
+                else
+                    lstResultParamFormated = null;
 
                 var lstEvaluationParameters = HelperApp.lstEvaluationParameters;
 
@@ -16888,7 +16931,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #region REPORT - Check Exists
 
-                if (File.Exists(outputFile))
+                if (CheckFileExists(outputFile))
                 {
                     if (DialogResult.No == MessageBox.Show("  File Report already exists!" + "\n\n\n" + "Do you want ovewrite report test ? ", appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         return;
@@ -17089,42 +17132,45 @@ namespace Continental.Project.Adam.UI.Helper
 
                 countForTable = lstResultParamFormated?.Count < maxSizeChartAreaTable ? lstResultParamFormated.Count : maxSizeChartAreaTable;
 
-                for (int i = 0; i < countForTable; i++)
+                if (lstResultParamFormated != null)
                 {
-                    string strResult_Caption = !string.IsNullOrEmpty(lstResultParamFormated[i].ResultParam_Caption?.ToString()) ? lstResultParamFormated[i].ResultParam_Caption?.ToString() : strInfo;
-                    string strResult_Unit = !string.IsNullOrEmpty(lstResultParamFormated[i].ResultParam_Unit?.ToString()) ? lstResultParamFormated[i].ResultParam_Unit?.ToString() : strInfo;
-                    string strResult_Nominal = !string.IsNullOrEmpty(lstResultParamFormated[i].ResultParam_Nominal?.ToString()) ? lstResultParamFormated[i].ResultParam_Nominal?.ToString() : strInfo;
-                    string strResult_Measured = !string.IsNullOrEmpty(lstResultParamFormated[i].ResultParam_Measured?.ToString()) ? lstResultParamFormated[i].ResultParam_Measured?.ToString() : strInfo;
+                    for (int i = 0; i < countForTable; i++)
+                    {
+                        string strResult_Caption = !string.IsNullOrEmpty(lstResultParamFormated[i].ResultParam_Caption?.ToString()) ? lstResultParamFormated[i].ResultParam_Caption?.ToString() : strInfo;
+                        string strResult_Unit = !string.IsNullOrEmpty(lstResultParamFormated[i].ResultParam_Unit?.ToString()) ? lstResultParamFormated[i].ResultParam_Unit?.ToString() : strInfo;
+                        string strResult_Nominal = !string.IsNullOrEmpty(lstResultParamFormated[i].ResultParam_Nominal?.ToString()) ? lstResultParamFormated[i].ResultParam_Nominal?.ToString() : strInfo;
+                        string strResult_Measured = !string.IsNullOrEmpty(lstResultParamFormated[i].ResultParam_Measured?.ToString()) ? lstResultParamFormated[i].ResultParam_Measured?.ToString() : strInfo;
 
-                    Cell cellResult_Name = new Cell(1, 2)
-                        .SetTextAlignment(TextAlignment.LEFT)
-                        .SetFontSize(5)
-                        .SetBorderRight(Border.NO_BORDER)
-                        //.Add(new Paragraph(string.Concat($"{strInfo}_", i)));
-                        .Add(new Paragraph(strResult_Caption));
-                    table.AddCell(cellResult_Name);
+                        Cell cellResult_Name = new Cell(1, 2)
+                            .SetTextAlignment(TextAlignment.LEFT)
+                            .SetFontSize(5)
+                            .SetBorderRight(Border.NO_BORDER)
+                            //.Add(new Paragraph(string.Concat($"{strInfo}_", i)));
+                            .Add(new Paragraph(strResult_Caption));
+                        table.AddCell(cellResult_Name);
 
-                    Cell cellResult_Unit = new Cell(1, 1)
-                        .SetTextAlignment(TextAlignment.CENTER)
-                        .SetFontSize(5)
-                        .SetBorderLeft(Border.NO_BORDER)
-                        //.Add(new Paragraph(string.Concat($"{strInfo}_", i + 1)));
-                        .Add(new Paragraph(strResult_Unit));
-                    table.AddCell(cellResult_Unit);
+                        Cell cellResult_Unit = new Cell(1, 1)
+                            .SetTextAlignment(TextAlignment.CENTER)
+                            .SetFontSize(5)
+                            .SetBorderLeft(Border.NO_BORDER)
+                            //.Add(new Paragraph(string.Concat($"{strInfo}_", i + 1)));
+                            .Add(new Paragraph(strResult_Unit));
+                        table.AddCell(cellResult_Unit);
 
-                    Cell cellResult_Nominal = new Cell(1, 1)
-                        .SetTextAlignment(TextAlignment.CENTER)
-                        .SetFontSize(5)
-                        //.Add(new Paragraph(string.Concat($"{strInfo}_", i + 2)));
-                        .Add(new Paragraph(strResult_Nominal));
-                    table.AddCell(cellResult_Nominal);
+                        Cell cellResult_Nominal = new Cell(1, 1)
+                            .SetTextAlignment(TextAlignment.CENTER)
+                            .SetFontSize(5)
+                            //.Add(new Paragraph(string.Concat($"{strInfo}_", i + 2)));
+                            .Add(new Paragraph(strResult_Nominal));
+                        table.AddCell(cellResult_Nominal);
 
-                    Cell cellResult_Measured = new Cell(1, 1)
-                        .SetTextAlignment(TextAlignment.CENTER)
-                        .SetFontSize(5)
-                        //.Add(new Paragraph(string.Concat($"{strInfo}_", i + 3)));
-                        .Add(new Paragraph(strResult_Measured));
-                    table.AddCell(cellResult_Measured);
+                        Cell cellResult_Measured = new Cell(1, 1)
+                            .SetTextAlignment(TextAlignment.CENTER)
+                            .SetFontSize(5)
+                            //.Add(new Paragraph(string.Concat($"{strInfo}_", i + 3)));
+                            .Add(new Paragraph(strResult_Measured));
+                        table.AddCell(cellResult_Measured);
+                    }
                 }
 
                 if (countForTable < maxSizeChartAreaTable)
@@ -17236,7 +17282,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #region REPORT - Save/Open Document
 
-                if (!File.Exists(outputFile))
+                if (!CheckFileExists(outputFile))
                     MessageBox.Show("Failed, create report file !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
                 {
