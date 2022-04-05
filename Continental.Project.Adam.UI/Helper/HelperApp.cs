@@ -2906,23 +2906,26 @@ namespace Continental.Project.Adam.UI.Helper
                     }
                     else
                     {
-                        switch (strResultParam_Name.Trim())
+                        if (!string.IsNullOrEmpty(strResultParam_Name))
                         {
-                            case "PCHoseConsumers":
-                                {
-                                    strResultParam_Measured = dicResultParam["resultCalcTestParam_PCHoseConsumers"]?.Trim();
-                                    break;
-                                }
-                            case "SCHoseConsumers":
-                                {
-                                    strResultParam_Measured = dicResultParam["resultCalcTestParam_SCHoseConsumers"]?.Trim();
-                                    break;
-                                }
-                            default:
-                                {
-                                    strResultParam_Measured = keyResultParam_Value;
-                                    break;
-                                }
+                            switch (strResultParam_Name.Trim())
+                            {
+                                case "PCHoseConsumers":
+                                    {
+                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_PCHoseConsumers"]?.Trim();
+                                        break;
+                                    }
+                                case "SCHoseConsumers":
+                                    {
+                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_SCHoseConsumers"]?.Trim();
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        strResultParam_Measured = keyResultParam_Value;
+                                        break;
+                                    }
+                            }
                         }
                     }
                         
@@ -3923,7 +3926,6 @@ namespace Continental.Project.Adam.UI.Helper
                     _modelGVL.GVL_Analogicas.rPressaoCS_Bar = dblPressaoInicialCS;
 
                     #endregion
-
 
                     #region Dados de VAcuo, Temperatura, PressaoCP e CS - Inicio  Fianl de Ciclo
 
@@ -14186,7 +14188,7 @@ namespace Continental.Project.Adam.UI.Helper
         }
 
         #region Aquisition Txt Data
-        public HelperTestBase GetAppendTxtData_HeaderSIMULATE(int iTesteSelecionado)
+        public HelperTestBase TXTFileHBM_HeaderAppendData(int iTesteSelecionado, Model_GVL modelGVL)
         {
             StringBuilder sbHeader = new StringBuilder();
 
@@ -14195,326 +14197,35 @@ namespace Continental.Project.Adam.UI.Helper
                 //set Variables
                 HelperApp.uiTesteSelecionado = iTesteSelecionado;
 
-                sbHeader.Append($"{HelperTestBase.eExamType}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"\r\n");
-            }
-
-            HelperTestBase.sbHeaderAppendTxtData = sbHeader;
-
-            return _helperTestBase;
-        }
-        public HelperTestBase GetAppendTxtData_Header_Results_CurverNamesSIMULATE(int iTesteSelecionado)
-        {
-            StringBuilder sbHeaderResults = new StringBuilder();
-
-            if (iTesteSelecionado > 0)
-            {
-                //set Variables
-                HelperApp.uiTesteSelecionado = iTesteSelecionado;
-
-                switch (iTesteSelecionado)
-                {
-                    case 1:     //Force Diagrams - Force/Pressure With Vacuum
-                    case 3:     //Force Diagrams - Force/Pressure Without Vacuum
-                    case 13:    //Check Sensors - Pressure Difference
-                    case 25:    //Force Diagrams - Force/Pressure Dual Ratio
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 2:     //Force Diagrams - Force/Force With Vacuum
-                    case 4:     //Force Diagrams - Force/Force Without Vacuum
-                    case 26:    //Force Diagrams - Force/Force Dual Ratio
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Output Force [N]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 5: //Vaccum Leakage - Released Position
-                    case 6: //Vacuum Leakage - Fully Applied Position
-                    case 7: //Vacuum Leakage - Lap Position
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Vacuum Pressure [bar]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 8:     //Hydraulic Leakage - Fully Applied Position
-                    case 9:     //Hydraulic Leakage - At Low Pressure
-                    case 10:    //Hydraulic Leakage - At High Pressure
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Vacuum Pressure [bar]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]\t Input Travel [m]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 11:    //Adjustment - Actuation Slow
-                    case 12:    //Adjustment - Actuation Fast
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 143 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-
-                            if (iTesteSelecionado == 11)
-                                sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]");
-                            else
-                                sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure SC [bar]\t Hydraulic Pressure PC [bar]");
-
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 14:    //Check Sensors - Input/Output Travel
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t TMC Travel [m]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 15:    //Adjustment - Input Travel VS Input Force
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 16:    //Adjustment - Hose Consumer
-                    case 17:    //Lost Travel ACU - Hydraulic
-                    case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-                            break;
-                        }
-
-                    case 19:    //Lost Travel ACU - Pneumatic Primary
-                    case 20:    //Lost Travel ACU - Pneumatic Secondary
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 143 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Pneumatic Test Pressure [bar]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 21:    //Pedal Feeling Characteristics
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 22:    //Actuation / Release - Mechanical Actuation
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 23:    //Breather Hole / Central Valve open
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Fill Pressure [bar]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 24:    //Efficiency
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC[bar]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 27:    //ADAM - Find Switching Point With TMC
-                        {
-                            #region Curves_Header_Results
-
-                            sbHeaderResults.Append($"Curves");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC[bar]\t Hydraulic Pressure SC[bar]\t ADAM Diff. Travel[m]\t Velocity[---]\t Power[---]");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 28:    //ADAM - Switching Point Without TMC
-                        {
-                            break;
-                        }
-
-                    case 29:    //Bleed
-                        {
-                            break;
-                        }
-
-                    default:
-                        break;
-                }
-            }
-
-            HelperTestBase.sbHeaderResultsAppendTxtData = sbHeaderResults;
-
-            return _helperTestBase;
-        }
-        public HelperTestBase GetAppendTxtData_Header(int iTesteSelecionado)
-        {
-            StringBuilder sbHeader = new StringBuilder();
-
-            if (iTesteSelecionado > 0)
-            {
-                //set Variables
-                HelperApp.uiTesteSelecionado = iTesteSelecionado;
+                #region StringBuilder TxtData_Header - Type Test
 
                 sbHeader.Append($"{HelperTestBase.eExamType}");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"\r\n");
+
+                #endregion
+
+                #region StringBuilder TxtData_Header - Project Info
+
+                string strVarProj = string.Empty;
+
+                sbHeader.Append($"Ident # :\t {strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"Customer/Type :\t {strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"Booster # :\t {strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"TMC # :\t {strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"Production Date :\t {strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"Testing Date :\t {strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"Operator :\t {strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"\r\n");
+
+                #endregion
 
                 switch (iTesteSelecionado)
                 {
@@ -14525,42 +14236,34 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region StringBuilder AppendTxtData_Header_ActuationType
 
-                            HelperTestBase.ETestActuationType = E_TestActuationType.PneumaticSlow;
-                            HelperTestBase.VacuumMin = iTesteSelecionado == 3 ? 0 : -0.82;
-                            HelperTestBase.VacuumMax = iTesteSelecionado == 3 ? 0 : -0.78;
-                            HelperTestBase.Vacuum = iTesteSelecionado == 3 ? 0 : -0.8;
-                            HelperTestBase.chkPistonLock = false;
-                            HelperTestBase.ForceGradient = 150;
-                            HelperTestBase.MaxForce = iTesteSelecionado == 25 ? 1100 : 1200;
-                            HelperTestBase.radHoseConsumer = true;
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
-
-                            sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
+                            sbHeader.Append($"Actuation Type :\t {HelperTestBase.ETestActuationType}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min)        : {HelperTestBase.VacuumMin}");
+                            sbHeader.Append($"Vacuum (min) :\t {HelperTestBase.VacuumMin}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max)        : {HelperTestBase.VacuumMax}");
+                            sbHeader.Append($"Vacuum (max) :\t {HelperTestBase.VacuumMax}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum              : {HelperTestBase.Vacuum}");
+                            sbHeader.Append($"Vacuum :\t {HelperTestBase.Vacuum}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston         : {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                            sbHeader.Append($"Lock Piston :\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient            : {HelperTestBase.ForceGradient}");
+                            sbHeader.Append($"Gradient :\t {HelperTestBase.ForceGradient}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force          : {HelperTestBase.MaxForce}");
+                            sbHeader.Append($"Max. Force :\t {HelperTestBase.MaxForce}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
+                            if (HelperTestBase.iTipoConsumidores > 0)
+                                sbHeader.Append($"Consumer :\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                            else
+                                sbHeader.Append($"Consumer :\t None");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.HoseConsumerPC}");
+                            sbHeader.Append($"Hose Consumer PC :\t {HelperTestBase.HoseConsumerPC}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.HoseConsumerSC}");
+                            sbHeader.Append($"Hose Consumer SC :\t {HelperTestBase.HoseConsumerSC}");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
-
-                            #endregion
 
                             break;
+
+                            #endregion
                         }
                     case 2:     //Force Diagrams - Force/Force With Vacuum
                     case 4:     //Force Diagrams - Force/Force Without Vacuum
@@ -16674,25 +16377,21 @@ namespace Continental.Project.Adam.UI.Helper
 
             return _helperTestBase;
         }
-        public StringBuilder AppendTxtData_Header_ActuationType()
-        {
-            if (this.AppUseSimulateLocal)
-                GetAppendTxtData_HeaderSIMULATE(HelperApp.uiTesteSelecionado);
-            else
-                GetAppendTxtData_Header(HelperApp.uiTesteSelecionado);
-
-            StringBuilder sbHeader = HelperTestBase.sbHeaderAppendTxtData;
-
-            return sbHeader;
-        }
         public StringBuilder AppendTxtData_Header_Results_CurverNames()
         {
-            if (this.AppUseSimulateLocal)
-                GetAppendTxtData_Header_Results_CurverNamesSIMULATE(HelperApp.uiTesteSelecionado);
-            else
+            StringBuilder sbHeaderResults = new StringBuilder();
+
+            try
+            {
                 GetAppendTxtData_Header_Results_CurverNames(HelperApp.uiTesteSelecionado);
 
-            StringBuilder sbHeaderResults = HelperTestBase.sbHeaderResultsAppendTxtData;
+                sbHeaderResults = HelperTestBase.sbHeaderResultsAppendTxtData;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }   
 
             return sbHeaderResults;
         }

@@ -431,42 +431,10 @@ namespace Continental.Project.Adam.UI.trash
         }
         public bool Append_Header_ActuationType(string path)
         {
-            File.AppendAllText(path, _helperApp.AppendTxtData_Header_ActuationType().ToString());
-
-            //using (MemoryStream ms = new MemoryStream())
-            //{
-            //    StreamWriter writer = new StreamWriter(ms);
-
-            //    var strAppendHeader = _helperApp.Acq_Header_ActuationType();
-
-            //    writer.WriteLine(strAppendHeader.ToString());
-            //    writer.Flush();
-
-            //    var taskAppendHeader = AppendLineToFileAsync(path, strAppendHeader.ToString(), "ActuationType");
-
-            //    //var taskAppendHeader = Task.Run(() => AppendLineToFileAsync(path, strAppendHeader.ToString(), "ActuationType").RunSynchronously());
-            //}
-
             return true;
         }
         public bool Append_Header_Results(string path)
         {
-            File.AppendAllText(path, _helperApp.AppendTxtData_Header_Results_CurverNames().ToString());
-
-            //using (MemoryStream ms = new MemoryStream())
-            //{
-            //    StreamWriter writer = new StreamWriter(ms);
-
-            //    var strAppendResults = _helperApp.Acq_Header_Results();
-
-            //    writer.WriteLine(strAppendResults.ToString());
-            //    writer.Flush();
-
-            //    // var taskAppendHeader = AppendLineToFileAsync(path, strAppendHeader.ToString(), "Results");
-
-            //    var taskAppendstrAppendResults = Task.Run(() => AppendLineToFileAsync(path, strAppendResults.ToString(), "Results").RunSynchronously());
-            //}
-
             return true;
         }
         public bool AppendData(string path)

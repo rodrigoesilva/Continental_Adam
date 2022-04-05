@@ -127,6 +127,7 @@ namespace Continental.Project.Adam.UI
         private string _notReadValue = "NaN";
         private string _initialDirPathTestFile = string.Empty;
         private string _prjTestFilename = string.Empty;
+        private string _prjTestHeaderFilename = string.Empty;
         private string _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
         private bool tab_TableResultsEnable = false;
@@ -287,7 +288,7 @@ namespace Continental.Project.Adam.UI
 
             LOG_BindViewEvents();
 
-            BindDataParam();
+            //BindDataParam();
 
             LOG_TestSequence(_helperApp.AppMsg_Welcome);
 
@@ -363,8 +364,9 @@ namespace Continental.Project.Adam.UI
                 #region Consumer
 
                 #region check box
-                HelperTestBase.radOriginalConsumer = rad_GeneralSettings_CBOriginalConsumer.Checked;
-                HelperTestBase.radHoseConsumer = rad_GeneralSettings_CBHoseConsumer.Checked;
+
+                HelperTestBase.iTipoConsumidores = rad_GeneralSettings_CBOriginalConsumer.Checked ? 1 : 2;
+
                 #endregion
 
                 #region HoseConsumer
@@ -462,6 +464,8 @@ namespace Continental.Project.Adam.UI
 
             mbtn_Actuation_Minus_E1ParForceGrad_Accel_L.Enabled = false;
             mbtn_Actuation_Plus_E1ParForceGrad_Accel_R.Enabled = false;
+
+            devChart.Visible = false;
         }
 
         private void EnableButtonStart()
@@ -511,7 +515,7 @@ namespace Continental.Project.Adam.UI
             {
                 bool bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
 
-                if (e.TabPage == tab_TableResults)
+                if (e.TabPage == tab_TableResults || e.TabPage == tab_Diagram)
                     if (!bTabAccessOk)
                         e.Cancel = true;
             }
@@ -533,18 +537,10 @@ namespace Continental.Project.Adam.UI
                     }
                 case 1://TAB_TableResult
                     {
-                        if (_helperApp.AppUseSimulateLocal)
-                        {
-                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
+                        TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
 
-                            TAB_TableResult_SetData();
-                        }
-                        else
-                        {
-                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
-
-                            TAB_TableResult_SetData();
-                        }
+                        if (!TAB_TableResult_SetData())
+                            MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error); ;
 
                         break;
                     }
@@ -580,26 +576,14 @@ namespace Continental.Project.Adam.UI
         #region TAB - Diagram_Chart
         public void TAB_DiagramChart_SetData()
         {
-            if (!_helperApp.AppUseSimulateLocal)
-                TAB_CPXVisu_Create();
+            if (HelperApp.uiTesteSelecionado != 0)
+            {
+                devChart.Visible = true;
+                //    if (!_bAppStart)
+                //    TXTFileHBM_LoadData();
+            }
             else
-                if (!_bAppStart)
-                    TXTFileHBM_LoadData();
-
-            //if (!_helperApp.AppUseSimulateLocal)
-            //{
-            //    var tabVisu = TAB_Main.TabPages["tab_CPX_Visu"];
-
-            //    if (tabVisu == null)
-            //    {
-            //        string urlVisuPMX = _helperCom.Modbus_ServerVisuUrl.ToString();
-
-            //        OpenURLInBrowser(urlVisuPMX);
-            //    }
-            //}
-            //else
-            //    if (!_bAppStart)
-            //    TXTFileHBM_LoadData();
+                MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);            
         }
         private void OpenURLInBrowser(string url)
         {
@@ -625,10 +609,10 @@ namespace Continental.Project.Adam.UI
 
                 TAB_Main.ResumeLayout(true);
             }
-            catch (UriFormatException ex)
+            catch (Exception ex)
             {
-                var err = ex.Message;
-                return;
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
             }
         }
 
@@ -637,22 +621,42 @@ namespace Continental.Project.Adam.UI
         #region TAB - TableResults
 
         #region TAB - TableResults - Common
-        private void TAB_TableResult_SetData()
+        private bool TAB_TableResult_SetData()
         {
-            if (HelperApp.uiTesteSelecionado != 0)
+            try
             {
-                var metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mpnl_Table_GivingOut");
-
-                var lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
-
-                if (lstChk.Count() == 0)
+                if (HelperApp.uiTesteSelecionado != 0)
                 {
+                    Control metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mpnl_Table_GivingOut");
+
+                    IOrderedEnumerable<Control> lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
+
+
+                    //clear checkbox
+                    lstChk.ForEach(item => metroPnl.Controls.Remove(item));
+
                     if (!TAB_TableResults_Grid_GetData(HelperApp.uiTesteSelecionado.ToString()))
                         MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+                else
+                {
+                    MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                    return false;
+                }
             }
-            else
-                MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                return false;
+            }
+
+            return true;
         }
 
         #endregion
@@ -695,6 +699,9 @@ namespace Continental.Project.Adam.UI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
                 return false;
             }
 
@@ -1323,7 +1330,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor //slow ou emotor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1338,7 +1345,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1353,7 +1360,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1368,7 +1375,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1388,7 +1395,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1403,7 +1410,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1418,7 +1425,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1433,7 +1440,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1448,7 +1455,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1463,7 +1470,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1478,7 +1485,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 2) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1493,7 +1500,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1508,7 +1515,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1523,7 +1530,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1538,7 +1545,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1553,7 +1560,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1568,7 +1575,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1583,7 +1590,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1598,7 +1605,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1613,7 +1620,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1628,7 +1635,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 2) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1643,7 +1650,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1658,7 +1665,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1673,7 +1680,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1688,7 +1695,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1703,7 +1710,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1718,7 +1725,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1733,7 +1740,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
                                 {
-                                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                     mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
@@ -1751,8 +1758,11 @@ namespace Continental.Project.Adam.UI
                 }
                 else
                 {
-                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    if (HelperApp.uiTesteSelecionado != 5)
+                    {
+                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
                 }
             }
         }
@@ -1879,7 +1889,7 @@ namespace Continental.Project.Adam.UI
 
                     DisableButtonStart();
 
-                    MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Warning, Change SelectTest invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 else
@@ -1945,7 +1955,7 @@ namespace Continental.Project.Adam.UI
 
                 _bCoBSelectTestSelected = false;
 
-                MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Warning, Set SelectTest invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             else
@@ -2018,24 +2028,58 @@ namespace Continental.Project.Adam.UI
         #region TAB - ActuationParameters - General Settings - Chk Output
         private void rad_EvaluationParameters_CBOutputPC_CheckedChanged(object sender, EventArgs e)
         {
-            int statusCheck = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : 0;
+            try
+            {
+                if (rad_EvaluationParameters_CBOutputPC.Checked)
+                {
+                    int statusCheck = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : 0;
 
-            _modelGVL.GVL_Parametros.iOutput = statusCheck;
+                    _modelGVL.GVL_Parametros.iOutput = statusCheck;
 
-            HelperTestBase.Model_GVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
+                    HelperTestBase.Model_GVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
 
-            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wOutput }, Convert.ToDouble(_modelGVL.GVL_Parametros.iOutput));
+                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wOutput }, Convert.ToDouble(_modelGVL.GVL_Parametros.iOutput));
+
+                    if (_helperApp.lstDblReturnReadFile[0] != null && !HelperTestBase.Model_GVL.GVL_Graficos.bDadosCalculados)
+                        if (!_helperApp.AppUseSimulateLocal)
+                            TXTFileHBM_LoadData();
+                        else
+                            TXTFileHBM_LoadData_AppUseSimulateLocal();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void rad_EvaluationParameters_CBOutputSC_CheckedChanged(object sender, EventArgs e)
         {
-            int statusCheck = rad_EvaluationParameters_CBOutputSC.Checked ? 2 : 0;
+            try
+            {
+                if (rad_EvaluationParameters_CBOutputSC.Checked)
+                {
+                    int statusCheck = rad_EvaluationParameters_CBOutputSC.Checked ? 2 : 0;
 
-            _modelGVL.GVL_Parametros.iOutput = statusCheck;
+                    _modelGVL.GVL_Parametros.iOutput = statusCheck;
 
-            HelperTestBase.Model_GVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
+                    HelperTestBase.Model_GVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
 
-            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wOutput }, Convert.ToDouble(_modelGVL.GVL_Parametros.iOutput));
+                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wOutput }, Convert.ToDouble(_modelGVL.GVL_Parametros.iOutput));
+
+                    if (_helperApp.lstDblReturnReadFile[0] != null &&  !HelperTestBase.Model_GVL.GVL_Graficos.bDadosCalculados)
+                        if (!_helperApp.AppUseSimulateLocal)
+                            TXTFileHBM_LoadData();
+                        else
+                            TXTFileHBM_LoadData_AppUseSimulateLocal();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         #endregion
@@ -2074,11 +2118,16 @@ namespace Continental.Project.Adam.UI
                 {
                     mtxt_GeneralSettings_EParGenVaccum.Text = dblValue.ToString("N2");
 
-                    mtxt_GeneralSettings_EParGenVaccumMin.Text = (dblValue < 0 ? (dblValue + 0.02) : (dblValue - 0.02)).ToString("N2");
-                    mtxt_GeneralSettings_EParGenVaccumMax.Text = (dblValue < 0 ? (dblValue - 0.02) : (dblValue + 0.02)).ToString("N2");
+                    HelperTestBase.VacuumMin = (dblValue < 0 ? (dblValue + 0.02) : (dblValue - 0.02));
+                    HelperTestBase.VacuumMax = (dblValue < 0 ? (dblValue - 0.02) : (dblValue + 0.02));
+
+                    mtxt_GeneralSettings_EParGenVaccumMin.Text = HelperTestBase.VacuumMin.ToString("N2");
+                    mtxt_GeneralSettings_EParGenVaccumMax.Text = HelperTestBase.VacuumMax.ToString("N2");
 
                     //para conversao plc
                     dblValue = (dblValue * -1);
+
+                    HelperTestBase.Vacuum = dblValue;
 
                     _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwVacuoNominal_Bar_LW }, dblValue);
                 }
@@ -2195,7 +2244,9 @@ namespace Continental.Project.Adam.UI
         {
             int statusCheck = rad_GeneralSettings_CBOriginalConsumer.Checked ? 1 : 0;
 
-            _modelGVL.GVL_Parametros.iTipoConsumidores = statusCheck;
+            HelperTestBase.iTipoConsumidores = statusCheck;
+
+            _modelGVL.GVL_Parametros.iTipoConsumidores = HelperTestBase.iTipoConsumidores;
 
             _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoConsumidores }, Convert.ToDouble(_modelGVL.GVL_Parametros.iTipoConsumidores));
         }
@@ -2203,7 +2254,9 @@ namespace Continental.Project.Adam.UI
         {
             int statusCheck = rad_GeneralSettings_CBHoseConsumer.Checked ? 2 : 0;
 
-            _modelGVL.GVL_Parametros.iTipoConsumidores = statusCheck;
+            HelperTestBase.iTipoConsumidores = statusCheck;
+
+            _modelGVL.GVL_Parametros.iTipoConsumidores = HelperTestBase.iTipoConsumidores;
 
             _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoConsumidores }, Convert.ToDouble(_modelGVL.GVL_Parametros.iTipoConsumidores));
         }
@@ -2222,6 +2275,8 @@ namespace Continental.Project.Adam.UI
                     rad_GeneralSettings_CBHoseConsumer.Checked = false;
                     break;
             }
+
+            HelperTestBase.iTipoConsumidores = iConsumerType;
 
             HelperMODBUS.CS_wTipoConsumidores = iConsumerType;
 
@@ -2253,7 +2308,9 @@ namespace Continental.Project.Adam.UI
             else
                 dblValue = Convert.ToDouble(strStatusCheck.Replace(",", "."));
 
-            _modelGVL.GVL_Parametros.bHabilitaTravaPistao = Convert.ToBoolean(strStatusCheck);
+            HelperTestBase.chkPistonLock = Convert.ToBoolean(strStatusCheck);
+
+            _modelGVL.GVL_Parametros.bHabilitaTravaPistao = HelperTestBase.chkPistonLock;
 
             _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wHabilitaTravaPistao }, dblValue);
         }
@@ -4444,13 +4501,12 @@ namespace Continental.Project.Adam.UI
                 if (tabVisu == null)
                     TAB_CPXVisu_SetData();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
         }
-
         private void TAB_CPXVisu_SetData()
         {
             try
@@ -4459,12 +4515,13 @@ namespace Continental.Project.Adam.UI
 
                 OpenURLInBrowser(urlVisuPMX);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
         }
+
         #endregion
 
         #endregion
@@ -4795,8 +4852,6 @@ namespace Continental.Project.Adam.UI
 
             #region Actuation Parameters
 
-            _helperApp.GetAppendTxtData_Header(HelperApp.uiTesteSelecionado);
-
             //if (!_helperApp.TabActionParameters_GetEvaluationParam(HelperApp.uiTesteSelecionado))
             //{
             //    MessageBox.Show("Parameters_GetEvaluationParam Failed !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -5058,6 +5113,8 @@ namespace Continental.Project.Adam.UI
                         HelperTestBase.currentProjectTest.is_OnLIne = true;
 
                         TXTFileHBM_LoadData();
+
+                        TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, _modelGVL);
                     }
                 }
             }
@@ -5189,7 +5246,7 @@ namespace Continental.Project.Adam.UI
 
                         _bCoBSelectTestSelected = false;
 
-                        MessageBox.Show("Warning, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Warning, Load Data invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
                     else
@@ -5237,8 +5294,17 @@ namespace Continental.Project.Adam.UI
                             {
                                 LOG_TestSequence("TESTE CALC CONCLUDED");
 
-                                if (!CHART_LoadActualTestComplete())
-                                    MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                if (!TAB_TableResult_SetData())
+                                    MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                else
+                                {
+                                    if (!CHART_LoadActualTestComplete())
+                                        MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    //if (!ReportPDF())
+                                    //    MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                    // ChartPointsAnnottion(HelperTestBase.Model_GVL.GVL_Graficos);
+                                }
 
                                 if (tab_TableResultsEnable)
                                 {
@@ -5257,8 +5323,6 @@ namespace Continental.Project.Adam.UI
 
                                 //if (TAB_Main.SelectedIndex != 0)
                                 //    TAB_Main_ActivePage(0);
-
-                                //InsertHeaderToFile(_helperApp.lstStrReturnReadFileLines);
 
                                 LOG_TestSequence("TESTE SEQUENCE STOP AND CONCLUDED");
                             }
@@ -5333,12 +5397,16 @@ namespace Continental.Project.Adam.UI
                         }
                         else
                         {
+                            HelperTestBase.Model_GVL = _modelGVL;
+
                             LOG_TestSequence("TESTE CALC CONCLUDED");
 
-                            if (!CHART_LoadActualTestComplete())
-                                MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            if (!TAB_TableResult_SetData())
+                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else
                             {
+                                if (!CHART_LoadActualTestComplete())
+                                    MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 //if (!ReportPDF())
                                 //    MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -5360,46 +5428,49 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TXT File Header
-        public bool TXTFileHBM_InsertHeader(List<string> lstFiledata)
+        private void TXTFileHBM_HeaderCreate(List<string> lstFiledata, Model_GVL model_GVL)
         {
-            #region Name File Test
-
-            string testTypeName = HelperApp.uiTesteSelecionado == 0 ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperTestBase.eExamType.ToString()).ToString() : EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString();
-
-            string testIdentName = "HBM_SaveAquisitionTxtData";
-
-            string prjTestFilename = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension);
-
-            _prjTestFilename = Path.Combine(_initialDirPathTestFile, prjTestFilename);
-
-            #endregion
-
-            #region WRite File Test
-
             try
             {
+                #region Header Name File Test
+
+                string strHeader = "HBM_AquisitionHeader";
+
+                string strHeaderTestFilename = string.Concat( _prjTestFilename, "#", strHeader, _helperApp.AppTests_DefaultExtension);
+
+                _prjTestHeaderFilename = Path.Combine(_initialDirPathTestFile, strHeaderTestFilename);
+
+                #endregion
+
                 if (!_helperApp.CheckFileExists(_prjTestFilename))
                 {
+                    if (!_helperApp.CheckFileExists(_prjTestHeaderFilename))
+                    {
 
-                    lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
+                        lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
 
-                    var strSbHeader = String.Concat(_helperApp.AppendTxtData_Header_ActuationType().ToString(), Environment.NewLine);
+                        _helperApp.TXTFileHBM_HeaderAppendData(HelperApp.uiTesteSelecionado, model_GVL);
 
-                    sbDataFile.Insert(0, strSbHeader);
+                        if (!string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
+                        {
+                            var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
 
-                    string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
+                            sbDataFile.Insert(0, strSbHeader);
 
-                    sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
+                            string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
 
-                    ////Create File Acquisition
-                    _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
-                    File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
-                    //File.AppendAllText(_prjTestFilename, sbDataFile.ToString());
+                            sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
 
-                    //List<string>[] lstStrChReadFileArr = new List<string>[5];
+                            ////Create File Acquisition
+                            _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
+                            File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
+                        }
+                    }
+                    else
+                        MessageBox.Show("Failed, Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
-                    MessageBox.Show("Failed, Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Test file NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (DirectoryNotFoundException dirNotFoundException)
             {
@@ -5424,13 +5495,89 @@ namespace Continental.Project.Adam.UI
                 var err = string.Concat("Exception : ", ex.Message);
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
 
-            #endregion
+        public bool TXTFileHBM_HeaderInsert(List<string> lstFiledata)
+        {
+            try
+            {
+                #region Name File Test
 
-            //clean data test file
-            sbexterno.Clear();
+                string testTypeName = HelperApp.uiTesteSelecionado == 0 ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperTestBase.eExamType.ToString()).ToString() : EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString();
 
-            HelperTestBase.currentProjectTest.PrjTestFileName = _prjTestFilename;
+                string testIdentName = "HBM_SaveAquisitionTxtData";
+
+                string prjTestFilename = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension);
+
+                _prjTestFilename = Path.Combine(_initialDirPathTestFile, prjTestFilename);
+
+                #endregion
+
+                #region WRite File Test
+
+                try
+                {
+                    if (!_helperApp.CheckFileExists(_prjTestFilename))
+                    {
+
+                        lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
+
+                       // _helperApp.TXTFileHBM_HeaderAppendData(HelperApp.uiTesteSelecionado, model_GVL);
+
+                        if (!string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
+                        {
+                            var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
+
+                            sbDataFile.Insert(0, strSbHeader);
+
+                            string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
+
+                            sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
+
+                            ////Create File Acquisition
+                            _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
+                            File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
+                        }
+                    }
+                    else
+                        MessageBox.Show("Failed, Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (DirectoryNotFoundException dirNotFoundException)
+                {
+                    var err = string.Concat("DirectoryNotFoundException : ", dirNotFoundException.Message);
+                    MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Show a message to the user
+                }
+                catch (UnauthorizedAccessException unauthorizedAccessException)
+                {
+                    var err = string.Concat("UnauthorizedAccessException : ", unauthorizedAccessException.Message);
+                    MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Show a message to the user
+                }
+                catch (IOException ioException)
+                {
+                    var err = string.Concat("IOException : ", ioException.Message);
+                    MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Show a message to the user
+                }
+                catch (Exception ex)
+                {
+                    var err = string.Concat("Exception : ", ex.Message);
+                    MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                #endregion
+
+                //clean data test file
+                sbexterno.Clear();
+
+                HelperTestBase.currentProjectTest.PrjTestFileName = _prjTestFilename;
+            }
+            catch (Exception ex)
+            {
+                var err = string.Concat("Exception : ", ex.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             return HelperTestBase.currentProjectTest.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
         }
@@ -5526,6 +5673,41 @@ namespace Continental.Project.Adam.UI
             chart.Titles.Clear();
             chart.Series.Clear();
         }
+
+        private void CHART_ClearAxes(XYDiagram diagram)
+        {
+            int iValueDeafult = 0;
+            string strValueDefault = string.Empty;
+            Color colorValueDefault = Color.Black;
+
+            #region AXES - X
+
+            diagram.AxisX.Title.Text = strValueDefault;
+            diagram.AxisX.Title.TextColor = colorValueDefault;
+            diagram.AxisX.Label.TextColor = colorValueDefault;
+
+            diagram.AxisX.VisualRange.MinValue = iValueDeafult;
+            diagram.AxisX.VisualRange.MaxValue = iValueDeafult;
+            diagram.AxisX.Range.MinValue = iValueDeafult;
+            diagram.AxisX.Range.MaxValue = iValueDeafult;
+
+            #endregion
+
+            #region AXES - Y
+
+            diagram.AxisY.Title.Text = strValueDefault;
+            diagram.AxisY.Title.TextColor = colorValueDefault;
+            diagram.AxisY.Label.TextColor = colorValueDefault;
+            diagram.AxisY.Color = colorValueDefault;
+
+            diagram.AxisY.VisualRange.MinValue = iValueDeafult;
+            diagram.AxisY.VisualRange.MaxValue = iValueDeafult;
+            diagram.AxisY.Range.MinValue = iValueDeafult;
+            diagram.AxisY.Range.MaxValue = iValueDeafult;
+
+            #endregion
+        }
+
         private bool CHART_LoadActualTestComplete()
         {
             try
@@ -5551,8 +5733,8 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        if (!CHART_ExportImage())
-                            MessageBox.Show("Failed, Chart Export !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //if (!CHART_ExportImage())
+                        //    MessageBox.Show("Failed, Chart Export !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         // ChartPointsAnnottion(HelperTestBase.Model_GVL.GVL_Graficos);
                     }
@@ -5626,6 +5808,9 @@ namespace Continental.Project.Adam.UI
                             MessageBox.Show("Failed, loading XYDiagram !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         else
                         {
+
+                            CHART_ClearAxes(diagram);
+
                             #region Zoom
 
                             // Access the type-specific options of the diagram.
@@ -5637,24 +5822,21 @@ namespace Continental.Project.Adam.UI
 
                             #region AXES - X
 
-                            ////  ///AXES X
-                            //diagram.AxisX.VisualRange.MinValue = diagram.AxisX.GetScaleValueFromInternal(0);
-                            //diagram.AxisX.VisualRange.MaxValue = diagram.AxisX.GetScaleValueFromInternal(4);
+                             Color setColor = Color.Black;
+
+                            //diagram.AxisX.Title.EnableAntialiasing = DefaultBoolean.False;
+                            //diagram.AxisX.Title.Font = new Font("Tahoma", 8, FontStyle.Regular);
+
+                            diagram.AxisX.Title.Text = chartGVL.strNomeEixoX;  //@"nome eixo X";
+                            diagram.AxisX.Title.Visibility = DefaultBoolean.True;
+                            diagram.AxisX.Title.TextColor = setColor;
+                            diagram.AxisX.Label.TextColor = setColor;
 
                             diagram.AxisX.VisualRange.Auto = false;
                             diagram.AxisX.VisualRange.MinValue = chartGVL.EixoX.rMin;
                             diagram.AxisX.VisualRange.MaxValue = chartGVL.EixoX.rMax;
                             diagram.AxisX.Range.MinValue = chartGVL.EixoX.rMin;
                             diagram.AxisX.Range.MaxValue = chartGVL.EixoX.rMax;
-
-                            diagram.AxisX.Title.EnableAntialiasing = DefaultBoolean.False;
-                            //diagram.AxisX.Title.Font = new Font("Tahoma", 8, FontStyle.Regular);
-                            diagram.AxisX.Title.Text = chartGVL.strNomeEixoX;  //@"nome eixo X";
-                            diagram.AxisX.Title.TextColor = Color.Black;
-                            diagram.AxisX.Label.TextColor = Color.Black;
-                            diagram.AxisX.VisualRange.Auto = false;
-                            diagram.AxisX.Title.Visibility = DefaultBoolean.True;
-
 
                             diagram.AxisX.DateTimeScaleOptions.MeasureUnit = DateTimeMeasureUnit.Minute;
                             //diagram.AxisX.Label.TextPattern = @"d.M";
@@ -5685,14 +5867,16 @@ namespace Continental.Project.Adam.UI
 
                             #region Y01 - Blue
 
-                            Color setColor = devChart.Series[0].View.Color;
+                            setColor = devChart.Series[0].View.Color;
 
                             //diagram.AxisY.Title.EnableAntialiasing = DefaultBoolean.False;
                             //diagram.AxisY.Title.Font = new Font("Tahoma", 8, FontStyle.Regular);
+
                             diagram.AxisY.Title.Text = chartGVL.iOutput == 2 ? chartGVL.strNomeEixoY2 : chartGVL.strNomeEixoY1;
                             diagram.AxisY.Title.Visibility = DefaultBoolean.True;
                             diagram.AxisY.Title.TextColor = setColor;
                             diagram.AxisY.Label.TextColor = setColor;
+
                             diagram.AxisY.Alignment = AxisAlignment.Near;
                             diagram.AxisY.Color = setColor;
 
@@ -7320,9 +7504,12 @@ namespace Continental.Project.Adam.UI
 
                 #region CONSUMERS INFO
 
-                mtxt_GeneralSettings_ETubeConsumerPCPressSide.Text = HelperMODBUS.CS_wSomaConsumidoresCP.ToString();
+                HelperTestBase.HoseConsumerPC = HelperMODBUS.CS_wSomaConsumidoresCP;
+                HelperTestBase.HoseConsumerSC = HelperMODBUS.CS_wSomaConsumidoresCS;
 
-                mtxt_GeneralSettings_ETubeConsumerSCPressSide.Text = HelperMODBUS.CS_wSomaConsumidoresCS.ToString();
+                mtxt_GeneralSettings_ETubeConsumerPCPressSide.Text = HelperTestBase.HoseConsumerPC.ToString();
+
+                mtxt_GeneralSettings_ETubeConsumerSCPressSide.Text = HelperTestBase.HoseConsumerSC.ToString();
 
                 #endregion
 
@@ -8941,11 +9128,15 @@ namespace Continental.Project.Adam.UI
             //accessbase.Refresh();
         }
 
+        private void mTile_LCurrentSelectedTest_Click(object sender, EventArgs e)
+        {
+            if (_helperApp.AppUseSimulateLocal)
+                if (!_bAppStart)
+                    TXTFileHBM_LoadData_AppUseSimulateLocal();
+        }
 
         #endregion
 
         #endregion
-
-
     }
 }

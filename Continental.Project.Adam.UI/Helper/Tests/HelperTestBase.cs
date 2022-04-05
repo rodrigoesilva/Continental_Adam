@@ -157,6 +157,7 @@ namespace Continental.Project.Adam.UI.Helper.Tests
 
         private static bool _radOriginalConsumer;
         private static bool _radHoseConsumer;
+        private static int _iTipoConsumidores;
 
         //get e set
         public static bool radOriginalConsumer
@@ -168,6 +169,12 @@ namespace Continental.Project.Adam.UI.Helper.Tests
         {
             get { return HelperTestBase._radHoseConsumer; }
             set { HelperTestBase._radHoseConsumer = value; }
+        }
+
+        public static int iTipoConsumidores
+        {
+            get { return HelperTestBase._iTipoConsumidores; }
+            set { HelperTestBase._iTipoConsumidores = value; }
         }
 
         #endregion
