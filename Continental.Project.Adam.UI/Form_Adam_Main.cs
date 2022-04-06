@@ -126,8 +126,11 @@ namespace Continental.Project.Adam.UI
 
         private string _notReadValue = "NaN";
         private string _initialDirPathTestFile = string.Empty;
+
         private string _prjTestFilename = string.Empty;
         private string _prjTestHeaderFilename = string.Empty;
+        private string _prjTestFilenameUnion = string.Empty;
+
         private string _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
         private bool tab_TableResultsEnable = false;
@@ -5551,14 +5554,17 @@ namespace Continental.Project.Adam.UI
                 #region Header Name File Test
 
                 string strHeader = "HBM_AquisitionHeader";
+                string strUnion = "HBM_AquisitionUnion";
 
                 _prjTestFilename = !string.IsNullOrEmpty(_prjTestFilename) ? _prjTestFilename : HelperTestBase.currentProjectTest.PrjTestFileName;
 
                 string strFileName = _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
                 string strHeaderTestFilename = string.Concat(strFileName.Replace("HBM_SaveAquisitionTxtData", string.Empty), strHeader, _helperApp.AppTests_DefaultExtension);
+                string strTestFilenameUnion = string.Concat(strFileName.Replace("HBM_SaveAquisitionTxtData", string.Empty), strUnion, _helperApp.AppTests_DefaultExtension);
 
                 _prjTestHeaderFilename = Path.Combine(_initialDirPathTestFile, strHeaderTestFilename);
+                _prjTestFilenameUnion = Path.Combine(_initialDirPathTestFile, strTestFilenameUnion);
 
                 #endregion
 
@@ -5575,28 +5581,18 @@ namespace Continental.Project.Adam.UI
                         {
                             var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
 
-                           File.WriteAllText(_prjTestHeaderFilename, strSbHeader.ToString());
-
                             _helperApp.TXTFileHBM_HeaderAppendTableResults(HelperApp.uiTesteSelecionado).ToString();
 
                             string strSbHeaderResults_CurverNames = String.Concat(HelperTestBase.sbHeaderResultsAppendTxtData, Environment.NewLine);
-
-                            File.WriteAllText(Path.Combine(_initialDirPathTestFile, "curves.txt"), strSbHeaderResults_CurverNames.ToString());
 
                             var strUnionHeader = string.Concat(strSbHeader, strSbHeaderResults_CurverNames);
 
                             var strUnionAll = string.Concat(strUnionHeader, sbDataFile.ToString());
 
-                            //sbDataFile.Insert(0, strUnion);
-
-                            //sbDataFile.Insert(iLineInsert, strSbHeaderResults_CurverNames);
-
                             ////Create File Acquisition
-                            _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
+                            File.WriteAllText(_prjTestHeaderFilename, strUnionHeader);
 
-                            File.WriteAllText(_prjTestHeaderFilename, strUnionAll);
-
-                           // File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
+                            File.WriteAllText(_prjTestFilenameUnion, strUnionAll);
                         }
                     }
                     else

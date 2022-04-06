@@ -14229,21 +14229,21 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #region StringBuilder TxtData_Header - Project Info
 
-                string strVarProj = string.Empty;
+                string strVarProj = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss", CultureInfo.InvariantCulture); // string.Empty;
 
-                sbHeader.Append($"Ident # \t\t :\t {strVarProj}");
+                sbHeader.Append($"Ident #\t\t\t :\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Customer/Type \t :\t {strVarProj}");
+                sbHeader.Append($"Customer/Type\t :\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Booster # \t :\t {strVarProj}");
+                sbHeader.Append($"Booster #\t\t :\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"TMC # \t\t :\t {strVarProj}");
+                sbHeader.Append($"TMC #\t\t\t :\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Production Date \t :\t {strVarProj}");
+                sbHeader.Append($"Production Date\t :\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Testing Date \t :\t {strVarProj}");
+                sbHeader.Append($"Testing Date\t :\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Operator \t :\t {strVarProj}");
+                sbHeader.Append($"Operator\t\t :\t{strVarProj}");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"\r\n");
 
@@ -14264,22 +14264,22 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"Vacuum (max) \t :\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t :\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                            sbHeader.Append($"Vacuum  \t\t :\t {Math.Round(HelperTestBase.Vacuum, 2)}");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"Lock Piston \t :\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t :\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                            sbHeader.Append($"Gradient \t\t :\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t :\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                            sbHeader.Append($"Max. Force \t\t :\t {Math.Round(HelperTestBase.MaxForce, 2)}");
                             sbHeader.Append($"\r\n");
                             if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t :\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                sbHeader.Append($"Consumer \t\t :\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
                             else
                                 sbHeader.Append($"Consumer \t :\t None");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC \t :\t {HelperTestBase.HoseConsumerPC}");
+                            sbHeader.Append($"Hose Consumer PC :\t {HelperTestBase.HoseConsumerPC}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC \t :\t {HelperTestBase.HoseConsumerSC}");
+                            sbHeader.Append($"Hose Consumer SC :\t {HelperTestBase.HoseConsumerSC}");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
 
