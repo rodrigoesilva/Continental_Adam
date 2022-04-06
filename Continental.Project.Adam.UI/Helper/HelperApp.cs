@@ -17013,19 +17013,16 @@ namespace Continental.Project.Adam.UI.Helper
             get { return HelperApp._lstResultParam; }
             set { HelperApp._lstResultParam = value; }
         }
-
         public static List<Model_Operational_TestTableParameters> lstTempResultParam
         {
             get { return HelperApp._lstTempResultParam; }
             set { HelperApp._lstTempResultParam = value; }
         }
-
         public static List<Model_Operational_TestTableParameters> lstResultParamFormated
         {
             get { return HelperApp._lstResultParamFormated; }
             set { HelperApp._lstResultParamFormated = value; }
         }
-
         public static Dictionary<string, string> dicResultParam
         {
             get { return HelperApp._dicResultParam; }

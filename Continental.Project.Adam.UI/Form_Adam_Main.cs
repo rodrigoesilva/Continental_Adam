@@ -5460,65 +5460,81 @@ namespace Continental.Project.Adam.UI
 
                 #region load data
 
-                if (!string.IsNullOrEmpty(pathWithFileName))
-                    lstStrChReadFileArr = _helperApp.ReadExistTestFileTextArrNew(fileName, pathWithFileName);
-
-                if (lstStrChReadFileArr[0].Count() > 0)
+                if (string.IsNullOrEmpty(fileName))
                 {
-                    lstDblChReadFileArr = _helperApp.lstDblReturnReadFile;
-
-                    #region CALC TEST
-
-                    bool breturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
-
-                    if (!breturnCalcStep)
-                    {
-                        string strMsg = "Failed, calc step test -  not calculated !";
-
-                        LOG_TestSequence(strMsg);
-
-                        MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
-                    }
-                    else
-                        _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
-
-                    #endregion
-
-                    if (!_modelGVL.GVL_Graficos.bDadosCalculados)
-                    {
-                        string strMsg = "Failed, test information not calculated !";
-
-                        LOG_TestSequence(strMsg);
-
-                        MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
-                    }
-                    else
-                    {
-                        LOG_TestSequence("TESTE CALC CONCLUDED");
-
-                        if (!TAB_TableResult_SetData())
-                            MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        else
-                        {
-                            if (!CHART_LoadActualTestComplete())
-                                MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-
-                        tab_TableResultsEnable = false;
-                        HelperTestBase.currentProjectTest.is_Created = true;
-
-                        if (_modelGVL.GVL_Graficos.bDadosCalculados)
-                            HelperTestBase.Model_GVL = _modelGVL;
-
-                        LOG_TestSequence("TESTE SEQUENCE STOP AND CONCLUDED");
-                    }
+                    MessageBox.Show("Failed, error path project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
                 }
                 else
                 {
-                    MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
+                    string[] strArray = Regex.Replace(fileName, @"\n|\r|", "").Split(char.Parse("#"));
+
+                    if (strArray.Length > 1)
+                    {
+                        HelperApp.uiTesteSelecionado = Convert.ToInt32(strArray[1]);
+                        HelperTestBase.currentProjectTest.TestingDate = strArray[0].ToString();
+                        HelperTestBase.currentProjectTest.Identification = strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension,string.Empty);
+                    }
+
+                    lstStrChReadFileArr = _helperApp.ReadExistTestFileTextArrNew(fileName, pathWithFileName);
+
+                    if (lstStrChReadFileArr[0].Count() > 0)
+                    {
+                        lstDblChReadFileArr = _helperApp.lstDblReturnReadFile;
+
+                        #region CALC TEST
+
+                        bool breturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
+
+                        if (!breturnCalcStep)
+                        {
+                            string strMsg = "Failed, calc step test -  not calculated !";
+
+                            LOG_TestSequence(strMsg);
+
+                            MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                        else
+                            _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
+
+                        #endregion
+
+                        if (!_modelGVL.GVL_Graficos.bDadosCalculados)
+                        {
+                            string strMsg = "Failed, test information not calculated !";
+
+                            LOG_TestSequence(strMsg);
+
+                            MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                        else
+                        {
+                            LOG_TestSequence("TESTE CALC CONCLUDED");
+
+                            if (!TAB_TableResult_SetData())
+                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else
+                            {
+                                if (!CHART_LoadActualTestComplete())
+                                    MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+
+                            tab_TableResultsEnable = false;
+                            HelperTestBase.currentProjectTest.is_Created = true;
+
+                            if (_modelGVL.GVL_Graficos.bDadosCalculados)
+                                HelperTestBase.Model_GVL = _modelGVL;
+
+                            LOG_TestSequence("TESTE SEQUENCE STOP AND CONCLUDED");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
                 }
                 #endregion
             }
@@ -9064,6 +9080,5 @@ namespace Continental.Project.Adam.UI
                             MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
         }
-
     }
 }
