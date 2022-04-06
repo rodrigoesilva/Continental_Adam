@@ -5239,15 +5239,22 @@ namespace Continental.Project.Adam.UI
                         {
                             _modelGVL = HelperTestBase.Model_GVL;
 
-                            TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL);
+                            if(TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL))
+                            {
+                                if (TEST_Concluded_SaveData())
+                                {
+                                    tab_TableResultsEnable = true;
 
-                            tab_TableResultsEnable = true;
-
-                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                                    TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                                }
+                                else
+                                    MessageBox.Show("Error TEST_Concluded_SaveData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else
+                                MessageBox.Show("Error TXTFileHBM_HeaderCreate, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
                             MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
                     }
                 }
             }
@@ -5257,7 +5264,46 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
         }
-        private void TEST_Concluded_DeleteData()
+        private bool TEST_Concluded_SaveData()
+        {
+            try
+            {
+                BLL_Operational_Project bll_Project = new BLL_Operational_Project();
+
+                Model_Operational_Project_TestConcluded modelPrjTestConcluded = new Model_Operational_Project_TestConcluded();
+
+                modelPrjTestConcluded = new Model_Operational_Project_TestConcluded()
+                {
+                    IdProject = HelperTestBase.currentProjectTest.IdProject,
+                    IdTestAvailable = HelperApp.uiTesteSelecionado,
+                    TestDateTime = HelperTestBase.currentProjectTest.TestingDate,
+                    TestTypeName = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString(),
+                    TestIdentName = HelperTestBase.currentProjectTest.Identification,
+                    LastUpdate = DateTime.Now
+                };
+
+                int idProjectTestConcludedInsert = bll_Project.AddProjectTestConcluded(modelPrjTestConcluded);
+
+                if (idProjectTestConcludedInsert > 0)
+                {
+                    //HelperApp.uiProjectSelecionado = idProjectInsert;
+                   // HelperTestBase.currentProjectTest = modelPrjTestConcluded;
+                }
+                else
+                {
+                    MessageBox.Show("Failed, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+                throw;
+            }
+
+            return true;
+        }
+        private bool TEST_Concluded_DeleteData()
         {
             try
             {
@@ -5266,8 +5312,11 @@ namespace Continental.Project.Adam.UI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
                 throw;
             }
+
+            return true;
         }
 
         #endregion
@@ -5281,11 +5330,15 @@ namespace Continental.Project.Adam.UI
         {
             #region Name File Test
 
+            string testDate = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             string testTypeName = HelperApp.uiTesteSelecionado == 0 ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperTestBase.eExamType.ToString()).ToString() : EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString();
 
             string testIdentName = "HBM_SaveAquisitionTxtData";
 
-            string prjTestFilename = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension);
+            string prjTestFilename = string.Concat(testDate, "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension);
+
+            HelperTestBase.currentProjectTest.TestingDate = testDate;
+            HelperTestBase.currentProjectTest.Identification = testIdentName;
 
             _prjTestFilename = Path.Combine(_initialDirPathTestFile, prjTestFilename);
 
@@ -5478,89 +5531,6 @@ namespace Continental.Project.Adam.UI
             }
 
             return true;
-        }
-        private void TXTFileHBM_LoadData_AppUseSimulateLocal()
-        {
-            OpenFileDialog theDialog = new OpenFileDialog();
-            theDialog.Title = "Open Text File";
-            theDialog.Filter = "TXT files|*.txt;*.tst";
-            theDialog.InitialDirectory = string.Concat(_initialDirPathTestFile, "texst.txt");
-            try
-            {
-                if (theDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string fileName = theDialog.SafeFileName;
-
-                    var pathWithFileName = theDialog.FileName;
-
-                    HelperTestBase.currentProjectTest.PrjTestFileName = pathWithFileName;
-
-                    if (!string.IsNullOrEmpty(pathWithFileName))
-                        lstStrChReadFileArr = _helperApp.ReadExistTestFileTextArrNew(fileName, pathWithFileName);
-
-                    if (lstStrChReadFileArr[0].Count() > 0)
-                    {
-                        lstDblChReadFileArr = _helperApp.lstDblReturnReadFile;
-
-                        HelperApp.uiTesteSelecionado = HelperApp.uiTesteSelecionado == 0 ? 1 : HelperApp.uiTesteSelecionado;
-
-                        #region CALC TEST
-
-                        bool breturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
-
-                        if (!breturnCalcStep)
-                        {
-                            string strMsg = "Failed, calc step test -  not calculated !";
-
-                            LOG_TestSequence(strMsg);
-
-                            MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        else
-                            _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
-
-                        #endregion
-
-                        if (!_modelGVL.GVL_Graficos.bDadosCalculados)
-                        {
-                            string strMsg = "Failed, test information not calculated !";
-
-                            LOG_TestSequence(strMsg);
-
-                            MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        else
-                        {
-                            HelperTestBase.Model_GVL = _modelGVL;
-
-                            LOG_TestSequence("TESTE CALC CONCLUDED");
-
-                            if (!TAB_TableResult_SetData())
-                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            else
-                            {
-                                if (!CHART_LoadActualTestComplete())
-                                    MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                else
-                                    TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL);
-                                //if (!ReportPDF())
-                                //    MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                                // ChartPointsAnnottion(HelperTestBase.Model_GVL.GVL_Graficos);
-                            }
-                        }
-                    }
-                    else
-                        MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
-            }
         }
 
         #endregion

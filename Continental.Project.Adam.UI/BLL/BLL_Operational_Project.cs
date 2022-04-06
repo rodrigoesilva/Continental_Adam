@@ -10,6 +10,7 @@ namespace Continental.Project.Adam.UI.BLL
     {
         public ComDB db = new ComDB();
 
+        #region GET
         public DataTable GetAvailableProjects()
         {
             try
@@ -227,6 +228,9 @@ namespace Continental.Project.Adam.UI.BLL
             }
         }
 
+        #endregion
+
+        #region DELETE
         public bool DeleteProjectTestConcluded(string idProjectTestConcluded, string idProject)
         {
             try
@@ -262,7 +266,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public bool DeleteProject(string idProject)
         {
             try
@@ -292,7 +295,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public bool DeleteTest(string idTest)
         {
             try
@@ -322,7 +324,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public int CheckProjectByIdent(string strIdent)
         {
             int retProj = 0;
@@ -353,6 +354,9 @@ namespace Continental.Project.Adam.UI.BLL
 
             return retProj;
         }
+        #endregion
+
+        #region SAVE
         public int AddProject(Model_Operational_Project model)
         {
             string sql = string.Empty;
@@ -414,51 +418,62 @@ namespace Continental.Project.Adam.UI.BLL
 
             return retProj;
         }
-
-        public bool SaveProject(Model_Operational_Project model)
+        public int AddProjectTestConcluded(Model_Operational_Project_TestConcluded model)
         {
+            string sql = string.Empty;
 
-            //string sql = "Insert Into Usuarios(nome,email,senha) values (@nome,@email,@senha)";
-            //db.AddParameter("@nome", name);
-            //db.AddParameter("@email", email);
-            //db.AddParameter("@senha", password);
-            //db.ExecuteNonQuery(sql);
+            int retProjTestConcluded = 0;
 
             try
             {
-                //StringBuilder sbTestData = new StringBuilder();
+                StringBuilder sb = new StringBuilder();
 
-                //sbTestData.Append("SELECT");
-                //sbTestData.Append(" OP.*");
-                //sbTestData.Append(" ,SU.[UName]");
-                //sbTestData.Append(" FROM");
-                //sbTestData.Append(" [Operational_Project] OP");
-                //sbTestData.Append(" INNER JOIN");
-                //sbTestData.Append(" [Security_User] SU");
-                //sbTestData.Append(" ON SU.[IdUser] = OP.[IduserTester]");
-                //sbTestData.Append(" WHERE");
-                //sbTestData.Append(" [IdProject] = " + idProject.Trim());
-                //sbTestData.Append(" ORDER BY");
-                //sbTestData.Append(" [IdProject]");
+                sb.Append("INSERT INTO");
+                sb.Append(" [Operational_Project_TestConcluded]");
+                sb.Append(" (");
+                sb.Append(" [IdProject]");
+                sb.Append(" ,[IdTestAvailable]");
+                sb.Append(" ,[TestDateTime]");
+                sb.Append(" ,[TestTypeName]");
+                sb.Append(" ,[TestIdentName]");
+                sb.Append(" ,[GETDATE()]");
+                sb.Append(")");
+                sb.Append(" VALUES");
+                sb.Append(" (");
+                sb.Append($" '{model.IdProject}'");
+                sb.Append($" ,'{model.IdTestAvailable}'");
+                sb.Append($" ,'{model.TestDateTime}'");
+                sb.Append($" ,'{model.TestTypeName}'");
+                sb.Append($" ,'{model.TestIdentName}'");
+                sb.Append($" ,'{model.LastUpdate}'");
+                sb.Append(" )");
 
-                //string sql = sbTestData.ToString();
+                sql = sb.ToString();
 
-                //DataTable dt = db.GetDataTable(sql);
+                int retInsert = db.ExecuteNonQuery(sql);
 
-                //if (dt != null)
-                //{
-                //    return dt;
-                //}
-                //else
-                //    return null;
+                if (retInsert > 0)
+                {
+                    sb.Clear();
+
+                    sb.Append("SELECT");
+                    sb.Append(" Max(IdProjectTestConcluded)");
+                    sb.Append(" FROM");
+                    sb.Append(" [Operational_Project_TestConcluded]");
+
+                    sql = sb.ToString();
+
+                    retProjTestConcluded = db.ExecuteScalar(sql);
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_LoadEval : " + ex.Message);
-                throw (ex);
+                throw ex;
             }
 
-            return true;
+            return retProjTestConcluded;
         }
+
+        #endregion
     }
 }
