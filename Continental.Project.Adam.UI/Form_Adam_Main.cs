@@ -133,6 +133,7 @@ namespace Continental.Project.Adam.UI
 
         private string _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
+        private bool tab_ChartEnable = false;
         private bool tab_TableResultsEnable = false;
 
         public StringBuilder sbDataFile = new StringBuilder();
@@ -281,7 +282,7 @@ namespace Continental.Project.Adam.UI
             this.WindowState = FormWindowState.Maximized;
 
             //TabPages collection
-           // TAB_Main.SelectedIndex = 2;
+            // TAB_Main.SelectedIndex = 2;
             //TAB_Main_SelectedIndexChanged(sender, e);
             TAB_Main_ActivePage(2);
 
@@ -513,15 +514,31 @@ namespace Continental.Project.Adam.UI
         #region TAB - Main
         private void TAB_Main_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            //hide a tab by removing it from the TabPages collection
-            if (!_helperApp.AppUseSimulateLocal)
-            {
-                bool bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
+            bool bTabAccessOk = false;
 
-                if (e.TabPage == tab_TableResults || e.TabPage == tab_Diagram)
-                    if (!bTabAccessOk)
-                        e.Cancel = true;
+            if (_helperApp.AppUseSimulateLocal)
+            {
+                tab_ChartEnable = true;
+                tab_TableResultsEnable = true;
+                HelperTestBase.currentProjectTest.is_Created = true;
             }
+            var strTabSelected = e.TabPage.Name.ToString();
+
+            switch (strTabSelected)
+            {
+                case "tab_Diagram":
+                    bTabAccessOk = tab_ChartEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
+                    break;
+                case "tab_TableResults":
+                    bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.currentProjectTest.is_Created;
+                    break;
+                default:
+                    bTabAccessOk = true;
+                    break;
+            }
+
+            if (!bTabAccessOk)
+                e.Cancel = true;
         }
         private void TAB_Main_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -594,9 +611,9 @@ namespace Continental.Project.Adam.UI
                 //    TXTFileHBM_LoadData();
             }
             else
-            { 
-                MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);  
-            }       
+            {
+                MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
         private void OpenURLInBrowser(string url)
         {
@@ -728,7 +745,7 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
 
-            
+
             return true;
         }
         private void TAB_TableResult_Grid_Format(int chkId, string chkName, bool chkChecked)
@@ -906,7 +923,7 @@ namespace Continental.Project.Adam.UI
 
                 throw;
             }
-            
+
         }
         private void TAB_TableResult_Grid_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
@@ -959,7 +976,7 @@ namespace Continental.Project.Adam.UI
                         if (chkState)
                         {
                             //clear checkbox
-                           // lstChk.ForEach(item => metroPnl.Controls.Remove(item));
+                            // lstChk.ForEach(item => metroPnl.Controls.Remove(item));
                         }
                     }
 
@@ -1057,7 +1074,7 @@ namespace Continental.Project.Adam.UI
                         case 17:    //Lost Travel ACU - Hydraulic
                         case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
                             {
-                                if(HelperTestBase.Model_GVL.GVL_Graficos.iOutput == 1)
+                                if (HelperTestBase.Model_GVL.GVL_Graficos.iOutput == 1)
                                     rad_EvaluationParameters_CBOutputPC.Checked = true;
                                 else
                                     rad_EvaluationParameters_CBOutputSC.Checked = true;
@@ -5212,10 +5229,10 @@ namespace Continental.Project.Adam.UI
                             tab_TableResultsEnable = true;
 
                             TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
-                        } 
+                        }
                         else
                             MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
- 
+
                     }
                 }
             }
@@ -5599,13 +5616,13 @@ namespace Continental.Project.Adam.UI
                     {
                         MessageBox.Show("Failed, Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
-                    } 
+                    }
                 }
                 else
                 {
                     MessageBox.Show("Test file NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
-                } 
+                }
             }
             catch (DirectoryNotFoundException dirNotFoundException)
             {
@@ -5658,7 +5675,7 @@ namespace Continental.Project.Adam.UI
                     {
                         lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
 
-                       // _helperApp.TXTFileHBM_HeaderAppendData(HelperApp.uiTesteSelecionado, model_GVL);
+                        // _helperApp.TXTFileHBM_HeaderAppendData(HelperApp.uiTesteSelecionado, model_GVL);
 
                         if (!string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
                         {
@@ -5956,7 +5973,7 @@ namespace Continental.Project.Adam.UI
 
                             #region AXES - X
 
-                             Color setColor = Color.Black;
+                            Color setColor = Color.Black;
 
                             //diagram.AxisX.Title.EnableAntialiasing = DefaultBoolean.False;
                             //diagram.AxisX.Title.Font = new Font("Tahoma", 8, FontStyle.Regular);
@@ -9059,21 +9076,21 @@ namespace Continental.Project.Adam.UI
             //accessbase.Refresh();
         }
 
-        
+
         #endregion
 
         #endregion
-        
+
         private void mTile_LCurrentSelectedTest_Click(object sender, EventArgs e)
         {
             if (_helperApp.AppUseSimulateLocal)
                 if (!_bAppStart)
                     if (TXTFileHBM_LoadData())
-                        if(TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL))
+                        if (TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL))
                             TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                         else
                             MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                       
+
         }
 
     }
