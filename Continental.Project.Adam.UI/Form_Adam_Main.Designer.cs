@@ -189,8 +189,6 @@ namespace Continental.Project.Adam.UI
             this.TAB_Main = new System.Windows.Forms.TabControl();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.timerDateTime = new System.Windows.Forms.Timer(this.components);
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.button1 = new System.Windows.Forms.Button();
             this.mpnl_BackupAssistent.SuspendLayout();
             this.metroPanel2.SuspendLayout();
             this.mpnl_Eventlog.SuspendLayout();
@@ -1620,8 +1618,6 @@ namespace Continental.Project.Adam.UI
             // mPnl_tabActParam_GenralSettings
             // 
             this.mPnl_tabActParam_GenralSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mPnl_tabActParam_GenralSettings.Controls.Add(this.button1);
-            this.mPnl_tabActParam_GenralSettings.Controls.Add(this.simpleButton1);
             this.mPnl_tabActParam_GenralSettings.Controls.Add(this.mchk_tabActParam_GenSettings_CBLock);
             this.mPnl_tabActParam_GenralSettings.Controls.Add(this.mTile_tabActParam_GeneralSettings);
             this.mPnl_tabActParam_GenralSettings.Controls.Add(this.mcbo_tabActParam_GenSettings_CoBActuationMode);
@@ -2846,6 +2842,7 @@ namespace Continental.Project.Adam.UI
             this.TAB_TableResult_Grid.Size = new System.Drawing.Size(920, 630);
             this.TAB_TableResult_Grid.TabIndex = 93;
             this.TAB_TableResult_Grid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.TAB_TableResult_Grid_CellEndEdit);
+            this.TAB_TableResult_Grid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.TAB_TableResult_Grid_DataError);
             // 
             // mTile_tabTable_Results
             // 
@@ -2927,23 +2924,6 @@ namespace Continental.Project.Adam.UI
             this.timerDateTime.Enabled = true;
             this.timerDateTime.Interval = 1000;
             this.timerDateTime.Tick += new System.EventHandler(this.timerDateTime_Tick);
-            // 
-            // simpleButton1
-            // 
-            this.simpleButton1.Location = new System.Drawing.Point(177, 695);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(131, 23);
-            this.simpleButton1.TabIndex = 124;
-            this.simpleButton1.Text = "simpleButton1";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(321, 696);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(147, 23);
-            this.button1.TabIndex = 125;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // Form_Adam_Main
             // 
@@ -3166,7 +3146,5 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.GroupBox grpOutput;
         private System.Windows.Forms.RadioButton rad_EvaluationParameters_CBOutputSC;
         private System.Windows.Forms.RadioButton rad_EvaluationParameters_CBOutputPC;
-        private System.Windows.Forms.Button button1;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
     }
 }

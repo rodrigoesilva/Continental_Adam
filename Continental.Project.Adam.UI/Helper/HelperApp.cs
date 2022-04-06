@@ -2908,6 +2908,8 @@ namespace Continental.Project.Adam.UI.Helper
                     {
                         if (!string.IsNullOrEmpty(strResultParam_Name))
                         {
+                            string strInputTableParamVal = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
                             switch (strResultParam_Name.Trim())
                             {
                                 case "PCHoseConsumers":
@@ -2918,6 +2920,11 @@ namespace Continental.Project.Adam.UI.Helper
                                 case "SCHoseConsumers":
                                     {
                                         strResultParam_Measured = dicResultParam["resultCalcTestParam_SCHoseConsumers"]?.Trim();
+                                        break;
+                                    }
+                                case "RoomTemperature":
+                                    {
+                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_RoomTemperature"]?.Trim();
                                         break;
                                     }
                                 default:
@@ -3673,27 +3680,6 @@ namespace Continental.Project.Adam.UI.Helper
                             }
 
                         }
-                        //foreach (var line in lstStrReturnReadFileLines)
-                        //{
-                        //    string[] strArray = Regex.Replace(line, @"\n|\r|", "").Split(char.Parse("\t"));
-
-                        //    if (strArray.Length > 1)
-                        //    {
-                        //        lstStrTimestamp.Add(strArray[0].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh01.Add(strArray[1].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh02.Add(strArray[2].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh03.Add(strArray[3].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh04.Add(strArray[4].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh05.Add(strArray[5].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh06.Add(strArray[6].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh07.Add(strArray[7].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh08.Add(strArray[8].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh09.Add(strArray[9].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh10.Add(strArray[10].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh11.Add(strArray[11].Trim().Replace(",", "."));
-                        //        lstStrAnalogCh12.Add(strArray[12].Trim().Replace(",", "."));
-                        //    }
-                        //}
 
                         file.Close();
                     }
@@ -3725,8 +3711,6 @@ namespace Continental.Project.Adam.UI.Helper
                 var err = ex.Message;
                 throw;
             }
-
-
 
             return lstStrReturnReadFile;
         }
@@ -10183,13 +10167,27 @@ namespace Continental.Project.Adam.UI.Helper
 
                     #region Loop para identificar o curso morto
                     //========================================================================================================================================================
+                    double SomaPressao = 0;
+                    double MediaPressao = 0;
 
                     for (di = 0; di < diUbound; di++)
                     {
                         if (GVL_Graficos.arrVarY1[di] > _modelGVL.GVL_T17.rCursoMortoNaPressao_Bar)
                         {
-                            _modelGVL.GVL_T17.rCursoMorto_mm = GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
-                            break;
+                            SomaPressao = 0;
+
+                            for (int j = 0; j < 20; j++)
+                            {
+                                SomaPressao = SomaPressao + GVL_Graficos.arrVarY1[di + j];
+                            }
+
+                            MediaPressao = SomaPressao / 20;
+
+                            if (MediaPressao > _modelGVL.GVL_T17.rCursoMortoNaPressao_Bar)
+                            {
+                                _modelGVL.GVL_T17.rCursoMorto_mm = GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                                break;
+                            }
                         }
                     }
                     #endregion
@@ -10554,15 +10552,38 @@ namespace Continental.Project.Adam.UI.Helper
 
                     #region Loop para identificar o curso morto
                     //========================================================================================================================================================
+                    double SomaPressao = 0;
+                    double MediaPressao = 0;
 
                     for (di = 0; di < diUbound; di++)
                     {
-                        if (GVL_Graficos.arrVarY1[di] > _modelGVL.GVL_T18.rCursoMortoNaPressao_Bar)
+                        if (GVL_Graficos.arrVarY1[di] > 0.1)// _modelGVL.GVL_T18.rCursoMortoNaPressao_Bar)
                         {
-                            _modelGVL.GVL_T18.rCursoMorto_mm = GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
-                            break;
+                            SomaPressao = 0;
+
+                            for (int j = 0; j < 20; j++)
+                            {
+                                SomaPressao = SomaPressao + GVL_Graficos.arrVarY1[di + j];
+                            }
+
+                            MediaPressao = SomaPressao / 20;
+
+                            if (MediaPressao > 0.1)//_modelGVL.GVL_T18.rCursoMortoNaPressao_Bar)
+                            {
+                                _modelGVL.GVL_T18.rCursoMorto_mm = GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                                break;
+                            }
                         }
                     }
+
+                    //for (di = 0; di < diUbound; di++)
+                    //{
+                    //    if (GVL_Graficos.arrVarY1[di] > _modelGVL.GVL_T18.rCursoMortoNaPressao_Bar)
+                    //    {
+                    //        _modelGVL.GVL_T18.rCursoMorto_mm = GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                    //        break;
+                    //    }
+                    //}
                     #endregion
 
                     #region Loop para identificar o deslocamento na pressao solicitada (1)
@@ -14209,19 +14230,19 @@ namespace Continental.Project.Adam.UI.Helper
 
                 string strVarProj = string.Empty;
 
-                sbHeader.Append($"Ident # :\t {strVarProj}");
+                sbHeader.Append($"Ident # \t\t :\t {strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Customer/Type :\t {strVarProj}");
+                sbHeader.Append($"Customer/Type \t :\t {strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Booster # :\t {strVarProj}");
+                sbHeader.Append($"Booster # \t :\t {strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"TMC # :\t {strVarProj}");
+                sbHeader.Append($"TMC # \t\t :\t {strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Production Date :\t {strVarProj}");
+                sbHeader.Append($"Production Date \t :\t {strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Testing Date :\t {strVarProj}");
+                sbHeader.Append($"Testing Date \t :\t {strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Operator :\t {strVarProj}");
+                sbHeader.Append($"Operator \t :\t {strVarProj}");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"\r\n");
 
@@ -14236,28 +14257,28 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region StringBuilder AppendTxtData_Header_ActuationType
 
-                            sbHeader.Append($"Actuation Type :\t {HelperTestBase.ETestActuationType}");
+                            sbHeader.Append($"Actuation Type \t :\t {HelperApp.strActuationMode}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) :\t {HelperTestBase.VacuumMin}");
+                            sbHeader.Append($"Vacuum (min) \t :\t {Math.Round(HelperTestBase.VacuumMin , 2)}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) :\t {HelperTestBase.VacuumMax}");
+                            sbHeader.Append($"Vacuum (max) \t :\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum :\t {HelperTestBase.Vacuum}");
+                            sbHeader.Append($"Vacuum  \t :\t {Math.Round(HelperTestBase.Vacuum, 2)}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston :\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                            sbHeader.Append($"Lock Piston \t :\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient :\t {HelperTestBase.ForceGradient}");
+                            sbHeader.Append($"Gradient \t :\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force :\t {HelperTestBase.MaxForce}");
+                            sbHeader.Append($"Max. Force \t :\t {Math.Round(HelperTestBase.MaxForce, 2)}");
                             sbHeader.Append($"\r\n");
                             if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer :\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                sbHeader.Append($"Consumer \t :\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
                             else
-                                sbHeader.Append($"Consumer :\t None");
+                                sbHeader.Append($"Consumer \t :\t None");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC :\t {HelperTestBase.HoseConsumerPC}");
+                            sbHeader.Append($"Hose Consumer PC \t :\t {HelperTestBase.HoseConsumerPC}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC :\t {HelperTestBase.HoseConsumerSC}");
+                            sbHeader.Append($"Hose Consumer SC \t :\t {HelperTestBase.HoseConsumerSC}");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
 

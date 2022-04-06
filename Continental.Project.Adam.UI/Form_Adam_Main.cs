@@ -526,49 +526,57 @@ namespace Continental.Project.Adam.UI
         }
         public void TAB_Main_ActivePage(int tabIdx)
         {
-            switch (tabIdx)
+            try
             {
-                case 0://tab_Diagram1_1
-                    {
-                        TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                switch (tabIdx)
+                {
+                    case 0://tab_Diagram1_1
+                        {
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
 
-                        TAB_DiagramChart_SetData();
-                        break;
-                    }
-                case 1://TAB_TableResult
-                    {
-                        TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
+                            TAB_DiagramChart_SetData();
+                            break;
+                        }
+                    case 1://TAB_TableResult
+                        {
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
 
-                        if (!TAB_TableResult_SetData())
-                            MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error); ;
+                            if (!TAB_TableResult_SetData())
+                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error); ;
 
-                        break;
-                    }
-                case 2://TAB_ActuationParameters
-                    {
-                        if(TAB_Main.TabPages["tab_CPX_Visu"] == null)
-                            TAB_CPXVisu_Create();
+                            break;
+                        }
+                    case 2://TAB_ActuationParameters
+                        {
+                            if (TAB_Main.TabPages["tab_CPX_Visu"] == null)
+                                TAB_CPXVisu_Create();
 
-                        TAB_ActuationParameters_SetData();
+                            TAB_ActuationParameters_SetData();
 
-                        TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
-                        //show a tab by adding it to the TabPages collection
-                        tab_TableResultsEnable = true;
+                            //show a tab by adding it to the TabPages collection
+                            tab_TableResultsEnable = true;
 
-                        break;
-                    }
-                case 3://tab_Dev
-                    {
-                        break;
-                    }
-                case 4://tab_CPX
-                    {
-                        TAB_CPXVisu_SetData();
-                        break;
-                    }
+                            break;
+                        }
+                    case 3://tab_Dev
+                        {
+                            break;
+                        }
+                    case 4://tab_CPX
+                        {
+                            TAB_CPXVisu_SetData();
+                            break;
+                        }
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+                throw;
+            }
         }
 
         #endregion
@@ -583,7 +591,9 @@ namespace Continental.Project.Adam.UI
                 //    TXTFileHBM_LoadData();
             }
             else
-                MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);            
+            { 
+                MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);  
+            }       
         }
         private void OpenURLInBrowser(string url)
         {
@@ -627,13 +637,21 @@ namespace Continental.Project.Adam.UI
             {
                 if (HelperApp.uiTesteSelecionado != 0)
                 {
+                    //grid
+                    for (int i = 0; i < TAB_TableResult_Grid.Rows.Count; i++)
+                    {
+                        var row = TAB_TableResult_Grid.Rows[i];
+
+                        if (row.Cells[0].Value == null)
+                        {
+                            BindingSource source = new BindingSource();
+                            TAB_TableResult_Grid.DataSource = source;
+                        }
+                    }
+
                     Control metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mpnl_Table_GivingOut");
 
                     IOrderedEnumerable<Control> lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
-
-
-                    //clear checkbox
-                    lstChk.ForEach(item => metroPnl.Controls.Remove(item));
 
                     if (!TAB_TableResults_Grid_GetData(HelperApp.uiTesteSelecionado.ToString()))
                         MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -703,166 +721,226 @@ namespace Continental.Project.Adam.UI
                 TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
                 return false;
+
+                throw;
             }
 
+            
             return true;
         }
         private void TAB_TableResult_Grid_Format(int chkId, string chkName, bool chkChecked)
         {
-            List<Model_Operational_TestTableParameters> listTempResultParam = HelperApp.lstTempResultParam;
-
-            Model_Operational_TestTableParameters itemResultParam_Element = HelperApp.lstResultParam.ElementAt(chkId); //.Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
-
-            if (itemResultParam_Element != null)
+            try
             {
-                Model_Operational_TestTableParameters itemResultParam_Name = HelperApp.lstResultParam.Where(x => x.IdResultParam > 0 && x.ResultParam_Name.Equals(chkName)).FirstOrDefault(); //.Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+                List<Model_Operational_TestTableParameters> listTempResultParam = HelperApp.lstTempResultParam;
 
-                Model_Operational_TestTableParameters itemResultParam = itemResultParam_Element == itemResultParam_Name ? itemResultParam_Element : itemResultParam_Name;
+                Model_Operational_TestTableParameters itemResultParam_Element = HelperApp.lstResultParam.ElementAt(chkId); //.Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
 
-                if (chkChecked)
-                    listTempResultParam.Add(itemResultParam);
-                else
-                    listTempResultParam.Remove(itemResultParam);
+                if (itemResultParam_Element != null)
+                {
+                    Model_Operational_TestTableParameters itemResultParam_Name = HelperApp.lstResultParam.Where(x => x.IdResultParam > 0 && x.ResultParam_Name.Equals(chkName)).FirstOrDefault(); //.Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                    Model_Operational_TestTableParameters itemResultParam = itemResultParam_Element == itemResultParam_Name ? itemResultParam_Element : itemResultParam_Name;
+
+                    if (chkChecked)
+                        listTempResultParam.Add(itemResultParam);
+                    else
+                        listTempResultParam.Remove(itemResultParam);
+                }
+
+                List<Model_Operational_TestTableParameters> listResultParam = HelperApp.lstResultParam;
+
+                BindingSource source = new BindingSource();
+                source.DataSource = listTempResultParam;
+
+                TAB_TableResult_Grid.DataSource = source;
+
+                HelperApp.lstTempResultParam = listTempResultParam;
+
+                for (int i = 0; i < TAB_TableResult_Grid.Rows.Count; i++)
+                {
+                    var row = TAB_TableResult_Grid.Rows[i];
+
+                    var rowValue = row.Cells["IdResultParam"].Value;
+
+                    //TAB_TableResult_Grid.Rows[i].Cells["IdResultParam"].Style.ForeColor = TAB_TableResult_Grid.Rows[i].Cells["IdResultParam"].Value != null ? Color.Black : Color.White;
+                }
+
+                #region Format Info Columns
+
+                //TAB_TableResult_Grid.RowHeadersVisible = false;
+                //TAB_TableResult_Grid.ColumnHeadersVisible = true;
+
+
+                for (int i = 0; i < TAB_TableResult_Grid.Columns.Count; i++)
+                {
+                    TAB_TableResult_Grid.Columns[i].Visible = false;
+                    TAB_TableResult_Grid.Columns[i].ReadOnly = true;
+                    TAB_TableResult_Grid.Columns[i].HeaderCell.Value = String.Empty;
+                    TAB_TableResult_Grid.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    TAB_TableResult_Grid.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    TAB_TableResult_Grid.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    TAB_TableResult_Grid.Columns[i].Resizable = DataGridViewTriState.False;
+                }
+
+                //Changes grid's column's header's font size to 10.
+                TAB_TableResult_Grid.ColumnHeadersDefaultCellStyle.Font = new Font("", 10.0f, FontStyle.Bold);
+                //Changes grid's data's font size to 8.
+                TAB_TableResult_Grid.Font = new Font("", 8.0f);
+
+                //grid's column's
+
+                //hide grid's column's
+                TAB_TableResult_Grid.Columns[0].Visible = false; //ID
+                TAB_TableResult_Grid.Columns[0].Width = 0;
+
+                TAB_TableResult_Grid.Columns["IdResultParam"].HeaderCell.Value = string.Empty;//ID
+                TAB_TableResult_Grid.Columns["IdResultParam"].Visible = true;
+                TAB_TableResult_Grid.Columns["IdResultParam"].Width = 0;
+
+                TAB_TableResult_Grid.Columns["ResultParam_Name"].HeaderCell.Value = string.Empty; //ResultParam_Name
+                TAB_TableResult_Grid.Columns["ResultParam_Name"].Visible = true;
+                TAB_TableResult_Grid.Columns["ResultParam_Name"].Width = 0;
+
+                TAB_TableResult_Grid.Columns["ResultParam_Caption"].HeaderCell.Value = "Result"; //Parameter Result
+                TAB_TableResult_Grid.Columns["ResultParam_Caption"].Visible = true;
+                TAB_TableResult_Grid.Columns["ResultParam_Caption"].Width = 350;
+                TAB_TableResult_Grid.Columns["ResultParam_Caption"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+                TAB_TableResult_Grid.Columns["ResultParam_Nominal"].HeaderText = "Nominal"; //Col02
+                TAB_TableResult_Grid.Columns["ResultParam_Nominal"].Visible = true;
+                TAB_TableResult_Grid.Columns["ResultParam_Nominal"].ReadOnly = false;
+                TAB_TableResult_Grid.Columns["ResultParam_Nominal"].Width = 250;
+
+                TAB_TableResult_Grid.Columns["ResultParam_Measured"].HeaderText = "Measured"; //Col03
+                TAB_TableResult_Grid.Columns["ResultParam_Measured"].Visible = true;
+                TAB_TableResult_Grid.Columns["ResultParam_Measured"].Width = 150;
+
+                TAB_TableResult_Grid.Columns["ResultParam_Unit"].HeaderCell.Value = "Unit";
+                TAB_TableResult_Grid.Columns["ResultParam_Unit"].Visible = true; //UNIT
+                TAB_TableResult_Grid.Columns["ResultParam_Unit"].Width = 120;
+
+                #endregion
+
+                #region set focus
+
+                //int rowsCount = TAB_TableResult_Grid.Rows.Count;
+
+                //if (rowsCount > 1)
+                //{
+                //    var rowIndex = rowsCount - 1;
+
+                //    TAB_TableResult_Grid.CurrentCell = TAB_TableResult_Grid.Rows[rowIndex].Cells["ResultParam_Caption"];
+                //    TAB_TableResult_Grid.Rows[rowIndex].Selected = true;
+                //    TAB_TableResult_Grid.Rows[rowIndex].Cells["ResultParam_Caption"].Selected = true;
+                //}
+
+                #endregion
+
+
+                HelperApp.lstResultParamFormated = HelperApp.lstTempResultParam;
             }
-
-            List<Model_Operational_TestTableParameters> listResultParam = HelperApp.lstResultParam;
-
-            BindingSource source = new BindingSource();
-            source.DataSource = listTempResultParam;
-
-            TAB_TableResult_Grid.DataSource = source;
-
-            HelperApp.lstTempResultParam = listTempResultParam;
-
-            for (int i = 0; i < TAB_TableResult_Grid.Rows.Count; i++)
+            catch (Exception ex)
             {
-                var row = TAB_TableResult_Grid.Rows[i];
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                var rowValue = row.Cells["IdResultParam"].Value;
-
-                //TAB_TableResult_Grid.Rows[i].Cells["IdResultParam"].Style.ForeColor = TAB_TableResult_Grid.Rows[i].Cells["IdResultParam"].Value != null ? Color.Black : Color.White;
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
             }
-
-            #region Format Info Columns
-
-            //TAB_TableResult_Grid.RowHeadersVisible = false;
-            //TAB_TableResult_Grid.ColumnHeadersVisible = true;
-
-
-            for (int i = 0; i < TAB_TableResult_Grid.Columns.Count; i++)
-            {
-                TAB_TableResult_Grid.Columns[i].Visible = false;
-                TAB_TableResult_Grid.Columns[i].ReadOnly = true;
-                TAB_TableResult_Grid.Columns[i].HeaderCell.Value = String.Empty;
-                TAB_TableResult_Grid.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                TAB_TableResult_Grid.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                TAB_TableResult_Grid.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                TAB_TableResult_Grid.Columns[i].Resizable = DataGridViewTriState.False;
-            }
-
-            //Changes grid's column's header's font size to 10.
-            TAB_TableResult_Grid.ColumnHeadersDefaultCellStyle.Font = new Font("", 10.0f, FontStyle.Bold);
-            //Changes grid's data's font size to 8.
-            TAB_TableResult_Grid.Font = new Font("", 8.0f);
-
-            //grid's column's
-
-            //hide grid's column's
-            TAB_TableResult_Grid.Columns[0].Visible = false; //ID
-            TAB_TableResult_Grid.Columns[0].Width = 0;
-
-            TAB_TableResult_Grid.Columns["IdResultParam"].HeaderCell.Value = string.Empty;//ID
-            TAB_TableResult_Grid.Columns["IdResultParam"].Visible = true;
-            TAB_TableResult_Grid.Columns["IdResultParam"].Width = 0;
-
-            TAB_TableResult_Grid.Columns["ResultParam_Name"].HeaderCell.Value = string.Empty; //ResultParam_Name
-            TAB_TableResult_Grid.Columns["ResultParam_Name"].Visible = true;
-            TAB_TableResult_Grid.Columns["ResultParam_Name"].Width = 0;
-
-            TAB_TableResult_Grid.Columns["ResultParam_Caption"].HeaderCell.Value = "Result"; //Parameter Result
-            TAB_TableResult_Grid.Columns["ResultParam_Caption"].Visible = true;
-            TAB_TableResult_Grid.Columns["ResultParam_Caption"].Width = 350;
-            TAB_TableResult_Grid.Columns["ResultParam_Caption"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-
-            TAB_TableResult_Grid.Columns["ResultParam_Nominal"].HeaderText = "Nominal"; //Col02
-            TAB_TableResult_Grid.Columns["ResultParam_Nominal"].Visible = true;
-            TAB_TableResult_Grid.Columns["ResultParam_Nominal"].ReadOnly = false;
-            TAB_TableResult_Grid.Columns["ResultParam_Nominal"].Width = 250;
-
-            TAB_TableResult_Grid.Columns["ResultParam_Measured"].HeaderText = "Measured"; //Col03
-            TAB_TableResult_Grid.Columns["ResultParam_Measured"].Visible = true;
-            TAB_TableResult_Grid.Columns["ResultParam_Measured"].Width = 150;
-
-            TAB_TableResult_Grid.Columns["ResultParam_Unit"].HeaderCell.Value = "Unit";
-            TAB_TableResult_Grid.Columns["ResultParam_Unit"].Visible = true; //UNIT
-            TAB_TableResult_Grid.Columns["ResultParam_Unit"].Width = 120;
-
-            #endregion
-
-            #region set focus
-
-            //int rowsCount = TAB_TableResult_Grid.Rows.Count;
-
-            //if (rowsCount > 1)
-            //{
-            //    var rowIndex = rowsCount - 1;
-
-            //    TAB_TableResult_Grid.CurrentCell = TAB_TableResult_Grid.Rows[rowIndex].Cells["ResultParam_Caption"];
-            //    TAB_TableResult_Grid.Rows[rowIndex].Selected = true;
-            //    TAB_TableResult_Grid.Rows[rowIndex].Cells["ResultParam_Caption"].Selected = true;
-            //}
-
-            #endregion
-
-
-            HelperApp.lstResultParamFormated = HelperApp.lstTempResultParam;
         }
         private void TAB_TableResult_Grid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            try
             {
-                var row = ((System.Windows.Forms.DataGridView)sender).CurrentRow;
-                string strIdTestAvailable = HelperApp.uiTesteSelecionado.ToString()?.Trim();
-                string strResultParam_Nominal = ((System.Windows.Forms.DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
+                if (e.RowIndex >= 0)
+                {
+                    var row = ((System.Windows.Forms.DataGridView)sender).CurrentRow;
+                    string strIdTestAvailable = HelperApp.uiTesteSelecionado.ToString()?.Trim();
+                    string strResultParam_Nominal = ((System.Windows.Forms.DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
 
-                if (!string.IsNullOrEmpty(strResultParam_Nominal) && row != null)
-                    TAB_TableResults_Grid_WriteNominaParameters(row, strIdTestAvailable, strResultParam_Nominal);
+                    if (!string.IsNullOrEmpty(strResultParam_Nominal) && row != null)
+                        TAB_TableResults_Grid_WriteNominaParameters(row, strIdTestAvailable, strResultParam_Nominal);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
         private void TAB_TableResults_Grid_WriteNominaParameters(DataGridViewRow row, string strIdTestAvailable, string strResultParam_Nominal)
         {
-            int idResultParam = !string.IsNullOrEmpty(row.Cells["IdResultParam"].Value?.ToString()?.Trim()) ? Convert.ToInt32(row.Cells["IdResultParam"].Value?.ToString()?.Trim()) : 0;
-            int idTestAvailable = !string.IsNullOrEmpty(strIdTestAvailable) ? Convert.ToInt32(strIdTestAvailable) : 0;
-
-            if (idResultParam > 0 && idTestAvailable > 0 && idTestAvailable == HelperApp.uiTesteSelecionado)
+            try
             {
-                HelperApp.lstTempResultParam
-                    .Where(x => x.IdResultParam > 0 && x.IdResultParam.Equals(idResultParam))
-                    .FirstOrDefault().ResultParam_Nominal = strResultParam_Nominal?.ToString()?.Trim(); ;
+                int idResultParam = !string.IsNullOrEmpty(row.Cells["IdResultParam"].Value?.ToString()?.Trim()) ? Convert.ToInt32(row.Cells["IdResultParam"].Value?.ToString()?.Trim()) : 0;
+                int idTestAvailable = !string.IsNullOrEmpty(strIdTestAvailable) ? Convert.ToInt32(strIdTestAvailable) : 0;
 
-                HelperApp.lstResultParamFormated = HelperApp.lstTempResultParam;
-
-                BLL_Main_Tab_TableResults _bll_Main_TableResults = new BLL_Main_Tab_TableResults();
-
-                bool retUpdate = _bll_Main_TableResults.UpdateGridTableResultsByTest(idResultParam, idTestAvailable, strResultParam_Nominal.Trim());
-
-                if (!retUpdate)
+                if (idResultParam > 0 && idTestAvailable > 0 && idTestAvailable == HelperApp.uiTesteSelecionado)
                 {
-                    MessageBox.Show("Error, failed update result data information!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    HelperApp.lstTempResultParam
+                        .Where(x => x.IdResultParam > 0 && x.IdResultParam.Equals(idResultParam))
+                        .FirstOrDefault().ResultParam_Nominal = strResultParam_Nominal?.ToString()?.Trim(); ;
+
+                    HelperApp.lstResultParamFormated = HelperApp.lstTempResultParam;
+
+                    BLL_Main_Tab_TableResults _bll_Main_TableResults = new BLL_Main_Tab_TableResults();
+
+                    bool retUpdate = _bll_Main_TableResults.UpdateGridTableResultsByTest(idResultParam, idTestAvailable, strResultParam_Nominal.Trim());
+
+                    if (!retUpdate)
+                    {
+                        MessageBox.Show("Error, failed update result data information!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Error, test information incompatible!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("Error, test information incompatible!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+
+                throw;
+            }
+            
+        }
+        private void TAB_TableResult_Grid_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Error happened " + e.Context.ToString());
+
+            if (e.Context == DataGridViewDataErrorContexts.Commit)
+            {
+                MessageBox.Show("Commit error");
+            }
+            if (e.Context == DataGridViewDataErrorContexts.CurrentCellChange)
+            {
+                MessageBox.Show("Cell change");
+            }
+            if (e.Context == DataGridViewDataErrorContexts.Parsing)
+            {
+                MessageBox.Show("parsing error");
+            }
+            if (e.Context == DataGridViewDataErrorContexts.LeaveControl)
+            {
+                MessageBox.Show("leave control error");
+            }
+
+            if ((e.Exception) is ConstraintException)
+            {
+                DataGridView view = (DataGridView)sender;
+                view.Rows[e.RowIndex].ErrorText = "an error";
+                view.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = "an error";
+
+                e.ThrowException = false;
             }
         }
 
         #endregion
 
         #region TAB - TableResults - CheckBox
-        private void TAB_TableResults_CheckBoxes(List<Model_Operational_TestTableParameters> listResultParam)
+        private bool TAB_TableResults_CheckBoxes(List<Model_Operational_TestTableParameters> listResultParam)
         {
             try
             {
@@ -870,24 +948,19 @@ namespace Continental.Project.Adam.UI
                 {
                     var metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mpnl_Table_GivingOut");
 
-                    var lstChkMetro = CONTROLS_GetAll(metroPnl, typeof(MetroCheckBox)).OrderBy(m => m.Text);
-
                     var lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
 
-                    //clear chk exitente no panel
-                    foreach (var ctrl in lstChkMetro.Select((value, i) => (value, i)))
+                    foreach (var chk in lstChk)
                     {
-                        var idx = ctrl.i;
+                        var chkState = ((System.Windows.Forms.CheckBox)chk).Checked;
 
-                        var chk = ctrl.value;
-
-                        chk.Visible = false;
+                        if (chkState)
+                        {
+                            //clear checkbox
+                           // lstChk.ForEach(item => metroPnl.Controls.Remove(item));
+                        }
                     }
-
-                    foreach (var item in lstChk)
-                    {
-                        metroPnl.Controls.Remove(item);
-                    }
+                    
 
                     //add chk novo panel
                     for (int i = 0; i < listResultParam.Count(); i++)
@@ -909,13 +982,18 @@ namespace Continental.Project.Adam.UI
                         metroPnl.AddControl(mChkBox);
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 var exc = ex.Message;
                 MessageBox.Show(exc);
+
+                return false;
+
+                throw;
             }
+
+            return true;
         }
         private void TAB_TableResults_CheckBoxes_CheckedChanged(object sender, EventArgs e)
         {
@@ -2040,19 +2118,22 @@ namespace Continental.Project.Adam.UI
 
                     _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wOutput }, Convert.ToDouble(_modelGVL.GVL_Parametros.iOutput));
 
-                    if (_helperApp.lstDblReturnReadFile[0] != null && !HelperTestBase.Model_GVL.GVL_Graficos.bDadosCalculados)
-                        if (!_helperApp.AppUseSimulateLocal)
-                            TXTFileHBM_LoadData();
+                    if (_helperApp.lstDblReturnReadFile[0] != null)
+                    {
+                        if(TXTFileHBM_LoadData())
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                         else
-                            TXTFileHBM_LoadData_AppUseSimulateLocal();
+                            MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
 
+                throw;
+            }
         }
 
         private void rad_EvaluationParameters_CBOutputSC_CheckedChanged(object sender, EventArgs e)
@@ -2069,16 +2150,20 @@ namespace Continental.Project.Adam.UI
 
                     _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wOutput }, Convert.ToDouble(_modelGVL.GVL_Parametros.iOutput));
 
-                    if (_helperApp.lstDblReturnReadFile[0] != null &&  !HelperTestBase.Model_GVL.GVL_Graficos.bDadosCalculados)
-                        if (!_helperApp.AppUseSimulateLocal)
-                            TXTFileHBM_LoadData();
+                    if (_helperApp.lstDblReturnReadFile[0] != null)
+                    {
+                        if (TXTFileHBM_LoadData())
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                         else
-                            TXTFileHBM_LoadData_AppUseSimulateLocal();
+                            MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                throw;
             }
         }
 
@@ -4531,7 +4616,6 @@ namespace Continental.Project.Adam.UI
         {
             mbtn_BClock.Text = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss", CultureInfo.InvariantCulture);
         }
-
         private void timerHBM_Tick(object sender, EventArgs e)
         {
             try
@@ -5114,7 +5198,9 @@ namespace Continental.Project.Adam.UI
 
                         TXTFileHBM_LoadData();
 
-                        TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, _modelGVL);
+                        _modelGVL = HelperTestBase.Model_GVL;
+
+                        TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL);
                     }
                 }
             }
@@ -5229,12 +5315,21 @@ namespace Continental.Project.Adam.UI
 
                 #endregion
 
+                #region set Path
+
                 if (_helperApp.AppUseSimulateLocal)
                 {
-                    if (HelperApp.uiTesteSelecionado > 0)
-                        TXTFileHBM_LoadData_AppUseSimulateLocal();
-                    else
-                        MessageBox.Show("Teste not selected, invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    OpenFileDialog theDialog = new OpenFileDialog();
+                    theDialog.Title = "Open Text File";
+                    theDialog.Filter = "TXT files|*.txt;*.tst";
+                    theDialog.InitialDirectory = string.Concat(_initialDirPathTestFile, "texst.txt");
+
+                    if (theDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        fileName = theDialog.SafeFileName;
+
+                        pathWithFileName = theDialog.FileName;
+                    }
                 }
                 else
                 {
@@ -5254,91 +5349,94 @@ namespace Continental.Project.Adam.UI
                         fileName = HelperTestBase.currentProjectTest.PrjTestFileName.Replace(_initialDirPathTestFile, "");
 
                         pathWithFileName = HelperTestBase.currentProjectTest.PrjTestFileName;
-
-                        if (!string.IsNullOrEmpty(pathWithFileName))
-                            lstStrChReadFileArr = _helperApp.ReadExistTestFileTextArrNew(fileName, pathWithFileName);
-
-                        if (lstStrChReadFileArr[0].Count() > 0)
-                        {
-                            lstDblChReadFileArr = _helperApp.lstDblReturnReadFile;
-
-                            #region CALC TEST
-
-                            bool breturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
-
-                            if (!breturnCalcStep)
-                            {
-                                string strMsg = "Failed, calc step test -  not calculated !";
-
-                                LOG_TestSequence(strMsg);
-
-                                MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return false;
-                            }
-                            else
-                                _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
-
-                            #endregion
-
-
-                            if (!_modelGVL.GVL_Graficos.bDadosCalculados)
-                            {
-                                string strMsg = "Failed, test information not calculated !";
-
-                                LOG_TestSequence(strMsg);
-
-                                MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return false;
-                            }
-                            else
-                            {
-                                LOG_TestSequence("TESTE CALC CONCLUDED");
-
-                                if (!TAB_TableResult_SetData())
-                                    MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                else
-                                {
-                                    if (!CHART_LoadActualTestComplete())
-                                        MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    //if (!ReportPDF())
-                                    //    MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                                    // ChartPointsAnnottion(HelperTestBase.Model_GVL.GVL_Graficos);
-                                }
-
-                                if (tab_TableResultsEnable)
-                                {
-                                    //else
-                                    //{
-                                    //    if (!ReportPDF())
-                                    //        MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    //}
-
-                                    if (TAB_Main.SelectedIndex != 0)
-                                        TAB_Main_ActivePage(0);
-                                }
-
-                                tab_TableResultsEnable = true;
-                                HelperTestBase.currentProjectTest.is_Created = true;
-
-                                //if (TAB_Main.SelectedIndex != 0)
-                                //    TAB_Main_ActivePage(0);
-
-                                LOG_TestSequence("TESTE SEQUENCE STOP AND CONCLUDED");
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
                     }
                 }
+
+                #endregion
+
+                #region load data
+
+                if (!string.IsNullOrEmpty(pathWithFileName))
+                    lstStrChReadFileArr = _helperApp.ReadExistTestFileTextArrNew(fileName, pathWithFileName);
+
+                if (lstStrChReadFileArr[0].Count() > 0)
+                {
+                    lstDblChReadFileArr = _helperApp.lstDblReturnReadFile;
+
+                    #region CALC TEST
+
+                    bool breturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
+
+                    if (!breturnCalcStep)
+                    {
+                        string strMsg = "Failed, calc step test -  not calculated !";
+
+                        LOG_TestSequence(strMsg);
+
+                        MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                    else
+                        _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
+
+                    #endregion
+
+                    if (!_modelGVL.GVL_Graficos.bDadosCalculados)
+                    {
+                        string strMsg = "Failed, test information not calculated !";
+
+                        LOG_TestSequence(strMsg);
+
+                        MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                    else
+                    {
+                        LOG_TestSequence("TESTE CALC CONCLUDED");
+
+                        if (!TAB_TableResult_SetData())
+                            MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        else
+                        {
+                            if (!CHART_LoadActualTestComplete())
+                                MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            //if (!ReportPDF())
+                            //    MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            // ChartPointsAnnottion(HelperTestBase.Model_GVL.GVL_Graficos);
+                        }
+
+                        if (tab_TableResultsEnable)
+                        {
+                            //else
+                            //{
+                            //    if (!ReportPDF())
+                            //        MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            //}
+                        }
+
+                        tab_TableResultsEnable = false;
+                        HelperTestBase.currentProjectTest.is_Created = true;
+
+                        if (_modelGVL.GVL_Graficos.bDadosCalculados)
+                            HelperTestBase.Model_GVL = _modelGVL;
+
+                        LOG_TestSequence("TESTE SEQUENCE STOP AND CONCLUDED");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                #endregion
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+
+                throw;
             }
 
             return true;
@@ -5407,6 +5505,8 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (!CHART_LoadActualTestComplete())
                                     MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                else
+                                    TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL);
                                 //if (!ReportPDF())
                                 //    MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -5436,13 +5536,17 @@ namespace Continental.Project.Adam.UI
 
                 string strHeader = "HBM_AquisitionHeader";
 
-                string strHeaderTestFilename = string.Concat( _prjTestFilename, "#", strHeader, _helperApp.AppTests_DefaultExtension);
+                _prjTestFilename = !string.IsNullOrEmpty(_prjTestFilename) ? _prjTestFilename : HelperTestBase.currentProjectTest.PrjTestFileName;
+
+                string strFileName = _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+
+                string strHeaderTestFilename = string.Concat(strFileName.Replace("HBM_SaveAquisitionTxtData", string.Empty), strHeader, _helperApp.AppTests_DefaultExtension);
 
                 _prjTestHeaderFilename = Path.Combine(_initialDirPathTestFile, strHeaderTestFilename);
 
                 #endregion
 
-                if (!_helperApp.CheckFileExists(_prjTestFilename))
+                if (_helperApp.CheckFileExists(_prjTestFilename))
                 {
                     if (!_helperApp.CheckFileExists(_prjTestHeaderFilename))
                     {
@@ -5455,11 +5559,13 @@ namespace Continental.Project.Adam.UI
                         {
                             var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
 
+                            File.WriteAllText(_prjTestHeaderFilename, strSbHeader.ToString());
+
                             sbDataFile.Insert(0, strSbHeader);
 
-                            string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
+                            //string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
 
-                            sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
+                            //sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
 
                             ////Create File Acquisition
                             _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
@@ -5496,7 +5602,6 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         public bool TXTFileHBM_HeaderInsert(List<string> lstFiledata)
         {
             try
@@ -5673,7 +5778,6 @@ namespace Continental.Project.Adam.UI
             chart.Titles.Clear();
             chart.Series.Clear();
         }
-
         private void CHART_ClearAxes(XYDiagram diagram)
         {
             int iValueDeafult = 0;
@@ -5707,7 +5811,6 @@ namespace Continental.Project.Adam.UI
 
             #endregion
         }
-
         private bool CHART_LoadActualTestComplete()
         {
             try
@@ -5865,7 +5968,7 @@ namespace Continental.Project.Adam.UI
 
                             #region AXES - Y
 
-                            #region Y01 - Blue
+                            #region Y01
 
                             setColor = devChart.Series[0].View.Color;
 
@@ -8800,10 +8903,6 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TODO
-        async Task PauseTaskDelay()
-        {
-            await Task.Delay(2000);
-        }
         //TODO
         public void SaveCurrentMeasurement()
         {
@@ -8846,205 +8945,6 @@ namespace Continental.Project.Adam.UI
             //    else
             //        FormOkSplash->Show();
             //}
-        }
-        //TODO
-        public bool DialogToParams()
-        {
-            //// pre-check
-            //if (!base_params
-            //        || !add_params)
-            //    return false;
-
-            //// transfer data, depending on page-control-selection...
-            //sTUBE_CONSUMERS tube_consumers;
-            //tube_consumers.GetTubeSelections();
-            //switch (PCActuation->ActivePage->PageIndex)
-            //{
-            //    case 0:         // Pneumatic Slow
-            //        {
-            //            *base_params = cBATCH_EXAM_BASE::sBASE_PARAMS(cBATCH_EXAM_BASE::sBASE_PARAMS::AT_PNEUMATIC_SLOW,
-            //                                                                                                         &cBATCH_EXAM_BASE::sBASE_PARAMS::sVACUUM(EParGenVacuumMin->BaseUnitVal(),
-            //                                                                                                                                                                                             EParGenVacuumMax->BaseUnitVal(),
-            //                                                                                                                                                                                             EParGenVacuum->BaseUnitVal()),
-            //                                                                                                         CBLock->Checked,
-            //                                                                                                         E1ParForceGrad->BaseUnitVal(),
-            //                                                                                                         E1ParMaxForce->BaseUnitVal(),
-            //                                                                                                         CBUniversalConsumer->Checked ? CT_UNIVERSAL :
-            //                                                                                                            CBOriginalConsumer->Checked ? CT_ORIGINAL :
-            //                                                                                                             CBTubeConsumer->Checked ? CT_TUBE : CT_NONE,
-            //                                                                                                         &sUNI_CONSUMERS(EParUniConsTravelPC->BaseUnitVal(), EParUniConsTravelSC->BaseUnitVal()),
-            //                                                                                                         &tube_consumers);
-            //        }
-            //        break;
-            //    case 1:         // Pneumatic Fast
-            //        {
-            //            *base_params = cBATCH_EXAM_BASE::sBASE_PARAMS(cBATCH_EXAM_BASE::sBASE_PARAMS::AT_PNEUMATIC_FAST,
-            //                                                                                                         &cBATCH_EXAM_BASE::sBASE_PARAMS::sVACUUM(EParGenVacuumMin->BaseUnitVal(),
-            //                                                                                                                                                                                             EParGenVacuumMax->BaseUnitVal(),
-            //                                                                                                                                                                                             EParGenVacuum->BaseUnitVal()),
-            //                                                                                                         CBLock->Checked,
-            //                                                                                                         E2ParActuationGrad->BaseUnitVal() / 100,
-            //                                                                                                         E2ParMaxForce->BaseUnitVal(),
-            //                                                                                                         CBUniversalConsumer->Checked ? CT_UNIVERSAL :
-            //                                                                                                            CBOriginalConsumer->Checked ? CT_ORIGINAL :
-            //                                                                                                             CBTubeConsumer->Checked ? CT_TUBE : CT_NONE,
-            //                                                                                                         &sUNI_CONSUMERS(EParUniConsTravelPC->BaseUnitVal(), EParUniConsTravelSC->BaseUnitVal()),
-            //                                                                                                         &tube_consumers);
-            //        }
-            //        break;
-            //    case 2:         // E-Motor
-            //        {
-            //            *base_params = cBATCH_EXAM_BASE::sBASE_PARAMS(cBATCH_EXAM_BASE::sBASE_PARAMS::AT_ELECTRIC,
-            //                                                                                                         &cBATCH_EXAM_BASE::sBASE_PARAMS::sVACUUM(EParGenVacuumMin->BaseUnitVal(),
-            //                                                                                                                                                                                             EParGenVacuumMax->BaseUnitVal(),
-            //                                                                                                                                                                                             EParGenVacuum->BaseUnitVal()),
-            //                                                                                                         CBLock->Checked,
-            //                                                                                                         E3ParActuationGrad->BaseUnitVal(),
-            //                                                                                                         E3ParMaxForce->BaseUnitVal(),
-            //                                                                                                         CBUniversalConsumer->Checked ? CT_UNIVERSAL :
-            //                                                                                                            CBOriginalConsumer->Checked ? CT_ORIGINAL :
-            //                                                                                                             CBTubeConsumer->Checked ? CT_TUBE : CT_NONE,
-            //                                                                                                         &sUNI_CONSUMERS(EParUniConsTravelPC->BaseUnitVal(), EParUniConsTravelSC->BaseUnitVal()),
-            //                                                                                                         &tube_consumers);
-            //        }
-            //        break;
-            //    default:        // something went wrong, invalid selection!
-            //        return false;
-            //}
-
-
-            ////
-            //// additional params
-            ////
-
-            //for (unsigned int i = 0; i < add_params->DataAvail(); i++)
-            //{
-            //    AnsiString search_name = (*add_params)[i]->name;
-
-            //    for (int j = 0; j < SBEvaluation->ControlCount; j++)
-            //    {
-            //        AnsiString ctrl_name = SBEvaluation->Controls[j]->Name;
-            //        if (ctrl_name == search_name)
-            //        {
-            //            // cCXCOMP_CHECKBOX?
-            //            cCXCOMP_CHECKBOX* cb = dynamic_cast<cCXCOMP_CHECKBOX*>(SBEvaluation->Controls[j]);
-
-            //            if (cb)
-            //                (*add_params)[i]->value = cb->Checked ? 1.0 : 0.0;
-
-            //            // cCXCOMP_RADIOBUTTON?
-            //            cCXCOMP_RADIOBUTTON* rb = dynamic_cast<cCXCOMP_RADIOBUTTON*>(SBEvaluation->Controls[j]);
-
-            //            if (rb)
-            //                (*add_params)[i]->value = rb->Checked ? 1.0 : 0.0;
-
-            //            // cCXCOMP_MKSLIMITEDIT?
-            //            cCXCOMP_MKSLIMITEDIT* ed = dynamic_cast<cCXCOMP_MKSLIMITEDIT*>(SBEvaluation->Controls[j]);
-
-            //            if (ed)
-            //                (*add_params)[i]->value = ed->BaseUnitVal();
-            //        }
-            //    }
-            //}
-
-            return true;
-        }
-        //TODO
-        public bool ParamsToDialog()
-        {
-            //// pre-check
-            //if (!base_params || !add_params)
-            //    return false;
-
-
-            //// transfer data, common
-
-            //EParGenVacuumMin->SetInBaseUnit(base_params->vacuum.press_min);
-            //EParGenVacuumMax->SetInBaseUnit(base_params->vacuum.press_max);
-            //EParGenVacuum->SetInBaseUnit(base_params->vacuum.pressure);
-
-            //CBLock->Checked = base_params->lock_piston;
-
-            //CBUniversalConsumer->Checked = (base_params->consumer_type == CT_UNIVERSAL);
-            //CBOriginalConsumer->Checked = (base_params->consumer_type == CT_ORIGINAL);
-            //CBTubeConsumer->Checked = (base_params->consumer_type == CT_TUBE);
-
-            //EParUniConsTravelPC->SetInBaseUnit(base_params->uni_consumers.travel_pc);
-            //EParUniConsTravelSC->SetInBaseUnit(base_params->uni_consumers.travel_sc);
-
-            //base_params->tube_consumers.SetTubeSelections();
-            ///*
-            //    *ETubeConsumerPCPressSide = base_params->tube_consumers.pc.DecEquivalentPressSide ();
-            //    *ETubeConsumerSCPressSide = base_params->tube_consumers.sc.DecEquivalentPressSide ();
-            //*/
-            //// transfer data, depending on page-control-selection...
-
-            //switch (base_params->actuation_type)
-            //{
-            //    case cBATCH_EXAM_BASE::sBASE_PARAMS::AT_PNEUMATIC_SLOW:         // Pneumatic Slow
-            //        {
-            //            PCActuation->ActivePage = PCActuation->Pages[0];
-
-            //            E1ParForceGrad->SetInBaseUnit(base_params->gradient);
-            //            E1ParMaxForce->SetInBaseUnit(base_params->max_force);
-            //        }
-            //        break;
-            //    case cBATCH_EXAM_BASE::sBASE_PARAMS::AT_PNEUMATIC_FAST:         // Pneumatic Fast
-            //        {
-            //            PCActuation->ActivePage = PCActuation->Pages[1];
-
-            //            E2ParActuationGrad->SetInBaseUnit(base_params->gradient * 100.0);
-            //            E2ParMaxForce->SetInBaseUnit(base_params->max_force);
-            //        }
-            //        break;
-            //    case cBATCH_EXAM_BASE::sBASE_PARAMS::AT_ELECTRIC:           // E-Motor
-            //        {
-            //            PCActuation->ActivePage = PCActuation->Pages[2];
-
-            //            E3ParActuationGrad->SetInBaseUnit(base_params->gradient);
-            //            E3ParMaxForce->SetInBaseUnit(base_params->max_force);
-            //        }
-            //        break;
-            //    default:        // something went wrong, invalid selection!
-            //        return false;
-            //}
-
-
-            ////
-            //// additional params
-            ////
-
-            //for (unsigned int i = 0; i < add_params->DataAvail(); i++)
-            //{
-            //    AnsiString search_name = (*add_params)[i]->name;
-
-            //    for (int j = 0; j < SBEvaluation->ControlCount; j++)
-            //    {
-            //        AnsiString ctrl_name = SBEvaluation->Controls[j]->Name;
-            //        if (ctrl_name == search_name)
-            //        {
-            //            // cCXCOMP_CHECKBOX?
-            //            cCXCOMP_CHECKBOX* cb = dynamic_cast<cCXCOMP_CHECKBOX*>(SBEvaluation->Controls[j]);
-
-            //            if (cb)
-            //                cb->Checked = ((*add_params)[i]->value > 0.5);
-
-            //            // cCXCOMP_RADIOBUTTON?
-            //            cCXCOMP_RADIOBUTTON* rb = dynamic_cast<cCXCOMP_RADIOBUTTON*>(SBEvaluation->Controls[j]);
-
-            //            if (rb)
-            //                rb->Checked = ((*add_params)[i]->value > 0.5);
-
-            //            // cCXCOMP_MKSLIMITEDIT?
-            //            cCXCOMP_MKSLIMITEDIT* ed = dynamic_cast<cCXCOMP_MKSLIMITEDIT*>(SBEvaluation->Controls[j]);
-
-            //            if (ed)
-            //                ed->SetInBaseUnit((*add_params)[i]->value);
-            //        }
-            //    }
-            //}
-
-            return true;
         }
         //TODO
         public void SetNewTestProgram(eEXAMTYPE examtype, string udt_filename)
@@ -9132,11 +9032,16 @@ namespace Continental.Project.Adam.UI
         {
             if (_helperApp.AppUseSimulateLocal)
                 if (!_bAppStart)
-                    TXTFileHBM_LoadData_AppUseSimulateLocal();
+                    if (TXTFileHBM_LoadData())
+                        TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                    else
+                        MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         #endregion
 
         #endregion
+
+        
     }
 }
