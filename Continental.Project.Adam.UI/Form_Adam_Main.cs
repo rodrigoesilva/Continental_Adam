@@ -837,7 +837,6 @@ namespace Continental.Project.Adam.UI
 
                 #endregion
 
-
                 HelperApp.lstResultParamFormated = HelperApp.lstTempResultParam;
             }
             catch (Exception ex)
@@ -960,7 +959,6 @@ namespace Continental.Project.Adam.UI
                            // lstChk.ForEach(item => metroPnl.Controls.Remove(item));
                         }
                     }
-                    
 
                     //add chk novo panel
                     for (int i = 0; i < listResultParam.Count(); i++)
@@ -2120,8 +2118,11 @@ namespace Continental.Project.Adam.UI
 
                     if (_helperApp.lstDblReturnReadFile[0] != null)
                     {
-                        if(TXTFileHBM_LoadData())
+                        if (TXTFileHBM_LoadData())
+                        {
+                            tab_TableResultsEnable = true;
                             TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                        }
                         else
                             MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
@@ -2153,7 +2154,10 @@ namespace Continental.Project.Adam.UI
                     if (_helperApp.lstDblReturnReadFile[0] != null)
                     {
                         if (TXTFileHBM_LoadData())
+                        {
+                            tab_TableResultsEnable = true;
                             TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                        }
                         else
                             MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
@@ -5196,11 +5200,19 @@ namespace Continental.Project.Adam.UI
                     {
                         HelperTestBase.currentProjectTest.is_OnLIne = true;
 
-                        TXTFileHBM_LoadData();
+                        if (TXTFileHBM_LoadData())
+                        {
+                            _modelGVL = HelperTestBase.Model_GVL;
 
-                        _modelGVL = HelperTestBase.Model_GVL;
+                            TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL);
 
-                        TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL);
+                            tab_TableResultsEnable = true;
+
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                        } 
+                        else
+                            MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+ 
                     }
                 }
             }
@@ -5328,7 +5340,11 @@ namespace Continental.Project.Adam.UI
                     {
                         fileName = theDialog.SafeFileName;
 
-                        pathWithFileName = theDialog.FileName;
+                        _prjTestFilename = theDialog.FileName;
+
+                        HelperTestBase.currentProjectTest.PrjTestFileName = _prjTestFilename;
+
+                        pathWithFileName = HelperTestBase.currentProjectTest.PrjTestFileName;
                     }
                 }
                 else
@@ -5528,7 +5544,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TXT File Header
-        private void TXTFileHBM_HeaderCreate(List<string> lstFiledata, Model_GVL model_GVL)
+        private bool TXTFileHBM_HeaderCreate(List<string> lstFiledata, Model_GVL model_GVL)
         {
             try
             {
@@ -5559,48 +5575,68 @@ namespace Continental.Project.Adam.UI
                         {
                             var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
 
-                            File.WriteAllText(_prjTestHeaderFilename, strSbHeader.ToString());
+                           File.WriteAllText(_prjTestHeaderFilename, strSbHeader.ToString());
 
-                            sbDataFile.Insert(0, strSbHeader);
+                            _helperApp.TXTFileHBM_HeaderAppendTableResults(HelperApp.uiTesteSelecionado).ToString();
 
-                            //string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
+                            string strSbHeaderResults_CurverNames = String.Concat(HelperTestBase.sbHeaderResultsAppendTxtData, Environment.NewLine);
 
-                            //sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
+                            File.WriteAllText(Path.Combine(_initialDirPathTestFile, "curves.txt"), strSbHeaderResults_CurverNames.ToString());
+
+                            var strUnionHeader = string.Concat(strSbHeader, strSbHeaderResults_CurverNames);
+
+                            var strUnionAll = string.Concat(strUnionHeader, sbDataFile.ToString());
+
+                            //sbDataFile.Insert(0, strUnion);
+
+                            //sbDataFile.Insert(iLineInsert, strSbHeaderResults_CurverNames);
 
                             ////Create File Acquisition
                             _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
-                            File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
+
+                            File.WriteAllText(_prjTestHeaderFilename, strUnionAll);
+
+                           // File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
                         }
                     }
                     else
+                    {
                         MessageBox.Show("Failed, Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    } 
                 }
                 else
+                {
                     MessageBox.Show("Test file NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                } 
             }
             catch (DirectoryNotFoundException dirNotFoundException)
             {
                 var err = string.Concat("DirectoryNotFoundException : ", dirNotFoundException.Message);
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // Show a message to the user
+                return false;
             }
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
                 var err = string.Concat("UnauthorizedAccessException : ", unauthorizedAccessException.Message);
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // Show a message to the user
+                return false;
             }
             catch (IOException ioException)
             {
                 var err = string.Concat("IOException : ", ioException.Message);
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // Show a message to the user
+                return false;
             }
             catch (Exception ex)
             {
                 var err = string.Concat("Exception : ", ex.Message);
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
+
+            return true;
         }
         public bool TXTFileHBM_HeaderInsert(List<string> lstFiledata)
         {
@@ -5624,7 +5660,6 @@ namespace Continental.Project.Adam.UI
                 {
                     if (!_helperApp.CheckFileExists(_prjTestFilename))
                     {
-
                         lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
 
                        // _helperApp.TXTFileHBM_HeaderAppendData(HelperApp.uiTesteSelecionado, model_GVL);
@@ -5635,7 +5670,7 @@ namespace Continental.Project.Adam.UI
 
                             sbDataFile.Insert(0, strSbHeader);
 
-                            string strSbHeaderResults_CurverNames = _helperApp.AppendTxtData_Header_Results_CurverNames().ToString();
+                            string strSbHeaderResults_CurverNames = _helperApp.TXTFileHBM_HeaderAppendTableResults(HelperApp.uiTesteSelecionado).ToString();
 
                             sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
 
@@ -9028,20 +9063,22 @@ namespace Continental.Project.Adam.UI
             //accessbase.Refresh();
         }
 
+        
+        #endregion
+
+        #endregion
+        
         private void mTile_LCurrentSelectedTest_Click(object sender, EventArgs e)
         {
             if (_helperApp.AppUseSimulateLocal)
                 if (!_bAppStart)
                     if (TXTFileHBM_LoadData())
-                        TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
-                    else
-                        MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        if(TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL))
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                        else
+                            MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                       
         }
 
-        #endregion
-
-        #endregion
-
-        
     }
 }

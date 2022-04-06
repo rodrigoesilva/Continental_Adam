@@ -2963,6 +2963,7 @@ namespace Continental.Project.Adam.UI.Helper
 
             HelperApp.lstResultParamFormated.Clear();
 
+            HelperApp.dicResultParam = dicResultParam;
             HelperApp.lstResultParamFormated = listResultParamFormated;
 
             return listResultParamFormated;
@@ -14840,7 +14841,7 @@ namespace Continental.Project.Adam.UI.Helper
 
             return _helperTestBase;
         }
-        public HelperTestBase GetAppendTxtData_Header_Results_CurverNames(int iTesteSelecionado)
+        public HelperTestBase TXTFileHBM_HeaderAppendTableResults(int iTesteSelecionado)
         {
             StringBuilder sbHeaderResults = new StringBuilder();
 
@@ -14849,6 +14850,9 @@ namespace Continental.Project.Adam.UI.Helper
                 //set Variables
                 HelperApp.uiTesteSelecionado = iTesteSelecionado;
 
+                var lstResultParam = HelperApp.lstResultParam;
+
+                var dicResultParam = HelperApp.dicResultParam;
 
                 switch (iTesteSelecionado)
                 {
@@ -14859,238 +14863,39 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region StringBuilder AppendTxtData_Header_Results
 
-                            #region Common_Header_Results_Header
-
-                            var helperTestBase_Vacuum = 0;
-                            var helperTestBase_ForceIncreaseGradient = 0;
-                            var helperTestBase_ActuationGradientForward = 0;
-                            var helperTestBase_ActuationForce = 0;
-                            var helperTestBase_ForceDecreaseGradient = 0;
-                            var helperTestBase_ActuationGradientBackward = 0;
-
                             sbHeaderResults.Append($"Results");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Vacuum                         : {helperTestBase_Vacuum} bar");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Force Increase Gradient        : {helperTestBase_ForceIncreaseGradient} N / s");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Actuation Gradient Forward     : {helperTestBase_ActuationGradientForward} mm / s");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Actuation Force                : {helperTestBase_ActuationForce} N");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Force Decrease Gradient        : {helperTestBase_ForceDecreaseGradient} N / s");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Actuation Gradient Backward    : {helperTestBase_ActuationGradientBackward} mm / s");
-                            sbHeaderResults.Append($"\r\n");
 
-                            #endregion
+                            #region Common_Header_Results
 
-                            #region Common_Header_Results_Case
-
-                            //1
-                            var helperTestBase_PressureAt200N = 0;
-                            var helperTestBase_PressureAt500N = 0;
-                            var helperTestBase_PressureAt800N = 0;
-                            var helperTestBase_PressureAt1000N = 0;
-                            var helperTestBase_RunoutPressure = 0;
-                            var helperTestBase_RunoutForce = 0;
-                            var helperTestBase_TravelAt90PercentOut = 0;
-                            var helperTestBase_Jumper = 0;
-                            var helperTestBase_CutInForce = 0;
-                            var helperTestBase_ReleaseForce = 0;
-                            var helperTestBase_HysteresiAt50PercentOut = 0;
-                            var helperTestBase_HysteresisAt50bar = 0;
-                            var helperTestBase_ReleaseForceAt020mm = 0;
-                            var helperTestBase_AuxiliaryPressure = 0;
-                            var helperTestBase_OutputInputRatio = 0;
-                            var helperTestBase_PressureAt90Percent = 0;
-                            var helperTestBase_PressureAt70Percent = 0;
-                            var helperTestBase_JumperGradient = 0;
-
-                            //3
-                            //var helperTestBase_CutInForce = 10;
-                            //var helperTestBase_ReleaseForce = 10;
-                            //var helperTestBase_ReleaseForceAt020mm = 10;
-                            var helperTestBase_PressureAt400N = 0;
-                            var helperTestBase_PressureAt600N = 0;
-                            //var helperTestBase_PressureAt800N = 10;
-                            //var helperTestBase_PressureAt1000N = 10;
-
-                            //13
-                            var helperTestBase_DifferenceAt10barPC_SC_FW = 0;
-                            var helperTestBase_DifferenceAt80barPC_SC_FW = 0;
-                            var helperTestBase_DifferenceAt70barPC_SC_BW = 0;
-                            var helperTestBase_DifferenceAt30barPC_SC_BW = 0;
-
-                            //25
-                            var helperTestBase_PressureAt120N = 0;
-                            //var helperTestBase_PressureAt200N = 10;
-                            var helperTestBase_PressureAt250N = 0;
-                            var helperTestBase_PressureAt300N = 0;
-                            var helperTestBase_RunoutPressure87min = 0;
-                            var helperTestBase_RunoutForce280min = 0;
-                            //var helperTestBase_TravelAt90PercentOut = 10;
-                            //var helperTestBase_Jumper = 10;
-                            //var helperTestBase_CutInForce = 10;
-                            var helperTestBase_ReleaseForcee20min = 0;
-                            var helperTestBase_HysteresisAt50PercentOut = 0;
-                            //var helperTestBase_HysteresisAt50bar = 0;
-                            //var helperTestBase_ReleaseForceAt020mm = 10;
-                            //var helperTestBase_AuxiliaryPressure = 10;
-                            var helperTestBase_DRSwitchPointF = 0;
-                            var helperTestBase_DRSwitchPointP = 0;
-                            var helperTestBase_DRGradientIeff1 = 0;
-                            var helperTestBase_DRGradientIeff2 = 0;
-
-                            switch (iTesteSelecionado)
+                            for (int i = 0; i < dicResultParam.Count; i++)
                             {
-                                case 1:
-                                    #region Force Diagrams - Force/Pressure With Vacuum
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
 
-                                    sbHeaderResults.Append($"Pressure at 200.0 N            : {helperTestBase_PressureAt200N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 500.0 N            : {helperTestBase_PressureAt500N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 800.0 N            : {helperTestBase_PressureAt800N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 1000.0 N           : {helperTestBase_PressureAt1000N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Runout Pressure                : {helperTestBase_RunoutPressure} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Runout Force                   : {helperTestBase_RunoutForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Travel at 90.0 % p out         : {helperTestBase_TravelAt90PercentOut} mm");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Jumper                         : {helperTestBase_Jumper} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Cut - In Force                 : {helperTestBase_CutInForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force                  : {helperTestBase_ReleaseForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Hysteresis at 50.0 % p out     : {helperTestBase_HysteresiAt50PercentOut} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Hysteresis at 50.0 bar         : {helperTestBase_HysteresisAt50bar} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force at 0.20 mm       : {helperTestBase_ReleaseForceAt020mm} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Auxiliary Pressure             : {helperTestBase_AuxiliaryPressure} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Input Ratio             : {helperTestBase_OutputInputRatio}");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 90.0 %             : {helperTestBase_PressureAt90Percent} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 70.0 %             : {helperTestBase_PressureAt70Percent} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Jumper Gradient                : {helperTestBase_JumperGradient} N / bar");
-                                    sbHeaderResults.Append($"\r\n");
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
 
-                                    #endregion
-                                    break;
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
 
-                                case 3:
-                                    #region Force Diagrams - Force/Pressure Without Vacuum
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
 
-                                    sbHeaderResults.Append($"Cut - In Force                 : {helperTestBase_CutInForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force                  : {helperTestBase_ReleaseForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force at 0.20 mm       : {helperTestBase_ReleaseForceAt020mm} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 400.0 N            : {helperTestBase_PressureAt400N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 600.0 N            : {helperTestBase_PressureAt600N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 800.0 N            : {helperTestBase_PressureAt800N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 1000.0 N           : {helperTestBase_PressureAt1000N} bar");
-                                    sbHeaderResults.Append($"\r\n");
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
 
-                                    #endregion
-                                    break;
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t :\t {strResultParam_Measured} {strResultParam_Unit}");
 
-                                case 13:
-                                    #region Check Sensors - Pressure Difference
-
-                                    sbHeaderResults.Append($"Difference at 10.0 bar(PC - SC) FW : {helperTestBase_DifferenceAt10barPC_SC_FW} bar");
                                     sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Difference at 80.0 bar(PC - SC) FW : {helperTestBase_DifferenceAt80barPC_SC_FW} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Difference at 70.0 bar(PC - SC) BW : {helperTestBase_DifferenceAt70barPC_SC_BW} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Difference at 30.0 bar(PC - SC) BW : {helperTestBase_DifferenceAt30barPC_SC_BW} bar");
-                                    sbHeaderResults.Append($"\r\n");
-
-                                    #endregion
-                                    break;
-
-                                case 25:
-                                    #region Force Diagrams - Force/Pressure Dual Ratio
-
-                                    sbHeaderResults.Append($"Pressure at 120.0 N 13... 23   : {helperTestBase_PressureAt120N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 200.0 N            : {helperTestBase_PressureAt200N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 250.0 N            : {helperTestBase_PressureAt250N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Pressure at 300.0 N            : {helperTestBase_PressureAt300N} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Runout Pressure 87 min         : {helperTestBase_RunoutPressure87min} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Runout Force   280 min         : {helperTestBase_RunoutForce280min} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Travel at 90.0 % p out         : {helperTestBase_TravelAt90PercentOut} mm");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Jumper  9... 15                : {helperTestBase_Jumper} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Cut - In Force 65... 85        : {helperTestBase_CutInForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force 20 min           : {helperTestBase_ReleaseForcee20min} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Hysteresis at 50.0 % p out     : {helperTestBase_HysteresisAt50PercentOut} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Hysteresis at 50.0 bar         : {helperTestBase_HysteresisAt50bar} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force at 0.20 mm       : {helperTestBase_ReleaseForceAt020mm} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Auxiliary Pressure             : {helperTestBase_AuxiliaryPressure} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"DR Switch Point F              : {helperTestBase_DRSwitchPointF} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"DR Switch Point P  22... 32    : {helperTestBase_DRSwitchPointP} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"DR Gradient I eff 1            : {helperTestBase_DRGradientIeff1} #");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"DR Gradient I eff 2            : {helperTestBase_DRGradientIeff2} #");
-                                    sbHeaderResults.Append($"\r\n");
-
-                                    #endregion
-                                    break;
-
-                                default:
-                                    break;
+                                }
                             }
-
-                            #endregion
-
-                            #region Common_Header_Results_Footer
-
-                            var helperTestBase_PCHoseConsumer = 12;
-                            var helperTestBase_SCHoseConsumer = 12;
-                            var helperTestBase_RoomTemperature = HelperMODBUS.CS_dwTemperaturaAmbiente_C_LW.ToString("N2");
-
-                            sbHeaderResults.Append($"PC Hose Consumers              : {helperTestBase_PCHoseConsumer} #");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"SC Hose Consumers              : {helperTestBase_SCHoseConsumer} #");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Room Temperature               : {helperTestBase_RoomTemperature} °C");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
 
                             #endregion
 
                             #region Curves_Header_Results
 
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"Curves");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
@@ -15105,10 +14910,10 @@ namespace Continental.Project.Adam.UI.Helper
                             #region HBM - Variables_ Curves_Results
                             //$"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
 
-                            HelperTestBase.dblAnalogVar01 = HelperHBM.rInputForce1;
-                            HelperTestBase.dblAnalogVar02 = HelperHBM.rTravelPiston;
-                            HelperTestBase.dblAnalogVar03 = HelperHBM.rPressurePC;
-                            HelperTestBase.dblAnalogVar04 = HelperHBM.rPressureSC;
+                            //HelperTestBase.dblAnalogVar01 = HelperHBM.rInputForce1;
+                            //HelperTestBase.dblAnalogVar02 = HelperHBM.rTravelPiston;
+                            //HelperTestBase.dblAnalogVar03 = HelperHBM.rPressurePC;
+                            //HelperTestBase.dblAnalogVar04 = HelperHBM.rPressureSC;
 
                             #endregion
 
@@ -16398,34 +16203,7 @@ namespace Continental.Project.Adam.UI.Helper
 
             return _helperTestBase;
         }
-        public StringBuilder AppendTxtData_Header_Results_CurverNames()
-        {
-            StringBuilder sbHeaderResults = new StringBuilder();
-
-            try
-            {
-                GetAppendTxtData_Header_Results_CurverNames(HelperApp.uiTesteSelecionado);
-
-                sbHeaderResults = HelperTestBase.sbHeaderResultsAppendTxtData;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }   
-
-            return sbHeaderResults;
-        }
-        public StringBuilder AppendTxtData_TestConcluded_Values()
-        {
-            return sbTestData;
-        }
-        public void AquisitionTxtData(string strTimestamp, double dblAnalogVar01, double dblAnalogVar02, double dblAnalogVar03, double dblAnalogVar04)
-        {
-            ///Write the datapoints into the file.
-            sbTestData.Append($"{strTimestamp};\t\t\t{dblAnalogVar01};\t\t\t{dblAnalogVar02};\t\t\t{dblAnalogVar03};\t\t\t{dblAnalogVar04};" + "\r\n");
-        }
-
+       
         #endregion
 
         #region Export Files
@@ -17224,7 +17002,7 @@ namespace Continental.Project.Adam.UI.Helper
         private static List<Model_Operational_TestTableParameters> _lstResultParam = new List<Model_Operational_TestTableParameters>();
         private static List<Model_Operational_TestTableParameters> _lstTempResultParam = new List<Model_Operational_TestTableParameters>();
         private static List<Model_Operational_TestTableParameters> _lstResultParamFormated = new List<Model_Operational_TestTableParameters>();
-
+        private static Dictionary<string, string> _dicResultParam = new Dictionary<string, string>();
         public static List<ActuationParameters_EvaluationParameters> lstEvaluationParameters
         {
             get { return HelperApp._lstEvaluationParameters; }
@@ -17246,6 +17024,12 @@ namespace Continental.Project.Adam.UI.Helper
         {
             get { return HelperApp._lstResultParamFormated; }
             set { HelperApp._lstResultParamFormated = value; }
+        }
+
+        public static Dictionary<string, string> dicResultParam
+        {
+            get { return HelperApp._dicResultParam; }
+            set { HelperApp._dicResultParam = value; }
         }
 
         #endregion

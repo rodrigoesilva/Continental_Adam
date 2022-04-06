@@ -426,7 +426,7 @@ namespace Continental.Project.Adam.UI.trash
 
                 path = string.Concat(dirPathTestFile, "texst.txt");
 
-                File.AppendAllText(path, _helperApp.AppendTxtData_TestConcluded_Values().ToString());
+                //File.AppendAllText(path, _helperApp.AppendTxtData_TestConcluded_Values().ToString());
             }
         }
         public bool Append_Header_ActuationType(string path)
@@ -440,7 +440,7 @@ namespace Continental.Project.Adam.UI.trash
         public bool AppendData(string path)
         {
 
-            File.AppendAllText(path, _helperApp.AppendTxtData_TestConcluded_Values().ToString());
+            //File.AppendAllText(path, _helperApp.AppendTxtData_TestConcluded_Values().ToString());
 
             //using (MemoryStream ms1 = new MemoryStream())
             //{
