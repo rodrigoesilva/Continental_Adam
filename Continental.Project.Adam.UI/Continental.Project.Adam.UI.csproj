@@ -357,7 +357,7 @@
     <Compile Include="BLL\BLL_Main_Chart.cs" />
     <Compile Include="BLL\BLL_Main_Tab_ActuationParameters.cs" />
     <Compile Include="BLL\BLL_Main_Tab_TableResults.cs" />
-    <Compile Include="BLL\BLL_Manager_SelectEvalProgram.cs" />
+    <Compile Include="BLL\BLL_Manager_TestAvailable.cs" />
     <Compile Include="BLL\BLL_Operational_Project.cs" />
     <Compile Include="BLL\BLL_Security_Login.cs" />
     <Compile Include="BLL\BLL_Security_User.cs" />
@@ -415,6 +415,7 @@
     <Compile Include="Models\Manager\Model_Manager_TestGroup.cs" />
     <Compile Include="Models\Operational\Model_Operational_ManualActuation.cs" />
     <Compile Include="Models\Operational\Model_Operational_Project.cs" />
+    <Compile Include="Models\Operational\Model_Operational_Project_TestConcluded.cs" />
     <Compile Include="Models\Operational\Model_Operational_TestTableParameters.cs" />
     <Compile Include="Models\Security\SecurityCrypto.cs" />
     <Compile Include="Models\Security\Model_SecurityModule.cs" />

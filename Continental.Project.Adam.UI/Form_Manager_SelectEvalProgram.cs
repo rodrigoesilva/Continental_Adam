@@ -16,7 +16,7 @@ namespace Continental.Project.Adam.UI
     {
         #region Define
 
-        BLL_Manager_SelectEvalProgram bll_Manager_SelectEvalProgram = new BLL_Manager_SelectEvalProgram();
+        BLL_Manager_TestAvailable bll_Manager_SelectEvalProgram = new BLL_Manager_TestAvailable();
 
         eEXAMTYPE sel_examtype_ref;
 

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Continental.Project.Adam.UI.BLL
 {
-    public class BLL_Manager_SelectEvalProgram
+    public class BLL_Manager_TestAvailable
     {
         public ComDB db = new ComDB();
 
@@ -84,9 +84,12 @@ namespace Continental.Project.Adam.UI.BLL
 
                 sb.Append("SELECT");
                 sb.Append(" [IdTestAvailable] as Id");
-                sb.Append(", [Test] as Name");
+                sb.Append(",  CONCAT([Group],' - ',[Test]) AS Name");
                 sb.Append(" FROM");
-                sb.Append(" Manager_TestAvailable");
+                sb.Append(" [Manager_TestAvailable] TA");
+                sb.Append(" INNER JOIN");
+                sb.Append(" [Manager_TestGroup] TG");
+                sb.Append(" ON TG.IdTestGroup = TA.IdTestGroup");
                 sb.Append(" WHERE");
                 sb.Append(" Status = " + 1); //status actived
                 sb.Append(" ORDER BY");
@@ -105,7 +108,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Manager_GetAvailableTests : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  GetAvailableTests - BLL_Manager_TestAvailable : " + ex.Message);
                 throw (ex);
             }
         }

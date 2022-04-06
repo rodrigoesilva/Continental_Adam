@@ -17,7 +17,6 @@ namespace Continental.Project.Adam.UI.Models.Operational
         public string TestingDate { get; set; }
         public string Comment { get; set; }
         public eEXAMTYPE examtype { get; set; }
-
         public bool is_user_defined { get; set; }
         public bool is_Created { get; set; }
         public bool is_OnLIne { get; set; }

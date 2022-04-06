@@ -1399,16 +1399,24 @@ namespace Continental.Project.Adam.UI
         #region TAB - ActuationParameters - General Settings - CBO Actuation Mode
         private void TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Populate()
         {
-            _bAppStart = true;
+            try
+            {
+                _bAppStart = true;
 
-            BLL_Main_Tab_ActuationParameters _bll_Main_Tab_ActionParameters = new BLL_Main_Tab_ActuationParameters();
+                BLL_Main_Tab_ActuationParameters _bll_Main_Tab_ActionParameters = new BLL_Main_Tab_ActuationParameters();
 
-            DataTable dt = _bll_Main_Tab_ActionParameters.PopulateActionMode();
+                DataTable dt = _bll_Main_Tab_ActionParameters.PopulateActionMode();
 
-            mcbo_tabActParam_GenSettings_CoBActuationMode.ValueMember = "Id";
+                mcbo_tabActParam_GenSettings_CoBActuationMode.ValueMember = "Id";
 
-            mcbo_tabActParam_GenSettings_CoBActuationMode.DisplayMember = "Name";
-            mcbo_tabActParam_GenSettings_CoBActuationMode.DataSource = dt;
+                mcbo_tabActParam_GenSettings_CoBActuationMode.DisplayMember = "Name";
+                mcbo_tabActParam_GenSettings_CoBActuationMode.DataSource = dt;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         private void mcbo_GeneralSettings_CoBActuationMode_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1951,20 +1959,28 @@ namespace Continental.Project.Adam.UI
         #region TAB - ActuationParameters - General Settings - CBO Test Type
         private void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Populate()
         {
-            _bAppStart = true;
+            try
+            {
+                _bAppStart = true;
 
-            BLL_Manager_SelectEvalProgram _bll_Manager_SelectEvalProgram = new BLL_Manager_SelectEvalProgram();
+                BLL_Manager_TestAvailable _bll_Manager_SelectEvalProgram = new BLL_Manager_TestAvailable();
 
-            DataTable dt = _bll_Manager_SelectEvalProgram.GetAvailableTests();
+                DataTable dt = _bll_Manager_SelectEvalProgram.GetAvailableTests();
 
-            DataRow dr = dt.NewRow();
-            dr.ItemArray = new object[] { 0, "-- No Selection Test --" };
-            dt.Rows.InsertAt(dr, 0);
+                DataRow dr = dt.NewRow();
+                dr.ItemArray = new object[] { 0, "-- No Selection Test --" };
+                dt.Rows.InsertAt(dr, 0);
 
-            mcbo_tabActParam_GenSettings_CoBSelectTest.ValueMember = "Id";
+                mcbo_tabActParam_GenSettings_CoBSelectTest.ValueMember = "Id";
 
-            mcbo_tabActParam_GenSettings_CoBSelectTest.DisplayMember = "Name";
-            mcbo_tabActParam_GenSettings_CoBSelectTest.DataSource = dt;
+                mcbo_tabActParam_GenSettings_CoBSelectTest.DisplayMember = "Name";
+                mcbo_tabActParam_GenSettings_CoBSelectTest.DataSource = dt;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         private void mcbo_GeneralSettings_CoBSelectTest_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -2156,7 +2172,6 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
         }
-
         private void rad_EvaluationParameters_CBOutputSC_CheckedChanged(object sender, EventArgs e)
         {
             try
@@ -5436,19 +5451,6 @@ namespace Continental.Project.Adam.UI
                         {
                             if (!CHART_LoadActualTestComplete())
                                 MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            //if (!ReportPDF())
-                            //    MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                            // ChartPointsAnnottion(HelperTestBase.Model_GVL.GVL_Graficos);
-                        }
-
-                        if (tab_TableResultsEnable)
-                        {
-                            //else
-                            //{
-                            //    if (!ReportPDF())
-                            //        MessageBox.Show("Failed, Report Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            //}
                         }
 
                         tab_TableResultsEnable = false;

@@ -127,7 +127,7 @@ namespace Continental.Project.Adam.UI
             this.mchk_CBExportExcelSeries.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
             this.mchk_CBExportExcelSeries.Location = new System.Drawing.Point(674, 659);
             this.mchk_CBExportExcelSeries.Name = "mchk_CBExportExcelSeries";
-            this.mchk_CBExportExcelSeries.Size = new System.Drawing.Size(66, 25);
+            this.mchk_CBExportExcelSeries.Size = new System.Drawing.Size(71, 25);
             this.mchk_CBExportExcelSeries.TabIndex = 5;
             this.mchk_CBExportExcelSeries.Text = "Excel";
             this.mchk_CBExportExcelSeries.UseSelectable = true;
@@ -139,7 +139,7 @@ namespace Continental.Project.Adam.UI
             this.mchk_CBExportBitmapSeries.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
             this.mchk_CBExportBitmapSeries.Location = new System.Drawing.Point(851, 659);
             this.mchk_CBExportBitmapSeries.Name = "mchk_CBExportBitmapSeries";
-            this.mchk_CBExportBitmapSeries.Size = new System.Drawing.Size(89, 25);
+            this.mchk_CBExportBitmapSeries.Size = new System.Drawing.Size(95, 25);
             this.mchk_CBExportBitmapSeries.TabIndex = 6;
             this.mchk_CBExportBitmapSeries.Text = "Pictures";
             this.mchk_CBExportBitmapSeries.UseSelectable = true;
@@ -151,7 +151,7 @@ namespace Continental.Project.Adam.UI
             this.mchk_CBPrintSeries.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
             this.mchk_CBPrintSeries.Location = new System.Drawing.Point(1060, 659);
             this.mchk_CBPrintSeries.Name = "mchk_CBPrintSeries";
-            this.mchk_CBPrintSeries.Size = new System.Drawing.Size(64, 25);
+            this.mchk_CBPrintSeries.Size = new System.Drawing.Size(68, 25);
             this.mchk_CBPrintSeries.TabIndex = 7;
             this.mchk_CBPrintSeries.Text = "Print";
             this.mchk_CBPrintSeries.UseSelectable = true;
@@ -208,7 +208,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_Comment.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_Comment.Location = new System.Drawing.Point(5, 15);
             this.mlbl_Comment.Name = "mlbl_Comment";
-            this.mlbl_Comment.Size = new System.Drawing.Size(74, 19);
+            this.mlbl_Comment.Size = new System.Drawing.Size(78, 20);
             this.mlbl_Comment.TabIndex = 9;
             this.mlbl_Comment.Text = "Comment";
             // 
@@ -248,7 +248,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_TestingDate.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_TestingDate.Location = new System.Drawing.Point(5, 514);
             this.mlbl_TestingDate.Name = "mlbl_TestingDate";
-            this.mlbl_TestingDate.Size = new System.Drawing.Size(91, 19);
+            this.mlbl_TestingDate.Size = new System.Drawing.Size(97, 20);
             this.mlbl_TestingDate.TabIndex = 26;
             this.mlbl_TestingDate.Text = "Testing Date";
             // 
@@ -274,7 +274,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_Booster.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_Booster.Location = new System.Drawing.Point(5, 227);
             this.mlbl_Booster.Name = "mlbl_Booster";
-            this.mlbl_Booster.Size = new System.Drawing.Size(73, 19);
+            this.mlbl_Booster.Size = new System.Drawing.Size(77, 20);
             this.mlbl_Booster.TabIndex = 25;
             this.mlbl_Booster.Text = "Booster #";
             // 
@@ -284,7 +284,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_ProductionDate.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_ProductionDate.Location = new System.Drawing.Point(5, 343);
             this.mlbl_ProductionDate.Name = "mlbl_ProductionDate";
-            this.mlbl_ProductionDate.Size = new System.Drawing.Size(118, 19);
+            this.mlbl_ProductionDate.Size = new System.Drawing.Size(123, 20);
             this.mlbl_ProductionDate.TabIndex = 23;
             this.mlbl_ProductionDate.Text = "Production Date";
             // 
@@ -294,7 +294,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_Tmc.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_Tmc.Location = new System.Drawing.Point(5, 285);
             this.mlbl_Tmc.Name = "mlbl_Tmc";
-            this.mlbl_Tmc.Size = new System.Drawing.Size(51, 19);
+            this.mlbl_Tmc.Size = new System.Drawing.Size(54, 20);
             this.mlbl_Tmc.TabIndex = 24;
             this.mlbl_Tmc.Text = "TMC #";
             // 
@@ -304,7 +304,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_TO.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_TO.Location = new System.Drawing.Point(5, 401);
             this.mlbl_TO.Name = "mlbl_TO";
-            this.mlbl_TO.Size = new System.Drawing.Size(46, 19);
+            this.mlbl_TO.Size = new System.Drawing.Size(48, 20);
             this.mlbl_TO.TabIndex = 22;
             this.mlbl_TO.Text = "T.O. #";
             // 
@@ -345,7 +345,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_Tester.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_Tester.Location = new System.Drawing.Point(5, 459);
             this.mlbl_Tester.Name = "mlbl_Tester";
-            this.mlbl_Tester.Size = new System.Drawing.Size(49, 19);
+            this.mlbl_Tester.Size = new System.Drawing.Size(52, 20);
             this.mlbl_Tester.TabIndex = 21;
             this.mlbl_Tester.Text = "Tester";
             // 
@@ -417,7 +417,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_Ident.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_Ident.Location = new System.Drawing.Point(5, 111);
             this.mlbl_Ident.Name = "mlbl_Ident";
-            this.mlbl_Ident.Size = new System.Drawing.Size(55, 19);
+            this.mlbl_Ident.Size = new System.Drawing.Size(59, 20);
             this.mlbl_Ident.TabIndex = 12;
             this.mlbl_Ident.Text = "Ident #";
             // 
@@ -427,7 +427,7 @@ namespace Continental.Project.Adam.UI
             this.mlbl_CustomerType.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.mlbl_CustomerType.Location = new System.Drawing.Point(5, 169);
             this.mlbl_CustomerType.Name = "mlbl_CustomerType";
-            this.mlbl_CustomerType.Size = new System.Drawing.Size(132, 19);
+            this.mlbl_CustomerType.Size = new System.Drawing.Size(139, 20);
             this.mlbl_CustomerType.TabIndex = 13;
             this.mlbl_CustomerType.Text = "Custommer / Type";
             // 
@@ -607,14 +607,14 @@ namespace Continental.Project.Adam.UI
             // 
             this.grid_ProjectTest.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.grid_ProjectTest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grid_ProjectTest.Location = new System.Drawing.Point(411, 100);
+            this.grid_ProjectTest.Location = new System.Drawing.Point(361, 100);
             this.grid_ProjectTest.MultiSelect = false;
             this.grid_ProjectTest.Name = "grid_ProjectTest";
             this.grid_ProjectTest.ReadOnly = true;
             this.grid_ProjectTest.RowHeadersWidth = 51;
             this.grid_ProjectTest.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.grid_ProjectTest.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grid_ProjectTest.Size = new System.Drawing.Size(530, 400);
+            this.grid_ProjectTest.Size = new System.Drawing.Size(580, 400);
             this.grid_ProjectTest.TabIndex = 94;
             this.grid_ProjectTest.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grid_ProjectTest_CellMouseClick);
             // 
@@ -646,7 +646,7 @@ namespace Continental.Project.Adam.UI
             this.tree_Projects.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tree_Projects.Location = new System.Drawing.Point(5, 100);
             this.tree_Projects.Name = "tree_Projects";
-            this.tree_Projects.Size = new System.Drawing.Size(400, 400);
+            this.tree_Projects.Size = new System.Drawing.Size(350, 400);
             this.tree_Projects.TabIndex = 3;
             this.tree_Projects.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_Projects_NodeMouseClick);
             this.tree_Projects.TabIndexChanged += new System.EventHandler(this.tree_Projects_TabIndexChanged);

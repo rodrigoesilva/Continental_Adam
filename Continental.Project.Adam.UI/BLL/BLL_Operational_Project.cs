@@ -47,25 +47,26 @@ namespace Continental.Project.Adam.UI.BLL
                 StringBuilder sb = new StringBuilder();
 
                 sb.Append("SELECT");
-                sb.Append(" OP.*");
-                sb.Append(" ,TA.*");
+                sb.Append(" PTC.*");
+                sb.Append(" ,PR.*");
                 sb.Append(" ,SU.[UName]");
                 sb.Append(" ,SU.[ULogin]");
+                sb.Append(" ,TA.[Test]");
                 sb.Append(" FROM");
-                sb.Append(" [Operational_Project] OP");
+                sb.Append(" [Operational_Project_TestConcluded] PTC");
                 sb.Append(" INNER JOIN");
-                sb.Append(" [Operational_Project_x_Manager_Test] OPTA");
-                sb.Append(" ON OPTA.[IdProject] = OP.[IdProject]");
-                sb.Append(" INNER JOIN");
-                sb.Append(" [Manager_TestAvailable] TA");
-                sb.Append(" ON TA.[IdTestAvailable] = OPTA.[IdTestAvailable]");
+                sb.Append(" [Operational_Project] PR");
+                sb.Append(" ON PR.[IdProject] = PTC.[IdProject]");
                 sb.Append(" INNER JOIN");
                 sb.Append(" [Security_User] SU");
-                sb.Append(" ON SU.[IdUser] = OP.[IduserTester]");
+                sb.Append(" ON SU.[IdUser] = PR.[IdUserTester]");
+                sb.Append(" INNER JOIN");
+                sb.Append(" [Manager_TestAvailable] TA");
+                sb.Append(" ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
                 sb.Append(" WHERE");
-                sb.Append(" OP.[IdProject] = " + idProject.Trim());
+                sb.Append(" PR.[IdProject] = " + idProject.Trim());
                 sb.Append(" ORDER BY");
-                sb.Append(" OP.[IdProject]");
+                sb.Append(" PTC.[IdProjectTestConcluded]");
 
                 string sql = sb.ToString();
 
@@ -85,7 +86,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
         }
 
-        public DataTable GetProjects_x_Tests(string idProject, string IdTestAvailable)
+        public DataTable GetProject_TestConcluded(string idProject, string IdTestAvailable)
         {
             try
             {
@@ -94,23 +95,23 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append("SELECT");
                 if (string.IsNullOrEmpty(IdTestAvailable))
                 {
-                    sb.Append(" PT.[IdProject] as Id");
+                    sb.Append(" PTC.[IdProject] as Id");
                     sb.Append(" ,TA.[Test] as Name");
                 }
                 else
                 {
-                    sb.Append(" PT.[IdProject]");
+                    sb.Append(" PTC.[IdProject]");
                     sb.Append(" ,TA.*");
                 }
                 sb.Append(" FROM");
-                sb.Append(" [Operational_Project_x_Manager_Test] PT");
+                sb.Append(" [Operational_Project_TestConcluded] PTC");
                 sb.Append(" INNER JOIN");
                 sb.Append(" [Manager_TestAvailable] TA");
-                sb.Append(" ON TA.[IdTestAvailable] = PT.[IdTestAvailable]");
+                sb.Append(" ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
                 sb.Append(" WHERE");
-                sb.Append(" PT.[IdProject] = " + idProject.Trim());
+                sb.Append(" PTC.[IdProject] = " + idProject.Trim());
                 sb.Append(" ORDER BY");
-                sb.Append(" PT.[IdProject]");
+                sb.Append(" PTC.[IdProject]");
 
                 string sql = sb.ToString();
 
@@ -222,6 +223,42 @@ namespace Continental.Project.Adam.UI.BLL
             catch (Exception ex)
             {
                 Console.WriteLine("**** | Error | ****  BLL_Manager_SelectEvalProgram : " + ex.Message);
+                throw (ex);
+            }
+        }
+
+        public bool DeleteProjectTestConcluded(string idProjectTestConcluded, string idProject)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("DELETE");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestConcluded]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProjectTestConcluded] = " + idProjectTestConcluded.Trim());
+
+                sb.Append("; DELETE");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProject] = " + idProject.Trim());
+
+                string sql = sb.ToString();
+
+                int retExec = db.ExecuteNonQuery(sql);
+
+                if (retExec != 0)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_LoadEval : " + ex.Message);
                 throw (ex);
             }
         }

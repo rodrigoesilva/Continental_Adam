@@ -18,7 +18,7 @@ namespace Continental.Project.Adam.UI
 
         HelperApp _helperApp = new HelperApp();
 
-        BLL_Manager_SelectEvalProgram bll_Manager_SelectEvalProgram = new BLL_Manager_SelectEvalProgram();
+        BLL_Manager_TestAvailable bll_Manager_SelectEvalProgram = new BLL_Manager_TestAvailable();
 
         bool group_dirty = false;
 

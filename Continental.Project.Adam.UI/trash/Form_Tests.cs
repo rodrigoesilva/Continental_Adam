@@ -493,7 +493,7 @@ namespace Continental.Project.Adam.UI.trash
 
         private void PopulatecGeneralSettings_CoBSelectTest()
         {
-            BLL_Manager_SelectEvalProgram _bll_Manager_SelectEvalProgram = new BLL_Manager_SelectEvalProgram();
+            BLL_Manager_TestAvailable _bll_Manager_SelectEvalProgram = new BLL_Manager_TestAvailable();
 
             DataTable dt = _bll_Manager_SelectEvalProgram.GetAvailableTests();
 
