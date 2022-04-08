@@ -228,7 +228,7 @@ namespace Continental.Project.Adam.UI
                         if (idProjectInsert > 0)
                         {
                             HelperApp.uiProjectSelecionado = idProjectInsert;
-                            HelperTestBase.currentProjectTest = modelPrj;
+                            HelperTestBase.ProjectTest.Project = modelPrj;
                         }
                         else
                         {
@@ -711,7 +711,8 @@ namespace Continental.Project.Adam.UI
 
                         HelperApp.uiProjectSelecionado = Convert.ToInt32(strIdProjectSelect);
                         HelperApp.uiTesteSelecionado = Convert.ToInt32(strIdTestSelect);
-                        HelperTestBase.currentProjectTest = gvModelProjectTestConcluded.Project;
+                        HelperTestBase.ProjectTest = gvModelProjectTestConcluded;
+                        HelperTestBase.ProjectTest.Project = gvModelProjectTestConcluded.Project;
                     }
 
                     selected_entry = true;
@@ -930,13 +931,13 @@ namespace Continental.Project.Adam.UI
                     {
                         if (SaveProjectData())
                         {
-                            HelperTestBase.currentProjectTest.is_Created = true;
+                            HelperTestBase.ProjectTest.Project.is_Created = true;
 
                             MessageBox.Show("Success, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
-                            HelperTestBase.currentProjectTest.is_Created = false;
+                            HelperTestBase.ProjectTest.Project.is_Created = false;
 
                             CurrentProjectData_Clear();
                         }

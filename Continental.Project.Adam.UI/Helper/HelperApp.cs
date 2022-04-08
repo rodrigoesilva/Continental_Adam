@@ -16351,12 +16351,12 @@ namespace Continental.Project.Adam.UI.Helper
         #endregion
 
         #region LOAD
-        public List<string> LoadActualTestComplete(string dirPathTestFile)
+        public List<string> LoadProjectTestComplete(string dirPathTestFile)
         {
             List<string> lstReturnRead = new List<string>();
 
-            string FileName = string.Concat(dirPathTestFile, HelperTestBase.currentProjectTest.PrjTestFileName);
-            string SafeFileName = HelperTestBase.currentProjectTest.PrjTestFileName;
+            string FileName = string.Concat(dirPathTestFile, HelperTestBase.ProjectTest.Project.PrjTestFileName);
+            string SafeFileName = HelperTestBase.ProjectTest.Project.PrjTestFileName;
 
             if (!string.IsNullOrEmpty(FileName))
                 lstReturnRead = ReadExistTestFileText(SafeFileName, FileName);
