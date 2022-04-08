@@ -418,7 +418,6 @@
     <Compile Include="Models\Operational\Model_Operational_Project_TestConcluded.cs" />
     <Compile Include="Models\Operational\Model_Operational_TestTableParameters.cs" />
     <Compile Include="Models\Security\SecurityCrypto.cs" />
-    <Compile Include="Models\Security\Model_SecurityModule.cs" />
     <Compile Include="Models\Security\Model_SecurityPassword.cs" />
     <Compile Include="Models\Security\Model_SecurityProfile.cs" />
     <Compile Include="Models\Security\Model_SecurityUser.cs" />

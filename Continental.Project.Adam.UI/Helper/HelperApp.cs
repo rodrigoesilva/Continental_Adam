@@ -16355,8 +16355,8 @@ namespace Continental.Project.Adam.UI.Helper
         {
             List<string> lstReturnRead = new List<string>();
 
-            string FileName = string.Concat(dirPathTestFile, HelperTestBase.ProjectTest.Project.PrjTestFileName);
-            string SafeFileName = HelperTestBase.ProjectTest.Project.PrjTestFileName;
+            string FileName = string.Concat(dirPathTestFile, HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName);
+            string SafeFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
 
             if (!string.IsNullOrEmpty(FileName))
                 lstReturnRead = ReadExistTestFileText(SafeFileName, FileName);

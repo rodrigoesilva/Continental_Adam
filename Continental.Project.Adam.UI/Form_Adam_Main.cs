@@ -143,6 +143,7 @@ namespace Continental.Project.Adam.UI
         List<double>[] lstDblChReadFileArr = new List<double>[13];
 
 
+
         #region General Settings
 
         //General Settings - CBO Actuation Mode
@@ -244,30 +245,40 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                //FORMS CONFIG
-                this.ShowInTaskbar = false;
-                this.ControlBox = false;
-                this.Text = null;
-
-                _bAppStart = true;
-                timerMODBUS.Enabled = false;
-
-                // Para ativar o relatório de progresso do background worker precisamos definir esta propriedade
-                //_helperApp.bgWorker.WorkerReportsProgress = true;
-
-                //COMMUNICATION
-                if (!_helperApp.AppUseSimulateLocal)
+                if (HelperApp.uiProjectTestSelecionado == 1)
                 {
-                    if (ComHBM.HBM_UseEnableCom)
-                        HBM_Initialize();
-
-                    if (ComModbusTCP.Modbus_UserEnableCom)
-                        _helperMODBUS.HelperMODBUS_Initialize();
-
-                    MBmaster = HelperMODBUS.Modbus_MBmaster;
+                    Msgteste();
                 }
-                //else
-                //    StartSimulate();
+                else
+                {
+                    //FORMS CONFIG
+                    this.ShowInTaskbar = false;
+                    this.ControlBox = false;
+                    this.Text = null;
+
+                    _bAppStart = true;
+                    timerMODBUS.Enabled = false;
+
+
+                    HelperTestBase.ProjectTestConcluded.Project = new Model_Operational_Project();
+
+                    // Para ativar o relatório de progresso do background worker precisamos definir esta propriedade
+                    //_helperApp.bgWorker.WorkerReportsProgress = true;
+
+                    //COMMUNICATION
+                    if (!_helperApp.AppUseSimulateLocal)
+                    {
+                        if (ComHBM.HBM_UseEnableCom)
+                            HBM_Initialize();
+
+                        if (ComModbusTCP.Modbus_UserEnableCom)
+                            _helperMODBUS.HelperMODBUS_Initialize();
+
+                        MBmaster = HelperMODBUS.Modbus_MBmaster;
+                    }
+                    //else
+                    //    StartSimulate();
+                }
             }
             catch (Exception ex)
             {
@@ -275,6 +286,16 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(exc);
             }
         }
+
+        public void Msgteste() 
+        {
+            TAB_ActuationParameters_SetData();
+
+            TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiProjectTestSelecionado);
+
+            MessageBox.Show(" Test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
         private void Form_Adam_Main_Load(object sender, EventArgs e)
         {
             _initialDirPathTestFile = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppTests_Path);
@@ -520,17 +541,17 @@ namespace Continental.Project.Adam.UI
             {
                 tab_ChartEnable = true;
                 tab_TableResultsEnable = true;
-                HelperTestBase.ProjectTest.Project.is_Created = true;
+                HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
             }
             var strTabSelected = e.TabPage.Name.ToString();
 
             switch (strTabSelected)
             {
                 case "tab_Diagram":
-                    bTabAccessOk = tab_ChartEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.ProjectTest.Project.is_Created;
+                    bTabAccessOk = tab_ChartEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.ProjectTestConcluded.Project.is_Created;
                     break;
                 case "tab_TableResults":
-                    bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.ProjectTest.Project.is_Created;
+                    bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.ProjectTestConcluded.Project.is_Created;
                     break;
                 default:
                     bTabAccessOk = true;
@@ -2086,11 +2107,11 @@ namespace Continental.Project.Adam.UI
                     HelperTestBase.eExamType = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(sel_ix);
 
                     if (HelperTestBase.eExamType == eEXAMTYPE.ET_USER_DEFINED)
-                        HelperTestBase.ProjectTest.Project.is_user_defined = true;
+                        HelperTestBase.ProjectTestConcluded.Project.is_user_defined = true;
 
                     //  // save edited data & load corresp. data of new selection, if user defined test
                     if (HelperTestBase.eExamType != eEXAMTYPE.ET_NONE)
-                        if (HelperTestBase.ProjectTest.Project.is_user_defined)
+                        if (HelperTestBase.ProjectTestConcluded.Project.is_user_defined)
                         {
                             if (last_sel_ix >= 0)
                             {
@@ -2122,7 +2143,7 @@ namespace Continental.Project.Adam.UI
                     HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput);
 
                     tab_TableResultsEnable = false;
-                    HelperTestBase.ProjectTest.Project.is_Created = false;
+                    HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
 
                     _bCoBSelectTestSelected = false;
 
@@ -4719,7 +4740,7 @@ namespace Continental.Project.Adam.UI
                     MessageBox.Show("No test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 else
                 {
-                    if (!HelperTestBase.ProjectTest.Project.is_Created)
+                    if (!HelperTestBase.ProjectTestConcluded.Project.is_Created)
                     {
                         if (DialogResult.No == MessageBox.Show("\tPROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                             return;
@@ -4756,7 +4777,7 @@ namespace Continental.Project.Adam.UI
 
                                 if (_helperApp.CheckFileExists(_prjTestFilename))
                                 {
-                                    HelperTestBase.ProjectTest.Project.is_Created = true;
+                                    HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
                                     LOG_TestSequence("SIMULATE MODE OK");
                                 }
                                 else
@@ -4851,7 +4872,7 @@ namespace Continental.Project.Adam.UI
                         break;
                 }
 
-                HelperTestBase.ProjectTest.Project.TestingDate = _strTimeStamp;
+                HelperTestBase.ProjectTestConcluded.Project.TestingDate = _strTimeStamp;
 
                 #region Escrita Modbus Parametros comuns
 
@@ -5107,7 +5128,7 @@ namespace Continental.Project.Adam.UI
             LOG_TestSequence("BTN STOP"); ;
 
             //// abort here, if nothing to do...
-            if (!HelperTestBase.ProjectTest.Project.is_Created)
+            if (!HelperTestBase.ProjectTestConcluded.Project.is_Created)
             {
                 if (DialogResult.No == MessageBox.Show("NOT CREATED TEST FILE!" + "\n\n\n" + "Do you want STOP with SIMULATED Test ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                     return false;
@@ -5178,7 +5199,7 @@ namespace Continental.Project.Adam.UI
 
                     LOG_TestSequence("CMD STOP RECORD DATA HBM ");
 
-                    if (!HelperTestBase.ProjectTest.Project.is_Created)
+                    if (!HelperTestBase.ProjectTestConcluded.Project.is_Created)
                     {
                         if (sbexterno.Length > 0)
                         {
@@ -5226,14 +5247,14 @@ namespace Continental.Project.Adam.UI
                 }
                 else
                 {
-                    if (!HelperTestBase.ProjectTest.Project.is_Created)
+                    if (!HelperTestBase.ProjectTestConcluded.Project.is_Created)
                     {
                         if (DialogResult.No == MessageBox.Show("\tPROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                             return;
                     }
                     else
                     {
-                        HelperTestBase.ProjectTest.Project.is_OnLIne = true;
+                        HelperTestBase.ProjectTestConcluded.Project.is_OnLIne = true;
 
                         if (TXTFileHBM_LoadData())
                         {
@@ -5274,11 +5295,11 @@ namespace Continental.Project.Adam.UI
 
                 modelPrjTestConcluded = new Model_Operational_Project_TestConcluded()
                 {
-                    IdProject = HelperTestBase.ProjectTest.IdProject,
+                    IdProject = HelperTestBase.ProjectTestConcluded.IdProject,
                     IdTestAvailable = HelperApp.uiTesteSelecionado,
-                    TestDateTime = HelperTestBase.ProjectTest.Project.TestingDate,
+                    TestDateTime = HelperTestBase.ProjectTestConcluded.Project.TestingDate,
                     TestTypeName = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString(),
-                    TestIdentName = HelperTestBase.ProjectTest.Project.Identification,
+                    TestIdentName = HelperTestBase.ProjectTestConcluded.Project.Identification,
                     LastUpdate = DateTime.Now
                 };
 
@@ -5337,9 +5358,9 @@ namespace Continental.Project.Adam.UI
 
             string prjTestFilename = string.Concat(testDate, "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension);
 
-            HelperTestBase.ProjectTest.TestDateTime = testDate;
-            HelperTestBase.ProjectTest.Project.TestingDate = HelperTestBase.ProjectTest.TestDateTime;
-            HelperTestBase.ProjectTest.Project.Identification = testIdentName;
+            HelperTestBase.ProjectTestConcluded.TestDateTime = testDate;
+            HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.TestDateTime;
+            HelperTestBase.ProjectTestConcluded.Project.Identification = testIdentName;
 
             _prjTestFilename = Path.Combine(_initialDirPathTestFile, prjTestFilename);
 
@@ -5389,9 +5410,9 @@ namespace Continental.Project.Adam.UI
             //clean data test file
             sbexterno.Clear();
 
-            HelperTestBase.ProjectTest.Project.PrjTestFileName = _prjTestFilename;
+            HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = _prjTestFilename;
 
-            return HelperTestBase.ProjectTest.Project.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
+            return HelperTestBase.ProjectTestConcluded.Project.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
         }
 
         #endregion
@@ -5431,9 +5452,9 @@ namespace Continental.Project.Adam.UI
 
                         _prjTestFilename = theDialog.FileName;
 
-                        HelperTestBase.ProjectTest.Project.PrjTestFileName = _prjTestFilename;
+                        HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = _prjTestFilename;
 
-                        pathWithFileName = HelperTestBase.ProjectTest.Project.PrjTestFileName;
+                        pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
                     }
                 }
                 else
@@ -5451,9 +5472,9 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        fileName = HelperTestBase.ProjectTest.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "");
+                        fileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "");
 
-                        pathWithFileName = HelperTestBase.ProjectTest.Project.PrjTestFileName;
+                        pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
                     }
                 }
 
@@ -5473,9 +5494,9 @@ namespace Continental.Project.Adam.UI
                     if (strArray.Length > 1)
                     {
                         HelperApp.uiTesteSelecionado = Convert.ToInt32(strArray[1]);
-                        HelperTestBase.ProjectTest.TestDateTime = strArray[0].ToString();
-                        HelperTestBase.ProjectTest.Project.TestingDate = HelperTestBase.ProjectTest.TestDateTime;
-                        HelperTestBase.ProjectTest.Project.Identification = strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension,string.Empty);
+                        HelperTestBase.ProjectTestConcluded.TestDateTime = strArray[0].ToString();
+                        HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.TestDateTime;
+                        HelperTestBase.ProjectTestConcluded.Project.Identification = strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension,string.Empty);
                     }
 
                     lstStrChReadFileArr = _helperApp.ReadExistTestFileTextArrNew(fileName, pathWithFileName);
@@ -5524,7 +5545,7 @@ namespace Continental.Project.Adam.UI
                             }
 
                             tab_TableResultsEnable = false;
-                            HelperTestBase.ProjectTest.Project.is_Created = true;
+                            HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
                             if (_modelGVL.GVL_Graficos.bDadosCalculados)
                                 HelperTestBase.Model_GVL = _modelGVL;
@@ -5563,7 +5584,7 @@ namespace Continental.Project.Adam.UI
                 string strHeader = "HBM_AquisitionHeader";
                 string strUnion = "HBM_AquisitionUnion";
 
-                _prjTestFilename = !string.IsNullOrEmpty(_prjTestFilename) ? _prjTestFilename : HelperTestBase.ProjectTest.Project.PrjTestFileName;
+                _prjTestFilename = !string.IsNullOrEmpty(_prjTestFilename) ? _prjTestFilename : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
 
                 string strFileName = _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
@@ -5714,7 +5735,7 @@ namespace Continental.Project.Adam.UI
                 //clean data test file
                 sbexterno.Clear();
 
-                HelperTestBase.ProjectTest.Project.PrjTestFileName = _prjTestFilename;
+                HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = _prjTestFilename;
             }
             catch (Exception ex)
             {
@@ -5722,7 +5743,7 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            return HelperTestBase.ProjectTest.Project.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
+            return HelperTestBase.ProjectTestConcluded.Project.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
         }
 
         #endregion
@@ -5776,11 +5797,11 @@ namespace Continental.Project.Adam.UI
             {
                 if (HelperApp.uiTesteSelecionado != 0)
                 {
-                    if (HelperTestBase.ProjectTest.Project.PrjTestFileName != null)
+                    if (HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName != null)
                     {
                         string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
 
-                        string strFileName = HelperTestBase.ProjectTest.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+                        string strFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
                         string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, strFileName, _helperApp.AppPath_ChartImageExtension);
 
@@ -7386,11 +7407,11 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                if (HelperTestBase.ProjectTest.Project.PrjTestFileName != null)
+                if (HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName != null)
                 {
                     string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
 
-                    string fileName = HelperTestBase.ProjectTest.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, _helperApp.AppPath_ChartImageExtension);
+                    string fileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, _helperApp.AppPath_ChartImageExtension);
 
                     string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, fileName);
 
@@ -8026,7 +8047,7 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                _prjTestFilename = HelperTestBase.ProjectTest.Project.PrjTestFileName;
+                _prjTestFilename = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
 
                 List<string> lstChNames = new List<string>();
 
@@ -8040,7 +8061,7 @@ namespace Continental.Project.Adam.UI
 
                         _comHBM.HBM_SaveRunContinuousMeasurement(_prjTestFilename, lstChNames);
 
-                        HelperTestBase.ProjectTest.Project.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
+                        HelperTestBase.ProjectTestConcluded.Project.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
                     }
                     else
                         MessageBox.Show("HBM_SaveAquisitionTxtData - HBM RunContinuous Measurement Data acquisition is already running !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -8074,7 +8095,7 @@ namespace Continental.Project.Adam.UI
                     sw.WriteLine(finalString);
                 }
 
-                HelperTestBase.ProjectTest.Project.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
+                HelperTestBase.ProjectTestConcluded.Project.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
 
                 //_helperApp.AquisitionTxtData(HelperTestBase.strTimeStamp, HelperTestBase.dblAnalogVar01, HelperTestBase.dblAnalogVar02, HelperTestBase.dblAnalogVar03, HelperTestBase.dblAnalogVar04);
             }
@@ -8876,7 +8897,7 @@ namespace Continental.Project.Adam.UI
             lst_MemoEventLog.Items.Clear();
             txtLogTestSequence.Text = string.Empty;
 
-            HelperTestBase.ProjectTest.Project.is_Created = false;
+            HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
         }
 
         #endregion
@@ -9081,6 +9102,11 @@ namespace Continental.Project.Adam.UI
                         else
                             MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+        }
+
+        private void mbtn_BGlobalWarning_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Click OK", _helperApp.appMsg_Error);
         }
     }
 }

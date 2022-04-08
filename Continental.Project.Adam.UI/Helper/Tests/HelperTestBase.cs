@@ -60,13 +60,12 @@ namespace Continental.Project.Adam.UI.Helper.Tests
             set { HelperTestBase._eExamType = value; }
         }
 
-        private static Model_Operational_Project_TestConcluded _projectTest = new Model_Operational_Project_TestConcluded();
-        public static Model_Operational_Project_TestConcluded ProjectTest
+        private static Model_Operational_Project_TestConcluded _projectTestConcluded = new Model_Operational_Project_TestConcluded();
+        public static Model_Operational_Project_TestConcluded ProjectTestConcluded
         {
-            get { return HelperTestBase._projectTest; }
-            set { HelperTestBase._projectTest = value; }
+            get { return HelperTestBase._projectTestConcluded; }
+            set { HelperTestBase._projectTestConcluded = value; }
         }
-
         //StringBuilder AppendTxtData_Header_ActuationType
         private static StringBuilder _sbHeaderAppendTxtData;
         public static StringBuilder sbHeaderAppendTxtData

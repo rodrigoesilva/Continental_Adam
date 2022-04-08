@@ -780,6 +780,7 @@ namespace Continental.Project.Adam.UI
             this.mbtn_BGlobalWarning.UseCustomBackColor = true;
             this.mbtn_BGlobalWarning.UseCustomForeColor = true;
             this.mbtn_BGlobalWarning.UseSelectable = true;
+            this.mbtn_BGlobalWarning.Click += new System.EventHandler(this.mbtn_BGlobalWarning_Click);
             // 
             // mbtn_BReportPDF
             // 

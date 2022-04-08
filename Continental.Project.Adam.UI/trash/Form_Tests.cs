@@ -395,7 +395,7 @@ namespace Continental.Project.Adam.UI.trash
         }
         private void parada()
         {
-            path = string.Concat(dirPathTestFile, HelperTestBase.ProjectTest.Project.PrjTestFileName);
+            path = string.Concat(dirPathTestFile, HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName);
 
             if (DialogResult.Yes == MessageBox.Show("Please confirm before proceed" + "\n" + "Do you want to save this Test ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
             {
@@ -522,11 +522,11 @@ namespace Continental.Project.Adam.UI.trash
                 HelperTestBase.eExamType = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(sel_ix);
 
                 if (HelperTestBase.eExamType == eEXAMTYPE.ET_USER_DEFINED)
-                    HelperTestBase.ProjectTest.Project.is_user_defined = true;
+                    HelperTestBase.ProjectTestConcluded.Project.is_user_defined = true;
 
                 //  // save edited data & load corresp. data of new selection, if user defined test
                 if (HelperTestBase.eExamType != eEXAMTYPE.ET_NONE)
-                    if (HelperTestBase.ProjectTest.Project.is_user_defined)
+                    if (HelperTestBase.ProjectTestConcluded.Project.is_user_defined)
                     {
                         if (last_sel_ix >= 0)
                         {
