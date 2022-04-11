@@ -19,6 +19,7 @@ namespace Continental.Project.Adam.UI
 {
     public partial class Form_Operational_Project : Form
     {
+
         #region Define
 
         HelperApp _helperApp = new HelperApp();
@@ -38,6 +39,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region Construtor
+
         public Form_Operational_Project(eEXAMTYPE sel_examtype, string udt_filename)
         {
             InitializeComponent();
@@ -955,6 +957,8 @@ namespace Continental.Project.Adam.UI
 
                 this.Close();
             }
+
+            //delfunc(true);
         }
 
         #endregion

@@ -64,7 +64,7 @@ namespace Continental.Project.Adam.UI
             this.mpnl_BackupAssistent = new MetroFramework.Controls.MetroPanel();
             this.lbl_Vaccum = new System.Windows.Forms.Label();
             this.mtxt_MKSLVaccum = new MetroFramework.Controls.MetroTextBox();
-            this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
+            this.mpnl_Buttons = new MetroFramework.Controls.MetroPanel();
             this.mbtn_BClock = new MetroFramework.Controls.MetroButton();
             this.mbtn_BAlarm = new MetroFramework.Controls.MetroButton();
             this.mpnl_Eventlog = new MetroFramework.Controls.MetroPanel();
@@ -83,47 +83,6 @@ namespace Continental.Project.Adam.UI
             this.mTile_Diagram_TestInfo = new MetroFramework.Controls.MetroTile();
             this.timerHBM = new System.Windows.Forms.Timer(this.components);
             this.timerMODBUS = new System.Windows.Forms.Timer(this.components);
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.metroPanel3 = new MetroFramework.Controls.MetroPanel();
-            this.txtLogTestSequence = new System.Windows.Forms.TextBox();
-            this.ProtocolTb = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.GenericMeasurementValuesPg = new System.Windows.Forms.PropertyGrid();
-            this.MeasurmentValuesPg = new System.Windows.Forms.PropertyGrid();
-            this.ConnectToCertainDevice = new System.Windows.Forms.Button();
-            this.DisconnectDeviceBt = new System.Windows.Forms.Button();
-            this.StopContinuousMeasurementBt = new System.Windows.Forms.Button();
-            this.RunContinuousMeasurementBt = new System.Windows.Forms.Button();
-            this.PrepareContinuousMeasurementBt = new System.Windows.Forms.Button();
-            this.btnRegisterEvent = new System.Windows.Forms.Button();
-            this.InitializeObjectsBt = new System.Windows.Forms.Button();
-            this.grpStart = new System.Windows.Forms.GroupBox();
-            this.grpExchange = new System.Windows.Forms.GroupBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.txtUnit = new System.Windows.Forms.TextBox();
-            this.btnWriteMultipleReg = new System.Windows.Forms.Button();
-            this.btnWriteMultipleCoils = new System.Windows.Forms.Button();
-            this.btnWriteSingleReg = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radWord = new System.Windows.Forms.RadioButton();
-            this.radBytes = new System.Windows.Forms.RadioButton();
-            this.radBits = new System.Windows.Forms.RadioButton();
-            this.btnWriteSingleCoil = new System.Windows.Forms.Button();
-            this.btnReadInpReg = new System.Windows.Forms.Button();
-            this.btnReadHoldReg = new System.Windows.Forms.Button();
-            this.btnReadDisInp = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtSize = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.txtStartAdress = new System.Windows.Forms.TextBox();
-            this.btnReadCoils = new System.Windows.Forms.Button();
-            this.grpData = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.btnConnect = new System.Windows.Forms.Button();
-            this.txtIP = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.metroTile1 = new MetroFramework.Controls.MetroTile();
             this.Tab_ActuationParameters = new System.Windows.Forms.TabPage();
             this.mPnl_tabActParam_GenralSettings = new MetroFramework.Controls.MetroPanel();
             this.mchk_tabActParam_GenSettings_CBLock = new MetroFramework.Controls.MetroCheckBox();
@@ -189,15 +148,55 @@ namespace Continental.Project.Adam.UI
             this.TAB_Main = new System.Windows.Forms.TabControl();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.timerDateTime = new System.Windows.Forms.Timer(this.components);
+            this.stsBar_STBMain = new System.Windows.Forms.StatusStrip();
+            this.tStatusLabel01 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tStatusLabel02 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tStatusLabel03 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tStatusLabel04 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.menuItemToolStrip_Home = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Home_Logout = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Home_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_Home_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemToolStrip_Project = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Project_Project = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_Project_PrintGraphics = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Project_PrintParamList = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Project_SetupPrinter = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_Project_ExportExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemToolStrip_TestProgram = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_TestProg_SelectTestProgram = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_TestProg_Start = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_TestProg_STop = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_TestProg_CreateUserDefinedTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_TestProg_ManualActuation = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_TestProg_Calibration = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_TestProg_Bleed = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_TestProg_SaveTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemToolStrip_Settings = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Settings_SoftwareMaintenance = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_Settings_Account = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Account_SelectAccessLevel = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_Account_NewPassword = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_Account_UserAdd = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Account_UserEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Account_UserDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Account_UserReport = new System.Windows.Forms.ToolStripMenuItem();
+            this.printDialog = new System.Windows.Forms.PrintDialog();
             this.mpnl_BackupAssistent.SuspendLayout();
-            this.metroPanel2.SuspendLayout();
+            this.mpnl_Buttons.SuspendLayout();
             this.mpnl_Eventlog.SuspendLayout();
             this.metroPanel5.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.metroPanel3.SuspendLayout();
-            this.grpStart.SuspendLayout();
-            this.grpExchange.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.Tab_ActuationParameters.SuspendLayout();
             this.mPnl_tabActParam_GenralSettings.SuspendLayout();
             this.metroPanel1.SuspendLayout();
@@ -214,6 +213,8 @@ namespace Continental.Project.Adam.UI
             this.tab_Diagram.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.devChart)).BeginInit();
             this.TAB_Main.SuspendLayout();
+            this.stsBar_STBMain.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // mTile_LCurrentSelectedTest
@@ -764,9 +765,9 @@ namespace Continental.Project.Adam.UI
             // lst_MemoEventLog
             // 
             this.lst_MemoEventLog.FormattingEnabled = true;
-            this.lst_MemoEventLog.Location = new System.Drawing.Point(7, 984);
+            this.lst_MemoEventLog.Location = new System.Drawing.Point(5, 996);
             this.lst_MemoEventLog.Name = "lst_MemoEventLog";
-            this.lst_MemoEventLog.Size = new System.Drawing.Size(1900, 43);
+            this.lst_MemoEventLog.Size = new System.Drawing.Size(1903, 56);
             this.lst_MemoEventLog.TabIndex = 25;
             // 
             // mbtn_BGlobalWarning
@@ -874,7 +875,7 @@ namespace Continental.Project.Adam.UI
             this.mpnl_BackupAssistent.HorizontalScrollbarBarColor = true;
             this.mpnl_BackupAssistent.HorizontalScrollbarHighlightOnWheel = false;
             this.mpnl_BackupAssistent.HorizontalScrollbarSize = 10;
-            this.mpnl_BackupAssistent.Location = new System.Drawing.Point(5, 143);
+            this.mpnl_BackupAssistent.Location = new System.Drawing.Point(5, 129);
             this.mpnl_BackupAssistent.Name = "mpnl_BackupAssistent";
             this.mpnl_BackupAssistent.Size = new System.Drawing.Size(1894, 79);
             this.mpnl_BackupAssistent.TabIndex = 47;
@@ -931,26 +932,26 @@ namespace Continental.Project.Adam.UI
             this.mtxt_MKSLVaccum.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.mtxt_MKSLVaccum.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // metroPanel2
+            // mpnl_Buttons
             // 
-            this.metroPanel2.Controls.Add(this.mbtn_BClock);
-            this.metroPanel2.Controls.Add(this.mbtn_BAlarm);
-            this.metroPanel2.Controls.Add(this.mbtn_BStop);
-            this.metroPanel2.Controls.Add(this.mTile_LCurrentSelectedTest);
-            this.metroPanel2.Controls.Add(this.mbtn_BStart);
-            this.metroPanel2.Controls.Add(this.mbtn_BReportPDF);
-            this.metroPanel2.Controls.Add(this.mbtn_BGlobalWarning);
-            this.metroPanel2.Controls.Add(this.mtbn_BExportTestToXLS);
-            this.metroPanel2.HorizontalScrollbarBarColor = true;
-            this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel2.HorizontalScrollbarSize = 10;
-            this.metroPanel2.Location = new System.Drawing.Point(5, 38);
-            this.metroPanel2.Name = "metroPanel2";
-            this.metroPanel2.Size = new System.Drawing.Size(1900, 99);
-            this.metroPanel2.TabIndex = 48;
-            this.metroPanel2.VerticalScrollbarBarColor = true;
-            this.metroPanel2.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel2.VerticalScrollbarSize = 10;
+            this.mpnl_Buttons.Controls.Add(this.mbtn_BClock);
+            this.mpnl_Buttons.Controls.Add(this.mbtn_BAlarm);
+            this.mpnl_Buttons.Controls.Add(this.mbtn_BStop);
+            this.mpnl_Buttons.Controls.Add(this.mTile_LCurrentSelectedTest);
+            this.mpnl_Buttons.Controls.Add(this.mbtn_BStart);
+            this.mpnl_Buttons.Controls.Add(this.mbtn_BReportPDF);
+            this.mpnl_Buttons.Controls.Add(this.mbtn_BGlobalWarning);
+            this.mpnl_Buttons.Controls.Add(this.mtbn_BExportTestToXLS);
+            this.mpnl_Buttons.HorizontalScrollbarBarColor = true;
+            this.mpnl_Buttons.HorizontalScrollbarHighlightOnWheel = false;
+            this.mpnl_Buttons.HorizontalScrollbarSize = 10;
+            this.mpnl_Buttons.Location = new System.Drawing.Point(5, 25);
+            this.mpnl_Buttons.Name = "mpnl_Buttons";
+            this.mpnl_Buttons.Size = new System.Drawing.Size(1900, 99);
+            this.mpnl_Buttons.TabIndex = 48;
+            this.mpnl_Buttons.VerticalScrollbarBarColor = true;
+            this.mpnl_Buttons.VerticalScrollbarHighlightOnWheel = false;
+            this.mpnl_Buttons.VerticalScrollbarSize = 10;
             // 
             // mbtn_BClock
             // 
@@ -996,9 +997,9 @@ namespace Continental.Project.Adam.UI
             this.mpnl_Eventlog.HorizontalScrollbarBarColor = true;
             this.mpnl_Eventlog.HorizontalScrollbarHighlightOnWheel = false;
             this.mpnl_Eventlog.HorizontalScrollbarSize = 10;
-            this.mpnl_Eventlog.Location = new System.Drawing.Point(1449, 255);
+            this.mpnl_Eventlog.Location = new System.Drawing.Point(1449, 240);
             this.mpnl_Eventlog.Name = "mpnl_Eventlog";
-            this.mpnl_Eventlog.Size = new System.Drawing.Size(450, 726);
+            this.mpnl_Eventlog.Size = new System.Drawing.Size(450, 755);
             this.mpnl_Eventlog.TabIndex = 124;
             this.mpnl_Eventlog.VerticalScrollbarBarColor = true;
             this.mpnl_Eventlog.VerticalScrollbarHighlightOnWheel = false;
@@ -1006,7 +1007,7 @@ namespace Continental.Project.Adam.UI
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(9, 282);
+            this.progressBar1.Location = new System.Drawing.Point(5, 317);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(432, 23);
             this.progressBar1.TabIndex = 27;
@@ -1088,7 +1089,7 @@ namespace Continental.Project.Adam.UI
             this.metroPanel5.HorizontalScrollbarSize = 10;
             this.metroPanel5.Location = new System.Drawing.Point(5, 367);
             this.metroPanel5.Name = "metroPanel5";
-            this.metroPanel5.Size = new System.Drawing.Size(440, 357);
+            this.metroPanel5.Size = new System.Drawing.Size(440, 382);
             this.metroPanel5.TabIndex = 123;
             this.metroPanel5.VerticalScrollbarBarColor = true;
             this.metroPanel5.VerticalScrollbarHighlightOnWheel = false;
@@ -1099,7 +1100,7 @@ namespace Continental.Project.Adam.UI
             this.lvLog.HideSelection = false;
             this.lvLog.Location = new System.Drawing.Point(4, 46);
             this.lvLog.Name = "lvLog";
-            this.lvLog.Size = new System.Drawing.Size(425, 305);
+            this.lvLog.Size = new System.Drawing.Size(425, 331);
             this.lvLog.TabIndex = 140;
             this.lvLog.UseCompatibleStateImageBehavior = false;
             // 
@@ -1165,442 +1166,6 @@ namespace Continental.Project.Adam.UI
             this.timerMODBUS.Enabled = true;
             this.timerMODBUS.Tick += new System.EventHandler(this.timerMODBUS_Tick);
             // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.metroPanel3);
-            this.tabPage1.Location = new System.Drawing.Point(4, 27);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1434, 725);
-            this.tabPage1.TabIndex = 4;
-            this.tabPage1.Text = "Dev. Page";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // metroPanel3
-            // 
-            this.metroPanel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel3.Controls.Add(this.txtLogTestSequence);
-            this.metroPanel3.Controls.Add(this.ProtocolTb);
-            this.metroPanel3.Controls.Add(this.label9);
-            this.metroPanel3.Controls.Add(this.label8);
-            this.metroPanel3.Controls.Add(this.GenericMeasurementValuesPg);
-            this.metroPanel3.Controls.Add(this.MeasurmentValuesPg);
-            this.metroPanel3.Controls.Add(this.ConnectToCertainDevice);
-            this.metroPanel3.Controls.Add(this.DisconnectDeviceBt);
-            this.metroPanel3.Controls.Add(this.StopContinuousMeasurementBt);
-            this.metroPanel3.Controls.Add(this.RunContinuousMeasurementBt);
-            this.metroPanel3.Controls.Add(this.PrepareContinuousMeasurementBt);
-            this.metroPanel3.Controls.Add(this.btnRegisterEvent);
-            this.metroPanel3.Controls.Add(this.InitializeObjectsBt);
-            this.metroPanel3.Controls.Add(this.grpStart);
-            this.metroPanel3.Controls.Add(this.label12);
-            this.metroPanel3.Controls.Add(this.metroTile1);
-            this.metroPanel3.HorizontalScrollbarBarColor = true;
-            this.metroPanel3.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel3.HorizontalScrollbarSize = 10;
-            this.metroPanel3.Location = new System.Drawing.Point(28, 26);
-            this.metroPanel3.Name = "metroPanel3";
-            this.metroPanel3.Size = new System.Drawing.Size(1398, 700);
-            this.metroPanel3.TabIndex = 124;
-            this.metroPanel3.VerticalScrollbarBarColor = true;
-            this.metroPanel3.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel3.VerticalScrollbarSize = 10;
-            // 
-            // txtLogTestSequence
-            // 
-            this.txtLogTestSequence.Location = new System.Drawing.Point(11, 46);
-            this.txtLogTestSequence.Multiline = true;
-            this.txtLogTestSequence.Name = "txtLogTestSequence";
-            this.txtLogTestSequence.ReadOnly = true;
-            this.txtLogTestSequence.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLogTestSequence.Size = new System.Drawing.Size(466, 58);
-            this.txtLogTestSequence.TabIndex = 165;
-            // 
-            // ProtocolTb
-            // 
-            this.ProtocolTb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProtocolTb.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProtocolTb.Location = new System.Drawing.Point(11, 154);
-            this.ProtocolTb.Multiline = true;
-            this.ProtocolTb.Name = "ProtocolTb";
-            this.ProtocolTb.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ProtocolTb.Size = new System.Drawing.Size(460, 75);
-            this.ProtocolTb.TabIndex = 164;
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label9.Location = new System.Drawing.Point(247, 402);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(230, 15);
-            this.label9.TabIndex = 162;
-            this.label9.Text = "CanRawSignal.GenericMeasurementValues";
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label8.Location = new System.Drawing.Point(11, 402);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(230, 15);
-            this.label8.TabIndex = 163;
-            this.label8.Text = "Signal.ContinuousMeasurementValues";
-            // 
-            // GenericMeasurementValuesPg
-            // 
-            this.GenericMeasurementValuesPg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.GenericMeasurementValuesPg.HelpVisible = false;
-            this.GenericMeasurementValuesPg.Location = new System.Drawing.Point(247, 418);
-            this.GenericMeasurementValuesPg.Name = "GenericMeasurementValuesPg";
-            this.GenericMeasurementValuesPg.Size = new System.Drawing.Size(230, 278);
-            this.GenericMeasurementValuesPg.TabIndex = 160;
-            // 
-            // MeasurmentValuesPg
-            // 
-            this.MeasurmentValuesPg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MeasurmentValuesPg.HelpVisible = false;
-            this.MeasurmentValuesPg.Location = new System.Drawing.Point(11, 418);
-            this.MeasurmentValuesPg.Name = "MeasurmentValuesPg";
-            this.MeasurmentValuesPg.Size = new System.Drawing.Size(230, 278);
-            this.MeasurmentValuesPg.TabIndex = 161;
-            // 
-            // ConnectToCertainDevice
-            // 
-            this.ConnectToCertainDevice.Location = new System.Drawing.Point(8, 317);
-            this.ConnectToCertainDevice.Name = "ConnectToCertainDevice";
-            this.ConnectToCertainDevice.Size = new System.Drawing.Size(220, 55);
-            this.ConnectToCertainDevice.TabIndex = 159;
-            this.ConnectToCertainDevice.Text = "Connect to a device with a certain IP address";
-            this.ConnectToCertainDevice.UseVisualStyleBackColor = true;
-            this.ConnectToCertainDevice.Click += new System.EventHandler(this.ConnectToCertainDevice_Click);
-            // 
-            // DisconnectDeviceBt
-            // 
-            this.DisconnectDeviceBt.Location = new System.Drawing.Point(246, 358);
-            this.DisconnectDeviceBt.Name = "DisconnectDeviceBt";
-            this.DisconnectDeviceBt.Size = new System.Drawing.Size(225, 35);
-            this.DisconnectDeviceBt.TabIndex = 153;
-            this.DisconnectDeviceBt.Text = "Disconnect from current device";
-            this.DisconnectDeviceBt.UseVisualStyleBackColor = true;
-            this.DisconnectDeviceBt.Click += new System.EventHandler(this.DisconnectDeviceBt_Click);
-            // 
-            // StopContinuousMeasurementBt
-            // 
-            this.StopContinuousMeasurementBt.Location = new System.Drawing.Point(246, 317);
-            this.StopContinuousMeasurementBt.Name = "StopContinuousMeasurementBt";
-            this.StopContinuousMeasurementBt.Size = new System.Drawing.Size(225, 35);
-            this.StopContinuousMeasurementBt.TabIndex = 154;
-            this.StopContinuousMeasurementBt.Text = "Stop continuous measurement";
-            this.StopContinuousMeasurementBt.UseVisualStyleBackColor = true;
-            this.StopContinuousMeasurementBt.Click += new System.EventHandler(this.StopContinuousMeasurementBt_Click);
-            // 
-            // RunContinuousMeasurementBt
-            // 
-            this.RunContinuousMeasurementBt.Location = new System.Drawing.Point(246, 276);
-            this.RunContinuousMeasurementBt.Name = "RunContinuousMeasurementBt";
-            this.RunContinuousMeasurementBt.Size = new System.Drawing.Size(225, 35);
-            this.RunContinuousMeasurementBt.TabIndex = 155;
-            this.RunContinuousMeasurementBt.Text = "Run continuous measurement";
-            this.RunContinuousMeasurementBt.UseVisualStyleBackColor = true;
-            this.RunContinuousMeasurementBt.Click += new System.EventHandler(this.RunContinuousMeasurementBt_Click);
-            // 
-            // PrepareContinuousMeasurementBt
-            // 
-            this.PrepareContinuousMeasurementBt.Location = new System.Drawing.Point(246, 235);
-            this.PrepareContinuousMeasurementBt.Name = "PrepareContinuousMeasurementBt";
-            this.PrepareContinuousMeasurementBt.Size = new System.Drawing.Size(225, 35);
-            this.PrepareContinuousMeasurementBt.TabIndex = 156;
-            this.PrepareContinuousMeasurementBt.Text = "Prepare a continuous measurement ";
-            this.PrepareContinuousMeasurementBt.UseVisualStyleBackColor = true;
-            this.PrepareContinuousMeasurementBt.Click += new System.EventHandler(this.PrepareContinuousMeasurementBt_Click);
-            // 
-            // btnRegisterEvent
-            // 
-            this.btnRegisterEvent.Location = new System.Drawing.Point(8, 276);
-            this.btnRegisterEvent.Name = "btnRegisterEvent";
-            this.btnRegisterEvent.Size = new System.Drawing.Size(220, 35);
-            this.btnRegisterEvent.TabIndex = 157;
-            this.btnRegisterEvent.Text = "Register event handlers";
-            this.btnRegisterEvent.UseVisualStyleBackColor = true;
-            this.btnRegisterEvent.Click += new System.EventHandler(this.btnRegisterEvent_Click);
-            // 
-            // InitializeObjectsBt
-            // 
-            this.InitializeObjectsBt.Location = new System.Drawing.Point(8, 235);
-            this.InitializeObjectsBt.Name = "InitializeObjectsBt";
-            this.InitializeObjectsBt.Size = new System.Drawing.Size(220, 35);
-            this.InitializeObjectsBt.TabIndex = 158;
-            this.InitializeObjectsBt.Text = "Initialize some important objects of the API";
-            this.InitializeObjectsBt.UseVisualStyleBackColor = true;
-            this.InitializeObjectsBt.Click += new System.EventHandler(this.InitializeObjectsBt_Click);
-            // 
-            // grpStart
-            // 
-            this.grpStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpStart.Controls.Add(this.grpExchange);
-            this.grpStart.Controls.Add(this.grpData);
-            this.grpStart.Controls.Add(this.label13);
-            this.grpStart.Controls.Add(this.btnConnect);
-            this.grpStart.Controls.Add(this.txtIP);
-            this.grpStart.Location = new System.Drawing.Point(501, 46);
-            this.grpStart.Name = "grpStart";
-            this.grpStart.Size = new System.Drawing.Size(872, 623);
-            this.grpStart.TabIndex = 152;
-            this.grpStart.TabStop = false;
-            this.grpStart.Text = "Start communication";
-            // 
-            // grpExchange
-            // 
-            this.grpExchange.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpExchange.Controls.Add(this.label14);
-            this.grpExchange.Controls.Add(this.txtUnit);
-            this.grpExchange.Controls.Add(this.btnWriteMultipleReg);
-            this.grpExchange.Controls.Add(this.btnWriteMultipleCoils);
-            this.grpExchange.Controls.Add(this.btnWriteSingleReg);
-            this.grpExchange.Controls.Add(this.groupBox1);
-            this.grpExchange.Controls.Add(this.btnWriteSingleCoil);
-            this.grpExchange.Controls.Add(this.btnReadInpReg);
-            this.grpExchange.Controls.Add(this.btnReadHoldReg);
-            this.grpExchange.Controls.Add(this.btnReadDisInp);
-            this.grpExchange.Controls.Add(this.label15);
-            this.grpExchange.Controls.Add(this.txtSize);
-            this.grpExchange.Controls.Add(this.label16);
-            this.grpExchange.Controls.Add(this.txtStartAdress);
-            this.grpExchange.Controls.Add(this.btnReadCoils);
-            this.grpExchange.Location = new System.Drawing.Point(11, 66);
-            this.grpExchange.Name = "grpExchange";
-            this.grpExchange.Size = new System.Drawing.Size(855, 125);
-            this.grpExchange.TabIndex = 16;
-            this.grpExchange.TabStop = false;
-            this.grpExchange.Text = "Data exhange";
-            this.grpExchange.Visible = false;
-            // 
-            // label14
-            // 
-            this.label14.Location = new System.Drawing.Point(13, 27);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(74, 14);
-            this.label14.TabIndex = 25;
-            this.label14.Text = "Unit";
-            // 
-            // txtUnit
-            // 
-            this.txtUnit.Location = new System.Drawing.Point(87, 25);
-            this.txtUnit.Name = "txtUnit";
-            this.txtUnit.Size = new System.Drawing.Size(50, 24);
-            this.txtUnit.TabIndex = 24;
-            this.txtUnit.Text = "0";
-            this.txtUnit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // btnWriteMultipleReg
-            // 
-            this.btnWriteMultipleReg.Location = new System.Drawing.Point(573, 76);
-            this.btnWriteMultipleReg.Name = "btnWriteMultipleReg";
-            this.btnWriteMultipleReg.Size = new System.Drawing.Size(87, 44);
-            this.btnWriteMultipleReg.TabIndex = 23;
-            this.btnWriteMultipleReg.Text = "Write multiple register";
-            // 
-            // btnWriteMultipleCoils
-            // 
-            this.btnWriteMultipleCoils.Location = new System.Drawing.Point(573, 28);
-            this.btnWriteMultipleCoils.Name = "btnWriteMultipleCoils";
-            this.btnWriteMultipleCoils.Size = new System.Drawing.Size(87, 42);
-            this.btnWriteMultipleCoils.TabIndex = 22;
-            this.btnWriteMultipleCoils.Text = "Write multiple coils";
-            // 
-            // btnWriteSingleReg
-            // 
-            this.btnWriteSingleReg.Location = new System.Drawing.Point(473, 76);
-            this.btnWriteSingleReg.Name = "btnWriteSingleReg";
-            this.btnWriteSingleReg.Size = new System.Drawing.Size(87, 44);
-            this.btnWriteSingleReg.TabIndex = 21;
-            this.btnWriteSingleReg.Text = "Write single register";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.radWord);
-            this.groupBox1.Controls.Add(this.radBytes);
-            this.groupBox1.Controls.Add(this.radBits);
-            this.groupBox1.Location = new System.Drawing.Point(160, 21);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(87, 90);
-            this.groupBox1.TabIndex = 20;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Show as";
-            // 
-            // radWord
-            // 
-            this.radWord.Checked = true;
-            this.radWord.Location = new System.Drawing.Point(13, 62);
-            this.radWord.Name = "radWord";
-            this.radWord.Size = new System.Drawing.Size(67, 21);
-            this.radWord.TabIndex = 2;
-            this.radWord.TabStop = true;
-            this.radWord.Text = "Word";
-            // 
-            // radBytes
-            // 
-            this.radBytes.Location = new System.Drawing.Point(13, 42);
-            this.radBytes.Name = "radBytes";
-            this.radBytes.Size = new System.Drawing.Size(67, 20);
-            this.radBytes.TabIndex = 1;
-            this.radBytes.Text = "Bytes";
-            // 
-            // radBits
-            // 
-            this.radBits.Location = new System.Drawing.Point(13, 21);
-            this.radBits.Name = "radBits";
-            this.radBits.Size = new System.Drawing.Size(67, 21);
-            this.radBits.TabIndex = 0;
-            this.radBits.Text = "Bits";
-            // 
-            // btnWriteSingleCoil
-            // 
-            this.btnWriteSingleCoil.Location = new System.Drawing.Point(473, 28);
-            this.btnWriteSingleCoil.Name = "btnWriteSingleCoil";
-            this.btnWriteSingleCoil.Size = new System.Drawing.Size(87, 42);
-            this.btnWriteSingleCoil.TabIndex = 19;
-            this.btnWriteSingleCoil.Text = "Write single coil";
-            // 
-            // btnReadInpReg
-            // 
-            this.btnReadInpReg.Location = new System.Drawing.Point(373, 76);
-            this.btnReadInpReg.Name = "btnReadInpReg";
-            this.btnReadInpReg.Size = new System.Drawing.Size(87, 44);
-            this.btnReadInpReg.TabIndex = 18;
-            this.btnReadInpReg.Text = "Read input register";
-            // 
-            // btnReadHoldReg
-            // 
-            this.btnReadHoldReg.Location = new System.Drawing.Point(373, 28);
-            this.btnReadHoldReg.Name = "btnReadHoldReg";
-            this.btnReadHoldReg.Size = new System.Drawing.Size(87, 42);
-            this.btnReadHoldReg.TabIndex = 17;
-            this.btnReadHoldReg.Text = "Read holding register";
-            // 
-            // btnReadDisInp
-            // 
-            this.btnReadDisInp.Location = new System.Drawing.Point(273, 76);
-            this.btnReadDisInp.Name = "btnReadDisInp";
-            this.btnReadDisInp.Size = new System.Drawing.Size(87, 44);
-            this.btnReadDisInp.TabIndex = 16;
-            this.btnReadDisInp.Text = "Read discrete inputs";
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(13, 78);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(74, 14);
-            this.label15.TabIndex = 15;
-            this.label15.Text = "Size";
-            // 
-            // txtSize
-            // 
-            this.txtSize.Location = new System.Drawing.Point(87, 78);
-            this.txtSize.Name = "txtSize";
-            this.txtSize.Size = new System.Drawing.Size(50, 24);
-            this.txtSize.TabIndex = 14;
-            this.txtSize.Text = "60";
-            this.txtSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label16
-            // 
-            this.label16.Location = new System.Drawing.Point(13, 53);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(74, 14);
-            this.label16.TabIndex = 13;
-            this.label16.Text = "Start Adress";
-            // 
-            // txtStartAdress
-            // 
-            this.txtStartAdress.Location = new System.Drawing.Point(87, 51);
-            this.txtStartAdress.Name = "txtStartAdress";
-            this.txtStartAdress.Size = new System.Drawing.Size(50, 24);
-            this.txtStartAdress.TabIndex = 12;
-            this.txtStartAdress.Text = "0";
-            this.txtStartAdress.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // btnReadCoils
-            // 
-            this.btnReadCoils.Location = new System.Drawing.Point(273, 28);
-            this.btnReadCoils.Name = "btnReadCoils";
-            this.btnReadCoils.Size = new System.Drawing.Size(87, 42);
-            this.btnReadCoils.TabIndex = 11;
-            this.btnReadCoils.Text = "Read coils";
-            // 
-            // grpData
-            // 
-            this.grpData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpData.Location = new System.Drawing.Point(11, 197);
-            this.grpData.Name = "grpData";
-            this.grpData.Size = new System.Drawing.Size(855, 420);
-            this.grpData.TabIndex = 14;
-            this.grpData.TabStop = false;
-            this.grpData.Text = "Data";
-            this.grpData.Visible = false;
-            // 
-            // label13
-            // 
-            this.label13.Location = new System.Drawing.Point(13, 28);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(74, 14);
-            this.label13.TabIndex = 7;
-            this.label13.Text = "IP Address";
-            // 
-            // btnConnect
-            // 
-            this.btnConnect.Location = new System.Drawing.Point(187, 21);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(86, 28);
-            this.btnConnect.TabIndex = 6;
-            this.btnConnect.Text = "Connect";
-            // 
-            // txtIP
-            // 
-            this.txtIP.Location = new System.Drawing.Point(93, 25);
-            this.txtIP.Name = "txtIP";
-            this.txtIP.Size = new System.Drawing.Size(87, 24);
-            this.txtIP.TabIndex = 5;
-            this.txtIP.Text = "192.168.0.1";
-            this.txtIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label12
-            // 
-            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label12.Location = new System.Drawing.Point(11, 123);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(463, 18);
-            this.label12.TabIndex = 150;
-            this.label12.Text = "HBM Protocol output:";
-            // 
-            // metroTile1
-            // 
-            this.metroTile1.ActiveControl = null;
-            this.metroTile1.Location = new System.Drawing.Point(0, 0);
-            this.metroTile1.Name = "metroTile1";
-            this.metroTile1.Size = new System.Drawing.Size(1395, 40);
-            this.metroTile1.Style = MetroFramework.MetroColorStyle.Orange;
-            this.metroTile1.TabIndex = 106;
-            this.metroTile1.Text = "Tests Communication";
-            this.metroTile1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.metroTile1.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.metroTile1.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-            this.metroTile1.UseSelectable = true;
-            // 
             // Tab_ActuationParameters
             // 
             this.Tab_ActuationParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1611,7 +1176,7 @@ namespace Continental.Project.Adam.UI
             this.Tab_ActuationParameters.Margin = new System.Windows.Forms.Padding(2);
             this.Tab_ActuationParameters.Name = "Tab_ActuationParameters";
             this.Tab_ActuationParameters.Padding = new System.Windows.Forms.Padding(2);
-            this.Tab_ActuationParameters.Size = new System.Drawing.Size(1434, 725);
+            this.Tab_ActuationParameters.Size = new System.Drawing.Size(1434, 749);
             this.Tab_ActuationParameters.TabIndex = 3;
             this.Tab_ActuationParameters.Text = "Actuation Parameters";
             this.Tab_ActuationParameters.UseVisualStyleBackColor = true;
@@ -1637,7 +1202,7 @@ namespace Continental.Project.Adam.UI
             this.mPnl_tabActParam_GenralSettings.HorizontalScrollbarSize = 10;
             this.mPnl_tabActParam_GenralSettings.Location = new System.Drawing.Point(2, 2);
             this.mPnl_tabActParam_GenralSettings.Name = "mPnl_tabActParam_GenralSettings";
-            this.mPnl_tabActParam_GenralSettings.Size = new System.Drawing.Size(520, 726);
+            this.mPnl_tabActParam_GenralSettings.Size = new System.Drawing.Size(520, 740);
             this.mPnl_tabActParam_GenralSettings.TabIndex = 123;
             this.mPnl_tabActParam_GenralSettings.VerticalScrollbarBarColor = true;
             this.mPnl_tabActParam_GenralSettings.VerticalScrollbarHighlightOnWheel = false;
@@ -1648,7 +1213,7 @@ namespace Continental.Project.Adam.UI
             this.mchk_tabActParam_GenSettings_CBLock.AutoSize = true;
             this.mchk_tabActParam_GenSettings_CBLock.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.mchk_tabActParam_GenSettings_CBLock.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.mchk_tabActParam_GenSettings_CBLock.Location = new System.Drawing.Point(44, 693);
+            this.mchk_tabActParam_GenSettings_CBLock.Location = new System.Drawing.Point(44, 709);
             this.mchk_tabActParam_GenSettings_CBLock.Margin = new System.Windows.Forms.Padding(2);
             this.mchk_tabActParam_GenSettings_CBLock.Name = "mchk_tabActParam_GenSettings_CBLock";
             this.mchk_tabActParam_GenSettings_CBLock.Size = new System.Drawing.Size(101, 19);
@@ -2442,7 +2007,7 @@ namespace Continental.Project.Adam.UI
             this.mPnl_tabActParam_EvaluationParameters.HorizontalScrollbarSize = 10;
             this.mPnl_tabActParam_EvaluationParameters.Location = new System.Drawing.Point(530, 162);
             this.mPnl_tabActParam_EvaluationParameters.Name = "mPnl_tabActParam_EvaluationParameters";
-            this.mPnl_tabActParam_EvaluationParameters.Size = new System.Drawing.Size(900, 566);
+            this.mPnl_tabActParam_EvaluationParameters.Size = new System.Drawing.Size(900, 580);
             this.mPnl_tabActParam_EvaluationParameters.TabIndex = 122;
             this.mPnl_tabActParam_EvaluationParameters.VerticalScrollbarBarColor = true;
             this.mPnl_tabActParam_EvaluationParameters.VerticalScrollbarHighlightOnWheel = false;
@@ -2455,7 +2020,7 @@ namespace Continental.Project.Adam.UI
             this.grid_tabActionParam_EvalParam.Name = "grid_tabActionParam_EvalParam";
             this.grid_tabActionParam_EvalParam.RowHeadersWidth = 51;
             this.grid_tabActionParam_EvalParam.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.grid_tabActionParam_EvalParam.Size = new System.Drawing.Size(890, 506);
+            this.grid_tabActionParam_EvalParam.Size = new System.Drawing.Size(890, 517);
             this.grid_tabActionParam_EvalParam.TabIndex = 94;
             this.grid_tabActionParam_EvalParam.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellClick);
             this.grid_tabActionParam_EvalParam.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellContentClick);
@@ -2783,7 +2348,7 @@ namespace Continental.Project.Adam.UI
             this.tab_TableResults.Controls.Add(this.mpnl_Table_Results);
             this.tab_TableResults.Location = new System.Drawing.Point(4, 27);
             this.tab_TableResults.Name = "tab_TableResults";
-            this.tab_TableResults.Size = new System.Drawing.Size(1434, 725);
+            this.tab_TableResults.Size = new System.Drawing.Size(1434, 749);
             this.tab_TableResults.TabIndex = 2;
             this.tab_TableResults.Text = "Table";
             this.tab_TableResults.UseVisualStyleBackColor = true;
@@ -2796,7 +2361,7 @@ namespace Continental.Project.Adam.UI
             this.mpnl_Table_GivingOut.HorizontalScrollbarSize = 10;
             this.mpnl_Table_GivingOut.Location = new System.Drawing.Point(941, 10);
             this.mpnl_Table_GivingOut.Name = "mpnl_Table_GivingOut";
-            this.mpnl_Table_GivingOut.Size = new System.Drawing.Size(490, 685);
+            this.mpnl_Table_GivingOut.Size = new System.Drawing.Size(490, 733);
             this.mpnl_Table_GivingOut.TabIndex = 123;
             this.mpnl_Table_GivingOut.VerticalScrollbarBarColor = true;
             this.mpnl_Table_GivingOut.VerticalScrollbarHighlightOnWheel = false;
@@ -2827,7 +2392,7 @@ namespace Continental.Project.Adam.UI
             this.mpnl_Table_Results.HorizontalScrollbarSize = 10;
             this.mpnl_Table_Results.Location = new System.Drawing.Point(15, 10);
             this.mpnl_Table_Results.Name = "mpnl_Table_Results";
-            this.mpnl_Table_Results.Size = new System.Drawing.Size(920, 685);
+            this.mpnl_Table_Results.Size = new System.Drawing.Size(920, 733);
             this.mpnl_Table_Results.TabIndex = 122;
             this.mpnl_Table_Results.VerticalScrollbarBarColor = true;
             this.mpnl_Table_Results.VerticalScrollbarHighlightOnWheel = false;
@@ -2840,7 +2405,7 @@ namespace Continental.Project.Adam.UI
             this.TAB_TableResult_Grid.Name = "TAB_TableResult_Grid";
             this.TAB_TableResult_Grid.RowHeadersWidth = 51;
             this.TAB_TableResult_Grid.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.TAB_TableResult_Grid.Size = new System.Drawing.Size(920, 630);
+            this.TAB_TableResult_Grid.Size = new System.Drawing.Size(920, 680);
             this.TAB_TableResult_Grid.TabIndex = 93;
             this.TAB_TableResult_Grid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.TAB_TableResult_Grid_CellEndEdit);
             this.TAB_TableResult_Grid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.TAB_TableResult_Grid_DataError);
@@ -2870,7 +2435,7 @@ namespace Continental.Project.Adam.UI
             this.tab_Diagram.Location = new System.Drawing.Point(4, 27);
             this.tab_Diagram.Name = "tab_Diagram";
             this.tab_Diagram.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Diagram.Size = new System.Drawing.Size(1434, 725);
+            this.tab_Diagram.Size = new System.Drawing.Size(1434, 749);
             this.tab_Diagram.TabIndex = 0;
             this.tab_Diagram.Text = "Diagram";
             // 
@@ -2902,12 +2467,11 @@ namespace Continental.Project.Adam.UI
             this.TAB_Main.Controls.Add(this.tab_Diagram);
             this.TAB_Main.Controls.Add(this.tab_TableResults);
             this.TAB_Main.Controls.Add(this.Tab_ActuationParameters);
-            this.TAB_Main.Controls.Add(this.tabPage1);
             this.TAB_Main.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TAB_Main.Location = new System.Drawing.Point(5, 228);
+            this.TAB_Main.Location = new System.Drawing.Point(5, 215);
             this.TAB_Main.Name = "TAB_Main";
             this.TAB_Main.SelectedIndex = 0;
-            this.TAB_Main.Size = new System.Drawing.Size(1442, 756);
+            this.TAB_Main.Size = new System.Drawing.Size(1442, 780);
             this.TAB_Main.TabIndex = 32;
             this.TAB_Main.SelectedIndexChanged += new System.EventHandler(this.TAB_Main_SelectedIndexChanged);
             this.TAB_Main.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.TAB_Main_Selecting);
@@ -2926,27 +2490,383 @@ namespace Continental.Project.Adam.UI
             this.timerDateTime.Interval = 1000;
             this.timerDateTime.Tick += new System.EventHandler(this.timerDateTime_Tick);
             // 
+            // stsBar_STBMain
+            // 
+            this.stsBar_STBMain.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.stsBar_STBMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tStatusLabel01,
+            this.tStatusLabel02,
+            this.tStatusLabel03,
+            this.tStatusLabel04});
+            this.stsBar_STBMain.Location = new System.Drawing.Point(0, 1056);
+            this.stsBar_STBMain.Name = "stsBar_STBMain";
+            this.stsBar_STBMain.Size = new System.Drawing.Size(1920, 24);
+            this.stsBar_STBMain.TabIndex = 126;
+            this.stsBar_STBMain.Text = "statusStrip1";
+            // 
+            // tStatusLabel01
+            // 
+            this.tStatusLabel01.BackColor = System.Drawing.Color.Transparent;
+            this.tStatusLabel01.Name = "tStatusLabel01";
+            this.tStatusLabel01.Size = new System.Drawing.Size(83, 19);
+            this.tStatusLabel01.Text = "tStatusLabel01";
+            // 
+            // tStatusLabel02
+            // 
+            this.tStatusLabel02.BackColor = System.Drawing.Color.Transparent;
+            this.tStatusLabel02.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.tStatusLabel02.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.tStatusLabel02.Name = "tStatusLabel02";
+            this.tStatusLabel02.Size = new System.Drawing.Size(115, 19);
+            this.tStatusLabel02.Text = "tStatusLabel02_User";
+            // 
+            // tStatusLabel03
+            // 
+            this.tStatusLabel03.BackColor = System.Drawing.Color.Transparent;
+            this.tStatusLabel03.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.tStatusLabel03.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.tStatusLabel03.Name = "tStatusLabel03";
+            this.tStatusLabel03.Size = new System.Drawing.Size(87, 19);
+            this.tStatusLabel03.Text = "tStatusLabel03";
+            // 
+            // tStatusLabel04
+            // 
+            this.tStatusLabel04.BackColor = System.Drawing.Color.Transparent;
+            this.tStatusLabel04.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.tStatusLabel04.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.tStatusLabel04.Name = "tStatusLabel04";
+            this.tStatusLabel04.Size = new System.Drawing.Size(122, 19);
+            this.tStatusLabel04.Text = "tStatusLabel04_Clock";
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.menuStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemToolStrip_Home,
+            this.menuItemToolStrip_Project,
+            this.menuItemToolStrip_TestProgram,
+            this.menuItemToolStrip_Settings});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Padding = new System.Windows.Forms.Padding(3, 1, 0, 1);
+            this.menuStrip.Size = new System.Drawing.Size(1920, 24);
+            this.menuStrip.TabIndex = 125;
+            this.menuStrip.Text = "menuStrip";
+            // 
+            // menuItemToolStrip_Home
+            // 
+            this.menuItemToolStrip_Home.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.subMenu_Home_Logout,
+            this.subMenu_Home_Exit,
+            this.toolStripSeparator6,
+            this.subMenu_Home_About});
+            this.menuItemToolStrip_Home.Name = "menuItemToolStrip_Home";
+            this.menuItemToolStrip_Home.Size = new System.Drawing.Size(54, 22);
+            this.menuItemToolStrip_Home.Text = "HOME";
+            // 
+            // subMenu_Home_Logout
+            // 
+            this.subMenu_Home_Logout.Name = "subMenu_Home_Logout";
+            this.subMenu_Home_Logout.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Home_Logout.Text = "Logout";
+            this.subMenu_Home_Logout.Visible = false;
+            this.subMenu_Home_Logout.Click += new System.EventHandler(this.subMenu_Home_Logout_Click);
+            // 
+            // subMenu_Home_Exit
+            // 
+            this.subMenu_Home_Exit.Name = "subMenu_Home_Exit";
+            this.subMenu_Home_Exit.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Home_Exit.Text = "Exit";
+            this.subMenu_Home_Exit.Click += new System.EventHandler(this.subMenu_Home_Exit_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(177, 6);
+            // 
+            // subMenu_Home_About
+            // 
+            this.subMenu_Home_About.Name = "subMenu_Home_About";
+            this.subMenu_Home_About.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Home_About.Text = "About";
+            this.subMenu_Home_About.Click += new System.EventHandler(this.subMenu_Home_About_Click);
+            // 
+            // menuItemToolStrip_Project
+            // 
+            this.menuItemToolStrip_Project.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.subMenu_Project_Project,
+            this.toolStripSeparator1,
+            this.subMenu_Project_PrintGraphics,
+            this.subMenu_Project_PrintParamList,
+            this.subMenu_Project_SetupPrinter,
+            this.toolStripSeparator2,
+            this.subMenu_Project_ExportExcel});
+            this.menuItemToolStrip_Project.Enabled = false;
+            this.menuItemToolStrip_Project.Name = "menuItemToolStrip_Project";
+            this.menuItemToolStrip_Project.ShortcutKeyDisplayString = "";
+            this.menuItemToolStrip_Project.Size = new System.Drawing.Size(66, 22);
+            this.menuItemToolStrip_Project.Text = "PROJECT";
+            // 
+            // subMenu_Project_Project
+            // 
+            this.subMenu_Project_Project.Name = "subMenu_Project_Project";
+            this.subMenu_Project_Project.ShortcutKeyDisplayString = "";
+            this.subMenu_Project_Project.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_Project.Text = "Project";
+            this.subMenu_Project_Project.Click += new System.EventHandler(this.subMenu_Project_Project_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(179, 6);
+            // 
+            // subMenu_Project_PrintGraphics
+            // 
+            this.subMenu_Project_PrintGraphics.Name = "subMenu_Project_PrintGraphics";
+            this.subMenu_Project_PrintGraphics.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_PrintGraphics.Text = "Print Graphics";
+            this.subMenu_Project_PrintGraphics.Click += new System.EventHandler(this.subMenu_Project_PrintGraphics_Click);
+            // 
+            // subMenu_Project_PrintParamList
+            // 
+            this.subMenu_Project_PrintParamList.Name = "subMenu_Project_PrintParamList";
+            this.subMenu_Project_PrintParamList.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_PrintParamList.Text = "Print Parameters List";
+            this.subMenu_Project_PrintParamList.Click += new System.EventHandler(this.subMenu_Project_PrintParamList_Click);
+            // 
+            // subMenu_Project_SetupPrinter
+            // 
+            this.subMenu_Project_SetupPrinter.Name = "subMenu_Project_SetupPrinter";
+            this.subMenu_Project_SetupPrinter.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_SetupPrinter.Text = "Setup Printer";
+            this.subMenu_Project_SetupPrinter.Click += new System.EventHandler(this.subMenu_Project_SetupPrinter_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
+            // 
+            // subMenu_Project_ExportExcel
+            // 
+            this.subMenu_Project_ExportExcel.Name = "subMenu_Project_ExportExcel";
+            this.subMenu_Project_ExportExcel.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_ExportExcel.Text = "Export -> MS Excel";
+            this.subMenu_Project_ExportExcel.Click += new System.EventHandler(this.subMenu_Project_ExportExcel_Click);
+            // 
+            // menuItemToolStrip_TestProgram
+            // 
+            this.menuItemToolStrip_TestProgram.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.subMenu_TestProg_SelectTestProgram,
+            this.toolStripSeparator3,
+            this.subMenu_TestProg_Start,
+            this.subMenu_TestProg_STop,
+            this.toolStripSeparator4,
+            this.subMenu_TestProg_CreateUserDefinedTest,
+            this.toolStripSeparator5,
+            this.subMenu_TestProg_ManualActuation,
+            this.subMenu_TestProg_Calibration,
+            this.toolStripSeparator8,
+            this.subMenu_TestProg_Bleed,
+            this.subMenu_TestProg_SaveTest});
+            this.menuItemToolStrip_TestProgram.Enabled = false;
+            this.menuItemToolStrip_TestProgram.Name = "menuItemToolStrip_TestProgram";
+            this.menuItemToolStrip_TestProgram.Size = new System.Drawing.Size(103, 22);
+            this.menuItemToolStrip_TestProgram.Text = "TEST PROGRAM";
+            // 
+            // subMenu_TestProg_SelectTestProgram
+            // 
+            this.subMenu_TestProg_SelectTestProgram.Name = "subMenu_TestProg_SelectTestProgram";
+            this.subMenu_TestProg_SelectTestProgram.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_SelectTestProgram.Text = "Select Test Program";
+            this.subMenu_TestProg_SelectTestProgram.Click += new System.EventHandler(this.subMenu_TestProg_SelectTestProgram_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(198, 6);
+            // 
+            // subMenu_TestProg_Start
+            // 
+            this.subMenu_TestProg_Start.Name = "subMenu_TestProg_Start";
+            this.subMenu_TestProg_Start.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_Start.Text = "Start";
+            this.subMenu_TestProg_Start.Click += new System.EventHandler(this.subMenu_TestProg_Start_Click);
+            // 
+            // subMenu_TestProg_STop
+            // 
+            this.subMenu_TestProg_STop.Name = "subMenu_TestProg_STop";
+            this.subMenu_TestProg_STop.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_STop.Text = "Stop";
+            this.subMenu_TestProg_STop.Click += new System.EventHandler(this.subMenu_TestProg_STop_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(198, 6);
+            // 
+            // subMenu_TestProg_CreateUserDefinedTest
+            // 
+            this.subMenu_TestProg_CreateUserDefinedTest.Name = "subMenu_TestProg_CreateUserDefinedTest";
+            this.subMenu_TestProg_CreateUserDefinedTest.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_CreateUserDefinedTest.Text = "Create User Defined Test";
+            this.subMenu_TestProg_CreateUserDefinedTest.Click += new System.EventHandler(this.subMenu_TestProg_CreateUserDefinedTest_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(198, 6);
+            // 
+            // subMenu_TestProg_ManualActuation
+            // 
+            this.subMenu_TestProg_ManualActuation.Name = "subMenu_TestProg_ManualActuation";
+            this.subMenu_TestProg_ManualActuation.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_ManualActuation.Text = "Manual Actuation";
+            this.subMenu_TestProg_ManualActuation.Click += new System.EventHandler(this.subMenu_TestProg_ManualActuation_Click);
+            // 
+            // subMenu_TestProg_Calibration
+            // 
+            this.subMenu_TestProg_Calibration.Name = "subMenu_TestProg_Calibration";
+            this.subMenu_TestProg_Calibration.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_Calibration.Text = "Calibration";
+            this.subMenu_TestProg_Calibration.Click += new System.EventHandler(this.subMenu_TestProg_Calibration_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(198, 6);
+            // 
+            // subMenu_TestProg_Bleed
+            // 
+            this.subMenu_TestProg_Bleed.Name = "subMenu_TestProg_Bleed";
+            this.subMenu_TestProg_Bleed.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_Bleed.Text = "Bleed (Fillup) / Drain";
+            this.subMenu_TestProg_Bleed.Click += new System.EventHandler(this.subMenu_TestProg_Bleed_Click);
+            // 
+            // subMenu_TestProg_SaveTest
+            // 
+            this.subMenu_TestProg_SaveTest.Name = "subMenu_TestProg_SaveTest";
+            this.subMenu_TestProg_SaveTest.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_SaveTest.Text = "Save Test";
+            this.subMenu_TestProg_SaveTest.Click += new System.EventHandler(this.subMenu_TestProg_SaveTest_Click);
+            // 
+            // menuItemToolStrip_Settings
+            // 
+            this.menuItemToolStrip_Settings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.subMenu_Settings_SoftwareMaintenance,
+            this.toolStripSeparator9,
+            this.subMenu_Settings_Account});
+            this.menuItemToolStrip_Settings.Enabled = false;
+            this.menuItemToolStrip_Settings.Name = "menuItemToolStrip_Settings";
+            this.menuItemToolStrip_Settings.Size = new System.Drawing.Size(69, 22);
+            this.menuItemToolStrip_Settings.Text = "SETTINGS";
+            // 
+            // subMenu_Settings_SoftwareMaintenance
+            // 
+            this.subMenu_Settings_SoftwareMaintenance.Name = "subMenu_Settings_SoftwareMaintenance";
+            this.subMenu_Settings_SoftwareMaintenance.Size = new System.Drawing.Size(192, 22);
+            this.subMenu_Settings_SoftwareMaintenance.Text = "Software Maintenance";
+            this.subMenu_Settings_SoftwareMaintenance.Click += new System.EventHandler(this.subMenu_Settings_SoftwareMaintenance_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(189, 6);
+            // 
+            // subMenu_Settings_Account
+            // 
+            this.subMenu_Settings_Account.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.subMenu_Account_SelectAccessLevel,
+            this.toolStripSeparator10,
+            this.subMenu_Account_NewPassword,
+            this.toolStripSeparator11,
+            this.subMenu_Account_UserAdd,
+            this.subMenu_Account_UserEdit,
+            this.subMenu_Account_UserDelete,
+            this.subMenu_Account_UserReport});
+            this.subMenu_Settings_Account.Name = "subMenu_Settings_Account";
+            this.subMenu_Settings_Account.Size = new System.Drawing.Size(192, 22);
+            this.subMenu_Settings_Account.Text = "USER";
+            // 
+            // subMenu_Account_SelectAccessLevel
+            // 
+            this.subMenu_Account_SelectAccessLevel.Name = "subMenu_Account_SelectAccessLevel";
+            this.subMenu_Account_SelectAccessLevel.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_SelectAccessLevel.Text = "Select Access Level";
+            this.subMenu_Account_SelectAccessLevel.Click += new System.EventHandler(this.subMenu_Account_SelectAccessLevel_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(177, 6);
+            // 
+            // subMenu_Account_NewPassword
+            // 
+            this.subMenu_Account_NewPassword.Name = "subMenu_Account_NewPassword";
+            this.subMenu_Account_NewPassword.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_NewPassword.Text = "New Password";
+            this.subMenu_Account_NewPassword.Click += new System.EventHandler(this.subMenu_Account_NewPassword_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(177, 6);
+            // 
+            // subMenu_Account_UserAdd
+            // 
+            this.subMenu_Account_UserAdd.Name = "subMenu_Account_UserAdd";
+            this.subMenu_Account_UserAdd.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_UserAdd.Text = "toolStripMenuItem1";
+            // 
+            // subMenu_Account_UserEdit
+            // 
+            this.subMenu_Account_UserEdit.Name = "subMenu_Account_UserEdit";
+            this.subMenu_Account_UserEdit.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_UserEdit.Text = "toolStripMenuItem1";
+            // 
+            // subMenu_Account_UserDelete
+            // 
+            this.subMenu_Account_UserDelete.Name = "subMenu_Account_UserDelete";
+            this.subMenu_Account_UserDelete.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_UserDelete.Text = "toolStripMenuItem1";
+            // 
+            // subMenu_Account_UserReport
+            // 
+            this.subMenu_Account_UserReport.Name = "subMenu_Account_UserReport";
+            this.subMenu_Account_UserReport.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_UserReport.Text = "toolStripMenuItem1";
+            // 
+            // printDialog
+            // 
+            this.printDialog.UseEXDialog = true;
+            // 
             // Form_Adam_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1910, 1030);
+            this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1920, 1080);
             this.ControlBox = false;
+            this.Controls.Add(this.stsBar_STBMain);
+            this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.mpnl_Eventlog);
-            this.Controls.Add(this.metroPanel2);
+            this.Controls.Add(this.mpnl_Buttons);
             this.Controls.Add(this.mpnl_BackupAssistent);
             this.Controls.Add(this.lst_MemoEventLog);
             this.Controls.Add(this.TAB_Main);
+            this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Location = new System.Drawing.Point(0, 25);
+            this.IsMdiContainer = true;
+            this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1920, 1080);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1150, 668);
+            this.MinimumSize = new System.Drawing.Size(1918, 1038);
             this.Name = "Form_Adam_Main";
-            this.Padding = new System.Windows.Forms.Padding(20, 60, 20, 20);
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Continental - ADAM Functional Test Bench";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -2954,17 +2874,9 @@ namespace Continental.Project.Adam.UI
             this.Shown += new System.EventHandler(this.Form_Adam_Main_Shown);
             this.mpnl_BackupAssistent.ResumeLayout(false);
             this.mpnl_BackupAssistent.PerformLayout();
-            this.metroPanel2.ResumeLayout(false);
+            this.mpnl_Buttons.ResumeLayout(false);
             this.mpnl_Eventlog.ResumeLayout(false);
             this.metroPanel5.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.metroPanel3.ResumeLayout(false);
-            this.metroPanel3.PerformLayout();
-            this.grpStart.ResumeLayout(false);
-            this.grpStart.PerformLayout();
-            this.grpExchange.ResumeLayout(false);
-            this.grpExchange.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
             this.Tab_ActuationParameters.ResumeLayout(false);
             this.mPnl_tabActParam_GenralSettings.ResumeLayout(false);
             this.mPnl_tabActParam_GenralSettings.PerformLayout();
@@ -2984,7 +2896,12 @@ namespace Continental.Project.Adam.UI
             this.tab_Diagram.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.devChart)).EndInit();
             this.TAB_Main.ResumeLayout(false);
+            this.stsBar_STBMain.ResumeLayout(false);
+            this.stsBar_STBMain.PerformLayout();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -3020,7 +2937,7 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.Label lbl_TravelTMC;
         private System.Windows.Forms.Label lbl_TravelPiston;
         private MetroFramework.Controls.MetroPanel mpnl_BackupAssistent;
-        private MetroFramework.Controls.MetroPanel metroPanel2;
+        private MetroFramework.Controls.MetroPanel mpnl_Buttons;
         private MetroFramework.Controls.MetroPanel mpnl_Eventlog;
         private MetroFramework.Controls.MetroTile mTile_Diagram_TestInfo;
         private MetroFramework.Controls.MetroPanel metroPanel5;
@@ -3036,34 +2953,6 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.Label lbl_Vaccum;
         private MetroFramework.Controls.MetroTextBox mtxt_MKSLVaccum;
         private System.Windows.Forms.Timer timerMODBUS;
-        private System.Windows.Forms.TabPage tabPage1;
-        private MetroFramework.Controls.MetroPanel metroPanel3;
-        private System.Windows.Forms.GroupBox grpStart;
-        private System.Windows.Forms.GroupBox grpExchange;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox txtUnit;
-        private System.Windows.Forms.Button btnWriteMultipleReg;
-        private System.Windows.Forms.Button btnWriteMultipleCoils;
-        private System.Windows.Forms.Button btnWriteSingleReg;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radWord;
-        private System.Windows.Forms.RadioButton radBytes;
-        private System.Windows.Forms.RadioButton radBits;
-        private System.Windows.Forms.Button btnWriteSingleCoil;
-        private System.Windows.Forms.Button btnReadInpReg;
-        private System.Windows.Forms.Button btnReadHoldReg;
-        private System.Windows.Forms.Button btnReadDisInp;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox txtSize;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox txtStartAdress;
-        private System.Windows.Forms.Button btnReadCoils;
-        private System.Windows.Forms.GroupBox grpData;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button btnConnect;
-        private System.Windows.Forms.TextBox txtIP;
-        private System.Windows.Forms.Label label12;
-        private MetroFramework.Controls.MetroTile metroTile1;
         private System.Windows.Forms.TabPage Tab_ActuationParameters;
         private MetroFramework.Controls.MetroPanel mPnl_tabActParam_GenralSettings;
         private MetroFramework.Controls.MetroCheckBox mchk_tabActParam_GenSettings_CBLock;
@@ -3123,22 +3012,9 @@ namespace Continental.Project.Adam.UI
         private MetroFramework.Controls.MetroButton mbtn_BHandshakePLC;
         private System.ComponentModel.BackgroundWorker bgWorker;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Button ConnectToCertainDevice;
-        private System.Windows.Forms.Button DisconnectDeviceBt;
-        private System.Windows.Forms.Button StopContinuousMeasurementBt;
-        private System.Windows.Forms.Button RunContinuousMeasurementBt;
-        private System.Windows.Forms.Button PrepareContinuousMeasurementBt;
-        private System.Windows.Forms.Button btnRegisterEvent;
-        private System.Windows.Forms.Button InitializeObjectsBt;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.PropertyGrid GenericMeasurementValuesPg;
-        private System.Windows.Forms.PropertyGrid MeasurmentValuesPg;
-        private System.Windows.Forms.TextBox ProtocolTb;
         private MetroFramework.Controls.MetroButton mbtn_BClock;
         private MetroFramework.Controls.MetroButton mbtn_BRun;
         private System.Windows.Forms.ListView lvLog;
-        private System.Windows.Forms.TextBox txtLogTestSequence;
         private DevExpress.XtraCharts.ChartControl devChart;
         private System.Windows.Forms.GroupBox grpRadConsumer;
         private System.Windows.Forms.RadioButton rad_GeneralSettings_CBHoseConsumer;
@@ -3147,5 +3023,50 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.GroupBox grpOutput;
         private System.Windows.Forms.RadioButton rad_EvaluationParameters_CBOutputSC;
         private System.Windows.Forms.RadioButton rad_EvaluationParameters_CBOutputPC;
+        private System.Windows.Forms.StatusStrip stsBar_STBMain;
+        private System.Windows.Forms.ToolStripStatusLabel tStatusLabel01;
+        private System.Windows.Forms.ToolStripStatusLabel tStatusLabel02;
+        private System.Windows.Forms.ToolStripStatusLabel tStatusLabel03;
+        private System.Windows.Forms.ToolStripStatusLabel tStatusLabel04;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem menuItemToolStrip_Home;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Home_Logout;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Home_Exit;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Home_About;
+        private System.Windows.Forms.ToolStripMenuItem menuItemToolStrip_Project;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Project_Project;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Project_PrintGraphics;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Project_PrintParamList;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Project_SetupPrinter;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Project_ExportExcel;
+        private System.Windows.Forms.ToolStripMenuItem menuItemToolStrip_TestProgram;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_TestProg_SelectTestProgram;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_TestProg_Start;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_TestProg_STop;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_TestProg_CreateUserDefinedTest;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_TestProg_ManualActuation;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_TestProg_Calibration;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_TestProg_Bleed;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_TestProg_SaveTest;
+        private System.Windows.Forms.ToolStripMenuItem menuItemToolStrip_Settings;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Settings_SoftwareMaintenance;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Settings_Account;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_SelectAccessLevel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_NewPassword;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_UserAdd;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_UserEdit;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_UserDelete;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_UserReport;
+        private System.Windows.Forms.PrintDialog printDialog;
     }
 }

@@ -129,8 +129,7 @@ namespace Continental.Project.Adam.UI.Helper
         public string AppPath_ChartImageTests = ConfigurationManager.AppSettings["AppPath_ChartImageTests"].ToString();
         public string AppPath_ChartImageExtension = ConfigurationManager.AppSettings["AppPath_ChartImageExtension"].ToString();
 
-        //Security
-        public bool isLoggedIn;
+        //Security        
         public string appCrypto_Key = ConfigurationManager.AppSettings["AppCrypto_Key"].ToString();
 
         #endregion
@@ -16805,6 +16804,8 @@ namespace Continental.Project.Adam.UI.Helper
 
         private static string _userName;
 
+        private static bool _isLoggedIn;
+
         //get e set
         public static long UserId
         {
@@ -16818,6 +16819,13 @@ namespace Continental.Project.Adam.UI.Helper
 
             get { return HelperApp._userName; }
             set { HelperApp._userName = value; }
+        }
+
+        public static bool IsLoggedIn
+        {
+
+            get { return HelperApp._isLoggedIn; }
+            set { HelperApp._isLoggedIn = value; }
         }
 
         public string GetUserName(long id)

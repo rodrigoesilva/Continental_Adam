@@ -1,15 +1,22 @@
 ﻿#region USING
 
 using System;
-using System.Windows.Forms;
+using System.Net;
+
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Threading.Tasks;
+using System.Configuration;
+using System.Windows.Forms;
+
+
 using MetroFramework.Controls;
 
 using Continental.Project.Adam.UI.BLL;
@@ -17,27 +24,17 @@ using Continental.Project.Adam.UI.COM;
 using Continental.Project.Adam.UI.Enum;
 using Continental.Project.Adam.UI.Helper.Com;
 using Continental.Project.Adam.UI.Helper;
-
-using CefSharp.WinForms;
-
-using System.Collections;
-using System.Net;
-
-//using LiveCharts;
-//using LiveCharts.Wpf;
-//using LiveCharts.Geared;
-//using LiveCharts.Defaults;
-
-using DevExpress.XtraCharts;
-using DevExpress.Utils;
-using DevExpress.Utils.Extensions;
-
 using Continental.Project.Adam.UI.Helper.Tests;
 using Continental.Project.Adam.UI.Models.COM;
 using Continental.Project.Adam.UI.Models.Operational;
 using Continental.Project.Adam.UI.Models.Settings;
-using System.Threading.Tasks;
 
+using CefSharp.WinForms;
+
+
+using DevExpress.XtraCharts;
+using DevExpress.Utils;
+using DevExpress.Utils.Extensions;
 
 #region HBM
 // =================================================================
@@ -237,6 +234,8 @@ namespace Continental.Project.Adam.UI
             InitializeComponent();
 
             Form_Adam_InitializeComponents();
+
+            this.Focus();
         }
         #endregion
 
@@ -245,20 +244,14 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                if (HelperApp.uiProjectTestSelecionado == 1)
+                if (HelperApp.IsLoggedIn)
                 {
-                    Msgteste();
-                }
-                else
-                {
-                    //FORMS CONFIG
-                    this.ShowInTaskbar = false;
-                    this.ControlBox = false;
-                    this.Text = null;
+                    Menu_Enable();
+
+                    UI_SetupStatusBar();
 
                     _bAppStart = true;
                     timerMODBUS.Enabled = false;
-
 
                     HelperTestBase.ProjectTestConcluded.Project = new Model_Operational_Project();
 
@@ -279,6 +272,18 @@ namespace Continental.Project.Adam.UI
                     //else
                     //    StartSimulate();
                 }
+                else
+                {
+                    Execute_Logout();
+
+                    MessageBox.Show("Not Found LoginName OR Password !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    this.Hide();
+
+                    var formWelcome = new Form_Adam_Welcome();
+                    formWelcome.Closed += (s, args) => this.Close();
+                    formWelcome.Show();
+                }
             }
             catch (Exception ex)
             {
@@ -289,9 +294,17 @@ namespace Continental.Project.Adam.UI
 
         public void Msgteste() 
         {
+            HelperApp.uiTesteSelecionado = HelperApp.uiProjectTestSelecionado;
+
+
             TAB_ActuationParameters_SetData();
 
-            TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiProjectTestSelecionado);
+            int idxSelected = HelperApp.uiProjectTestSelecionado; // mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex;
+
+            mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = idxSelected;
+
+            TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
+            //TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
 
             MessageBox.Show(" Test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
@@ -316,6 +329,8 @@ namespace Continental.Project.Adam.UI
             //BindDataParam();
 
             LOG_TestSequence(_helperApp.AppMsg_Welcome);
+
+            this.Activate();
 
         }
         private void Form_Adam_Main_Shown(object sender, EventArgs e)
@@ -360,6 +375,264 @@ namespace Continental.Project.Adam.UI
                                       .Concat(controls)
                                       .Where(c => c.GetType() == type)
                                       .ToList();
+        }
+
+        private void Execute_Logout()
+        {
+            HelperApp.IsLoggedIn = false;
+
+            subMenu_Home_Logout.Visible = false;
+
+            Menu_Disable();
+        }
+        private void Menu_Enable()
+        {
+            menuItemToolStrip_Home.Enabled = true;
+            menuItemToolStrip_Project.Enabled = true;
+            menuItemToolStrip_TestProgram.Enabled = true;
+            //menuItemToolStrip_Settings.Enabled = true;
+        }
+        private void Menu_Disable()
+        {
+            menuItemToolStrip_Project.Enabled = false;
+            menuItemToolStrip_TestProgram.Enabled = false;
+            menuItemToolStrip_Settings.Enabled = false;
+        }
+
+        #endregion
+
+        #region MENU
+
+        #region Menu - Home
+        private void subMenu_Home_Logout_Click(object sender, EventArgs e)
+        {
+            _helperApp.Form_Close(this);
+
+            Execute_Logout();
+        }
+
+        private void subMenu_Home_Exit_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMQuitClick(sender);
+
+            Execute_Logout();
+
+            Application.Exit();
+        }
+
+        private void subMenu_Home_About_Click(object sender, EventArgs e)
+        {
+            //var tt = tStatusLabel04.Text;
+
+            ////helperApp.Form_Open(new Form_Adam_About(), this);
+
+            //Form_Adam_About newMDIChild = new Form_Adam_About();
+            //newMDIChild.MdiParent = this;
+            //newMDIChild.TransfEvent += frm_TransfEvent;
+            //newMDIChild.Show();
+        }
+
+        public void frm_TransfEvent(string value)
+        {
+            stsBar_STBMain.Items[0].Text = value;
+        }
+
+        #endregion
+
+        #region Menu - Project
+        private void subMenu_Project_Project_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMProjectClick(sender);
+
+            //MessageBox.Show("subMenu_Project_Project_Click !", helperApp.msgAppName);
+            _helperApp.Form_Open(new Form_Operational_Project(eEXAMTYPE.ET_NONE, string.Empty));
+
+            //Form_Operational_Project fm1 = new Form_Operational_Project(eEXAMTYPE.ET_NONE, string.Empty);
+            //fm1.delfunc += hideform;
+            //fm1.FormClosed += new System.Windows.Forms.FormClosedEventHandler(Form_Operational_Project_FormClosed);
+            //fm1.Show();
+        }
+
+
+        void hideform(bool hide)
+        {
+            if (hide) this.Hide();
+            else this.Show();
+        }
+
+        private void subMenu_Project_PrintGraphics_Click(object sender, EventArgs e)
+        {
+            //_helperAdam.SMPrintGraphicsClick(sender);
+
+            MessageBox.Show("subMenu_Project_PrintGraphics_Click !", _helperApp.appMsg_Name);
+        }
+
+        private void subMenu_Project_PrintParamList_Click(object sender, EventArgs e)
+        {
+            //_helperAdam.SMPrintParameterListClick(sender);
+
+            MessageBox.Show("subMenu_Project_PrintParamList_Click !", _helperApp.appMsg_Name);
+        }
+
+        private void subMenu_Project_SetupPrinter_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMSetupPrinterClick(sender);
+            printDialog.ShowDialog();
+        }
+
+        private void subMenu_Project_ExportExcel_Click(object sender, EventArgs e)
+        {
+            //_helperAdam.SMExportExcelClick(sender);
+
+            MessageBox.Show("subMenu_Project_ExportExcel_Click !", _helperApp.appMsg_Name);
+        }
+
+        #endregion
+
+        #region Menu - Test Program
+        private void subMenu_TestProg_SelectTestProgram_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMSelectClick(sender);
+
+            //MessageBox.Show("subMenu_TestProg_SelectTestProgram_Click !", helperApp.msgAppName);
+
+            _helperApp.Form_Open(new Form_Manager_SelectEvalProgram());
+        }
+
+        private void subMenu_TestProg_Start_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMStartClick(sender);
+
+            MessageBox.Show("subMenu_TestProg_Start_Click !", _helperApp.appMsg_Name);
+
+            TEST_Start_Command();
+        }
+
+        private void subMenu_TestProg_STop_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMStopClick(sender);
+
+            MessageBox.Show("subMenu_TestProg_STop_Click !", _helperApp.appMsg_Name);
+
+            TEST_Stop_Command();
+        }
+
+        private void subMenu_TestProg_CreateUserDefinedTest_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMUserDefTestClick(sender);
+
+            //MessageBox.Show("subMenu_TestProg_CreateUserDefinedTest_Click !", helperApp.msgAppName);
+
+            _helperApp.Form_Open(new Form_Manager_CreateEvalGroup());
+        }
+
+        private void subMenu_TestProg_ManualActuation_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMManualActuationClick(sender);
+
+            //MessageBox.Show("subMenu_TestProg_ManualActuation_Click !", helperApp.msgAppName);
+
+            _helperApp.Form_Open(new Form_Operational_ManualActuation());
+        }
+
+        private void subMenu_TestProg_Calibration_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("subMenu_TestProg_Calibration_Click !", helperApp.msgAppName);
+
+            _helperApp.Form_Open(new Form_Operational_Calibration());
+        }
+
+        private void subMenu_TestProg_Bleed_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMBleedDrainClick(sender);
+
+            //MessageBox.Show("subMenu_TestProg_Bleed_Click !", helperApp.msgAppName);
+
+            _helperApp.Form_Open(new Form_Operational_Bleed());
+        }
+
+        private void subMenu_TestProg_SaveTest_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SaveTest1Click(sender);
+
+            MessageBox.Show("subMenu_TestProg_SaveTest_Click !", _helperApp.appMsg_Name);
+        }
+
+        #endregion
+
+        #region Menu - Settings
+        private void subMenu_Settings_SoftwareMaintenance_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMPreferencesClick(sender);
+
+            //MessageBox.Show("subMenu_Settings_SoftwareMaintenance_Click !", helperApp.msgAppName);
+
+            _helperApp.Form_Open(new Form_Adam_Preferences(), this);
+        }
+
+        #endregion
+
+        #region Menu - Account
+        private void subMenu_Account_SelectAccessLevel_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMSelectAccessLevelClick(sender);
+
+            //MessageBox.Show("subMenu_Account_SelectAccessLevel_Click !", helperApp.msgAppName);
+
+            _helperApp.Form_Open(new Form_Security_UserLevel(), this);
+        }
+
+        private void subMenu_Account_NewPassword_Click(object sender, EventArgs e)
+        {
+            //helperAdam.SMNewPasswordClick(sender);
+
+            //MessageBox.Show("subMenu_Account_NewPassword_Click !", helperApp.msgAppName);
+
+            _helperApp.Form_Open(new Form_Security_NewPassword(), this);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region TASK BAR
+        private void TaskBarUpdate()
+        {
+            tStatusLabel01.Text = HelperApp.lblstsbar01;
+
+            tStatusLabel02.Text = HelperApp.lblstsbar02;
+
+            tStatusLabel03.Text = HelperApp.lblstsbar03;
+
+            HelperApp.lblstsbar04 = DateTime.Now.ToString();
+            tStatusLabel04.Text = HelperApp.lblstsbar04;
+        }
+
+        private void UI_SetupStatusBar()
+        {
+            Form_SetStatusBarPanelSize();
+
+            if (!HelperApp.IsLoggedIn)
+            {
+                stsBar_STBMain.Items[0].Text = _helperApp.appMsg_Name;
+
+                for (int i = 1; i < 3; i++)
+                {
+                    stsBar_STBMain.Items[i].Text = string.Empty;
+                    stsBar_STBMain.Items[i].AutoSize = false;
+                    stsBar_STBMain.Items[i].Width = 475;
+                }
+            }
+        }
+        private void Form_SetStatusBarPanelSize()
+        {
+            stsBar_STBMain.AutoSize = false;
+
+            for (int i = 0; i < 4; i++)
+            {
+                stsBar_STBMain.Items[i].AutoSize = false;
+                stsBar_STBMain.Items[i].Width = 475;
+            }
         }
 
         #endregion
@@ -2008,7 +2281,6 @@ namespace Continental.Project.Adam.UI
             int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
 
             TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
-
         }
         public void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(int idxSelected, string origin)
         {
@@ -2072,8 +2344,6 @@ namespace Continental.Project.Adam.UI
                         TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
 
                         _bCoBSelectTestSelected = true;
-
-
 
                         EnableButtonStart();
                     }
@@ -4675,6 +4945,8 @@ namespace Continental.Project.Adam.UI
         private void timerDateTime_Tick(object sender, EventArgs e)
         {
             mbtn_BClock.Text = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss", CultureInfo.InvariantCulture);
+
+            TaskBarUpdate();
         }
         private void timerHBM_Tick(object sender, EventArgs e)
         {
@@ -7737,9 +8009,6 @@ namespace Continental.Project.Adam.UI
         #region HBM
         private HelperHBM HBM_Initialize()
         {
-            this.RunContinuousMeasurementBt.Enabled = false;
-            this.StopContinuousMeasurementBt.Enabled = false;
-
             try
             {
                 while (!_helperHBM.Initialized)
@@ -7827,7 +8096,6 @@ namespace Continental.Project.Adam.UI
             LOG_TestSequence("Evento - HBM_ReadValues");
 
             String path = @"D:\HBM_SaveAquisitionTxtData.txt";
-            this.RunContinuousMeasurementBt.Enabled = false;
             List<string> lstStr = new List<string>();
             string formTimestamp = string.Empty;
 
@@ -7844,8 +8112,6 @@ namespace Continental.Project.Adam.UI
             int i = 0;
             int j = 0;
 
-            this.RunContinuousMeasurementBt.Enabled = false;
-
             string strLinha = string.Empty;
 
             if (_helperHBM.PreparedContinuousMeasurement && _helperHBM.Status)
@@ -7855,11 +8121,6 @@ namespace Continental.Project.Adam.UI
                 _signalsToMeasure = _comHBM._signalsToMeasure;
                 _daqEnvironment = _comHBM._daqEnvironment;
 
-
-
-
-                //try
-                //{
                 try
                 {
                     if (!_runMeasurement)
@@ -7875,12 +8136,10 @@ namespace Continental.Project.Adam.UI
 
                         _runMeasurement = true;
                     }
-                    this.StopContinuousMeasurementBt.Enabled = true;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, ex.ToString());
-                    this.StopContinuousMeasurementBt.PerformClick();
                 }
 
                 //try
@@ -8124,7 +8383,6 @@ namespace Continental.Project.Adam.UI
 
             try
             {
-                this.StopContinuousMeasurementBt.Enabled = false;
                 timerHBM.Enabled = false;
                 HelperTestBase.running = false;
 
@@ -8142,19 +8400,6 @@ namespace Continental.Project.Adam.UI
                     MessageBox.Show(ex.Message, ex.ToString());
 
                 }
-
-                // sbexterno.Clear();
-                this.PrepareContinuousMeasurementBt.Enabled = true;
-
-                //if (_helperHBM.PreparedContinuousMeasurement && _helperHBM.Status)
-                //    if (!_helperHBM.RunningContinuousMeasurement)
-                //    {
-                //        _comHBM.StopContinuousMeasurement(_prjTestFilename);
-                //    }
-                //    else
-                //        MessageBox.Show("HBM_StopContinuousMeasurement - HBM RunContinuous Measurement Data acquisition is already running !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //else
-                //    MessageBox.Show("HBM Communication Failed !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
@@ -8218,87 +8463,12 @@ namespace Continental.Project.Adam.UI
         }
 
         /// <summary>
-        /// Register handler for "DeviceConnected" event
-        /// DeviceConnected events will be fired asynchronously each time a device is successfully connected
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Event arguments</param>
-        private void btnRegisterEvent_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //MessageBroker handles all events of the common API.
-                MessageBroker.DeviceConnected += MessageBroker_DeviceConnected;
-                MessageBroker.DeviceDisconnected += MessageBroker_DeviceDisconnected;
-                AddToProtocol("Device event handlers registered");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, ex.ToString());
-            }
-        }
-
-        #region --- Event stuff
-
-        /// <summary>
-        /// DeviceConnected event handler
-        /// </summary>
-        void MessageBroker_DeviceConnected(object sender, DeviceEventArgs e)
-        {
-            // Show info in our console
-            UpdateConsoleDeviceConnected(e);
-        }
-
-        /// <summary>
-        /// DeviceDisconnected event handler
-        /// </summary>
-        void MessageBroker_DeviceDisconnected(object sender, DeviceEventArgs e)
-        {
-            // Show info in our console
-            UpdateConsoleDeviceDisConnected(e);
-        }
-
-        /// <summary>
-        /// Show connected info
-        /// </summary>
-        private void UpdateConsoleDeviceConnected(DeviceEventArgs e)
-        {
-            if (ProtocolTb.InvokeRequired)
-            {
-                // Call this method again but on the GUI thread
-                ProtocolTb.Invoke(new VisualizeDeviceEventHandler(UpdateConsoleDeviceConnected), new object[] { e });
-            }
-            else
-            {
-                AddToProtocol("Connected to device: " + e.UniqueDeviceID);
-            }
-        }
-
-        /// <summary>
-        /// Show disconnected info
-        /// </summary>
-        private void UpdateConsoleDeviceDisConnected(DeviceEventArgs e)
-        {
-            if (ProtocolTb.InvokeRequired)
-            {
-                // Call this method again but on the GUI thread
-                ProtocolTb.Invoke(new VisualizeDeviceEventHandler(UpdateConsoleDeviceDisConnected), new object[] { e });
-            }
-            else
-            {
-                AddToProtocol("DisConnected from device: " + e.UniqueDeviceID);
-            }
-        }
-
-        #endregion
-
-        /// <summary>
         /// Adds a given string to the protocol
         /// </summary>
         /// <param name="message">Message to add</param>
         private void AddToProtocol(string message)
         {
-            ProtocolTb.AppendText(message + Environment.NewLine);
+            //ProtocolTb.AppendText(message + Environment.NewLine);
         }
 
         /// <summary>
@@ -8363,9 +8533,6 @@ namespace Continental.Project.Adam.UI
         /// <param name="e">Event arguments</param>
         private void PrepareContinuousMeasurementBt_Click(object sender, EventArgs e)
         {
-            this.PrepareContinuousMeasurementBt.Enabled = false;
-            this.RunContinuousMeasurementBt.Enabled = false;
-            this.StopContinuousMeasurementBt.Enabled = false;
 
             try
             {
@@ -8426,421 +8593,11 @@ namespace Continental.Project.Adam.UI
                 // try overloaded version of PrepareDaq ( e.g. to control number of filled timestamps- default is "timeStamp for the first measurement value only")
                 //_daqMeasurement.PrepareDaq(2400, 1, 2400, false, false);// use this to get a timeStamp and a status for each measurement value
                 AddToProtocol("Measurement is prepared.");
-
-                this.RunContinuousMeasurementBt.Enabled = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, ex.ToString());
             }
-        }
-
-        /// <summary>
-        /// Runs continuous measurement with the signals that were added to the measurement
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Event arguments</param>
-        /// 
-        public void originalrun()
-        {
-            this.RunContinuousMeasurementBt.Enabled = false;
-
-            try
-            {
-                // run continuous measurement with the signals that were added to the measurement
-                _daqMeasurement.StartDaq(DataAcquisitionMode.TimestampSynchronized); //DataAcquisitionMode.Unsynchronized
-                _runMeasurement = true;
-
-                this.StopContinuousMeasurementBt.Enabled = true;
-
-                while (_runMeasurement)
-                {
-                    // update measurement values of the signals that were added to the measurement:
-                    _daqMeasurement.FillMeasurementValues();
-
-                    // FillMeasurements updates the ContinuousMeasurementValues of all signals that
-                    // were added to the measurement
-                    // The next call of FillMeasurementValues will overwrite them again with new values....
-
-                    // check the signals that were added to the measurement for new measurement values...
-                    foreach (Signal signal in _signalsToMeasure)
-                    {
-                        // this is the way you get the measurement values (as doubles) from ALL signals (no matter what type of signal)
-                        // that take part in the measurement (check Signal.ContinuousMeasurementValues)
-                        if (signal.ContinuousMeasurementValues.UpdatedValueCount > 0)
-                        {
-                            AddToProtocol("-------------------------");
-                            AddToProtocol(string.Format("Signal {0} has {1} new measurement values \r\nFirst timestamp={2} \r\nFirst measval={3}",
-                                                        signal.Name,
-                                                        signal.ContinuousMeasurementValues.UpdatedValueCount, //Number of new measurement values filled into Values[0..n]
-                                                        signal.ContinuousMeasurementValues.Timestamps[0],     //Timestamps for measurement values
-                                                        signal.ContinuousMeasurementValues.Values[0]));       //this is an array of doubles containing the measurement values
-
-                            // have a look at the continuousMeasurementValues in the property grid (see tab "MeasurementValues...") during execution
-                            MeasurmentValuesPg.SelectedObject = signal.ContinuousMeasurementValues;
-                        }
-
-                        // With ComnmonAPI V6.0 it is possible to measure GenericSignals. Until now the only genericSignal that is implemented is
-                        // the CanRawSignal, which delivers CanRawMessages as measurement values. Generic signals support an ADDITIONAL way to get measurement values
-                        // of a certain type (here:CanRawMessages instead of doubles, which are however also filled for GenericSignals in a special way to keep the used way
-                        // of getting measurement values also working)
-                        AccessMeasurementValuesOfGenericSignal(signal);
-                    }
-
-                    Application.DoEvents(); // respond to GUI events
-
-                    // wait a little to accumulate new measurement values
-                    System.Threading.Thread.Sleep(50); //
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, ex.ToString());
-                this.StopContinuousMeasurementBt.PerformClick();
-            }
-        }
-
-        private void RunContinuousMeasurementBt_Click(object sender, EventArgs e)
-        {
-
-            timerHBM.Enabled = true;
-
-            //    String path = @"D:\HBM_SaveAquisitionTxtData.txt";
-            //    this.RunContinuousMeasurementBt.Enabled = false;
-            //    List<string> lstStr = new List<string>();
-            //    string formTimestamp = string.Empty;
-
-            //    List<double> lstTms = new List<double>();
-            //    List<double> lstVal = new List<double>();
-
-            //    List<string> lstStrCh = new List<string>();
-            //    List<string> lstStrTimestamp = new List<string>();
-            //    List<double> lstTmsCh = new List<double>();
-            //    List<double>[] lstCh = new List<double>[12];
-
-            //    int iUpdatedValueCount = 0;
-            //    int k = 0;
-            //    int i = 0;
-            //    int j = 0;
-
-            //    this.RunContinuousMeasurementBt.Enabled = false;
-
-
-            //    string strLinha = string.Empty;
-
-            //    try
-            //    {
-            //        // run continuous measurement with the signals that were added to the measurement
-            //        _daqMeasurement.StartDaq(DataAcquisitionMode.TimestampSynchronized); //DataAcquisitionMode.Unsynchronized
-            //        _runMeasurement = true;
-
-            //        this.StopContinuousMeasurementBt.Enabled = true;
-
-            //        if (_runMeasurement)
-            //        {
-            //            // update measurement values of the signals that were added to the measurement:
-            //            _daqMeasurement.FillMeasurementValues();
-
-            //            // FillMeasurements updates the ContinuousMeasurementValues of all signals that
-            //            // were added to the measurement
-            //            // The next call of FillMeasurementValues will overwrite them again with new values....
-
-            //            // check the signals that were added to the measurement for new measurement values...
-            //            //foreach (Signal signal in _signalsToMeasure)
-            //            //{
-            //            for (k = 0; k < _signalsToMeasure.Count; k++)
-            //            {
-            //                Signal signal = _signalsToMeasure[k];
-
-            //                // this is the way you get the measurement values (as doubles) from ALL signals (no matter what type of signal)
-            //                // that take part in the measurement (check Signal.ContinuousMeasurementValues)
-            //                if (signal.ContinuousMeasurementValues.UpdatedValueCount > 0)
-            //                {
-            //                    AddToProtocol("-------------------------");
-
-            //                    var data = string.Format("Signal {0} has {1} new measurement values \r\nFirst timestamp={2} \r\nFirst measval={3}",
-            //                                                signal.Name,
-            //                                                signal.ContinuousMeasurementValues.UpdatedValueCount, //Number of new measurement values filled into Values[0..n]
-            //                                                signal.ContinuousMeasurementValues.Timestamps,     //Timestamps for measurement values
-            //                                                signal.ContinuousMeasurementValues.Values);
-
-            //                    AddToProtocol(data);       //this is an array of doubles containing the measurement values
-
-            //                    // have a look at the continuousMeasurementValues in the property grid (see tab "MeasurementValues...") during execution
-            //                    MeasurmentValuesPg.SelectedObject = signal.ContinuousMeasurementValues;
-
-            //                    formTimestamp = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss.ffff",
-            //                            CultureInfo.InvariantCulture);
-
-            //                    string nms = signal.Name;
-
-
-            //                    lstStrTimestamp.Clear();
-            //                    lstTms.Clear();
-            //                    lstVal.Clear();
-
-            //                    iUpdatedValueCount = signal.ContinuousMeasurementValues.UpdatedValueCount;
-            //                    lstTms = signal.ContinuousMeasurementValues.Timestamps.ToList();
-            //                    lstVal = signal.ContinuousMeasurementValues.Values.ToList();
-
-
-            //                    lstCh[k] = new List<double>();
-
-            //                    for (i = 1; i < iUpdatedValueCount - 1; i++)
-            //                    {
-            //                        lstCh[k].Add(lstVal[i]);
-            //                        lstStrTimestamp.Add(formTimestamp);
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    _myDevice.ReadSingleMeasurementValue(new List<Signal>() { signal });
-
-            //                    // get a measurement value from all signals of the device:
-            //                    //_myDevice.ReadSingleMeasurementValueOfAllSignals();
-
-            //                    double dblSigValue = signal.GetSingleMeasurementValue().Value;
-            //                    string strSigValue = dblSigValue.ToString("F3");
-
-            //                    AddToProtocol(string.Format("Measurement value of first signal={0}", strSigValue));
-            //                    AddToProtocol(string.Format("Timestamp of first signal={0}", signal.GetSingleMeasurementValue().Timestamp));
-
-            //                    double dblTime = signal.GetSingleMeasurementValue().Timestamp;
-
-            //                    //TimeSpan t = TimeSpan.FromMilliseconds(dblTime);
-            //                    //string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-            //                    //        t.Hours,
-            //                    //        t.Minutes,
-            //                    //        t.Seconds,
-            //                    //        t.Milliseconds);
-
-            //                    //DateTime dt = DateTime.Now + t;
-            //                    //var tmestamp = dt.ToString();
-
-            //                    //DateTime dt1 = new DateTime().Add(TimeSpan.FromMilliseconds(dblTime));
-
-            //                    string timestamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff",
-            //                                    CultureInfo.InvariantCulture);
-
-
-            //                    AddToProtocol(string.Format("Timestamp of first signal={0}", timestamp));
-
-            //                    MeasurmentValuesPg.SelectedObject = signal.ContinuousMeasurementValues;
-            //                }
-
-            //                // With ComnmonAPI V6.0 it is possible to measure GenericSignals. Until now the only genericSignal that is implemented is
-            //                // the CanRawSignal, which delivers CanRawMessages as measurement values. Generic signals support an ADDITIONAL way to get measurement values
-            //                // of a certain type (here:CanRawMessages instead of doubles, which are however also filled for GenericSignals in a special way to keep the used way
-            //                // of getting measurement values also working)
-            //                // AccessMeasurementValuesOfGenericSignal(signal);
-            //            }
-
-
-            //            int idx = 0;
-
-            //            try
-            //            {
-            //                lstStrCh.Clear();
-            //                lstTmsCh.Clear();
-
-            //                lstTmsCh = lstTms;
-
-            //                if (lstCh[0].Count() < iUpdatedValueCount)
-            //                    iUpdatedValueCount = lstCh[0].Count() - 1;
-
-            //                try
-            //                {
-
-
-            //                    for (j = 0; j < iUpdatedValueCount; j += 2)
-            //                    {
-            //                        idx = j;
-
-            //                        string row = string.Empty;
-
-            //                        row = string.Format("{0}\t\t" +
-            //                        "{1}\t\t {2}\t\t {3}\t\t {4}\t\t {5}\t\t {6}\t\t " +
-            //                        "{7}\t\t {8}\t\t {9}\t\t {10}\t\t {11}\t\t {12}\t\t\n ",
-            //                        lstTmsCh[j].ToString(),
-            //                        lstCh[0][j].ToString(), lstCh[1][j].ToString(), lstCh[2][j].ToString(), lstCh[3][j].ToString(), lstCh[4][j].ToString(), lstCh[5][j].ToString(),
-            //                        lstCh[6][j].ToString(), lstCh[7][j].ToString(), lstCh[8][j].ToString(), lstCh[9][j].ToString(), lstCh[10][j].ToString(), lstCh[11][j].ToString());
-
-            //                        lstStrCh.Add(row);
-
-            //                        if (lstStrCh.Count() > 0)
-            //                            sbinterno.Append(row);
-
-            //                    }
-
-            //                    if (lstStrCh.Count() > 0)
-            //                    {
-            //                        sbexterno.Append(sbinterno.ToString());
-            //                        sbinterno.Clear();
-            //                    }
-
-
-            //                    var sbMaxCap = (sbexterno.MaxCapacity * 0.1);
-
-            //                    if (sbexterno.Length > sbMaxCap)
-            //                    {
-            //                        if (!File.Exists(path))
-            //                            File.WriteAllText(path, sbexterno.ToString());
-            //                        else
-            //                            File.AppendAllLines(path, sbexterno.ToString().Split(Environment.NewLine.ToCharArray()));
-
-            //                        sbexterno.Clear();
-            //                    }
-            //                    else
-            //                        sbexterno.Append(lstStrCh);
-
-            //                }
-            //                catch (Exception ex)
-            //                {
-            //                    var err = string.Concat("ex : ", idx, ex.Message);
-
-            //                    throw;
-            //                }
-
-            //                //Application.DoEvents(); // respond to GUI events
-
-            //                System.Threading.Thread.Sleep(500);
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //                var err = string.Concat("nuemro : ", idx, ex.Message);
-
-            //                throw;
-            //            }
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message, ex.ToString());
-            //        this.StopContinuousMeasurementBt.PerformClick();
-            //    }
-        }
-
-        /// <summary>
-        /// Handles CanRawMessages of GenericSignal (CanRawSignal)
-        /// </summary>
-        /// <param name="signal">Signal whose generic measurement values should be displayed</param>
-        private void AccessMeasurementValuesOfGenericSignal(Signal signal)
-        {
-            if (!(signal is IGenericSignal genericSignal))
-            {
-                // this is a normal signal (not a generic signal like CanRawSignal)
-                // => nothing to do here...
-                GenericMeasurementValuesPg.SelectedObject = null;
-                //CANRawMessagePg.SelectedObject = null;
-
-                return;
-            }
-
-            if (genericSignal.GenericMeasurementValues.UpdatedValueCount <= 0)
-            {
-                return;
-            }
-
-            // until now we only have CanRawSignal implemented as generic signal
-            // so we try to cast the GenericMeasurementValues into MeasurementValuesBase<CanRawMessage> to access the details
-            if (genericSignal.GenericMeasurementValues is MeasurementValuesBase<CanRawMessage> canRawMeasurementValues)
-            {
-                AddToProtocol($"Signal {signal.Name} has {canRawMeasurementValues.UpdatedValueCount} new CanRawMessages \r\n1.timestamp={canRawMeasurementValues.Timestamps[0]} \r\n1.CanMessageTimestamp = {canRawMeasurementValues.Values[0].Timestamp} \r\nHeader = {canRawMeasurementValues.Values[0].Header}");
-
-                // Build Hex-string of the concatenated payloads...64Byte (always CanFD)
-                StringBuilder sb = new StringBuilder();
-
-                for (int i = 0; i < 64; i += 8)
-                {
-                    sb.Clear();
-
-                    for (int ii = 0; ii < 8; ii++)
-                    {
-                        sb.Append($" {canRawMeasurementValues.Values[0].Payload[i + ii]:x2}");
-                    }
-
-                    AddToProtocol($"Payload[{i} - {i + 7}] = {sb.ToString()}");
-                }
-
-                // show data in the property grid
-                GenericMeasurementValuesPg.SelectedObject = canRawMeasurementValues; //the genericMeasurementValues of the signal (has to be a CanRawSignal in this case)
-                //CANRawMessagePg.SelectedObject = canRawMeasurementValues.Values[0]; //first CanRawMessage (in this case Values[0] is NOT just a double but a CanRawMessage object)
-                //CANRawMessagePg.ExpandAllGridItems();
-
-                // this is how to access the measurement values [0...canRawMeasurementValues.UpdatedValueCount-1]:
-                // here: just access the first timestamp, state and value (CanRawMessage)
-                // double relativeTimestampOfCanRawMessage = canRawMeasurementValues.Timestamps[0]; // relative timestamps (relative to measurement start) of the received CanRawMessages
-                // MeasurementValueState state = canRawMeasurementValues.States[0];                 // states of the CanRawMessages (ALWAYS valid - just to be compatible to ContinuousMeasurementValues)
-                // CanRawMessage canRawMessage = canRawMeasurementValues.Values[0];                 // CanRawMessages according to relative timestamps
-                // ulong header = canRawMessage.Header;                                             // header of the CanRawMessage (4 bytes ID, 2 bytes length, 2 bytes not used)
-                // double timestamp = canRawMessage.Timestamp;                                      // absolute timestamp of the CanRawMessage
-                // byte[] payload = canRawMessage.Payload;                                          // 64 bytes payload (if CAN FD is not used, only the first 8 bytes contain data) of the CanRawMessage
-
-                // if it is really a CanRawSignal, you can also access it directly via:
-                // (((signal as IGenericSignal).GenericMeasurementValues) as MeasurementValuesBase<CanRawMessage>).Values[x] or .Timestamps[x].or.States[x], etc. or ever more simple:
-                // (((signal as IGenericSignal).GenericMeasurementValues) as CanRawMeasurementValues).Values[0].Header or Values[0].Timestamp  or.Timestamps[x] or.States[x], etc.
-            }
-            else
-            {
-                //unknown type of generic signal measurement values so...skip
-            }
-        }
-
-
-        /// <summary>
-        /// Stops running measurement
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Event arguments</param>
-        private void StopContinuousMeasurementBt_Click(object sender, EventArgs e)
-        {
-            HBM_StopContinuousMeasurement("StopContinuousMeasurementBt_Click");
-        }
-
-        /// <summary>
-        /// Disconnects the device
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Event arguments</param>
-        private void DisconnectDeviceBt_Click(object sender, EventArgs e)
-        {
-            if (_runMeasurement)
-            {
-                this.StopContinuousMeasurementBt.PerformClick();
-            }
-
-            try
-            {
-                // disconnect the device
-                _daqEnvironment.Disconnect(_myDevice);
-                AddToProtocol(string.Format("Device {0} has been disconnected.", _myDevice.Name));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Ends the demo and disposes DaqEnvironment
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Event arguments</param>
-        private void EndDemoBt_Click(object sender, EventArgs e)
-        {
-            // Unregister event handlers
-            MessageBroker.DeviceConnected -= MessageBroker_DeviceConnected;
-            MessageBroker.DeviceDisconnected -= MessageBroker_DeviceDisconnected;
-            AddToProtocol("Device event handlers deregistered");
-
-            if (_daqEnvironment != null)
-            {
-                _daqEnvironment.Dispose(); //clean up underlying DLLs
-            }
-
-            AddToProtocol("DaqEnvironment.Dispose() has been called. Program ends now.");
-            MessageBox.Show("OK to end program");
-            this.Close();
         }
 
         #endregion
@@ -8874,28 +8631,16 @@ namespace Continental.Project.Adam.UI
         }
         public void LOG_TestSequence(string msg)
         {
-            LOG_TestSequenceTxt(msg);
 
             ListViewItem LVI = new ListViewItem(_strTimeStamp);
             LVI.SubItems.Add(msg.Trim());
             LVI.SubItems.Add(HelperApp.UserName);
             lvLog.Items.Add(LVI);
         }
-        public void LOG_TestSequenceTxt(string msg)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            txtLogTestSequence.Text = string.Concat(txtLogTestSequence.Text, _strTimeStamp, " - ", msg, "\n\n\n");
-
-            sb.Append(txtLogTestSequence.Text + Environment.NewLine);
-
-            txtLogTestSequence.Text = sb.ToString();
-        }
         public void LOG_Clear()
         {
             lvLog.Clear();
             lst_MemoEventLog.Items.Clear();
-            txtLogTestSequence.Text = string.Empty;
 
             HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
         }
