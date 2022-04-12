@@ -113,6 +113,7 @@ using static Continental.Project.Adam.UI.COM.ComHBM;
 
 namespace Continental.Project.Adam.UI
 {
+    public delegate void dHide(bool bLoasTestConcluded);
     public partial class Form_Adam_Main : Form
     {
         #region Define
@@ -292,32 +293,12 @@ namespace Continental.Project.Adam.UI
             }
         }
 
-        public void Msgteste() 
-        {
-            HelperApp.uiTesteSelecionado = HelperApp.uiProjectTestSelecionado;
-
-
-            TAB_ActuationParameters_SetData();
-
-            int idxSelected = HelperApp.uiProjectTestSelecionado; // mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex;
-
-            mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = idxSelected;
-
-            TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
-            //TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
-
-            MessageBox.Show(" Test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-
         private void Form_Adam_Main_Load(object sender, EventArgs e)
         {
             _initialDirPathTestFile = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppTests_Path);
 
             this.WindowState = FormWindowState.Maximized;
 
-            //TabPages collection
-            // TAB_Main.SelectedIndex = 2;
-            //TAB_Main_SelectedIndexChanged(sender, e);
             TAB_Main_ActivePage(2);
 
             CONTROLS_EnableMetroButton();
@@ -410,31 +391,15 @@ namespace Continental.Project.Adam.UI
 
             Execute_Logout();
         }
-
         private void subMenu_Home_Exit_Click(object sender, EventArgs e)
         {
-            //helperAdam.SMQuitClick(sender);
-
             Execute_Logout();
 
             Application.Exit();
         }
-
         private void subMenu_Home_About_Click(object sender, EventArgs e)
         {
-            //var tt = tStatusLabel04.Text;
-
-            ////helperApp.Form_Open(new Form_Adam_About(), this);
-
-            //Form_Adam_About newMDIChild = new Form_Adam_About();
-            //newMDIChild.MdiParent = this;
-            //newMDIChild.TransfEvent += frm_TransfEvent;
-            //newMDIChild.Show();
-        }
-
-        public void frm_TransfEvent(string value)
-        {
-            stsBar_STBMain.Items[0].Text = value;
+            _helperApp.Form_Open(new Form_Adam_About(), this);
         }
 
         #endregion
@@ -445,19 +410,10 @@ namespace Continental.Project.Adam.UI
             //helperAdam.SMProjectClick(sender);
 
             //MessageBox.Show("subMenu_Project_Project_Click !", helperApp.msgAppName);
-            _helperApp.Form_Open(new Form_Operational_Project(eEXAMTYPE.ET_NONE, string.Empty));
 
-            //Form_Operational_Project fm1 = new Form_Operational_Project(eEXAMTYPE.ET_NONE, string.Empty);
-            //fm1.delfunc += hideform;
-            //fm1.FormClosed += new System.Windows.Forms.FormClosedEventHandler(Form_Operational_Project_FormClosed);
-            //fm1.Show();
-        }
-
-
-        void hideform(bool hide)
-        {
-            if (hide) this.Hide();
-            else this.Show();
+            Form_Operational_Project formProject = new Form_Operational_Project(eEXAMTYPE.ET_NONE, string.Empty);
+            formProject.delegateFnLoadTestConcluded += TEST_Concluded_LoadData;
+            formProject.Show();
         }
 
         private void subMenu_Project_PrintGraphics_Click(object sender, EventArgs e)
@@ -479,7 +435,6 @@ namespace Continental.Project.Adam.UI
             //helperAdam.SMSetupPrinterClick(sender);
             printDialog.ShowDialog();
         }
-
         private void subMenu_Project_ExportExcel_Click(object sender, EventArgs e)
         {
             //_helperAdam.SMExportExcelClick(sender);
@@ -565,9 +520,9 @@ namespace Continental.Project.Adam.UI
         {
             //helperAdam.SMPreferencesClick(sender);
 
-            //MessageBox.Show("subMenu_Settings_SoftwareMaintenance_Click !", helperApp.msgAppName);
+            MessageBox.Show("subMenu_Settings_SoftwareMaintenance_Click !", _helperApp.appMsg_Name);
 
-            _helperApp.Form_Open(new Form_Adam_Preferences(), this);
+          //  _helperApp.Form_Open(new Form_Adam_Preferences(), this);
         }
 
         #endregion
@@ -575,19 +530,10 @@ namespace Continental.Project.Adam.UI
         #region Menu - Account
         private void subMenu_Account_SelectAccessLevel_Click(object sender, EventArgs e)
         {
-            //helperAdam.SMSelectAccessLevelClick(sender);
-
-            //MessageBox.Show("subMenu_Account_SelectAccessLevel_Click !", helperApp.msgAppName);
-
             _helperApp.Form_Open(new Form_Security_UserLevel(), this);
         }
-
         private void subMenu_Account_NewPassword_Click(object sender, EventArgs e)
         {
-            //helperAdam.SMNewPasswordClick(sender);
-
-            //MessageBox.Show("subMenu_Account_NewPassword_Click !", helperApp.msgAppName);
-
             _helperApp.Form_Open(new Form_Security_NewPassword(), this);
         }
 
@@ -5572,7 +5518,8 @@ namespace Continental.Project.Adam.UI
                     TestDateTime = HelperTestBase.ProjectTestConcluded.Project.TestingDate,
                     TestTypeName = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString(),
                     TestIdentName = HelperTestBase.ProjectTestConcluded.Project.Identification,
-                    LastUpdate = DateTime.Now
+                    TestFileName = _prjTestFilename,
+                    LastUpdate = DateTime.Now.ToString()
                 };
 
                 int idProjectTestConcludedInsert = bll_Project.AddProjectTestConcluded(modelPrjTestConcluded);
@@ -5612,6 +5559,48 @@ namespace Continental.Project.Adam.UI
             return true;
         }
 
+        #endregion
+
+        #region LOAD DATA CONCLUDED TEST
+        void TEST_Concluded_LoadData(bool bLoasTestConcluded)
+        {
+            if (bLoasTestConcluded)
+                TEST_FileDataConcluded_SetData();// this.Hide();
+        }
+
+        public void TEST_FileDataConcluded_SetData()
+        {
+            try
+            {
+                if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
+                {
+                    TXTFileHBM_LoadDataConcluded();
+
+                    HelperApp.uiTesteSelecionado = HelperApp.uiProjectTestSelecionado;
+
+                    TAB_ActuationParameters_SetData();
+
+                    int idxSelected = HelperApp.uiProjectTestSelecionado; // mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex;
+
+                    mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = idxSelected;
+
+                    TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
+                    //TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
+
+                    MessageBox.Show(" Test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         #endregion
 
         #endregion
@@ -5844,6 +5833,170 @@ namespace Continental.Project.Adam.UI
             return true;
         }
 
+        private bool TXTFileHBM_LoadDataConcluded()
+        {
+            try
+            {
+                #region Define
+
+                if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.TestFileName))
+                {
+                    var arrTestDate = HelperTestBase.ProjectTestConcluded.Project.TestingDate.Substring(0, 8).Split('/');//.ToString("yyyyMMdd_HHmmss");
+
+                    var arrTestHour = HelperTestBase.ProjectTestConcluded.Project.TestingDate.Substring(11, 8).Split(':');
+
+                    string testTypeName = HelperTestBase.ProjectTestConcluded.Project.examtype.ToString();
+
+                    string testIdentName = HelperTestBase.ProjectTestConcluded.Project.Identification.Trim(); // "HBM_SaveAquisitionTxtData";
+                }
+
+                string fileName = string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), _helperApp.AppTests_DefaultExtension);
+
+                string pathWithFileName = Path.Combine(_initialDirPathTestFile, fileName);
+
+                //clean List Array Data
+                for (int i = 0; i < lstStrChReadFileArr.Length; i++)
+                {
+                    if (lstStrChReadFileArr[i] != null)
+                        lstStrChReadFileArr[i].Clear();
+                }
+
+                #endregion
+
+                #region set Path
+
+                if (_helperApp.AppUseSimulateLocal)
+                {
+                    OpenFileDialog theDialog = new OpenFileDialog();
+                    theDialog.Title = "Open Text File";
+                    theDialog.Filter = "TXT files|*.txt;*.tst";
+                    theDialog.InitialDirectory = string.Concat(_initialDirPathTestFile, "texst.txt");
+
+                    if (theDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        fileName = theDialog.SafeFileName;
+
+                        _prjTestFilename = theDialog.FileName;
+
+                        HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = _prjTestFilename;
+
+                        pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
+                    }
+                }
+                else
+                {
+                    int idTest = HelperApp.uiTesteSelecionado;
+
+                    if (idTest == 0 && _bCoBSelectTestSelected)
+                    {
+                        mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = 0;
+
+                        _bCoBSelectTestSelected = false;
+
+                        MessageBox.Show("Warning, Load Data invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                    else
+                    {
+                        fileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "");
+
+                        pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
+                    }
+                }
+
+                #endregion
+
+                #region load data
+
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    MessageBox.Show("Failed, error path project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                else
+                {
+                    string[] strArray = Regex.Replace(fileName, @"\n|\r|", "").Split(char.Parse("#"));
+
+                    if (strArray.Length > 1)
+                    {
+                        HelperApp.uiTesteSelecionado = Convert.ToInt32(strArray[1]);
+                        HelperTestBase.ProjectTestConcluded.TestDateTime = strArray[0].ToString();
+                        HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.TestDateTime;
+                        HelperTestBase.ProjectTestConcluded.Project.Identification = strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+                    }
+
+                    lstStrChReadFileArr = _helperApp.ReadExistTestFileTextArrNew(fileName, pathWithFileName);
+
+                    if (lstStrChReadFileArr[0].Count() > 0)
+                    {
+                        lstDblChReadFileArr = _helperApp.lstDblReturnReadFile;
+
+                        #region CALC TEST
+
+                        bool breturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
+
+                        if (!breturnCalcStep)
+                        {
+                            string strMsg = "Failed, calc step test -  not calculated !";
+
+                            LOG_TestSequence(strMsg);
+
+                            MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                        else
+                            _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
+
+                        #endregion
+
+                        if (!_modelGVL.GVL_Graficos.bDadosCalculados)
+                        {
+                            string strMsg = "Failed, test information not calculated !";
+
+                            LOG_TestSequence(strMsg);
+
+                            MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                        else
+                        {
+                            LOG_TestSequence("TESTE CALC CONCLUDED");
+
+                            if (!TAB_TableResult_SetData())
+                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else
+                            {
+                                if (!CHART_LoadActualTestComplete())
+                                    MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+
+                            tab_TableResultsEnable = false;
+                            HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+
+                            if (_modelGVL.GVL_Graficos.bDadosCalculados)
+                                HelperTestBase.Model_GVL = _modelGVL;
+
+                            LOG_TestSequence("TESTE SEQUENCE STOP AND CONCLUDED");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+
+                throw;
+            }
+
+            return true;
+        }
         #endregion
 
         #region TXT File Header
@@ -8079,16 +8232,6 @@ namespace Continental.Project.Adam.UI
                 sbexterno.Clear();
             }
         }
-        private void HBM_Disconnect()
-        {
-            if (_daqMeasurement != null)
-                if (_helperHBM.DeviceConnected && _helperHBM.Status)
-                {
-                    _daqEnvironment.Disconnect(_myDevice);
-                    AddToProtocol(string.Format("Device {0} has been disconnected.", _myDevice.Name));
-                    AddToProtocol("\n\n\n\n\n\n\n\n\n **************** \n\n\n\n\n\n");
-                }
-        }
         private void HBM_SaveAquisitionTxtData()
         {
             _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
@@ -8379,8 +8522,6 @@ namespace Continental.Project.Adam.UI
         }
         private void HBM_StopContinuousMeasurement(string info)
         {
-            AddToProtocol(info);
-
             try
             {
                 timerHBM.Enabled = false;
@@ -8391,9 +8532,6 @@ namespace Continental.Project.Adam.UI
                     // stop running data acquisition
                     _runMeasurement = false;
                     _daqMeasurement.StopDaq();
-                    AddToProtocol("Continuous measuring stopped!");
-
-                    AddToProtocol("\n\n\n\n\n\n\n\n\n **************** \n\n\n\n\n\n");
                 }
                 catch (Exception ex)
                 {
@@ -8438,167 +8576,6 @@ namespace Continental.Project.Adam.UI
 
         StringBuilder sbinterno = new StringBuilder();
         StringBuilder sbexterno = new StringBuilder();
-
-        #endregion
-
-        #region Principle workflow and measurement
-
-        /// <summary>
-        /// Initialize objects that support scanning, parameterizing and measuring
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Event arguments</param>
-        private void InitializeObjectsBt_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _daqEnvironment = DaqEnvironment.GetInstance(); //DaqEnvironment is a singleton
-                _daqMeasurement = new DaqMeasurement();
-                AddToProtocol("DaqEnvironment and DaqMeasurement objects initialized");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Adds a given string to the protocol
-        /// </summary>
-        /// <param name="message">Message to add</param>
-        private void AddToProtocol(string message)
-        {
-            //ProtocolTb.AppendText(message + Environment.NewLine);
-        }
-
-        /// <summary>
-        /// Connect to a device without using scan (e.g. MGC devices do not support scan)
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Event arguments</param> 
-        private void ConnectToCertainDevice_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                List<Problem> problemList = new List<Problem>();
-
-                // To connect a device without using the results of the scan, you have to define at least the
-                // type of the device and its IP address. E.g.:
-
-                //_myDevice = new PmxDevice();
-                //_myDevice.ConnectionInfo = new EthernetConnectionInfo("172.19.191.113",55000);
-                // or:
-                _myDevice = new PmxDevice("192.168.0.20"); //this constructor uses the PMX default port (55000)
-
-                //_myDevice = new MgcDevice();
-                //_myDevice.ConnectionInfo = new EthernetConnectionInfo("172.19.169.133",7);
-                // or:
-                //_myDevice = new MgcDevice("172.19.169.133"); //this constructor uses the MGCplus default port (7)
-
-                //_myDevice = new QuantumXDevice();
-                //_myDevice.ConnectionInfo = new StreamingConnectionInfo("172.19.191.113",5001,7411,80);
-                // or:
-                // _myDevice = new QuantumXDevice("172.19.202.19"); //this constructor uses the QuantumX default port (5001), 
-
-                //its default streaming port (7411) and its default HTTP port (80)
-
-                //_myDevice = new MgcDevice("172.19.169.133");
-                if (_daqEnvironment.Connect(_myDevice, out problemList)) //connect the defined device
-                {
-                    // when a device is connected, the complete object representation of the device is available
-                    // break here and check _deviceList[0] against e.g. _deviceList[1] to see the difference
-                    AddToProtocol(string.Format("Device {0} is connected;  It has {1} connectors", _myDevice.Name, _myDevice.Connectors.Count));
-                }
-                else
-                {
-                    //there occurred errors during connect to the device
-                    AddToProtocol("Connection to device failed!");
-
-                    foreach (Problem problem in problemList)
-                    {
-                        AddToProtocol(problem.Message);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Prepares a continuous measurement
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Event arguments</param>
-        private void PrepareContinuousMeasurementBt_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                // prepare a continuous measurement with 1 signal
-                // use the first signals of the first  connector of the device
-                //_signalsToMeasure = new List<Signal>();
-                //_signalsToMeasure.Add(_myDevice.Connectors[0].Channels[0].Signals[0]);
-                List<Signal> lstSignalCalculetedChannels = new List<Signal>();
-
-                _signalsToMeasure = new List<Signal>();
-
-                for (int i = 0; i < 12; i++)
-                    lstSignalCalculetedChannels.Add(_myDevice.Connectors[16 + i].Channels[0].Signals[0]);
-
-                _signalsToMeasure.Add(_myDevice.Connectors[0].Channels[0].Signals[0]);
-
-                if (_signalsToMeasure?.Count > 0)
-                    _signalsToMeasure = lstSignalCalculetedChannels;
-
-                // try adding some more signals to the measurement....:
-                //_signalsToMeasure.Add(_myDevice.Connectors[1].Channels[0].Signals[0]);
-
-                ////set sample rate for signals
-                //List<Problem> problems = new List<Problem>(); //this list of problems will be used to get the problems during a assign process
-                //foreach (Signal sig in _signalsToMeasure)
-                //{
-                //    sig.SampleRate = 2400; //check what happens, if you assign e.g. sig.SampleRate = 1234;
-                //    _myDevice.AssignSignal(sig, out problems);
-                //    if (problems.Count > 0)
-                //    {
-                //        foreach (Problem prob in problems)
-                //        {
-                //            AddToProtocol(string.Concat("Problem with ", prob.PropertyName, " occurred: ", prob.Message, " (", prob.OriginalMessage, " - ", prob.DemandedValue, ")"));
-                //        }
-
-                //        if (problems.HasError())
-                //        {
-                //            AddToProtocol("Preparation terminated (due to error).");
-                //            this.PrepareContinuousMeasurementBt.Enabled = true;
-                //            return;
-                //        }
-                //        else
-                //        {
-                //            this.RunContinuousMeasurementBt.Enabled = true;
-                //        }
-                //    }
-                //}
-
-                // add the chosen signals to the measurement
-                _daqMeasurement.AddSignals(_myDevice, _signalsToMeasure);
-                AddToProtocol("Added " + _signalsToMeasure.Count + " signals to the measurement.");
-
-                // prepare data acqusisition;
-                //_daqMeasurement.PrepareDaq(); // use standard parameters
-                // or: setup certain features of the measurement:
-                _daqMeasurement.PrepareDaq(5000, 10, 1000, false, false);
-
-                // try overloaded version of PrepareDaq ( e.g. to control number of filled timestamps- default is "timeStamp for the first measurement value only")
-                //_daqMeasurement.PrepareDaq(2400, 1, 2400, false, false);// use this to get a timeStamp and a status for each measurement value
-                AddToProtocol("Measurement is prepared.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, ex.ToString());
-            }
-        }
 
         #endregion
 

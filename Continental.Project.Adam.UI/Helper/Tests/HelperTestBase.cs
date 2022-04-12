@@ -66,6 +66,14 @@ namespace Continental.Project.Adam.UI.Helper.Tests
             get { return HelperTestBase._projectTestConcluded; }
             set { HelperTestBase._projectTestConcluded = value; }
         }
+
+        private static Model_Operational_Project _projectTest = new Model_Operational_Project();
+        public static Model_Operational_Project ProjectTest
+        {
+            get { return HelperTestBase._projectTest; }
+            set { HelperTestBase._projectTest = value; }
+        }
+
         //StringBuilder AppendTxtData_Header_ActuationType
         private static StringBuilder _sbHeaderAppendTxtData;
         public static StringBuilder sbHeaderAppendTxtData

@@ -10,7 +10,8 @@ namespace Continental.Project.Adam.UI.Models.Operational
         public string TestDateTime { get; set; }
         public string TestTypeName { get; set; }
         public string TestIdentName { get; set; }
-        public DateTime LastUpdate { get; set; }
+        public string TestFileName { get; set; }
+        public string LastUpdate { get; set; }
         public Model_Operational_Project Project { get; set; }
     }
 }

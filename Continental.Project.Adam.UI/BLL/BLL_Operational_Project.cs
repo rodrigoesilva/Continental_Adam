@@ -436,6 +436,7 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append(" ,[TestDateTime]");
                 sb.Append(" ,[TestTypeName]");
                 sb.Append(" ,[TestIdentName]");
+                sb.Append(" ,[TestFileName]");
                 sb.Append(" ,[GETDATE()]");
                 sb.Append(")");
                 sb.Append(" VALUES");
@@ -445,6 +446,7 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append($" ,'{model.TestDateTime}'");
                 sb.Append($" ,'{model.TestTypeName}'");
                 sb.Append($" ,'{model.TestIdentName}'");
+                sb.Append($" ,'{model.TestFileName}'");
                 sb.Append($" ,'{model.LastUpdate}'");
                 sb.Append(" )");
 

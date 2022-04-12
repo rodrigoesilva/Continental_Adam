@@ -28,8 +28,6 @@ namespace Continental.Project.Adam.UI
 
         Model_Operational_Project_TestConcluded modelOperationalProjectTestConcluded = new Model_Operational_Project_TestConcluded();
 
-        Model_Operational_Project modelOperationalProject = new Model_Operational_Project();
-
         bool selected_entry = false;
 
         string strIdProjectTestConcluded = string.Empty;
@@ -40,6 +38,7 @@ namespace Continental.Project.Adam.UI
 
         #region Construtor
 
+        public dHide delegateFnLoadTestConcluded = null;
         public Form_Operational_Project(eEXAMTYPE sel_examtype, string udt_filename)
         {
             InitializeComponent();
@@ -48,7 +47,6 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region Form
-
         ///---------------------------------------------------------------------------
         private void Form_Operational_Project_Load(object sender, EventArgs e)
         {
@@ -72,15 +70,8 @@ namespace Continental.Project.Adam.UI
         ///---------------------------------------------------------------------------
         private void Form_Operational_Project_FormClosed(object sender, FormClosedEventArgs e)
         {
-            HelperApp.uiProjectSelecionado = !string.IsNullOrEmpty(strIdProjectSelect) ? Convert.ToInt32(strIdProjectSelect) : 0;
-
-            HelperApp.uiProjectTestSelecionado = !string.IsNullOrEmpty(strIdTestSelect) ? Convert.ToInt32(strIdTestSelect) : 0;
-
-            var formMain = new Form_Adam_Main();
-
-            //var m = formMain.Controls.Find("mbtn_BGlobalWarning", true).OfType<Button>().FirstOrDefault();
-            //if (m != null)
-            //    m.PerformClick();
+            if (HelperApp.uiProjectSelecionado > 0 && HelperApp.uiProjectSelecionado > 0)
+                delegateFnLoadTestConcluded(true);
         }
         ///---------------------------------------------------------------------------
         ///
@@ -629,7 +620,7 @@ namespace Continental.Project.Adam.UI
                 grid_ProjectTest.Columns["IdProjectTestConcluded"].Width = 0;
                 grid_ProjectTest.Columns["IdProjectTestConcluded"].DefaultCellStyle.BackColor = Color.White;
                 grid_ProjectTest.Columns["IdProjectTestConcluded"].DefaultCellStyle.ForeColor = Color.White;
-                grid_ProjectTest.Columns["IdProject"].DisplayIndex = 7;
+                grid_ProjectTest.Columns["IdProjectTestConcluded"].DisplayIndex = 7;
 
                 grid_ProjectTest.Columns["IdProject"].Visible = true;
                 grid_ProjectTest.Columns["IdProject"].Width = 0;
@@ -674,7 +665,8 @@ namespace Continental.Project.Adam.UI
                     TestDateTime = gvRow.Cells["TestDateTime"].Value?.ToString()?.Trim(),
                     TestTypeName = gvRow.Cells["TestTypeName"].Value?.ToString()?.Trim(), //Test
                     TestIdentName = gvRow.Cells["TestIdentName"].Value?.ToString()?.Trim(),
-                    //LastUpdate = gvRow.Cells["LastUpdate"].Value != null ? gvRow.Cells["LastUpdate"].Value : new DateTime,
+                    TestFileName = gvRow.Cells["TestFileName"].Value?.ToString()?.Trim(),
+                    LastUpdate = gvRow.Cells["LastUpdate"].Value != null ? gvRow.Cells["LastUpdate"].Value?.ToString()?.Trim() : DateTime.Now.ToString(),
 
                     Project = new Model_Operational_Project()
                     {
@@ -709,6 +701,8 @@ namespace Continental.Project.Adam.UI
 
                     if (!string.IsNullOrEmpty(strIdProjectTestConcluded))
                     {
+                        HelperTestBase.ProjectTest = gvModelProjectTestConcluded?.Project;
+
                         strIdProjectSelect = gvModelProjectTestConcluded?.Project?.IdProject.ToString();
                         strIdTestSelect = gvModelProjectTestConcluded?.Project?.TestAvailable?.IdTestAvailable.ToString();
 
@@ -717,9 +711,10 @@ namespace Continental.Project.Adam.UI
                         gvModelProjectTestConcluded.TestDateTime = !string.IsNullOrEmpty(gvModelProjectTestConcluded.TestDateTime) ? gvModelProjectTestConcluded.TestDateTime : gvModelProjectTestConcluded.Project.TestingDate.ToString();
                         gvModelProjectTestConcluded.TestTypeName = !string.IsNullOrEmpty(gvModelProjectTestConcluded.TestTypeName) ? gvModelProjectTestConcluded.TestTypeName : gvModelProjectTestConcluded.Project.examtype.ToString();
                         gvModelProjectTestConcluded.TestIdentName = !string.IsNullOrEmpty(gvModelProjectTestConcluded.TestIdentName) ? gvModelProjectTestConcluded.TestIdentName : gvModelProjectTestConcluded.Project.Identification.ToString();
-
+                        
                         HelperApp.uiProjectSelecionado = Convert.ToInt32(strIdProjectSelect);
                         HelperApp.uiTesteSelecionado = Convert.ToInt32(strIdTestSelect);
+
                         HelperTestBase.ProjectTestConcluded = gvModelProjectTestConcluded;
                     }
 
@@ -747,116 +742,34 @@ namespace Continental.Project.Adam.UI
                 {
                     if (HelperTestBase.ProjectTestConcluded.Project.IdProject != null)
                     {
+                        HelperTestBase.ProjectTest = HelperTestBase.ProjectTestConcluded.Project;
+
                         if (DialogResult.Yes == MessageBox.Show($"      You want the selected Project data  \n\n\t {HelperTestBase.ProjectTestConcluded.Project.Identification} \n\n    and all it´s measurement data ? \n\n        Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         {
 
-                            //string dirPathTestFile = _helperApp.GetDirPathTestFile();
+                            delegateFnLoadTestConcluded(false);
 
-                            //OpenFileDialog theDialog = new OpenFileDialog();
-                            //theDialog.Title = "Open Text File";
-                            //theDialog.Filter = "TXT files|*.txt;*.tst";
-                            //theDialog.InitialDirectory = string.Concat(dirPathTestFile, "texst.txt");
-                            //if (theDialog.ShowDialog() == DialogResult.OK)
-                            //{
-                            //    if (!string.IsNullOrEmpty(theDialog.FileName))
-                            //        lstReturnRead = _helperApp.ReadExistTestFileText(theDialog.SafeFileName, theDialog.FileName);
+                            HelperApp.uiProjectSelecionado = !string.IsNullOrEmpty(strIdProjectSelect) ? Convert.ToInt32(strIdProjectSelect) : 0;
 
-                            //    if (lstReturnRead.Count() > 0)
-                            //    {
-                            //        //formTests.ChartLoadMeasurement(lstReturnRead, formTests.chart);
+                            HelperApp.uiProjectTestSelecionado = !string.IsNullOrEmpty(strIdTestSelect) ? Convert.ToInt32(strIdTestSelect) : 0;
 
-                            //        //this.Dispose();
-
-                            //        //formMain.Refresh();
-                            //        //formMain.Controls.Clear();
-                            //        //formMain.Invalidate();
-                            //        //formMain.ChartLoadMeasurement(lstReturnRead, formMain.chart);
-                            //        //formMain.tab_Diagram_SetChart();
-
-                            //        //var b = formTests.Controls.Find("btn_LoadEval", true).OfType<Button>().FirstOrDefault();
-                            //        //if (b != null)
-                            //        //    b.PerformClick();
-
-                             this.Close();
-                            //        return;
-
-                            //    }
-                            //    else
-                            //        MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            //}
+                            this.Close();
                         }
                     }
-
+                }
+                else
+                {
+                    MessageBox.Show("Error no valid Test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
             catch (Exception ex)
             {
+                delegateFnLoadTestConcluded(false);
+
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
-
-
-            //if (Application.OpenForms.OfType<Form_Adam_Main>().Any())
-            //    MessageBox.Show("Form_Adam_Main is opened");
-            //else
-            //    MessageBox.Show("Form_Adam_Main is not opened");
-
-
-
-            //formMain.InitializeComponent();
-            //formMain.Show();
-
-            //helperApp.Form_Open(new Form_Adam_Main(false, false, HelperApp.examtype), new Home());
-
-            //if (string.IsNullOrEmpty(IdProjectSelect))
-            //{
-            //    MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    return;
-            //}
-
-
-
-            //if (Application.OpenForms.OfType<Form_Adam_Main>().Any())
-            //{
-            //    Application.OpenForms.OfType<Form_Adam_Main>().First().Close();
-            //   // MessageBox.Show("Form_Adam_Main is opened");
-            //}
-            //else
-            //{
-
-
-            //    helperApp.Form_Open(new Form_Adam_Main(false, false, gvModelProject.examtype), new Home());
-
-            //    //helperApp.Form_Open(new Form_Adam_Main(false, false, eEXAMTYPE.ET_NONE), this);
-
-            //    // MessageBox.Show("Form_Adam_Main is not opened");
-
-            //    //helperApp.Form_Close(new Form_Adam_Main(false, false, eEXAMTYPE.ET_NONE));
-
-            //    //var formMain = new Form_Adam_Main(false, false, gvModelProject.examtype);
-
-            //    //formMain.StartPosition = FormStartPosition.CenterScreen;
-            //    //formMain.WindowState = FormWindowState.Maximized;
-            //    //formMain.MdiParent = new Home();
-            //    //formMain.Show();
-
-            //    // this.Close();
-            //}
-
-
-            //var formHome = new Home();
-            //formHome.Closed += (s, args) => this.Close();
-            //formHome.Show();
-
-
-
-
-
-            //DataTable dt = bll_Operational_LoadEval.GetProjects_x_Tests(IdProjectSelect, IdProjectSelect);
-
-            //int idTestAvailableSelect = (int)dt.Rows[0].Field<Int64>("IdTestAvailable");
-
-            //helperApp.Graph_Load_Projects_x_Tests(idTestAvailableSelect);
 
             this.Close();
         }
@@ -928,7 +841,10 @@ namespace Continental.Project.Adam.UI
         private void mbtn_Ok_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(mtxt_EIdent.Text.Trim()))
+            {
+                delegateFnLoadTestConcluded(false);
                 this.Close();
+            }
             else
             {
                 if (!selected_entry)
@@ -957,8 +873,6 @@ namespace Continental.Project.Adam.UI
 
                 this.Close();
             }
-
-            //delfunc(true);
         }
 
         #endregion
