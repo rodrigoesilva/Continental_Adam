@@ -845,15 +845,9 @@ namespace Continental.Project.Adam.UI
         public void TAB_DiagramChart_SetData()
         {
             if (HelperApp.uiTesteSelecionado != 0)
-            {
                 devChart.Visible = true;
-                //    if (!_bAppStart)
-                //    TXTFileHBM_LoadData();
-            }
             else
-            {
-                MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         private void OpenURLInBrowser(string url)
         {
@@ -2391,13 +2385,16 @@ namespace Continental.Project.Adam.UI
 
                     if (_helperApp.lstDblReturnReadFile[0] != null)
                     {
-                        if (TXTFileHBM_LoadData())
+                        if (HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
                         {
-                            tab_TableResultsEnable = true;
-                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                            if (TXTFileHBM_LoadData())
+                            {
+                                tab_TableResultsEnable = true;
+                                TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                            }
+                            else
+                                MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
-                        else
-                            MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
 
@@ -2425,13 +2422,16 @@ namespace Continental.Project.Adam.UI
 
                     if (_helperApp.lstDblReturnReadFile[0] != null)
                     {
-                        if (TXTFileHBM_LoadData())
+                        if (HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
                         {
-                            tab_TableResultsEnable = true;
-                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                            if (TXTFileHBM_LoadData())
+                            {
+                                tab_TableResultsEnable = true;
+                                TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                            }
+                            else
+                                MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
-                        else
-                            MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -2496,21 +2496,28 @@ namespace Continental.Project.Adam.UI
         }
         private void mtxt_GeneralSettings_EParGenVacuumMin_TextChanged(object sender, EventArgs e)
         {
-            //_helperAdam.EParGenVacuumMinChange(sender);
+            string strValueText = ((MetroFramework.Controls.MetroTextBox)sender).Text;
 
-            if (System.Text.RegularExpressions.Regex.IsMatch(this.Text, "[^0-9]"))
+            if (!string.IsNullOrWhiteSpace(strValueText))
             {
-                MessageBox.Show("Please enter only numbers.");
-                this.Text = this.Text.Remove(this.Text.Length - 1);
+                if (!Regex.IsMatch(strValueText, "[^0-9]"))
+                {
+                    MessageBox.Show("Please enter only numbers.");
+                    mtxt_GeneralSettings_EParGenVaccumMin.Text = mtxt_GeneralSettings_EParGenVaccumMin.Text.Remove(mtxt_GeneralSettings_EParGenVaccumMin.Text.Length - 1);
+                }
             }
         }
         private void mtxt_GeneralSettings_EParGenVacuumMax_TextChanged(object sender, EventArgs e)
         {
-            //_helperAdam.EParGenVacuumMaxChange(sender);
-            if (System.Text.RegularExpressions.Regex.IsMatch(this.Text, "[^0-9]"))
+            string strValueText = ((MetroFramework.Controls.MetroTextBox)sender).Text;
+
+            if (!string.IsNullOrWhiteSpace(strValueText))
             {
-                MessageBox.Show("Please enter only numbers.");
-                this.Text = this.Text.Remove(this.Text.Length - 1);
+                if (!Regex.IsMatch(strValueText, "[^0-9]"))
+                {
+                    MessageBox.Show("Please enter only numbers.");
+                    mtxt_GeneralSettings_EParGenVaccumMax.Text = mtxt_GeneralSettings_EParGenVaccumMax.Text.Remove(mtxt_GeneralSettings_EParGenVaccumMax.Text.Length - 1);
+                }
             }
         }
         private void mtxt_GeneralSettings_EParGenVaccum_KeyPress(object sender, KeyPressEventArgs e)
@@ -5562,7 +5569,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region LOAD DATA CONCLUDED TEST
-        void TEST_Concluded_LoadData(bool bLoasTestConcluded)
+        private void TEST_Concluded_LoadData(bool bLoasTestConcluded)
         {
             if (bLoasTestConcluded)
                 TEST_FileDataConcluded_SetData();// this.Hide();
@@ -5576,22 +5583,19 @@ namespace Continental.Project.Adam.UI
                 {
                     TXTFileHBM_LoadDataConcluded();
 
-                    HelperApp.uiTesteSelecionado = HelperApp.uiProjectTestSelecionado;
-
-                    TAB_ActuationParameters_SetData();
+                    TAB_Main_ActivePage(2);
 
                     int idxSelected = HelperApp.uiProjectTestSelecionado; // mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex;
 
                     mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = idxSelected;
 
                     TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
-                    //TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
 
-                    MessageBox.Show(" Test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Test Data Loaded!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -5854,6 +5858,8 @@ namespace Continental.Project.Adam.UI
 
                 string pathWithFileName = Path.Combine(_initialDirPathTestFile, fileName);
 
+                HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = pathWithFileName;
+
                 //clean List Array Data
                 for (int i = 0; i < lstStrChReadFileArr.Length; i++)
                 {
@@ -5898,9 +5904,12 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        fileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "");
+                        if (string.IsNullOrEmpty(fileName))
+                        {
+                            fileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "");
 
-                        pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
+                            pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
+                        }
                     }
                 }
 
