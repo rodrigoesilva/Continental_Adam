@@ -5429,7 +5429,7 @@ namespace Continental.Project.Adam.UI
                     LOG_TestSequence("CMD STOP RECORD DATA HBM ");
 
 
-                    if (!HelperTestBase.currentProjectTest.is_Created)
+                    if (!HelperTestBase.ProjectTest.is_Created)
                     {
                         //if (sbexterno.Length > 0)
                         //{
