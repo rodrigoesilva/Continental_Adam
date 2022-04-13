@@ -5379,7 +5379,9 @@ namespace Continental.Project.Adam.UI
             {
                 if (!HelperMODBUS.CS_wGravacaoIniciada)
                 {
-                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wGravacaoIniciada }, 1);
+                    timerHBM.Enabled = true;
+
+                    HBM_SaveAquisitionTxtData();
 
                     ////INFO GRAVACAO
                     mbtn_BRecordStart.BackColor = colorON;
@@ -5387,9 +5389,9 @@ namespace Continental.Project.Adam.UI
 
                     HelperTestBase.running = true;
 
-                    LOG_TestSequence("CMD START RECORD DATA HBM ");
+                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wGravacaoIniciada }, 1);
 
-                    timerHBM.Enabled = true;
+                    LOG_TestSequence("CMD START RECORD DATA HBM ");
 
                     //HBM_SaveAquisitionTxtData();
 
@@ -5416,6 +5418,8 @@ namespace Continental.Project.Adam.UI
                 {
                     _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wGravacaoFinalizada }, 1);
 
+                    timerHBM.Enabled = false;
+
                     //INFO GRAVACAO
                     mbtn_BRecordStop.BackColor = colorOFF;
                     mbtn_BRecording.BackColor = colorOFF;
@@ -5424,21 +5428,19 @@ namespace Continental.Project.Adam.UI
 
                     LOG_TestSequence("CMD STOP RECORD DATA HBM ");
 
-                    if (!HelperTestBase.ProjectTestConcluded.Project.is_Created)
+
+                    if (!HelperTestBase.currentProjectTest.is_Created)
                     {
-                        if (sbexterno.Length > 0)
-                        {
-                            if (TXTFileHBM_Create())
-                            {
-                                timerHBM.Enabled = false;
+                        //if (sbexterno.Length > 0)
+                        //{
 
-                                TEST_Concluded_Command();
+                        HBM_SaveAquisitionTxtData();
 
-                                HBM_ClearBufferAquisitionData();
-                            }
-                            else
-                                MessageBox.Show("Failed, create test file !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        TEST_Concluded_Command();
+
+                        HBM_ClearBufferAquisitionData();
+
+                        //}
                     }
                     else
                         MessageBox.Show("Failed, test existing file !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -8414,7 +8416,7 @@ namespace Continental.Project.Adam.UI
 
                             var sbMaxCap = (sbexterno.MaxCapacity * 0.1);
 
-                            if (sbexterno.Length > sbMaxCap)
+                            if (sbexterno.Length > sbMaxCap || timerHBM.Enabled == false)
                                 TXTFileHBM_Create();
                         }
                         catch (Exception ex)
@@ -8424,11 +8426,11 @@ namespace Continental.Project.Adam.UI
                             throw;
                         }
 
-                        timerHBM.Enabled = true;
+                        //timerHBM.Enabled = true;
                     }
                     catch (Exception ex)
                     {
-                        var err = string.Concat("nuemro : ", idx, ex.Message);
+                        var err = string.Concat("numero : ", idx, ex.Message);
 
                         throw;
                     }
