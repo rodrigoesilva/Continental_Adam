@@ -212,9 +212,13 @@ namespace Continental.Project.Adam.UI
 
                         if (idProjectInsert > 0)
                         {
-                            HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+                            HelperTestBase.ProjectTestConcluded.IdProject = idProjectInsert;
                             HelperApp.uiProjectSelecionado = idProjectInsert;
+
+                            modelPrjTestConcluded.Project.IdProject = idProjectInsert;
                             HelperTestBase.ProjectTestConcluded.Project = modelPrjTestConcluded.Project;
+
+                            HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
                         }
                         else
                         {
@@ -871,6 +875,7 @@ namespace Continental.Project.Adam.UI
                     }
                 }
 
+                delegateFnLoadTestConcluded(false);
                 this.Close();
             }
         }

@@ -767,10 +767,10 @@ namespace Continental.Project.Adam.UI
             switch (strTabSelected)
             {
                 case "tab_Diagram":
-                    bTabAccessOk = tab_ChartEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.ProjectTestConcluded.Project.is_Created;
+                    bTabAccessOk = tab_ChartEnable && HelperApp.uiTesteSelecionado > 0;
                     break;
                 case "tab_TableResults":
-                    bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0 && HelperTestBase.ProjectTestConcluded.Project.is_Created;
+                    bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0;
                     break;
                 default:
                     bTabAccessOk = true;
@@ -4965,7 +4965,7 @@ namespace Continental.Project.Adam.UI
                     MessageBox.Show("No test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 else
                 {
-                    if (!HelperTestBase.ProjectTestConcluded.Project.is_Created)
+                    if (HelperApp.uiProjectSelecionado == 0)
                     {
                         if (DialogResult.No == MessageBox.Show("\tPROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                             return;
@@ -5440,6 +5440,11 @@ namespace Continental.Project.Adam.UI
 
                         HBM_ClearBufferAquisitionData();
 
+                        tab_ChartEnable = true;
+                        tab_TableResultsEnable = true;
+
+                        HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+
                         //}
                     }
                     else
@@ -5474,7 +5479,7 @@ namespace Continental.Project.Adam.UI
                 }
                 else
                 {
-                    if (!HelperTestBase.ProjectTestConcluded.Project.is_Created)
+                    if (HelperApp.uiProjectSelecionado == 0)
                     {
                         if (DialogResult.No == MessageBox.Show("\tPROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                             return;
@@ -5491,7 +5496,9 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (TEST_Concluded_SaveData())
                                 {
+                                    tab_ChartEnable = true;
                                     tab_TableResultsEnable = true;
+                                    HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
                                     TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                                 }
@@ -5527,7 +5534,7 @@ namespace Continental.Project.Adam.UI
                     TestDateTime = HelperTestBase.ProjectTestConcluded.Project.TestingDate,
                     TestTypeName = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString(),
                     TestIdentName = HelperTestBase.ProjectTestConcluded.Project.Identification,
-                    TestFileName = _prjTestFilename,
+                    TestFileName = _prjTestFilename.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, ""),
                     LastUpdate = DateTime.Now.ToString()
                 };
 
@@ -5628,6 +5635,8 @@ namespace Continental.Project.Adam.UI
             HelperTestBase.ProjectTestConcluded.TestDateTime = testDate;
             HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.TestDateTime;
             HelperTestBase.ProjectTestConcluded.Project.Identification = testIdentName;
+
+            HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = prjTestFilename.Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
             _prjTestFilename = Path.Combine(_initialDirPathTestFile, prjTestFilename);
 
@@ -5739,9 +5748,9 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        fileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "");
+                        fileName = string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName) ? _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty) : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, string.Empty);
 
-                        pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
+                        pathWithFileName = string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName) ? _prjTestFilename : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
                     }
                 }
 
@@ -5981,7 +5990,9 @@ namespace Continental.Project.Adam.UI
                                     MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
 
-                            tab_TableResultsEnable = false;
+                            tab_ChartEnable = true;
+                            tab_TableResultsEnable = true;
+
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
                             if (_modelGVL.GVL_Graficos.bDadosCalculados)

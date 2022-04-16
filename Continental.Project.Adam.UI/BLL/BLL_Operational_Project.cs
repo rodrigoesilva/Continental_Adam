@@ -437,7 +437,7 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append(" ,[TestTypeName]");
                 sb.Append(" ,[TestIdentName]");
                 sb.Append(" ,[TestFileName]");
-                sb.Append(" ,[GETDATE()]");
+                sb.Append(" ,[LastUpdate]");
                 sb.Append(")");
                 sb.Append(" VALUES");
                 sb.Append(" (");
