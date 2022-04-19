@@ -95,6 +95,9 @@ namespace Continental.Project.Adam.UI.Helper
 
         public List<double>[] lstDblReturnReadFile = new List<double>[13];
 
+        Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[3];
+        public string strCharSplit_TXTHeader_Data = "*";
+
         #endregion
 
         #region Variable AppConfig
@@ -545,8 +548,8 @@ namespace Continental.Project.Adam.UI.Helper
                             #endregion
 
                             #region HoseConsumer
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
+                            HelperTestBase.iSumHoseConsumerPC = 12;
+                            HelperTestBase.iSumHoseConsumerSC = 12;
 
                             #endregion
 
@@ -1879,7 +1882,7 @@ namespace Continental.Project.Adam.UI.Helper
         #endregion
 
         #region tab_TableParameters
-        public List<Model_Operational_TestTableParameters> TabTableParameters_GetTableParam(DataTable dtTableResults, DataGridView grid_tabActionParam_EvalParam)
+        public List<Model_Operational_TestTableParameters> TabTableParameters_GetTableParam(DataTable dtTableResults, DataGridView grid_tabActionParam_EvalParam, Dictionary<string, string>[] dicReturnReadFileHeader)
         {
             Dictionary<string, string> dicResultParam = new Dictionary<string, string>();
 
@@ -1896,6 +1899,79 @@ namespace Continental.Project.Adam.UI.Helper
                     case 1:     //Force Diagrams - Force/Pressure With Vacuum
                         {
                             #region Results
+
+                            if (dicReturnReadFileHeader[0].Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
+                            {
+                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
+                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
+                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
+
+                                #region Results
+
+                                #region Results_Header
+
+                                HelperTestBase.Model_GVL.GVL_T01.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vaccum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vaccum"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                                #endregion
+
+                                #region Results
+
+                                //dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))
+                                var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
+                                              where k.Key.Contains("Pressure at")
+                                              select new
+                                              {
+                                                  k.Key,
+                                                  k.Value
+                                              };
+
+                                HelperTestBase.Model_GVL.GVL_T01.rPressao_E1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[0].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressao_E2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[1].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressao_P1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[2].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressao_P2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[3].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rRunOutPressure_Real_Bar = dicReturnReadFileHeaderResults.ContainsKey("Runout Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Pressure"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-in Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-in Force"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rHysterese_Xpout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 % p out"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rHysterese_Xbar_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 bar"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Realease Force at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Realease Force at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressaoAuxiliar_P3_Bar = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Radio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Radio"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressao_90pout_bar = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 90.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 90.0 %")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressao_70pout_bar = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 70.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                                //HelperTestBase.Model_GVL.GVL_T01.rGradientJumper = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vaccum"]) : 0;
+
+                                //define captions data
+                                HelperTestBase.Model_GVL.GVL_T01.rForca_90pout_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vaccum"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rForca_70pout_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vaccum"]) : 0;
+
+                                //jumper gradient
+                                HelperTestBase.Model_GVL.GVL_T01.rForcaP2Jumper_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vaccum"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vaccum"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rForcaP1Jumper_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vaccum"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient (")) ? Convert.ToDouble(dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))) : 0;
+
+                                #endregion
+
+                                #region Results_Footer
+
+                                HelperTestBase.Model_GVL.GVL_T01.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                                #endregion
+
+                                #endregion
+
+                            }
 
                             #region #region Results_Header
 
@@ -1943,8 +2019,8 @@ namespace Continental.Project.Adam.UI.Helper
 
                             #region Results_Footer
 
-                            dicResultParam.Add("resultCalcTestParam_PCHoseConsumers", HelperMODBUS.CS_wSomaConsumidoresCP.ToString());
-                            dicResultParam.Add("resultCalcTestParam_SCHoseConsumers", HelperMODBUS.CS_wSomaConsumidoresCS.ToString());
+                            dicResultParam.Add("resultCalcTestParam_PCHoseConsumers", HelperTestBase.Model_GVL.GVL_T01.iConsumidoresCP.ToString());
+                            dicResultParam.Add("resultCalcTestParam_SCHoseConsumers", HelperTestBase.Model_GVL.GVL_T01.iConsumidoresCS.ToString());
                             dicResultParam.Add("resultCalcTestParam_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T01.rTemperaturaInicial, 2).ToString());
 
                             #endregion
@@ -2134,7 +2210,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                             dicResultParam.Add("resultCalcTestParam_RunOutForceRef", Math.Round(HelperTestBase.Model_GVL.GVL_T06.rRunOutForceRef, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_TravelAt", Math.Round(HelperTestBase.Model_GVL.GVL_T06.rDeslocamentoEmFmax, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_TotalTime", Math.Round(HelperTestBase.Model_GVL.GVL_T06.rTempoTotal, 2).ToString());                            
+                            dicResultParam.Add("resultCalcTestParam_TotalTime", Math.Round(HelperTestBase.Model_GVL.GVL_T06.rTempoTotal, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_VacuumLossWhileTesting", Math.Round(HelperTestBase.Model_GVL.GVL_T06.rPerdaVacuo, 2).ToString());
 
                             #endregion
@@ -2149,7 +2225,7 @@ namespace Continental.Project.Adam.UI.Helper
                             HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T06;
 
                             #endregion
-                            
+
                             break;
                         }
                     case 7: //Vacuum Leakage - Lap Position
@@ -2934,7 +3010,7 @@ namespace Continental.Project.Adam.UI.Helper
                             }
                         }
                     }
-                        
+
 
                     #endregion
 
@@ -3040,8 +3116,8 @@ namespace Continental.Project.Adam.UI.Helper
 
                             #region HoseConsumer
 
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
+                            HelperTestBase.iSumHoseConsumerPC = 12;
+                            HelperTestBase.iSumHoseConsumerSC = 12;
 
                             #endregion
 
@@ -3464,185 +3540,136 @@ namespace Continental.Project.Adam.UI.Helper
             return dblValue;
         }
 
+        #endregion
+
         #region Methods TESTS
-        public string GetDirPathTestFile()
-        {
-            string dirPathTestFile = string.Empty;
-
-            try
-            {
-                dirPathTestFile = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppTests_Path);
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-            return dirPathTestFile;
-        }
-        public List<string> ReadTextFileToList(string filePath)
-        {
-            using (StreamReader file = new StreamReader(filePath))
-            {
-                //string getlineSpec = File.ReadLines(fname).Skip(61).Take(1).First();
-
-                lstStrReturnReadFileLines = File.ReadLines(filePath).ToList();
-
-                file.Close();
-            }
-
-            return lstStrReturnReadFileLines;
-        }
-        public List<string> ReadExistTestFileText(string fileName, string pathWithFileName)
+        public Dictionary<string, string>[] ReadTXTFileHeaderHBM(string fileName, string pathWithFileName)
         {
             List<string> lstReturnRead = new List<string>();
 
-            string fileTimeStamp = string.Empty;
-            int fileTestId = 0;
-            string fileTestType = string.Empty;
-            string fileTestIdent = string.Empty;
+            int k = 0;
+            string line = string.Empty;
 
-            if (!string.IsNullOrEmpty(fileName) && !string.IsNullOrEmpty(pathWithFileName))
+            try
             {
-                string[] arrFileName = fileName.Split('#');
-
-                if (arrFileName.Length > 0) // Check Test - Lost Travel TMC
+                if (!string.IsNullOrEmpty(fileName) && !string.IsNullOrEmpty(pathWithFileName))
                 {
-                    //int index = ;
-                    //if (index >= 0)
-                    //    arrFileName[3] = arrFileName[3].Trim().Substring(0, arrFileName[3].Trim().IndexOf("."));
-
-                    fileTimeStamp = arrFileName[0].Trim();
-                    fileTestId = Convert.ToInt32(arrFileName[1].Trim());
-                    fileTestType = arrFileName[2].Trim();
-                    fileTestIdent = arrFileName[3].Trim().Substring(0, arrFileName[3].Trim().IndexOf("."));
-
-
-                    using (StreamReader file = new StreamReader(pathWithFileName))
+                    // Read the file as one string.
+                    if (File.Exists(pathWithFileName))
                     {
-                        List<string> lstLines = new List<string>();
+                        // Read a text file line by line.
+                        string[] lines = File.ReadAllLines(pathWithFileName);
 
-                        //string getlineSpec = File.ReadLines(fname).Skip(61).Take(1).First();
+                        //project 5->13
+                        //parameters 17->27
+                        //results 32->58
 
-                        lstLines = File.ReadLines(pathWithFileName).Skip(59).ToList();
+                        #region HEADER - PROJECT
 
-                        foreach (var line in lstLines)
+                        var lstProject = lines
+                            .SkipWhile(lin => !lin.Contains("|-"))
+                            .Skip(1)
+                            .TakeWhile(lin => !lin.Contains("|-"))
+                            .ToList();
+
+                        Dictionary<string, string> dicReturnReadFileHeaderPrj = new Dictionary<string, string>();
+
+                        foreach (var headerItem in lstProject)
                         {
-                            string[] strArray = Regex.Replace(line, @"\n|\r|", "").Split(char.Parse(";"));
-
-                            if (strArray.Length > 0) // Check Test - Lost Travel TMC
+                            if (!string.IsNullOrWhiteSpace(headerItem))
                             {
-                                var Time = strArray[0].Trim();
-                                var InputForce1 = strArray[1].Trim();
-                                //var InputTravel = strArray[2].Trim().ToString();
-                                //var HydraulicPressurePC = strArray[3].Trim().ToString();
-                                //var HydraulicPressureSC = strArray[4].Trim().ToString();
+                                string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
 
-                                lstStrAnalogCh01.Add(InputForce1);
+                                if (strArray.Length > 0)
+                                {
+                                    var headerVariableName = strArray[0]?.Trim();
+                                    var headerVariableValue = strArray[1]?.Trim();
+
+                                    dicReturnReadFileHeaderPrj.Add(headerVariableName, headerVariableValue);
+                                }
                             }
                         }
 
-                        file.Close();
+                        #endregion
 
-                        var intList = lstStrAnalogCh01.Select(s => Convert.ToInt32(!string.IsNullOrEmpty(s))).ToList();
-                        var min = intList.Min();
-                        var msx = intList.Max();
-                        mList.Add(lstStrAnalogCh01);
-                    }
+                        #region HEADER - PARAMETERS
 
-                    lstReturnRead = lstStrAnalogCh01;
-                }
-            }
+                        var lstParam = lines
+                            .SkipWhile(lin1 => !lin1.Contains("|-"))
+                            .Skip(lstProject.Count() + 2)
+                            .TakeWhile(lin1 => !lin1.Contains("|-"))
+                            .ToList();
 
-            return lstReturnRead;
-        }
-        public List<string>[] ReadExistTestFileTextArr(string fileName, string pathWithFileName)
-        {
-            List<string>[] lstReturnRead = new List<string>[13];
+                        Dictionary<string, string> dicReturnReadFileHeaderParam = new Dictionary<string, string>();
 
-            string fileTimeStamp = string.Empty;
-            int fileTestId = 0;
-            string fileTestType = string.Empty;
-            string fileTestIdent = string.Empty;
-
-            if (!string.IsNullOrEmpty(fileName) && !string.IsNullOrEmpty(pathWithFileName))
-            {
-                string[] arrFileName = fileName.Split('#');
-
-                if (arrFileName.Length > 0) // Check Test - Lost Travel TMC
-                {
-                    //int index = ;
-                    //if (index >= 0)
-                    //    arrFileName[3] = arrFileName[3].Trim().Substring(0, arrFileName[3].Trim().IndexOf("."));
-
-                    fileTimeStamp = arrFileName[0].Trim();
-                    fileTestId = Convert.ToInt32(arrFileName[1].Trim());
-                    fileTestType = arrFileName[2].Trim();
-                    fileTestIdent = arrFileName[3].Trim().Substring(0, arrFileName[3].Trim().IndexOf("."));
-
-
-                    using (StreamReader file = new StreamReader(pathWithFileName))
-                    {
-                        List<string> lstLines = new List<string>();
-
-                        //string getlineSpec = File.ReadLines(fname).Skip(61).Take(1).First();
-
-                        //var lstLinesHeaderNames = File.ReadLines(pathWithFileName).Skip(57).Take(1).ToList();
-
-                        //foreach (var lineHeader in lstLinesHeaderNames)
-                        //{
-                        //    string[] strArrayHeaderNames = Regex.Replace(lineHeader, @"\n|\r|", "").Split(char.Parse("\t"));
-
-                        //    for (int i = 0; i < strArrayHeaderNames.Length; i++)
-                        //        lstStrHeaderNames.Add(strArrayHeaderNames[i].Trim());
-                        //}
-
-                        lstLines = File.ReadLines(pathWithFileName).Skip(59).ToList();
-
-                        lstLines = File.ReadLines(pathWithFileName).ToList();
-
-                        foreach (var line in lstLines)
+                        foreach (var headerItem in lstParam)
                         {
-                            string[] strArray1 = Regex.Replace(line, @"\n|\r|", "").Split(char.Parse(";"));
-
-                            string[] strArray = Regex.Replace(line, @"\n|\r|", "").Split(char.Parse("\t"));
-                            if (strArray.Length > 1) // Check Test - Lost Travel TMC
+                            if (!string.IsNullOrWhiteSpace(headerItem))
                             {
-                                var Time = strArray[0]?.Substring(0, 5).Trim();         //  Time [s]
-                                var InputForce1 = strArray[1].Trim();                   //  Input Force 1 [N]
-                                var InputTravel = strArray[2].Trim().ToString();        //  Input Travel [m]
-                                var HydraulicPressurePC = strArray[3].Trim().ToString();//  Hydraulic Pressure PC [bar]
-                                var HydraulicPressureSC = strArray[4].Trim().ToString();//  Hydraulic Pressure SC [bar]
+                                string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
 
-                                lstStrTimestamp.Add(Time);
-                                lstStrAnalogCh01.Add(InputForce1);
-                                lstStrAnalogCh02.Add(InputTravel);
-                                lstStrAnalogCh03.Add(HydraulicPressurePC);
-                                lstStrAnalogCh04.Add(HydraulicPressureSC);
+                                if (strArray.Length > 0)
+                                {
+                                    var headerVariableName = strArray[0]?.Trim();
+                                    var headerVariableValue = strArray[1]?.Trim();
+
+                                    dicReturnReadFileHeaderParam.Add(headerVariableName, headerVariableValue);
+                                }
                             }
                         }
 
-                        file.Close();
+                        #endregion
 
+                        #region HEADER - RESULTS
 
+                        var lstResults = lines
+                            .SkipWhile(lin => !lin.Contains("|-"))
+                            .Skip(lstProject.Count() + lstParam.Count() + 3)
+                            .TakeWhile(lin => !lin.Contains("|-"))
+                            .ToList();
 
+                        Dictionary<string, string> dicReturnReadFileHeaderResults = new Dictionary<string, string>();
 
+                        foreach (var headerItem in lstResults)
+                        {
+                            if (!string.IsNullOrWhiteSpace(headerItem))
+                            {
+                                string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
+
+                                if (strArray.Length > 0)
+                                {
+                                    var headerVariableName = strArray[0]?.Trim();
+                                    var headerVariableValue = !string.IsNullOrEmpty(strArray[1]) ? strArray[1].Substring(0, strArray[1].IndexOf("[")).Trim() : strArray[1]?.Trim();
+
+                                    dicReturnReadFileHeaderResults.Add(headerVariableName, headerVariableValue);
+                                }
+                            }
+                        }
+
+                        #endregion
+
+                        #region HEADER - DICTIONARY
+
+                        dicReturnReadFileHeader[0] = dicReturnReadFileHeaderPrj;
+                        dicReturnReadFileHeader[1] = dicReturnReadFileHeaderParam;
+                        dicReturnReadFileHeader[2] = dicReturnReadFileHeaderResults;
+
+                        #endregion
                     }
-
-                    lstReturnRead[0] = lstStrTimestamp;
-                    lstReturnRead[1] = lstStrAnalogCh01;
-                    lstReturnRead[2] = lstStrAnalogCh02;
-                    lstReturnRead[3] = lstStrAnalogCh03;
-                    lstReturnRead[4] = lstStrAnalogCh04;
-
                 }
             }
+            catch (Exception ex)
+            {
+                var abc = k;
+                var defe = line;
 
-            return lstReturnRead;
+                var err = ex.Message;
+                throw;
+            }
+
+            return dicReturnReadFileHeader;
         }
-        public List<string>[] ReadExistTestFileTextArrNew(string fileName, string pathWithFileName)
+        public List<string>[] ReadTXTFileHBM(string fileName, string pathWithFileName)
         {
             int k = 0;
             int i = 0;
@@ -3697,10 +3724,12 @@ namespace Continental.Project.Adam.UI.Helper
                     lstStrReturnReadFile[10] = lstStrAnalogCh10;  //ch9.10 - HelperHBM._rVaccum - Pressao Linha Vacuo (-1)-0 bar (Linearizada)
                     lstStrReturnReadFile[11] = lstStrAnalogCh11;  //ch9.11 - RESERVA
                     lstStrReturnReadFile[12] = lstStrAnalogCh12;  //ch9.12 - RESERVA
-                }
 
-                for (i = 0; i < lstStrReturnReadFile.Length; i++)
-                    lstDblReturnReadFile[i] = lstStrReturnReadFile[i].ConvertAll(item => double.Parse(item, CultureInfo.InvariantCulture));
+
+                    for (i = 0; i < lstStrReturnReadFile.Length; i++)
+                        lstDblReturnReadFile[i] = lstStrReturnReadFile[i].ConvertAll(item => double.Parse(item, CultureInfo.InvariantCulture));
+
+                }
             }
             catch (Exception ex)
             {
@@ -3714,7 +3743,6 @@ namespace Continental.Project.Adam.UI.Helper
 
             return lstStrReturnReadFile;
         }
-        #endregion
 
         #endregion
 
@@ -3843,7 +3871,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #region Scales Chart
 
-                     int iStartEscalaMin = 9;
+                int iStartEscalaMin = 9;
 
                 _modelGVLCalc.GVL_Graficos.EixoX.rMin = iStartEscalaMin;
                 _modelGVLCalc.GVL_Graficos.EixoX.rMax = _modelGVLCalc.GVL_Graficos.rEscalaX;
@@ -3914,217 +3942,217 @@ namespace Continental.Project.Adam.UI.Helper
                     #region Dados de VAcuo, Temperatura, PressaoCP e CS - Inicio  Fianl de Ciclo
 
                     switch (iTesteSelecionado)
-                        {
-                            case 1:     //Force Diagrams - Force/Pressure With Vacuum
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T01.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T01.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                    {
+                        case 1:     //Force Diagrams - Force/Pressure With Vacuum
+                            {
+                                HelperTestBase.Model_GVL.GVL_T01.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T01.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 2:     //Force Diagrams - Force/Force With Vacuum
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T02.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T02.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 2:     //Force Diagrams - Force/Force With Vacuum
+                            {
+                                HelperTestBase.Model_GVL.GVL_T02.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T02.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 3:     //Force Diagrams - Force/Pressure Without Vacuum
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T03.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T03.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 3:     //Force Diagrams - Force/Pressure Without Vacuum
+                            {
+                                HelperTestBase.Model_GVL.GVL_T03.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T03.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 4:     //Force Diagrams - Force/Force Without Vacuum
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T04.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T04.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 4:     //Force Diagrams - Force/Force Without Vacuum
+                            {
+                                HelperTestBase.Model_GVL.GVL_T04.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T04.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 5: //Vaccum Leakage - Released Position
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T05.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T05.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 5: //Vaccum Leakage - Released Position
+                            {
+                                HelperTestBase.Model_GVL.GVL_T05.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T05.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 6: //Vacuum Leakage - Fully Applied Position
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T06.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T06.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 6: //Vacuum Leakage - Fully Applied Position
+                            {
+                                HelperTestBase.Model_GVL.GVL_T06.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T06.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 7: //Vacuum Leakage - Lap Position
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T07.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T07.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 7: //Vacuum Leakage - Lap Position
+                            {
+                                HelperTestBase.Model_GVL.GVL_T07.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T07.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
+                                break;
+                            }
 
-                            case 8:     //Hydraulic Leakage - Fully Applied Position
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T08.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T08.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
-                                    HelperTestBase.Model_GVL.GVL_T08.rPressaoInicialCP = _modelGVL.GVL_Analogicas.rPressaoCP_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T08.rPressaoInicialCS = _modelGVL.GVL_Analogicas.rPressaoCS_Bar;
+                        case 8:     //Hydraulic Leakage - Fully Applied Position
+                            {
+                                HelperTestBase.Model_GVL.GVL_T08.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T08.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T08.rPressaoInicialCP = _modelGVL.GVL_Analogicas.rPressaoCP_Bar;
+                                HelperTestBase.Model_GVL.GVL_T08.rPressaoInicialCS = _modelGVL.GVL_Analogicas.rPressaoCS_Bar;
 
-                                    break;
-                                }
-                            case 9:     //Hydraulic Leakage - At Low Pressure
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T09.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T09.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
-                                    HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCP = _modelGVL.GVL_Analogicas.rPressaoCP_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCS = _modelGVL.GVL_Analogicas.rPressaoCS_Bar;
+                                break;
+                            }
+                        case 9:     //Hydraulic Leakage - At Low Pressure
+                            {
+                                HelperTestBase.Model_GVL.GVL_T09.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T09.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCP = _modelGVL.GVL_Analogicas.rPressaoCP_Bar;
+                                HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCS = _modelGVL.GVL_Analogicas.rPressaoCS_Bar;
 
-                                    break;
-                                }
-                            case 10:    //Hydraulic Leakage - At High Pressure
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T10.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T10.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
-                                    HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCP = _modelGVL.GVL_Analogicas.rPressaoCP_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCS = _modelGVL.GVL_Analogicas.rPressaoCS_Bar;
+                                break;
+                            }
+                        case 10:    //Hydraulic Leakage - At High Pressure
+                            {
+                                HelperTestBase.Model_GVL.GVL_T10.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T10.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCP = _modelGVL.GVL_Analogicas.rPressaoCP_Bar;
+                                HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCS = _modelGVL.GVL_Analogicas.rPressaoCS_Bar;
 
-                                    break;
-                                }
-                            case 11:    //Adjustment - Actuation Slow
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T11.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T11.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 11:    //Adjustment - Actuation Slow
+                            {
+                                HelperTestBase.Model_GVL.GVL_T11.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T11.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 12:    //Adjustment - Actuation Fast
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T12.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T12.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 12:    //Adjustment - Actuation Fast
+                            {
+                                HelperTestBase.Model_GVL.GVL_T12.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T12.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 13:    //Check Sensors - Pressure Difference
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T13.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T13.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 13:    //Check Sensors - Pressure Difference
+                            {
+                                HelperTestBase.Model_GVL.GVL_T13.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T13.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 14:    //Check Sensors - Input/Output Travel
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T14.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T14.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 14:    //Check Sensors - Input/Output Travel
+                            {
+                                HelperTestBase.Model_GVL.GVL_T14.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T14.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 15:    //Adjustment - Input Travel VS Input Force
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T15.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T15.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 15:    //Adjustment - Input Travel VS Input Force
+                            {
+                                HelperTestBase.Model_GVL.GVL_T15.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T15.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 16:    //Adjustment - Hose Consumer
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T16.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T16.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 16:    //Adjustment - Hose Consumer
+                            {
+                                HelperTestBase.Model_GVL.GVL_T16.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T16.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 17:    //Lost Travel ACU - Hydraulic
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T17.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T17.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 17:    //Lost Travel ACU - Hydraulic
+                            {
+                                HelperTestBase.Model_GVL.GVL_T17.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T17.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T18.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T18.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
+                            {
+                                HelperTestBase.Model_GVL.GVL_T18.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T18.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 19:    //Lost Travel ACU - Pneumatic Primary
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T19.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T19.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 19:    //Lost Travel ACU - Pneumatic Primary
+                            {
+                                HelperTestBase.Model_GVL.GVL_T19.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T19.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 20:    //Lost Travel ACU - Pneumatic Secondary
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T20.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T20.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 20:    //Lost Travel ACU - Pneumatic Secondary
+                            {
+                                HelperTestBase.Model_GVL.GVL_T20.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T20.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 21:    //Pedal Feeling Characteristics
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T21.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T21.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 21:    //Pedal Feeling Characteristics
+                            {
+                                HelperTestBase.Model_GVL.GVL_T21.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T21.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 22:    //Actuation / Release - Mechanical Actuation
-                                {
-                                    //HelperTestBase.Model_GVL.GVL_T22.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    //HelperTestBase.Model_GVL.GVL_T22.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 22:    //Actuation / Release - Mechanical Actuation
+                            {
+                                //HelperTestBase.Model_GVL.GVL_T22.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                //HelperTestBase.Model_GVL.GVL_T22.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 23:    //Breather Hole / Central Valve open
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T23.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T23.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 23:    //Breather Hole / Central Valve open
+                            {
+                                HelperTestBase.Model_GVL.GVL_T23.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T23.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 24:    //Efficiency
-                                {
-                                    HelperTestBase.Model_GVL.GVL_T24.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    HelperTestBase.Model_GVL.GVL_T24.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 24:    //Efficiency
+                            {
+                                HelperTestBase.Model_GVL.GVL_T24.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                HelperTestBase.Model_GVL.GVL_T24.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 25:    //Force Diagrams - Force/Pressure Dual Ratio
-                                {
-                                    //GVL_T25.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    //GVL_T25.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 25:    //Force Diagrams - Force/Pressure Dual Ratio
+                            {
+                                //GVL_T25.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                //GVL_T25.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 26:    //Force Diagrams - Force/Force Dual Ratio
-                                {
-                                    //GVL_T26.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    //GVL_T26.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 26:    //Force Diagrams - Force/Force Dual Ratio
+                            {
+                                //GVL_T26.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                //GVL_T26.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 27:    //ADAM - Find Switching Point With TMC
-                                {
-                                    //GVL_T27.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    //GVL_T27.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 27:    //ADAM - Find Switching Point With TMC
+                            {
+                                //GVL_T27.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                //GVL_T27.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 28:    //ADAM - Switching Point Without TMC
-                                {
-                                    //GVL_T28.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                    //GVL_T28.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                break;
+                            }
+                        case 28:    //ADAM - Switching Point Without TMC
+                            {
+                                //GVL_T28.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
+                                //GVL_T28.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
 
-                                    break;
-                                }
-                            case 29:
-                                {
-                                    break;
-                                }
-                            default:
-                                    break;
-                        }
+                                break;
+                            }
+                        case 29:
+                            {
+                                break;
+                            }
+                        default:
+                            break;
+                    }
 
                     #endregion
                 }
@@ -4287,8 +4315,9 @@ namespace Continental.Project.Adam.UI.Helper
                 _modelGVL.GVL_Graficos.arrVarTimeStamp = lstDblReturnReadFile[0].ToArray();
                 _modelGVL.GVL_Graficos.arrVarX = lstDblReturnReadFile[2].ToArray();
 
-                if (_modelGVL.GVL_Parametros.iOutput == 1) //OutputPC
+                if (_modelGVL.GVL_Parametros.iOutput < 2) //OutputPC
                 {
+                    _modelGVL.GVL_Parametros.iOutput = 1;
                     _modelGVL.GVL_Graficos.arrVarY1 = lstDblReturnReadFile[7].ToArray();
                     _modelGVL.GVL_Graficos.arrVarY2 = lstDblReturnReadFile[6].ToArray();
                 }
@@ -4297,7 +4326,7 @@ namespace Continental.Project.Adam.UI.Helper
                     _modelGVL.GVL_Graficos.arrVarY1 = lstDblReturnReadFile[6].ToArray();
                     _modelGVL.GVL_Graficos.arrVarY2 = lstDblReturnReadFile[7].ToArray();
                 }
-                
+
                 _modelGVL.GVL_Graficos.arrVarY3 = lstDblReturnReadFile[5].ToArray();
 
                 #endregion
@@ -4757,7 +4786,7 @@ namespace Continental.Project.Adam.UI.Helper
                             break; //Encerra a busca
                         }
                     }
-                    
+
                     //========================================================================================================================================================
                     #endregion
 
@@ -6310,8 +6339,8 @@ namespace Continental.Project.Adam.UI.Helper
 
                     //_modelGVL.GVL_Graficos.arrVarXPoint1[2] = _modelGVL.GVL_T03.rForcaReal_E1_N;
                     //_modelGVL.GVL_Graficos.arrVarYPoint1[2] = _modelGVL.GVL_T03.rPressao_E1_Bar;
-                    
-                     #endregion
+
+                    #endregion
 
                     #endregion
 
@@ -11689,7 +11718,7 @@ namespace Continental.Project.Adam.UI.Helper
                 _modelGVL.GVL_T22.rDeslocamentoNaPressao_mm = 0; //Deslocamento obtido atraves do parametro "DeslocamentoNaPressao (%Pout)
 
                 _modelGVL.GVL_T22.rGradientePressao = 0; //Gradiente de pressao
-                
+
                 _modelGVL.GVL_T22.bCalculaResultados = bCalculaResultados;
 
                 #region VARIABLES
@@ -12997,12 +13026,12 @@ namespace Continental.Project.Adam.UI.Helper
 
                                 GVL_Graficos.EixoY1.wsTLLabel = "AxesChart.2";
                                 GVL_Graficos.rEscalaY1 = lstInfoEvaluationParameters != null ?
-                                    lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Hi).FirstOrDefault() 
+                                    lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
                                     : 100;
 
                                 GVL_Graficos.EixoY2.wsTLLabel = "AxesChart.3";
                                 GVL_Graficos.rEscalaY2 = lstInfoEvaluationParameters != null ?
-                                    lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Hi).FirstOrDefault() 
+                                    lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
                                     : 100;
 
                                 GVL_Graficos.EixoY3.wsTLLabel = string.Empty;
@@ -13045,7 +13074,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 GVL_Graficos.bOcultaY3 = true;
                                 GVL_Graficos.bOcultaY4 = true;
 
-                                
+
 
                                 break;
                             }
@@ -14064,7 +14093,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 GVL_Graficos.strUnidadeY2 = unitY2;
                                 GVL_Graficos.strUnidadeY3 = unitY3;
                                 GVL_Graficos.strUnidadeY4 = string.Empty;
-                            
+
                                 break;
                             }
                         default:
@@ -14212,6 +14241,7 @@ namespace Continental.Project.Adam.UI.Helper
         public HelperTestBase TXTFileHBM_HeaderAppendData(int iTesteSelecionado, Model_GVL modelGVL)
         {
             StringBuilder sbHeader = new StringBuilder();
+            string strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss", CultureInfo.InvariantCulture); // string.Empty;
 
             if (iTesteSelecionado > 0)
             {
@@ -14220,6 +14250,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #region StringBuilder TxtData_Header - Type Test
 
+                sbHeader.Append($"{strTimeStamp}");
                 sbHeader.Append($"{HelperTestBase.eExamType}");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"\r\n");
@@ -14228,21 +14259,31 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #region StringBuilder TxtData_Header - Project Info
 
-                string strVarProj = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss", CultureInfo.InvariantCulture); // string.Empty;
+                string strVarProj = "NaN"; // string.Empty;
 
-                sbHeader.Append($"Ident #\t\t\t :\t{strVarProj}");
+                sbHeader.Append($"|- PROJECT -|");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Customer/Type\t :\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Booster #\t\t :\t{strVarProj}");
+                sbHeader.Append($"Ident\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"TMC #\t\t\t :\t{strVarProj}");
+                sbHeader.Append($"Customer/Type\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Production Date\t :\t{strVarProj}");
+                sbHeader.Append($"Booster\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Testing Date\t :\t{strVarProj}");
+                sbHeader.Append($"TMC\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Operator\t\t :\t{strVarProj}");
+                sbHeader.Append($"Production Date\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"T.O.\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"Operator\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"Testing Date\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"Comment\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"\r\n");
+                sbHeader.Append($"|- PARAMETERS -|");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"\r\n");
 
@@ -14257,28 +14298,30 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region StringBuilder AppendTxtData_Header_ActuationType
 
-                            sbHeader.Append($"Actuation Type \t :\t {HelperApp.strActuationMode}");
+                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t :\t {Math.Round(HelperTestBase.VacuumMin , 2)}");
+                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t :\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t :\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t :\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t :\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t :\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                            sbHeader.Append($"\r\n");
+                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
                             sbHeader.Append($"\r\n");
                             if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t :\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
                             else
-                                sbHeader.Append($"Consumer \t :\t None");
+                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC :\t {HelperTestBase.HoseConsumerPC}");
+                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC :\t {HelperTestBase.HoseConsumerSC}");
+                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
 
@@ -14337,8 +14380,8 @@ namespace Continental.Project.Adam.UI.Helper
                             HelperTestBase.ForceGradient = iTesteSelecionado == 5 ? 0 : 100;
                             HelperTestBase.MaxForce = 0;
                             HelperTestBase.radHoseConsumer = iTesteSelecionado == 5 ? false : true;
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
+                            HelperTestBase.iSumHoseConsumerPC = 12;
+                            HelperTestBase.iSumHoseConsumerSC = 12;
 
                             sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
                             sbHeader.Append($"\r\n");
@@ -14359,9 +14402,9 @@ namespace Continental.Project.Adam.UI.Helper
                             if (iTesteSelecionado == 6 | iTesteSelecionado == 7)
                             {
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.HoseConsumerPC}");
+                                sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.HoseConsumerSC}");
+                                sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
                             }
 
                             sbHeader.Append($"\r\n");
@@ -14385,8 +14428,8 @@ namespace Continental.Project.Adam.UI.Helper
                             HelperTestBase.ForceGradient = iTesteSelecionado == 8 ? 100 : iTesteSelecionado == 9 ? 0.0003 : 150;
                             HelperTestBase.MaxForce = iTesteSelecionado == 10 ? 3000 : 0;
                             HelperTestBase.radHoseConsumer = false;
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
+                            HelperTestBase.iSumHoseConsumerPC = 12;
+                            HelperTestBase.iSumHoseConsumerSC = 12;
 
                             sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
                             sbHeader.Append($"\r\n");
@@ -14407,9 +14450,9 @@ namespace Continental.Project.Adam.UI.Helper
                             if (iTesteSelecionado == 8)
                             {
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.HoseConsumerPC}");
+                                sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.HoseConsumerSC}");
+                                sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
                             }
 
                             sbHeader.Append($"\r\n");
@@ -14432,8 +14475,8 @@ namespace Continental.Project.Adam.UI.Helper
                             HelperTestBase.ForceGradient = 100;
                             HelperTestBase.MaxForce = 1750;
                             HelperTestBase.radHoseConsumer = true;
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
+                            HelperTestBase.iSumHoseConsumerPC = 12;
+                            HelperTestBase.iSumHoseConsumerSC = 12;
 
                             sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
                             sbHeader.Append($"\r\n");
@@ -14451,9 +14494,9 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.HoseConsumerPC}");
+                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.HoseConsumerSC}");
+                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
 
@@ -14545,8 +14588,8 @@ namespace Continental.Project.Adam.UI.Helper
                             HelperTestBase.ForceGradient = iTesteSelecionado == 18 ? 0.0001 : 100;
                             HelperTestBase.MaxForce = iTesteSelecionado == 18 ? 0 : 1750;
                             HelperTestBase.radHoseConsumer = false;
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
+                            HelperTestBase.iSumHoseConsumerPC = 12;
+                            HelperTestBase.iSumHoseConsumerSC = 12;
 
                             sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
                             sbHeader.Append($"\r\n");
@@ -14567,9 +14610,9 @@ namespace Continental.Project.Adam.UI.Helper
                             if (iTesteSelecionado == 16)
                             {
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.HoseConsumerPC}");
+                                sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.HoseConsumerSC}");
+                                sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
                             }
 
                             sbHeader.Append($"\r\n");
@@ -14662,8 +14705,8 @@ namespace Continental.Project.Adam.UI.Helper
                             HelperTestBase.ForceGradient = 1;
                             HelperTestBase.MaxForce = 1600;
                             HelperTestBase.radHoseConsumer = true;
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
+                            HelperTestBase.iSumHoseConsumerPC = 12;
+                            HelperTestBase.iSumHoseConsumerSC = 12;
 
                             sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
                             sbHeader.Append($"\r\n");
@@ -14681,9 +14724,9 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.HoseConsumerPC}");
+                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.HoseConsumerSC}");
+                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
 
@@ -14703,8 +14746,8 @@ namespace Continental.Project.Adam.UI.Helper
                             HelperTestBase.ForceGradient = 100;
                             HelperTestBase.MaxForce = 1750;
                             HelperTestBase.radHoseConsumer = true;
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
+                            HelperTestBase.iSumHoseConsumerPC = 12;
+                            HelperTestBase.iSumHoseConsumerSC = 12;
 
                             sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
                             sbHeader.Append($"\r\n");
@@ -14722,9 +14765,9 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.HoseConsumerPC}");
+                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.HoseConsumerSC}");
+                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
 
@@ -14744,8 +14787,8 @@ namespace Continental.Project.Adam.UI.Helper
                             HelperTestBase.ForceGradient = 100;
                             HelperTestBase.MaxForce = 1750;
                             HelperTestBase.radHoseConsumer = true;
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
+                            HelperTestBase.iSumHoseConsumerPC = 12;
+                            HelperTestBase.iSumHoseConsumerSC = 12;
 
                             sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
                             sbHeader.Append($"\r\n");
@@ -14763,9 +14806,9 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.HoseConsumerPC}");
+                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.HoseConsumerSC}");
+                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
 
@@ -14786,8 +14829,8 @@ namespace Continental.Project.Adam.UI.Helper
                             HelperTestBase.ForceGradient = 0;
                             HelperTestBase.MaxForce = 480;
                             HelperTestBase.radHoseConsumer = true;
-                            HelperTestBase.HoseConsumerPC = 12;
-                            HelperTestBase.HoseConsumerSC = 12;
+                            HelperTestBase.iSumHoseConsumerPC = 12;
+                            HelperTestBase.iSumHoseConsumerSC = 12;
 
                             sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
                             sbHeader.Append($"\r\n");
@@ -14805,9 +14848,9 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.HoseConsumerPC}");
+                            sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
                             sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.HoseConsumerSC}");
+                            sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
@@ -14853,18 +14896,23 @@ namespace Continental.Project.Adam.UI.Helper
 
                 var dicResultParam = HelperApp.dicResultParam;
 
+                #region StringBuilder TxtData_Header - Type Test
+
+                sbHeaderResults.Append($"|- RESULTS -|");
+                sbHeaderResults.Append($"\r\n");
+                sbHeaderResults.Append($"\r\n");
+
+                #endregion
+
                 switch (iTesteSelecionado)
                 {
+
                     case 1:     //Force Diagrams - Force/Pressure With Vacuum
                     case 3:     //Force Diagrams - Force/Pressure Without Vacuum
                     case 13:    //Check Sensors - Pressure Difference
                     case 25:    //Force Diagrams - Force/Pressure Dual Ratio
                         {
                             #region StringBuilder AppendTxtData_Header_Results
-
-                            sbHeaderResults.Append($"Results");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
 
                             #region Common_Header_Results
 
@@ -14883,7 +14931,7 @@ namespace Continental.Project.Adam.UI.Helper
                                     string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
 
                                     if (!string.IsNullOrEmpty(strResultParam_Caption))
-                                        sbHeaderResults.Append($"{strResultParam_Caption}\t :\t {strResultParam_Measured} {strResultParam_Unit}");
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
 
                                     sbHeaderResults.Append($"\r\n");
                                 }
@@ -14895,7 +14943,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"|- CURVES -|");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
@@ -14903,16 +14951,6 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            #region HBM - Variables_ Curves_Results
-                            //$"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
-
-                            //HelperTestBase.dblAnalogVar01 = HelperHBM.rInputForce1;
-                            //HelperTestBase.dblAnalogVar02 = HelperHBM.rTravelPiston;
-                            //HelperTestBase.dblAnalogVar03 = HelperHBM.rPressurePC;
-                            //HelperTestBase.dblAnalogVar04 = HelperHBM.rPressureSC;
 
                             #endregion
 
@@ -15869,7 +15907,7 @@ namespace Continental.Project.Adam.UI.Helper
                             var helperTestBase_SCHoseConsumer = 12;
                             var helperTestBase_RoomTemperature = HelperMODBUS.CS_dwTemperaturaAmbiente_C_LW.ToString("N2");
 
-                            sbHeaderResults.Append($"Results");
+                            sbHeaderResults.Append($"|- RESULTS - |");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"Vacuum                     : {helperTestBase_Vacuum} bar");
@@ -16202,7 +16240,7 @@ namespace Continental.Project.Adam.UI.Helper
 
             return _helperTestBase;
         }
-       
+
         #endregion
 
         #region Export Files
@@ -16349,22 +16387,6 @@ namespace Continental.Project.Adam.UI.Helper
 
         #endregion
 
-        #region LOAD
-        public List<string> LoadProjectTestComplete(string dirPathTestFile)
-        {
-            List<string> lstReturnRead = new List<string>();
-
-            string FileName = string.Concat(dirPathTestFile, HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName);
-            string SafeFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
-
-            if (!string.IsNullOrEmpty(FileName))
-                lstReturnRead = ReadExistTestFileText(SafeFileName, FileName);
-
-            return lstReturnRead;
-        }
-
-        #endregion
-
         #endregion
 
         #region REPORT PDF
@@ -16376,7 +16398,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                 string dirReportResources = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppReport_PathResources);
 
-                string reportProfile= string.Concat(dirReportResources,"sRGB_CS_profile.icm");
+                string reportProfile = string.Concat(dirReportResources, "sRGB_CS_profile.icm");
                 string reportFont = string.Concat(dirReportResources, "FreeSans.ttf");
                 string reportFontBold = string.Concat(dirReportResources, "FreeSansBold.ttf");
                 string reportImgLogo = string.Concat(dirReportResources, "img_ReportLogoContinenal.png");
@@ -16385,7 +16407,7 @@ namespace Continental.Project.Adam.UI.Helper
                 //Path to Store PDF file
                 string dirReportTestPath = AppReport_PathTests.Trim(); //System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppReport_PathTests);
 
-                string outputFile = !string.IsNullOrEmpty(strFileName) ? string.Concat(dirReportTestPath, strFileName, AppReport_DefaultExtension) : string.Concat(dirReportTestPath, "ReportContinentalAdam_",DateTime.Now.ToString("ddMMMyyyyHHmmss"), AppReport_DefaultExtension);
+                string outputFile = !string.IsNullOrEmpty(strFileName) ? string.Concat(dirReportTestPath, strFileName, AppReport_DefaultExtension) : string.Concat(dirReportTestPath, "ReportContinentalAdam_", DateTime.Now.ToString("ddMMMyyyyHHmmss"), AppReport_DefaultExtension);
 
                 int maxSizeChartAreaTable = 27; //******** DON'T CHANGE THIS DATA*********
 
@@ -16417,7 +16439,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 ResultParam_Unit = !string.IsNullOrEmpty(row.Cells["ResultParam_Unit"].Value?.ToString()) ? row.Cells["ResultParam_Unit"].Value?.ToString() : string.Empty
                             });
                         }
-                    }   
+                    }
                 }
                 else
                     lstResultParamFormated = null;
@@ -16785,7 +16807,7 @@ namespace Continental.Project.Adam.UI.Helper
                 {
                     if (DialogResult.Yes == MessageBox.Show("\tFile Report Saved!" + "\n\n\n" + "Do you want Open report test ? ", appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         System.Diagnostics.Process.Start(outputFile);
-                }               
+                }
 
                 #endregion
             }

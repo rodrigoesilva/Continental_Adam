@@ -1360,12 +1360,7 @@ namespace Continental.Project.Adam.UI.trash
         }
         private void btnLoadActualTestComplete_Click(object sender, EventArgs e)
         {
-            List<string> lstReturnRead = _helperApp.LoadProjectTestComplete(dirPathTestFile);
-
-            //if (lstReturnRead.Count() > 0)
-            //    ChartLoadMeasurement(lstReturnRead);
-            //else
-            //    MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            
         }
 
         public void btnLoadExistingTestComplete_Click(object sender, EventArgs e)
@@ -1383,7 +1378,7 @@ namespace Continental.Project.Adam.UI.trash
                     var pathWithFileName = theDialog.FileName;
 
                     if (!string.IsNullOrEmpty(pathWithFileName))
-                        lstStrReturnReadFile = _helperApp.ReadExistTestFileTextArrNew(fileName, pathWithFileName);
+                        lstStrReturnReadFile = _helperApp.ReadTXTFileHBM(fileName, pathWithFileName);
 
                     if (lstStrReturnReadFile[0].Count() > 0)
                         ChartLoadMeasurement(lstStrReturnReadFile);

@@ -1285,7 +1285,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rReleaseForceAt_N;// : REAL; // Forca no retorno no pondo de deslocamento definido
 
         public double rReleaseForceAtReal_mm;// : REAL; //Deslocamento real no qual o release force foi coletado
-
     }
     public class GVL_T04
     {
@@ -1348,7 +1347,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rReleaseForceAt_N;// : REAL; // Forca no retorno no pondo de deslocamento definido
 
         public double rReleaseForceAtReal_mm;// : REAL; //Deslocamento real no qual o release force foi coletado
-
     }
     public class GVL_T05
     {
@@ -1376,6 +1374,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rTempoFinal;// : REAL;
         public double rPerdaVacuo;// : REAL;
         public double rTempoTotal;// : REAL;
+
     }
     public class GVL_T06
     {
@@ -1904,7 +1903,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rGradienteDeslocamentoAvanco;// : REAL;
         public double rGradienteForcaRetorno;// : REAL;
         public double rGradienteDeslocamentoRetorno;// : REAL;
-
     }
     public class GVL_T20
     {
@@ -2058,7 +2056,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rGradientePressao; // : REAL;  //Gradiente de pressao
 
         #endregion
-
     }
     public class GVL_T23
     {
@@ -2134,7 +2131,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rForcaEficienciaSlow;// : REAL;
         public double rForcaEficienciaFast;// : REAL;
         public double rEficiencia;// : REAL;
-
     }
     public class GVL_T25
     {
@@ -2215,7 +2211,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         //em execucao
         //
         //
-
     }
     #endregion
 }

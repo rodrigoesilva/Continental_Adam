@@ -104,6 +104,26 @@ namespace Continental.Project.Adam.UI.Helper.Tests
 
         #region General Settings
 
+        #region Actuaion Mode
+        private static int _iActuaionMode { get; set; }
+        public static int iActuaionMode
+        {
+            get { return HelperTestBase._iActuaionMode; }
+            set { HelperTestBase._iActuaionMode = value; }
+        }
+
+        #endregion
+
+        #region Output Type
+        private static int _iOutputType { get; set; }
+        public static int iOutputType
+        {
+            get { return HelperTestBase._iOutputType; }
+            set { HelperTestBase._iOutputType = value; }
+        }
+
+        #endregion
+
         #region check box
 
         private static bool _chkstartFromActual;
@@ -187,19 +207,19 @@ namespace Continental.Project.Adam.UI.Helper.Tests
         #endregion
 
         #region HoseConsumer
-        private static int _hoseConsumerPC { get; set; }
-        private static int _hoseConsumerSC { get; set; }
+        private static int _iSumHoseConsumerPC { get; set; }
+        private static int _iSumHoseConsumerSC { get; set; }
 
         //get e set
-        public static int HoseConsumerPC
+        public static int iSumHoseConsumerPC
         {
-            get { return HelperTestBase._hoseConsumerPC; }
-            set { HelperTestBase._hoseConsumerPC = value; }
+            get { return HelperTestBase._iSumHoseConsumerPC; }
+            set { HelperTestBase._iSumHoseConsumerPC = value; }
         }
-        public static int HoseConsumerSC
+        public static int iSumHoseConsumerSC
         {
-            get { return HelperTestBase._hoseConsumerSC; }
-            set { HelperTestBase._hoseConsumerSC = value; }
+            get { return HelperTestBase._iSumHoseConsumerSC; }
+            set { HelperTestBase._iSumHoseConsumerSC = value; }
         }
 
         #endregion
