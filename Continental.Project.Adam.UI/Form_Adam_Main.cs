@@ -845,7 +845,7 @@ namespace Continental.Project.Adam.UI
         public void TAB_DiagramChart_SetData()
         {
             if (HelperApp.uiTesteSelecionado != 0)
-                devChart.Visible = true;
+                    devChart.Visible = true;
             else
                 MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
@@ -908,7 +908,13 @@ namespace Continental.Project.Adam.UI
                     IOrderedEnumerable<Control> lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
 
                     if (!TAB_TableResults_Grid_GetData(HelperApp.uiTesteSelecionado.ToString()))
+                    {
                         MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                        return false;
+                    } 
                 }
                 else
                 {
@@ -950,6 +956,9 @@ namespace Continental.Project.Adam.UI
                 if (dtTableResults.Rows.Count == 0)
                 {
                     MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
                     return false;
                 }
                 else
@@ -1003,11 +1012,20 @@ namespace Continental.Project.Adam.UI
                         else
                         {
                             MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
                             return false;
                         }
                     }
 
                     listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam, dicReturnReadFileHeader);
+
+                    if (listResultParam?.Count() == 0 || listResultParam == null)
+                    {
+                        MessageBox.Show("Error, Parm result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
 
                     HelperApp.lstResultParam.Clear();
 
@@ -1256,16 +1274,22 @@ namespace Continental.Project.Adam.UI
 
                     var lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
 
+                    
+
                     foreach (var chk in lstChk)
                     {
                         var chkState = ((System.Windows.Forms.CheckBox)chk).Checked;
 
                         if (chkState)
                         {
-                            //clear checkbox
-                            // lstChk.ForEach(item => metroPnl.Controls.Remove(item));
+                           
+                           
                         }
                     }
+
+                    if (lstChk.Count() > 0)
+                        //clear checkbox
+                        lstChk.ForEach(item => metroPnl.Controls.Remove(item));
 
                     //add chk novo panel
                     for (int i = 0; i < listResultParam.Count(); i++)
@@ -1273,7 +1297,6 @@ namespace Continental.Project.Adam.UI
                         long ResultParam_Id = listResultParam[i].IdResultParam;
                         string strResultParam_Name = listResultParam[i].ResultParam_Name?.Trim();
                         string strResultParam_Caption = listResultParam[i].ResultParam_Caption?.Trim();
-
                         //MetroCheckBox mChkBox = new MetroCheckBox();
                         CheckBox mChkBox = new CheckBox();
                         mChkBox.CheckedChanged += TAB_TableResults_CheckBoxes_CheckedChanged;
@@ -5579,6 +5602,14 @@ namespace Continental.Project.Adam.UI
                                 else
                                     MessageBox.Show("Error TEST_Concluded_SaveData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
+                            else
+                            {
+                                tab_ChartEnable = true;
+                                tab_TableResultsEnable = true;
+                                HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+
+                                TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                            }
                         }
                         else
                             MessageBox.Show("Error TXTFileHBM_HeaderCreate, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -5678,7 +5709,7 @@ namespace Continental.Project.Adam.UI
                 }
                 else
                 {
-                    MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -5887,11 +5918,15 @@ namespace Continental.Project.Adam.UI
                             LOG_TestSequence("TESTE CALC CONCLUDED");
 
                             if (!TAB_TableResult_SetData())
-                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            else
                             {
-                                if (!CHART_LoadActualTestComplete())
-                                    MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return false;
+                            }
+                            
+                            if (!CHART_LoadActualTestComplete())
+                            {
+                                MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return false;
                             }
 
                             tab_TableResultsEnable = false;
@@ -6464,7 +6499,9 @@ namespace Continental.Project.Adam.UI
 
                 HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.GVL_Graficos;
 
-                var chartGVL = modelChartGVL;
+                modelChartGVL = HelperTestBase.Model_GVL.GVL_Graficos;
+
+               var chartGVL = HelperTestBase.Model_GVL.GVL_Graficos;
 
                 #endregion
 
@@ -6524,10 +6561,10 @@ namespace Continental.Project.Adam.UI
                             diagram.AxisX.Range.MinValue = chartGVL.EixoX.rMin;
                             diagram.AxisX.Range.MaxValue = chartGVL.EixoX.rMax;
 
-                            diagram.AxisX.DateTimeScaleOptions.MeasureUnit = DateTimeMeasureUnit.Minute;
+                            //diagram.AxisX.DateTimeScaleOptions.MeasureUnit = DateTimeMeasureUnit.Minute;
                             //diagram.AxisX.Label.TextPattern = @"d.M";
                             //}
-                            diagram.AxisX.DateTimeScaleOptions.GridAlignment = DateTimeGridAlignment.Hour;
+                            //diagram.AxisX.DateTimeScaleOptions.GridAlignment = DateTimeGridAlignment.Hour;
                             // Vertical Day-GridLines, short Label-Days and rotated
                             diagram.AxisX.GridLines.Visible = true;
                             diagram.AxisX.Label.Angle = -90;
@@ -6723,7 +6760,7 @@ namespace Continental.Project.Adam.UI
 
                         #endregion
 
-                        #region Chart titles.
+                        #region Chart titles
 
                         ChartTitle ChartTitle = new ChartTitle();
                         ChartTitle.Text = EnumExtensionMethods.GetDescriptionEXAMTYPE(HelperTestBase.eExamType);
@@ -6748,6 +6785,15 @@ namespace Continental.Project.Adam.UI
                         devChart.BackColor = Color.LightGray;
 
                         tab_Diagram.BackColor = Color.LightGray;
+
+                        if(Convert.ToDouble(diagram.AxisX.Range.MaxValue) != HelperTestBase.Model_GVL.GVL_Graficos.EixoX.rMax)
+                        {
+                            diagram.AxisX.Range.MinValue = HelperTestBase.Model_GVL.GVL_Graficos.EixoX.rMin;
+                            diagram.AxisX.Range.MaxValue = HelperTestBase.Model_GVL.GVL_Graficos.EixoX.rMax;
+
+                            diagram.AxisY.Range.MinValue = HelperTestBase.Model_GVL.GVL_Graficos.iOutput == 2 ? HelperTestBase.Model_GVL.GVL_Graficos.EixoY2.rMin : HelperTestBase.Model_GVL.GVL_Graficos.EixoY1.rMin;
+                            diagram.AxisY.Range.MaxValue = HelperTestBase.Model_GVL.GVL_Graficos.iOutput == 2 ? HelperTestBase.Model_GVL.GVL_Graficos.EixoY2.rMax : HelperTestBase.Model_GVL.GVL_Graficos.EixoY1.rMax;
+                        }
 
                         #endregion
                     }
@@ -8917,12 +8963,15 @@ namespace Continental.Project.Adam.UI
         {
             if (_helperApp.AppUseSimulateLocal)
                 if (!_bAppStart)
+                {
+                    HelperTestBase.ProjectTestConcluded.Project.is_OnLIne = true;
+
                     if (TXTFileHBM_LoadData())
                         if (TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL))
                             TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                         else
                             MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                }
         }
 
         private void mbtn_BGlobalWarning_Click(object sender, EventArgs e)

@@ -1900,7 +1900,9 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            if (dicReturnReadFileHeader[0].Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
+                            #region Resuls Load Offline
+
+                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
                             {
                                 var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
                                 var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
@@ -1972,6 +1974,8 @@ namespace Continental.Project.Adam.UI.Helper
                                 #endregion
 
                             }
+
+                            #endregion
 
                             #region #region Results_Header
 
@@ -2172,13 +2176,49 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
+                            #region Resuls Load Offline
+
+                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
+                            {
+                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
+                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
+                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
+
+                                #region Results
+
+                                #region Results_Header
+
+                                HelperTestBase.Model_GVL.GVL_T05.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vaccum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vaccum"]) : 0;
+
+                                #endregion
+
+                                #region Results
+
+                                HelperTestBase.Model_GVL.GVL_T05.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
+
+                                #endregion
+
+                                #region Results_Footer
+
+                                HelperTestBase.Model_GVL.GVL_T05.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                                #endregion
+
+                                #endregion
+
+                            }
+
+                            #endregion
+
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vaccum", Math.Round(HelperTestBase.Model_GVL.GVL_T05.rVacuoInicial, 2).ToString());
+
                             #endregion
 
                             #region Results
 
+                            dicResultParam.Add("resultCalcTestParam_TotalTime", Math.Round(HelperTestBase.Model_GVL.GVL_T05.rTempoTotal, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_VacuumLossWhileTesting", Math.Round(HelperTestBase.Model_GVL.GVL_T05.rPerdaVacuo, 2).ToString());
 
                             #endregion
@@ -2905,6 +2945,12 @@ namespace Continental.Project.Adam.UI.Helper
 
             try
             {
+                //if (lstInfoEvaluationParameters.Count() != dicResultParam.Count())
+                //{
+                //    MessageBox.Show("Error, Parm result data error!", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    return null;
+                //}
+
                 for (i = 0; i < dtTableResults.Rows.Count; i++)
                 {
                     #region Get BD List Results
@@ -14251,6 +14297,7 @@ namespace Continental.Project.Adam.UI.Helper
                 #region StringBuilder TxtData_Header - Type Test
 
                 sbHeader.Append($"{strTimeStamp}");
+                sbHeader.Append($"\r\n");
                 sbHeader.Append($"{HelperTestBase.eExamType}");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"\r\n");
@@ -14268,19 +14315,19 @@ namespace Continental.Project.Adam.UI.Helper
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"Customer/Type\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Booster\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"Booster\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"TMC\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"TMC\t\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"Production Date\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"T.O.\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"T.O.\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"Operator\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"Testing Date\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Comment\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"Comment\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"|- PARAMETERS -|");
@@ -14372,47 +14419,41 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region StringBuilder AppendTxtData_Header_ActuationType
 
-                            HelperTestBase.ETestActuationType = E_TestActuationType.PneumaticSlow;
-                            HelperTestBase.VacuumMin = -0.82;
-                            HelperTestBase.VacuumMax = -0.78;
-                            HelperTestBase.Vacuum = -0.8;
-                            HelperTestBase.chkPistonLock = false;
-                            HelperTestBase.ForceGradient = iTesteSelecionado == 5 ? 0 : 100;
-                            HelperTestBase.MaxForce = 0;
-                            HelperTestBase.radHoseConsumer = iTesteSelecionado == 5 ? false : true;
-                            HelperTestBase.iSumHoseConsumerPC = 12;
-                            HelperTestBase.iSumHoseConsumerSC = 12;
+                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                            sbHeader.Append($"\r\n");
+                            //sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                            //sbHeader.Append($"\r\n");
+                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                            sbHeader.Append($"\r\n");
+                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                            sbHeader.Append($"\r\n");
+                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                            sbHeader.Append($"\r\n");
+                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                            sbHeader.Append($"\r\n");
+                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                            sbHeader.Append($"\r\n");
+                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                            sbHeader.Append($"\r\n");
+                            if (HelperTestBase.iTipoConsumidores > 0)
+                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                            else
+                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t None");
 
-                            sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min)        : {HelperTestBase.VacuumMin}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max)        : {HelperTestBase.VacuumMax}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum              : {HelperTestBase.Vacuum}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston         : {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient            : {HelperTestBase.ForceGradient}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force          : {HelperTestBase.MaxForce}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
-
-                            if (iTesteSelecionado == 6 | iTesteSelecionado == 7)
+                            if (iTesteSelecionado != 5)
                             {
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
                             }
-
+                            
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
-
-                            #endregion
 
                             break;
+
+                            #endregion
                         }
                     case 8:     //Hydraulic Leakage - Fully Applied Position
                     case 9:     //Hydraulic Leakage - At Low Pressure
@@ -15180,122 +15221,36 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region StringBuilder AppendTxtData_Header_Results
 
-                            #region Common_Header_Results_Header
+                            #region Common_Header_Results
 
-                            var helperTestBase_Vacuum = 0;
-
-                            sbHeaderResults.Append($"Results");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Vacuum     : {helperTestBase_Vacuum} bar");
-                            sbHeaderResults.Append($"\r\n");
-
-                            #endregion
-
-                            #region Common_Header_Results_Case
-
-                            //5 //Vaccum Leakage - Released Position
-                            var helperTestBase_TotalTime = 0;
-                            var helperTestBase_VacuumLossWhileTesting = 0;
-
-                            //6 //Vacuum Leakage - Fully Applied Position
-                            var helperTestBase_RunoutForce = 0;
-                            var helperTestBase_TravelAt120Percent = 10;
-                            //var helperTestBase_TotalTime = 10;
-                            //var helperTestBase_VacuumLossWhileTesting = 10;
-
-                            //7 //Vacuum Leakage - Lap Position
-                            var helperTestBase_ActuationForce1200PercentOut = 0;
-                            var helperTestBase_ActuationForce50PercentOut = 0;
-                            var helperTestBase_ActuationForce60PercentOut = 0;
-                            //var helperTestBase_RunoutForce = 10;
-                            //var helperTestBase_TravelAt120Percent = 10;
-                            var helperTestBase_TravelAt50Percent = 0;
-                            var helperTestBase_TravelAt60Percent = 0;
-                            //var helperTestBase_TotalTime = 10;
-                            //var helperTestBase_VacuumLossWhileTesting = 10;
-
-                            switch (iTesteSelecionado)
+                            for (int i = 0; i < dicResultParam.Count; i++)
                             {
-                                case 5: //Vaccum Leakage - Released Position
-                                    #region Vaccum Leakage - Released Position
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
 
-                                    sbHeaderResults.Append($"Total Time                 : {helperTestBase_TotalTime} s");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Vacuum Loss while testing  : {helperTestBase_VacuumLossWhileTesting} bar");
-                                    sbHeaderResults.Append($"\r\n");
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
 
-                                    #endregion
-                                    break;
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
 
-                                case 6: //Vacuum Leakage - Fully Applied Position
-                                    #region Vacuum Leakage - Fully Applied Position
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
 
-                                    sbHeaderResults.Append($"Runout Force               : {helperTestBase_RunoutForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Travel at 120.0 %          : {helperTestBase_TravelAt120Percent} mm");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Total Time                 : {helperTestBase_TotalTime} s");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Vacuum Loss while testing  : {helperTestBase_VacuumLossWhileTesting} bar");
-                                    sbHeaderResults.Append($"\r\n");
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
 
-                                    #endregion
-                                    break;
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
 
-                                case 7: //Vacuum Leakage - Lap Position
-                                    #region Vacuum Leakage - Lap Position
-
-                                    sbHeaderResults.Append($"Actuation Force 120.0 % p out  : {helperTestBase_ActuationForce1200PercentOut} N");
                                     sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Actuation Force 50.0 % p out   : {helperTestBase_ActuationForce50PercentOut} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Actuation Force 60.0 % p out   : {helperTestBase_ActuationForce60PercentOut} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Runout Force                   : {helperTestBase_RunoutForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Travel at 120.0 %              : {helperTestBase_TravelAt120Percent} mm");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Travel at 50.0 %               : {helperTestBase_TravelAt50Percent} mm");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Travel at 60.0 %               : {helperTestBase_TravelAt60Percent} mm");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Total Time                     : {helperTestBase_TotalTime} s");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Vacuum Loss while testing      : {helperTestBase_VacuumLossWhileTesting } bar");
-                                    sbHeaderResults.Append($"\r\n");
-
-                                    #endregion
-                                    break;
-
-                                default:
-                                    break;
-                            }
-
-                            #endregion
-
-                            #region Common_Header_Results_Footer
-
-                            if (iTesteSelecionado != 5)
-                            {
-                                var helperTestBase_PCHoseConsumer = 12;
-                                var helperTestBase_SCHoseConsumer = 12;
-                                var helperTestBase_RoomTemperature = HelperMODBUS.CS_dwTemperaturaAmbiente_C_LW.ToString("N2");
-
-                                sbHeaderResults.Append($"PC Hose Consumers              : {helperTestBase_PCHoseConsumer} #");
-                                sbHeaderResults.Append($"\r\n");
-                                sbHeaderResults.Append($"SC Hose Consumers              : {helperTestBase_SCHoseConsumer} #");
-                                sbHeaderResults.Append($"\r\n");
-                                sbHeaderResults.Append($"Room Temperature               : {helperTestBase_RoomTemperature} °C");
-                                sbHeaderResults.Append($"\r\n");
-                                sbHeaderResults.Append($"\r\n");
+                                }
                             }
 
                             #endregion
 
                             #region Curves_Header_Results
 
-                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"|- CURVES -|");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
@@ -16415,7 +16370,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                 int maxSizeChartImage = 445;
 
-                string strInfo = "INFO - CONTI";
+                string strInfo = string.Empty; // "INFO - CONTI";
 
                 List<Model_Operational_TestTableParameters> lstResultParamFormated = new List<Model_Operational_TestTableParameters>();
 
