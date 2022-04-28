@@ -93,7 +93,7 @@ namespace Continental.Project.Adam.UI.BLL
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append("SELECT");
+                sb.Append("SELECT DISTINCT");
                 if (string.IsNullOrEmpty(IdTestAvailable))
                 {
                     sb.Append(" PTC.[IdProject] as Id");
