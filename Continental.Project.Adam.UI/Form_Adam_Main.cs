@@ -298,6 +298,9 @@ namespace Continental.Project.Adam.UI
 
             this.WindowState = FormWindowState.Maximized;
 
+            tab_ChartEnable = false;
+            tab_TableResultsEnable = false;
+
             TAB_Main_ActivePage(2);
 
             CONTROLS_EnableMetroButton();
@@ -2252,7 +2255,11 @@ namespace Continental.Project.Adam.UI
                     {
                         _modelGVL.GVL_Parametros.iModo = 0;
                         mtxt_Actuation_E1ParForceGrad.Text = _notReadValue;
+                        mtxt_Actuation_Unit_E1ParMaxForce.Text = string.Empty;
                         mtxt_Actuation_Unit_E1ParForceGrad.Text = string.Empty;
+
+                        mtxt_Actuation_Unit_E1ParMaxForce.Visible = false;
+                        mtxt_Actuation_Unit_E1ParForceGrad.Visible = false;
                         break;
                     }
             }
@@ -2295,6 +2302,9 @@ namespace Continental.Project.Adam.UI
         }
         private void mcbo_GeneralSettings_CoBSelectTest_SelectedIndexChanged(object sender, EventArgs e)
         {
+            tab_ChartEnable = false;
+            tab_TableResultsEnable = false;
+
             int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
 
             TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
@@ -4818,11 +4828,11 @@ namespace Continental.Project.Adam.UI
                     case 5:     //Vaccum Leakage - Released Position
                         switch (iRowIndex)
                         {
-                            case 3://TESTING TIME
+                            case 2://TESTING TIME
                                 HelperTestBase.Model_GVL.GVL_T05.rTempoTeste = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T05_LW }, dblValue);
                                 break;
-                            case 4://VACUUM STABILIZATION TIME
+                            case 3://VACUUM STABILIZATION TIME
                                 HelperTestBase.Model_GVL.GVL_T05.rTempoEstabilizacao = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T05_LW }, dblValue);
                                 break;
@@ -6609,6 +6619,17 @@ namespace Continental.Project.Adam.UI
                             diagram.AxisY.Range.MinValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMin : chartGVL.EixoY1.rMin;
                             diagram.AxisY.Range.MaxValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMax : chartGVL.EixoY1.rMax;
 
+                            if (Convert.ToDouble(diagram.AxisY.Range.MaxValue) < 0)
+                            {
+                                diagram.AxisY.VisualRange.MinValue = 0;
+                                diagram.AxisY.VisualRange.MaxValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMax : chartGVL.EixoY1.rMax;
+
+                                diagram.AxisY.Range.MinValue = 0;
+                                diagram.AxisY.Range.MaxValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMax : chartGVL.EixoY1.rMax;
+
+                                diagram.AxisY.Reverse = true;
+                            }
+
                             #endregion
 
                             #region ADD Y
@@ -7100,16 +7121,21 @@ namespace Continental.Project.Adam.UI
                                     {
                                         case 5:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T05.rForcaReal_P1_N, _modelGVL.GVL_T05.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T05.rForcaReal_P2_N, _modelGVL.GVL_T05.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T05.rForcaReal_E1_N, _modelGVL.GVL_T05.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T05.rForcaReal_E2_N, _modelGVL.GVL_T05.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T05.rRunOutForce_Real_N, _modelGVL.GVL_T05.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T05.rForcaCutIn_N, _modelGVL.GVL_T05.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T05.rForcaAvanco_Xpout_N, _modelGVL.GVL_T05.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T05.rForcaRetorno_Xpout_N, _modelGVL.GVL_T05.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T05.rForcaAvanco_Xbar_N, _modelGVL.GVL_T05.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T05.rForcaRetorno_Xbar_N, _modelGVL.GVL_T05.rPressaoHysterese_Bar));
+                                                var mxtime = lstAnalogCh00_Timestamp.Max();
+                                                var mxvacuo = lstAnalogCh10_Vaccum.Max();
+
+                                                var X1_Final = mxtime - 0.5;
+                                                var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1,y1) => Math.Abs(x1-X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
+                                                var X1_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx); 
+                                                var Y1_VacuoInicial = lstAnalogCh10_Vaccum.ElementAt(X1_PosVacuoInicial);
+
+                                                var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T05.rTempoTeste;
+                                                var X2_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
+                                                var X2_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X2_ValIdx);
+                                                var Y2_VacuoInicial = lstAnalogCh10_Vaccum.ElementAt(X2_PosVacuoInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint(X1_Final, Y1_VacuoInicial));
+                                                PontosChart.Points.Add(new SeriesPoint(X2_Inicial, Y2_VacuoInicial));
                                             }
                                             break;
                                         case 6:

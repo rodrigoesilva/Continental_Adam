@@ -3991,204 +3991,205 @@ namespace Continental.Project.Adam.UI.Helper
                     {
                         case 1:     //Force Diagrams - Force/Pressure With Vacuum
                             {
-                                HelperTestBase.Model_GVL.GVL_T01.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T01.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T01.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T01.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 2:     //Force Diagrams - Force/Force With Vacuum
                             {
-                                HelperTestBase.Model_GVL.GVL_T02.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T02.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T02.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T02.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 3:     //Force Diagrams - Force/Pressure Without Vacuum
                             {
-                                HelperTestBase.Model_GVL.GVL_T03.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T03.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T03.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T03.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 4:     //Force Diagrams - Force/Force Without Vacuum
                             {
-                                HelperTestBase.Model_GVL.GVL_T04.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T04.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T04.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T04.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 5: //Vaccum Leakage - Released Position
                             {
-                                HelperTestBase.Model_GVL.GVL_T05.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T05.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T05.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T05.rVacuoFinal = dblVacuoFinal;
+                                HelperTestBase.Model_GVL.GVL_T05.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 6: //Vacuum Leakage - Fully Applied Position
                             {
-                                HelperTestBase.Model_GVL.GVL_T06.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T06.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T06.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T06.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 7: //Vacuum Leakage - Lap Position
                             {
-                                HelperTestBase.Model_GVL.GVL_T07.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T07.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T07.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T07.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
 
                         case 8:     //Hydraulic Leakage - Fully Applied Position
                             {
-                                HelperTestBase.Model_GVL.GVL_T08.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T08.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
-                                HelperTestBase.Model_GVL.GVL_T08.rPressaoInicialCP = _modelGVL.GVL_Analogicas.rPressaoCP_Bar;
-                                HelperTestBase.Model_GVL.GVL_T08.rPressaoInicialCS = _modelGVL.GVL_Analogicas.rPressaoCS_Bar;
+                                HelperTestBase.Model_GVL.GVL_T08.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T08.rTemperaturaInicial = dblTemperaturaInicial;
+                                HelperTestBase.Model_GVL.GVL_T08.rPressaoInicialCP = dblPressaoInicialCP;
+                                HelperTestBase.Model_GVL.GVL_T08.rPressaoInicialCS = dblPressaoFinalCS;
 
                                 break;
                             }
                         case 9:     //Hydraulic Leakage - At Low Pressure
                             {
-                                HelperTestBase.Model_GVL.GVL_T09.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T09.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
-                                HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCP = _modelGVL.GVL_Analogicas.rPressaoCP_Bar;
-                                HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCS = _modelGVL.GVL_Analogicas.rPressaoCS_Bar;
+                                HelperTestBase.Model_GVL.GVL_T09.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T09.rTemperaturaInicial = dblTemperaturaInicial;
+                                HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCP = dblPressaoInicialCP;
+                                HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCS = dblPressaoFinalCS;
 
                                 break;
                             }
                         case 10:    //Hydraulic Leakage - At High Pressure
                             {
-                                HelperTestBase.Model_GVL.GVL_T10.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T10.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
-                                HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCP = _modelGVL.GVL_Analogicas.rPressaoCP_Bar;
-                                HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCS = _modelGVL.GVL_Analogicas.rPressaoCS_Bar;
+                                HelperTestBase.Model_GVL.GVL_T10.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T10.rTemperaturaInicial = dblTemperaturaInicial;
+                                HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCP = dblPressaoInicialCP;
+                                HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCS = dblPressaoFinalCS;
 
                                 break;
                             }
                         case 11:    //Adjustment - Actuation Slow
                             {
-                                HelperTestBase.Model_GVL.GVL_T11.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T11.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T11.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T11.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 12:    //Adjustment - Actuation Fast
                             {
-                                HelperTestBase.Model_GVL.GVL_T12.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T12.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T12.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T12.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 13:    //Check Sensors - Pressure Difference
                             {
-                                HelperTestBase.Model_GVL.GVL_T13.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T13.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T13.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T13.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 14:    //Check Sensors - Input/Output Travel
                             {
-                                HelperTestBase.Model_GVL.GVL_T14.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T14.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T14.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T14.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 15:    //Adjustment - Input Travel VS Input Force
                             {
-                                HelperTestBase.Model_GVL.GVL_T15.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T15.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T15.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T15.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 16:    //Adjustment - Hose Consumer
                             {
-                                HelperTestBase.Model_GVL.GVL_T16.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T16.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T16.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T16.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 17:    //Lost Travel ACU - Hydraulic
                             {
-                                HelperTestBase.Model_GVL.GVL_T17.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T17.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T17.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T17.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
                             {
-                                HelperTestBase.Model_GVL.GVL_T18.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T18.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T18.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T18.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 19:    //Lost Travel ACU - Pneumatic Primary
                             {
-                                HelperTestBase.Model_GVL.GVL_T19.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T19.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T19.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T19.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 20:    //Lost Travel ACU - Pneumatic Secondary
                             {
-                                HelperTestBase.Model_GVL.GVL_T20.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T20.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T20.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T20.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 21:    //Pedal Feeling Characteristics
                             {
-                                HelperTestBase.Model_GVL.GVL_T21.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T21.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T21.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T21.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 22:    //Actuation / Release - Mechanical Actuation
                             {
-                                //HelperTestBase.Model_GVL.GVL_T22.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                //HelperTestBase.Model_GVL.GVL_T22.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                //HelperTestBase.Model_GVL.GVL_T22.rVacuoInicial = dblVacuoInicial;
+                                //HelperTestBase.Model_GVL.GVL_T22.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 23:    //Breather Hole / Central Valve open
                             {
-                                HelperTestBase.Model_GVL.GVL_T23.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T23.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T23.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T23.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 24:    //Efficiency
                             {
-                                HelperTestBase.Model_GVL.GVL_T24.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                HelperTestBase.Model_GVL.GVL_T24.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                HelperTestBase.Model_GVL.GVL_T24.rVacuoInicial = dblVacuoInicial;
+                                HelperTestBase.Model_GVL.GVL_T24.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 25:    //Force Diagrams - Force/Pressure Dual Ratio
                             {
-                                //GVL_T25.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                //GVL_T25.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                //GVL_T25.rVacuoInicial = dblVacuoInicial;
+                                //GVL_T25.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 26:    //Force Diagrams - Force/Force Dual Ratio
                             {
-                                //GVL_T26.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                //GVL_T26.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                //GVL_T26.rVacuoInicial = dblVacuoInicial;
+                                //GVL_T26.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 27:    //ADAM - Find Switching Point With TMC
                             {
-                                //GVL_T27.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                //GVL_T27.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                //GVL_T27.rVacuoInicial = dblVacuoInicial;
+                                //GVL_T27.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
                         case 28:    //ADAM - Switching Point Without TMC
                             {
-                                //GVL_T28.rVacuoInicial = _modelGVL.GVL_Analogicas.rVacuo_Bar;
-                                //GVL_T28.rTemperaturaInicial = _modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C;
+                                //GVL_T28.rVacuoInicial = dblVacuoInicial;
+                                //GVL_T28.rTemperaturaInicial = dblTemperaturaInicial;
 
                                 break;
                             }
@@ -13183,7 +13184,7 @@ namespace Continental.Project.Adam.UI.Helper
                             {
                                 GVL_Graficos.EixoX.wsTLLabel = "AxesChart.1";
                                 GVL_Graficos.rEscalaX = lstInfoEvaluationParameters != null ?
-                                    lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EForceScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
+                                    lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("ETimeScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
                                     : 30;
 
                                 GVL_Graficos.EixoY1.wsTLLabel = "AxesChart.2";
@@ -13201,8 +13202,8 @@ namespace Continental.Project.Adam.UI.Helper
                                 GVL_Graficos.rEscalaY4 = 0;
 
                                 var unitX = lstInfoEvaluationParameters != null ?
-                                    !string.IsNullOrEmpty(lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("ETestingTime")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()) ?
-                                    lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("ETestingTime")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()
+                                    !string.IsNullOrEmpty(lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("ETimeScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()) ?
+                                    lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("ETimeScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()
                                     : "s"
                                     : "s";
 
