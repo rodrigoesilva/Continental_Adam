@@ -657,7 +657,7 @@ namespace Continental.Project.Adam.UI.trash
 
                             break;
                         }
-                    case 5: //Vaccum Leakage - Released Position
+                    case 5: //Vacuum Leakage - Released Position
                     case 6: //Vacuum Leakage - Fully Applied Position
                     case 7: //Vacuum Leakage - Lap Position
                         {

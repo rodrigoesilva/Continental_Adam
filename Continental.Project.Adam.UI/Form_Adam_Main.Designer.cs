@@ -63,7 +63,7 @@ namespace Continental.Project.Adam.UI
             this.mbtn_BStop = new MetroFramework.Controls.MetroButton();
             this.mpnl_BackupAssistent = new MetroFramework.Controls.MetroPanel();
             this.lbl_Vaccum = new System.Windows.Forms.Label();
-            this.mtxt_MKSLVaccum = new MetroFramework.Controls.MetroTextBox();
+            this.mtxt_MKSLVacuum = new MetroFramework.Controls.MetroTextBox();
             this.mpnl_Buttons = new MetroFramework.Controls.MetroPanel();
             this.mbtn_BClock = new MetroFramework.Controls.MetroButton();
             this.mbtn_BAlarm = new MetroFramework.Controls.MetroButton();
@@ -100,18 +100,18 @@ namespace Continental.Project.Adam.UI
             this.rad_GeneralSettings_CBOriginalConsumer = new System.Windows.Forms.RadioButton();
             this.mlbl_tabActParam_GenSettings_ActuationMode = new MetroFramework.Controls.MetroTextBox();
             this.mpnl_CurrentProject = new MetroFramework.Controls.MetroPanel();
-            this.mlbl_GeneralSettings_LParGenVaccumMax = new MetroFramework.Controls.MetroTextBox();
-            this.mlbl_GeneralSettings_LParGenVaccumMin = new MetroFramework.Controls.MetroTextBox();
-            this.mlbl_GeneralSettings_LParGenVaccum = new MetroFramework.Controls.MetroTextBox();
-            this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R = new MetroFramework.Controls.MetroButton();
-            this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L = new MetroFramework.Controls.MetroButton();
-            this.mtxt_GeneralSettings_EParGenVaccumMax = new MetroFramework.Controls.MetroTextBox();
-            this.mtxt_GeneralSettings_EParGenVaccumMin = new MetroFramework.Controls.MetroTextBox();
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax = new MetroFramework.Controls.MetroTextBox();
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin = new MetroFramework.Controls.MetroTextBox();
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum = new MetroFramework.Controls.MetroTextBox();
-            this.mtxt_GeneralSettings_EParGenVaccum = new MetroFramework.Controls.MetroTextBox();
-            this.mTile_tabActionParam_Vaccum = new MetroFramework.Controls.MetroTile();
+            this.mlbl_GeneralSettings_LParGenVacuumMax = new MetroFramework.Controls.MetroTextBox();
+            this.mlbl_GeneralSettings_LParGenVacuumMin = new MetroFramework.Controls.MetroTextBox();
+            this.mlbl_GeneralSettings_LParGenVacuum = new MetroFramework.Controls.MetroTextBox();
+            this.mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R = new MetroFramework.Controls.MetroButton();
+            this.mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L = new MetroFramework.Controls.MetroButton();
+            this.mtxt_GeneralSettings_EParGenVacuumMax = new MetroFramework.Controls.MetroTextBox();
+            this.mtxt_GeneralSettings_EParGenVacuumMin = new MetroFramework.Controls.MetroTextBox();
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax = new MetroFramework.Controls.MetroTextBox();
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin = new MetroFramework.Controls.MetroTextBox();
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum = new MetroFramework.Controls.MetroTextBox();
+            this.mtxt_GeneralSettings_EParGenVacuum = new MetroFramework.Controls.MetroTextBox();
+            this.mTile_tabActionParam_Vacuum = new MetroFramework.Controls.MetroTile();
             this.mcbo_tabActParam_GenSettings_CoBSelectTest = new MetroFramework.Controls.MetroComboBox();
             this.mbtn_tabActParam_GenSettings_BSaveCurrentParams = new MetroFramework.Controls.MetroButton();
             this.mchk_tabActParam_GenSettings_CBStartFromSelection = new MetroFramework.Controls.MetroCheckBox();
@@ -848,7 +848,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.mpnl_BackupAssistent.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.mpnl_BackupAssistent.Controls.Add(this.lbl_Vaccum);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLVaccum);
+            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLVacuum);
             this.mpnl_BackupAssistent.Controls.Add(this.lbl_InputForce1);
             this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLInputForce1);
             this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLOutputForce);
@@ -892,45 +892,45 @@ namespace Continental.Project.Adam.UI
             this.lbl_Vaccum.ForeColor = System.Drawing.Color.Silver;
             this.lbl_Vaccum.Location = new System.Drawing.Point(1304, 10);
             this.lbl_Vaccum.Name = "lbl_Vaccum";
-            this.lbl_Vaccum.Size = new System.Drawing.Size(64, 17);
+            this.lbl_Vaccum.Size = new System.Drawing.Size(65, 17);
             this.lbl_Vaccum.TabIndex = 84;
-            this.lbl_Vaccum.Text = "Vaccum";
+            this.lbl_Vaccum.Text = "Vacuum";
             // 
-            // mtxt_MKSLVaccum
-            // 
-            // 
+            // mtxt_MKSLVacuum
             // 
             // 
-            this.mtxt_MKSLVaccum.CustomButton.Image = null;
-            this.mtxt_MKSLVaccum.CustomButton.Location = new System.Drawing.Point(101, 2);
-            this.mtxt_MKSLVaccum.CustomButton.Name = "";
-            this.mtxt_MKSLVaccum.CustomButton.Size = new System.Drawing.Size(25, 25);
-            this.mtxt_MKSLVaccum.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxt_MKSLVaccum.CustomButton.TabIndex = 1;
-            this.mtxt_MKSLVaccum.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxt_MKSLVaccum.CustomButton.UseSelectable = true;
-            this.mtxt_MKSLVaccum.CustomButton.Visible = false;
-            this.mtxt_MKSLVaccum.FontSize = MetroFramework.MetroTextBoxSize.Tall;
-            this.mtxt_MKSLVaccum.Lines = new string[] {
+            // 
+            // 
+            this.mtxt_MKSLVacuum.CustomButton.Image = null;
+            this.mtxt_MKSLVacuum.CustomButton.Location = new System.Drawing.Point(101, 2);
+            this.mtxt_MKSLVacuum.CustomButton.Name = "";
+            this.mtxt_MKSLVacuum.CustomButton.Size = new System.Drawing.Size(25, 25);
+            this.mtxt_MKSLVacuum.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mtxt_MKSLVacuum.CustomButton.TabIndex = 1;
+            this.mtxt_MKSLVacuum.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mtxt_MKSLVacuum.CustomButton.UseSelectable = true;
+            this.mtxt_MKSLVacuum.CustomButton.Visible = false;
+            this.mtxt_MKSLVacuum.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.mtxt_MKSLVacuum.Lines = new string[] {
         "0.00 bar"};
-            this.mtxt_MKSLVaccum.Location = new System.Drawing.Point(1277, 37);
-            this.mtxt_MKSLVaccum.MaxLength = 32767;
-            this.mtxt_MKSLVaccum.Name = "mtxt_MKSLVaccum";
-            this.mtxt_MKSLVaccum.PasswordChar = '\0';
-            this.mtxt_MKSLVaccum.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxt_MKSLVaccum.SelectedText = "";
-            this.mtxt_MKSLVaccum.SelectionLength = 0;
-            this.mtxt_MKSLVaccum.SelectionStart = 0;
-            this.mtxt_MKSLVaccum.ShortcutsEnabled = true;
-            this.mtxt_MKSLVaccum.Size = new System.Drawing.Size(129, 30);
-            this.mtxt_MKSLVaccum.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mtxt_MKSLVaccum.TabIndex = 83;
-            this.mtxt_MKSLVaccum.Text = "0.00 bar";
-            this.mtxt_MKSLVaccum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mtxt_MKSLVaccum.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mtxt_MKSLVaccum.UseSelectable = true;
-            this.mtxt_MKSLVaccum.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxt_MKSLVaccum.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mtxt_MKSLVacuum.Location = new System.Drawing.Point(1277, 37);
+            this.mtxt_MKSLVacuum.MaxLength = 32767;
+            this.mtxt_MKSLVacuum.Name = "mtxt_MKSLVacuum";
+            this.mtxt_MKSLVacuum.PasswordChar = '\0';
+            this.mtxt_MKSLVacuum.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mtxt_MKSLVacuum.SelectedText = "";
+            this.mtxt_MKSLVacuum.SelectionLength = 0;
+            this.mtxt_MKSLVacuum.SelectionStart = 0;
+            this.mtxt_MKSLVacuum.ShortcutsEnabled = true;
+            this.mtxt_MKSLVacuum.Size = new System.Drawing.Size(129, 30);
+            this.mtxt_MKSLVacuum.Style = MetroFramework.MetroColorStyle.Orange;
+            this.mtxt_MKSLVacuum.TabIndex = 83;
+            this.mtxt_MKSLVacuum.Text = "0.00 bar";
+            this.mtxt_MKSLVacuum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mtxt_MKSLVacuum.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.mtxt_MKSLVacuum.UseSelectable = true;
+            this.mtxt_MKSLVacuum.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mtxt_MKSLVacuum.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // mpnl_Buttons
             // 
@@ -1509,18 +1509,18 @@ namespace Continental.Project.Adam.UI
             // 
             // mpnl_CurrentProject
             // 
-            this.mpnl_CurrentProject.Controls.Add(this.mlbl_GeneralSettings_LParGenVaccumMax);
-            this.mpnl_CurrentProject.Controls.Add(this.mlbl_GeneralSettings_LParGenVaccumMin);
-            this.mpnl_CurrentProject.Controls.Add(this.mlbl_GeneralSettings_LParGenVaccum);
-            this.mpnl_CurrentProject.Controls.Add(this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R);
-            this.mpnl_CurrentProject.Controls.Add(this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L);
-            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_EParGenVaccumMax);
-            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_EParGenVaccumMin);
-            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_Unit_EParGenVaccumMax);
-            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_Unit_EParGenVaccumMin);
-            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_Unit_EParGenVaccum);
-            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_EParGenVaccum);
-            this.mpnl_CurrentProject.Controls.Add(this.mTile_tabActionParam_Vaccum);
+            this.mpnl_CurrentProject.Controls.Add(this.mlbl_GeneralSettings_LParGenVacuumMax);
+            this.mpnl_CurrentProject.Controls.Add(this.mlbl_GeneralSettings_LParGenVacuumMin);
+            this.mpnl_CurrentProject.Controls.Add(this.mlbl_GeneralSettings_LParGenVacuum);
+            this.mpnl_CurrentProject.Controls.Add(this.mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R);
+            this.mpnl_CurrentProject.Controls.Add(this.mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L);
+            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_EParGenVacuumMax);
+            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_EParGenVacuumMin);
+            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_Unit_EParGenVacuumMax);
+            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_Unit_EParGenVacuumMin);
+            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_Unit_EParGenVacuum);
+            this.mpnl_CurrentProject.Controls.Add(this.mtxt_GeneralSettings_EParGenVacuum);
+            this.mpnl_CurrentProject.Controls.Add(this.mTile_tabActionParam_Vacuum);
             this.mpnl_CurrentProject.HorizontalScrollbarBarColor = true;
             this.mpnl_CurrentProject.HorizontalScrollbarHighlightOnWheel = false;
             this.mpnl_CurrentProject.HorizontalScrollbarSize = 10;
@@ -1532,354 +1532,354 @@ namespace Continental.Project.Adam.UI
             this.mpnl_CurrentProject.VerticalScrollbarHighlightOnWheel = false;
             this.mpnl_CurrentProject.VerticalScrollbarSize = 10;
             // 
-            // mlbl_GeneralSettings_LParGenVaccumMax
+            // mlbl_GeneralSettings_LParGenVacuumMax
             // 
             // 
             // 
             // 
-            this.mlbl_GeneralSettings_LParGenVaccumMax.CustomButton.Image = null;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.CustomButton.Location = new System.Drawing.Point(189, 2);
-            this.mlbl_GeneralSettings_LParGenVaccumMax.CustomButton.Name = "";
-            this.mlbl_GeneralSettings_LParGenVaccumMax.CustomButton.Size = new System.Drawing.Size(19, 19);
-            this.mlbl_GeneralSettings_LParGenVaccumMax.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.CustomButton.TabIndex = 1;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.CustomButton.UseSelectable = true;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.CustomButton.Visible = false;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.Lines = new string[] {
-        "Vaccum max."};
-            this.mlbl_GeneralSettings_LParGenVaccumMax.Location = new System.Drawing.Point(16, 113);
-            this.mlbl_GeneralSettings_LParGenVaccumMax.MaxLength = 32767;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.Name = "mlbl_GeneralSettings_LParGenVaccumMax";
-            this.mlbl_GeneralSettings_LParGenVaccumMax.PasswordChar = '\0';
-            this.mlbl_GeneralSettings_LParGenVaccumMax.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.SelectedText = "";
-            this.mlbl_GeneralSettings_LParGenVaccumMax.SelectionLength = 0;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.SelectionStart = 0;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.ShortcutsEnabled = true;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.Size = new System.Drawing.Size(211, 24);
-            this.mlbl_GeneralSettings_LParGenVaccumMax.TabIndex = 106;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.Text = "Vaccum max.";
-            this.mlbl_GeneralSettings_LParGenVaccumMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.UseSelectable = true;
-            this.mlbl_GeneralSettings_LParGenVaccumMax.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mlbl_GeneralSettings_LParGenVaccumMax.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mlbl_GeneralSettings_LParGenVacuumMax.CustomButton.Image = null;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.CustomButton.Location = new System.Drawing.Point(189, 2);
+            this.mlbl_GeneralSettings_LParGenVacuumMax.CustomButton.Name = "";
+            this.mlbl_GeneralSettings_LParGenVacuumMax.CustomButton.Size = new System.Drawing.Size(19, 19);
+            this.mlbl_GeneralSettings_LParGenVacuumMax.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.CustomButton.TabIndex = 1;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.CustomButton.UseSelectable = true;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.CustomButton.Visible = false;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.Lines = new string[] {
+        "Vacuum max."};
+            this.mlbl_GeneralSettings_LParGenVacuumMax.Location = new System.Drawing.Point(16, 113);
+            this.mlbl_GeneralSettings_LParGenVacuumMax.MaxLength = 32767;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.Name = "mlbl_GeneralSettings_LParGenVacuumMax";
+            this.mlbl_GeneralSettings_LParGenVacuumMax.PasswordChar = '\0';
+            this.mlbl_GeneralSettings_LParGenVacuumMax.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.SelectedText = "";
+            this.mlbl_GeneralSettings_LParGenVacuumMax.SelectionLength = 0;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.SelectionStart = 0;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.ShortcutsEnabled = true;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.Size = new System.Drawing.Size(211, 24);
+            this.mlbl_GeneralSettings_LParGenVacuumMax.TabIndex = 106;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.Text = "Vacuum max.";
+            this.mlbl_GeneralSettings_LParGenVacuumMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.UseSelectable = true;
+            this.mlbl_GeneralSettings_LParGenVacuumMax.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mlbl_GeneralSettings_LParGenVacuumMax.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // mlbl_GeneralSettings_LParGenVaccumMin
-            // 
-            // 
-            // 
-            // 
-            this.mlbl_GeneralSettings_LParGenVaccumMin.CustomButton.Image = null;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.CustomButton.Location = new System.Drawing.Point(189, 2);
-            this.mlbl_GeneralSettings_LParGenVaccumMin.CustomButton.Name = "";
-            this.mlbl_GeneralSettings_LParGenVaccumMin.CustomButton.Size = new System.Drawing.Size(19, 19);
-            this.mlbl_GeneralSettings_LParGenVaccumMin.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.CustomButton.TabIndex = 1;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.CustomButton.UseSelectable = true;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.CustomButton.Visible = false;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.Lines = new string[] {
-        "Vaccum min."};
-            this.mlbl_GeneralSettings_LParGenVaccumMin.Location = new System.Drawing.Point(16, 81);
-            this.mlbl_GeneralSettings_LParGenVaccumMin.MaxLength = 32767;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.Name = "mlbl_GeneralSettings_LParGenVaccumMin";
-            this.mlbl_GeneralSettings_LParGenVaccumMin.PasswordChar = '\0';
-            this.mlbl_GeneralSettings_LParGenVaccumMin.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.SelectedText = "";
-            this.mlbl_GeneralSettings_LParGenVaccumMin.SelectionLength = 0;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.SelectionStart = 0;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.ShortcutsEnabled = true;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.Size = new System.Drawing.Size(211, 24);
-            this.mlbl_GeneralSettings_LParGenVaccumMin.TabIndex = 105;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.Text = "Vaccum min.";
-            this.mlbl_GeneralSettings_LParGenVaccumMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.UseSelectable = true;
-            this.mlbl_GeneralSettings_LParGenVaccumMin.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mlbl_GeneralSettings_LParGenVaccumMin.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
-            // mlbl_GeneralSettings_LParGenVaccum
+            // mlbl_GeneralSettings_LParGenVacuumMin
             // 
             // 
             // 
             // 
-            this.mlbl_GeneralSettings_LParGenVaccum.CustomButton.Image = null;
-            this.mlbl_GeneralSettings_LParGenVaccum.CustomButton.Location = new System.Drawing.Point(189, 2);
-            this.mlbl_GeneralSettings_LParGenVaccum.CustomButton.Name = "";
-            this.mlbl_GeneralSettings_LParGenVaccum.CustomButton.Size = new System.Drawing.Size(19, 19);
-            this.mlbl_GeneralSettings_LParGenVaccum.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mlbl_GeneralSettings_LParGenVaccum.CustomButton.TabIndex = 1;
-            this.mlbl_GeneralSettings_LParGenVaccum.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mlbl_GeneralSettings_LParGenVaccum.CustomButton.UseSelectable = true;
-            this.mlbl_GeneralSettings_LParGenVaccum.CustomButton.Visible = false;
-            this.mlbl_GeneralSettings_LParGenVaccum.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.mlbl_GeneralSettings_LParGenVaccum.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
-            this.mlbl_GeneralSettings_LParGenVaccum.Lines = new string[] {
-        "Vaccum"};
-            this.mlbl_GeneralSettings_LParGenVaccum.Location = new System.Drawing.Point(16, 47);
-            this.mlbl_GeneralSettings_LParGenVaccum.MaxLength = 32767;
-            this.mlbl_GeneralSettings_LParGenVaccum.Name = "mlbl_GeneralSettings_LParGenVaccum";
-            this.mlbl_GeneralSettings_LParGenVaccum.PasswordChar = '\0';
-            this.mlbl_GeneralSettings_LParGenVaccum.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mlbl_GeneralSettings_LParGenVaccum.SelectedText = "";
-            this.mlbl_GeneralSettings_LParGenVaccum.SelectionLength = 0;
-            this.mlbl_GeneralSettings_LParGenVaccum.SelectionStart = 0;
-            this.mlbl_GeneralSettings_LParGenVaccum.ShortcutsEnabled = true;
-            this.mlbl_GeneralSettings_LParGenVaccum.Size = new System.Drawing.Size(211, 24);
-            this.mlbl_GeneralSettings_LParGenVaccum.TabIndex = 104;
-            this.mlbl_GeneralSettings_LParGenVaccum.Text = "Vaccum";
-            this.mlbl_GeneralSettings_LParGenVaccum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mlbl_GeneralSettings_LParGenVaccum.UseSelectable = true;
-            this.mlbl_GeneralSettings_LParGenVaccum.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mlbl_GeneralSettings_LParGenVaccum.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mlbl_GeneralSettings_LParGenVacuumMin.CustomButton.Image = null;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.CustomButton.Location = new System.Drawing.Point(189, 2);
+            this.mlbl_GeneralSettings_LParGenVacuumMin.CustomButton.Name = "";
+            this.mlbl_GeneralSettings_LParGenVacuumMin.CustomButton.Size = new System.Drawing.Size(19, 19);
+            this.mlbl_GeneralSettings_LParGenVacuumMin.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.CustomButton.TabIndex = 1;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.CustomButton.UseSelectable = true;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.CustomButton.Visible = false;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.Lines = new string[] {
+        "Vacuum min."};
+            this.mlbl_GeneralSettings_LParGenVacuumMin.Location = new System.Drawing.Point(16, 81);
+            this.mlbl_GeneralSettings_LParGenVacuumMin.MaxLength = 32767;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.Name = "mlbl_GeneralSettings_LParGenVacuumMin";
+            this.mlbl_GeneralSettings_LParGenVacuumMin.PasswordChar = '\0';
+            this.mlbl_GeneralSettings_LParGenVacuumMin.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.SelectedText = "";
+            this.mlbl_GeneralSettings_LParGenVacuumMin.SelectionLength = 0;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.SelectionStart = 0;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.ShortcutsEnabled = true;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.Size = new System.Drawing.Size(211, 24);
+            this.mlbl_GeneralSettings_LParGenVacuumMin.TabIndex = 105;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.Text = "Vacuum min.";
+            this.mlbl_GeneralSettings_LParGenVacuumMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.UseSelectable = true;
+            this.mlbl_GeneralSettings_LParGenVacuumMin.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mlbl_GeneralSettings_LParGenVacuumMin.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R
-            // 
-            this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Location = new System.Drawing.Point(485, 46);
-            this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Name = "mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R";
-            this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Size = new System.Drawing.Size(25, 25);
-            this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.TabIndex = 51;
-            this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Text = "+";
-            this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.UseSelectable = true;
-            this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Click += new System.EventHandler(this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R_Click);
-            // 
-            // mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L
-            // 
-            this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Location = new System.Drawing.Point(233, 47);
-            this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Name = "mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L";
-            this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Size = new System.Drawing.Size(25, 25);
-            this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.TabIndex = 54;
-            this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Text = "-";
-            this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.UseSelectable = true;
-            this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Click += new System.EventHandler(this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L_Click);
-            // 
-            // mtxt_GeneralSettings_EParGenVaccumMax
+            // mlbl_GeneralSettings_LParGenVacuum
             // 
             // 
             // 
             // 
-            this.mtxt_GeneralSettings_EParGenVaccumMax.CustomButton.Image = null;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.CustomButton.Location = new System.Drawing.Point(102, 1);
-            this.mtxt_GeneralSettings_EParGenVaccumMax.CustomButton.Name = "";
-            this.mtxt_GeneralSettings_EParGenVaccumMax.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.mtxt_GeneralSettings_EParGenVaccumMax.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.CustomButton.TabIndex = 1;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.CustomButton.UseSelectable = true;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.CustomButton.Visible = false;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.Lines = new string[0];
-            this.mtxt_GeneralSettings_EParGenVaccumMax.Location = new System.Drawing.Point(264, 113);
-            this.mtxt_GeneralSettings_EParGenVaccumMax.MaxLength = 32767;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.Name = "mtxt_GeneralSettings_EParGenVaccumMax";
-            this.mtxt_GeneralSettings_EParGenVaccumMax.PasswordChar = '\0';
-            this.mtxt_GeneralSettings_EParGenVaccumMax.ReadOnly = true;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.SelectedText = "";
-            this.mtxt_GeneralSettings_EParGenVaccumMax.SelectionLength = 0;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.SelectionStart = 0;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.ShortcutsEnabled = true;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.Size = new System.Drawing.Size(126, 25);
-            this.mtxt_GeneralSettings_EParGenVaccumMax.TabIndex = 48;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.UseSelectable = true;
-            this.mtxt_GeneralSettings_EParGenVaccumMax.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxt_GeneralSettings_EParGenVaccumMax.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.mtxt_GeneralSettings_EParGenVaccumMax.TextChanged += new System.EventHandler(this.mtxt_GeneralSettings_EParGenVacuumMax_TextChanged);
+            this.mlbl_GeneralSettings_LParGenVacuum.CustomButton.Image = null;
+            this.mlbl_GeneralSettings_LParGenVacuum.CustomButton.Location = new System.Drawing.Point(189, 2);
+            this.mlbl_GeneralSettings_LParGenVacuum.CustomButton.Name = "";
+            this.mlbl_GeneralSettings_LParGenVacuum.CustomButton.Size = new System.Drawing.Size(19, 19);
+            this.mlbl_GeneralSettings_LParGenVacuum.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mlbl_GeneralSettings_LParGenVacuum.CustomButton.TabIndex = 1;
+            this.mlbl_GeneralSettings_LParGenVacuum.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mlbl_GeneralSettings_LParGenVacuum.CustomButton.UseSelectable = true;
+            this.mlbl_GeneralSettings_LParGenVacuum.CustomButton.Visible = false;
+            this.mlbl_GeneralSettings_LParGenVacuum.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.mlbl_GeneralSettings_LParGenVacuum.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
+            this.mlbl_GeneralSettings_LParGenVacuum.Lines = new string[] {
+        "Vacuum"};
+            this.mlbl_GeneralSettings_LParGenVacuum.Location = new System.Drawing.Point(16, 47);
+            this.mlbl_GeneralSettings_LParGenVacuum.MaxLength = 32767;
+            this.mlbl_GeneralSettings_LParGenVacuum.Name = "mlbl_GeneralSettings_LParGenVacuum";
+            this.mlbl_GeneralSettings_LParGenVacuum.PasswordChar = '\0';
+            this.mlbl_GeneralSettings_LParGenVacuum.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mlbl_GeneralSettings_LParGenVacuum.SelectedText = "";
+            this.mlbl_GeneralSettings_LParGenVacuum.SelectionLength = 0;
+            this.mlbl_GeneralSettings_LParGenVacuum.SelectionStart = 0;
+            this.mlbl_GeneralSettings_LParGenVacuum.ShortcutsEnabled = true;
+            this.mlbl_GeneralSettings_LParGenVacuum.Size = new System.Drawing.Size(211, 24);
+            this.mlbl_GeneralSettings_LParGenVacuum.TabIndex = 104;
+            this.mlbl_GeneralSettings_LParGenVacuum.Text = "Vacuum";
+            this.mlbl_GeneralSettings_LParGenVacuum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mlbl_GeneralSettings_LParGenVacuum.UseSelectable = true;
+            this.mlbl_GeneralSettings_LParGenVacuum.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mlbl_GeneralSettings_LParGenVacuum.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // mtxt_GeneralSettings_EParGenVaccumMin
+            // mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R
             // 
+            this.mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R.Location = new System.Drawing.Point(485, 46);
+            this.mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R.Name = "mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R";
+            this.mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R.Size = new System.Drawing.Size(25, 25);
+            this.mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R.TabIndex = 51;
+            this.mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R.Text = "+";
+            this.mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R.UseSelectable = true;
+            this.mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R.Click += new System.EventHandler(this.mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R_Click);
             // 
+            // mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L
             // 
+            this.mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L.Location = new System.Drawing.Point(233, 47);
+            this.mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L.Name = "mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L";
+            this.mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L.Size = new System.Drawing.Size(25, 25);
+            this.mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L.TabIndex = 54;
+            this.mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L.Text = "-";
+            this.mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L.UseSelectable = true;
+            this.mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L.Click += new System.EventHandler(this.mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L_Click);
             // 
-            this.mtxt_GeneralSettings_EParGenVaccumMin.CustomButton.Image = null;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.CustomButton.Location = new System.Drawing.Point(102, 1);
-            this.mtxt_GeneralSettings_EParGenVaccumMin.CustomButton.Name = "";
-            this.mtxt_GeneralSettings_EParGenVaccumMin.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.mtxt_GeneralSettings_EParGenVaccumMin.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.CustomButton.TabIndex = 1;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.CustomButton.UseSelectable = true;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.CustomButton.Visible = false;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.Lines = new string[0];
-            this.mtxt_GeneralSettings_EParGenVaccumMin.Location = new System.Drawing.Point(264, 80);
-            this.mtxt_GeneralSettings_EParGenVaccumMin.MaxLength = 32767;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.Name = "mtxt_GeneralSettings_EParGenVaccumMin";
-            this.mtxt_GeneralSettings_EParGenVaccumMin.PasswordChar = '\0';
-            this.mtxt_GeneralSettings_EParGenVaccumMin.ReadOnly = true;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.SelectedText = "";
-            this.mtxt_GeneralSettings_EParGenVaccumMin.SelectionLength = 0;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.SelectionStart = 0;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.ShortcutsEnabled = true;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.Size = new System.Drawing.Size(126, 25);
-            this.mtxt_GeneralSettings_EParGenVaccumMin.TabIndex = 43;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.UseSelectable = true;
-            this.mtxt_GeneralSettings_EParGenVaccumMin.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxt_GeneralSettings_EParGenVaccumMin.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.mtxt_GeneralSettings_EParGenVaccumMin.TextChanged += new System.EventHandler(this.mtxt_GeneralSettings_EParGenVacuumMin_TextChanged);
-            // 
-            // mtxt_GeneralSettings_Unit_EParGenVaccumMax
-            // 
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.BackColor = System.Drawing.SystemColors.Desktop;
+            // mtxt_GeneralSettings_EParGenVacuumMax
             // 
             // 
             // 
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.CustomButton.Image = null;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.CustomButton.Location = new System.Drawing.Point(53, 1);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.CustomButton.Name = "";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.CustomButton.TabIndex = 1;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.CustomButton.UseSelectable = true;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.CustomButton.Visible = false;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.Enabled = false;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.Lines = new string[] {
+            // 
+            this.mtxt_GeneralSettings_EParGenVacuumMax.CustomButton.Image = null;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.CustomButton.Location = new System.Drawing.Point(102, 1);
+            this.mtxt_GeneralSettings_EParGenVacuumMax.CustomButton.Name = "";
+            this.mtxt_GeneralSettings_EParGenVacuumMax.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.mtxt_GeneralSettings_EParGenVacuumMax.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.CustomButton.TabIndex = 1;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.CustomButton.UseSelectable = true;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.CustomButton.Visible = false;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.Lines = new string[0];
+            this.mtxt_GeneralSettings_EParGenVacuumMax.Location = new System.Drawing.Point(264, 113);
+            this.mtxt_GeneralSettings_EParGenVacuumMax.MaxLength = 32767;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.Name = "mtxt_GeneralSettings_EParGenVacuumMax";
+            this.mtxt_GeneralSettings_EParGenVacuumMax.PasswordChar = '\0';
+            this.mtxt_GeneralSettings_EParGenVacuumMax.ReadOnly = true;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.SelectedText = "";
+            this.mtxt_GeneralSettings_EParGenVacuumMax.SelectionLength = 0;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.SelectionStart = 0;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.ShortcutsEnabled = true;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.Size = new System.Drawing.Size(126, 25);
+            this.mtxt_GeneralSettings_EParGenVacuumMax.TabIndex = 48;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.UseSelectable = true;
+            this.mtxt_GeneralSettings_EParGenVacuumMax.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mtxt_GeneralSettings_EParGenVacuumMax.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mtxt_GeneralSettings_EParGenVacuumMax.TextChanged += new System.EventHandler(this.mtxt_GeneralSettings_EParGenVacuumMax_TextChanged);
+            // 
+            // mtxt_GeneralSettings_EParGenVacuumMin
+            // 
+            // 
+            // 
+            // 
+            this.mtxt_GeneralSettings_EParGenVacuumMin.CustomButton.Image = null;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.CustomButton.Location = new System.Drawing.Point(102, 1);
+            this.mtxt_GeneralSettings_EParGenVacuumMin.CustomButton.Name = "";
+            this.mtxt_GeneralSettings_EParGenVacuumMin.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.mtxt_GeneralSettings_EParGenVacuumMin.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.CustomButton.TabIndex = 1;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.CustomButton.UseSelectable = true;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.CustomButton.Visible = false;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.Lines = new string[0];
+            this.mtxt_GeneralSettings_EParGenVacuumMin.Location = new System.Drawing.Point(264, 80);
+            this.mtxt_GeneralSettings_EParGenVacuumMin.MaxLength = 32767;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.Name = "mtxt_GeneralSettings_EParGenVacuumMin";
+            this.mtxt_GeneralSettings_EParGenVacuumMin.PasswordChar = '\0';
+            this.mtxt_GeneralSettings_EParGenVacuumMin.ReadOnly = true;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.SelectedText = "";
+            this.mtxt_GeneralSettings_EParGenVacuumMin.SelectionLength = 0;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.SelectionStart = 0;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.ShortcutsEnabled = true;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.Size = new System.Drawing.Size(126, 25);
+            this.mtxt_GeneralSettings_EParGenVacuumMin.TabIndex = 43;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.UseSelectable = true;
+            this.mtxt_GeneralSettings_EParGenVacuumMin.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mtxt_GeneralSettings_EParGenVacuumMin.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mtxt_GeneralSettings_EParGenVacuumMin.TextChanged += new System.EventHandler(this.mtxt_GeneralSettings_EParGenVacuumMin_TextChanged);
+            // 
+            // mtxt_GeneralSettings_Unit_EParGenVacuumMax
+            // 
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.BackColor = System.Drawing.SystemColors.Desktop;
+            // 
+            // 
+            // 
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.CustomButton.Image = null;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.CustomButton.Location = new System.Drawing.Point(53, 1);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.CustomButton.Name = "";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.CustomButton.TabIndex = 1;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.CustomButton.UseSelectable = true;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.CustomButton.Visible = false;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.Enabled = false;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.Lines = new string[] {
         "bar"};
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.Location = new System.Drawing.Point(402, 113);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.MaxLength = 32767;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.Name = "mtxt_GeneralSettings_Unit_EParGenVaccumMax";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.PasswordChar = '\0';
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.SelectedText = "";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.SelectionLength = 0;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.SelectionStart = 0;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.ShortcutsEnabled = true;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.Size = new System.Drawing.Size(77, 25);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.TabIndex = 44;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.Text = "bar";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.UseSelectable = true;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMax.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.Location = new System.Drawing.Point(402, 113);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.MaxLength = 32767;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.Name = "mtxt_GeneralSettings_Unit_EParGenVacuumMax";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.PasswordChar = '\0';
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.SelectedText = "";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.SelectionLength = 0;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.SelectionStart = 0;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.ShortcutsEnabled = true;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.Size = new System.Drawing.Size(77, 25);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.TabIndex = 44;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.Text = "bar";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.UseSelectable = true;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMax.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // mtxt_GeneralSettings_Unit_EParGenVaccumMin
+            // mtxt_GeneralSettings_Unit_EParGenVacuumMin
             // 
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.BackColor = System.Drawing.SystemColors.Desktop;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.BackColor = System.Drawing.SystemColors.Desktop;
             // 
             // 
             // 
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.CustomButton.Image = null;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.CustomButton.Location = new System.Drawing.Point(53, 1);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.CustomButton.Name = "";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.CustomButton.TabIndex = 1;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.CustomButton.UseSelectable = true;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.CustomButton.Visible = false;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.Enabled = false;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.Lines = new string[] {
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.CustomButton.Image = null;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.CustomButton.Location = new System.Drawing.Point(53, 1);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.CustomButton.Name = "";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.CustomButton.TabIndex = 1;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.CustomButton.UseSelectable = true;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.CustomButton.Visible = false;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.Enabled = false;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.Lines = new string[] {
         "bar"};
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.Location = new System.Drawing.Point(402, 80);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.MaxLength = 32767;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.Name = "mtxt_GeneralSettings_Unit_EParGenVaccumMin";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.PasswordChar = '\0';
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.SelectedText = "";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.SelectionLength = 0;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.SelectionStart = 0;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.ShortcutsEnabled = true;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.Size = new System.Drawing.Size(77, 25);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.TabIndex = 45;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.Text = "bar";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.UseSelectable = true;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxt_GeneralSettings_Unit_EParGenVaccumMin.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.Location = new System.Drawing.Point(402, 80);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.MaxLength = 32767;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.Name = "mtxt_GeneralSettings_Unit_EParGenVacuumMin";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.PasswordChar = '\0';
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.SelectedText = "";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.SelectionLength = 0;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.SelectionStart = 0;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.ShortcutsEnabled = true;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.Size = new System.Drawing.Size(77, 25);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.TabIndex = 45;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.Text = "bar";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.UseSelectable = true;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mtxt_GeneralSettings_Unit_EParGenVacuumMin.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // mtxt_GeneralSettings_Unit_EParGenVaccum
+            // mtxt_GeneralSettings_Unit_EParGenVacuum
             // 
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.BackColor = System.Drawing.SystemColors.Desktop;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.BackColor = System.Drawing.SystemColors.Desktop;
             // 
             // 
             // 
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.CustomButton.Image = null;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.CustomButton.Location = new System.Drawing.Point(53, 1);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.CustomButton.Name = "";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.CustomButton.TabIndex = 1;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.CustomButton.UseSelectable = true;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.CustomButton.Visible = false;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.Enabled = false;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.Lines = new string[] {
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.CustomButton.Image = null;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.CustomButton.Location = new System.Drawing.Point(53, 1);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.CustomButton.Name = "";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.CustomButton.TabIndex = 1;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.CustomButton.UseSelectable = true;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.CustomButton.Visible = false;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.Enabled = false;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.Lines = new string[] {
         "bar"};
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.Location = new System.Drawing.Point(402, 47);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.MaxLength = 32767;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.Name = "mtxt_GeneralSettings_Unit_EParGenVaccum";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.PasswordChar = '\0';
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.SelectedText = "";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.SelectionLength = 0;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.SelectionStart = 0;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.ShortcutsEnabled = true;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.Size = new System.Drawing.Size(77, 25);
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.TabIndex = 46;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.Text = "bar";
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.UseSelectable = true;
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxt_GeneralSettings_Unit_EParGenVaccum.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.Location = new System.Drawing.Point(402, 47);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.MaxLength = 32767;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.Name = "mtxt_GeneralSettings_Unit_EParGenVacuum";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.PasswordChar = '\0';
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.SelectedText = "";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.SelectionLength = 0;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.SelectionStart = 0;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.ShortcutsEnabled = true;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.Size = new System.Drawing.Size(77, 25);
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.TabIndex = 46;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.Text = "bar";
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.UseSelectable = true;
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mtxt_GeneralSettings_Unit_EParGenVacuum.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // mtxt_GeneralSettings_EParGenVaccum
-            // 
-            // 
+            // mtxt_GeneralSettings_EParGenVacuum
             // 
             // 
-            this.mtxt_GeneralSettings_EParGenVaccum.CustomButton.Image = null;
-            this.mtxt_GeneralSettings_EParGenVaccum.CustomButton.Location = new System.Drawing.Point(102, 1);
-            this.mtxt_GeneralSettings_EParGenVaccum.CustomButton.Name = "";
-            this.mtxt_GeneralSettings_EParGenVaccum.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.mtxt_GeneralSettings_EParGenVaccum.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxt_GeneralSettings_EParGenVaccum.CustomButton.TabIndex = 1;
-            this.mtxt_GeneralSettings_EParGenVaccum.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxt_GeneralSettings_EParGenVaccum.CustomButton.UseSelectable = true;
-            this.mtxt_GeneralSettings_EParGenVaccum.CustomButton.Visible = false;
-            this.mtxt_GeneralSettings_EParGenVaccum.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.mtxt_GeneralSettings_EParGenVaccum.Lines = new string[0];
-            this.mtxt_GeneralSettings_EParGenVaccum.Location = new System.Drawing.Point(264, 47);
-            this.mtxt_GeneralSettings_EParGenVaccum.MaxLength = 32767;
-            this.mtxt_GeneralSettings_EParGenVaccum.Name = "mtxt_GeneralSettings_EParGenVaccum";
-            this.mtxt_GeneralSettings_EParGenVaccum.PasswordChar = '\0';
-            this.mtxt_GeneralSettings_EParGenVaccum.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxt_GeneralSettings_EParGenVaccum.SelectedText = "";
-            this.mtxt_GeneralSettings_EParGenVaccum.SelectionLength = 0;
-            this.mtxt_GeneralSettings_EParGenVaccum.SelectionStart = 0;
-            this.mtxt_GeneralSettings_EParGenVaccum.ShortcutsEnabled = true;
-            this.mtxt_GeneralSettings_EParGenVaccum.Size = new System.Drawing.Size(126, 25);
-            this.mtxt_GeneralSettings_EParGenVaccum.TabIndex = 47;
-            this.mtxt_GeneralSettings_EParGenVaccum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mtxt_GeneralSettings_EParGenVaccum.UseSelectable = true;
-            this.mtxt_GeneralSettings_EParGenVaccum.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxt_GeneralSettings_EParGenVaccum.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.mtxt_GeneralSettings_EParGenVaccum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mtxt_GeneralSettings_EParGenVaccum_KeyPress);
-            this.mtxt_GeneralSettings_EParGenVaccum.Leave += new System.EventHandler(this.mtxt_GeneralSettings_EParGenVaccum_Leave);
             // 
-            // mTile_tabActionParam_Vaccum
             // 
-            this.mTile_tabActionParam_Vaccum.ActiveControl = null;
-            this.mTile_tabActionParam_Vaccum.Location = new System.Drawing.Point(0, 0);
-            this.mTile_tabActionParam_Vaccum.Name = "mTile_tabActionParam_Vaccum";
-            this.mTile_tabActionParam_Vaccum.Size = new System.Drawing.Size(520, 40);
-            this.mTile_tabActionParam_Vaccum.Style = MetroFramework.MetroColorStyle.Orange;
-            this.mTile_tabActionParam_Vaccum.TabIndex = 21;
-            this.mTile_tabActionParam_Vaccum.Text = "Vaccum";
-            this.mTile_tabActionParam_Vaccum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mTile_tabActionParam_Vaccum.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mTile_tabActionParam_Vaccum.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-            this.mTile_tabActionParam_Vaccum.UseSelectable = true;
+            this.mtxt_GeneralSettings_EParGenVacuum.CustomButton.Image = null;
+            this.mtxt_GeneralSettings_EParGenVacuum.CustomButton.Location = new System.Drawing.Point(102, 1);
+            this.mtxt_GeneralSettings_EParGenVacuum.CustomButton.Name = "";
+            this.mtxt_GeneralSettings_EParGenVacuum.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.mtxt_GeneralSettings_EParGenVacuum.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mtxt_GeneralSettings_EParGenVacuum.CustomButton.TabIndex = 1;
+            this.mtxt_GeneralSettings_EParGenVacuum.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mtxt_GeneralSettings_EParGenVacuum.CustomButton.UseSelectable = true;
+            this.mtxt_GeneralSettings_EParGenVacuum.CustomButton.Visible = false;
+            this.mtxt_GeneralSettings_EParGenVacuum.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.mtxt_GeneralSettings_EParGenVacuum.Lines = new string[0];
+            this.mtxt_GeneralSettings_EParGenVacuum.Location = new System.Drawing.Point(264, 47);
+            this.mtxt_GeneralSettings_EParGenVacuum.MaxLength = 32767;
+            this.mtxt_GeneralSettings_EParGenVacuum.Name = "mtxt_GeneralSettings_EParGenVacuum";
+            this.mtxt_GeneralSettings_EParGenVacuum.PasswordChar = '\0';
+            this.mtxt_GeneralSettings_EParGenVacuum.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mtxt_GeneralSettings_EParGenVacuum.SelectedText = "";
+            this.mtxt_GeneralSettings_EParGenVacuum.SelectionLength = 0;
+            this.mtxt_GeneralSettings_EParGenVacuum.SelectionStart = 0;
+            this.mtxt_GeneralSettings_EParGenVacuum.ShortcutsEnabled = true;
+            this.mtxt_GeneralSettings_EParGenVacuum.Size = new System.Drawing.Size(126, 25);
+            this.mtxt_GeneralSettings_EParGenVacuum.TabIndex = 47;
+            this.mtxt_GeneralSettings_EParGenVacuum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mtxt_GeneralSettings_EParGenVacuum.UseSelectable = true;
+            this.mtxt_GeneralSettings_EParGenVacuum.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mtxt_GeneralSettings_EParGenVacuum.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mtxt_GeneralSettings_EParGenVacuum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mtxt_GeneralSettings_EParGenVaccum_KeyPress);
+            this.mtxt_GeneralSettings_EParGenVacuum.Leave += new System.EventHandler(this.mtxt_GeneralSettings_EParGenVaccum_Leave);
+            // 
+            // mTile_tabActionParam_Vacuum
+            // 
+            this.mTile_tabActionParam_Vacuum.ActiveControl = null;
+            this.mTile_tabActionParam_Vacuum.Location = new System.Drawing.Point(0, 0);
+            this.mTile_tabActionParam_Vacuum.Name = "mTile_tabActionParam_Vacuum";
+            this.mTile_tabActionParam_Vacuum.Size = new System.Drawing.Size(520, 40);
+            this.mTile_tabActionParam_Vacuum.Style = MetroFramework.MetroColorStyle.Orange;
+            this.mTile_tabActionParam_Vacuum.TabIndex = 21;
+            this.mTile_tabActionParam_Vacuum.Text = "Vacuum";
+            this.mTile_tabActionParam_Vacuum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mTile_tabActionParam_Vacuum.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.mTile_tabActionParam_Vacuum.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.mTile_tabActionParam_Vacuum.UseSelectable = true;
             // 
             // mcbo_tabActParam_GenSettings_CoBSelectTest
             // 
@@ -2568,7 +2568,7 @@ namespace Continental.Project.Adam.UI
             // subMenu_Home_Logout
             // 
             this.subMenu_Home_Logout.Name = "subMenu_Home_Logout";
-            this.subMenu_Home_Logout.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Home_Logout.Size = new System.Drawing.Size(112, 22);
             this.subMenu_Home_Logout.Text = "Logout";
             this.subMenu_Home_Logout.Visible = false;
             this.subMenu_Home_Logout.Click += new System.EventHandler(this.subMenu_Home_Logout_Click);
@@ -2576,19 +2576,19 @@ namespace Continental.Project.Adam.UI
             // subMenu_Home_Exit
             // 
             this.subMenu_Home_Exit.Name = "subMenu_Home_Exit";
-            this.subMenu_Home_Exit.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Home_Exit.Size = new System.Drawing.Size(112, 22);
             this.subMenu_Home_Exit.Text = "Exit";
             this.subMenu_Home_Exit.Click += new System.EventHandler(this.subMenu_Home_Exit_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(109, 6);
             // 
             // subMenu_Home_About
             // 
             this.subMenu_Home_About.Name = "subMenu_Home_About";
-            this.subMenu_Home_About.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Home_About.Size = new System.Drawing.Size(112, 22);
             this.subMenu_Home_About.Text = "About";
             this.subMenu_Home_About.Click += new System.EventHandler(this.subMenu_Home_About_Click);
             // 
@@ -2951,7 +2951,7 @@ namespace Continental.Project.Adam.UI
         private MetroFramework.Controls.MetroButton mbtn_BHandshakePC;
         private System.Windows.Forms.Timer timerHBM;
         private System.Windows.Forms.Label lbl_Vaccum;
-        private MetroFramework.Controls.MetroTextBox mtxt_MKSLVaccum;
+        private MetroFramework.Controls.MetroTextBox mtxt_MKSLVacuum;
         private System.Windows.Forms.Timer timerMODBUS;
         private System.Windows.Forms.TabPage Tab_ActuationParameters;
         private MetroFramework.Controls.MetroPanel mPnl_tabActParam_GenralSettings;
@@ -2967,18 +2967,18 @@ namespace Continental.Project.Adam.UI
         private MetroFramework.Controls.MetroButton mbtn_GeneralSettings_BSelectTubeCons;
         private MetroFramework.Controls.MetroTextBox mlbl_tabActParam_GenSettings_ActuationMode;
         private MetroFramework.Controls.MetroPanel mpnl_CurrentProject;
-        private MetroFramework.Controls.MetroTextBox mlbl_GeneralSettings_LParGenVaccumMax;
-        private MetroFramework.Controls.MetroTextBox mlbl_GeneralSettings_LParGenVaccumMin;
-        private MetroFramework.Controls.MetroTextBox mlbl_GeneralSettings_LParGenVaccum;
-        private MetroFramework.Controls.MetroButton mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R;
-        private MetroFramework.Controls.MetroButton mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L;
-        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_EParGenVaccumMax;
-        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_EParGenVaccumMin;
-        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_Unit_EParGenVaccumMax;
-        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_Unit_EParGenVaccumMin;
-        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_Unit_EParGenVaccum;
-        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_EParGenVaccum;
-        private MetroFramework.Controls.MetroTile mTile_tabActionParam_Vaccum;
+        private MetroFramework.Controls.MetroTextBox mlbl_GeneralSettings_LParGenVacuumMax;
+        private MetroFramework.Controls.MetroTextBox mlbl_GeneralSettings_LParGenVacuumMin;
+        private MetroFramework.Controls.MetroTextBox mlbl_GeneralSettings_LParGenVacuum;
+        private MetroFramework.Controls.MetroButton mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R;
+        private MetroFramework.Controls.MetroButton mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L;
+        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_EParGenVacuumMax;
+        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_EParGenVacuumMin;
+        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_Unit_EParGenVacuumMax;
+        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_Unit_EParGenVacuumMin;
+        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_Unit_EParGenVacuum;
+        private MetroFramework.Controls.MetroTextBox mtxt_GeneralSettings_EParGenVacuum;
+        private MetroFramework.Controls.MetroTile mTile_tabActionParam_Vacuum;
         private MetroFramework.Controls.MetroComboBox mcbo_tabActParam_GenSettings_CoBSelectTest;
         private MetroFramework.Controls.MetroButton mbtn_tabActParam_GenSettings_BSaveCurrentParams;
         private MetroFramework.Controls.MetroCheckBox mchk_tabActParam_GenSettings_CBStartFromSelection;

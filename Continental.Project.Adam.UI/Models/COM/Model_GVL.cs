@@ -500,7 +500,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         // 04 - Força Força - Vacuo
         //
 
-        // 05 - Vaccum Leakage - Released Position
+        // 05 - Vacuum Leakage - Released Position
         public double rTempoTeste_T05; //: REAL; 					//Tempo Execução Teste
         public double rTempoEstabilizacao_T05; //: REAL; 			//Tempo Estabilização do Vácuo
 
@@ -832,7 +832,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         // 04 - Força Força - Vacuo
         //
 
-        // 05 - Vaccum Leakage - Released Position
+        // 05 - Vacuum Leakage - Released Position
         public double dwTempoTeste_T05;  //AT %QW153; //  ;DWORD; 					//Tempo Execução Teste
         public double dwTempoEstabilizacao_T05;  //AT %QW155; //  ;DWORD; 			//Tempo Estabilização do Vácuo
 
@@ -1084,6 +1084,12 @@ namespace Continental.Project.Adam.UI.Models.COM
 
         public double rRunOutForce_Real_N; //  ;REAL;
         public double rRunOutPressure_Real_Bar; //  ;REAL;
+
+
+        //Usado para Temporario nos testes adicionais...
+        public double temp_rRunOutForce_Real_N; //  ;REAL;
+        public double temp_rRunOutPressure_Real_Bar; //  ;REAL;
+
 
         public double rPressao_70pout_bar; //  ;REAL;
         public double rForca_70pout_N; //  ;REAL;
@@ -1979,7 +1985,10 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rRunOutForce_Real_N;// : REAL;
         public double rRunOutPressure_Real_Bar;// : REAL;
 
+        public double rForcaNoJumper_N;// : real;
         public double rDeslocamentoNoJumper_mm;// : REAL; //
+        public double rForcaNaPressao_N;// : real;
+        public double rDeslocamentoNaPressao_mm;//
 
         public double rPressao_90pout_bar;// : REAL; //Pressao 90% pressao runout (T01)
         public double rForca_90pout_N;// : REAL; //Forca90% pressao runout (T01)

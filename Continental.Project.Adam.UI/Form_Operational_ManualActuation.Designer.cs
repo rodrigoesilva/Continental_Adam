@@ -116,7 +116,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_MKSLOutputForce = new MetroFramework.Controls.MetroTextBox();
             this.mlbl_OutputForce = new MetroFramework.Controls.MetroLabel();
             this.mtxt_MKSLVacuum = new MetroFramework.Controls.MetroTextBox();
-            this.mlbl_Vaccum = new MetroFramework.Controls.MetroLabel();
+            this.mlbl_Vacuum = new MetroFramework.Controls.MetroLabel();
             this.mlbl_PressureSC = new MetroFramework.Controls.MetroLabel();
             this.mlbl_PressurePC = new MetroFramework.Controls.MetroLabel();
             this.mtxt_MKSLHydrPressurePC = new MetroFramework.Controls.MetroTextBox();
@@ -1291,7 +1291,7 @@ namespace Continental.Project.Adam.UI
             this.metroPanel1.Controls.Add(this.mtxt_MKSLOutputForce);
             this.metroPanel1.Controls.Add(this.mlbl_OutputForce);
             this.metroPanel1.Controls.Add(this.mtxt_MKSLVacuum);
-            this.metroPanel1.Controls.Add(this.mlbl_Vaccum);
+            this.metroPanel1.Controls.Add(this.mlbl_Vacuum);
             this.metroPanel1.Controls.Add(this.mlbl_PressureSC);
             this.metroPanel1.Controls.Add(this.mlbl_PressurePC);
             this.metroPanel1.Controls.Add(this.mtxt_MKSLHydrPressurePC);
@@ -1683,16 +1683,17 @@ namespace Continental.Project.Adam.UI
             this.mtxt_MKSLVacuum.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.mtxt_MKSLVacuum.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // mlbl_Vaccum
+            // mlbl_Vacuum
             // 
-            this.mlbl_Vaccum.AutoSize = true;
-            this.mlbl_Vaccum.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.mlbl_Vaccum.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.mlbl_Vaccum.Location = new System.Drawing.Point(20, 464);
-            this.mlbl_Vaccum.Name = "mlbl_Vaccum";
-            this.mlbl_Vaccum.Size = new System.Drawing.Size(78, 25);
-            this.mlbl_Vaccum.TabIndex = 52;
-            this.mlbl_Vaccum.Text = "Vaccum";
+            this.mlbl_Vacuum.AutoSize = true;
+            this.mlbl_Vacuum.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.mlbl_Vacuum.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.mlbl_Vacuum.ForeColor = System.Drawing.SystemColors.Control;
+            this.mlbl_Vacuum.Location = new System.Drawing.Point(20, 464);
+            this.mlbl_Vacuum.Name = "mlbl_Vacuum";
+            this.mlbl_Vacuum.Size = new System.Drawing.Size(80, 25);
+            this.mlbl_Vacuum.TabIndex = 52;
+            this.mlbl_Vacuum.Text = "Vacuum";
             // 
             // mlbl_PressureSC
             // 
@@ -2108,7 +2109,7 @@ namespace Continental.Project.Adam.UI
         private MetroFramework.Controls.MetroTextBox mtxt_MKSLOutputForce;
         private MetroFramework.Controls.MetroLabel mlbl_OutputForce;
         private MetroFramework.Controls.MetroTextBox mtxt_MKSLVacuum;
-        private MetroFramework.Controls.MetroLabel mlbl_Vaccum;
+        private MetroFramework.Controls.MetroLabel mlbl_Vacuum;
         private MetroFramework.Controls.MetroLabel mlbl_PressureSC;
         private MetroFramework.Controls.MetroLabel mlbl_PressurePC;
         private MetroFramework.Controls.MetroTextBox mtxt_MKSLHydrPressurePC;

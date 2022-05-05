@@ -603,9 +603,9 @@ namespace Continental.Project.Adam.UI
                 #endregion
 
                 #region Vacuum
-                HelperTestBase.Vacuum = string.IsNullOrEmpty(mtxt_GeneralSettings_EParGenVaccum.Text) ? 0 : Convert.ToDouble(mtxt_GeneralSettings_EParGenVaccum.Text);
-                HelperTestBase.VacuumMin = string.IsNullOrEmpty(mtxt_GeneralSettings_EParGenVaccumMin.Text) ? 0 : Convert.ToDouble(mtxt_GeneralSettings_EParGenVaccumMin.Text);
-                HelperTestBase.VacuumMax = string.IsNullOrEmpty(mtxt_GeneralSettings_EParGenVaccumMax.Text) ? 0 : Convert.ToDouble(mtxt_GeneralSettings_EParGenVaccumMax.Text);
+                HelperTestBase.Vacuum = string.IsNullOrEmpty(mtxt_GeneralSettings_EParGenVacuum.Text) ? 0 : Convert.ToDouble(mtxt_GeneralSettings_EParGenVacuum.Text);
+                HelperTestBase.VacuumMin = string.IsNullOrEmpty(mtxt_GeneralSettings_EParGenVacuumMin.Text) ? 0 : Convert.ToDouble(mtxt_GeneralSettings_EParGenVacuumMin.Text);
+                HelperTestBase.VacuumMax = string.IsNullOrEmpty(mtxt_GeneralSettings_EParGenVacuumMax.Text) ? 0 : Convert.ToDouble(mtxt_GeneralSettings_EParGenVacuumMax.Text);
                 #endregion
 
                 #region Consumer
@@ -701,8 +701,8 @@ namespace Continental.Project.Adam.UI
 
             mcbo_tabActParam_GenSettings_CoBActuationMode.Enabled = false;
 
-            mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Enabled = false;
-            mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Enabled = false;
+            mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L.Enabled = false;
+            mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R.Enabled = false;
 
 
             mbtn_Actuation_Minus_E1ParMaxForce_Accel_L.Enabled = false;
@@ -722,8 +722,8 @@ namespace Continental.Project.Adam.UI
 
             mcbo_tabActParam_GenSettings_CoBActuationMode.Enabled = true;
 
-            mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L.Enabled = true;
-            mbtn_GeneralSettings_Plus_EParGenVaccum_Accel_R.Enabled = true;
+            mbtn_GeneralSettings_Minus_EParGenVacuum_Accel_L.Enabled = true;
+            mbtn_GeneralSettings_Plus_EParGenVacuum_Accel_R.Enabled = true;
 
 
             mbtn_Actuation_Minus_E1ParMaxForce_Accel_L.Enabled = true;
@@ -1485,7 +1485,7 @@ namespace Continental.Project.Adam.UI
 
                 switch (strName.Trim())
                 {
-                    case "mtxt_GeneralSettings_EParGenVaccum":
+                    case "mtxt_GeneralSettings_EParGenVacuum":
                         {
                             HelperTestBase.Vacuum = dblValue;
                             _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwVacuo_Bar_LW }, dblValue < 0 ? (dblValue * -1) : dblValue);
@@ -1622,7 +1622,7 @@ namespace Continental.Project.Adam.UI
 
                         //General Settings - Panel Vacuum
                         strVacuumValue = !string.IsNullOrEmpty(row.Field<decimal?>("Vacuum").ToString()) ? row.Field<decimal?>("Vacuum").ToString() : "0";
-                        TAB_ActuationParameters_GeneralSettings_Vaccum_Change(strVacuumValue);
+                        TAB_ActuationParameters_GeneralSettings_Vacuum_Change(strVacuumValue);
 
                         //General Settings - Panel Consumers
                         iConsumerType = row.Field<int>("IdConsumerType");
@@ -1804,7 +1804,7 @@ namespace Continental.Project.Adam.UI
 
                                 break;
                             }
-                        case 5: //Vaccum Leakage - Released Position //nao tem acionamento
+                        case 5: //Vacuum Leakage - Released Position //nao tem acionamento
                             {
                                 //indiferente
                                 break;
@@ -2575,7 +2575,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TAB - ActuationParameters - General Settings - Panel Vacuum
-        private void TAB_ActuationParameters_GeneralSettings_Vaccum_Change(string strValue)
+        private void TAB_ActuationParameters_GeneralSettings_Vacuum_Change(string strValue)
         {
             if (!string.IsNullOrEmpty(strValue))
             {
@@ -2584,18 +2584,18 @@ namespace Continental.Project.Adam.UI
                 if (dblValue > 0)
                 {
                     MessageBox.Show("This value not is accept!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    mtxt_GeneralSettings_EParGenVaccum.Text = "0";
+                    mtxt_GeneralSettings_EParGenVacuum.Text = "0";
                     return;
                 }
                 else
                 {
-                    mtxt_GeneralSettings_EParGenVaccum.Text = dblValue.ToString("N2");
+                    mtxt_GeneralSettings_EParGenVacuum.Text = dblValue.ToString("N2");
 
                     HelperTestBase.VacuumMin = (dblValue < 0 ? (dblValue + 0.02) : (dblValue - 0.02));
                     HelperTestBase.VacuumMax = (dblValue < 0 ? (dblValue - 0.02) : (dblValue + 0.02));
 
-                    mtxt_GeneralSettings_EParGenVaccumMin.Text = HelperTestBase.VacuumMin.ToString("N2");
-                    mtxt_GeneralSettings_EParGenVaccumMax.Text = HelperTestBase.VacuumMax.ToString("N2");
+                    mtxt_GeneralSettings_EParGenVacuumMin.Text = HelperTestBase.VacuumMin.ToString("N2");
+                    mtxt_GeneralSettings_EParGenVacuumMax.Text = HelperTestBase.VacuumMax.ToString("N2");
 
                     //para conversao plc
                     dblValue = (dblValue * -1);
@@ -2615,7 +2615,7 @@ namespace Continental.Project.Adam.UI
                 if (!Regex.IsMatch(strValueText, "[^0-9]"))
                 {
                     MessageBox.Show("Please enter only numbers.");
-                    mtxt_GeneralSettings_EParGenVaccumMin.Text = mtxt_GeneralSettings_EParGenVaccumMin.Text.Remove(mtxt_GeneralSettings_EParGenVaccumMin.Text.Length - 1);
+                    mtxt_GeneralSettings_EParGenVacuumMin.Text = mtxt_GeneralSettings_EParGenVacuumMin.Text.Remove(mtxt_GeneralSettings_EParGenVacuumMin.Text.Length - 1);
                 }
             }
         }
@@ -2628,7 +2628,7 @@ namespace Continental.Project.Adam.UI
                 if (!Regex.IsMatch(strValueText, "[^0-9]"))
                 {
                     MessageBox.Show("Please enter only numbers.");
-                    mtxt_GeneralSettings_EParGenVaccumMax.Text = mtxt_GeneralSettings_EParGenVaccumMax.Text.Remove(mtxt_GeneralSettings_EParGenVaccumMax.Text.Length - 1);
+                    mtxt_GeneralSettings_EParGenVacuumMax.Text = mtxt_GeneralSettings_EParGenVacuumMax.Text.Remove(mtxt_GeneralSettings_EParGenVacuumMax.Text.Length - 1);
                 }
             }
         }
@@ -2642,7 +2642,7 @@ namespace Continental.Project.Adam.UI
 
             string strValue = ((MetroFramework.Controls.MetroTextBox)sender).Text;
 
-            TAB_ActuationParameters_GeneralSettings_Vaccum_Change(strValue);
+            TAB_ActuationParameters_GeneralSettings_Vacuum_Change(strValue);
         }
         private void mbtn_GeneralSettings_Minus_EParGenVaccum_Accel_L_Click(object sender, EventArgs e)
         {
@@ -2650,7 +2650,7 @@ namespace Continental.Project.Adam.UI
 
             string strName = ((System.Windows.Forms.Control)sender).Name;
 
-            string strValue = mtxt_GeneralSettings_EParGenVaccum.Text.Trim();
+            string strValue = mtxt_GeneralSettings_EParGenVacuum.Text.Trim();
 
             string strTypeAction = "Minus";
 
@@ -2661,16 +2661,16 @@ namespace Continental.Project.Adam.UI
                 if (dblValue > 0)
                 {
                     MessageBox.Show("This value not is accept!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    mtxt_GeneralSettings_EParGenVaccum.Text = "0";
+                    mtxt_GeneralSettings_EParGenVacuum.Text = "0";
                     return;
                 }
                 else
                 {
                     dblValue = (dblValue < 0 ? (dblValue + paramStep) : (dblValue - paramStep));
-                    mtxt_GeneralSettings_EParGenVaccum.Text = dblValue.ToString("N2");
+                    mtxt_GeneralSettings_EParGenVacuum.Text = dblValue.ToString("N2");
 
-                    mtxt_GeneralSettings_EParGenVaccumMin.Text = (dblValue < 0 ? (dblValue + paramStep) : (dblValue - paramStep)).ToString("N2");
-                    mtxt_GeneralSettings_EParGenVaccumMax.Text = (dblValue < 0 ? (dblValue - paramStep) : (dblValue + paramStep)).ToString("N2");
+                    mtxt_GeneralSettings_EParGenVacuumMin.Text = (dblValue < 0 ? (dblValue + paramStep) : (dblValue - paramStep)).ToString("N2");
+                    mtxt_GeneralSettings_EParGenVacuumMax.Text = (dblValue < 0 ? (dblValue - paramStep) : (dblValue + paramStep)).ToString("N2");
 
 
                     //para conversao plc
@@ -2686,7 +2686,7 @@ namespace Continental.Project.Adam.UI
 
             string strName = ((System.Windows.Forms.Control)sender).Name;
 
-            string strValue = mtxt_GeneralSettings_EParGenVaccum.Text.Trim();
+            string strValue = mtxt_GeneralSettings_EParGenVacuum.Text.Trim();
 
             string strTypeAction = "Plus";
 
@@ -2697,16 +2697,16 @@ namespace Continental.Project.Adam.UI
                 if (dblValue > 0)
                 {
                     MessageBox.Show("This value not is accept!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    mtxt_GeneralSettings_EParGenVaccum.Text = "0";
+                    mtxt_GeneralSettings_EParGenVacuum.Text = "0";
                     return;
                 }
                 else
                 {
                     dblValue = (dblValue < 0 ? (dblValue - paramStep) : (dblValue + paramStep));
-                    mtxt_GeneralSettings_EParGenVaccum.Text = dblValue.ToString("N2");
+                    mtxt_GeneralSettings_EParGenVacuum.Text = dblValue.ToString("N2");
 
-                    mtxt_GeneralSettings_EParGenVaccumMin.Text = (dblValue < 0 ? (dblValue + paramStep) : (dblValue - paramStep)).ToString("N2");
-                    mtxt_GeneralSettings_EParGenVaccumMax.Text = (dblValue < 0 ? (dblValue - paramStep) : (dblValue + paramStep)).ToString("N2");
+                    mtxt_GeneralSettings_EParGenVacuumMin.Text = (dblValue < 0 ? (dblValue + paramStep) : (dblValue - paramStep)).ToString("N2");
+                    mtxt_GeneralSettings_EParGenVacuumMax.Text = (dblValue < 0 ? (dblValue - paramStep) : (dblValue + paramStep)).ToString("N2");
 
                     //para conversao plc
                     dblValue = (dblValue * -1);
@@ -3289,7 +3289,7 @@ namespace Continental.Project.Adam.UI
 
                     switch (HelperApp.uiTesteSelecionado)
                     {
-                        case 5:     //Vaccum Leakage - Released Position
+                        case 5:     //Vacuum Leakage - Released Position
                             break;
                         case 6:     //Vacuum Leakage - Fully Applied Position
                                     //CHECKBOX USE SINGLE INPUT FORCE
@@ -3361,6 +3361,8 @@ namespace Continental.Project.Adam.UI
 
                 string strName = itemEvalParam.EvalParam_Name;
 
+                string strCaption = itemEvalParam.EvalParam_Caption;
+
                 string strCellType = itemEvalParam.EvalParam_GridRowType; //&& strCellType?.Equals("CREATE_ANALOG_INPUT")
 
                 if (!string.IsNullOrEmpty(strName))
@@ -3370,8 +3372,7 @@ namespace Continental.Project.Adam.UI
 
                     if (HelperApp.uiTesteSelecionado > 4)
                         TAB_ActuationParameters_WriteComEditGridEvalParameters(iRowIndex, strName, strValue);
-                    else
-                    {
+
                         switch (HelperApp.uiTesteSelecionado)
                         {
                             case 1:     //Force Diagrams - Force/Pressure With Vacuum
@@ -3638,8 +3639,8 @@ namespace Continental.Project.Adam.UI
 
                                     break;
                                 }
-                            case 5: //Vaccum Leakage - Released Position
-                                {
+                            case 5: //Vacuum Leakage - Released Position
+                            {
                                     #region Case Param
 
                                     switch (strName.Trim())
@@ -3672,7 +3673,7 @@ namespace Continental.Project.Adam.UI
                                     break;
                                 }
                             case 6: //Vacuum Leakage - Fully Applied Position
-                                {
+                            {
                                     #region Case Param
 
                                     switch (strName.Trim())
@@ -4112,11 +4113,15 @@ namespace Continental.Project.Adam.UI
                                         case "ETravel1": //Curso em X pressao
                                             HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao1_Bar = dblValue;
                                             break;
-
                                         case "ETravel2": //Curso em X pressao
                                             HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao2_Bar = dblValue;
                                             break;
-
+                                        case "ETravel3": //Curso em X pressao
+                                            HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao3_Bar = dblValue;
+                                            break;
+                                        case "ETravel4": //Curso em X pressao
+                                            HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao4_Bar = dblValue;
+                                            break;
                                         default:
                                             break;
                                     }
@@ -4141,12 +4146,12 @@ namespace Continental.Project.Adam.UI
                                         case "EPressScale":
                                             break;
 
-                                        case "ETargetForce": //Target Forca EDrive - Utilizar campo max Force
+                                        case "ETargetForce": //Target Forca EDrive - Utilizar campo max Force 
                                             //utilizar campo de parametro padrao Forca Maxima
                                             break;
 
                                         case "ETravelEmpty": //Forca para iniciar calculo tempo atuacao
-                                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao1_Bar = dblValue;
+                                            HelperTestBase.Model_GVL.GVL_T18.rCursoMortoNaPressao_Bar = dblValue;
                                             break;
 
                                         case "ETravel1": //Curso em X pressao
@@ -4158,11 +4163,11 @@ namespace Continental.Project.Adam.UI
                                             break;
 
                                         case "ETravel3": //Curso em X pressao
-                                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao2_Bar = dblValue;
+                                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao3_Bar = dblValue;
                                             break;
 
                                         case "ETravel4": //Curso em X pressao
-                                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao2_Bar = dblValue;
+                                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao4_Bar = dblValue;
                                             break;
 
                                         default:
@@ -4804,7 +4809,6 @@ namespace Continental.Project.Adam.UI
                             default:
                                 break;
                         }
-                    }
                 }
                 else
                 {
@@ -4825,7 +4829,7 @@ namespace Continental.Project.Adam.UI
 
                 switch (HelperApp.uiTesteSelecionado)
                 {
-                    case 5:     //Vaccum Leakage - Released Position
+                    case 5:     //Vacuum Leakage - Released Position
                         switch (iRowIndex)
                         {
                             case 2://TESTING TIME
@@ -6566,10 +6570,28 @@ namespace Continental.Project.Adam.UI
                             diagram.AxisX.Label.TextColor = setColor;
 
                             diagram.AxisX.VisualRange.Auto = false;
-                            diagram.AxisX.VisualRange.MinValue = chartGVL.EixoX.rMin;
-                            diagram.AxisX.VisualRange.MaxValue = chartGVL.EixoX.rMax;
+
                             diagram.AxisX.Range.MinValue = chartGVL.EixoX.rMin;
                             diagram.AxisX.Range.MaxValue = chartGVL.EixoX.rMax;
+                            diagram.AxisX.VisualRange.MinValue = chartGVL.EixoX.rMin;
+                            diagram.AxisX.VisualRange.MaxValue = chartGVL.EixoX.rMax;
+
+                            diagram.AxisX.MinorCount = 1;
+
+                            diagram.AxisX.GridSpacingAuto = false;
+                            
+                            //lmr
+                            if (chartGVL.EixoX.rMax > 0)
+                                diagram.AxisX.NumericScaleOptions.GridSpacing = chartGVL.EixoX.rMax / 10;
+
+                            if (chartGVL.EixoX.rMax < 0)
+                                diagram.AxisX.NumericScaleOptions.GridSpacing = (chartGVL.EixoX.rMax*-1) / 10;
+
+                            if (chartGVL.EixoX.rMax == 0)
+                                diagram.AxisX.NumericScaleOptions.GridSpacing = 1;
+                            //lmr
+
+                            //diagram.AxisX.GridSpacing = 1;
 
                             //diagram.AxisX.DateTimeScaleOptions.MeasureUnit = DateTimeMeasureUnit.Minute;
                             //diagram.AxisX.Label.TextPattern = @"d.M";
@@ -6614,13 +6636,33 @@ namespace Continental.Project.Adam.UI
                             diagram.AxisY.Color = setColor;
 
                             diagram.AxisY.VisualRange.Auto = false;
-                            diagram.AxisY.VisualRange.MinValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMin : chartGVL.EixoY1.rMin;
-                            diagram.AxisY.VisualRange.MaxValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMax : chartGVL.EixoY1.rMax;
+
+                            diagram.AxisY.GridSpacingAuto = false;
+
                             diagram.AxisY.Range.MinValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMin : chartGVL.EixoY1.rMin;
                             diagram.AxisY.Range.MaxValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMax : chartGVL.EixoY1.rMax;
+                            diagram.AxisY.VisualRange.MinValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMin : chartGVL.EixoY1.rMin;
+                            diagram.AxisY.VisualRange.MaxValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMax : chartGVL.EixoY1.rMax;
+                            diagram.AxisY.MinorCount = 1;
+
+                            //lmr
+                            if (chartGVL.EixoY1.rMax > 0)
+                                diagram.AxisY.NumericScaleOptions.GridSpacing = chartGVL.EixoY1.rMax / 10 ;
+
+                            if (chartGVL.EixoY1.rMax < 0)
+                                diagram.AxisY.NumericScaleOptions.GridSpacing = (chartGVL.EixoY1.rMax*-1) / 10;
+
+                            if (chartGVL.EixoY1.rMax == 0)
+                                diagram.AxisY.NumericScaleOptions.GridSpacing = 1;
+                            //lmr
+
+                            diagram.AxisY.Reverse = false;
 
                             if (Convert.ToDouble(diagram.AxisY.Range.MaxValue) < 0)
                             {
+                                diagram.AxisX.VisualRange.MinValue = 2;
+                                diagram.AxisX.Range.MinValue = 2;
+
                                 diagram.AxisY.VisualRange.MinValue = 0;
                                 diagram.AxisY.VisualRange.MaxValue = chartGVL.iOutput == 2 ? chartGVL.EixoY2.rMax : chartGVL.EixoY1.rMax;
 
@@ -6664,10 +6706,26 @@ namespace Continental.Project.Adam.UI
                                     EixoY2.Color = setColor;
 
                                     EixoY2.VisualRange.Auto = false;
-                                    EixoY2.VisualRange.MinValue = chartGVL.EixoY2.rMin;
-                                    EixoY2.VisualRange.MaxValue = chartGVL.EixoY2.rMax;
+
+                                    EixoY2.GridSpacingAuto = false;
+                                    
                                     EixoY2.Range.MinValue = chartGVL.EixoY2.rMin;
                                     EixoY2.Range.MaxValue = chartGVL.EixoY2.rMax;
+                                    EixoY2.VisualRange.MinValue = chartGVL.EixoY2.rMin;
+                                    EixoY2.VisualRange.MaxValue = chartGVL.EixoY2.rMax;
+                                    EixoY2.MinorCount = 1;
+
+                                    //lmr
+                                    if (chartGVL.EixoY2.rMax > 0)
+                                        EixoY2.NumericScaleOptions.GridSpacing = chartGVL.EixoY2.rMax / 10;
+
+                                    if (chartGVL.EixoY2.rMax < 0)
+                                        EixoY2.NumericScaleOptions.GridSpacing = (chartGVL.EixoY2.rMax * -1) / 10;
+
+                                    if (chartGVL.EixoY2.rMax == 0)
+                                        EixoY2.NumericScaleOptions.GridSpacing = 1;
+                                    //lmr
+
                                 }
 
                                 #endregion
@@ -6693,10 +6751,22 @@ namespace Continental.Project.Adam.UI
                                     EixoY3.Color = setColor;
 
                                     EixoY3.VisualRange.Auto = false;
-                                    EixoY3.VisualRange.MinValue = chartGVL.EixoY3.rMin;
-                                    EixoY3.VisualRange.MaxValue = chartGVL.EixoY3.rMax;
+                                    EixoY3.GridSpacingAuto = false;
+
                                     EixoY3.Range.MinValue = chartGVL.EixoY3.rMin;
                                     EixoY3.Range.MaxValue = chartGVL.EixoY3.rMax;
+                                    EixoY3.VisualRange.MinValue = chartGVL.EixoY3.rMin;
+                                    EixoY3.VisualRange.MaxValue = chartGVL.EixoY3.rMax;
+                                    EixoY3.MinorCount = 1;
+
+                                    if (chartGVL.EixoY3.rMax > 0)
+                                        EixoY3.NumericScaleOptions.GridSpacing = chartGVL.EixoY3.rMax / 10;
+
+                                    if (chartGVL.EixoY3.rMax < 0)
+                                        EixoY3.NumericScaleOptions.GridSpacing = (chartGVL.EixoY3.rMax * -1) / 10;
+
+                                    if (chartGVL.EixoY3.rMax == 0)
+                                        EixoY3.NumericScaleOptions.GridSpacing = 1;
                                 }
 
                                 #endregion
@@ -6722,10 +6792,25 @@ namespace Continental.Project.Adam.UI
                                     EixoY4.Color = setColor;
 
                                     EixoY4.VisualRange.Auto = false;
-                                    EixoY4.VisualRange.MinValue = chartGVL.EixoY4.rMin;
-                                    EixoY4.VisualRange.MaxValue = chartGVL.EixoY4.rMax;
+                                    EixoY4.GridSpacingAuto = false;
+
                                     EixoY4.Range.MinValue = chartGVL.EixoY4.rMin;
                                     EixoY4.Range.MaxValue = chartGVL.EixoY4.rMax;
+                                    EixoY4.VisualRange.MinValue = chartGVL.EixoY4.rMin;
+                                    EixoY4.VisualRange.MaxValue = chartGVL.EixoY4.rMax;
+                                    EixoY4.MinorCount = 1;
+
+                                    //lmr
+                                    if (chartGVL.EixoY4.rMax > 0)
+                                        EixoY4.NumericScaleOptions.GridSpacing = chartGVL.EixoY4.rMax / 10;
+
+                                    if (chartGVL.EixoY4.rMax < 0)
+                                        EixoY4.NumericScaleOptions.GridSpacing = (chartGVL.EixoY4.rMax * -1) / 10;
+
+                                    if (chartGVL.EixoY4.rMax == 0)
+                                        EixoY4.NumericScaleOptions.GridSpacing = 1;
+                                    //lmr 
+
                                 }
 
                                 #endregion
@@ -6851,7 +6936,7 @@ namespace Continental.Project.Adam.UI
                 List<double> lstAnalogCh07_PressurePC = lstDblChReadFileArr[7];         //ch9.7 - HelperHBM._rPressurePC - Pressao Camara Primaria CP - 0-250 bar (Linearizada)
                 List<double> lstAnalogCh08_PneumTestPressure = lstDblChReadFileArr[8];  //ch9.8 - HelperHBM._rPneumTestPressure - Pressao Teste Bolhas 0-1 bar(Linearizada)
                 List<double> lstAnalogCh09_HydrFillPressure = lstDblChReadFileArr[9];   //ch9.9 - HelperHBM._rHydrFillPressure - Pressao Sangria 0-6 bar (Linearizada)
-                List<double> lstAnalogCh10_Vaccum = lstDblChReadFileArr[10];            //ch9.10 - HelperHBM._rVaccum - Pressao Linha Vacuo (-1)-0 bar (Linearizada)
+                List<double> lstAnalogCh10_Vacuum = lstDblChReadFileArr[10];            //ch9.10 - HelperHBM._rVacuum - Pressao Linha Vacuo (-1)-0 bar (Linearizada)
                 List<double> lstAnalogCh11_Reserv = lstDblChReadFileArr[11];            //ch9.11 - RESERVA
                 List<double> lstAnalogCh12_Reserv = lstDblChReadFileArr[12];            //ch9.12 - RESERVA
 
@@ -6908,7 +6993,6 @@ namespace Continental.Project.Adam.UI
                     {
                         case 1:     //Force Diagrams - Force/Pressure With Vacuum
                         case 3:     //Force Diagrams - Force/Pressure Without Vacuum
-                        case 13:    //Check Sensors - Pressure Difference
                         case 25:    //Force Diagrams - Force/Pressure Dual Ratio
                             {
                                 try
@@ -6977,15 +7061,6 @@ namespace Continental.Project.Adam.UI
                                             {
                                                 PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T03.rForcaReal_E1_N, _modelGVL.GVL_T03.rPressao_E1_Bar));
                                                 PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T03.rForcaReal_E2_N, _modelGVL.GVL_T03.rPressao_E2_Bar));
-                                            }
-                                            break;
-                                        case 13:
-                                            {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T13.rForcaP1Avanco_N, _modelGVL.GVL_T13.rSetPointDiferencaPressaoP1Avanco_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T13.rForcaP2Avanco_N, _modelGVL.GVL_T13.rSetPointDiferencaPressaoP2Avanco_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T13.rForcaP3Retoro_N, _modelGVL.GVL_T13.rSetPointDiferencaPressaoP3Avanco_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T13.rForcaP4Retorno_N, _modelGVL.GVL_T13.rSetPointDiferencaPressaoP4Avanco_Bar));
-
                                             }
                                             break;
                                         case 25:
@@ -7097,7 +7172,7 @@ namespace Continental.Project.Adam.UI
                                 }
                             }
                             break;
-                        case 5:     //Vaccum Leakage - Released Position
+                        case 5:     //Vacuum Leakage - Released Position
                         case 6:     //Vacuum Leakage - Fully Applied Position
                         case 7:     //Vacuum Leakage - Lap Position
                             {
@@ -7110,7 +7185,7 @@ namespace Continental.Project.Adam.UI
 
                                     for (i = 0; i <= totalPointsCount - 1; i++)
                                     {
-                                        series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh10_Vaccum[i]));
+                                        series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh10_Vacuum[i]));
                                     }
 
                                     #endregion
@@ -7122,17 +7197,17 @@ namespace Continental.Project.Adam.UI
                                         case 5:
                                             {
                                                 var mxtime = lstAnalogCh00_Timestamp.Max();
-                                                var mxvacuo = lstAnalogCh10_Vaccum.Max();
+                                                var mxvacuo = lstAnalogCh10_Vacuum.Max();
 
                                                 var X1_Final = mxtime - 0.5;
                                                 var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1,y1) => Math.Abs(x1-X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
                                                 var X1_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx); 
-                                                var Y1_VacuoInicial = lstAnalogCh10_Vaccum.ElementAt(X1_PosVacuoInicial);
+                                                var Y1_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X1_PosVacuoInicial);
 
                                                 var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T05.rTempoTeste;
                                                 var X2_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
                                                 var X2_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X2_ValIdx);
-                                                var Y2_VacuoInicial = lstAnalogCh10_Vaccum.ElementAt(X2_PosVacuoInicial);
+                                                var Y2_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X2_PosVacuoInicial);
 
                                                 PontosChart.Points.Add(new SeriesPoint(X1_Final, Y1_VacuoInicial));
                                                 PontosChart.Points.Add(new SeriesPoint(X2_Inicial, Y2_VacuoInicial));
@@ -7200,7 +7275,7 @@ namespace Continental.Project.Adam.UI
 
                                     for (i = 0; i <= totalPointsCount - 1; i++)
                                     {
-                                        series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh10_Vaccum[i]));
+                                        series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh10_Vacuum[i]));
                                         series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
                                         series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh06_PressureSC[i]));
                                         series4.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh05_TravelPiston[i]));
@@ -7295,16 +7370,74 @@ namespace Continental.Project.Adam.UI
                                     {
                                         case 11:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T11.rForcaReal_P1_N, _modelGVL.GVL_T11.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T11.rForcaReal_P2_N, _modelGVL.GVL_T11.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T11.rForcaReal_E1_N, _modelGVL.GVL_T11.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T11.rForcaReal_E2_N, _modelGVL.GVL_T11.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T11.rRunOutForce_Real_N, _modelGVL.GVL_T11.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T11.rForcaCutIn_N, _modelGVL.GVL_T11.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T11.rForcaAvanco_Xpout_N, _modelGVL.GVL_T11.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T11.rForcaRetorno_Xpout_N, _modelGVL.GVL_T11.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T11.rForcaAvanco_Xbar_N, _modelGVL.GVL_T11.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T11.rForcaRetorno_Xbar_N, _modelGVL.GVL_T11.rPressaoHysterese_Bar));
+                                                var PosicaoForcaMaxima = Convert.ToInt32(_modelGVL.GVL_T11.diPosicaoForcaMaxima);
+                                                //Obtem o ponto X na forca máxima
+                                                var ForcaMaxima = lstAnalogCh02_InputForce1[PosicaoForcaMaxima];
+                                                var TempoForcaMaxima = lstAnalogCh00_Timestamp[PosicaoForcaMaxima];
+
+
+                                                double Forca1Avanco = 0;
+                                                double TempoForca1Avanco = 0;
+                                                double Forca2Avanco = 0;
+                                                double TempoForca2Avanco = 0;
+                                                double Forca1Retorno = 0;
+                                                double TempoForca1Retorno = 0;
+                                                double Forca2Retorno = 0;
+                                                double TempoForca2Retorno = 0;
+
+                                                //Obtem o Tempo/forca de avanco em 1000 N
+                                                for (var di = 0; di < lstAnalogCh02_InputForce1.Count; di++)
+                                                {
+                                                    if (lstAnalogCh02_InputForce1[di] >= 1000) //1000 é o ponto X desejado
+                                                    {
+                                                        Forca1Avanco = lstAnalogCh02_InputForce1[di];
+                                                        TempoForca1Avanco = lstAnalogCh00_Timestamp[di];
+
+                                                        break; //Encerra a busca
+                                                    }
+                                                }
+
+                                                //Obtem o Tempo/forca de avanco em 1400 N
+                                                for (var di = 0; di < lstAnalogCh02_InputForce1.Count; di++)
+                                                {
+                                                    if (lstAnalogCh02_InputForce1[di] >= 1400) //1400 é o ponto X desejado
+                                                    {
+                                                        Forca2Avanco = lstAnalogCh02_InputForce1[di];
+                                                        TempoForca2Avanco = lstAnalogCh00_Timestamp[di];
+
+                                                        break; //Encerra a busca
+                                                    }
+                                                }
+
+                                                //Obtem o Tempo/forca de avanco em 1000 N
+                                                for (var di = PosicaoForcaMaxima; di < lstAnalogCh02_InputForce1.Count; di++)
+                                                {
+                                                    if (lstAnalogCh02_InputForce1[di] <= 1400) //1400 é o ponto X desejado
+                                                    {
+                                                        Forca1Retorno = lstAnalogCh02_InputForce1[di];
+                                                        TempoForca1Retorno = lstAnalogCh00_Timestamp[di];
+
+                                                        break; //Encerra a busca
+                                                    }
+                                                }
+
+                                                //Obtem o Tempo/forca de avanco em 1400 N
+                                                for (var di = PosicaoForcaMaxima; di < lstAnalogCh02_InputForce1.Count; di++)
+                                                {
+                                                    if (lstAnalogCh02_InputForce1[di] <= 1000) //1400 é o ponto X desejado
+                                                    {
+                                                        Forca2Retorno = lstAnalogCh02_InputForce1[di];
+                                                        TempoForca2Retorno = lstAnalogCh00_Timestamp[di];
+
+                                                        break; //Encerra a busca
+                                                    }
+                                                }
+
+                                                PontosChart.Points.Add(new SeriesPoint(TempoForcaMaxima, ForcaMaxima));
+                                                PontosChart.Points.Add(new SeriesPoint(TempoForca1Avanco, Forca1Avanco));
+                                                PontosChart.Points.Add(new SeriesPoint(TempoForca2Avanco, Forca2Avanco));
+                                                PontosChart.Points.Add(new SeriesPoint(TempoForca1Retorno, Forca1Retorno));
+                                                PontosChart.Points.Add(new SeriesPoint(TempoForca2Retorno, Forca2Retorno));
                                             }
                                             break;
                                         case 12:
@@ -7337,6 +7470,89 @@ namespace Continental.Project.Adam.UI
                                     MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     throw;
                                 }
+                            }
+                            break;
+                        case 13:    //Check Sensors - Pressure Difference
+                            #region  Serie de Valores
+                            try
+                            {
+                                //GVL_Graficos.strNomeEixoX = "Input Force (N)";
+                                //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
+                                //GVL_Graficos.strNomeEixoY2 = "Pressure SC (bar)";
+
+                                for (i = 0; i <= totalPointsCount - 1; i++)
+                                {
+                                    series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
+                                    series2.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh06_PressureSC[i]));
+                                }
+
+                                #endregion
+
+                                #region Pontos de Interesse
+                                //Loop para encontrar pressoes no ponto de medida 1
+                                double rForca_P1 = 0;
+                                double rPressao_P1 = 0;
+                                double rForca_P2 = 0;
+                                double rPressao_P2 = 0;
+                                double rForca_P3 = 0;
+                                double rPressao_P3 = 0;
+                                double rForca_P4 = 0;
+                                double rPressao_P4 = 0;
+
+                                for (var di = 0; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
+                                {
+                                    if (lstAnalogCh07_PressurePC[di] >= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP1Avanco_Bar)
+                                    {
+                                        rForca_P1 = lstAnalogCh02_InputForce1[di];
+                                        rPressao_P1 = lstAnalogCh07_PressurePC[di];
+                                        break;
+                                    }
+                                }
+
+                                for (var di = 0; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
+                                {
+                                    if (lstAnalogCh07_PressurePC[di] >= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP2Avanco_Bar)
+                                    {
+                                        rForca_P2 = lstAnalogCh02_InputForce1[di];
+                                        rPressao_P2 = lstAnalogCh07_PressurePC[di];
+                                        break;
+                                    }
+                                }
+
+                                for (var di = _modelGVL.GVL_T13.diPosicaoForcaMaxima; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
+                                {
+                                    if (lstAnalogCh07_PressurePC[Convert.ToInt32(di)] <= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP3Retorno_Bar)
+                                    {
+                                        rForca_P3 = lstAnalogCh02_InputForce1[Convert.ToInt32(di)];
+                                        rPressao_P3 = lstAnalogCh07_PressurePC[Convert.ToInt32(di)];
+                                        break;
+                                    }
+                                }
+
+                                for (var di = _modelGVL.GVL_T13.diPosicaoForcaMaxima; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
+                                {
+                                    if (lstAnalogCh07_PressurePC[Convert.ToInt32(di)] <= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP4Retorno_Bar)
+                                    {
+                                        rForca_P4 = lstAnalogCh02_InputForce1[Convert.ToInt32(di)];
+                                        rPressao_P4 = lstAnalogCh07_PressurePC[Convert.ToInt32(di)];
+                                        break;
+                                    }
+                                }
+                                PontosChart.Points.Add(new SeriesPoint(rForca_P1, rPressao_P1));
+                                PontosChart.Points.Add(new SeriesPoint(rForca_P2, rPressao_P2));
+                                PontosChart.Points.Add(new SeriesPoint(rForca_P3, rPressao_P3));
+                                PontosChart.Points.Add(new SeriesPoint(rForca_P4, rPressao_P4));
+                                #endregion
+
+                                devChart.Series.AddRange(new Series[] { series1, series2, PontosChart });
+                            }
+                            catch (Exception ex)
+                            {
+                                var err = i;
+                                bCharSeriesOK = false;
+
+                                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                throw;
                             }
                             break;
                         case 14:    //Check Sensors - Input/Output Travel
@@ -7424,8 +7640,6 @@ namespace Continental.Project.Adam.UI
                             }
                             break;
                         case 16:    //Adjustment - Hose Consumer
-                        case 17:    //Lost Travel ACU - Hydraulic
-                        case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
                             {
                                 try
                                 {
@@ -7445,48 +7659,217 @@ namespace Continental.Project.Adam.UI
 
                                     #region  Serie Pontos de Interesse
 
-                                    switch (HelperApp.uiTesteSelecionado)
+
+                                    //List<double> lstAnalogCh00_Timestamp = lstDblChReadFileArr[0];          //  Time [s]
+                                    //List<double> lstAnalogCh01_DiffTravel = lstDblChReadFileArr[1];         //ch9.1 - HelperHBM._rDiffTravel - Transdutor Deslocamento Desvio Linearidade - 0-10 mm (Linearizado)
+                                    //List<double> lstAnalogCh02_InputForce1 = lstDblChReadFileArr[2];        //ch9.2 - HelperHBM._rInputForce1 - Celula Carga Forca Entrada - 0-5 kN (Linearizada)
+                                    //List<double> lstAnalogCh03_OutputForce = lstDblChReadFileArr[3];        //ch9.3 - HelperHBM._rOutputForce - Celula Carga Forca Saída- 0-10 kN (Linearizada)
+                                    //List<double> lstAnalogCh04_TravelTMC = lstDblChReadFileArr[4];          //ch9.4 - HelperHBM._rTravelTMC - Transdutor Deslocamento Saida Booster - 0-50 mm (Linearizada)
+                                    //List<double> lstAnalogCh05_TravelPiston = lstDblChReadFileArr[5];       //ch9.5 - HelperHBM._rTravelPiston - Transdutor Deslocamento Entrada Booster - 0-50 mm (Linearizada)
+                                    //List<double> lstAnalogCh06_PressureSC = lstDblChReadFileArr[6];         //ch9.6 - HelperHBM._rPressureSC - Pressao Camara Secundaria CS - 0-250 bar (Linearizada
+                                    //List<double> lstAnalogCh07_PressurePC = lstDblChReadFileArr[7];         //ch9.7 - HelperHBM._rPressurePC - Pressao Camara Primaria CP - 0-250 bar (Linearizada)
+                                    //List<double> lstAnalogCh08_PneumTestPressure = lstDblChReadFileArr[8];  //ch9.8 - HelperHBM._rPneumTestPressure - Pressao Teste Bolhas 0-1 bar(Linearizada)
+                                    //List<double> lstAnalogCh09_HydrFillPressure = lstDblChReadFileArr[9];   //ch9.9 - HelperHBM._rHydrFillPressure - Pressao Sangria 0-6 bar (Linearizada)
+                                    //List<double> lstAnalogCh10_Vacuum = lstDblChReadFileArr[10];            //ch9.10 - HelperHBM._rVacuum - Pressao Linha Vacuo (-1)-0 bar (Linearizada)
+                                    //List<double> lstAnalogCh11_Reserv = lstDblChReadFileArr[11];            //ch9.11 - RESERVA
+                                    //List<double> lstAnalogCh12_Reserv = lstDblChReadFileArr[12];            //ch9.12 - RESERVA
+                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaReal_P1_N, _modelGVL.GVL_T16.rPressao_P1_Bar));
+
+
+                                    #endregion
+
+                                    devChart.Series.AddRange(new Series[] { series1, series2, PontosChart });
+                                }
+                                catch (Exception ex)
+                                {
+                                    var err = i;
+                                    bCharSeriesOK = false;
+
+                                    MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    throw;
+                                }
+                            }
+                            break;
+                        case 17:    //Lost Travel ACU - Hydraulic
+                        case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
+                            {
+                                try
+                                {
+                                    #region  Serie de Valores
+
+                                    //GVL_Graficos.strNomeEixoX = "Piston Travel (mm)";
+                                    //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
+                                    //ou
+                                    //GVL_Graficos.strNomeEixoX = "Piston Travel (mm)";
+                                    //GVL_Graficos.strNomeEixoY2 = "Pressure SC (bar)";
+
+
+                                    var maxValue_Travel = lstAnalogCh05_TravelPiston.Max();
+                                    var maxPos_Travel = lstAnalogCh05_TravelPiston.IndexOf(maxValue_Travel);
+
+                                    switch (modelChartGVL.iOutput)
                                     {
-                                        case 16:
+                                        case 1:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaReal_P1_N, _modelGVL.GVL_T16.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaReal_P2_N, _modelGVL.GVL_T16.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaReal_E1_N, _modelGVL.GVL_T16.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaReal_E2_N, _modelGVL.GVL_T16.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rRunOutForce_Real_N, _modelGVL.GVL_T16.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaCutIn_N, _modelGVL.GVL_T16.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaAvanco_Xpout_N, _modelGVL.GVL_T16.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaRetorno_Xpout_N, _modelGVL.GVL_T16.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaAvanco_Xbar_N, _modelGVL.GVL_T16.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaRetorno_Xbar_N, _modelGVL.GVL_T16.rPressaoHysterese_Bar));
+                                                for (i = 0; i <= maxPos_Travel - 1; i++)
+                                                {
+                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh05_TravelPiston[i], lstAnalogCh07_PressurePC[i]));
+                                                }
                                             }
                                             break;
-                                        case 17:
+                                        case 2:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T17.rForcaReal_P1_N, _modelGVL.GVL_T17.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T17.rForcaReal_P2_N, _modelGVL.GVL_T17.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T17.rForcaReal_E1_N, _modelGVL.GVL_T17.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T17.rForcaReal_E2_N, _modelGVL.GVL_T17.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T17.rRunOutForce_Real_N, _modelGVL.GVL_T17.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T17.rForcaCutIn_N, _modelGVL.GVL_T17.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T17.rForcaAvanco_Xpout_N, _modelGVL.GVL_T17.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T17.rForcaRetorno_Xpout_N, _modelGVL.GVL_T17.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T17.rForcaAvanco_Xbar_N, _modelGVL.GVL_T17.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T17.rForcaRetorno_Xbar_N, _modelGVL.GVL_T17.rPressaoHysterese_Bar));
+                                                for (i = 0; i <= maxPos_Travel - 1; i++)
+                                                {
+                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh05_TravelPiston[i], lstAnalogCh06_PressureSC[i]));
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            {
+                                                for (i = 0; i <= maxPos_Travel - 1; i++)
+                                                {
+                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh05_TravelPiston[i], lstAnalogCh07_PressurePC[i]));
+                                                    series2.Points.Add(new SeriesPoint(lstAnalogCh05_TravelPiston[i], lstAnalogCh06_PressureSC[i]));
+                                                }
+                                            }
+                                            break;
+                                    }
+
+                                    #endregion
+
+                                    #region  Serie Pontos de Interesse
+
+                                    switch (HelperApp.uiTesteSelecionado)
+                                    {
+                                        case 17:
+                                            {                                               
+                                                double SomaPressao = 0;
+                                                double MediaPressao = 0;
+                                                double CursoMorto = 0;
+                                                double PressaoCursoMorto = 0;
+
+                                                switch (modelChartGVL.iOutput)
+                                                {
+                                                    case 1:
+                                                        {
+                                                            for (var di = 0; di < lstAnalogCh07_PressurePC.Count; di++)
+                                                            {
+                                                                if (lstAnalogCh07_PressurePC[di] > _modelGVL.GVL_T17.rCursoMortoNaPressao_Bar)
+                                                                {
+                                                                    SomaPressao = 0;
+
+                                                                    for (int j = 0; j < 20; j++)
+                                                                    {
+                                                                        SomaPressao = SomaPressao + lstAnalogCh07_PressurePC[di + j];
+                                                                    }
+
+                                                                    MediaPressao = SomaPressao / 20;
+
+                                                                    if (MediaPressao > _modelGVL.GVL_T17.rCursoMortoNaPressao_Bar)
+                                                                    {
+                                                                        CursoMorto = lstAnalogCh05_TravelPiston[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                                                                        PressaoCursoMorto = lstAnalogCh07_PressurePC[di];
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        break;
+                                                    case 2:
+                                                        {
+                                                            for (var di = 0; di < lstAnalogCh06_PressureSC.Count; di++)
+                                                            {
+                                                                if (lstAnalogCh06_PressureSC[di] > _modelGVL.GVL_T17.rCursoMortoNaPressao_Bar)
+                                                                {
+                                                                    SomaPressao = 0;
+
+                                                                    for (int j = 0; j < 20; j++)
+                                                                    {
+                                                                        SomaPressao = SomaPressao + lstAnalogCh06_PressureSC[di + j];
+                                                                    }
+
+                                                                    MediaPressao = SomaPressao / 20;
+
+                                                                    if (MediaPressao > _modelGVL.GVL_T17.rCursoMortoNaPressao_Bar)
+                                                                    {
+                                                                        CursoMorto = lstAnalogCh05_TravelPiston[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                                                                        PressaoCursoMorto = lstAnalogCh06_PressureSC[di];
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        break;
+                                                }
+
+                                                PontosChart.Points.Add(new SeriesPoint(CursoMorto, PressaoCursoMorto));
+
+
                                             }
                                             break;
                                         case 18:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T18.rForcaReal_P1_N, _modelGVL.GVL_T18.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T18.rForcaReal_P2_N, _modelGVL.GVL_T18.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T18.rForcaReal_E1_N, _modelGVL.GVL_T18.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T18.rForcaReal_E2_N, _modelGVL.GVL_T18.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T18.rRunOutForce_Real_N, _modelGVL.GVL_T18.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T18.rForcaCutIn_N, _modelGVL.GVL_T18.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T18.rForcaAvanco_Xpout_N, _modelGVL.GVL_T18.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T18.rForcaRetorno_Xpout_N, _modelGVL.GVL_T18.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T18.rForcaAvanco_Xbar_N, _modelGVL.GVL_T18.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T18.rForcaRetorno_Xbar_N, _modelGVL.GVL_T18.rPressaoHysterese_Bar));
+                                                double SomaPressao = 0;
+                                                double MediaPressao = 0;
+                                                double CursoMorto = 0;
+                                                double PressaoCursoMorto = 0;
+
+                                                switch (modelChartGVL.iOutput)
+                                                {
+                                                    case 1:
+                                                        {
+                                                            for (var di = 0; di < lstAnalogCh07_PressurePC.Count; di++)
+                                                            {
+                                                                if (lstAnalogCh07_PressurePC[di] > _modelGVL.GVL_T18.rCursoMortoNaPressao_Bar)
+                                                                {
+                                                                    SomaPressao = 0;
+
+                                                                    for (int j = 0; j < 20; j++)
+                                                                    {
+                                                                        SomaPressao = SomaPressao + lstAnalogCh07_PressurePC[di + j];
+                                                                    }
+
+                                                                    MediaPressao = SomaPressao / 20;
+
+                                                                    if (MediaPressao > _modelGVL.GVL_T18.rCursoMortoNaPressao_Bar)
+                                                                    {
+                                                                        CursoMorto = lstAnalogCh05_TravelPiston[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                                                                        PressaoCursoMorto = lstAnalogCh07_PressurePC[di];
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        break;
+                                                    case 2:
+                                                        {
+                                                            for (var di = 0; di < lstAnalogCh06_PressureSC.Count; di++)
+                                                            {
+                                                                if (lstAnalogCh06_PressureSC[di] > _modelGVL.GVL_T18.rCursoMortoNaPressao_Bar)
+                                                                {
+                                                                    SomaPressao = 0;
+
+                                                                    for (int j = 0; j < 20; j++)
+                                                                    {
+                                                                        SomaPressao = SomaPressao + lstAnalogCh06_PressureSC[di + j];
+                                                                    }
+
+                                                                    MediaPressao = SomaPressao / 20;
+
+                                                                    if (MediaPressao > _modelGVL.GVL_T18.rCursoMortoNaPressao_Bar)
+                                                                    {
+                                                                        CursoMorto = lstAnalogCh05_TravelPiston[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                                                                        PressaoCursoMorto = lstAnalogCh06_PressureSC[di];
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        break;
+                                                }
+
+                                                PontosChart.Points.Add(new SeriesPoint(CursoMorto, PressaoCursoMorto));
                                             }
                                             break;
                                         default:
@@ -7583,7 +7966,10 @@ namespace Continental.Project.Adam.UI
                                     //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
                                     //GVL_Graficos.strNomeEixoY2 = "Input Force (N)";
 
-                                    for (i = 0; i <= totalPointsCount - 1; i++)
+                                    var maxValue_Travel = lstAnalogCh05_TravelPiston.Max();
+                                    var maxPos_Travel = lstAnalogCh05_TravelPiston.IndexOf(maxValue_Travel);
+
+                                    for (i = 0; i <= maxPos_Travel - 1; i++)
                                     {
                                         series1.Points.Add(new SeriesPoint(lstAnalogCh05_TravelPiston[i], lstAnalogCh07_PressurePC[i]));
                                         series2.Points.Add(new SeriesPoint(lstAnalogCh05_TravelPiston[i], lstAnalogCh02_InputForce1[i]));
@@ -8309,7 +8695,7 @@ namespace Continental.Project.Adam.UI
                 mtxt_MKSLPressurePC.Text = string.Concat(_modelGVL.GVL_Analogicas.rPressaoCP_Bar.ToString(strDecimalFormat), " bar");
                 mtxt_MKSLPressureSC.Text = string.Concat(_modelGVL.GVL_Analogicas.rPressaoCS_Bar.ToString(strDecimalFormat), " bar");
                 mtxt_MKSLHydrFillPressure.Text = string.Concat(_modelGVL.GVL_Analogicas.rPressaoHidraulica_Bar.ToString(strDecimalFormat), " bar");
-                mtxt_MKSLVaccum.Text = string.Concat(_modelGVL.GVL_Analogicas.rVacuo_Bar.ToString(strDecimalFormat), " bar");
+                mtxt_MKSLVacuum.Text = string.Concat(_modelGVL.GVL_Analogicas.rVacuo_Bar.ToString(strDecimalFormat), " bar");
                 mtxt_MKSLPneumTestPressure.Text = string.Concat(_modelGVL.GVL_Analogicas.rPressaoBubbleTest_Bar.ToString(strDecimalFormat), " bar");
                 mtxt_MKSLRoomTemp.Text = string.Concat(_modelGVL.GVL_Analogicas.rTemperaturaAmbiente_C.ToString(strDecimalFormat), " ºC");
                 mtxt_MKSLHumidity.Text = string.Concat(_modelGVL.GVL_Analogicas.rUmidadeRelativa.ToString(strDecimalFormat), " %");

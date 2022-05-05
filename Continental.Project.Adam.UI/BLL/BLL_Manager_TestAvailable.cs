@@ -84,7 +84,7 @@ namespace Continental.Project.Adam.UI.BLL
 
                 sb.Append("SELECT");
                 sb.Append(" [IdTestAvailable] as Id");
-                sb.Append(",  CONCAT([Group],' - ',[Test]) AS Name");
+                sb.Append(",  CONCAT('T',[IdTestAvailable],' - ',[Group],' - ',[Test]) AS Name");
                 sb.Append(" FROM");
                 sb.Append(" [Manager_TestAvailable] TA");
                 sb.Append(" INNER JOIN");

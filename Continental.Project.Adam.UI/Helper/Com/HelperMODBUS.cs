@@ -2136,9 +2136,9 @@ namespace Continental.Project.Adam.UI.Helper.Com
         //
         #endregion
 
-        #region 05 - Vaccum Leakage - Released Position
+        #region 05 - Vacuum Leakage - Released Position
         //
-        private  static double _CS_dwTempoTeste_T05_LW;           //%40% - rTempoTeste_T05 REAL; //Tempo Execução Teste
+        private static double _CS_dwTempoTeste_T05_LW;           //%40% - rTempoTeste_T05 REAL; //Tempo Execução Teste
         private  static double _CS_dwTempoTeste_T05_HW;           //%41% - 
         private  static double _CS_dwTempoEstabilizacao_T05_LW;   //%42% -  _rTempoEstabilizacao_T05 REAL; //Tempo Estabilização do Vácuo
         private  static double _CS_dwTempoEstabilizacao_T05_HW;   //%43% - 

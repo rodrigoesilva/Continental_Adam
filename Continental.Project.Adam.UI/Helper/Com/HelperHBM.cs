@@ -92,7 +92,7 @@ namespace Continental.Project.Adam.UI.Helper.Com
                         HelperHBM._rHydrFillPressure = Convert.ToDouble(signalValue);
                         break;
                     case "ch9.10":
-                        HelperHBM._rVaccum = Convert.ToDouble(signalValue);
+                        HelperHBM._rVacuum = Convert.ToDouble(signalValue);
                         break;
                     default:
                         // code block
@@ -168,7 +168,7 @@ namespace Continental.Project.Adam.UI.Helper.Com
                             HelperHBM._rHydrFillPressure = Convert.ToDouble(signalValue);
                             break;
                         case 10:
-                            HelperHBM._rVaccum = Convert.ToDouble(signalValue);
+                            HelperHBM._rVacuum = Convert.ToDouble(signalValue);
                             break;
                         default:
                             // code block
@@ -255,7 +255,7 @@ namespace Continental.Project.Adam.UI.Helper.Com
         private static double _rPressurePC;         //ch9.7 - PressaoCP_Bar_Lin - B05.03 - Pressao Camara Primaria CP - 0-250 bar (Linearizada)
         private static double _rPneumTestPressure;  //ch9.8 - PressaoBubbleTest_Bar_Lin - B03.03 - Pressao Teste Bolhas 0-1 bar(Linearizada)
         private static double _rHydrFillPressure;   //ch9.9 - PressaoHidraulica_Bar_Lin - B04.20 - Pressao Sangria 0-6 bar (Linearizada)
-        private static double _rVaccum;             //ch9.10 - Vacuo_Bar_Lin - B07.11 - Pressao Linha Vacuo (-1)-0 bar (Linearizada)
+        private static double _rVacuum;             //ch9.10 - Vacuo_Bar_Lin - B07.11 - Pressao Linha Vacuo (-1)-0 bar (Linearizada)
 
         //get e set
         public static double rTimeStamp
@@ -309,10 +309,10 @@ namespace Continental.Project.Adam.UI.Helper.Com
             get { return HelperHBM._rHydrFillPressure; }
             set { HelperHBM._rHydrFillPressure = value; }
         } //ch9.9 - PressaoHidraulica_Bar_Lin
-        public static double rVaccum
+        public static double rVacuum
         {
-            get { return HelperHBM._rVaccum; }
-            set { HelperHBM._rVaccum = value; }
+            get { return HelperHBM._rVacuum; }
+            set { HelperHBM._rVacuum = value; }
         } //ch9.10 - Vacuo_Bar_Lin
 
         #endregion
