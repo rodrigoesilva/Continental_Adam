@@ -1090,7 +1090,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double temp_rRunOutForce_Real_N; //  ;REAL;
         public double temp_rRunOutPressure_Real_Bar; //  ;REAL;
 
-
         public double rPressao_70pout_bar; //  ;REAL;
         public double rForca_70pout_N; //  ;REAL;
 
@@ -1119,7 +1118,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rReleaseForceAtReal_mm; //  ;REAL; //Deslocamento real no qual o release force foi coletado
 
         public double rTaxaAmplificacao; //  ;REAL;
-
 
         public double rPressaoHysteresePout_Bar; //  ;REAL;//
         public double rForcaAvanco_Xpout_N; //  ;REAL; //Forca obtida no avanco correspondente a pressao 50pout
@@ -1321,6 +1319,8 @@ namespace Continental.Project.Adam.UI.Models.COM
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
         public double rTemperaturaInicial;// : REAL;
+        public int iConsumidoresCP; //  ;INT;
+        public int iConsumidoresCS; //  ;INT;
         public long diPosicaoForcaMaxima;// : DINT; //indice do array que indica o pico de forca, tambem indica que o gráfico começou a "voltar" a partir daqui
         public double rForcaMaxima;// : REAL;
         public double rDeslocamentoMaximo;// : REAL;
@@ -1511,6 +1511,8 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rPressaoInicialCS;// : REAL;
         public double rPressaoFinalCS;// : REAL;
         public double rPerdaPressaoCS;// : REAL;
+        public int iConsumidoresCP;// : INT;
+        public int iConsumidoresCS;// : INT;
     }
     public class GVL_T09
     {
@@ -1545,6 +1547,8 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rPressaoInicialCS;// : REAL;
         public double rPressaoFinalCS;// : REAL;
         public double rPerdaPressaoCS;// : REAL;
+        public int iConsumidoresCP;// : INT;
+        public int iConsumidoresCS;// : INT;
     }
     public class GVL_T10
     {
@@ -1579,6 +1583,8 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rPressaoInicialCS;// : REAL;
         public double rPressaoFinalCS;// : REAL;
         public double rPerdaPressaoCS;// : REAL;
+        public int iConsumidoresCP;// : INT;
+        public int iConsumidoresCS;// : INT;
     }
     public class GVL_T11
     {

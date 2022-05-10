@@ -848,7 +848,7 @@ namespace Continental.Project.Adam.UI
         public void TAB_DiagramChart_SetData()
         {
             if (HelperApp.uiTesteSelecionado != 0)
-                    devChart.Visible = true;
+                devChart.Visible = true;
             else
                 MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
@@ -917,7 +917,7 @@ namespace Continental.Project.Adam.UI
                         TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
                         return false;
-                    } 
+                    }
                 }
                 else
                 {
@@ -978,7 +978,7 @@ namespace Continental.Project.Adam.UI
 
                             #region Define
 
-                            
+
 
                             string fileName = string.Empty;
 
@@ -1277,7 +1277,7 @@ namespace Continental.Project.Adam.UI
 
                     var lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
 
-                    
+
 
                     foreach (var chk in lstChk)
                     {
@@ -1285,8 +1285,8 @@ namespace Continental.Project.Adam.UI
 
                         if (chkState)
                         {
-                           
-                           
+
+
                         }
                     }
 
@@ -3373,1442 +3373,1450 @@ namespace Continental.Project.Adam.UI
                     if (HelperApp.uiTesteSelecionado > 4)
                         TAB_ActuationParameters_WriteComEditGridEvalParameters(iRowIndex, strName, strValue);
 
-                        switch (HelperApp.uiTesteSelecionado)
-                        {
-                            case 1:     //Force Diagrams - Force/Pressure With Vacuum
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-                                        case "EForceScale":
-                                            break;
-
-                                        case "EPressureScale":
-                                            break;
-
-                                        case "EP3AtForce": //Pressure at Force(E3) =
-                                            HelperTestBase.Model_GVL.GVL_T01.rForca_E1 = dblValue;
-                                            break;
-
-                                        case "EP4AtForce": //Pressure at Force(E4) = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rForca_E2 = dblValue;
-                                            break;
-
-                                        case "EP5AtForce": //Pressure at Force(E5) = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rForca_P1 = dblValue;
-                                            break;
-
-                                        case "EP6AtForce": //Pressure at Force(E6) =
-                                            HelperTestBase.Model_GVL.GVL_T01.rForca_P2 = dblValue;
-                                            break;
-
-                                        case "EPistonTravelAtPressure": //Travel at Pressure = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rDeslocamentoNaPressao = dblValue;
-                                            break;
-
-                                        case "EActuationForceAtPressure": //Actuation Force at Pressure = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rPressaoCutIn_Bar = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMin": //Release Force min = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMin_Bar = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMax": //Release Force max = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMax_Bar = dblValue;
-                                            break;
-
-                                        case "EHysteresisAtPressure": //Hysteresis at Pressure(%) = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_pout = dblValue;
-                                            break;
-
-                                        case "EHysteresisAtPressure2": //Hysteresis at Pressure(bar) = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_Bar = dblValue;
-                                            break;
-
-                                        case "ERelForceRemainAtTravel": //Release Force Remaining at = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_mm = dblValue;
-                                            break;
-
-                                        case "ETMCDiameterPC": //TMC Diameter PC = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dblValue;
-                                            break;
-
-                                        case "ETMCDiameterSC": // TMC Diameter SC = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dblValue;
-                                            break;
-
-                                        case "EJumperGradientP1": //Jumper Gradient P1 = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = dblValue;
-                                            break;
-
-                                        case "EJumperGradientP2": //Jumper Gradient P2 = 
-                                            HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dblValue;
-                                            break;
-
-                                        case "CBUseLinearIntersection": //checkbox - 
-                                                                        //HelperTestBase.Model_GVL.GVL_T01.bRunOutTeorico = false; 
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T01;
-
-                                    break;
-                                }
-                            case 2:     //Force Diagrams - Force/Force With Vacuum
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "EForceScaleI":
-                                            break;
-
-                                        case "EForceScaleO":
-                                            break;
-
-                                        case "EP3AtForce": //Pressure at Force(E3) =
-                                            HelperTestBase.Model_GVL.GVL_T02.rForca_E1 = dblValue;
-                                            break;
-
-                                        case "EP4AtForce": //Pressure at Force(E4) = 
-                                            HelperTestBase.Model_GVL.GVL_T02.rForca_E2 = dblValue;
-                                            break;
-
-                                        case "EP5AtForce": //Pressure at Force(E5) = 
-                                            HelperTestBase.Model_GVL.GVL_T02.rForca_P1 = dblValue;
-                                            break;
-
-                                        case "EP6AtForce": //Pressure at Force(E6) =
-                                            HelperTestBase.Model_GVL.GVL_T02.rForca_P2 = dblValue;
-                                            break;
-
-                                        case "EPistonTravelAtForce": //Travel at Pressure = 
-                                            HelperTestBase.Model_GVL.GVL_T02.rDeslocamentoNaForca = dblValue;
-                                            break;
-
-                                        case "EActuationForceAtForce": //Actuation Force at Pressure = 
-                                            HelperTestBase.Model_GVL.GVL_T02.rForcaCutIn_N = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMin": //Release Force min = 
-                                            HelperTestBase.Model_GVL.GVL_T02.rReleaseForceFoutMin_N = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMax": //Release Force max = 
-                                            HelperTestBase.Model_GVL.GVL_T02.rReleaseForceFoutMax_N = dblValue;
-                                            break;
-
-                                        case "EHysteresisAtForce": //Hysteresis at Pressure(%) = 
-                                            HelperTestBase.Model_GVL.GVL_T02.rForcaHysterese_pout = dblValue;
-                                            break;
-
-                                        case "ERelForceRemainAtTravel": //Release Force Remaining at = 
-                                            HelperTestBase.Model_GVL.GVL_T02.rReleaseForceAt_mm = dblValue;
-                                            break;
-
-                                        case "EJumperGradientF1": //Jumper Gradient P1 = 
-                                            HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P1_N = dblValue;
-                                            break;
-
-                                        case "EJumperGradientF2": //Jumper Gradient P2 = 
-                                            HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P2_N = dblValue;
-                                            break;
-
-                                        case "CBUseLinearIntersection": //checkbox - 
-                                                                        //  HelperTestBase.Model_GVL.GVL_T02.bRunOutTeorico = false; 
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T02;
-
-                                    break;
-                                }
-                            case 3:     //Force Diagrams - Force/Pressure Without Vacuum
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-                                        case "EForceScale":
-                                            break;
-
-                                        case "EPressureScale":
-                                            break;
-
-                                        case "EP3AtForce": //Pressure at Force(E3) =
-                                            HelperTestBase.Model_GVL.GVL_T03.rForca_E1 = dblValue;
-                                            break;
-
-                                        case "EP4AtForce": //Pressure at Force(E4) = 
-                                            HelperTestBase.Model_GVL.GVL_T03.rForca_E2 = dblValue;
-                                            break;
-
-                                        case "EP5AtForce": //Pressure at Force(E5) = 
-                                            HelperTestBase.Model_GVL.GVL_T03.rForca_P1 = dblValue;
-                                            break;
-
-                                        case "EP6AtForce": //Pressure at Force(E6) =
-                                            HelperTestBase.Model_GVL.GVL_T03.rForca_P2 = dblValue;
-                                            break;
-
-
-                                        case "EActuationForceAtPressure": //Actuation Force at Pressure = 
-                                            HelperTestBase.Model_GVL.GVL_T03.rPressaoCutIn_Bar = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMin": //Release Force min = 
-                                            HelperTestBase.Model_GVL.GVL_T03.rReleaseForcePressMin_Bar = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMax": //Release Force max = 
-                                            HelperTestBase.Model_GVL.GVL_T03.rReleaseForcePressMax_Bar = dblValue;
-                                            break;
-
-                                        case "ERelForceRemainAtTravel": //Release Force Remaining at = 
-                                            HelperTestBase.Model_GVL.GVL_T03.rReleaseForceAt_mm = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T03;
-
-                                    break;
-                                }
-                            case 4:     //Force Diagrams - Force/Force Without Vacuum
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "EForceScaleI":
-                                            break;
-
-                                        case "EForceScaleO":
-                                            break;
-
-                                        case "EP3AtForce": //Pressure at Force(E3) =
-                                            HelperTestBase.Model_GVL.GVL_T04.rForca_E1 = dblValue;
-                                            break;
-
-                                        case "EP4AtForce": //Pressure at Force(E4) = 
-                                            HelperTestBase.Model_GVL.GVL_T04.rForca_E2 = dblValue;
-                                            break;
-
-                                        case "EActuationForceAtForce": //Actuation Force at Pressure = 
-                                            HelperTestBase.Model_GVL.GVL_T04.rForcaCutIn_N = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMin": //Release Force min = 
-                                            HelperTestBase.Model_GVL.GVL_T04.rReleaseForceFoutMin_N = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMax": //Release Force max = 
-                                            HelperTestBase.Model_GVL.GVL_T04.rReleaseForceFoutMax_N = dblValue;
-                                            break;
-
-
-                                        case "ERelForceRemainAtTravel": //Release Force Remaining at = 
-                                            HelperTestBase.Model_GVL.GVL_T04.rReleaseForceAt_mm = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T04;
-
-                                    break;
-                                }
-                            case 5: //Vacuum Leakage - Released Position
+                    switch (HelperApp.uiTesteSelecionado)
+                    {
+                        case 1:     //Force Diagrams - Force/Pressure With Vacuum
                             {
-                                    #region Case Param
+                                #region Case Param
 
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "ETimeScale":
-                                            break;
-
-                                        case "EVacuumScale":
-                                            break;
-
-                                        case "ETestingTime": //Tempo de teste
-                                            HelperTestBase.Model_GVL.GVL_T05.rTempoTeste = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T05_LW }, dblValue);
-                                            break;
-
-                                        case "EStabTime": //Tempo de estabilizacao 
-                                            HelperTestBase.Model_GVL.GVL_T05.rTempoEstabilizacao = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T05_LW }, dblValue);
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T05;
-
-                                    break;
-                                }
-                            case 6: //Vacuum Leakage - Fully Applied Position
-                            {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-                                        case "ETimeScale":
-                                            break;
-
-                                        case "EVacuumScale":
-                                            break;
-
-                                        case "ETestingTime": //Tempo de teste
-                                            HelperTestBase.Model_GVL.GVL_T06.rTempoTeste = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T06_LW }, dblValue);
-                                            break;
-
-                                        case "EStabTime": //Tempo de estabilizacao
-                                            HelperTestBase.Model_GVL.GVL_T06.rTempoEstabilizacao = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T06_LW }, dblValue);
-                                            break;
-
-                                        case "EForcePercentEout": //Forca relativa a Eout (%)
-                                            HelperTestBase.Model_GVL.GVL_T06.rForcaMaximaRelativa = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T06_LW }, dblValue);
-                                            break;
-
-                                        case "CBUseSingleInputForce": //Utilizar valor absoluto de forca
-                                            break;
-
-                                        case "EInputForce": //Forca Absoluta
-                                            HelperTestBase.Model_GVL.GVL_T06.rForcaMaximaAbsoluta_N = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T06_LW }, dblValue);
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T06;
-
-                                    break;
-                                }
-                            case 7: //Vacuum Leakage - Lap Position
+                                switch (strName.Trim())
                                 {
-                                    #region Case Param
+                                    case "EForceScale":
+                                        break;
 
-                                    switch (strName.Trim())
-                                    {
-                                        case "ETimeScale":
-                                            break;
+                                    case "EPressureScale":
+                                        break;
 
-                                        case "EPressureScale":
-                                            break;
+                                    case "EP3AtForce": //Pressure at Force(E3) =
+                                        HelperTestBase.Model_GVL.GVL_T01.rForca_E1 = dblValue;
+                                        break;
 
-                                        case "ETestingTime": //Tempo de teste
-                                            HelperTestBase.Model_GVL.GVL_T07.rTempoTeste = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T07_LW }, dblValue);
-                                            break;
+                                    case "EP4AtForce": //Pressure at Force(E4) = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rForca_E2 = dblValue;
+                                        break;
 
-                                        case "EStabTime": //Tempo de estabilizacao
-                                            HelperTestBase.Model_GVL.GVL_T07.rTempoEstabilizacao = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T07_LW }, dblValue);
-                                            break;
+                                    case "EP5AtForce": //Pressure at Force(E5) = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rForca_P1 = dblValue;
+                                        break;
 
-                                        case "ERelInputForce1": //Forca relativa avanco intermediario
-                                            HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaAvanco = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaAvanco_T07_LW }, dblValue);
-                                            break;
+                                    case "EP6AtForce": //Pressure at Force(E6) =
+                                        HelperTestBase.Model_GVL.GVL_T01.rForca_P2 = dblValue;
+                                        break;
 
-                                        case "ERelInputForce2": //Forca relativa retorno
-                                            HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaRetorno = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaRetorno_T07_LW }, dblValue);
-                                            break;
+                                    case "EPistonTravelAtPressure": //Travel at Pressure = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rDeslocamentoNaPressao = dblValue;
+                                        break;
 
-                                        case "ERelInputForce3": //Forca relativa avanco final
-                                            HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaFinal = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaFinal_T07_LW }, dblValue);
-                                            break;
+                                    case "EActuationForceAtPressure": //Actuation Force at Pressure = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rPressaoCutIn_Bar = dblValue;
+                                        break;
 
-                                        case "CBUseInputForce": //Utilizar valor absoluto de forca
-                                            break;
+                                    case "EReleaseForceMin": //Release Force min = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMin_Bar = dblValue;
+                                        break;
 
-                                        case "EInputForceRelative": //Forca relativa a Eout (%)
-                                            HelperTestBase.Model_GVL.GVL_T07.rForcaMaximaRelativa = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T07_LW }, dblValue);
-                                            break;
+                                    case "EReleaseForceMax": //Release Force max = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMax_Bar = dblValue;
+                                        break;
 
-                                        case "EInputForce": //Forca Absoluta
-                                            HelperTestBase.Model_GVL.GVL_T07.rForcaMaximaAbsoluta_N = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T07_LW }, dblValue);
-                                            break;
+                                    case "EHysteresisAtPressure": //Hysteresis at Pressure(%) = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_pout = dblValue;
+                                        break;
 
-                                        default:
-                                            break;
-                                    }
+                                    case "EHysteresisAtPressure2": //Hysteresis at Pressure(bar) = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_Bar = dblValue;
+                                        break;
 
-                                    #endregion
+                                    case "ERelForceRemainAtTravel": //Release Force Remaining at = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_mm = dblValue;
+                                        break;
 
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T07;
+                                    case "ETMCDiameterPC": //TMC Diameter PC = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dblValue;
+                                        break;
 
-                                    break;
-                                }
-                            case 8:     //Hydraulic Leakage - Fully Applied Position
-                                {
-                                    #region Case Param
+                                    case "ETMCDiameterSC": // TMC Diameter SC = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dblValue;
+                                        break;
 
-                                    switch (strName.Trim())
-                                    {
+                                    case "EJumperGradientP1": //Jumper Gradient P1 = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = dblValue;
+                                        break;
 
-                                        case "ETimeScale":
-                                            break;
+                                    case "EJumperGradientP2": //Jumper Gradient P2 = 
+                                        HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dblValue;
+                                        break;
 
-                                        case "EVacuumScale":
-                                            break;
+                                    case "CBUseLinearIntersection": //checkbox - 
+                                                                    //HelperTestBase.Model_GVL.GVL_T01.bRunOutTeorico = false; 
+                                        break;
 
-                                        case "EPressureScale":
-                                            break;
-
-                                        case "ETravelScale":
-                                            break;
-
-                                        case "ETestingTime": //Tempo de teste
-                                            HelperTestBase.Model_GVL.GVL_T08.rTempoTeste = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T08_LW }, dblValue);
-                                            break;
-
-                                        case "EStabTime": //Tempo de estabilizacao
-                                            HelperTestBase.Model_GVL.GVL_T08.rTempoEstabilizacao = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T08_LW }, dblValue);
-                                            break;
-
-                                        case "EForcePercentEout": //Forca relativa a Eout (%)
-                                            HelperTestBase.Model_GVL.GVL_T08.rForcaMaximaRelativa = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T08_LW }, dblValue);
-                                            break;
-
-                                        case "CBUseSingleInputForce": //Utilizar valor absoluto de forca
-                                            break;
-
-                                        case "EInputForce": //Forca Absoluta
-                                            HelperTestBase.Model_GVL.GVL_T08.rForcaMaximaAbsoluta_N = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T08_LW }, dblValue);
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T08;
-
-                                    break;
-                                }
-                            case 9:     //Hydraulic Leakage - At Low Pressure
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "ETimeScale":
-                                            break;
-
-                                        case "EVacuumScale":
-                                            break;
-
-                                        case "EPressureScale":
-                                            break;
-
-                                        case "ETravelScale":
-                                            break;
-
-                                        case "EPressurePC": //Target pressao
-                                            HelperTestBase.Model_GVL.GVL_T09.rPressaoTeste_Bar = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoTeste_T09_LW }, dblValue);
-                                            break;
-
-                                        case "ETestingTime": //Tempo de teste
-                                            HelperTestBase.Model_GVL.GVL_T09.rTempoTeste = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T09_LW }, dblValue);
-                                            break;
-
-                                        case "EStabTime": //Tempo de estabilizacao
-                                            HelperTestBase.Model_GVL.GVL_T09.rTempoEstabilizacao = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T09_LW }, dblValue);
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T09;
-
-                                    break;
-                                }
-                            case 10:    //Hydraulic Leakage - At High Pressure
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "ETimeScale":
-                                            break;
-
-                                        case "EVacuumScale":
-                                            break;
-
-                                        case "EPressureScale":
-                                            break;
-
-                                        case "ETravelScale":
-                                            break;
-
-                                        case "ETargetPressurePC": //Target pressao
-                                            HelperTestBase.Model_GVL.GVL_T10.rPressaoTeste_Bar = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoTeste_T10_LW }, dblValue);
-                                            break;
-
-                                        case "ETestingTime": //Tempo de teste
-                                            HelperTestBase.Model_GVL.GVL_T10.rTempoTeste = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T10_LW }, dblValue);
-                                            break;
-
-                                        case "EStabTime": //Tempo de estabilizacao
-                                            HelperTestBase.Model_GVL.GVL_T10.rTempoEstabilizacao = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T10_LW }, dblValue);
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T10;
-
-                                    break;
-                                }
-                            case 11:    //Adjustment - Actuation Slow
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-
-                                        case "EScaleTime":
-                                            break;
-
-                                        case "EScaleForce":
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T11;
-                                    break;
-                                }
-                            case 12:    //Adjustment - Actuation Fast
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "EScaleTime":
-                                            break;
-
-                                        case "EScaleForce":
-                                            break;
-
-                                        case "EActuationTimeFrom": //Forca para iniciar calculo tempo atuacao
-                                            HelperTestBase.Model_GVL.GVL_T12.rForcaInicialTempoAtuacao_N = dblValue;
-                                            break;
-
-                                        case "EActuationTimeTo": //Forca final para tempo de atuacao (% fmax do teste)
-                                            HelperTestBase.Model_GVL.GVL_T12.rForcaFinalTempoAtuacao = dblValue;
-                                            break;
-
-                                        case "EReleaseTimeTo": //% forca no retorno para calcuo do tempo de retorno
-                                            HelperTestBase.Model_GVL.GVL_T12.rForcaRetornoTempoAtuacao = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T12;
-
-                                    break;
-                                }
-                            case 13:    //Check Sensors - Pressure Difference
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "EIForceScale":
-                                            break;
-
-                                        case "EOPressScale":
-                                            break;
-
-                                        case "EDeltaAtPressure1": //Ponto verificacao dif pressao 1
-                                            HelperTestBase.Model_GVL.GVL_T13.rSetPointDiferencaPressaoP1Avanco_Bar = dblValue;
-                                            break;
-
-                                        case "EDeltaAtPressure2": //Ponto verificacao dif pressao 2
-                                            HelperTestBase.Model_GVL.GVL_T13.rSetPointDiferencaPressaoP2Avanco_Bar = dblValue;
-                                            break;
-
-                                        case "EDeltaAtPressure3": //Ponto verificacao dif pressao 3
-                                            HelperTestBase.Model_GVL.GVL_T13.rSetPointDiferencaPressaoP3Retorno_Bar = dblValue;
-                                            break;
-
-                                        case "EDeltaAtPressure4": //Ponto verificacao dif pressao 4
-                                            HelperTestBase.Model_GVL.GVL_T13.rSetPointDiferencaPressaoP4Retorno_Bar = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T13;
-
-                                    break;
-                                }
-                            case 14:    //Check Sensors - Input/Output Travel
-                                {
-
-                                    #region Case Param                                   
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "EITravelScale":
-                                            break;
-
-                                        case "EOTravelScale":
-                                            break;
-
-                                        case "EEmptyTravel": //Curso Morto
-                                            HelperTestBase.Model_GVL.GVL_T14.rCursoMortoEmDeslocamentoSaida_mm = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T14;
-
-                                    break;
-                                }
-                            case 15:    //Adjustment - Input Travel VS Input Force
-                                {
-
-                                    #region Case Param                                   
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "EScaleTravel":
-                                            break;
-
-                                        case "EScaleForce":
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T15;
-
-                                    break;
-                                }
-                            case 16:    //Adjustment - Hose Consumer
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "EScaleTravel":
-                                            break;
-
-                                        case "EScalePressure":
-                                            break;
-
-                                        case "ETestpressure": //Pressao Teste
-                                            HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoNaPressao_Bar = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T16;
-
-                                    break;
-                                }
-                            case 17:    //Lost Travel ACU - Hydraulic
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "ETravelScale":
-                                            break;
-
-                                        case "EPressScale":
-                                            break;
-
-                                        case "ETravelEmpty": //Curso Morto
-                                            HelperTestBase.Model_GVL.GVL_T17.rCursoMortoNaPressao_Bar = dblValue;
-                                            break;
-
-                                        case "ETravel1": //Curso em X pressao
-                                            HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao1_Bar = dblValue;
-                                            break;
-                                        case "ETravel2": //Curso em X pressao
-                                            HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao2_Bar = dblValue;
-                                            break;
-                                        case "ETravel3": //Curso em X pressao
-                                            HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao3_Bar = dblValue;
-                                            break;
-                                        case "ETravel4": //Curso em X pressao
-                                            HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao4_Bar = dblValue;
-                                            break;
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T17;
-
-                                    break;
-                                }
-                            case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
-                                {
-                                    #region Case Param
-
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "ETravelScale":
-                                            break;
-
-                                        case "EPressScale":
-                                            break;
-
-                                        case "ETargetForce": //Target Forca EDrive - Utilizar campo max Force 
-                                            //utilizar campo de parametro padrao Forca Maxima
-                                            break;
-
-                                        case "ETravelEmpty": //Forca para iniciar calculo tempo atuacao
-                                            HelperTestBase.Model_GVL.GVL_T18.rCursoMortoNaPressao_Bar = dblValue;
-                                            break;
-
-                                        case "ETravel1": //Curso em X pressao
-                                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao1_Bar = dblValue;
-                                            break;
-
-                                        case "ETravel2": //Curso em X pressao
-                                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao2_Bar = dblValue;
-                                            break;
-
-                                        case "ETravel3": //Curso em X pressao
-                                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao3_Bar = dblValue;
-                                            break;
-
-                                        case "ETravel4": //Curso em X pressao
-                                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao4_Bar = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T18;
-
-                                    break;
-                                }
-                            case 19:    //Lost Travel ACU - Pneumatic Primary
-                                {
-                                    #region Case Param
-
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "ETravelScale":
-                                            break;
-
-                                        case "EPressureScale":
-                                            break;
-
-                                        case "EBlowTime": //Tempo sopro Blow Out
-                                            HelperTestBase.Model_GVL.GVL_T19.rTempoSopro = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoSopro_T19_LW }, dblValue);
-                                            break;
-
-                                        case "EActTravel": //Deslocamento teste
-                                            HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoTeste = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwDeslocamentoTeste_T19_LW}, dblValue);
-                                            break;
-
-                                        case "EPressureClosed": //Pressao desejada com sistema fechado
-                                            HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaFechado_Bar = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaFechado_T19_LW}, dblValue);
-                                            break;
-
-                                        case "EPressureOpened": //Pressao desejada com sistema aberto
-                                            HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaAberto_Bar = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaAberto_T19_LW}, dblValue);
-                                            break;
-
-                                        case "ETravelBeforeEndPressure": //Deslocamento na pressao
-                                            HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoNaPressao_Bar = dblValue;
-                                            break;
-
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T19;
-
-                                    break;
-                                }
-                            case 20:    //Lost Travel ACU - Pneumatic Secondary
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "ETravelScale":
-                                            break;
-
-                                        case "EPressureScale":
-                                            break;
-
-                                        case "EBlowTime": //Tempo sopro Blow Out
-                                            HelperTestBase.Model_GVL.GVL_T20.rTempoSopro = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoSopro_T20_LW }, dblValue);
-                                            break;
-
-                                        case "EActTravel": //Deslocamento teste
-                                            HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoTeste = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwDeslocamentoTeste_T20_LW}, dblValue);
-                                            break;
-
-                                        case "EPressureClosed": //Pressao desejada com sistema fechado
-                                            HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaFechado_Bar = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaFechado_T20_LW}, dblValue);
-                                            break;
-
-                                        case "EPressureOpened": //Pressao desejada com sistema aberto
-                                            HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaAberto_Bar = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaAberto_T20_LW}, dblValue);
-                                            break;
-
-                                        case "ETravelBeforeEndPressure": //Deslocamento na pressao
-                                            HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoNaPressao_Bar = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T20;
-
-                                    break;
-                                }
-                            case 21:    //Pedal Feeling Characteristics
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "ETravelScaleLo":
-                                            break;
-
-                                        case "ETravelScaleHi":
-                                            break;
-
-                                        case "EPressScale":
-                                            break;
-
-                                        case "EForceScale":
-                                            break;
-
-                                        case "ETravelEmpty": //Curso morto
-                                            HelperTestBase.Model_GVL.GVL_T21.rPressaoCutIn_Bar = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T21;
-
-                                    break;
-                                }
-                            case 22:    //Actuation / Release - Mechanical Actuation
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "ETimeScale":
-                                            break;
-
-                                        case "EForceScale":
-                                            break;
-
-                                        case "EPressureScale":
-                                            break;
-
-                                        case "ETravelScale":
-                                            break;
-
-                                        case "EActTimeFrom": //
-                                            //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-
-                                        case "EActTimeTo": //
-                                            //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-
-                                        case "CBMaxPress1": //
-                                                            //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-                                        case "CBOutPress1": //
-                                            //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-
-                                        case "CBHelpPress1": //
-                                            //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-
-                                        case "CBMaxPress2": //
-                                                            //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-                                        case "CBOutPress2": //
-                                            //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-
-                                        case "CBHelpPress2": //
-                                            //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-
-                                        case "ERelTimeToTravelLeft": //
-                                                                     //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-
-                                        case "ETravelAtPOut": //
-                                                              //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-                                        case "EPressGradAt1": //
-                                                              //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-                                        case "EPressGradAt2": //
-                                                              //HelperTestBase.Model_GVL.GVL_T22. = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T22;
-
-                                    break;
-                                }
-                            case 23:    //Breather Hole / Central Valve open
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-                                        case "CBPerformPreActuation":
-                                            break;
-
-                                        case "EHydrFillPressureMin": //Tempo sopro Blow Out
-                                            HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMin_Bar = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoHidraulicaMin_T23_LW }, dblValue);
-                                            break;
-
-                                        case "EHydrFillPressureMax": //Deslocamento teste
-                                            HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMax_Bar = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoHidraulicaMax_T23_LW }, dblValue);
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T23;
-
-                                    break;
-                                }
-                            case 24:    //Efficiency
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-                                        case "CBShowPressureForce":
-                                            break;
-
-                                        case "CBShowPressureTimeSlow":
-                                            break;
-
-                                        case "CBShowPressureTimeFast":
-                                            break;
-
-                                        case "EForceScale":
-                                            break;
-
-                                        case "EPressureScale":
-                                            break;
-
-                                        case "EPause": //Intervalo
-                                            HelperTestBase.Model_GVL.GVL_T24.rIntervalo = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwIntervalo_T24_LW }, dblValue);
-                                            break;
-
-                                        case "EFastMaxForce": //Forca Maxima modo rapido
-                                            HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaModoRapido = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaModoRapido_T24_LW }, dblValue);
-                                            break;
-
-                                        case "EFastGradient": //Gradiente abertura valvula - utilizar o parametro Geral Gradiente Pressao (%)
-                                            //HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoFast = dblValue;
-
-                                            break;
-                                        case "EPressGradAt1": //Ref Calculo Gradiente Pressao
-                                            HelperTestBase.Model_GVL.GVL_T24.rInicioGradientePressao_Bar = dblValue;
-
-                                            break;
-                                        case "EPressGradAt2": //Ref Calculo Gradiente Pressao
-                                            HelperTestBase.Model_GVL.GVL_T24.rFimGradientePressao_Bar = dblValue;
-
-                                            break;
-                                        case "EEfficiencyAtForce": //Eficiencia em .. 
-                                            HelperTestBase.Model_GVL.GVL_T24.rEficienciaNaForca_N = dblValue;
-                                            break;
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T24;
-
-                                    break;
-                                }
-                            case 25:    //Force Diagrams - Force/Pressure Dual Ratio
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-                                        case "EForceScale":
-                                            break;
-
-                                        case "EPressureScale":
-                                            break;
-
-                                        case "EP1AtForce": //Pressure at Force(E1)
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EP2AtForce": //Pressure at Force(E2)  
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EP3AtForce": //Pressure at Force(P1)
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EP4AtForce": //Pressure at Force(P2)
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EMeasurePointP7": //Pressure at Force(E6) =
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EPistonTravelAtPressure": //Travel at Pressure = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EActuationForceAtPressure": //Actuation Force at Pressure = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMin": //Release Force min = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMax": //Release Force max = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EHysteresisAtPressure": //Hysteresis at Pressure(%) = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "//EHysteresisAtPressure2": //Hysteresis at Pressure(bar) = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "ERelForceRemainAtTravel": //Release Force Remaining at = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "ETMCDiameterPC": //TMC Diameter PC = 
-                                            //HelperTestBase.Model_GVL.GVL_T25.rDiametroCMD_mm = dblValue;
-                                            break;
-
-                                        case "ETMCDiameterSC": // TMC Diameter SC = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EJumperNomGrad": //Jumper Gradient P1 = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EJumperPosTolerance": //Jumper Gradient P2 = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "EJumperNegTolerance": //Jumper Gradient P2 = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "ESwitchPointNomGrad": //Jumper Gradient P2 = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "ESwitchPointPosTolerance": //Jumper Gradient P2 = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-                                        case "ESwitchPointNegTolerance": //Jumper Gradient P2 = 
-                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
-                                            break;
-
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T25;
-
-                                    break;
-                                }
-                            case 26:    //Force Diagrams - Force/Force Dual Ratio
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-                                        case "EForceScaleI":
-                                            break;
-
-                                        case "EForceScaleO":
-                                            break;
-
-                                        case "EP1AtForce": //Pressure at Force(E1)
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EP2AtForce": //Pressure at Force(E2)  
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EP3AtForce": //Pressure at Force(P1)
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EP4AtForce": //Pressure at Force(P2)
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EMeasurePointP7": //Pressure at Force(E6) =
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EActuationForceAtForce": //Actuation Force at Pressure = 
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMin": //Release Force min = 
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EReleaseForceMax": //Release Force max = 
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EHysteresisAtForce": //Hysteresis at Pressure(%) = 
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EJumperNomGrad": //Jumper Gradient P1 = 
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EJumperPosTolerance": //Jumper Gradient P2 = 
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "EJumperNegTolerance": //Jumper Gradient P2 = 
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "ESwitchPointNomGrad": //Jumper Gradient P2 = 
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "ESwitchPointPosTolerance": //Jumper Gradient P2 = 
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        case "ESwitchPointNegTolerance": //Jumper Gradient P2 = 
-                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T26;
-
-                                    break;
-                                }
-                            case 27:    //ADAM - Find Switching Point With TMC
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-                                        case "CBForcePressDiagram":
-                                            break;
-
-                                        case "EForceScale":
-                                            break;
-
-                                        case "EPressScale":
-                                            break;
-
-                                        case "ETravelScale":
-                                            break;
-
-                                        case "EDiffTravelScale":
-                                            break;
-
-                                        case "ETimeScale":
-                                            break;
-
-                                        case "EBackwardGradient": //Vel. Retorno
-                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
-                                            break;
-
-                                        case "EActuationGradient1": //Vel. Avanco 1
-                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
-                                            break;
-
-                                        case "EActuationGradient2": //Vel. Avanco 2
-                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
-                                            break;
-
-                                        case "EActuationGradient3": //Vel. Avanco 3
-                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
-                                            break;
-
-                                        case "EActuationGradient4": //Vel. Avanco 4
-                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
-                                            break;
-
-                                        case "EActuationGradient5": //Vel. Avanco 5
-                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
-                                            break;
-
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T27;
-
-                                    break;
-                                }
-                            case 28:    //ADAM - Switching Point Without TMC
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-                                        case "CBForcePressDiagram":
-                                            break;
-
-                                        case "EForceScale":
-                                            break;
-
-                                        case "EPressScale":
-                                            break;
-
-                                        case "ETravelScale":
-                                            break;
-
-                                        case "EDiffTravelScale":
-                                            break;
-
-                                        case "ETimeScale":
-                                            break;
-
-                                        case "EBackwardGradient": //Vel. Retorno
-                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
-                                            break;
-
-                                        case "EActuationGradient1": //Vel. Avanco 1
-                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
-                                            break;
-
-                                        case "EActuationGradient2": //Vel. Avanco 2
-                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
-                                            break;
-
-                                        case "EActuationGradient3": //Vel. Avanco 3
-                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
-                                            break;
-
-                                        case "EActuationGradient4": //Vel. Avanco 4
-                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
-                                            break;
-
-                                        case "EActuationGradient5": //Vel. Avanco 5
-                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
-                                            break;
-
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T28;
-
-                                    break;
-                                }
-                            case 29:    //Bleed
-                                {
-                                    #region Case Param
-
-                                    switch (strName.Trim())
-                                    {
-
-
-                                        case "Actuations": //
-                                            //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wNumeroAtuacoes_T29 }, dblValue);
-                                            break;
-
-                                        case "Repetitions": //
-                                            //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wNumeroRepeticoes_T29 }, dblValue);
-                                            break;
-
-                                        case "PumpingTime": //
-                                            //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
-                                            //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoBombeamento_T29_LW }, dblValue);
-                                            break;
-
-
-                                        default:
-                                            break;
-                                    }
-
-                                    #endregion
-
-                                    HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T28;
-
-                                    break;
+                                    default:
+                                        break;
                                 }
 
-                            default:
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T01;
+
                                 break;
-                        }
+                            }
+                        case 2:     //Force Diagrams - Force/Force With Vacuum
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "EForceScaleI":
+                                        break;
+
+                                    case "EForceScaleO":
+                                        break;
+
+                                    case "EP3AtForce": //Pressure at Force(E3) =
+                                        HelperTestBase.Model_GVL.GVL_T02.rForca_E1 = dblValue;
+                                        break;
+
+                                    case "EP4AtForce": //Pressure at Force(E4) = 
+                                        HelperTestBase.Model_GVL.GVL_T02.rForca_E2 = dblValue;
+                                        break;
+
+                                    case "EP5AtForce": //Pressure at Force(E5) = 
+                                        HelperTestBase.Model_GVL.GVL_T02.rForca_P1 = dblValue;
+                                        break;
+
+                                    case "EP6AtForce": //Pressure at Force(E6) =
+                                        HelperTestBase.Model_GVL.GVL_T02.rForca_P2 = dblValue;
+                                        break;
+
+                                    case "EPistonTravelAtForce": //Travel at Pressure = 
+                                        HelperTestBase.Model_GVL.GVL_T02.rDeslocamentoNaForca = dblValue;
+                                        break;
+
+                                    case "EActuationForceAtForce": //Actuation Force at Pressure = 
+                                        HelperTestBase.Model_GVL.GVL_T02.rForcaCutIn_N = dblValue;
+                                        break;
+
+                                    case "EReleaseForceMin": //Release Force min = 
+                                        HelperTestBase.Model_GVL.GVL_T02.rReleaseForceFoutMin_N = dblValue;
+                                        break;
+
+                                    case "EReleaseForceMax": //Release Force max = 
+                                        HelperTestBase.Model_GVL.GVL_T02.rReleaseForceFoutMax_N = dblValue;
+                                        break;
+
+                                    case "EHysteresisAtForce": //Hysteresis at Pressure(%) = 
+                                        HelperTestBase.Model_GVL.GVL_T02.rForcaHysterese_pout = dblValue;
+                                        break;
+
+                                    case "ERelForceRemainAtTravel": //Release Force Remaining at = 
+                                        HelperTestBase.Model_GVL.GVL_T02.rReleaseForceAt_mm = dblValue;
+                                        break;
+
+                                    case "EJumperGradientF1": //Jumper Gradient P1 = 
+                                        HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P1_N = dblValue;
+                                        break;
+
+                                    case "EJumperGradientF2": //Jumper Gradient P2 = 
+                                        HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P2_N = dblValue;
+                                        break;
+
+                                    case "CBUseLinearIntersection": //checkbox - 
+                                                                    //  HelperTestBase.Model_GVL.GVL_T02.bRunOutTeorico = false; 
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T02;
+
+                                break;
+                            }
+                        case 3:     //Force Diagrams - Force/Pressure Without Vacuum
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+                                    case "EForceScale":
+                                        break;
+
+                                    case "EPressureScale":
+                                        break;
+
+                                    case "EP3AtForce": //Pressure at Force(E3) =
+                                        HelperTestBase.Model_GVL.GVL_T03.rForca_E1 = dblValue;
+                                        break;
+
+                                    case "EP4AtForce": //Pressure at Force(E4) = 
+                                        HelperTestBase.Model_GVL.GVL_T03.rForca_E2 = dblValue;
+                                        break;
+
+                                    case "EP5AtForce": //Pressure at Force(E5) = 
+                                        HelperTestBase.Model_GVL.GVL_T03.rForca_P1 = dblValue;
+                                        break;
+
+                                    case "EP6AtForce": //Pressure at Force(E6) =
+                                        HelperTestBase.Model_GVL.GVL_T03.rForca_P2 = dblValue;
+                                        break;
+
+
+                                    case "EActuationForceAtPressure": //Actuation Force at Pressure = 
+                                        HelperTestBase.Model_GVL.GVL_T03.rPressaoCutIn_Bar = dblValue;
+                                        break;
+
+                                    case "EReleaseForceMin": //Release Force min = 
+                                        HelperTestBase.Model_GVL.GVL_T03.rReleaseForcePressMin_Bar = dblValue;
+                                        break;
+
+                                    case "EReleaseForceMax": //Release Force max = 
+                                        HelperTestBase.Model_GVL.GVL_T03.rReleaseForcePressMax_Bar = dblValue;
+                                        break;
+
+                                    case "ERelForceRemainAtTravel": //Release Force Remaining at = 
+                                        HelperTestBase.Model_GVL.GVL_T03.rReleaseForceAt_mm = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T03;
+
+                                break;
+                            }
+                        case 4:     //Force Diagrams - Force/Force Without Vacuum
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "EForceScaleI":
+                                        break;
+
+                                    case "EForceScaleO":
+                                        break;
+
+                                    case "EP3AtForce": //Pressure at Force(E3) =
+                                        HelperTestBase.Model_GVL.GVL_T04.rForca_E1 = dblValue;
+                                        break;
+
+                                    case "EP4AtForce": //Pressure at Force(E4) = 
+                                        HelperTestBase.Model_GVL.GVL_T04.rForca_E2 = dblValue;
+                                        break;
+
+                                    case "EActuationForceAtForce": //Actuation Force at Pressure = 
+                                        HelperTestBase.Model_GVL.GVL_T04.rForcaCutIn_N = dblValue;
+                                        break;
+
+                                    case "EReleaseForceMin": //Release Force min = 
+                                        HelperTestBase.Model_GVL.GVL_T04.rReleaseForceFoutMin_N = dblValue;
+                                        break;
+
+                                    case "EReleaseForceMax": //Release Force max = 
+                                        HelperTestBase.Model_GVL.GVL_T04.rReleaseForceFoutMax_N = dblValue;
+                                        break;
+
+                                    case "ERelForceRemainAtTravel": //Release Force Remaining at = 
+                                        HelperTestBase.Model_GVL.GVL_T04.rReleaseForceAt_mm = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T04;
+
+                                break;
+                            }
+                        case 5: //Vacuum Leakage - Released Position
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "ETimeScale":
+                                        break;
+
+                                    case "EVacuumScale":
+                                        break;
+
+                                    case "ETestingTime": //Tempo de teste
+                                        HelperTestBase.Model_GVL.GVL_T05.rTempoTeste = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T05_LW }, dblValue);
+                                        break;
+
+                                    case "EStabTime": //Tempo de estabilizacao 
+                                        HelperTestBase.Model_GVL.GVL_T05.rTempoEstabilizacao = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T05_LW }, dblValue);
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T05;
+
+                                break;
+                            }
+                        case 6: //Vacuum Leakage - Fully Applied Position
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+                                    case "ETimeScale":
+                                        break;
+
+                                    case "EVacuumScale":
+                                        break;
+
+                                    case "ETestingTime": //Tempo de teste
+                                        HelperTestBase.Model_GVL.GVL_T06.rTempoTeste = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T06_LW }, dblValue);
+                                        break;
+
+                                    case "EStabTime": //Tempo de estabilizacao
+                                        HelperTestBase.Model_GVL.GVL_T06.rTempoEstabilizacao = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T06_LW }, dblValue);
+                                        break;
+
+                                    case "EForcePercentEout": //Forca relativa a Eout (%)
+                                        HelperTestBase.Model_GVL.GVL_T06.rForcaMaximaRelativa = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T06_LW }, dblValue);
+                                        break;
+
+                                    case "CBUseSingleInputForce": //Utilizar valor absoluto de forca
+                                        break;
+
+                                    case "EInputForce": //Forca Absoluta
+                                        HelperTestBase.Model_GVL.GVL_T06.rForcaMaximaAbsoluta_N = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T06_LW }, dblValue);
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T06;
+
+                                break;
+                            }
+                        case 7: //Vacuum Leakage - Lap Position
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+                                    case "ETimeScale":
+                                        break;
+
+                                    case "EPressureScale":
+                                        break;
+
+                                    case "ETestingTime": //Tempo de teste
+                                        HelperTestBase.Model_GVL.GVL_T07.rTempoTeste = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T07_LW }, dblValue);
+                                        break;
+
+                                    case "EStabTime": //Tempo de estabilizacao
+                                        HelperTestBase.Model_GVL.GVL_T07.rTempoEstabilizacao = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T07_LW }, dblValue);
+                                        break;
+
+                                    case "ERelInputForce1": //Forca relativa avanco intermediario
+                                        HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaAvanco = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaAvanco_T07_LW }, dblValue);
+                                        break;
+
+                                    case "ERelInputForce2": //Forca relativa retorno
+                                        HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaRetorno = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaRetorno_T07_LW }, dblValue);
+                                        break;
+
+                                    case "ERelInputForce3": //Forca relativa avanco final
+                                        HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaFinal = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaFinal_T07_LW }, dblValue);
+                                        break;
+
+                                    case "CBUseInputForce": //Utilizar valor absoluto de forca
+                                        break;
+
+                                    case "EInputForceRelative": //Forca relativa a Eout (%)
+                                        HelperTestBase.Model_GVL.GVL_T07.rForcaMaximaRelativa = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T07_LW }, dblValue);
+                                        break;
+
+                                    case "EInputForce": //Forca Absoluta
+                                        HelperTestBase.Model_GVL.GVL_T07.rForcaMaximaAbsoluta_N = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T07_LW }, dblValue);
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T07;
+
+                                break;
+                            }
+                        case 8:     //Hydraulic Leakage - Fully Applied Position
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "ETimeScale":
+                                        break;
+
+                                    case "EVacuumScale":
+                                        break;
+
+                                    case "EPressureScale":
+                                        break;
+
+                                    case "ETravelScale":
+                                        break;
+
+                                    case "ETestingTime": //Tempo de teste
+                                        HelperTestBase.Model_GVL.GVL_T08.rTempoTeste = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T08_LW }, dblValue);
+                                        break;
+
+                                    case "EStabTime": //Tempo de estabilizacao
+                                        HelperTestBase.Model_GVL.GVL_T08.rTempoEstabilizacao = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T08_LW }, dblValue);
+                                        break;
+
+                                    case "EForcePercentEout": //Forca relativa a Eout (%)
+                                        HelperTestBase.Model_GVL.GVL_T08.rForcaMaximaRelativa = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T08_LW }, dblValue);
+                                        break;
+
+                                    case "CBUseSingleInputForce": //Utilizar valor absoluto de forca
+                                        break;
+
+                                    case "EInputForce": //Forca Absoluta
+                                        HelperTestBase.Model_GVL.GVL_T08.rForcaMaximaAbsoluta_N = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T08_LW }, dblValue);
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T08;
+
+                                break;
+                            }
+                        case 9:     //Hydraulic Leakage - At Low Pressure
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "ETimeScale":
+                                        break;
+
+                                    case "EVacuumScale":
+                                        break;
+
+                                    case "EPressureScale":
+                                        break;
+
+                                    case "ETravelScale":
+                                        break;
+
+                                    case "EPressurePC": //Target pressao
+                                        HelperTestBase.Model_GVL.GVL_T09.rPressaoTeste_Bar = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoTeste_T09_LW }, dblValue);
+                                        break;
+
+                                    case "ETestingTime": //Tempo de teste
+                                        HelperTestBase.Model_GVL.GVL_T09.rTempoTeste = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T09_LW }, dblValue);
+                                        break;
+
+                                    case "EStabTime": //Tempo de estabilizacao
+                                        HelperTestBase.Model_GVL.GVL_T09.rTempoEstabilizacao = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T09_LW }, dblValue);
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T09;
+
+                                break;
+                            }
+                        case 10:    //Hydraulic Leakage - At High Pressure
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "ETimeScale":
+                                        break;
+
+                                    case "EVacuumScale":
+                                        break;
+
+                                    case "EPressureScale":
+                                        break;
+
+                                    case "ETravelScale":
+                                        break;
+
+                                    case "ETargetPressurePC": //Target pressao
+                                        HelperTestBase.Model_GVL.GVL_T10.rPressaoTeste_Bar = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoTeste_T10_LW }, dblValue);
+                                        break;
+
+                                    case "ETestingTime": //Tempo de teste
+                                        HelperTestBase.Model_GVL.GVL_T10.rTempoTeste = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T10_LW }, dblValue);
+                                        break;
+
+                                    case "EStabTime": //Tempo de estabilizacao
+                                        HelperTestBase.Model_GVL.GVL_T10.rTempoEstabilizacao = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T10_LW }, dblValue);
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T10;
+
+                                break;
+                            }
+                        case 11:    //Adjustment - Actuation Slow
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+
+                                    case "EScaleTime":
+                                        break;
+
+                                    case "EScaleForce":
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T11;
+                                break;
+                            }
+                        case 12:    //Adjustment - Actuation Fast
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "EScaleTime":
+                                        break;
+
+                                    case "EScaleForce":
+                                        break;
+
+                                    case "EActuationTimeFrom": //Forca para iniciar calculo tempo atuacao
+                                        HelperTestBase.Model_GVL.GVL_T12.rForcaInicialTempoAtuacao_N = dblValue;
+                                        break;
+
+                                    case "EActuationTimeTo": //Forca final para tempo de atuacao (% fmax do teste)
+                                        HelperTestBase.Model_GVL.GVL_T12.rForcaFinalTempoAtuacao = dblValue;
+                                        break;
+
+                                    case "EReleaseTimeTo": //% forca no retorno para calcuo do tempo de retorno
+                                        HelperTestBase.Model_GVL.GVL_T12.rForcaRetornoTempoAtuacao = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T12;
+
+                                break;
+                            }
+                        case 13:    //Check Sensors - Pressure Difference
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "EIForceScale":
+                                        break;
+
+                                    case "EOPressScale":
+                                        break;
+
+                                    case "EDeltaAtPressure1": //Ponto verificacao dif pressao 1
+                                        HelperTestBase.Model_GVL.GVL_T13.rSetPointDiferencaPressaoP1Avanco_Bar = dblValue;
+                                        break;
+
+                                    case "EDeltaAtPressure2": //Ponto verificacao dif pressao 2
+                                        HelperTestBase.Model_GVL.GVL_T13.rSetPointDiferencaPressaoP2Avanco_Bar = dblValue;
+                                        break;
+
+                                    case "EDeltaAtPressure3": //Ponto verificacao dif pressao 3
+                                        HelperTestBase.Model_GVL.GVL_T13.rSetPointDiferencaPressaoP3Retorno_Bar = dblValue;
+                                        break;
+
+                                    case "EDeltaAtPressure4": //Ponto verificacao dif pressao 4
+                                        HelperTestBase.Model_GVL.GVL_T13.rSetPointDiferencaPressaoP4Retorno_Bar = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T13;
+
+                                break;
+                            }
+                        case 14:    //Check Sensors - Input/Output Travel
+                            {
+
+                                #region Case Param                                   
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "EITravelScale":
+                                        break;
+
+                                    case "EOTravelScale":
+                                        break;
+
+                                    case "EEmptyTravel": //Curso Morto
+                                        HelperTestBase.Model_GVL.GVL_T14.rCursoMortoEmDeslocamentoSaida_mm = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T14;
+
+                                break;
+                            }
+                        case 15:    //Adjustment - Input Travel VS Input Force
+                            {
+
+                                #region Case Param                                   
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "EScaleTravel":
+                                        break;
+
+                                    case "EScaleForce":
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T15;
+
+                                break;
+                            }
+                        case 16:    //Adjustment - Hose Consumer
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "EScaleTravel":
+                                        break;
+
+                                    case "EScalePressure":
+                                        break;
+
+                                    case "ETestpressure": //Pressao Teste
+                                        HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoNaPressao_Bar = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T16;
+
+                                break;
+                            }
+                        case 17:    //Lost Travel ACU - Hydraulic
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "ETravelScale":
+                                        break;
+
+                                    case "EPressScale":
+                                        break;
+
+                                    case "ETravelEmpty": //Curso Morto
+                                        HelperTestBase.Model_GVL.GVL_T17.rCursoMortoNaPressao_Bar = dblValue;
+                                        break;
+
+                                    case "ETravel1": //Curso em X pressao
+                                        HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao1_Bar = dblValue;
+                                        break;
+                                    case "ETravel2": //Curso em X pressao
+                                        HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao2_Bar = dblValue;
+                                        break;
+                                    case "ETravel3": //Curso em X pressao
+                                        HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao3_Bar = dblValue;
+                                        break;
+                                    case "ETravel4": //Curso em X pressao
+                                        HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao4_Bar = dblValue;
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T17;
+
+                                break;
+                            }
+                        case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
+                            {
+                                #region Case Param
+
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "ETravelScale":
+                                        break;
+
+                                    case "EPressScale":
+                                        break;
+
+                                    case "ETargetForce": //Target Forca EDrive - Utilizar campo max Force 
+                                                         //utilizar campo de parametro padrao Forca Maxima
+                                        break;
+
+                                    case "ETravelEmpty": //Forca para iniciar calculo tempo atuacao
+                                        HelperTestBase.Model_GVL.GVL_T18.rCursoMortoNaPressao_Bar = dblValue;
+                                        break;
+
+                                    case "ETravel1": //Curso em X pressao
+                                        HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao1_Bar = dblValue;
+                                        break;
+
+                                    case "ETravel2": //Curso em X pressao
+                                        HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao2_Bar = dblValue;
+                                        break;
+
+                                    case "ETravel3": //Curso em X pressao
+                                        HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao3_Bar = dblValue;
+                                        break;
+
+                                    case "ETravel4": //Curso em X pressao
+                                        HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao4_Bar = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T18;
+
+                                break;
+                            }
+                        case 19:    //Lost Travel ACU - Pneumatic Primary
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "ETravelScale":
+                                        break;
+
+                                    case "EPressureScale":
+                                        break;
+
+                                    case "EBlowTime": //Tempo sopro Blow Out
+                                        HelperTestBase.Model_GVL.GVL_T19.rTempoSopro = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoSopro_T19_LW }, dblValue);
+                                        break;
+
+                                    case "EActTravel": //Deslocamento teste
+                                        HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoTeste = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwDeslocamentoTeste_T19_LW}, dblValue);
+                                        break;
+
+                                    case "EPressureClosed": //Pressao desejada com sistema fechado
+                                        HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaFechado_Bar = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaFechado_T19_LW}, dblValue);
+                                        break;
+
+                                    case "EPressureOpened": //Pressao desejada com sistema aberto
+                                        HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaAberto_Bar = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaAberto_T19_LW}, dblValue);
+                                        break;
+
+                                    case "ETravelBeforeEndPressure": //Deslocamento na pressao
+                                        HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoNaPressao_Bar = dblValue;
+                                        break;
+
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T19;
+
+                                break;
+                            }
+                        case 20:    //Lost Travel ACU - Pneumatic Secondary
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "ETravelScale":
+                                        break;
+
+                                    case "EPressureScale":
+                                        break;
+
+                                    case "EBlowTime": //Tempo sopro Blow Out
+                                        HelperTestBase.Model_GVL.GVL_T20.rTempoSopro = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoSopro_T20_LW }, dblValue);
+                                        break;
+
+                                    case "EActTravel": //Deslocamento teste
+                                        HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoTeste = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwDeslocamentoTeste_T20_LW}, dblValue);
+                                        break;
+
+                                    case "EPressureClosed": //Pressao desejada com sistema fechado
+                                        HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaFechado_Bar = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaFechado_T20_LW}, dblValue);
+                                        break;
+
+                                    case "EPressureOpened": //Pressao desejada com sistema aberto
+                                        HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaAberto_Bar = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaAberto_T20_LW}, dblValue);
+                                        break;
+
+                                    case "ETravelBeforeEndPressure": //Deslocamento na pressao
+                                        HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoNaPressao_Bar = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T20;
+
+                                break;
+                            }
+                        case 21:    //Pedal Feeling Characteristics
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "ETravelScaleLo":
+                                        break;
+
+                                    case "ETravelScaleHi":
+                                        break;
+
+                                    case "EPressScale":
+                                        break;
+
+                                    case "EForceScale":
+                                        break;
+
+                                    case "ETravelEmpty": //Curso morto
+                                        HelperTestBase.Model_GVL.GVL_T21.rPressaoCutIn_Bar = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T21;
+
+                                break;
+                            }
+                        case 22:    //Actuation / Release - Mechanical Actuation
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "ETimeScale":
+                                        break;
+
+                                    case "EForceScale":
+                                        break;
+
+                                    case "EPressureScale":
+                                        break;
+
+                                    case "ETravelScale":
+                                        break;
+
+                                    case "EActTimeFrom": //
+                                                         HelperTestBase.Model_GVL.GVL_T22.rForcaTempoInicialAtuacao_N = dblValue;
+                                        break;
+
+                                    case "EActTimeTo": //
+                                                        HelperTestBase.Model_GVL.GVL_T22.rPorcentagemCalcTempoFinalAtuacao = dblValue;
+                                        break;
+
+                                    case "CBMaxPress1": //
+                                                        if (dblValue > 0)
+                                                            HelperTestBase.Model_GVL.GVL_T22.iTipoAtuacaoFinal = 1;
+                                        break;
+                                    case "CBOutPress1": //
+                                                        if (dblValue > 0)
+                                                            HelperTestBase.Model_GVL.GVL_T22.iTipoAtuacaoFinal = 2;
+                                        break;
+
+                                    case "CBHelpPress1": //
+                                                        if (dblValue > 0)
+                                                            HelperTestBase.Model_GVL.GVL_T22.iTipoAtuacaoFinal = 3;
+                                        break;
+
+                                    case "CBMaxPress2": //
+                                                        if (dblValue > 0)
+                                                            HelperTestBase.Model_GVL.GVL_T22.iTipoRetornoFinal = 1;
+                                        break;
+                                    case "CBOutPress2": //
+                                                        if(dblValue > 0)
+                                                            HelperTestBase.Model_GVL.GVL_T22.iTipoRetornoFinal = 2;
+                                        break;
+
+                                    case "CBHelpPress2": //
+                                                        if (dblValue > 0)
+                                                            HelperTestBase.Model_GVL.GVL_T22.iTipoRetornoFinal = 3;
+                                        break;
+
+                                    case "ERelTimeToTravelLeft": //
+                                                         HelperTestBase.Model_GVL.GVL_T22.rPosicaoTempoRetornoNoDeslocamento_mm = dblValue;
+                                        break;
+
+                                    case "ETravelAtPOut": //
+                                                          HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoNaPressao = dblValue;
+                                        break;
+                                    case "EPressGradAt1": //
+                                                          HelperTestBase.Model_GVL.GVL_T22.rGradientePressaoMin_bar = dblValue;
+                                        break;
+                                    case "EPressGradAt2": //
+                                                          HelperTestBase.Model_GVL.GVL_T22.rGradientePressaoMax_bar = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T22;
+
+                                break;
+                            }
+                        case 23:    //Breather Hole / Central Valve open
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+                                    case "CBPerformPreActuation":
+                                        if (dblValue > 0)
+                                            HelperTestBase.Model_GVL.GVL_T23.bExecutarPreAcionamento = true;
+                                        else
+                                            HelperTestBase.Model_GVL.GVL_T23.bExecutarPreAcionamento = false;
+                                        break;
+
+                                    case "EHydrFillPressureMin": //Pressao Minima
+                                        HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMin_Bar = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoHidraulicaMin_T23_LW }, dblValue);
+                                        break;
+
+                                    case "EHydrFillPressureMax": //Pressao Maximna
+                                        HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMax_Bar = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoHidraulicaMax_T23_LW }, dblValue);
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T23;
+
+                                break;
+                            }
+                        case 24:    //Efficiency
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+                                    case "CBShowPressureForce":
+                                        break;
+
+                                    case "CBShowPressureTimeSlow":
+                                        break;
+
+                                    case "CBShowPressureTimeFast":
+                                        break;
+
+                                    case "EForceScale":
+                                        break;
+
+                                    case "EPressureScale":
+                                        break;
+
+                                    case "EPause": //Intervalo
+                                        HelperTestBase.Model_GVL.GVL_T24.rIntervalo = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwIntervalo_T24_LW }, dblValue);
+                                        break;
+
+                                    case "EFastMaxForce": //Forca Maxima modo rapido
+                                        HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaModoRapido = dblValue;
+                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaModoRapido_T24_LW }, dblValue);
+                                        break;
+
+                                    case "EFastGradient": //Gradiente abertura valvula - utilizar o parametro Geral Gradiente Pressao (%)
+                                                          //HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoFast = dblValue;
+
+                                        break;
+                                    case "EPressGradAt1": //Ref Calculo Gradiente Pressao
+                                        HelperTestBase.Model_GVL.GVL_T24.rInicioGradientePressao_Bar = dblValue;
+
+                                        break;
+                                    case "EPressGradAt2": //Ref Calculo Gradiente Pressao
+                                        HelperTestBase.Model_GVL.GVL_T24.rFimGradientePressao_Bar = dblValue;
+
+                                        break;
+                                    case "EEfficiencyAtForce": //Eficiencia em .. 
+                                        HelperTestBase.Model_GVL.GVL_T24.rEficienciaNaForca_N = dblValue;
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T24;
+
+                                break;
+                            }
+                        case 25:    //Force Diagrams - Force/Pressure Dual Ratio
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+                                    case "EForceScale":
+                                        break;
+
+                                    case "EPressureScale":
+                                        break;
+
+                                    case "EP1AtForce": //Pressure at Force(E1)
+                                                       //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EP2AtForce": //Pressure at Force(E2)  
+                                                       //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EP3AtForce": //Pressure at Force(P1)
+                                                       //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EP4AtForce": //Pressure at Force(P2)
+                                                       //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EMeasurePointP7": //Pressure at Force(E6) =
+                                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EPistonTravelAtPressure": //Travel at Pressure = 
+                                                                    //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EActuationForceAtPressure": //Actuation Force at Pressure = 
+                                                                      //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EReleaseForceMin": //Release Force min = 
+                                                             //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EReleaseForceMax": //Release Force max = 
+                                                             //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EHysteresisAtPressure": //Hysteresis at Pressure(%) = 
+                                                                  //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "//EHysteresisAtPressure2": //Hysteresis at Pressure(bar) = 
+                                                                     //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "ERelForceRemainAtTravel": //Release Force Remaining at = 
+                                                                    //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "ETMCDiameterPC": //TMC Diameter PC = 
+                                                           //HelperTestBase.Model_GVL.GVL_T25.rDiametroCMD_mm = dblValue;
+                                        break;
+
+                                    case "ETMCDiameterSC": // TMC Diameter SC = 
+                                                           //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EJumperNomGrad": //Jumper Gradient P1 = 
+                                                           //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EJumperPosTolerance": //Jumper Gradient P2 = 
+                                                                //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "EJumperNegTolerance": //Jumper Gradient P2 = 
+                                                                //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "ESwitchPointNomGrad": //Jumper Gradient P2 = 
+                                                                //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "ESwitchPointPosTolerance": //Jumper Gradient P2 = 
+                                                                     //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+                                    case "ESwitchPointNegTolerance": //Jumper Gradient P2 = 
+                                                                     //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                        break;
+
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T25;
+
+                                break;
+                            }
+                        case 26:    //Force Diagrams - Force/Force Dual Ratio
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+                                    case "EForceScaleI":
+                                        break;
+
+                                    case "EForceScaleO":
+                                        break;
+
+                                    case "EP1AtForce": //Pressure at Force(E1)
+                                                       //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EP2AtForce": //Pressure at Force(E2)  
+                                                       //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EP3AtForce": //Pressure at Force(P1)
+                                                       //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EP4AtForce": //Pressure at Force(P2)
+                                                       //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EMeasurePointP7": //Pressure at Force(E6) =
+                                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EActuationForceAtForce": //Actuation Force at Pressure = 
+                                                                   //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EReleaseForceMin": //Release Force min = 
+                                                             //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EReleaseForceMax": //Release Force max = 
+                                                             //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EHysteresisAtForce": //Hysteresis at Pressure(%) = 
+                                                               //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EJumperNomGrad": //Jumper Gradient P1 = 
+                                                           //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EJumperPosTolerance": //Jumper Gradient P2 = 
+                                                                //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "EJumperNegTolerance": //Jumper Gradient P2 = 
+                                                                //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "ESwitchPointNomGrad": //Jumper Gradient P2 = 
+                                                                //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "ESwitchPointPosTolerance": //Jumper Gradient P2 = 
+                                                                     //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    case "ESwitchPointNegTolerance": //Jumper Gradient P2 = 
+                                                                     //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T26;
+
+                                break;
+                            }
+                        case 27:    //ADAM - Find Switching Point With TMC
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+                                    case "CBForcePressDiagram":
+                                        break;
+
+                                    case "EForceScale":
+                                        break;
+
+                                    case "EPressScale":
+                                        break;
+
+                                    case "ETravelScale":
+                                        break;
+
+                                    case "EDiffTravelScale":
+                                        break;
+
+                                    case "ETimeScale":
+                                        break;
+
+                                    case "EBackwardGradient": //Vel. Retorno
+                                                              //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                        break;
+
+                                    case "EActuationGradient1": //Vel. Avanco 1
+                                                                //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                        break;
+
+                                    case "EActuationGradient2": //Vel. Avanco 2
+                                                                //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                        break;
+
+                                    case "EActuationGradient3": //Vel. Avanco 3
+                                                                //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                        break;
+
+                                    case "EActuationGradient4": //Vel. Avanco 4
+                                                                //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                        break;
+
+                                    case "EActuationGradient5": //Vel. Avanco 5
+                                                                //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                        break;
+
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T27;
+
+                                break;
+                            }
+                        case 28:    //ADAM - Switching Point Without TMC
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+                                    case "CBForcePressDiagram":
+                                        break;
+
+                                    case "EForceScale":
+                                        break;
+
+                                    case "EPressScale":
+                                        break;
+
+                                    case "ETravelScale":
+                                        break;
+
+                                    case "EDiffTravelScale":
+                                        break;
+
+                                    case "ETimeScale":
+                                        break;
+
+                                    case "EBackwardGradient": //Vel. Retorno
+                                                              //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                        break;
+
+                                    case "EActuationGradient1": //Vel. Avanco 1
+                                                                //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                        break;
+
+                                    case "EActuationGradient2": //Vel. Avanco 2
+                                                                //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                        break;
+
+                                    case "EActuationGradient3": //Vel. Avanco 3
+                                                                //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                        break;
+
+                                    case "EActuationGradient4": //Vel. Avanco 4
+                                                                //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                        break;
+
+                                    case "EActuationGradient5": //Vel. Avanco 5
+                                                                //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                        break;
+
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T28;
+
+                                break;
+                            }
+                        case 29:    //Bleed
+                            {
+                                #region Case Param
+
+                                switch (strName.Trim())
+                                {
+
+
+                                    case "Actuations": //
+                                                       //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
+                                                       //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wNumeroAtuacoes_T29 }, dblValue);
+                                        break;
+
+                                    case "Repetitions": //
+                                                        //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
+                                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wNumeroRepeticoes_T29 }, dblValue);
+                                        break;
+
+                                    case "PumpingTime": //
+                                                        //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
+                                                        //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoBombeamento_T29_LW }, dblValue);
+                                        break;
+
+
+                                    default:
+                                        break;
+                                }
+
+                                #endregion
+
+                                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T28;
+
+                                break;
+                            }
+
+                        default:
+                            break;
+                    }
                 }
                 else
                 {
@@ -4870,31 +4878,31 @@ namespace Continental.Project.Adam.UI
                     case 7:     //Vacuum Leakage - Lap Position
                         switch (iRowIndex)
                         {
-                            case 3://TESTING TIME
+                            case 2://TESTING TIME
                                 HelperTestBase.Model_GVL.GVL_T07.rTempoTeste = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T07_LW }, dblValue);
                                 break;
-                            case 4://VACUUM STABILIZATION TIME
+                            case 3://VACUUM STABILIZATION TIME
                                 HelperTestBase.Model_GVL.GVL_T07.rTempoEstabilizacao = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T07_LW }, dblValue);
                                 break;
-                            case 5://RELATIVE INPUT FORCE 1
+                            case 4://RELATIVE INPUT FORCE 1
                                 HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaAvanco = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaAvanco_T07_LW }, dblValue);
                                 break;
-                            case 6: //RELATIVE INPUT FORCE 2
+                            case 5: //RELATIVE INPUT FORCE 2
                                 HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaRetorno = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaRetorno_T07_LW }, dblValue);
                                 break;
-                            case 7: //RELATIVE INPUT FORCE 3
+                            case 6: //RELATIVE INPUT FORCE 3
                                 HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaFinal = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaFinal_T07_LW }, dblValue);
                                 break;
-                            case 9: //SINGLE INPUT FORCE
+                            case 8: //SINGLE INPUT FORCE
                                 HelperTestBase.Model_GVL.GVL_T07.rForcaMaxima = dblValue;
-                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T07_LW }, dblValue);
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T07_LW }, dblValue); 
                                 break;
-                            case 10: //SINGLE INPUT FORCE (% EOUT)
+                            case 9: //SINGLE INPUT FORCE (% EOUT)
                                 HelperTestBase.Model_GVL.GVL_T07.rForcaMaximaAbsoluta_N = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T07_LW }, dblValue);
                                 break;
@@ -4928,15 +4936,15 @@ namespace Continental.Project.Adam.UI
                     case 9:     //Hydraulic Leakage - At Low Pressure
                         switch (iRowIndex)
                         {
-                            case 5: //PRESSURE PC
+                            case 4: //PRESSURE PC
                                 HelperTestBase.Model_GVL.GVL_T09.rPressaoTeste_Bar = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoTeste_T09_LW }, dblValue);
                                 break;
-                            case 6://TESTING TIME
+                            case 5://TESTING TIME
                                 HelperTestBase.Model_GVL.GVL_T09.rTempoTeste = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T09_LW }, dblValue);
                                 break;
-                            case 7://STABILIZATION TIME
+                            case 6://STABILIZATION TIME
                                 HelperTestBase.Model_GVL.GVL_T09.rTempoEstabilizacao = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T09_LW }, dblValue);
                                 break;
@@ -4947,17 +4955,98 @@ namespace Continental.Project.Adam.UI
                     case 10:    //Hydraulic Leakage - At High Pressure
                         switch (iRowIndex)
                         {
-                            case 5: //TARGET PRESSURE PC
+                            case 4: //TARGET PRESSURE PC
                                 HelperTestBase.Model_GVL.GVL_T10.rPressaoTeste_Bar = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoTeste_T10_LW }, dblValue);
                                 break;
-                            case 6://TESTING TIME
+                            case 5://TESTING TIME
                                 HelperTestBase.Model_GVL.GVL_T10.rTempoTeste = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T10_LW }, dblValue);
                                 break;
-                            case 7://STABILIZATION TIME
+                            case 6://STABILIZATION TIME
                                 HelperTestBase.Model_GVL.GVL_T10.rTempoEstabilizacao = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T10_LW }, dblValue);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 19:    //Lost Travel ACU - Pneumatic Primary
+                        switch (iRowIndex)
+                        {
+                            case 2: //BLOW OUT TIME
+                                HelperTestBase.Model_GVL.GVL_T19.rTempoSopro = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoSopro_T19_LW }, dblValue);
+                                break;
+                            case 3://ACTUATION TRAVEL
+                                HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoTeste = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwDeslocamentoTeste_T19_LW }, dblValue);
+                                break;
+                            case 4://PRESSURE SYSTEM CLOSED
+                                HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaFechado_Bar = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaFechado_T19_LW }, dblValue);
+                                break;
+                            case 5://PRESSURE SYSTEM OPENED
+                                HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaAberto_Bar = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaAberto_T19_LW }, dblValue);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 20:    //Lost Travel ACU - Pneumatic Secondary
+                        switch (iRowIndex)
+                        {
+                            case 1: //BLOW OUT TIME
+                                HelperTestBase.Model_GVL.GVL_T20.rTempoSopro = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoSopro_T20_LW }, dblValue);
+                                break;
+                            case 3://ACTUATION TRAVEL
+                                HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoTeste = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwDeslocamentoTeste_T20_LW }, dblValue);
+                                break;
+                            case 4://PRESSURE SYSTEM CLOSED
+                                HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaFechado_Bar = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaFechado_T20_LW }, dblValue);
+                                break;
+                            case 5://PRESSURE SYSTEM OPENED
+                                HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaAberto_Bar = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaAberto_T20_LW }, dblValue);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 23:    //Breather Hole / Central Valve open
+                        switch (iRowIndex)
+                        {
+                            case 1: //Perform Pré Actuation
+                                if (dblValue > 0)
+                                    HelperTestBase.Model_GVL.GVL_T23.bExecutarPreAcionamento = true;
+                                else
+                                    HelperTestBase.Model_GVL.GVL_T23.bExecutarPreAcionamento = false;
+
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wExecutarAcionamento_T23}, dblValue);
+
+                                break;
+                            case 2://Pressao Minima
+                                HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMin_Bar = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoHidraulicaMin_T23_LW }, dblValue);
+                                break;
+                            case 3://Pressao Maxima
+                                HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMax_Bar = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoHidraulicaMax_T23_LW }, dblValue);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 24:    ////Efficiency
+                        switch (iRowIndex)
+                        {
+                            case 4://intervalo
+                                HelperTestBase.Model_GVL.GVL_T24.rIntervalo = dblValue;
+                                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwIntervalo_T24_LW }, dblValue);
                                 break;
                             default:
                                 break;
@@ -5936,7 +6025,7 @@ namespace Continental.Project.Adam.UI
                                 MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return false;
                             }
-                            
+
                             if (!CHART_LoadActualTestComplete())
                             {
                                 MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -6184,7 +6273,7 @@ namespace Continental.Project.Adam.UI
                             string strSbHeaderResults_CurverNames = String.Concat(HelperTestBase.sbHeaderResultsAppendTxtData, Environment.NewLine);
 
                             var strUnionHeader = string.Concat(strSbHeader, strSbHeaderResults_CurverNames);
-                            
+
                             File.WriteAllText(_prjTestHeaderFilename, strUnionHeader);
 
                             ////Create File Union Acquisition
@@ -6515,7 +6604,7 @@ namespace Continental.Project.Adam.UI
 
                 modelChartGVL = HelperTestBase.Model_GVL.GVL_Graficos;
 
-               var chartGVL = HelperTestBase.Model_GVL.GVL_Graficos;
+                var chartGVL = HelperTestBase.Model_GVL.GVL_Graficos;
 
                 #endregion
 
@@ -6579,13 +6668,13 @@ namespace Continental.Project.Adam.UI
                             diagram.AxisX.MinorCount = 1;
 
                             diagram.AxisX.GridSpacingAuto = false;
-                            
+
                             //lmr
                             if (chartGVL.EixoX.rMax > 0)
                                 diagram.AxisX.NumericScaleOptions.GridSpacing = chartGVL.EixoX.rMax / 10;
 
                             if (chartGVL.EixoX.rMax < 0)
-                                diagram.AxisX.NumericScaleOptions.GridSpacing = (chartGVL.EixoX.rMax*-1) / 10;
+                                diagram.AxisX.NumericScaleOptions.GridSpacing = (chartGVL.EixoX.rMax * -1) / 10;
 
                             if (chartGVL.EixoX.rMax == 0)
                                 diagram.AxisX.NumericScaleOptions.GridSpacing = 1;
@@ -6647,10 +6736,10 @@ namespace Continental.Project.Adam.UI
 
                             //lmr
                             if (chartGVL.EixoY1.rMax > 0)
-                                diagram.AxisY.NumericScaleOptions.GridSpacing = chartGVL.EixoY1.rMax / 10 ;
+                                diagram.AxisY.NumericScaleOptions.GridSpacing = chartGVL.EixoY1.rMax / 10;
 
                             if (chartGVL.EixoY1.rMax < 0)
-                                diagram.AxisY.NumericScaleOptions.GridSpacing = (chartGVL.EixoY1.rMax*-1) / 10;
+                                diagram.AxisY.NumericScaleOptions.GridSpacing = (chartGVL.EixoY1.rMax * -1) / 10;
 
                             if (chartGVL.EixoY1.rMax == 0)
                                 diagram.AxisY.NumericScaleOptions.GridSpacing = 1;
@@ -6708,7 +6797,7 @@ namespace Continental.Project.Adam.UI
                                     EixoY2.VisualRange.Auto = false;
 
                                     EixoY2.GridSpacingAuto = false;
-                                    
+
                                     EixoY2.Range.MinValue = chartGVL.EixoY2.rMin;
                                     EixoY2.Range.MaxValue = chartGVL.EixoY2.rMax;
                                     EixoY2.VisualRange.MinValue = chartGVL.EixoY2.rMin;
@@ -6892,7 +6981,7 @@ namespace Continental.Project.Adam.UI
 
                         tab_Diagram.BackColor = Color.LightGray;
 
-                        if(Convert.ToDouble(diagram.AxisX.Range.MaxValue) != HelperTestBase.Model_GVL.GVL_Graficos.EixoX.rMax)
+                        if (Convert.ToDouble(diagram.AxisX.Range.MaxValue) != HelperTestBase.Model_GVL.GVL_Graficos.EixoX.rMax)
                         {
                             diagram.AxisX.Range.MinValue = HelperTestBase.Model_GVL.GVL_Graficos.EixoX.rMin;
                             diagram.AxisX.Range.MaxValue = HelperTestBase.Model_GVL.GVL_Graficos.EixoX.rMax;
@@ -7065,16 +7154,7 @@ namespace Continental.Project.Adam.UI
                                             break;
                                         case 25:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaReal_P1_N, _modelGVL.GVL_T25.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaReal_P2_N, _modelGVL.GVL_T25.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaReal_E1_N, _modelGVL.GVL_T25.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaReal_E2_N, _modelGVL.GVL_T25.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rRunOutForce_Real_N, _modelGVL.GVL_T25.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaCutIn_N, _modelGVL.GVL_T25.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaAvanco_Xpout_N, _modelGVL.GVL_T25.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaRetorno_Xpout_N, _modelGVL.GVL_T25.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaAvanco_Xbar_N, _modelGVL.GVL_T25.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaRetorno_Xbar_N, _modelGVL.GVL_T25.rPressaoHysterese_Bar));
+
                                             }
                                             break;
                                         default:
@@ -7182,12 +7262,62 @@ namespace Continental.Project.Adam.UI
 
                                     //GVL_Graficos.strNomeEixoX = "Time (s)";
                                     //GVL_Graficos.strNomeEixoY1 = "Vacuum (bar)";
-
-                                    for (i = 0; i <= totalPointsCount - 1; i++)
+                                    switch (HelperApp.uiTesteSelecionado)
                                     {
-                                        series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh10_Vacuum[i]));
-                                    }
+                                        case 5:
+                                            {
+                                                for (i = 0; i <= totalPointsCount - 1; i++)
+                                                {
+                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh10_Vacuum[i]));
+                                                }
+                                            }
+                                        break;
+                                        case 6:
+                                            {
+                                                var mxtime = lstAnalogCh00_Timestamp.Max();
+                                                var mxvacuo = lstAnalogCh10_Vacuum.Max();
 
+                                                var X1_Final = mxtime - 0.5;
+                                                var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
+                                                var X1_PosVacuoFinal = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx);
+                                                var Y1_VacuoFinal = lstAnalogCh10_Vacuum.ElementAt(X1_PosVacuoFinal);
+
+                                                var X2_Inicial = X1_Final - (HelperTestBase.Model_GVL.GVL_T06.rTempoTeste + HelperTestBase.Model_GVL.GVL_T06.rTempoEstabilizacao);
+                                                var X2_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
+                                                var X2_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X2_ValIdx);
+                                                var Y2_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X2_PosVacuoInicial);
+
+                                                for (i = X2_PosVacuoInicial; i <= totalPointsCount - 1; i++)
+                                                {
+                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - X2_ValIdx, lstAnalogCh10_Vacuum[i]));
+                                                }
+                                            }
+                                            break;
+                                        case 7:
+                                            {
+                                                var mxtime = lstAnalogCh00_Timestamp.Max();
+                                                var mxvacuo = lstAnalogCh10_Vacuum.Max();
+
+                                                var X1_Final = mxtime - 0.5;
+                                                var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
+                                                var X1_PosVacuoFinal = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx);
+                                                var Y1_VacuoFinal = lstAnalogCh10_Vacuum.ElementAt(X1_PosVacuoFinal);
+
+                                                var X2_Inicial = X1_Final - (HelperTestBase.Model_GVL.GVL_T07.rTempoTeste + HelperTestBase.Model_GVL.GVL_T07.rTempoEstabilizacao);
+                                                var X2_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
+                                                var X2_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X2_ValIdx);
+                                                var Y2_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X2_PosVacuoInicial);
+
+                                                for (i = X2_PosVacuoInicial; i <= totalPointsCount - 1; i++)
+                                                {
+                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - X2_ValIdx, lstAnalogCh10_Vacuum[i]));
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            break;
+
+                                    }
                                     #endregion
 
                                     #region  Serie Pontos de Interesse
@@ -7200,45 +7330,55 @@ namespace Continental.Project.Adam.UI
                                                 var mxvacuo = lstAnalogCh10_Vacuum.Max();
 
                                                 var X1_Final = mxtime - 0.5;
-                                                var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1,y1) => Math.Abs(x1-X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
-                                                var X1_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx); 
-                                                var Y1_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X1_PosVacuoInicial);
+                                                var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
+                                                var X1_PosVacuoFinal = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx);
+                                                var Y1_VacuoFinal = lstAnalogCh10_Vacuum.ElementAt(X1_PosVacuoFinal);
 
                                                 var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T05.rTempoTeste;
                                                 var X2_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
                                                 var X2_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X2_ValIdx);
                                                 var Y2_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X2_PosVacuoInicial);
 
-                                                PontosChart.Points.Add(new SeriesPoint(X1_Final, Y1_VacuoInicial));
+                                                PontosChart.Points.Add(new SeriesPoint(X1_Final, Y1_VacuoFinal));
                                                 PontosChart.Points.Add(new SeriesPoint(X2_Inicial, Y2_VacuoInicial));
                                             }
                                             break;
                                         case 6:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T06.rForcaReal_P1_N, _modelGVL.GVL_T06.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T06.rForcaReal_P2_N, _modelGVL.GVL_T06.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T06.rForcaReal_E1_N, _modelGVL.GVL_T06.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T06.rForcaReal_E2_N, _modelGVL.GVL_T06.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T06.rRunOutForce_Real_N, _modelGVL.GVL_T06.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T06.rForcaCutIn_N, _modelGVL.GVL_T06.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T06.rForcaAvanco_Xpout_N, _modelGVL.GVL_T06.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T06.rForcaRetorno_Xpout_N, _modelGVL.GVL_T06.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T06.rForcaAvanco_Xbar_N, _modelGVL.GVL_T06.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T06.rForcaRetorno_Xbar_N, _modelGVL.GVL_T06.rPressaoHysterese_Bar));
+                                                var mxtime = lstAnalogCh00_Timestamp.Max();
+                                                var mxvacuo = lstAnalogCh10_Vacuum.Max();
+
+                                                var X1_Final = mxtime - 0.5;
+                                                var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
+                                                var X1_PosVacuoFinal = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx);
+                                                var Y1_VacuoFinal = lstAnalogCh10_Vacuum.ElementAt(X1_PosVacuoFinal);
+
+                                                var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T06.rTempoTeste;
+                                                var X2_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
+                                                var X2_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X2_ValIdx);
+                                                var Y2_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X2_PosVacuoInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint((X1_Final - X2_ValIdx) + HelperTestBase.Model_GVL.GVL_T06.rTempoEstabilizacao, Y1_VacuoFinal));
+                                                PontosChart.Points.Add(new SeriesPoint((X2_Inicial - X2_ValIdx) + HelperTestBase.Model_GVL.GVL_T06.rTempoEstabilizacao, Y2_VacuoInicial));
                                             }
                                             break;
                                         case 7:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T07.rForcaReal_P1_N, _modelGVL.GVL_T07.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T07.rForcaReal_P2_N, _modelGVL.GVL_T07.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T07.rForcaReal_E1_N, _modelGVL.GVL_T07.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T07.rForcaReal_E2_N, _modelGVL.GVL_T07.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T07.rRunOutForce_Real_N, _modelGVL.GVL_T07.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T07.rForcaCutIn_N, _modelGVL.GVL_T07.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T07.rForcaAvanco_Xpout_N, _modelGVL.GVL_T07.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T07.rForcaRetorno_Xpout_N, _modelGVL.GVL_T07.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T07.rForcaAvanco_Xbar_N, _modelGVL.GVL_T07.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T07.rForcaRetorno_Xbar_N, _modelGVL.GVL_T07.rPressaoHysterese_Bar));
+                                                var mxtime = lstAnalogCh00_Timestamp.Max();
+                                                var mxvacuo = lstAnalogCh10_Vacuum.Max();
+
+                                                var X1_Final = mxtime - 0.5;
+                                                var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
+                                                var X1_PosVacuoFinal = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx);
+                                                var Y1_VacuoFinal = lstAnalogCh10_Vacuum.ElementAt(X1_PosVacuoFinal);
+
+                                                var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T07.rTempoTeste;
+                                                var X2_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
+                                                var X2_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X2_ValIdx);
+                                                var Y2_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X2_PosVacuoInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint((X1_Final - X2_ValIdx) + HelperTestBase.Model_GVL.GVL_T07.rTempoEstabilizacao, Y1_VacuoFinal));
+                                                PontosChart.Points.Add(new SeriesPoint((X2_Inicial - X2_ValIdx) + HelperTestBase.Model_GVL.GVL_T07.rTempoEstabilizacao, Y2_VacuoInicial));
                                             }
                                             break;
                                         default:
@@ -7289,44 +7429,156 @@ namespace Continental.Project.Adam.UI
                                     {
                                         case 8:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T08.rForcaReal_P1_N, _modelGVL.GVL_T08.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T08.rForcaReal_P2_N, _modelGVL.GVL_T08.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T08.rForcaReal_E1_N, _modelGVL.GVL_T08.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T08.rForcaReal_E2_N, _modelGVL.GVL_T08.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T08.rRunOutForce_Real_N, _modelGVL.GVL_T08.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T08.rForcaCutIn_N, _modelGVL.GVL_T08.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T08.rForcaAvanco_Xpout_N, _modelGVL.GVL_T08.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T08.rForcaRetorno_Xpout_N, _modelGVL.GVL_T08.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T08.rForcaAvanco_Xbar_N, _modelGVL.GVL_T08.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T08.rForcaRetorno_Xbar_N, _modelGVL.GVL_T08.rPressaoHysterese_Bar));
+                                                var mxtime = lstAnalogCh00_Timestamp.Max();
+                                                var mxvacuo = lstAnalogCh10_Vacuum.Max();
+
+                                                var X1_Final = mxtime - 0.5;
+                                                var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
+                                                var X1_PosVacuoFinal = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx);
+                                                var Y1_VacuoFinal = lstAnalogCh10_Vacuum.ElementAt(X1_PosVacuoFinal);
+
+                                                var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T05.rTempoTeste;
+                                                var X2_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
+                                                var X2_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X2_ValIdx);
+                                                var Y2_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X2_PosVacuoInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint(X1_Final, Y1_VacuoFinal));
+                                                PontosChart.Points.Add(new SeriesPoint(X2_Inicial, Y2_VacuoInicial));
+
+                                                var mxpressCP = lstAnalogCh07_PressurePC.Max();
+
+                                                var X3_Final = mxtime - 0.5;
+                                                var X3_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X3_Final) < Math.Abs(y1 - X3_Final) ? x1 : y1);
+                                                var X3_PosPressFinal = lstAnalogCh00_Timestamp.IndexOf(X3_ValIdx);
+                                                var Y3_PressFinal = lstAnalogCh07_PressurePC.ElementAt(X3_PosPressFinal);
+
+                                                var X4_Inicial = X3_Final - HelperTestBase.Model_GVL.GVL_T08.rTempoTeste;
+                                                var X4_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X4_Inicial) ? x2 : y2);
+                                                var X4_PosPressInicial = lstAnalogCh00_Timestamp.IndexOf(X4_ValIdx);
+                                                var Y4_PressInicial = lstAnalogCh07_PressurePC.ElementAt(X4_PosPressInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint(X3_Final, Y3_PressFinal));
+                                                PontosChart.Points.Add(new SeriesPoint(X4_Inicial, Y4_PressInicial));
+
+                                                //Calculo da perda de pressao CS
+
+                                                var mxpressCS = lstAnalogCh06_PressureSC.Max();
+
+                                                var X5_Final = mxtime - 0.5;
+                                                var X5_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X3_Final) < Math.Abs(y1 - X5_Final) ? x1 : y1);
+                                                var X5_PosPressFinal = lstAnalogCh00_Timestamp.IndexOf(X5_ValIdx);
+                                                var Y5_PressFinal = lstAnalogCh06_PressureSC.ElementAt(X5_PosPressFinal);
+
+                                                var X6_Inicial = X5_Final - HelperTestBase.Model_GVL.GVL_T08.rTempoTeste;
+                                                var X6_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X6_Inicial) < Math.Abs(y2 - X6_Inicial) ? x2 : y2);
+                                                var X6_PosPressInicial = lstAnalogCh00_Timestamp.IndexOf(X6_ValIdx);
+                                                var Y6_PressInicial = lstAnalogCh06_PressureSC.ElementAt(X6_PosPressInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint(X5_Final, Y5_PressFinal));
+                                                PontosChart.Points.Add(new SeriesPoint(X6_Inicial, Y6_PressInicial));
+
                                             }
                                             break;
                                         case 9:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T09.rForcaReal_P1_N, _modelGVL.GVL_T09.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T09.rForcaReal_P2_N, _modelGVL.GVL_T09.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T09.rForcaReal_E1_N, _modelGVL.GVL_T09.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T09.rForcaReal_E2_N, _modelGVL.GVL_T09.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T09.rRunOutForce_Real_N, _modelGVL.GVL_T09.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T09.rForcaCutIn_N, _modelGVL.GVL_T09.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T09.rForcaAvanco_Xpout_N, _modelGVL.GVL_T09.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T09.rForcaRetorno_Xpout_N, _modelGVL.GVL_T09.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T09.rForcaAvanco_Xbar_N, _modelGVL.GVL_T09.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T09.rForcaRetorno_Xbar_N, _modelGVL.GVL_T09.rPressaoHysterese_Bar));
+                                                var mxtime = lstAnalogCh00_Timestamp.Max();
+                                                var mxvacuo = lstAnalogCh10_Vacuum.Max();
+
+                                                var X1_Final = mxtime - 0.5;
+                                                var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
+                                                var X1_PosVacuoFinal = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx);
+                                                var Y1_VacuoFinal = lstAnalogCh10_Vacuum.ElementAt(X1_PosVacuoFinal);
+
+                                                var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T05.rTempoTeste;
+                                                var X2_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
+                                                var X2_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X2_ValIdx);
+                                                var Y2_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X2_PosVacuoInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint(X1_Final, Y1_VacuoFinal));
+                                                PontosChart.Points.Add(new SeriesPoint(X2_Inicial, Y2_VacuoInicial));
+
+                                                var mxpressCP = lstAnalogCh07_PressurePC.Max();
+
+                                                var X3_Final = mxtime - 0.5;
+                                                var X3_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X3_Final) < Math.Abs(y1 - X3_Final) ? x1 : y1);
+                                                var X3_PosPressFinal = lstAnalogCh00_Timestamp.IndexOf(X3_ValIdx);
+                                                var Y3_PressFinal = lstAnalogCh07_PressurePC.ElementAt(X3_PosPressFinal);
+
+                                                var X4_Inicial = X3_Final - HelperTestBase.Model_GVL.GVL_T08.rTempoTeste;
+                                                var X4_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X4_Inicial) ? x2 : y2);
+                                                var X4_PosPressInicial = lstAnalogCh00_Timestamp.IndexOf(X4_ValIdx);
+                                                var Y4_PressInicial = lstAnalogCh07_PressurePC.ElementAt(X4_PosPressInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint(X3_Final, Y3_PressFinal));
+                                                PontosChart.Points.Add(new SeriesPoint(X4_Inicial, Y4_PressInicial));
+
+                                                //Calculo da perda de pressao CS
+
+                                                var mxpressCS = lstAnalogCh06_PressureSC.Max();
+
+                                                var X5_Final = mxtime - 0.5;
+                                                var X5_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X3_Final) < Math.Abs(y1 - X5_Final) ? x1 : y1);
+                                                var X5_PosPressFinal = lstAnalogCh00_Timestamp.IndexOf(X5_ValIdx);
+                                                var Y5_PressFinal = lstAnalogCh06_PressureSC.ElementAt(X5_PosPressFinal);
+
+                                                var X6_Inicial = X5_Final - HelperTestBase.Model_GVL.GVL_T08.rTempoTeste;
+                                                var X6_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X6_Inicial) < Math.Abs(y2 - X6_Inicial) ? x2 : y2);
+                                                var X6_PosPressInicial = lstAnalogCh00_Timestamp.IndexOf(X6_ValIdx);
+                                                var Y6_PressInicial = lstAnalogCh06_PressureSC.ElementAt(X6_PosPressInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint(X5_Final, Y5_PressFinal));
+                                                PontosChart.Points.Add(new SeriesPoint(X6_Inicial, Y6_PressInicial));
                                             }
                                             break;
                                         case 10:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T10.rForcaReal_P1_N, _modelGVL.GVL_T10.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T10.rForcaReal_P2_N, _modelGVL.GVL_T10.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T10.rForcaReal_E1_N, _modelGVL.GVL_T10.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T10.rForcaReal_E2_N, _modelGVL.GVL_T10.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T10.rRunOutForce_Real_N, _modelGVL.GVL_T10.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T10.rForcaCutIn_N, _modelGVL.GVL_T10.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T10.rForcaAvanco_Xpout_N, _modelGVL.GVL_T10.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T10.rForcaRetorno_Xpout_N, _modelGVL.GVL_T10.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T10.rForcaAvanco_Xbar_N, _modelGVL.GVL_T10.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T10.rForcaRetorno_Xbar_N, _modelGVL.GVL_T10.rPressaoHysterese_Bar));
+                                                var mxtime = lstAnalogCh00_Timestamp.Max();
+                                                var mxvacuo = lstAnalogCh10_Vacuum.Max();
+
+                                                var X1_Final = mxtime - 0.5;
+                                                var X1_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
+                                                var X1_PosVacuoFinal = lstAnalogCh00_Timestamp.IndexOf(X1_ValIdx);
+                                                var Y1_VacuoFinal = lstAnalogCh10_Vacuum.ElementAt(X1_PosVacuoFinal);
+
+                                                var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T05.rTempoTeste;
+                                                var X2_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
+                                                var X2_PosVacuoInicial = lstAnalogCh00_Timestamp.IndexOf(X2_ValIdx);
+                                                var Y2_VacuoInicial = lstAnalogCh10_Vacuum.ElementAt(X2_PosVacuoInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint(X1_Final, Y1_VacuoFinal));
+                                                PontosChart.Points.Add(new SeriesPoint(X2_Inicial, Y2_VacuoInicial));
+
+                                                var mxpressCP = lstAnalogCh07_PressurePC.Max();
+
+                                                var X3_Final = mxtime - 0.5;
+                                                var X3_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X3_Final) < Math.Abs(y1 - X3_Final) ? x1 : y1);
+                                                var X3_PosPressFinal = lstAnalogCh00_Timestamp.IndexOf(X3_ValIdx);
+                                                var Y3_PressFinal = lstAnalogCh07_PressurePC.ElementAt(X3_PosPressFinal);
+
+                                                var X4_Inicial = X3_Final - HelperTestBase.Model_GVL.GVL_T08.rTempoTeste;
+                                                var X4_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X4_Inicial) ? x2 : y2);
+                                                var X4_PosPressInicial = lstAnalogCh00_Timestamp.IndexOf(X4_ValIdx);
+                                                var Y4_PressInicial = lstAnalogCh07_PressurePC.ElementAt(X4_PosPressInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint(X3_Final, Y3_PressFinal));
+                                                PontosChart.Points.Add(new SeriesPoint(X4_Inicial, Y4_PressInicial));
+
+                                                //Calculo da perda de pressao CS
+
+                                                var mxpressCS = lstAnalogCh06_PressureSC.Max();
+
+                                                var X5_Final = mxtime - 0.5;
+                                                var X5_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x1, y1) => Math.Abs(x1 - X3_Final) < Math.Abs(y1 - X5_Final) ? x1 : y1);
+                                                var X5_PosPressFinal = lstAnalogCh00_Timestamp.IndexOf(X5_ValIdx);
+                                                var Y5_PressFinal = lstAnalogCh06_PressureSC.ElementAt(X5_PosPressFinal);
+
+                                                var X6_Inicial = X5_Final - HelperTestBase.Model_GVL.GVL_T08.rTempoTeste;
+                                                var X6_ValIdx = lstAnalogCh00_Timestamp.Aggregate((x2, y2) => Math.Abs(x2 - X6_Inicial) < Math.Abs(y2 - X6_Inicial) ? x2 : y2);
+                                                var X6_PosPressInicial = lstAnalogCh00_Timestamp.IndexOf(X6_ValIdx);
+                                                var Y6_PressInicial = lstAnalogCh06_PressureSC.ElementAt(X6_PosPressInicial);
+
+                                                PontosChart.Points.Add(new SeriesPoint(X5_Final, Y5_PressFinal));
+                                                PontosChart.Points.Add(new SeriesPoint(X6_Inicial, Y6_PressInicial));
                                             }
                                             break;
                                         default:
@@ -7442,16 +7694,90 @@ namespace Continental.Project.Adam.UI
                                             break;
                                         case 12:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T12.rForcaReal_P1_N, _modelGVL.GVL_T12.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T12.rForcaReal_P2_N, _modelGVL.GVL_T12.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T12.rForcaReal_E1_N, _modelGVL.GVL_T12.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T12.rForcaReal_E2_N, _modelGVL.GVL_T12.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T12.rRunOutForce_Real_N, _modelGVL.GVL_T12.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T12.rForcaCutIn_N, _modelGVL.GVL_T12.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T12.rForcaAvanco_Xpout_N, _modelGVL.GVL_T12.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T12.rForcaRetorno_Xpout_N, _modelGVL.GVL_T12.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T12.rForcaAvanco_Xbar_N, _modelGVL.GVL_T12.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T12.rForcaRetorno_Xbar_N, _modelGVL.GVL_T12.rPressaoHysterese_Bar));
+                                                //Encontra a forca maxima e plota o X 
+                                                double rForcaMaxima = 0;
+                                                double rTempoForcaMaxima = 0;
+                                                long diPosicaoForcaMaxima = 0;
+
+                                                for (var di = 0; di < lstAnalogCh02_InputForce1.Count; di++)
+                                                {
+                                                    if (lstAnalogCh02_InputForce1[di] > rForcaMaxima)
+                                                    {
+                                                        rForcaMaxima = lstAnalogCh02_InputForce1[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array                                                        
+                                                        rTempoForcaMaxima = lstAnalogCh00_Timestamp[di];
+                                                        diPosicaoForcaMaxima = di;
+                                                    }
+                                                }
+
+
+                                                //Encontra o tempo e forca referentes ao parametro de forca inicial do calculo
+                                                double rForcaInicialAvanco = 0;
+                                                double rTempoInicialAvanco = 0;
+                                                double rForcaFinalTempoAtuacao_N = 0;
+                                                double rForcaFinalAvanco = 0;
+                                                double rTempoFinalAvanco = 0;
+                                                double rForcaInicialRetorno = 0;
+                                                double rTempoInicialRetorno = 0;
+                                                double rForcaFinalRetorno = 0;
+                                                double rTempoFinalRetorno = 0;
+
+                                                for (var di = 0; di <= diPosicaoForcaMaxima; di++)
+                                                {
+                                                    if (lstAnalogCh02_InputForce1[di] >= _modelGVL.GVL_T12.rForcaInicialTempoAtuacao_N) //Forca >= Forca inicial digitada em N
+                                                    {
+                                                        rForcaInicialAvanco = lstAnalogCh02_InputForce1[di]; //Valor forca inicial para calculo 
+                                                        rTempoInicialAvanco = lstAnalogCh00_Timestamp[di]; //Valor to tempo em ms inicial para calculo
+                                                        break; //Encerra a busca pela forca inicial
+                                                    }
+                                                }
+
+                                                //Calcula o valor de forca maxima desejado como referencia (Porcentagem digitada no campo * fmax obtida no teste)
+                                                double rForcaFinal = (_modelGVL.GVL_T12.rForcaFinalTempoAtuacao / 100) * rForcaMaxima;
+
+                                                //Encontra o tempo e forca referentes ao parametro de forca final do calculo de avanco, lembrando que eh percentual, por isso a multiplicacao anterior
+                                                for (var di = 0; di < lstAnalogCh02_InputForce1.Count; di++)
+                                                {
+                                                    if (lstAnalogCh02_InputForce1[di] >= rForcaFinal) //Forca >= Forca final calculada em N
+                                                    {
+                                                        rForcaFinalAvanco = lstAnalogCh02_InputForce1[di]; //Valor forca final para calculo 
+                                                        rTempoFinalAvanco = lstAnalogCh00_Timestamp[di]; //Valor to tempo em ms final para calculo
+                                                        break; //Encerra a busca pela forca inicial
+                                                    }
+                                                }
+
+                                                //Calcula o tempo de retorno
+
+                                                double rForcaMaximaRetorno = _modelGVL.GVL_T12.rForcaMaxima * 0.9;
+
+                                                for (var di = diPosicaoForcaMaxima; di < lstAnalogCh02_InputForce1.Count; di++)
+                                                {
+                                                    if (lstAnalogCh02_InputForce1[Convert.ToInt32(di)] <= rForcaMaximaRetorno) //Forca <= Forca final calculada
+                                                    {
+                                                        rForcaInicialRetorno = lstAnalogCh02_InputForce1[Convert.ToInt32(di)]; //Valor forca inicial para calculo 
+                                                        rTempoInicialRetorno = lstAnalogCh00_Timestamp[Convert.ToInt32(di)]; //Valor to tempo em ms inicial para calculo
+                                                        break; //Encerra a busca pela forca inicial
+                                                    }
+                                                }
+
+                                                //Calcula o valor de forca maxima desejado como referencia (Porcentagem digitada no campo * fmax obtida no teste)
+                                                double rForcaRetorno = (_modelGVL.GVL_T12.rForcaRetornoTempoAtuacao / 100) * _modelGVL.GVL_T12.rForcaMaxima;
+
+                                                //Encontra o tempo de retorno, partindo de fmax ate o ponto que a forca final foi atingida
+                                                for (var di = _modelGVL.GVL_T12.diPosicaoForcaMaxima; di < lstAnalogCh02_InputForce1.Count; di++)
+                                                {
+                                                    if (lstAnalogCh02_InputForce1[Convert.ToInt32(di)] <= rForcaRetorno) //Forca <= Forca final calculada
+                                                    {
+                                                        rForcaFinalRetorno = lstAnalogCh02_InputForce1[Convert.ToInt32(di)]; //Valor forca inicial para calculo 
+                                                        rTempoFinalRetorno = lstAnalogCh00_Timestamp[Convert.ToInt32(di)]; //Valor to tempo em ms inicial para calculo
+                                                        break; //Encerra a busca pela forca inicial
+                                                    }
+                                                }
+
+                                                PontosChart.Points.Add(new SeriesPoint(rTempoForcaMaxima, rForcaMaxima));
+                                                PontosChart.Points.Add(new SeriesPoint(rTempoInicialAvanco, rForcaInicialAvanco));
+                                                PontosChart.Points.Add(new SeriesPoint(rTempoFinalAvanco, rForcaFinalAvanco));
+                                                PontosChart.Points.Add(new SeriesPoint(rTempoInicialRetorno, rForcaInicialRetorno));
+                                                PontosChart.Points.Add(new SeriesPoint(rTempoFinalRetorno, rForcaFinalRetorno));
                                             }
                                             break;
                                         default:
@@ -7473,86 +7799,90 @@ namespace Continental.Project.Adam.UI
                             }
                             break;
                         case 13:    //Check Sensors - Pressure Difference
-                            #region  Serie de Valores
-                            try
                             {
-                                //GVL_Graficos.strNomeEixoX = "Input Force (N)";
-                                //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
-                                //GVL_Graficos.strNomeEixoY2 = "Pressure SC (bar)";
-
-                                for (i = 0; i <= totalPointsCount - 1; i++)
+                                try
                                 {
-                                    series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
-                                    series2.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh06_PressureSC[i]));
-                                }
+                                    #region  Serie de Valores
 
-                                #endregion
+                                    //GVL_Graficos.strNomeEixoX = "Input Force (N)";
+                                    //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
+                                    //GVL_Graficos.strNomeEixoY2 = "Pressure SC (bar)";
 
-                                #region Pontos de Interesse
-                                //Loop para encontrar pressoes no ponto de medida 1
-                                double rForca_P1 = 0;
-                                double rPressao_P1 = 0;
-                                double rForca_P2 = 0;
-                                double rPressao_P2 = 0;
-                                double rForca_P3 = 0;
-                                double rPressao_P3 = 0;
-                                double rForca_P4 = 0;
-                                double rPressao_P4 = 0;
-
-                                for (var di = 0; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
-                                {
-                                    if (lstAnalogCh07_PressurePC[di] >= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP1Avanco_Bar)
+                                    for (i = 0; i <= totalPointsCount - 1; i++)
                                     {
-                                        rForca_P1 = lstAnalogCh02_InputForce1[di];
-                                        rPressao_P1 = lstAnalogCh07_PressurePC[di];
-                                        break;
+                                        series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
+                                        series2.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh06_PressureSC[i]));
                                     }
-                                }
 
-                                for (var di = 0; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
-                                {
-                                    if (lstAnalogCh07_PressurePC[di] >= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP2Avanco_Bar)
+                                    #endregion
+
+                                    #region Pontos de Interesse
+                                    //Loop para encontrar pressoes no ponto de medida 1
+                                    double rForca_P1 = 0;
+                                    double rPressao_P1 = 0;
+                                    double rForca_P2 = 0;
+                                    double rPressao_P2 = 0;
+                                    double rForca_P3 = 0;
+                                    double rPressao_P3 = 0;
+                                    double rForca_P4 = 0;
+                                    double rPressao_P4 = 0;
+
+                                    for (var di = 0; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
                                     {
-                                        rForca_P2 = lstAnalogCh02_InputForce1[di];
-                                        rPressao_P2 = lstAnalogCh07_PressurePC[di];
-                                        break;
+                                        if (lstAnalogCh07_PressurePC[di] >= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP1Avanco_Bar)
+                                        {
+                                            rForca_P1 = lstAnalogCh02_InputForce1[di];
+                                            rPressao_P1 = lstAnalogCh07_PressurePC[di];
+                                            break;
+                                        }
                                     }
-                                }
 
-                                for (var di = _modelGVL.GVL_T13.diPosicaoForcaMaxima; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
-                                {
-                                    if (lstAnalogCh07_PressurePC[Convert.ToInt32(di)] <= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP3Retorno_Bar)
+                                    for (var di = 0; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
                                     {
-                                        rForca_P3 = lstAnalogCh02_InputForce1[Convert.ToInt32(di)];
-                                        rPressao_P3 = lstAnalogCh07_PressurePC[Convert.ToInt32(di)];
-                                        break;
+                                        if (lstAnalogCh07_PressurePC[di] >= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP2Avanco_Bar)
+                                        {
+                                            rForca_P2 = lstAnalogCh02_InputForce1[di];
+                                            rPressao_P2 = lstAnalogCh07_PressurePC[di];
+                                            break;
+                                        }
                                     }
-                                }
 
-                                for (var di = _modelGVL.GVL_T13.diPosicaoForcaMaxima; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
-                                {
-                                    if (lstAnalogCh07_PressurePC[Convert.ToInt32(di)] <= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP4Retorno_Bar)
+                                    for (var di = _modelGVL.GVL_T13.diPosicaoForcaMaxima; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
                                     {
-                                        rForca_P4 = lstAnalogCh02_InputForce1[Convert.ToInt32(di)];
-                                        rPressao_P4 = lstAnalogCh07_PressurePC[Convert.ToInt32(di)];
-                                        break;
+                                        if (lstAnalogCh07_PressurePC[Convert.ToInt32(di)] <= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP3Retorno_Bar)
+                                        {
+                                            rForca_P3 = lstAnalogCh02_InputForce1[Convert.ToInt32(di)];
+                                            rPressao_P3 = lstAnalogCh07_PressurePC[Convert.ToInt32(di)];
+                                            break;
+                                        }
                                     }
+
+                                    for (var di = _modelGVL.GVL_T13.diPosicaoForcaMaxima; di <= _modelGVL.GVL_T13.diPosicaoForcaMaxima; di++)
+                                    {
+                                        if (lstAnalogCh07_PressurePC[Convert.ToInt32(di)] <= _modelGVL.GVL_T13.rSetPointDiferencaPressaoP4Retorno_Bar)
+                                        {
+                                            rForca_P4 = lstAnalogCh02_InputForce1[Convert.ToInt32(di)];
+                                            rPressao_P4 = lstAnalogCh07_PressurePC[Convert.ToInt32(di)];
+                                            break;
+                                        }
+                                    }
+                                    PontosChart.Points.Add(new SeriesPoint(rForca_P1, rPressao_P1));
+                                    PontosChart.Points.Add(new SeriesPoint(rForca_P2, rPressao_P2));
+                                    PontosChart.Points.Add(new SeriesPoint(rForca_P3, rPressao_P3));
+                                    PontosChart.Points.Add(new SeriesPoint(rForca_P4, rPressao_P4));
+
+                                    #endregion
+
+                                    devChart.Series.AddRange(new Series[] { series1, series2, PontosChart });
                                 }
-                                PontosChart.Points.Add(new SeriesPoint(rForca_P1, rPressao_P1));
-                                PontosChart.Points.Add(new SeriesPoint(rForca_P2, rPressao_P2));
-                                PontosChart.Points.Add(new SeriesPoint(rForca_P3, rPressao_P3));
-                                PontosChart.Points.Add(new SeriesPoint(rForca_P4, rPressao_P4));
-                                #endregion
+                                catch (Exception ex)
+                                {
+                                    var err = i;
+                                    bCharSeriesOK = false;
 
-                                devChart.Series.AddRange(new Series[] { series1, series2, PontosChart });
-                            }
-                            catch (Exception ex)
-                            {
-                                var err = i;
-                                bCharSeriesOK = false;
-
-                                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                throw;
+                                    MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    throw;
+                                }
                             }
                             break;
                         case 14:    //Check Sensors - Input/Output Travel
@@ -7616,17 +7946,6 @@ namespace Continental.Project.Adam.UI
 
                                     #region  Serie Pontos de Interesse
 
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T15.rForcaReal_P1_N, _modelGVL.GVL_T15.rPressao_P1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T15.rForcaReal_P2_N, _modelGVL.GVL_T15.rPressao_P2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T15.rForcaReal_E1_N, _modelGVL.GVL_T15.rPressao_E1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T15.rForcaReal_E2_N, _modelGVL.GVL_T15.rPressao_E2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T15.rRunOutForce_Real_N, _modelGVL.GVL_T15.rRunOutPressure_Real_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T15.rForcaCutIn_N, _modelGVL.GVL_T15.rPressaoJumper_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T15.rForcaAvanco_Xpout_N, _modelGVL.GVL_T15.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T15.rForcaRetorno_Xpout_N, _modelGVL.GVL_T15.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T15.rForcaAvanco_Xbar_N, _modelGVL.GVL_T15.rPressaoHysterese_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T15.rForcaRetorno_Xbar_N, _modelGVL.GVL_T15.rPressaoHysterese_Bar));
-
                                     #endregion
 
                                     devChart.Series.AddRange(new Series[] { series1, PontosChart });
@@ -7658,23 +7977,39 @@ namespace Continental.Project.Adam.UI
                                     #endregion
 
                                     #region  Serie Pontos de Interesse
+                                    var PosicaoForcaMaxima = Convert.ToInt32(_modelGVL.GVL_T11.diPosicaoForcaMaxima);
+                                    //Obtem o ponto X na forca máxima
+                                    var ForcaMaxima = lstAnalogCh02_InputForce1[PosicaoForcaMaxima];
+                                    var TempoForcaMaxima = lstAnalogCh00_Timestamp[PosicaoForcaMaxima];
 
 
-                                    //List<double> lstAnalogCh00_Timestamp = lstDblChReadFileArr[0];          //  Time [s]
-                                    //List<double> lstAnalogCh01_DiffTravel = lstDblChReadFileArr[1];         //ch9.1 - HelperHBM._rDiffTravel - Transdutor Deslocamento Desvio Linearidade - 0-10 mm (Linearizado)
-                                    //List<double> lstAnalogCh02_InputForce1 = lstDblChReadFileArr[2];        //ch9.2 - HelperHBM._rInputForce1 - Celula Carga Forca Entrada - 0-5 kN (Linearizada)
-                                    //List<double> lstAnalogCh03_OutputForce = lstDblChReadFileArr[3];        //ch9.3 - HelperHBM._rOutputForce - Celula Carga Forca Saída- 0-10 kN (Linearizada)
-                                    //List<double> lstAnalogCh04_TravelTMC = lstDblChReadFileArr[4];          //ch9.4 - HelperHBM._rTravelTMC - Transdutor Deslocamento Saida Booster - 0-50 mm (Linearizada)
-                                    //List<double> lstAnalogCh05_TravelPiston = lstDblChReadFileArr[5];       //ch9.5 - HelperHBM._rTravelPiston - Transdutor Deslocamento Entrada Booster - 0-50 mm (Linearizada)
-                                    //List<double> lstAnalogCh06_PressureSC = lstDblChReadFileArr[6];         //ch9.6 - HelperHBM._rPressureSC - Pressao Camara Secundaria CS - 0-250 bar (Linearizada
-                                    //List<double> lstAnalogCh07_PressurePC = lstDblChReadFileArr[7];         //ch9.7 - HelperHBM._rPressurePC - Pressao Camara Primaria CP - 0-250 bar (Linearizada)
-                                    //List<double> lstAnalogCh08_PneumTestPressure = lstDblChReadFileArr[8];  //ch9.8 - HelperHBM._rPneumTestPressure - Pressao Teste Bolhas 0-1 bar(Linearizada)
-                                    //List<double> lstAnalogCh09_HydrFillPressure = lstDblChReadFileArr[9];   //ch9.9 - HelperHBM._rHydrFillPressure - Pressao Sangria 0-6 bar (Linearizada)
-                                    //List<double> lstAnalogCh10_Vacuum = lstDblChReadFileArr[10];            //ch9.10 - HelperHBM._rVacuum - Pressao Linha Vacuo (-1)-0 bar (Linearizada)
-                                    //List<double> lstAnalogCh11_Reserv = lstDblChReadFileArr[11];            //ch9.11 - RESERVA
-                                    //List<double> lstAnalogCh12_Reserv = lstDblChReadFileArr[12];            //ch9.12 - RESERVA
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T16.rForcaReal_P1_N, _modelGVL.GVL_T16.rPressao_P1_Bar));
+                                    double PressaoTestePC = 0;
+                                    double DeslocamentoTestePC = 0;
+                                    double PressaoTesteSC = 0;
+                                    double DeslocamentoTesteSC = 0;
 
+                                    for (var di = 0; di < lstAnalogCh07_PressurePC.Count; di++)
+                                        {
+                                            if (lstAnalogCh07_PressurePC[di] >= _modelGVL.GVL_T16.rDeslocamentoNaPressao_Bar)
+                                            {
+                                                PressaoTestePC = lstAnalogCh07_PressurePC[di];
+                                                DeslocamentoTestePC = lstAnalogCh05_TravelPiston[di];
+                                                break; //Encerra a busca
+                                            }
+                                        }
+
+                                    for (var di = 0; di < lstAnalogCh06_PressureSC.Count; di++)
+                                    {
+                                        if (lstAnalogCh06_PressureSC[di] >= _modelGVL.GVL_T16.rDeslocamentoNaPressao_Bar)
+                                        {
+                                            PressaoTesteSC = lstAnalogCh06_PressureSC[di];
+                                            DeslocamentoTesteSC = lstAnalogCh05_TravelPiston[di];
+                                            break; //Encerra a busca
+                                        }
+                                    }
+
+                                    PontosChart.Points.Add(new SeriesPoint(DeslocamentoTestePC, PressaoTestePC));
+                                    PontosChart.Points.Add(new SeriesPoint(DeslocamentoTesteSC, PressaoTesteSC));
 
                                     #endregion
 
@@ -7743,7 +8078,7 @@ namespace Continental.Project.Adam.UI
                                     switch (HelperApp.uiTesteSelecionado)
                                     {
                                         case 17:
-                                            {                                               
+                                            {
                                                 double SomaPressao = 0;
                                                 double MediaPressao = 0;
                                                 double CursoMorto = 0;
@@ -7913,30 +8248,12 @@ namespace Continental.Project.Adam.UI
                                     {
                                         case 19:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T19.rForcaReal_P1_N, _modelGVL.GVL_T19.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T19.rForcaReal_P2_N, _modelGVL.GVL_T19.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T19.rForcaReal_E1_N, _modelGVL.GVL_T19.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T19.rForcaReal_E2_N, _modelGVL.GVL_T19.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T19.rRunOutForce_Real_N, _modelGVL.GVL_T19.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T19.rForcaCutIn_N, _modelGVL.GVL_T19.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T19.rForcaAvanco_Xpout_N, _modelGVL.GVL_T19.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T19.rForcaRetorno_Xpout_N, _modelGVL.GVL_T19.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T19.rForcaAvanco_Xbar_N, _modelGVL.GVL_T19.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T19.rForcaRetorno_Xbar_N, _modelGVL.GVL_T19.rPressaoHysterese_Bar));
+
                                             }
                                             break;
                                         case 20:
                                             {
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T20.rForcaReal_P1_N, _modelGVL.GVL_T20.rPressao_P1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T20.rForcaReal_P2_N, _modelGVL.GVL_T20.rPressao_P2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T20.rForcaReal_E1_N, _modelGVL.GVL_T20.rPressao_E1_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T20.rForcaReal_E2_N, _modelGVL.GVL_T20.rPressao_E2_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T20.rRunOutForce_Real_N, _modelGVL.GVL_T20.rRunOutPressure_Real_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T20.rForcaCutIn_N, _modelGVL.GVL_T20.rPressaoJumper_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T20.rForcaAvanco_Xpout_N, _modelGVL.GVL_T20.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T20.rForcaRetorno_Xpout_N, _modelGVL.GVL_T20.rPressaoHysteresePout_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T20.rForcaAvanco_Xbar_N, _modelGVL.GVL_T20.rPressaoHysterese_Bar));
-                                                //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T20.rForcaRetorno_Xbar_N, _modelGVL.GVL_T20.rPressaoHysterese_Bar));
+
                                             }
                                             break;
                                         default:
@@ -7972,7 +8289,7 @@ namespace Continental.Project.Adam.UI
                                     for (i = 0; i <= maxPos_Travel - 1; i++)
                                     {
                                         series1.Points.Add(new SeriesPoint(lstAnalogCh05_TravelPiston[i], lstAnalogCh07_PressurePC[i]));
-                                        series2.Points.Add(new SeriesPoint(lstAnalogCh05_TravelPiston[i], lstAnalogCh02_InputForce1[i]));
+                                        series2.Points.Add(new SeriesPoint(lstAnalogCh05_TravelPiston[i], lstAnalogCh02_InputForce1[i]));  
                                     }
 
                                     #endregion
@@ -7980,19 +8297,12 @@ namespace Continental.Project.Adam.UI
                                     #region  Serie Pontos de Interesse
 
                                     //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T21.rForcaReal_P1_N, _modelGVL.GVL_T21.rPressao_P1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T21.rForcaReal_P2_N, _modelGVL.GVL_T21.rPressao_P2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T21.rForcaReal_E1_N, _modelGVL.GVL_T21.rPressao_E1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T21.rForcaReal_E2_N, _modelGVL.GVL_T21.rPressao_E2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T21.rRunOutForce_Real_N, _modelGVL.GVL_T21.rRunOutPressure_Real_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T21.rForcaCutIn_N, _modelGVL.GVL_T21.rPressaoJumper_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T21.rForcaAvanco_Xpout_N, _modelGVL.GVL_T21.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T21.rForcaRetorno_Xpout_N, _modelGVL.GVL_T21.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T21.rForcaAvanco_Xbar_N, _modelGVL.GVL_T21.rPressaoHysterese_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T21.rForcaRetorno_Xbar_N, _modelGVL.GVL_T21.rPressaoHysterese_Bar));
+
 
                                     #endregion
 
                                     devChart.Series.AddRange(new Series[] { series1, series2, PontosChart });
+
                                 }
                                 catch (Exception ex)
                                 {
@@ -8026,16 +8336,6 @@ namespace Continental.Project.Adam.UI
 
                                     #region  Serie Pontos de Interesse
 
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T22.rForcaReal_P1_N, _modelGVL.GVL_T22.rPressao_P1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T22.rForcaReal_P2_N, _modelGVL.GVL_T22.rPressao_P2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T22.rForcaReal_E1_N, _modelGVL.GVL_T22.rPressao_E1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T22.rForcaReal_E2_N, _modelGVL.GVL_T22.rPressao_E2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T22.rRunOutForce_Real_N, _modelGVL.GVL_T22.rRunOutPressure_Real_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T22.rForcaCutIn_N, _modelGVL.GVL_T22.rPressaoJumper_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T22.rForcaAvanco_Xpout_N, _modelGVL.GVL_T22.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T22.rForcaRetorno_Xpout_N, _modelGVL.GVL_T22.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T22.rForcaAvanco_Xbar_N, _modelGVL.GVL_T22.rPressaoHysterese_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T22.rForcaRetorno_Xbar_N, _modelGVL.GVL_T22.rPressaoHysterese_Bar));
 
                                     #endregion
 
@@ -8068,17 +8368,6 @@ namespace Continental.Project.Adam.UI
                                     #endregion
 
                                     #region  Serie Pontos de Interesse
-
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T23.rForcaReal_P1_N, _modelGVL.GVL_T23.rPressao_P1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T23.rForcaReal_P2_N, _modelGVL.GVL_T23.rPressao_P2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T23.rForcaReal_E1_N, _modelGVL.GVL_T23.rPressao_E1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T23.rForcaReal_E2_N, _modelGVL.GVL_T23.rPressao_E2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T23.rRunOutForce_Real_N, _modelGVL.GVL_T23.rRunOutPressure_Real_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T23.rForcaCutIn_N, _modelGVL.GVL_T23.rPressaoJumper_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T23.rForcaAvanco_Xpout_N, _modelGVL.GVL_T23.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T23.rForcaRetorno_Xpout_N, _modelGVL.GVL_T23.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T23.rForcaAvanco_Xbar_N, _modelGVL.GVL_T23.rPressaoHysterese_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T23.rForcaRetorno_Xbar_N, _modelGVL.GVL_T23.rPressaoHysterese_Bar));
 
                                     #endregion
 
@@ -8129,17 +8418,6 @@ namespace Continental.Project.Adam.UI
 
                                     #region  Serie Pontos de Interesse
 
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T24.rForcaReal_P1_N, _modelGVL.GVL_T24.rPressao_P1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T24.rForcaReal_P2_N, _modelGVL.GVL_T24.rPressao_P2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T24.rForcaReal_E1_N, _modelGVL.GVL_T24.rPressao_E1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T24.rForcaReal_E2_N, _modelGVL.GVL_T24.rPressao_E2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T24.rRunOutForce_Real_N, _modelGVL.GVL_T24.rRunOutPressure_Real_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T24.rForcaCutIn_N, _modelGVL.GVL_T24.rPressaoJumper_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T24.rForcaAvanco_Xpout_N, _modelGVL.GVL_T24.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T24.rForcaRetorno_Xpout_N, _modelGVL.GVL_T24.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T24.rForcaAvanco_Xbar_N, _modelGVL.GVL_T24.rPressaoHysterese_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T24.rForcaRetorno_Xbar_N, _modelGVL.GVL_T24.rPressaoHysterese_Bar));
-
                                     #endregion
 
                                     devChart.Series.AddRange(new Series[] { series1, series2, PontosChart });
@@ -8173,17 +8451,6 @@ namespace Continental.Project.Adam.UI
                                         #endregion
 
                                         #region  Serie Pontos de Interesse
-
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T27.rForcaReal_P1_N, _modelGVL.GVL_T27.rPressao_P1_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T27.rForcaReal_P2_N, _modelGVL.GVL_T27.rPressao_P2_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T27.rForcaReal_E1_N, _modelGVL.GVL_T27.rPressao_E1_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T27.rForcaReal_E2_N, _modelGVL.GVL_T27.rPressao_E2_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T27.rRunOutForce_Real_N, _modelGVL.GVL_T27.rRunOutPressure_Real_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T27.rForcaCutIn_N, _modelGVL.GVL_T27.rPressaoJumper_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T27.rForcaAvanco_Xpout_N, _modelGVL.GVL_T27.rPressaoHysteresePout_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T27.rForcaRetorno_Xpout_N, _modelGVL.GVL_T27.rPressaoHysteresePout_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T27.rForcaAvanco_Xbar_N, _modelGVL.GVL_T27.rPressaoHysterese_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T27.rForcaRetorno_Xbar_N, _modelGVL.GVL_T27.rPressaoHysterese_Bar));
 
                                         #endregion
 
@@ -8256,17 +8523,6 @@ namespace Continental.Project.Adam.UI
                                         #endregion
 
                                         #region  Serie Pontos de Interesse
-
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T28.rForcaReal_P1_N, _modelGVL.GVL_T28.rPressao_P1_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T28.rForcaReal_P2_N, _modelGVL.GVL_T28.rPressao_P2_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T28.rForcaReal_E1_N, _modelGVL.GVL_T28.rPressao_E1_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T28.rForcaReal_E2_N, _modelGVL.GVL_T28.rPressao_E2_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T28.rRunOutForce_Real_N, _modelGVL.GVL_T28.rRunOutPressure_Real_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T28.rForcaCutIn_N, _modelGVL.GVL_T28.rPressaoJumper_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T28.rForcaAvanco_Xpout_N, _modelGVL.GVL_T28.rPressaoHysteresePout_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T28.rForcaRetorno_Xpout_N, _modelGVL.GVL_T28.rPressaoHysteresePout_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T28.rForcaAvanco_Xbar_N, _modelGVL.GVL_T28.rPressaoHysterese_Bar));
-                                        //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T28.rForcaRetorno_Xbar_N, _modelGVL.GVL_T28.rPressaoHysterese_Bar));
 
                                         #endregion
 
@@ -8341,17 +8597,6 @@ namespace Continental.Project.Adam.UI
                                     #endregion
 
                                     #region  Serie Pontos de Interesse
-
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T29.rForcaReal_P1_N, _modelGVL.GVL_T29.rPressao_P1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T29.rForcaReal_P2_N, _modelGVL.GVL_T29.rPressao_P2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T29.rForcaReal_E1_N, _modelGVL.GVL_T29.rPressao_E1_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T29.rForcaReal_E2_N, _modelGVL.GVL_T29.rPressao_E2_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T29.rRunOutForce_Real_N, _modelGVL.GVL_T29.rRunOutPressure_Real_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T29.rForcaCutIn_N, _modelGVL.GVL_T29.rPressaoJumper_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T29.rForcaAvanco_Xpout_N, _modelGVL.GVL_T29.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T29.rForcaRetorno_Xpout_N, _modelGVL.GVL_T29.rPressaoHysteresePout_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T29.rForcaAvanco_Xbar_N, _modelGVL.GVL_T29.rPressaoHysterese_Bar));
-                                    //PontosChart.Points.Add(new SeriesPoint(_modelGVL.GVL_T29.rForcaRetorno_Xbar_N, _modelGVL.GVL_T29.rPressaoHysterese_Bar));
 
                                     #endregion
 
