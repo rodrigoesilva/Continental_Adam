@@ -439,43 +439,47 @@ namespace Continental.Project.Adam.UI.Helper
 
                             #region #region Results_Header
 
-                            dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rVacuoInicial, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ForceIncreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradienteForcaAvanco, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationGradientForward", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradienteDeslocamentoAvanco, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaMaxima, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ForceDecreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradienteForcaRetorno, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationGradientBackward", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradienteDeslocamentoRetorno, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rVacuoInicial, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_ForceIncreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradienteForcaAvanco, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_ActuationGradientForward", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradienteDeslocamentoAvanco, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_ActuationForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaMaxima, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_ForceDecreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradienteForcaRetorno, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_ActuationGradientBackward", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradienteDeslocamentoRetorno, 2).ToString());
 
                             #endregion
 
                             #region Results
 
-                            dicResultParam.Add("resultCalcTestParam_Jumper", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOutJumper_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_OutputForceAtE1", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_E1_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_OutputForceAtE2", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_E2_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_OutputForceAtE5", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_P1_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_OutputForceAtE6", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_P2_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_OutputForceRunout", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rRunOutForceOut_Real_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_RunoutForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rRunOutForce_Real_N, 2).ToString());                            
-                            dicResultParam.Add("resultCalcTestParam_OutputInputRatio", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_CutInForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaCutIn_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ReleaseForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rReleaseForce_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_HysteresisAtForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rHysterese_XFout_N, 2).ToString());
-                            //dicResultParam.Add("resultCalcTestParam_HysteresisAtPressure2", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rHysterese_Xbar_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ReleaseForceRemainingAt", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rReleaseForceAt_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_AuxiliaryForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaAuxiliar_P3_N, 2).ToString());
-                            //dicResultParam.Add("resultCalcTestParam_OutputInputRadio", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ForceAt90Percent", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_90Fout_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ForceAt70Percent", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_70Fout_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_JumperGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradientJumper, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_Jumper", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOutJumper_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_OutputForceAtE1", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_E1_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_OutputForceAtE2", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_E2_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_OutputForceAtE5", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_P1_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_OutputForceAtE6", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_P2_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_OutputForceRunout", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rRunOutForceOut_Real_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_RunoutForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rRunOutForce_Real_N, 2).ToString());                            
+                            dicResultParam.Add("resultCalcTestParam_T02_OutputInputRatio", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_CutInForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaCutIn_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_ReleaseForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rReleaseForce_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_HysteresisAtForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rHysterese_XFout_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_ReleaseForceRemainingAt", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rReleaseForceAt_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_AuxiliaryForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaAuxiliar_P3_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_ForceAt90Percent", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_90Fout_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_ForceAt70Percent", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_70Fout_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_JumperGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradientJumper, 2).ToString());
+
+                            //jumper gradient
+                            dicResultParam.Add("resultCalcTestParam_T02_ForcaP2Jumper_N", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaP2Jumper_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_GradienteJumper_P2_Bar", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P2_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_ForcaP1Jumper_N", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaP1Jumper_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_GradienteJumper_P1_Bar", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P1_N, 2).ToString());
 
                             #endregion
 
                             #region Results_Footer
 
-                            dicResultParam.Add("resultCalcTestParam_PCHoseConsumers", 0.ToString());
-                            dicResultParam.Add("resultCalcTestParam_SCHoseConsumers", 0.ToString());
-                            dicResultParam.Add("resultCalcTestParam_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rTemperaturaInicial, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_PCHoseConsumers", 0.ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_SCHoseConsumers", 0.ToString());
+                            dicResultParam.Add("resultCalcTestParam_T02_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rTemperaturaInicial, 2).ToString());
 
                             #endregion
 
@@ -644,35 +648,31 @@ namespace Continental.Project.Adam.UI.Helper
 
                             #region #region Results_Header
 
-                            dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rVacuoInicial, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ForceIncreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rGradienteForcaAvanco, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationGradientForward", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rGradienteDeslocamentoAvanco, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationForce", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaMaxima, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ForceDecreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rGradienteForcaRetorno, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationGradientBackward", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rGradienteDeslocamentoRetorno, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rVacuoInicial, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_ForceIncreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rGradienteForcaAvanco, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_ActuationGradientForward", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rGradienteDeslocamentoAvanco, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_ActuationForce", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaMaxima, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_ForceDecreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rGradienteForcaRetorno, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_ActuationGradientBackward", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rGradienteDeslocamentoRetorno, 2).ToString());
 
                             #endregion
 
                             #region Results
-
-                            dicResultParam.Add("resultCalcTestParam_Jumper", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaOutJumper_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_OutputForceAt", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaOut_E1_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_OutputForceAt", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaOut_E2_N, 2).ToString());
-                            //dicResultParam.Add("resultCalcTestParam_OutputForceAt", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaOut_P1_N, 2).ToString());
-                            //dicResultParam.Add("resultCalcTestParam_OutputForceAt", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaOut_P2_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_CutInForce", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaCutIn_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ReleaseForce", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rReleaseForce_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ReleaseForceRemainingAt", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rReleaseForceAt_N, 2).ToString());
-                            //dicResultParam.Add("resultCalcTestParam_OutputInputRadio", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rTaxaAmplificacao, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_JumperGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rGradientJumper, 2).ToString());
+                            
+                            dicResultParam.Add("resultCalcTestParam_T04_OutputForceAtE1", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaOut_E1_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_OutputForceAtE2", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaOut_E2_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_OutputInputRatio", "123"); // Math.Round(HelperTestBase.Model_GVL.GVL_T04.rTaxaAmplificacao, 2).ToString()));// ;//vou criar
+                            dicResultParam.Add("resultCalcTestParam_T04_CutInForce", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaCutIn_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_ReleaseForce", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rReleaseForce_N, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_ReleaseForceRemainingAt", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rReleaseForceAt_N, 2).ToString());
 
                             #endregion
 
                             #region Results_Footer
 
-                            dicResultParam.Add("resultCalcTestParam_PCHoseConsumers", 0.ToString());
-                            dicResultParam.Add("resultCalcTestParam_SCHoseConsumers", 0.ToString());
-                            dicResultParam.Add("resultCalcTestParam_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rTemperaturaInicial, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_PCHoseConsumers", 0.ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_SCHoseConsumers", 0.ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rTemperaturaInicial, 2).ToString());
 
                             #endregion
 
@@ -1586,27 +1586,27 @@ namespace Continental.Project.Adam.UI.Helper
 
                             #region #region Results_Header
 
-                            dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rVacuoInicial, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ForceIncreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rGradienteForcaAvanco, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationGradientForward", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rGradienteDeslocamentoAvanco, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationForce", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rForcaMaxima, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ForceDecreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rGradienteForcaRetorno, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationGradientBackward", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rGradienteDeslocamentoRetorno, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rVacuoInicial, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_ForceIncreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rGradienteForcaAvanco, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_ActuationGradientForward", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rGradienteDeslocamentoAvanco, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_ActuationForce", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rForcaMaxima, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_ForceDecreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rGradienteForcaRetorno, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_ActuationGradientBackward", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rGradienteDeslocamentoRetorno, 2).ToString());
 
                             #endregion
 
                             #region Results
 
-                            dicResultParam.Add("resultCalcTestParam_InputTravel", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoMaximo_mm, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_InputTravelAt", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoNaPressao_mm, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_InputTravel", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoMaximo_mm, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_InputTravelBar", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoNaPressao_mm, 2).ToString());
 
                             #endregion
 
                             #region Results_Footer
 
-                            dicResultParam.Add("resultCalcTestParam_PCHoseConsumers", HelperTestBase.Model_GVL.GVL_T16.iConsumidoresCP.ToString());
-                            dicResultParam.Add("resultCalcTestParam_SCHoseConsumers", HelperTestBase.Model_GVL.GVL_T16.iConsumidoresCS.ToString());
-                            dicResultParam.Add("resultCalcTestParam_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rTemperaturaInicial, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_PCHoseConsumers", HelperTestBase.Model_GVL.GVL_T16.iConsumidoresCP.ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_SCHoseConsumers", HelperTestBase.Model_GVL.GVL_T16.iConsumidoresCS.ToString());
+                            dicResultParam.Add("resultCalcTestParam_T16_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T16.rTemperaturaInicial, 2).ToString());
 
                             #endregion
 
@@ -2400,19 +2400,21 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             switch (strResultParam_Name.Trim())
                             {
-                                case "PressureAt90Percent":
+                                #region T01
+
+                                case "PressureAt90Percent": //T01
                                     {
                                         strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_ForcaAt90Percent"])?.Trim();
                                         strResultParam_Measured = dicResultParam["resultCalcTestParam_PressureAt90Percent"]?.Trim();
                                         break;
                                     }
-                                case "PressureAt70Percent":
+                                case "PressureAt70Percent": //T01
                                     {
                                         strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_ForcaAt70Percent"])?.Trim();
                                         strResultParam_Measured = dicResultParam["resultCalcTestParam_PressureAt70Percent"]?.Trim();
                                         break;
                                     }
-                                case "JumperGradient":
+                                case "JumperGradient": //T01
                                     {
                                         string str01_ForcaP2Jumper_N = dicResultParam["resultCalcTestParam_ForcaP2Jumper_N"]?.Trim();
                                         string str02_GradienteJumper_P2_Bar = dicResultParam["resultCalcTestParam_GradienteJumper_P2_Bar"]?.Trim();
@@ -2423,6 +2425,62 @@ namespace Continental.Project.Adam.UI.Helper
                                         strResultParam_Measured = dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim();
                                     }
                                     break;
+
+                                #endregion
+
+                                #region T02
+
+                                case "T02_ForceAt90Percent": //T02
+                                    {
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T02_ForceAt90Percent"])?.Trim();
+                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_ForceAt90Percent"]?.Trim();
+                                        break;
+                                    }
+                                case "T02_ForceAt70Percent": //T02
+                                    {
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T02_ForceAt70Percent"])?.Trim();
+                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_ForceAt70Percent"]?.Trim();
+                                        break;
+                                    }
+                               case "T02_JumperGradient": //T02
+                                //    {
+                                //        string str01_ForcaP2Jumper_N = dicResultParam["resultCalcTestParam_T02_ForcaP2Jumper_N"]?.Trim();
+                                //        string str02_GradienteJumper_P2_Bar = dicResultParam["resultCalcTestParam_T02_GradienteJumper_P2_Bar"]?.Trim();
+                                //        string str03_ForcaP1Jumper_N = dicResultParam["resultCalcTestParam_T02_ForcaP1Jumper_N"]?.Trim();
+                                //        string str04_GradienteJumper_P1_Bar = dicResultParam["resultCalcTestParam_T02_GradienteJumper_P1_Bar"]?.Trim();
+
+                                //        strResultParam_Caption = String.Format(strResultParam_Caption, str01_ForcaP2Jumper_N, str02_GradienteJumper_P2_Bar, str03_ForcaP1Jumper_N, str04_GradienteJumper_P1_Bar);
+                                //        strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_JumperGradient"]?.Trim();
+                                //    }
+                                break;
+
+                                #endregion
+
+                                #region T04
+
+                                case "T04_OutputForceAtE1": //T04
+                                    {
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T04_OutputForceAtE1"])?.Trim();
+                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_T04_OutputForceAtE1"]?.Trim();
+                                        break;
+                                    }
+                                case "T04_OutputForceAtE2": //T04
+                                    {
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T04_OutputForceAtE2"])?.Trim();
+                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_T04_OutputForceAtE2"]?.Trim();
+                                        break;
+                                    }
+                                case "T04_ReleaseForceRemainingAt": //T04
+                                    {
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T04_ReleaseForceRemainingAt"])?.Trim();
+                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_T04_ReleaseForceRemainingAt"]?.Trim();
+                                        break;
+                                    }
+
+                                #endregion
+
+                                #region T06
+
                                 case "ActuationForceXX":
                                 case "TravelAtXX":
                                     {
@@ -2433,6 +2491,96 @@ namespace Continental.Project.Adam.UI.Helper
                                         strResultParam_Measured = keyResultParam_Value;
                                         break;
                                     }
+
+                                #endregion
+
+                                #region T07
+
+                                case "ActuationForce1": //T07_
+                                case "TravelAt1": //T07_
+                                    {
+                                        strResultParam_Name = "ActuationForceAt1";
+                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                        strResultParam_Measured = keyResultParam_Value;
+                                        break;
+                                    }
+                                case "ActuationForce2": //T07_
+                                case "TravelAt2": //T07_
+                                    {
+                                        strResultParam_Name = "ActuationForceAt2";
+                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                        strResultParam_Measured = keyResultParam_Value;
+                                        break;
+                                    }
+                                case "ActuationForce3": //T07_
+                                case "TravelAt3": //T07_
+                                    {
+                                        strResultParam_Name = "ActuationForceAt3";
+                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                        strResultParam_Measured = keyResultParam_Value;
+                                        break;
+                                    }
+                                #endregion
+
+                                #region T08
+
+                                case "ActuationForce": //T08_
+                                case "TravelAt": //T08_
+                                    {
+                                        strResultParam_Name = "ActuationForce";
+                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                        strResultParam_Measured = keyResultParam_Value;
+                                        break;
+                                    }
+
+                                #endregion
+
+                                #region T12
+
+                                case "ActuationTime": //T12_
+                                    {
+                                        strResultParam_Name = "ActuationTimePercent";
+                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                        strResultParam_Measured = keyResultParam_Value;
+                                        break;
+                                    }
+                                case "ReleaseTime": //T12_
+                                    {
+                                        strResultParam_Name = "ReleaseTimePercent";
+                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                        strResultParam_Measured = keyResultParam_Value;
+                                        break;
+                                    }
+
+                                #endregion
+
+                                #region T21
+
+                                case "ForceAtXXbar": //T21_
+                                case "TravelAtXXbar": //T21_
+                                    {
+                                        strResultParam_Name = "LostTravel";
+                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                        strResultParam_Measured = keyResultParam_Value;
+                                        break;
+                                    }
+
+                                #endregion
+
                                 default:
                                     {
                                         for (int j = 0; j < numStrFormat; j++)
@@ -6819,7 +6967,6 @@ namespace Continental.Project.Adam.UI.Helper
                     #region Calculo da perda total de vacuo
 
                     var mxtime = lstDblReturnReadFile[0].Max();
-                    var mxvacuo = lstDblReturnReadFile[10].Max();
 
                     var X1_Final = mxtime - 0.5;
                     var X1_ValIdx = lstDblReturnReadFile[0].Aggregate((x1, y1) => Math.Abs(x1 - X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
@@ -6833,48 +6980,40 @@ namespace Continental.Project.Adam.UI.Helper
 
                     _modelGVL.GVL_T08.rVacuoInicial = Y2_VacuoInicial;
                     _modelGVL.GVL_T08.rPerdaVacuo = Y2_VacuoInicial - Y1_VacuoFinal;
-
-                    //========================================================================================================================================================
                     #endregion
 
-                    #region  Calculo da perda de pressao
-
-                    //Calculo da perda de pressao CP
-
-                    var mxpressCP = lstDblReturnReadFile[7].Max();
-
+                    #region Calculo da perda total de Pressao CP
                     var X3_Final = mxtime - 0.5;
                     var X3_ValIdx = lstDblReturnReadFile[0].Aggregate((x1, y1) => Math.Abs(x1 - X3_Final) < Math.Abs(y1 - X3_Final) ? x1 : y1);
-                    var X3_PosPressFinal = lstDblReturnReadFile[0].IndexOf(X3_ValIdx);
-                    var Y3_PressFinal = lstDblReturnReadFile[7].ElementAt(X3_PosPressFinal);
+                    var X3_PosPressCPFinal = lstDblReturnReadFile[0].IndexOf(X3_ValIdx);
+                    var Y3_PressCPFinal = lstDblReturnReadFile[7].ElementAt(X3_PosPressCPFinal);
 
                     var X4_Inicial = X3_Final - HelperTestBase.Model_GVL.GVL_T08.rTempoTeste;
-                    var X4_ValIdx = lstDblReturnReadFile[0].Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X4_Inicial) ? x2 : y2);
-                    var X4_PosPressInicial = lstDblReturnReadFile[0].IndexOf(X4_ValIdx);
-                    var Y4_PressInicial = lstDblReturnReadFile[7].ElementAt(X4_PosPressInicial);
+                    var X4_ValIdx = lstDblReturnReadFile[0].Aggregate((x2, y2) => Math.Abs(x2 - X4_Inicial) < Math.Abs(y2 - X4_Inicial) ? x2 : y2);
+                    var X4_PosPressCPInicial = lstDblReturnReadFile[0].IndexOf(X4_ValIdx);
+                    var Y4_PressCPInicial = lstDblReturnReadFile[7].ElementAt(X4_PosPressCPInicial);
 
-                    _modelGVL.GVL_T08.rPressaoInicialCP = Y4_PressInicial;
-                    _modelGVL.GVL_T08.rPressaoFinalCP = Y3_PressFinal;
-                    _modelGVL.GVL_T08.rPerdaPressaoCP = Y4_PressInicial - Y3_PressFinal;
+                    _modelGVL.GVL_T08.rPressaoInicialCP = Y4_PressCPInicial;
+                    _modelGVL.GVL_T08.rPressaoFinalCP = Y3_PressCPFinal;
 
-                    //Calculo da perda de pressao CS
+                    _modelGVL.GVL_T08.rPerdaPressaoCP = Y4_PressCPInicial - Y3_PressCPFinal;
+                    #endregion
 
-                    var mxpressCS = lstDblReturnReadFile[6].Max();
-
+                    #region Calculo da perda total de Pressao CS
                     var X5_Final = mxtime - 0.5;
-                    var X5_ValIdx = lstDblReturnReadFile[0].Aggregate((x1, y1) => Math.Abs(x1 - X3_Final) < Math.Abs(y1 - X5_Final) ? x1 : y1);
-                    var X5_PosPressFinal = lstDblReturnReadFile[0].IndexOf(X5_ValIdx);
-                    var Y5_PressFinal = lstDblReturnReadFile[6].ElementAt(X5_PosPressFinal);
+                    var X5_ValIdx = lstDblReturnReadFile[0].Aggregate((x1, y1) => Math.Abs(x1 - X5_Final) < Math.Abs(y1 - X5_Final) ? x1 : y1);
+                    var X5_PosPressCSFinal = lstDblReturnReadFile[0].IndexOf(X5_ValIdx);
+                    var Y5_PressCSFinal = lstDblReturnReadFile[6].ElementAt(X5_PosPressCSFinal);
 
                     var X6_Inicial = X5_Final - HelperTestBase.Model_GVL.GVL_T08.rTempoTeste;
                     var X6_ValIdx = lstDblReturnReadFile[0].Aggregate((x2, y2) => Math.Abs(x2 - X6_Inicial) < Math.Abs(y2 - X6_Inicial) ? x2 : y2);
-                    var X6_PosPressInicial = lstDblReturnReadFile[0].IndexOf(X6_ValIdx);
-                    var Y6_PressInicial = lstDblReturnReadFile[6].ElementAt(X6_PosPressInicial);
+                    var X6_PosPressCSInicial = lstDblReturnReadFile[0].IndexOf(X6_ValIdx);
+                    var Y6_PressCSInicial = lstDblReturnReadFile[6].ElementAt(X6_PosPressCSInicial);
 
-                    _modelGVL.GVL_T08.rPressaoInicialCP = Y6_PressInicial;
-                    _modelGVL.GVL_T08.rPressaoFinalCP = Y5_PressFinal;
-                    _modelGVL.GVL_T08.rPerdaPressaoCP = Y6_PressInicial - Y5_PressFinal;
+                    _modelGVL.GVL_T08.rPressaoInicialCS = Y6_PressCSInicial;
+                    _modelGVL.GVL_T08.rPressaoFinalCS = Y5_PressCSFinal;
 
+                    _modelGVL.GVL_T08.rPerdaPressaoCS = Y6_PressCSInicial - Y5_PressCSFinal;
                     #endregion
 
                     #region Calculo dos Consumidores Utilizados
@@ -7022,14 +7161,13 @@ namespace Continental.Project.Adam.UI.Helper
                     #region Calculo da perda total de vacuo
 
                     var mxtime = lstDblReturnReadFile[0].Max();
-                    var mxvacuo = lstDblReturnReadFile[10].Max();
 
                     var X1_Final = mxtime - 0.5;
                     var X1_ValIdx = lstDblReturnReadFile[0].Aggregate((x1, y1) => Math.Abs(x1 - X1_Final) < Math.Abs(y1 - X1_Final) ? x1 : y1);
                     var X1_PosVacuoFinal = lstDblReturnReadFile[0].IndexOf(X1_ValIdx);
                     var Y1_VacuoFinal = lstDblReturnReadFile[10].ElementAt(X1_PosVacuoFinal);
 
-                    var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T08.rTempoTeste;
+                    var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T09.rTempoTeste;
                     var X2_ValIdx = lstDblReturnReadFile[0].Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
                     var X2_PosVacuoInicial = lstDblReturnReadFile[0].IndexOf(X2_ValIdx);
                     var Y2_VacuoInicial = lstDblReturnReadFile[10].ElementAt(X2_PosVacuoInicial);
@@ -7037,9 +7175,10 @@ namespace Continental.Project.Adam.UI.Helper
                     _modelGVL.GVL_T09.rVacuoInicial = Y2_VacuoInicial;
                     _modelGVL.GVL_T09.rPerdaVacuo = Y2_VacuoInicial - Y1_VacuoFinal;
 
+ 
                     #endregion
 
-                    #region  Calculo da perda de pressao
+                    #region  Calculo da perda de pressao CP
 
                     //Calculo da perda de pressao CP
 
@@ -7059,9 +7198,9 @@ namespace Continental.Project.Adam.UI.Helper
                     _modelGVL.GVL_T09.rPressaoFinalCP = Y3_PressFinal;
                     _modelGVL.GVL_T09.rPerdaPressaoCP = Y4_PressInicial - Y3_PressFinal;
 
-                    //Calculo da perda de pressao CS
+                    #endregion
 
-                    var mxpressCS = lstDblReturnReadFile[6].Max();
+                    #region  Calculo da perda de pressao CS
 
                     var X5_Final = mxtime - 0.5;
                     var X5_ValIdx = lstDblReturnReadFile[0].Aggregate((x1, y1) => Math.Abs(x1 - X3_Final) < Math.Abs(y1 - X5_Final) ? x1 : y1);
@@ -7073,9 +7212,9 @@ namespace Continental.Project.Adam.UI.Helper
                     var X6_PosPressInicial = lstDblReturnReadFile[0].IndexOf(X6_ValIdx);
                     var Y6_PressInicial = lstDblReturnReadFile[6].ElementAt(X6_PosPressInicial);
 
-                    _modelGVL.GVL_T09.rPressaoInicialCP = Y6_PressInicial;
-                    _modelGVL.GVL_T09.rPressaoFinalCP = Y5_PressFinal;
-                    _modelGVL.GVL_T09.rPerdaPressaoCP = Y6_PressInicial - Y5_PressFinal;
+                    _modelGVL.GVL_T09.rPressaoInicialCS = Y6_PressInicial;
+                    _modelGVL.GVL_T09.rPressaoFinalCS = Y5_PressFinal;
+                    _modelGVL.GVL_T09.rPerdaPressaoCS = Y6_PressInicial - Y5_PressFinal;
 
                     #endregion
 
@@ -7229,7 +7368,7 @@ namespace Continental.Project.Adam.UI.Helper
                     var X1_PosVacuoFinal = lstDblReturnReadFile[0].IndexOf(X1_ValIdx);
                     var Y1_VacuoFinal = lstDblReturnReadFile[10].ElementAt(X1_PosVacuoFinal);
 
-                    var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T08.rTempoTeste;
+                    var X2_Inicial = X1_Final - HelperTestBase.Model_GVL.GVL_T10.rTempoTeste;
                     var X2_ValIdx = lstDblReturnReadFile[0].Aggregate((x2, y2) => Math.Abs(x2 - X2_Inicial) < Math.Abs(y2 - X2_Inicial) ? x2 : y2);
                     var X2_PosVacuoInicial = lstDblReturnReadFile[0].IndexOf(X2_ValIdx);
                     var Y2_VacuoInicial = lstDblReturnReadFile[10].ElementAt(X2_PosVacuoInicial);
@@ -7239,9 +7378,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     #endregion
 
-                    #region  Calculo da perda de pressao
-
-                    //Calculo da perda de pressao CP
+                    #region  Calculo da perda de pressao CP
 
                     var mxpressCP = lstDblReturnReadFile[7].Max();
 
@@ -7259,7 +7396,9 @@ namespace Continental.Project.Adam.UI.Helper
                     _modelGVL.GVL_T10.rPressaoFinalCP = Y3_PressFinal;
                     _modelGVL.GVL_T10.rPerdaPressaoCP = Y4_PressInicial - Y3_PressFinal;
 
-                    //Calculo da perda de pressao CS
+                    #endregion
+
+                    #region  Calculo da perda de pressao CS
 
                     var mxpressCS = lstDblReturnReadFile[6].Max();
 
@@ -7273,9 +7412,9 @@ namespace Continental.Project.Adam.UI.Helper
                     var X6_PosPressInicial = lstDblReturnReadFile[0].IndexOf(X6_ValIdx);
                     var Y6_PressInicial = lstDblReturnReadFile[6].ElementAt(X6_PosPressInicial);
 
-                    _modelGVL.GVL_T10.rPressaoInicialCP = Y6_PressInicial;
-                    _modelGVL.GVL_T10.rPressaoFinalCP = Y5_PressFinal;
-                    _modelGVL.GVL_T10.rPerdaPressaoCP = Y6_PressInicial - Y5_PressFinal;
+                    _modelGVL.GVL_T10.rPressaoInicialCS = Y6_PressInicial;
+                    _modelGVL.GVL_T10.rPressaoFinalCS = Y5_PressFinal;
+                    _modelGVL.GVL_T10.rPerdaPressaoCS = Y6_PressInicial - Y5_PressFinal;
 
                     #endregion
 
@@ -10806,7 +10945,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     for (di = 0; di <= _modelGVL.GVL_T21.diPosicaoForcaMaxima; di++)
                     {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= 0.1)  //Pressao de cut in
+                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= 0.2)  //Pressao de cut in esta como 0.2, pois é o padrao da norma e não existe campo para digitar este valor.
                         {
                             _modelGVL.GVL_T21.rForcaCutIn_N = _modelGVL.GVL_Graficos.arrVarY2[di]; //Valor da pressao real obtida no grafico valida para 90 runout 
 
@@ -10818,7 +10957,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     #endregion
 
-                    #region Calcula a forca a 90%pout e encontra um ponto real no grafico
+                    #region Calcula a forca a 90%pout
 
                     //========================================================================================================================================================
                     //tambem salva o deslocamento a 90% do runout, aproveitando o loop de busca
@@ -10862,14 +11001,11 @@ namespace Continental.Project.Adam.UI.Helper
                     _modelGVL.GVL_T21.rPressaoJumper_Bar = _modelGVL.GVL_T21.rPressao_P5_Bar + (_modelGVL.GVL_T21.rForcaCutIn_N - 200) *
                                                             ((_modelGVL.GVL_T21.rPressao_P6_Bar - _modelGVL.GVL_T21.rPressao_P5_Bar) / (_modelGVL.GVL_T21.rForca_F6_N - 200));
 
-                    _modelGVL.GVL_Graficos.arrVarXPoint1[5] = _modelGVL.GVL_T21.rForcaCutIn_N;
-                    _modelGVL.GVL_Graficos.arrVarYPoint1[5] = _modelGVL.GVL_T21.rPressaoJumper_Bar;
-
-                    //========================================================================================================================================================
-
                     #endregion
 
                     #region Calculo do Deslocamento e Forca no Jumper
+
+
                     //Encontra o deslocamento no jumper
                     for (di = 0; di <= _modelGVL.GVL_T21.diPosicaoForcaMaxima; di++)
                     {
@@ -10884,13 +11020,13 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Calculo do Deslocamento e Forca na Pressao (Parametro)
-                    //Encontra o deslocamento no jumper
+
                     for (di = 0; di <= _modelGVL.GVL_T21.diPosicaoForcaMaxima; di++)
                     {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= _modelGVL.GVL_T21.rPressaoCutIn_Bar) //Esta com o nome cut-in mas é uma pressão digitada
+                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= _modelGVL.GVL_T21.rPressaoTeste_Bar)
                         {
-                            _modelGVL.GVL_T21.rForcaNaPressao_N = _modelGVL.GVL_Graficos.arrVarY2[di]; //Forca no jumper
-                            _modelGVL.GVL_T21.rDeslocamentoNaPressao_mm = _modelGVL.GVL_Graficos.arrVarX[di]; //Deslocamento no jumper
+                            _modelGVL.GVL_T21.rForcaNaPressao_N = _modelGVL.GVL_Graficos.arrVarY2[di];
+                            _modelGVL.GVL_T21.rDeslocamentoNaPressao_mm = _modelGVL.GVL_Graficos.arrVarX[di];
                             break; //Encerra a busca
                         }
                     }
@@ -14101,11 +14237,7 @@ namespace Continental.Project.Adam.UI.Helper
                             if (HelperTestBase.iTipoConsumidores > 0)
                                 sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
                             else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");                            
                             sbHeader.Append($"\r\n");
                             sbHeader.Append($"\r\n");
 

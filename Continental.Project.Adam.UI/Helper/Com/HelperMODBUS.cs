@@ -39,7 +39,7 @@ namespace Continental.Project.Adam.UI.Helper.Com
 
         private byte[] arrReadData;
         private const ushort dfltStartAddress = 0;
-        private const string dfltStrSize = "90";
+        private const string dfltStrSize = "95";
         private const string dfltStrUnit = "0";
 
         private byte[] arrWriteData;
@@ -688,7 +688,6 @@ namespace Continental.Project.Adam.UI.Helper.Com
                                         Thread.Sleep(50);
 
                                         HelperMODBUS.Modbus_MBmaster.WriteSingleRegister(ID, unit, wrdStartDoubleAddress, varNames[i], arrWriteData);
-
                                     }
                                 }
                             }
@@ -2531,10 +2530,6 @@ namespace Continental.Project.Adam.UI.Helper.Com
         private  static double _CS_dwPressaoSistemaFechado_T19_HW;
         private  static double _CS_dwPressaoSistemaAberto_T19_LW;            //rPressaoSistemaAberto_T19 - Pressao desejada com o sistema aberto
         private  static double _CS_dwPressaoSistemaAberto_T19_HW;
-        private  static bool _bConfirmaP1_T19;                        //_bConfirmaP1_T19 - Confirnação Pressão 0.2 bar
-        private  static bool _bCancelaP1_T19;                     //_bCancelaP1_T19 - Confirnação Pressão 0.2 bar
-        private  static bool _bConfirmaP2_T19;                        //_bConfirmaP2_T19 - Confirnação Pressão 0.3 bar
-        private  static bool _bCancelaP2_T19;                     //_bCancelaP2_T19 - Confirnação Pressão 0.3 bar
         public static double CS_dwTempoSopro_T19_LW
         {
             get { return HelperMODBUS._CS_dwTempoSopro_T19_LW; }
@@ -2577,27 +2572,6 @@ namespace Continental.Project.Adam.UI.Helper.Com
             get { return HelperMODBUS._CS_dwPressaoSistemaAberto_T19_HW; }
             set { HelperMODBUS._CS_dwPressaoSistemaAberto_T19_HW = value; }
         }
-        public static bool bConfirmaP1_T19
-        {
-            get { return HelperMODBUS._bConfirmaP1_T19; }
-            set { HelperMODBUS._bConfirmaP1_T19 = value; }
-        }
-        public static bool bCancelaP1_T19
-        {
-            get { return HelperMODBUS._bCancelaP1_T19; }
-            set { HelperMODBUS._bCancelaP1_T19 = value; }
-        }
-        public static bool bConfirmaP2_T19
-        {
-            get { return HelperMODBUS._bConfirmaP2_T19; }
-            set { HelperMODBUS._bConfirmaP2_T19 = value; }
-        }
-        public static bool bCancelaP2_T19
-        {
-            get { return HelperMODBUS._bCancelaP2_T19; }
-            set { HelperMODBUS._bCancelaP2_T19 = value; }
-        }
-        //
         #endregion
 
         #region 20 - Lost Travel ACU Pneumatic Secondary
@@ -2650,7 +2624,6 @@ namespace Continental.Project.Adam.UI.Helper.Com
             get { return HelperMODBUS._CS_dwPressaoSistemaAberto_T20_HW; }
             set { HelperMODBUS._CS_dwPressaoSistemaAberto_T20_HW = value; }
         }
-
         //
         #endregion
 

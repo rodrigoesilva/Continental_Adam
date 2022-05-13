@@ -2019,7 +2019,7 @@ namespace Continental.Project.Adam.UI
             this.grid_tabActionParam_EvalParam.Location = new System.Drawing.Point(5, 51);
             this.grid_tabActionParam_EvalParam.Name = "grid_tabActionParam_EvalParam";
             this.grid_tabActionParam_EvalParam.RowHeadersWidth = 51;
-            this.grid_tabActionParam_EvalParam.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.grid_tabActionParam_EvalParam.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.grid_tabActionParam_EvalParam.Size = new System.Drawing.Size(890, 517);
             this.grid_tabActionParam_EvalParam.TabIndex = 94;
             this.grid_tabActionParam_EvalParam.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellClick);

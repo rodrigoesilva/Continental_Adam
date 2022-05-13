@@ -520,7 +520,7 @@ namespace Continental.Project.Adam.UI.COM
                             HelperHBM.rHydrFillPressure = Convert.ToDouble(signalValue);
                             break;
                         case 10:
-                            HelperHBM.rVaccum = Convert.ToDouble(signalValue);
+                            HelperHBM.rVacuum = Convert.ToDouble(signalValue);
                             break;
                         case 11:
                             break;

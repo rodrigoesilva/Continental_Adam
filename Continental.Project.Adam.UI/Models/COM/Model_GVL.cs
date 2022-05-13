@@ -1157,8 +1157,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rGradienteJumper_P1_N;// : REAL;
         public double rGradienteJumper_P2_N;// : REAL;
 
-        //
-
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
         public double rTemperaturaInicial;// : REAL;
@@ -1250,7 +1248,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rPressaoCutIn_Bar;// : REAL; //Pressao na qual eh obtida a forca de cut-in, Padrao normalizado 0.2, mas como parametro pois pode mudar um dia.
 
 
-        //
 
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
@@ -1678,8 +1675,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rSetPointDiferencaPressaoP3Retorno_Bar;// : REAL;
         public double rSetPointDiferencaPressaoP4Retorno_Bar;// : REAL;
 
-        //
-
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
         public double rTemperaturaInicial;// : REAL;
@@ -1714,8 +1709,6 @@ namespace Continental.Project.Adam.UI.Models.COM
 
         public double rCursoMortoEmDeslocamentoSaida_mm;// : REAL;
 
-        //
-
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
         public double rTemperaturaInicial;// : REAL;
@@ -1746,8 +1739,6 @@ namespace Continental.Project.Adam.UI.Models.COM
 
         //Parametros do teste
 
-        //
-
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
         public double rTemperaturaInicial;// : REAL;
@@ -1777,8 +1768,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         //Parametros do teste
 
         public double rDeslocamentoNaPressao_Bar;// : REAL;
-
-        //
 
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
@@ -1971,7 +1960,8 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bCalculaResultados;// : BOOL;
 
         //Parametros do teste
-        public double rPressaoCutIn_Bar;// : REAL; //Pressao na qual eh obtida a forca de cut-in, Padrao normalizado 0.2, mas como parametro pois pode mudar um dia.
+        public double rPressaoCutIn_Bar;// : REAL;
+        public double rPressaoTeste_Bar;// : REAL;
 
         //
 
