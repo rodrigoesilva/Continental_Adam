@@ -2009,7 +2009,7 @@ namespace Continental.Project.Adam.UI.Helper.Com
 
         #endregion
 
-        #region W20 -> W34
+        #region W20 -> W38
 
         private  static int _CS_wModo;                            //%20% - GVL PARAM iModo - 1-Pneumatico Lento 2-Pneumatico Rapido 3- E-Drive
         private static int _CS_wOutput;                            // iOutput 0=OFF 1=OutputPC 2=OutputSC
@@ -2027,6 +2027,10 @@ namespace Continental.Project.Adam.UI.Helper.Com
         private  static bool _CS_wHoseConsumers;                  //32 - 
         private  static bool _CS_wTaraSensores;                   //33 -
         private  static bool _CS_wHabilitaTravaPistao;            //34 - bHabilitaTravaPistao = false; //Consnstate. Nao utilizado neste teste
+        private static double _CS_dwRunOutForceRef_LW;
+        private static double _CS_dwRunOutForceRef_HW;
+        private static double _CS_dwRunOutPressureRef_LW;
+        private static double _CS_dwRunOutPressureRef_HW;
 
         public static int CS_wModo
         {
@@ -2107,6 +2111,26 @@ namespace Continental.Project.Adam.UI.Helper.Com
         {
             get { return HelperMODBUS._CS_wHabilitaTravaPistao; }
             set { HelperMODBUS._CS_wHabilitaTravaPistao = value; }
+        }
+        public static double CS_dwRunOutForceRef_LW
+        {
+            get { return HelperMODBUS._CS_dwRunOutForceRef_LW; }
+            set { HelperMODBUS._CS_dwRunOutForceRef_LW = value; }
+        }
+        public static double CS_dwRunOutForceRef_HW
+        {
+            get { return HelperMODBUS._CS_dwRunOutForceRef_HW; }
+            set { HelperMODBUS._CS_dwRunOutForceRef_HW = value; }
+        }
+        public static double CS_dwRunOutPressureRef_LW
+        {
+            get { return HelperMODBUS._CS_dwRunOutPressureRef_LW; }
+            set { HelperMODBUS._CS_dwRunOutPressureRef_LW = value; }
+        }
+        public static double CS_dwRunOutPressureRef_HW
+        {
+            get { return HelperMODBUS._CS_dwRunOutPressureRef_HW; }
+            set { HelperMODBUS._CS_dwRunOutPressureRef_HW = value; }
         }
 
         #endregion

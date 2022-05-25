@@ -35,10 +35,10 @@ CS_wTipoConsumidores	%	31	%
 CS_wHoseConsumers	%	32	%	
 CS_wTaraSensores	%	33	%	
 CS_wHabilitaTravaPistao	%	34	%	
-CS_dwRunOutForceRef_LW	%	35	%	
-CS_dwRunOutForceRef_HW	%	36	%	
-CS_dwRunOutPressureRef_LW	%	37	%	
-CS_dwRunOutPressureRef_HW	%	38	%	
+CS_	%	35	%	
+CS_	%	36	%	
+CS_	%	37	%	
+CS_	%	38	%	
 CS_	%	39	%	
 CS_dwTempoTeste_T05_LW	%	40	%	
 CS_dwTempoTeste_T05_HW	%	41	%	

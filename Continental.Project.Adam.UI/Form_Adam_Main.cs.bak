@@ -106,7 +106,6 @@ using System.Windows.Forms.VisualStyles;
 using Hbm.Api.Common.Entities.SpectrumInfos;
 using Hbm.Api.Common.Entities.Values;
 using static Continental.Project.Adam.UI.COM.ComHBM;
-using System.Drawing.Text;						  
 
 #endregion
 
@@ -308,8 +307,6 @@ namespace Continental.Project.Adam.UI
 
             CONTROLS_EnableMetroButton();
 
-            CONTROL_WebVisu_Header();
-
             LOG_Clear();
 
             LOG_BindViewEvents();
@@ -333,26 +330,23 @@ namespace Continental.Project.Adam.UI
                 timerMODBUS.Enabled = true;
 
 
-        }
-
-        #endregion
-
-        #region CONTROLS
-        private void CONTROL_WebVisu_Header()
-        {
             var headerBrowser = new ChromiumWebBrowser("http://192.168.0.1:8080/webvisu2.htm") { Dock = DockStyle.Fill };
 
             if (headerBrowser != null)
             {
                 mpnl_HeaderInfoAnalogInput.SendToBack();
                 mpnl_HeaderInfoAnalogInput.Visible = false;
-
+                
 
                 mpnl_HeaderInfoAnalogInputVisu.Location = new Point(5, 130);
                 mpnl_HeaderInfoAnalogInputVisu.Controls.Add(headerBrowser);
                 mpnl_HeaderInfoAnalogInputVisu.BringToFront();
             }
         }
+
+        #endregion
+
+        #region CONTROLS
         private void CONTROLS_EnableMetroButton()
         {
             var lstMetroButton1 = new List<Control>();
@@ -381,6 +375,7 @@ namespace Continental.Project.Adam.UI
                                       .Where(c => c.GetType() == type)
                                       .ToList();
         }
+
         private void Execute_Logout()
         {
             HelperApp.IsLoggedIn = false;
@@ -577,6 +572,7 @@ namespace Continental.Project.Adam.UI
             HelperApp.lblstsbar04 = DateTime.Now.ToString();
             tStatusLabel04.Text = HelperApp.lblstsbar04;
         }
+
         private void UI_SetupStatusBar()
         {
             Form_SetStatusBarPanelSize();
@@ -3035,127 +3031,6 @@ namespace Continental.Project.Adam.UI
         #region TAB - ActuationParameters - Panel Evaluation Parameters
 
         #region TAB - ActuationParameters - Evaluation Parameters - Grid
-		private void grid_tabActionParam_EvalParam_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            var row = ((System.Windows.Forms.DataGridView)sender).CurrentRow;
-            string strName = ((System.Windows.Forms.DataGridView)sender).CurrentRow.Cells["EvalParam_Name"].Value.ToString();
-            string strValue = ((System.Windows.Forms.DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
-
-            if (row == null)
-                MessageBox.Show("Error, failed selected row data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
-            {
-                if (!string.IsNullOrEmpty(strValue) && !string.IsNullOrEmpty(strName) && HelperApp.uiTesteSelecionado > 0)
-                        TAB_ActuationParameters_WriteComGridEvalParameters(null, strName, strValue);
-
-                //DataGridViewCell gvCell = grid_tabActionParam_EvalParam.Rows[e.RowIndex].Cells[0];
-
-                //if (gvCell.GetType() != typeof(DataGridViewCheckBoxCell))
-                //{
-                //    if (!string.IsNullOrEmpty(strValue) && !string.IsNullOrEmpty(strName))
-                //    {
-                //        List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
-
-                //        if (HelperApp.uiTesteSelecionado > 0)
-                //            TAB_ActuationParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters, strName, strValue);
-                //    }
-                //}
-            }
-        }
-        private void grid_tabActionParam_EvalParam_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewCell gvCell = grid_tabActionParam_EvalParam.Rows[e.RowIndex].Cells[0];
-
-                if (gvCell.GetType() == typeof(DataGridViewCheckBoxCell))
-                {
-                    if (e.RowIndex >= 0)
-                        gvCell.Value = !Convert.ToBoolean(gvCell.Value);
-
-
-                    if (Convert.ToBoolean(gvCell.Value))
-                    {
-
-                    }
-                }
-            }
-        }
-        private void grid_tabActionParam_EvalParam_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            switch (HelperApp.uiTesteSelecionado)
-            {
-                case 22: //CREATE_MULTICHECKBOX_INPUT
-                    {
-                        //mering all cells in a first row
-                        //if (e.RowIndex == 8)
-                        if (false)
-                        {
-                            if (e.ColumnIndex == 0)
-                            {
-                                e.PaintBackground(e.ClipBounds, true);
-                                Rectangle r = e.CellBounds;
-
-                                for (int i = 1; i < (sender as DataGridView).ColumnCount; i++)
-                                    r.Width += (sender as DataGridView).GetCellDisplayRectangle(i, 0, true).Width;
-
-                                r.Width -= 1;
-                                r.Height -= 1;
-
-                                using (SolidBrush brBk = new SolidBrush(e.CellStyle.BackColor))
-                                using (SolidBrush brFr = new SolidBrush(e.CellStyle.ForeColor))
-                                {
-                                    e.Graphics.FillRectangle(brBk, r);
-                                    StringFormat sf = new StringFormat();
-                                    sf.Alignment = StringAlignment.Center;
-                                    sf.LineAlignment = StringAlignment.Center;
-                                    e.Graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-                                    e.Graphics.DrawString(e.Value.ToString(), e.CellStyle.Font, brFr, r, sf);
-                                }
-
-                                e.Handled = true;
-                            }
-                            else
-                                if (e.ColumnIndex > 0)
-                            {
-                                using (Pen p = new Pen((sender as DataGridView).GridColor))
-                                {
-                                    //bottom line of a cell 
-                                    e.Graphics.DrawLine(p, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right, e.CellBounds.Bottom - 1);
-                                    //right vertical line of a last cell in a row
-                                    if (e.ColumnIndex == (sender as DataGridView).ColumnCount - 1)
-                                        e.Graphics.DrawLine(p, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
-                                }
-
-                                e.Handled = true;
-                            }
-                        }
-
-                        //bool bReturn = TAB_ActuationParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
-                    }
-                    break;
-                case 24: //CREATE_RADIO_INPUT
-                    {
-
-                    }
-                    break;
-                case 27: //CREATE_MULTICHECKBOX_INPUT
-                    {
-
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            
-        }
-        private void grid_tabActionParam_EvalParam_Scroll(object sender, ScrollEventArgs e)
-        {
-            //force redraw first row when scrolling
-            for (int i = 0; i < (sender as DataGridView).ColumnCount; i++)
-                (sender as DataGridView).InvalidateCell(i, 0);
-        }
         private bool TAB_ActuationParameters_EvalParameters_Grid_Format()
         {
             try
@@ -3365,54 +3240,8 @@ namespace Continental.Project.Adam.UI
                                 break;
                             case "CREATE_MULTICHECKBOX_INPUT":
                                 {
-                                    strEvalParam_Name = row.Field<string>("EvalParam_Name")?.ToString()?.Trim();
-                                    strEvalParam_Caption = row.Field<string>("EvalParam_Caption")?.ToString()?.Trim();
-                                    strEvalParam_ResultParam_Name = row.Field<string>("EvalParam_ResultParam_Name")?.ToString()?.Trim();
-
-                                    DataGridViewTextBoxCell TextBoxCell_Hi = new DataGridViewTextBoxCell();
-                                    int idxCol_Hi = row.Table.Columns["EvalParam_Hi"].Ordinal;
-                                    decimal decEvalParam_Hi = row.Field<decimal>("EvalParam_Hi");
-
-                                    DataGridViewCheckBoxCell CheckBoxCell = new DataGridViewCheckBoxCell();
-                                    CheckBoxCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-                                    string[] arrEvalParam_Name = strEvalParam_Name.Split(';');
-                                    string[] arrEvalParam_Caption = strEvalParam_Caption.Split(';');
-                                    string[] arrEvalParam_ResultParam_Name = strEvalParam_Caption.Split(';');
-
-                                    if (arrEvalParam_Name?.Count() > 0)
-                                    {
-                                        if (arrEvalParam_Name?.Count() != arrEvalParam_Caption?.Count())
-                                            return false;
-                                        else
-                                        {
-                                            for (int i = 0; i < arrEvalParam_Name.Count(); i++)
-                                            {
-                                                //iRowIndex
-
-                                                string strLastRow_Caption = grid_tabActionParam_EvalParam["EvalParam_Caption", iRowIndex].Value.ToString();
-                                                string strLastRow_ResultParam_Name = grid_tabActionParam_EvalParam.Rows[iRowIndex].Cells["EvalParam_Name"].Value.ToString();
-                                                string strLastRow_Type = grid_tabActionParam_EvalParam["EvalParam_GridRowType", iRowIndex].EditType.Name.ToString();
-
-                                                strEvalParam_Caption = (i == 0 && arrEvalParam_Name[i].StartsWith("CB")) ? arrEvalParam_Caption[i]?.Trim() : string.Concat(arrEvalParam_Caption[i - 1]?.Trim(), "   ", arrEvalParam_Caption[i]?.Trim());
-
-                                                grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex] = TextBoxCell_Id;
-                                                grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex].Value = iEvalParam_Id;
-
-                                                grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = CheckBoxCell;
-                                                grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = decEvalParam_Hi;
-
-                                                grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = TextBoxCell_Caption;
-                                                grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = strEvalParam_Caption;
-
-                                                grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex] = TextBoxCell_Name;
-                                                grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex].Value = arrEvalParam_Name[i];
-
-                                                //grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex] = TextBoxCell_EvalParam_ResultParam_Name;
-                                                //grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex].Value = strEvalParam_ResultParam_Name;
-                                            }
-                                        }
-                                    }
+                                    grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = TextBoxCell_Caption;
+                                    grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = "MULTI CHK";
                                 }
                                 break;
                             case "CREATE_RADIO_INPUT":
@@ -3496,7 +3325,52 @@ namespace Continental.Project.Adam.UI
 
             return true;
         }
-        
+        private void grid_tabActionParam_EvalParam_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            var row = ((System.Windows.Forms.DataGridView)sender).CurrentRow;
+            string strName = ((System.Windows.Forms.DataGridView)sender).CurrentRow.Cells["EvalParam_Name"].Value.ToString();
+            string strValue = ((System.Windows.Forms.DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
+
+            if (row == null)
+                MessageBox.Show("Error, failed selected row data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                if (!string.IsNullOrEmpty(strValue) && !string.IsNullOrEmpty(strName) && HelperApp.uiTesteSelecionado > 0)
+                        TAB_ActuationParameters_WriteComGridEvalParameters(null, strName, strValue);
+
+                //DataGridViewCell gvCell = grid_tabActionParam_EvalParam.Rows[e.RowIndex].Cells[0];
+
+                //if (gvCell.GetType() != typeof(DataGridViewCheckBoxCell))
+                //{
+                //    if (!string.IsNullOrEmpty(strValue) && !string.IsNullOrEmpty(strName))
+                //    {
+                //        List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+
+                //        if (HelperApp.uiTesteSelecionado > 0)
+                //            TAB_ActuationParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters, strName, strValue);
+                //    }
+                //}
+            }
+        }
+        private void grid_tabActionParam_EvalParam_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewCell gvCell = grid_tabActionParam_EvalParam.Rows[e.RowIndex].Cells[0];
+
+                if (gvCell.GetType() == typeof(DataGridViewCheckBoxCell))
+                {
+                    if (e.RowIndex >= 0)
+                        gvCell.Value = !Convert.ToBoolean(gvCell.Value);
+
+
+                    if (Convert.ToBoolean(gvCell.Value))
+                    {
+
+                    }
+                }
+            }
+        }
         private void grid_tabActionParam_EvalParam_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -7041,7 +6915,8 @@ namespace Continental.Project.Adam.UI
                             diagram.AxisX.VisualRange.MaxValue = chartGVL.EixoX.rMax;
                             //Propriedade que elimina as "bordas" para fazer o eixo iniciar exatamente na escala definida
                             diagram.AxisX.WholeRange.SideMarginsValue = 0;
-                           
+                            
+
                             diagram.AxisX.MinorCount = 1;
 
                             diagram.AxisX.GridSpacingAuto = false;

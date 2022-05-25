@@ -61,13 +61,16 @@ namespace Continental.Project.Adam.UI
             this.mbtn_BRecordStart = new MetroFramework.Controls.MetroButton();
             this.mbtn_BStart = new MetroFramework.Controls.MetroButton();
             this.mbtn_BStop = new MetroFramework.Controls.MetroButton();
-            this.mpnl_BackupAssistent = new MetroFramework.Controls.MetroPanel();
+            this.mpnl_HeaderInfoAnalogInput = new MetroFramework.Controls.MetroPanel();
             this.lbl_Vaccum = new System.Windows.Forms.Label();
             this.mtxt_MKSLVacuum = new MetroFramework.Controls.MetroTextBox();
             this.mpnl_Buttons = new MetroFramework.Controls.MetroPanel();
             this.mbtn_BClock = new MetroFramework.Controls.MetroButton();
             this.mbtn_BAlarm = new MetroFramework.Controls.MetroButton();
             this.mpnl_Eventlog = new MetroFramework.Controls.MetroPanel();
+            this.mlbl_EoutPressure = new MetroFramework.Controls.MetroTextBox();
+            this.mlbl_EoutForce = new MetroFramework.Controls.MetroTextBox();
+            this.mlbl_EoutRef = new MetroFramework.Controls.MetroTextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.mbtn_BHandshakePC = new MetroFramework.Controls.MetroButton();
             this.mbtn_BGlobalAlert = new MetroFramework.Controls.MetroButton();
@@ -193,7 +196,8 @@ namespace Continental.Project.Adam.UI
             this.subMenu_Account_UserDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.subMenu_Account_UserReport = new System.Windows.Forms.ToolStripMenuItem();
             this.printDialog = new System.Windows.Forms.PrintDialog();
-            this.mpnl_BackupAssistent.SuspendLayout();
+            this.mpnl_HeaderInfoAnalogInputVisu = new MetroFramework.Controls.MetroPanel();
+            this.mpnl_HeaderInfoAnalogInput.SuspendLayout();
             this.mpnl_Buttons.SuspendLayout();
             this.mpnl_Eventlog.SuspendLayout();
             this.metroPanel5.SuspendLayout();
@@ -242,7 +246,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_RoomTemperature.ForeColor = System.Drawing.Color.Silver;
             this.lbl_RoomTemperature.Location = new System.Drawing.Point(1579, 10);
             this.lbl_RoomTemperature.Name = "lbl_RoomTemperature";
-            this.lbl_RoomTemperature.Size = new System.Drawing.Size(147, 17);
+            this.lbl_RoomTemperature.Size = new System.Drawing.Size(169, 20);
             this.lbl_RoomTemperature.TabIndex = 81;
             this.lbl_RoomTemperature.Text = "Room Temperature";
             // 
@@ -254,7 +258,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_Humidity.ForeColor = System.Drawing.Color.Silver;
             this.lbl_Humidity.Location = new System.Drawing.Point(1775, 10);
             this.lbl_Humidity.Name = "lbl_Humidity";
-            this.lbl_Humidity.Size = new System.Drawing.Size(70, 17);
+            this.lbl_Humidity.Size = new System.Drawing.Size(83, 20);
             this.lbl_Humidity.TabIndex = 82;
             this.lbl_Humidity.Text = "Humidity";
             // 
@@ -266,7 +270,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_PneumTestPressure.ForeColor = System.Drawing.Color.Silver;
             this.lbl_PneumTestPressure.Location = new System.Drawing.Point(1404, 10);
             this.lbl_PneumTestPressure.Name = "lbl_PneumTestPressure";
-            this.lbl_PneumTestPressure.Size = new System.Drawing.Size(169, 17);
+            this.lbl_PneumTestPressure.Size = new System.Drawing.Size(196, 20);
             this.lbl_PneumTestPressure.TabIndex = 79;
             this.lbl_PneumTestPressure.Text = "Pneum. Test Pressure";
             // 
@@ -278,7 +282,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_HydrFillPressure.ForeColor = System.Drawing.Color.Silver;
             this.lbl_HydrFillPressure.Location = new System.Drawing.Point(1113, 10);
             this.lbl_HydrFillPressure.Name = "lbl_HydrFillPressure";
-            this.lbl_HydrFillPressure.Size = new System.Drawing.Size(143, 17);
+            this.lbl_HydrFillPressure.Size = new System.Drawing.Size(168, 20);
             this.lbl_HydrFillPressure.TabIndex = 80;
             this.lbl_HydrFillPressure.Text = "Hydr. Fill Pressure";
             // 
@@ -290,7 +294,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_PressureSC.ForeColor = System.Drawing.Color.Silver;
             this.lbl_PressureSC.Location = new System.Drawing.Point(981, 10);
             this.lbl_PressureSC.Name = "lbl_PressureSC";
-            this.lbl_PressureSC.Size = new System.Drawing.Size(98, 17);
+            this.lbl_PressureSC.Size = new System.Drawing.Size(116, 20);
             this.lbl_PressureSC.TabIndex = 77;
             this.lbl_PressureSC.Text = "Pressure SC";
             // 
@@ -302,7 +306,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_PressurePC.ForeColor = System.Drawing.Color.Silver;
             this.lbl_PressurePC.Location = new System.Drawing.Point(824, 10);
             this.lbl_PressurePC.Name = "lbl_PressurePC";
-            this.lbl_PressurePC.Size = new System.Drawing.Size(98, 17);
+            this.lbl_PressurePC.Size = new System.Drawing.Size(116, 20);
             this.lbl_PressurePC.TabIndex = 78;
             this.lbl_PressurePC.Text = "Pressure PC";
             // 
@@ -314,7 +318,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_TravelTMC.ForeColor = System.Drawing.Color.Silver;
             this.lbl_TravelTMC.Location = new System.Drawing.Point(661, 10);
             this.lbl_TravelTMC.Name = "lbl_TravelTMC";
-            this.lbl_TravelTMC.Size = new System.Drawing.Size(91, 17);
+            this.lbl_TravelTMC.Size = new System.Drawing.Size(106, 20);
             this.lbl_TravelTMC.TabIndex = 75;
             this.lbl_TravelTMC.Text = "Travel TMC";
             // 
@@ -326,7 +330,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_TravelPiston.ForeColor = System.Drawing.Color.Silver;
             this.lbl_TravelPiston.Location = new System.Drawing.Point(500, 10);
             this.lbl_TravelPiston.Name = "lbl_TravelPiston";
-            this.lbl_TravelPiston.Size = new System.Drawing.Size(104, 17);
+            this.lbl_TravelPiston.Size = new System.Drawing.Size(120, 20);
             this.lbl_TravelPiston.TabIndex = 76;
             this.lbl_TravelPiston.Text = "Travel Piston";
             // 
@@ -338,7 +342,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_DiffTravel.ForeColor = System.Drawing.Color.Silver;
             this.lbl_DiffTravel.Location = new System.Drawing.Point(351, 10);
             this.lbl_DiffTravel.Name = "lbl_DiffTravel";
-            this.lbl_DiffTravel.Size = new System.Drawing.Size(89, 17);
+            this.lbl_DiffTravel.Size = new System.Drawing.Size(103, 20);
             this.lbl_DiffTravel.TabIndex = 73;
             this.lbl_DiffTravel.Text = "Diff. Travel";
             // 
@@ -350,7 +354,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_OutputForce.ForeColor = System.Drawing.Color.Silver;
             this.lbl_OutputForce.Location = new System.Drawing.Point(182, 10);
             this.lbl_OutputForce.Name = "lbl_OutputForce";
-            this.lbl_OutputForce.Size = new System.Drawing.Size(103, 17);
+            this.lbl_OutputForce.Size = new System.Drawing.Size(119, 20);
             this.lbl_OutputForce.TabIndex = 74;
             this.lbl_OutputForce.Text = "Output Force";
             // 
@@ -362,7 +366,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_InputForce1.ForeColor = System.Drawing.Color.Silver;
             this.lbl_InputForce1.Location = new System.Drawing.Point(26, 10);
             this.lbl_InputForce1.Name = "lbl_InputForce1";
-            this.lbl_InputForce1.Size = new System.Drawing.Size(104, 17);
+            this.lbl_InputForce1.Size = new System.Drawing.Size(120, 20);
             this.lbl_InputForce1.TabIndex = 72;
             this.lbl_InputForce1.Text = "Input Force 1";
             // 
@@ -844,45 +848,45 @@ namespace Continental.Project.Adam.UI
             this.mbtn_BStop.UseSelectable = true;
             this.mbtn_BStop.Click += new System.EventHandler(this.mbtn_BStop_Click);
             // 
-            // mpnl_BackupAssistent
+            // mpnl_HeaderInfoAnalogInput
             // 
-            this.mpnl_BackupAssistent.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_Vaccum);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLVacuum);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_InputForce1);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLInputForce1);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLOutputForce);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLDiffTravel);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLTravelPiston);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_RoomTemperature);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLTravelTMC);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_Humidity);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLPressurePC);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_PneumTestPressure);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLPressureSC);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_HydrFillPressure);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLHydrFillPressure);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_PressureSC);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLPneumTestPressure);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_PressurePC);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLHumidity);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_TravelTMC);
-            this.mpnl_BackupAssistent.Controls.Add(this.mtxt_MKSLRoomTemp);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_TravelPiston);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_DiffTravel);
-            this.mpnl_BackupAssistent.Controls.Add(this.lbl_OutputForce);
-            this.mpnl_BackupAssistent.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.mpnl_BackupAssistent.HorizontalScrollbarBarColor = true;
-            this.mpnl_BackupAssistent.HorizontalScrollbarHighlightOnWheel = false;
-            this.mpnl_BackupAssistent.HorizontalScrollbarSize = 10;
-            this.mpnl_BackupAssistent.Location = new System.Drawing.Point(5, 129);
-            this.mpnl_BackupAssistent.Name = "mpnl_BackupAssistent";
-            this.mpnl_BackupAssistent.Size = new System.Drawing.Size(1894, 79);
-            this.mpnl_BackupAssistent.TabIndex = 47;
-            this.mpnl_BackupAssistent.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.mpnl_BackupAssistent.VerticalScrollbarBarColor = true;
-            this.mpnl_BackupAssistent.VerticalScrollbarHighlightOnWheel = false;
-            this.mpnl_BackupAssistent.VerticalScrollbarSize = 10;
+            this.mpnl_HeaderInfoAnalogInput.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_Vaccum);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLVacuum);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_InputForce1);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLInputForce1);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLOutputForce);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLDiffTravel);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLTravelPiston);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_RoomTemperature);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLTravelTMC);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_Humidity);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLPressurePC);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_PneumTestPressure);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLPressureSC);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_HydrFillPressure);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLHydrFillPressure);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_PressureSC);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLPneumTestPressure);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_PressurePC);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLHumidity);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_TravelTMC);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.mtxt_MKSLRoomTemp);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_TravelPiston);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_DiffTravel);
+            this.mpnl_HeaderInfoAnalogInput.Controls.Add(this.lbl_OutputForce);
+            this.mpnl_HeaderInfoAnalogInput.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.mpnl_HeaderInfoAnalogInput.HorizontalScrollbarBarColor = true;
+            this.mpnl_HeaderInfoAnalogInput.HorizontalScrollbarHighlightOnWheel = false;
+            this.mpnl_HeaderInfoAnalogInput.HorizontalScrollbarSize = 10;
+            this.mpnl_HeaderInfoAnalogInput.Location = new System.Drawing.Point(5, 130);
+            this.mpnl_HeaderInfoAnalogInput.Name = "mpnl_HeaderInfoAnalogInput";
+            this.mpnl_HeaderInfoAnalogInput.Size = new System.Drawing.Size(1894, 79);
+            this.mpnl_HeaderInfoAnalogInput.TabIndex = 47;
+            this.mpnl_HeaderInfoAnalogInput.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.mpnl_HeaderInfoAnalogInput.VerticalScrollbarBarColor = true;
+            this.mpnl_HeaderInfoAnalogInput.VerticalScrollbarHighlightOnWheel = false;
+            this.mpnl_HeaderInfoAnalogInput.VerticalScrollbarSize = 10;
             // 
             // lbl_Vaccum
             // 
@@ -892,7 +896,7 @@ namespace Continental.Project.Adam.UI
             this.lbl_Vaccum.ForeColor = System.Drawing.Color.Silver;
             this.lbl_Vaccum.Location = new System.Drawing.Point(1304, 10);
             this.lbl_Vaccum.Name = "lbl_Vaccum";
-            this.lbl_Vaccum.Size = new System.Drawing.Size(65, 17);
+            this.lbl_Vaccum.Size = new System.Drawing.Size(76, 20);
             this.lbl_Vaccum.TabIndex = 84;
             this.lbl_Vaccum.Text = "Vacuum";
             // 
@@ -947,7 +951,7 @@ namespace Continental.Project.Adam.UI
             this.mpnl_Buttons.HorizontalScrollbarSize = 10;
             this.mpnl_Buttons.Location = new System.Drawing.Point(5, 25);
             this.mpnl_Buttons.Name = "mpnl_Buttons";
-            this.mpnl_Buttons.Size = new System.Drawing.Size(1900, 99);
+            this.mpnl_Buttons.Size = new System.Drawing.Size(1900, 100);
             this.mpnl_Buttons.TabIndex = 48;
             this.mpnl_Buttons.VerticalScrollbarBarColor = true;
             this.mpnl_Buttons.VerticalScrollbarHighlightOnWheel = false;
@@ -982,6 +986,9 @@ namespace Continental.Project.Adam.UI
             // mpnl_Eventlog
             // 
             this.mpnl_Eventlog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mpnl_Eventlog.Controls.Add(this.mlbl_EoutPressure);
+            this.mpnl_Eventlog.Controls.Add(this.mlbl_EoutForce);
+            this.mpnl_Eventlog.Controls.Add(this.mlbl_EoutRef);
             this.mpnl_Eventlog.Controls.Add(this.progressBar1);
             this.mpnl_Eventlog.Controls.Add(this.mbtn_BHandshakePC);
             this.mpnl_Eventlog.Controls.Add(this.mbtn_BGlobalAlert);
@@ -1004,6 +1011,108 @@ namespace Continental.Project.Adam.UI
             this.mpnl_Eventlog.VerticalScrollbarBarColor = true;
             this.mpnl_Eventlog.VerticalScrollbarHighlightOnWheel = false;
             this.mpnl_Eventlog.VerticalScrollbarSize = 10;
+            // 
+            // mlbl_EoutPressure
+            // 
+            // 
+            // 
+            // 
+            this.mlbl_EoutPressure.CustomButton.Image = null;
+            this.mlbl_EoutPressure.CustomButton.Location = new System.Drawing.Point(55, 2);
+            this.mlbl_EoutPressure.CustomButton.Name = "";
+            this.mlbl_EoutPressure.CustomButton.Size = new System.Drawing.Size(19, 19);
+            this.mlbl_EoutPressure.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mlbl_EoutPressure.CustomButton.TabIndex = 1;
+            this.mlbl_EoutPressure.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mlbl_EoutPressure.CustomButton.UseSelectable = true;
+            this.mlbl_EoutPressure.CustomButton.Visible = false;
+            this.mlbl_EoutPressure.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
+            this.mlbl_EoutPressure.Lines = new string[] {
+        "0,0 bar"};
+            this.mlbl_EoutPressure.Location = new System.Drawing.Point(167, 287);
+            this.mlbl_EoutPressure.MaxLength = 32767;
+            this.mlbl_EoutPressure.Name = "mlbl_EoutPressure";
+            this.mlbl_EoutPressure.PasswordChar = '\0';
+            this.mlbl_EoutPressure.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mlbl_EoutPressure.SelectedText = "";
+            this.mlbl_EoutPressure.SelectionLength = 0;
+            this.mlbl_EoutPressure.SelectionStart = 0;
+            this.mlbl_EoutPressure.ShortcutsEnabled = true;
+            this.mlbl_EoutPressure.Size = new System.Drawing.Size(77, 24);
+            this.mlbl_EoutPressure.TabIndex = 127;
+            this.mlbl_EoutPressure.Text = "0,0 bar";
+            this.mlbl_EoutPressure.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mlbl_EoutPressure.UseSelectable = true;
+            this.mlbl_EoutPressure.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mlbl_EoutPressure.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // mlbl_EoutForce
+            // 
+            // 
+            // 
+            // 
+            this.mlbl_EoutForce.CustomButton.Image = null;
+            this.mlbl_EoutForce.CustomButton.Location = new System.Drawing.Point(55, 2);
+            this.mlbl_EoutForce.CustomButton.Name = "";
+            this.mlbl_EoutForce.CustomButton.Size = new System.Drawing.Size(19, 19);
+            this.mlbl_EoutForce.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mlbl_EoutForce.CustomButton.TabIndex = 1;
+            this.mlbl_EoutForce.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mlbl_EoutForce.CustomButton.UseSelectable = true;
+            this.mlbl_EoutForce.CustomButton.Visible = false;
+            this.mlbl_EoutForce.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
+            this.mlbl_EoutForce.Lines = new string[] {
+        "0,0 N"};
+            this.mlbl_EoutForce.Location = new System.Drawing.Point(84, 287);
+            this.mlbl_EoutForce.MaxLength = 32767;
+            this.mlbl_EoutForce.Name = "mlbl_EoutForce";
+            this.mlbl_EoutForce.PasswordChar = '\0';
+            this.mlbl_EoutForce.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mlbl_EoutForce.SelectedText = "";
+            this.mlbl_EoutForce.SelectionLength = 0;
+            this.mlbl_EoutForce.SelectionStart = 0;
+            this.mlbl_EoutForce.ShortcutsEnabled = true;
+            this.mlbl_EoutForce.Size = new System.Drawing.Size(77, 24);
+            this.mlbl_EoutForce.TabIndex = 125;
+            this.mlbl_EoutForce.Text = "0,0 N";
+            this.mlbl_EoutForce.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mlbl_EoutForce.UseSelectable = true;
+            this.mlbl_EoutForce.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mlbl_EoutForce.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // mlbl_EoutRef
+            // 
+            // 
+            // 
+            // 
+            this.mlbl_EoutRef.CustomButton.Image = null;
+            this.mlbl_EoutRef.CustomButton.Location = new System.Drawing.Point(46, 2);
+            this.mlbl_EoutRef.CustomButton.Name = "";
+            this.mlbl_EoutRef.CustomButton.Size = new System.Drawing.Size(19, 19);
+            this.mlbl_EoutRef.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mlbl_EoutRef.CustomButton.TabIndex = 1;
+            this.mlbl_EoutRef.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mlbl_EoutRef.CustomButton.UseSelectable = true;
+            this.mlbl_EoutRef.CustomButton.Visible = false;
+            this.mlbl_EoutRef.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
+            this.mlbl_EoutRef.Lines = new string[] {
+        "Eout Ref"};
+            this.mlbl_EoutRef.Location = new System.Drawing.Point(10, 287);
+            this.mlbl_EoutRef.MaxLength = 32767;
+            this.mlbl_EoutRef.Name = "mlbl_EoutRef";
+            this.mlbl_EoutRef.PasswordChar = '\0';
+            this.mlbl_EoutRef.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mlbl_EoutRef.SelectedText = "";
+            this.mlbl_EoutRef.SelectionLength = 0;
+            this.mlbl_EoutRef.SelectionStart = 0;
+            this.mlbl_EoutRef.ShortcutsEnabled = true;
+            this.mlbl_EoutRef.Size = new System.Drawing.Size(68, 24);
+            this.mlbl_EoutRef.TabIndex = 124;
+            this.mlbl_EoutRef.Text = "Eout Ref";
+            this.mlbl_EoutRef.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mlbl_EoutRef.UseSelectable = true;
+            this.mlbl_EoutRef.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mlbl_EoutRef.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // progressBar1
             // 
@@ -1172,11 +1281,11 @@ namespace Continental.Project.Adam.UI
             this.Tab_ActuationParameters.Controls.Add(this.mPnl_tabActParam_GenralSettings);
             this.Tab_ActuationParameters.Controls.Add(this.mPnl_tabActParam_EvaluationParameters);
             this.Tab_ActuationParameters.Controls.Add(this.mPnl_tabActParam_Actuation);
-            this.Tab_ActuationParameters.Location = new System.Drawing.Point(4, 27);
+            this.Tab_ActuationParameters.Location = new System.Drawing.Point(4, 31);
             this.Tab_ActuationParameters.Margin = new System.Windows.Forms.Padding(2);
             this.Tab_ActuationParameters.Name = "Tab_ActuationParameters";
             this.Tab_ActuationParameters.Padding = new System.Windows.Forms.Padding(2);
-            this.Tab_ActuationParameters.Size = new System.Drawing.Size(1434, 749);
+            this.Tab_ActuationParameters.Size = new System.Drawing.Size(1434, 745);
             this.Tab_ActuationParameters.TabIndex = 3;
             this.Tab_ActuationParameters.Text = "Actuation Parameters";
             this.Tab_ActuationParameters.UseVisualStyleBackColor = true;
@@ -1216,7 +1325,7 @@ namespace Continental.Project.Adam.UI
             this.mchk_tabActParam_GenSettings_CBLock.Location = new System.Drawing.Point(44, 709);
             this.mchk_tabActParam_GenSettings_CBLock.Margin = new System.Windows.Forms.Padding(2);
             this.mchk_tabActParam_GenSettings_CBLock.Name = "mchk_tabActParam_GenSettings_CBLock";
-            this.mchk_tabActParam_GenSettings_CBLock.Size = new System.Drawing.Size(101, 19);
+            this.mchk_tabActParam_GenSettings_CBLock.Size = new System.Drawing.Size(105, 20);
             this.mchk_tabActParam_GenSettings_CBLock.Style = MetroFramework.MetroColorStyle.Orange;
             this.mchk_tabActParam_GenSettings_CBLock.TabIndex = 123;
             this.mchk_tabActParam_GenSettings_CBLock.Text = "Piston Lock";
@@ -1450,7 +1559,7 @@ namespace Continental.Project.Adam.UI
             this.rad_GeneralSettings_CBHoseConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rad_GeneralSettings_CBHoseConsumer.Location = new System.Drawing.Point(296, 19);
             this.rad_GeneralSettings_CBHoseConsumer.Name = "rad_GeneralSettings_CBHoseConsumer";
-            this.rad_GeneralSettings_CBHoseConsumer.Size = new System.Drawing.Size(136, 20);
+            this.rad_GeneralSettings_CBHoseConsumer.Size = new System.Drawing.Size(165, 24);
             this.rad_GeneralSettings_CBHoseConsumer.TabIndex = 0;
             this.rad_GeneralSettings_CBHoseConsumer.TabStop = true;
             this.rad_GeneralSettings_CBHoseConsumer.Text = "Hose Consumer";
@@ -1463,7 +1572,7 @@ namespace Continental.Project.Adam.UI
             this.rad_GeneralSettings_CBOriginalConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rad_GeneralSettings_CBOriginalConsumer.Location = new System.Drawing.Point(28, 19);
             this.rad_GeneralSettings_CBOriginalConsumer.Name = "rad_GeneralSettings_CBOriginalConsumer";
-            this.rad_GeneralSettings_CBOriginalConsumer.Size = new System.Drawing.Size(153, 20);
+            this.rad_GeneralSettings_CBOriginalConsumer.Size = new System.Drawing.Size(187, 24);
             this.rad_GeneralSettings_CBOriginalConsumer.TabIndex = 0;
             this.rad_GeneralSettings_CBOriginalConsumer.TabStop = true;
             this.rad_GeneralSettings_CBOriginalConsumer.Text = "Original Consumer";
@@ -1884,11 +1993,11 @@ namespace Continental.Project.Adam.UI
             // mcbo_tabActParam_GenSettings_CoBSelectTest
             // 
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.FormattingEnabled = true;
-            this.mcbo_tabActParam_GenSettings_CoBSelectTest.ItemHeight = 23;
+            this.mcbo_tabActParam_GenSettings_CoBSelectTest.ItemHeight = 24;
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.Location = new System.Drawing.Point(5, 94);
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.Margin = new System.Windows.Forms.Padding(2);
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.Name = "mcbo_tabActParam_GenSettings_CoBSelectTest";
-            this.mcbo_tabActParam_GenSettings_CoBSelectTest.Size = new System.Drawing.Size(505, 29);
+            this.mcbo_tabActParam_GenSettings_CoBSelectTest.Size = new System.Drawing.Size(505, 30);
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.Style = MetroFramework.MetroColorStyle.Orange;
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.TabIndex = 55;
             this.mcbo_tabActParam_GenSettings_CoBSelectTest.UseSelectable = true;
@@ -1913,7 +2022,7 @@ namespace Continental.Project.Adam.UI
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.Location = new System.Drawing.Point(44, 176);
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.Margin = new System.Windows.Forms.Padding(2);
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.Name = "mchk_tabActParam_GenSettings_CBStartFromSelection";
-            this.mchk_tabActParam_GenSettings_CBStartFromSelection.Size = new System.Drawing.Size(445, 25);
+            this.mchk_tabActParam_GenSettings_CBStartFromSelection.Size = new System.Drawing.Size(461, 25);
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.Style = MetroFramework.MetroColorStyle.Orange;
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.TabIndex = 56;
             this.mchk_tabActParam_GenSettings_CBStartFromSelection.Text = "Start From actual selection (NOT from 1 st entry)";
@@ -1942,7 +2051,7 @@ namespace Continental.Project.Adam.UI
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Location = new System.Drawing.Point(44, 210);
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Margin = new System.Windows.Forms.Padding(2);
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Name = "mchk_tabActParam_GenSettings_CBSWaitBetweenTests";
-            this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Size = new System.Drawing.Size(392, 25);
+            this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Size = new System.Drawing.Size(406, 25);
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Style = MetroFramework.MetroColorStyle.Orange;
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.TabIndex = 57;
             this.mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Text = "Wait for user conf. between two single test";
@@ -1977,7 +2086,7 @@ namespace Continental.Project.Adam.UI
             this.rad_EvaluationParameters_CBOutputSC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rad_EvaluationParameters_CBOutputSC.Location = new System.Drawing.Point(307, 19);
             this.rad_EvaluationParameters_CBOutputSC.Name = "rad_EvaluationParameters_CBOutputSC";
-            this.rad_EvaluationParameters_CBOutputSC.Size = new System.Drawing.Size(94, 20);
+            this.rad_EvaluationParameters_CBOutputSC.Size = new System.Drawing.Size(117, 24);
             this.rad_EvaluationParameters_CBOutputSC.TabIndex = 0;
             this.rad_EvaluationParameters_CBOutputSC.TabStop = true;
             this.rad_EvaluationParameters_CBOutputSC.Text = "Output SC";
@@ -1990,7 +2099,7 @@ namespace Continental.Project.Adam.UI
             this.rad_EvaluationParameters_CBOutputPC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rad_EvaluationParameters_CBOutputPC.Location = new System.Drawing.Point(39, 19);
             this.rad_EvaluationParameters_CBOutputPC.Name = "rad_EvaluationParameters_CBOutputPC";
-            this.rad_EvaluationParameters_CBOutputPC.Size = new System.Drawing.Size(94, 20);
+            this.rad_EvaluationParameters_CBOutputPC.Size = new System.Drawing.Size(117, 24);
             this.rad_EvaluationParameters_CBOutputPC.TabIndex = 0;
             this.rad_EvaluationParameters_CBOutputPC.TabStop = true;
             this.rad_EvaluationParameters_CBOutputPC.Text = "Output PC";
@@ -2025,6 +2134,7 @@ namespace Continental.Project.Adam.UI
             this.grid_tabActionParam_EvalParam.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellClick);
             this.grid_tabActionParam_EvalParam.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellContentClick);
             this.grid_tabActionParam_EvalParam.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellEndEdit);
+            this.grid_tabActionParam_EvalParam.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.grid_tabActionParam_EvalParam_CellPainting);
             // 
             // mTile_tabActParam_EvaluationParameters
             // 
@@ -2346,9 +2456,9 @@ namespace Continental.Project.Adam.UI
             this.tab_TableResults.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tab_TableResults.Controls.Add(this.mpnl_Table_GivingOut);
             this.tab_TableResults.Controls.Add(this.mpnl_Table_Results);
-            this.tab_TableResults.Location = new System.Drawing.Point(4, 27);
+            this.tab_TableResults.Location = new System.Drawing.Point(4, 31);
             this.tab_TableResults.Name = "tab_TableResults";
-            this.tab_TableResults.Size = new System.Drawing.Size(1434, 749);
+            this.tab_TableResults.Size = new System.Drawing.Size(1434, 745);
             this.tab_TableResults.TabIndex = 2;
             this.tab_TableResults.Text = "Table";
             this.tab_TableResults.UseVisualStyleBackColor = true;
@@ -2432,10 +2542,10 @@ namespace Continental.Project.Adam.UI
             this.tab_Diagram.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tab_Diagram.Controls.Add(this.devChart);
             this.tab_Diagram.Controls.Add(this.mTile_tabDiagram_GraphicalDisplay);
-            this.tab_Diagram.Location = new System.Drawing.Point(4, 27);
+            this.tab_Diagram.Location = new System.Drawing.Point(4, 31);
             this.tab_Diagram.Name = "tab_Diagram";
             this.tab_Diagram.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Diagram.Size = new System.Drawing.Size(1434, 749);
+            this.tab_Diagram.Size = new System.Drawing.Size(1434, 745);
             this.tab_Diagram.TabIndex = 0;
             this.tab_Diagram.Text = "Diagram";
             // 
@@ -2498,9 +2608,9 @@ namespace Continental.Project.Adam.UI
             this.tStatusLabel02,
             this.tStatusLabel03,
             this.tStatusLabel04});
-            this.stsBar_STBMain.Location = new System.Drawing.Point(0, 1056);
+            this.stsBar_STBMain.Location = new System.Drawing.Point(0, 1050);
             this.stsBar_STBMain.Name = "stsBar_STBMain";
-            this.stsBar_STBMain.Size = new System.Drawing.Size(1920, 24);
+            this.stsBar_STBMain.Size = new System.Drawing.Size(1920, 30);
             this.stsBar_STBMain.TabIndex = 126;
             this.stsBar_STBMain.Text = "statusStrip1";
             // 
@@ -2508,7 +2618,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.tStatusLabel01.BackColor = System.Drawing.Color.Transparent;
             this.tStatusLabel01.Name = "tStatusLabel01";
-            this.tStatusLabel01.Size = new System.Drawing.Size(83, 19);
+            this.tStatusLabel01.Size = new System.Drawing.Size(106, 24);
             this.tStatusLabel01.Text = "tStatusLabel01";
             // 
             // tStatusLabel02
@@ -2517,7 +2627,7 @@ namespace Continental.Project.Adam.UI
             this.tStatusLabel02.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.tStatusLabel02.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.tStatusLabel02.Name = "tStatusLabel02";
-            this.tStatusLabel02.Size = new System.Drawing.Size(115, 19);
+            this.tStatusLabel02.Size = new System.Drawing.Size(145, 24);
             this.tStatusLabel02.Text = "tStatusLabel02_User";
             // 
             // tStatusLabel03
@@ -2526,7 +2636,7 @@ namespace Continental.Project.Adam.UI
             this.tStatusLabel03.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.tStatusLabel03.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.tStatusLabel03.Name = "tStatusLabel03";
-            this.tStatusLabel03.Size = new System.Drawing.Size(87, 19);
+            this.tStatusLabel03.Size = new System.Drawing.Size(110, 24);
             this.tStatusLabel03.Text = "tStatusLabel03";
             // 
             // tStatusLabel04
@@ -2535,7 +2645,7 @@ namespace Continental.Project.Adam.UI
             this.tStatusLabel04.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.tStatusLabel04.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.tStatusLabel04.Name = "tStatusLabel04";
-            this.tStatusLabel04.Size = new System.Drawing.Size(122, 19);
+            this.tStatusLabel04.Size = new System.Drawing.Size(152, 24);
             this.tStatusLabel04.Text = "tStatusLabel04_Clock";
             // 
             // menuStrip
@@ -2550,7 +2660,7 @@ namespace Continental.Project.Adam.UI
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(3, 1, 0, 1);
-            this.menuStrip.Size = new System.Drawing.Size(1920, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1920, 26);
             this.menuStrip.TabIndex = 125;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -2562,13 +2672,13 @@ namespace Continental.Project.Adam.UI
             this.toolStripSeparator6,
             this.subMenu_Home_About});
             this.menuItemToolStrip_Home.Name = "menuItemToolStrip_Home";
-            this.menuItemToolStrip_Home.Size = new System.Drawing.Size(54, 22);
+            this.menuItemToolStrip_Home.Size = new System.Drawing.Size(66, 24);
             this.menuItemToolStrip_Home.Text = "HOME";
             // 
             // subMenu_Home_Logout
             // 
             this.subMenu_Home_Logout.Name = "subMenu_Home_Logout";
-            this.subMenu_Home_Logout.Size = new System.Drawing.Size(112, 22);
+            this.subMenu_Home_Logout.Size = new System.Drawing.Size(139, 26);
             this.subMenu_Home_Logout.Text = "Logout";
             this.subMenu_Home_Logout.Visible = false;
             this.subMenu_Home_Logout.Click += new System.EventHandler(this.subMenu_Home_Logout_Click);
@@ -2576,19 +2686,19 @@ namespace Continental.Project.Adam.UI
             // subMenu_Home_Exit
             // 
             this.subMenu_Home_Exit.Name = "subMenu_Home_Exit";
-            this.subMenu_Home_Exit.Size = new System.Drawing.Size(112, 22);
+            this.subMenu_Home_Exit.Size = new System.Drawing.Size(139, 26);
             this.subMenu_Home_Exit.Text = "Exit";
             this.subMenu_Home_Exit.Click += new System.EventHandler(this.subMenu_Home_Exit_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(109, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(136, 6);
             // 
             // subMenu_Home_About
             // 
             this.subMenu_Home_About.Name = "subMenu_Home_About";
-            this.subMenu_Home_About.Size = new System.Drawing.Size(112, 22);
+            this.subMenu_Home_About.Size = new System.Drawing.Size(139, 26);
             this.subMenu_Home_About.Text = "About";
             this.subMenu_Home_About.Click += new System.EventHandler(this.subMenu_Home_About_Click);
             // 
@@ -2605,52 +2715,52 @@ namespace Continental.Project.Adam.UI
             this.menuItemToolStrip_Project.Enabled = false;
             this.menuItemToolStrip_Project.Name = "menuItemToolStrip_Project";
             this.menuItemToolStrip_Project.ShortcutKeyDisplayString = "";
-            this.menuItemToolStrip_Project.Size = new System.Drawing.Size(66, 22);
+            this.menuItemToolStrip_Project.Size = new System.Drawing.Size(81, 24);
             this.menuItemToolStrip_Project.Text = "PROJECT";
             // 
             // subMenu_Project_Project
             // 
             this.subMenu_Project_Project.Name = "subMenu_Project_Project";
             this.subMenu_Project_Project.ShortcutKeyDisplayString = "";
-            this.subMenu_Project_Project.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_Project.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Project_Project.Text = "Project";
             this.subMenu_Project_Project.Click += new System.EventHandler(this.subMenu_Project_Project_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(179, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(222, 6);
             // 
             // subMenu_Project_PrintGraphics
             // 
             this.subMenu_Project_PrintGraphics.Name = "subMenu_Project_PrintGraphics";
-            this.subMenu_Project_PrintGraphics.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_PrintGraphics.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Project_PrintGraphics.Text = "Print Graphics";
             this.subMenu_Project_PrintGraphics.Click += new System.EventHandler(this.subMenu_Project_PrintGraphics_Click);
             // 
             // subMenu_Project_PrintParamList
             // 
             this.subMenu_Project_PrintParamList.Name = "subMenu_Project_PrintParamList";
-            this.subMenu_Project_PrintParamList.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_PrintParamList.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Project_PrintParamList.Text = "Print Parameters List";
             this.subMenu_Project_PrintParamList.Click += new System.EventHandler(this.subMenu_Project_PrintParamList_Click);
             // 
             // subMenu_Project_SetupPrinter
             // 
             this.subMenu_Project_SetupPrinter.Name = "subMenu_Project_SetupPrinter";
-            this.subMenu_Project_SetupPrinter.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_SetupPrinter.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Project_SetupPrinter.Text = "Setup Printer";
             this.subMenu_Project_SetupPrinter.Click += new System.EventHandler(this.subMenu_Project_SetupPrinter_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(222, 6);
             // 
             // subMenu_Project_ExportExcel
             // 
             this.subMenu_Project_ExportExcel.Name = "subMenu_Project_ExportExcel";
-            this.subMenu_Project_ExportExcel.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_ExportExcel.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Project_ExportExcel.Text = "Export -> MS Excel";
             this.subMenu_Project_ExportExcel.Click += new System.EventHandler(this.subMenu_Project_ExportExcel_Click);
             // 
@@ -2671,82 +2781,82 @@ namespace Continental.Project.Adam.UI
             this.subMenu_TestProg_SaveTest});
             this.menuItemToolStrip_TestProgram.Enabled = false;
             this.menuItemToolStrip_TestProgram.Name = "menuItemToolStrip_TestProgram";
-            this.menuItemToolStrip_TestProgram.Size = new System.Drawing.Size(103, 22);
+            this.menuItemToolStrip_TestProgram.Size = new System.Drawing.Size(129, 24);
             this.menuItemToolStrip_TestProgram.Text = "TEST PROGRAM";
             // 
             // subMenu_TestProg_SelectTestProgram
             // 
             this.subMenu_TestProg_SelectTestProgram.Name = "subMenu_TestProg_SelectTestProgram";
-            this.subMenu_TestProg_SelectTestProgram.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_SelectTestProgram.Size = new System.Drawing.Size(255, 26);
             this.subMenu_TestProg_SelectTestProgram.Text = "Select Test Program";
             this.subMenu_TestProg_SelectTestProgram.Click += new System.EventHandler(this.subMenu_TestProg_SelectTestProgram_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(198, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(252, 6);
             // 
             // subMenu_TestProg_Start
             // 
             this.subMenu_TestProg_Start.Name = "subMenu_TestProg_Start";
-            this.subMenu_TestProg_Start.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_Start.Size = new System.Drawing.Size(255, 26);
             this.subMenu_TestProg_Start.Text = "Start";
             this.subMenu_TestProg_Start.Click += new System.EventHandler(this.subMenu_TestProg_Start_Click);
             // 
             // subMenu_TestProg_STop
             // 
             this.subMenu_TestProg_STop.Name = "subMenu_TestProg_STop";
-            this.subMenu_TestProg_STop.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_STop.Size = new System.Drawing.Size(255, 26);
             this.subMenu_TestProg_STop.Text = "Stop";
             this.subMenu_TestProg_STop.Click += new System.EventHandler(this.subMenu_TestProg_STop_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(198, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(252, 6);
             // 
             // subMenu_TestProg_CreateUserDefinedTest
             // 
             this.subMenu_TestProg_CreateUserDefinedTest.Name = "subMenu_TestProg_CreateUserDefinedTest";
-            this.subMenu_TestProg_CreateUserDefinedTest.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_CreateUserDefinedTest.Size = new System.Drawing.Size(255, 26);
             this.subMenu_TestProg_CreateUserDefinedTest.Text = "Create User Defined Test";
             this.subMenu_TestProg_CreateUserDefinedTest.Click += new System.EventHandler(this.subMenu_TestProg_CreateUserDefinedTest_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(198, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(252, 6);
             // 
             // subMenu_TestProg_ManualActuation
             // 
             this.subMenu_TestProg_ManualActuation.Name = "subMenu_TestProg_ManualActuation";
-            this.subMenu_TestProg_ManualActuation.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_ManualActuation.Size = new System.Drawing.Size(255, 26);
             this.subMenu_TestProg_ManualActuation.Text = "Manual Actuation";
             this.subMenu_TestProg_ManualActuation.Click += new System.EventHandler(this.subMenu_TestProg_ManualActuation_Click);
             // 
             // subMenu_TestProg_Calibration
             // 
             this.subMenu_TestProg_Calibration.Name = "subMenu_TestProg_Calibration";
-            this.subMenu_TestProg_Calibration.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_Calibration.Size = new System.Drawing.Size(255, 26);
             this.subMenu_TestProg_Calibration.Text = "Calibration";
             this.subMenu_TestProg_Calibration.Click += new System.EventHandler(this.subMenu_TestProg_Calibration_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(198, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(252, 6);
             // 
             // subMenu_TestProg_Bleed
             // 
             this.subMenu_TestProg_Bleed.Name = "subMenu_TestProg_Bleed";
-            this.subMenu_TestProg_Bleed.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_Bleed.Size = new System.Drawing.Size(255, 26);
             this.subMenu_TestProg_Bleed.Text = "Bleed (Fillup) / Drain";
             this.subMenu_TestProg_Bleed.Click += new System.EventHandler(this.subMenu_TestProg_Bleed_Click);
             // 
             // subMenu_TestProg_SaveTest
             // 
             this.subMenu_TestProg_SaveTest.Name = "subMenu_TestProg_SaveTest";
-            this.subMenu_TestProg_SaveTest.Size = new System.Drawing.Size(201, 22);
+            this.subMenu_TestProg_SaveTest.Size = new System.Drawing.Size(255, 26);
             this.subMenu_TestProg_SaveTest.Text = "Save Test";
             this.subMenu_TestProg_SaveTest.Click += new System.EventHandler(this.subMenu_TestProg_SaveTest_Click);
             // 
@@ -2758,20 +2868,20 @@ namespace Continental.Project.Adam.UI
             this.subMenu_Settings_Account});
             this.menuItemToolStrip_Settings.Enabled = false;
             this.menuItemToolStrip_Settings.Name = "menuItemToolStrip_Settings";
-            this.menuItemToolStrip_Settings.Size = new System.Drawing.Size(69, 22);
+            this.menuItemToolStrip_Settings.Size = new System.Drawing.Size(88, 24);
             this.menuItemToolStrip_Settings.Text = "SETTINGS";
             // 
             // subMenu_Settings_SoftwareMaintenance
             // 
             this.subMenu_Settings_SoftwareMaintenance.Name = "subMenu_Settings_SoftwareMaintenance";
-            this.subMenu_Settings_SoftwareMaintenance.Size = new System.Drawing.Size(192, 22);
+            this.subMenu_Settings_SoftwareMaintenance.Size = new System.Drawing.Size(240, 26);
             this.subMenu_Settings_SoftwareMaintenance.Text = "Software Maintenance";
             this.subMenu_Settings_SoftwareMaintenance.Click += new System.EventHandler(this.subMenu_Settings_SoftwareMaintenance_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(189, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(237, 6);
             // 
             // subMenu_Settings_Account
             // 
@@ -2785,60 +2895,76 @@ namespace Continental.Project.Adam.UI
             this.subMenu_Account_UserDelete,
             this.subMenu_Account_UserReport});
             this.subMenu_Settings_Account.Name = "subMenu_Settings_Account";
-            this.subMenu_Settings_Account.Size = new System.Drawing.Size(192, 22);
+            this.subMenu_Settings_Account.Size = new System.Drawing.Size(240, 26);
             this.subMenu_Settings_Account.Text = "USER";
             // 
             // subMenu_Account_SelectAccessLevel
             // 
             this.subMenu_Account_SelectAccessLevel.Name = "subMenu_Account_SelectAccessLevel";
-            this.subMenu_Account_SelectAccessLevel.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_SelectAccessLevel.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Account_SelectAccessLevel.Text = "Select Access Level";
             this.subMenu_Account_SelectAccessLevel.Click += new System.EventHandler(this.subMenu_Account_SelectAccessLevel_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(222, 6);
             // 
             // subMenu_Account_NewPassword
             // 
             this.subMenu_Account_NewPassword.Name = "subMenu_Account_NewPassword";
-            this.subMenu_Account_NewPassword.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_NewPassword.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Account_NewPassword.Text = "New Password";
             this.subMenu_Account_NewPassword.Click += new System.EventHandler(this.subMenu_Account_NewPassword_Click);
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(222, 6);
             // 
             // subMenu_Account_UserAdd
             // 
             this.subMenu_Account_UserAdd.Name = "subMenu_Account_UserAdd";
-            this.subMenu_Account_UserAdd.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_UserAdd.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Account_UserAdd.Text = "toolStripMenuItem1";
             // 
             // subMenu_Account_UserEdit
             // 
             this.subMenu_Account_UserEdit.Name = "subMenu_Account_UserEdit";
-            this.subMenu_Account_UserEdit.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_UserEdit.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Account_UserEdit.Text = "toolStripMenuItem1";
             // 
             // subMenu_Account_UserDelete
             // 
             this.subMenu_Account_UserDelete.Name = "subMenu_Account_UserDelete";
-            this.subMenu_Account_UserDelete.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_UserDelete.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Account_UserDelete.Text = "toolStripMenuItem1";
             // 
             // subMenu_Account_UserReport
             // 
             this.subMenu_Account_UserReport.Name = "subMenu_Account_UserReport";
-            this.subMenu_Account_UserReport.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Account_UserReport.Size = new System.Drawing.Size(225, 26);
             this.subMenu_Account_UserReport.Text = "toolStripMenuItem1";
             // 
             // printDialog
             // 
             this.printDialog.UseEXDialog = true;
+            // 
+            // mpnl_HeaderInfoAnalogInputVisu
+            // 
+            this.mpnl_HeaderInfoAnalogInputVisu.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.mpnl_HeaderInfoAnalogInputVisu.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.mpnl_HeaderInfoAnalogInputVisu.HorizontalScrollbarBarColor = true;
+            this.mpnl_HeaderInfoAnalogInputVisu.HorizontalScrollbarHighlightOnWheel = false;
+            this.mpnl_HeaderInfoAnalogInputVisu.HorizontalScrollbarSize = 10;
+            this.mpnl_HeaderInfoAnalogInputVisu.Location = new System.Drawing.Point(71, 132);
+            this.mpnl_HeaderInfoAnalogInputVisu.Name = "mpnl_HeaderInfoAnalogInputVisu";
+            this.mpnl_HeaderInfoAnalogInputVisu.Size = new System.Drawing.Size(1894, 79);
+            this.mpnl_HeaderInfoAnalogInputVisu.TabIndex = 85;
+            this.mpnl_HeaderInfoAnalogInputVisu.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.mpnl_HeaderInfoAnalogInputVisu.VerticalScrollbarBarColor = true;
+            this.mpnl_HeaderInfoAnalogInputVisu.VerticalScrollbarHighlightOnWheel = false;
+            this.mpnl_HeaderInfoAnalogInputVisu.VerticalScrollbarSize = 10;
             // 
             // Form_Adam_Main
             // 
@@ -2851,11 +2977,12 @@ namespace Continental.Project.Adam.UI
             this.ControlBox = false;
             this.Controls.Add(this.stsBar_STBMain);
             this.Controls.Add(this.menuStrip);
+            this.Controls.Add(this.mpnl_HeaderInfoAnalogInputVisu);
             this.Controls.Add(this.mpnl_Eventlog);
             this.Controls.Add(this.mpnl_Buttons);
-            this.Controls.Add(this.mpnl_BackupAssistent);
             this.Controls.Add(this.lst_MemoEventLog);
             this.Controls.Add(this.TAB_Main);
+            this.Controls.Add(this.mpnl_HeaderInfoAnalogInput);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2864,7 +2991,7 @@ namespace Continental.Project.Adam.UI
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1920, 1080);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1918, 1038);
+            this.MinimumSize = new System.Drawing.Size(1918, 1028);
             this.Name = "Form_Adam_Main";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -2872,8 +2999,8 @@ namespace Continental.Project.Adam.UI
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form_Adam_Main_Load);
             this.Shown += new System.EventHandler(this.Form_Adam_Main_Shown);
-            this.mpnl_BackupAssistent.ResumeLayout(false);
-            this.mpnl_BackupAssistent.PerformLayout();
+            this.mpnl_HeaderInfoAnalogInput.ResumeLayout(false);
+            this.mpnl_HeaderInfoAnalogInput.PerformLayout();
             this.mpnl_Buttons.ResumeLayout(false);
             this.mpnl_Eventlog.ResumeLayout(false);
             this.metroPanel5.ResumeLayout(false);
@@ -2936,7 +3063,7 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.Label lbl_PressurePC;
         private System.Windows.Forms.Label lbl_TravelTMC;
         private System.Windows.Forms.Label lbl_TravelPiston;
-        private MetroFramework.Controls.MetroPanel mpnl_BackupAssistent;
+        private MetroFramework.Controls.MetroPanel mpnl_HeaderInfoAnalogInput;
         private MetroFramework.Controls.MetroPanel mpnl_Buttons;
         private MetroFramework.Controls.MetroPanel mpnl_Eventlog;
         private MetroFramework.Controls.MetroTile mTile_Diagram_TestInfo;
@@ -3068,5 +3195,9 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.ToolStripMenuItem subMenu_Account_UserDelete;
         private System.Windows.Forms.ToolStripMenuItem subMenu_Account_UserReport;
         private System.Windows.Forms.PrintDialog printDialog;
+        private MetroFramework.Controls.MetroPanel mpnl_HeaderInfoAnalogInputVisu;
+        private MetroFramework.Controls.MetroTextBox mlbl_EoutPressure;
+        private MetroFramework.Controls.MetroTextBox mlbl_EoutForce;
+        private MetroFramework.Controls.MetroTextBox mlbl_EoutRef;
     }
 }

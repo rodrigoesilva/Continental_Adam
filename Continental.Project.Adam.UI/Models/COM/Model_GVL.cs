@@ -1348,8 +1348,10 @@ namespace Continental.Project.Adam.UI.Models.COM
 
         public double rReleaseForce_N;// : REAL; //Forca no retorno entre as pressoes max min definidas
         public double rReleaseForceAt_N;// : REAL; // Forca no retorno no pondo de deslocamento definido
-
+        public double rForcaFOutCutIn_N;// : REAL; //Pressao na qual eh obtida a forca de cut-in, Padrao normalizado 0.2, mas como parametro pois pode mudar um dia.
         public double rReleaseForceAtReal_mm;// : REAL; //Deslocamento real no qual o release force foi coletado
+
+        public double rTaxaAmplificacao;// : REAL;
     }
     public class GVL_T05
     {
@@ -1897,6 +1899,8 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rTemperaturaInicial;// : REAL;
         public double rForcaMaxima;// : REAL;
         public long diPosicaoForcaMaxima;// : DINT;
+        public long diPosicaoDeslocamentoMaximo;// : DINT;
+        public double rDeslocamentoMaximo_mm; // 
         public double rDeslocamentoNaPressao_mm;// : REAL;
         public double rPressaoSistemaFechadoReal_Bar;// : REAL;
         public double rPressaoSistemaAbertoReal_Bar;// : REAL;
@@ -1937,6 +1941,8 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rTemperaturaInicial;// : REAL;
         public double rForcaMaxima;// : REAL;
         public long diPosicaoForcaMaxima;// : DINT;
+        public long diPosicaoDeslocamentoMaximo;// : DINT;
+        public double rDeslocamentoMaximo_mm; // 
         public double rDeslocamentoNaPressao_mm;// : REAL;
         public double rPressaoSistemaFechadoReal_Bar;// : REAL;
         public double rPressaoSistemaAbertoReal_Bar;// : REAL;
