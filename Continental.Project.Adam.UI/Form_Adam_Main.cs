@@ -1052,9 +1052,9 @@ namespace Continental.Project.Adam.UI
 
                     //TEMPORARIO rRunOutForce do T01 para T06/07/08
                     _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwRunOutForceRef_LW }, HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutForce_Real_N);
-                    mlbl_EoutForce.Text = HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutForce_Real_N.ToString() + " N";
+                    mbtn_EoutForce.Text = HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutForce_Real_N.ToString() + " N";
                     _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwRunOutPressureRef_LW }, HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutPressure_Real_Bar);
-                    mlbl_EoutPressure.Text = HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutPressure_Real_Bar.ToString() + " bar";
+                    mbtn_EoutPressure.Text = HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutPressure_Real_Bar.ToString() + " bar";
 
                     HelperApp.lstResultParam.Clear();
 
@@ -2270,6 +2270,7 @@ namespace Continental.Project.Adam.UI
 
                         _modelGVL.GVL_Parametros.iModo = 1;
                         mtxt_Actuation_E1ParForceGrad.Text = _modelGVL.GVL_Parametros.rGradienteForca_Ns.ToString();
+                        mtxt_Actuation_Unit_E1ParMaxForce.Text = "N";
                         mtxt_Actuation_Unit_E1ParForceGrad.Text = "N/s";
 
                         break;
@@ -2280,6 +2281,7 @@ namespace Continental.Project.Adam.UI
 
                         _modelGVL.GVL_Parametros.iModo = 2;
                         mtxt_Actuation_E1ParForceGrad.Text = _modelGVL.GVL_Parametros.rGradienteForca.ToString();
+                        mtxt_Actuation_Unit_E1ParMaxForce.Text = "N";
                         mtxt_Actuation_Unit_E1ParForceGrad.Text = "%";
                         break;
                     }
@@ -2290,6 +2292,7 @@ namespace Continental.Project.Adam.UI
 
                         _modelGVL.GVL_Parametros.iModo = 3;
                         mtxt_Actuation_E1ParForceGrad.Text = _modelGVL.GVL_Parametros.rVelocidadeAtuacao_mm_s.ToString();
+                        mtxt_Actuation_Unit_E1ParMaxForce.Text = "N";
                         mtxt_Actuation_Unit_E1ParForceGrad.Text = "mm/s";
                         break;
                     }
@@ -2297,11 +2300,8 @@ namespace Continental.Project.Adam.UI
                     {
                         _modelGVL.GVL_Parametros.iModo = 0;
                         mtxt_Actuation_E1ParForceGrad.Text = _notReadValue;
-                        mtxt_Actuation_Unit_E1ParMaxForce.Text = string.Empty;
-                        mtxt_Actuation_Unit_E1ParForceGrad.Text = string.Empty;
-
-                        mtxt_Actuation_Unit_E1ParMaxForce.Visible = false;
-                        mtxt_Actuation_Unit_E1ParForceGrad.Visible = false;
+                        mtxt_Actuation_Unit_E1ParMaxForce.Text = "---";
+                        mtxt_Actuation_Unit_E1ParForceGrad.Text = "---";
                         break;
                     }
             }
