@@ -2100,32 +2100,33 @@ namespace Continental.Project.Adam.UI.Helper
 
                             #region #region Results_Header
 
-                            dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rVacuoInicial, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ForceIncreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rGradienteForcaAvanco, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationGradientForward", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rGradienteDeslocamentoAvanco, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationForce", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rForcaMaxima, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ForceDecreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rGradienteForcaRetorno, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationGradientBackward", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rGradienteDeslocamentoRetorno, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rVacuoInicial, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ForceIncreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rGradienteForcaAvanco, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ActuationGradientForward", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rGradienteDeslocamentoAvanco, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ActuationForce", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rForcaMaxima, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ForceDecreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rGradienteForcaRetorno, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ActuationGradientBackward", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rGradienteDeslocamentoRetorno, 2).ToString());
 
                             #endregion
 
                             #region Results
 
-                            dicResultParam.Add("resultCalcTestParam_InputTravel", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoMaximo, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ActuationTime", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoAtuacao_s, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ReleaseTime", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoRetorno_s, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_ReleaseTimeToTravel", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoFinalRetornoNoDeslocamento_s, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_PressureDifferencePCSC", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rDiferencaPressaoPCSC_bar, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_AuxiliaryPressure", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rPressaoAuxiliarRef, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_InputTraveAt", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoNaPressao, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_InputTravel", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoMaximo, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ActuationTime", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoAtuacao_s, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ReleaseTime", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoRetorno_s, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ReleaseTimeToTravel", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoFinalRetornoNoDeslocamento_s, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_PressureDifferencePCSC", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rDiferencaPressaoPCSC_bar, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_AuxiliaryPressure", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rPressaoAuxiliarRef, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_InputTraveAt", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoNaPressao, 2).ToString());
 
                             #endregion
 
                             #region Results_Footer
 
-                            dicResultParam.Add("resultCalcTestParam_PCHoseConsumers", HelperTestBase.Model_GVL.GVL_T22.iConsumidoresCP.ToString());
-                            dicResultParam.Add("resultCalcTestParam_SCHoseConsumers", HelperTestBase.Model_GVL.GVL_T22.iConsumidoresCS.ToString());
-                            dicResultParam.Add("resultCalcTestParam_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTemperaturaInicial, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_PCHoseConsumers", HelperTestBase.Model_GVL.GVL_T22.iConsumidoresCP.ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_SCHoseConsumers", HelperTestBase.Model_GVL.GVL_T22.iConsumidoresCS.ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_PressureGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rGradientePressao, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTemperaturaInicial, 2).ToString());
 
                             #endregion
 
@@ -2567,6 +2568,19 @@ namespace Continental.Project.Adam.UI.Helper
                                         strResultParam_Measured = keyResultParam_Value;
 
                                         strResultParam_Name = tempParmName.Equals("T21_ForceAtXXbar") ? "T21_ForceAtXXbar" : "T21_TravelAtXXbar";
+                                        break;
+                                    }
+
+                                #endregion
+
+                                #region T22
+
+                                case "T22_ActuationTime": //T22_
+                                case "T22_ReleaseTime": //T22_
+                                case "T22_ReleaseTimeToTravel": //T22_
+                                case "T22_InputTraveAt": //T22_
+                                    {
+
                                         break;
                                     }
 
@@ -13750,7 +13764,7 @@ namespace Continental.Project.Adam.UI.Helper
         }
 
         #region Aquisition Txt Data
-        public HelperTestBase TXTFileHBM_HeaderAppendData(int iTesteSelecionado, Model_GVL modelGVL)
+        public HelperTestBase TXTFileHBM_HeaderAppendDataProjectParameters(int iTesteSelecionado, Model_GVL modelGVL)
         {
             StringBuilder sbHeader = new StringBuilder();
             string strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss", CultureInfo.InvariantCulture); // string.Empty;

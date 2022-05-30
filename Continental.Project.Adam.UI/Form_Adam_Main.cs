@@ -3047,19 +3047,6 @@ namespace Continental.Project.Adam.UI
             {
                 if (!string.IsNullOrEmpty(strValue) && !string.IsNullOrEmpty(strName) && HelperApp.uiTesteSelecionado > 0)
                         TAB_ActuationParameters_WriteComGridEvalParameters(null, strName, strValue);
-
-                //DataGridViewCell gvCell = grid_tabActionParam_EvalParam.Rows[e.RowIndex].Cells[0];
-
-                //if (gvCell.GetType() != typeof(DataGridViewCheckBoxCell))
-                //{
-                //    if (!string.IsNullOrEmpty(strValue) && !string.IsNullOrEmpty(strName))
-                //    {
-                //        List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
-
-                //        if (HelperApp.uiTesteSelecionado > 0)
-                //            TAB_ActuationParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters, strName, strValue);
-                //    }
-                //}
             }
         }
         private void grid_tabActionParam_EvalParam_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -3072,12 +3059,6 @@ namespace Continental.Project.Adam.UI
                 {
                     if (e.RowIndex >= 0)
                         gvCell.Value = !Convert.ToBoolean(gvCell.Value);
-
-
-                    if (Convert.ToBoolean(gvCell.Value))
-                    {
-
-                    }
                 }
             }
         }
@@ -3085,7 +3066,7 @@ namespace Continental.Project.Adam.UI
         {
             switch (HelperApp.uiTesteSelecionado)
             {
-                case 22: //CREATE_MULTICHECKBOX_INPUT
+                case 222: //CREATE_MULTICHECKBOX_INPUT
                     {
                         //mering all cells in a first row
                         //if (e.RowIndex == 8)
@@ -3134,12 +3115,12 @@ namespace Continental.Project.Adam.UI
                         //bool bReturn = TAB_ActuationParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
                     }
                     break;
-                case 24: //CREATE_RADIO_INPUT
+                case 224: //CREATE_RADIO_INPUT
                     {
 
                     }
                     break;
-                case 27: //CREATE_MULTICHECKBOX_INPUT
+                case 227: //CREATE_MULTICHECKBOX_INPUT
                     {
 
                     }
@@ -3147,8 +3128,6 @@ namespace Continental.Project.Adam.UI
                 default:
                     break;
             }
-
-            
         }
         private void grid_tabActionParam_EvalParam_Scroll(object sender, ScrollEventArgs e)
         {
@@ -3369,12 +3348,10 @@ namespace Continental.Project.Adam.UI
                                     strEvalParam_Caption = row.Field<string>("EvalParam_Caption")?.ToString()?.Trim();
                                     strEvalParam_ResultParam_Name = row.Field<string>("EvalParam_ResultParam_Name")?.ToString()?.Trim();
 
-                                    DataGridViewTextBoxCell TextBoxCell_Hi = new DataGridViewTextBoxCell();
-                                    int idxCol_Hi = row.Table.Columns["EvalParam_Hi"].Ordinal;
-                                    decimal decEvalParam_Hi = row.Field<decimal>("EvalParam_Hi");
-
                                     DataGridViewCheckBoxCell CheckBoxCell = new DataGridViewCheckBoxCell();
                                     CheckBoxCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+
 
                                     string[] arrEvalParam_Name = strEvalParam_Name.Split(';');
                                     string[] arrEvalParam_Caption = strEvalParam_Caption.Split(';');
@@ -3386,31 +3363,37 @@ namespace Continental.Project.Adam.UI
                                             return false;
                                         else
                                         {
-                                            for (int i = 0; i < arrEvalParam_Name.Count(); i++)
-                                            {
+                                            //for (int i = 0; i < arrEvalParam_Name.Count(); i++)
+                                            //{
                                                 //iRowIndex
 
                                                 string strLastRow_Caption = grid_tabActionParam_EvalParam["EvalParam_Caption", iRowIndex].Value.ToString();
                                                 string strLastRow_ResultParam_Name = grid_tabActionParam_EvalParam.Rows[iRowIndex].Cells["EvalParam_Name"].Value.ToString();
                                                 string strLastRow_Type = grid_tabActionParam_EvalParam["EvalParam_GridRowType", iRowIndex].EditType.Name.ToString();
 
-                                                strEvalParam_Caption = (i == 0 && arrEvalParam_Name[i].StartsWith("CB")) ? arrEvalParam_Caption[i]?.Trim() : string.Concat(arrEvalParam_Caption[i - 1]?.Trim(), "   ", arrEvalParam_Caption[i]?.Trim());
+                                            // strEvalParam_Caption = (i == 0 && arrEvalParam_Name[i].StartsWith("CB")) ? arrEvalParam_Caption[i]?.Trim() : string.Concat(arrEvalParam_Caption[i - 1]?.Trim(), " | ", arrEvalParam_Caption[i]?.Trim());
 
-                                                grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex] = TextBoxCell_Id;
-                                                grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex].Value = iEvalParam_Id;
+                                            grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex] = TextBoxCell_Id;
+                                            grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex].Value = iEvalParam_Id;
 
-                                                grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = CheckBoxCell;
-                                                grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = decEvalParam_Hi;
+                                            grid_tabActionParam_EvalParam[4, iRowIndex] = CheckBoxCell;
+                                            grid_tabActionParam_EvalParam[4, iRowIndex].Value = false;
 
-                                                grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = TextBoxCell_Caption;
-                                                grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = strEvalParam_Caption;
+                                            grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = TextBoxCell_Caption;
+                                            grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = strEvalParam_Caption;
 
-                                                grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex] = TextBoxCell_Name;
-                                                grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex].Value = arrEvalParam_Name[i];
+                                            grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex] = TextBoxCell_Name;
+                                            grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex].Value = strEvalParam_Name;
 
-                                                //grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex] = TextBoxCell_EvalParam_ResultParam_Name;
-                                                //grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex].Value = strEvalParam_ResultParam_Name;
-                                            }
+                                            grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex] = TextBoxCell_EvalParam_ResultParam_Name;
+                                            grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex].Value = strEvalParam_ResultParam_Name;
+
+                                            _bUseChkGrid = true;
+
+                                            //  grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex] = TextBoxCell_Name;
+                                            //grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex].Value = arrEvalParam_Name[i];
+
+                                            // }
                                         }
                                     }
                                 }
@@ -3458,29 +3441,23 @@ namespace Continental.Project.Adam.UI
                     var dRowCount = dt.Rows.Count;
                     var lsRowCount = listOfRows.Count();
 
-                    if (dRowCount != lsRowCount)
-                    {
-                        DataTable dtCleanNew = new DataTable();
-                        //create new columns
+                    //if (dRowCount != lsRowCount)
+                    //{
+                    //    //dt.AcceptChanges();
 
-                        for (int k = 0; k < listOfCols.Count; k++)
-                        {
-                            columnSpec = new DataColumn
-                            {
-                                DataType = dtGridEvalParameters.Columns[k].DataType, // This is of type System.Type
-                                ColumnName = dtGridEvalParameters.Columns[k].ColumnName // This is of type string
-                            };
+                    //    for (int rowIdx = dRowCount - 1; rowIdx >= 0; rowIdx--)
+                    //    {
+                    //        DataRow dr = dt.Rows[rowIdx];
 
-                            dtCleanNew.Columns.Add(columnSpec);
-                        }
+                    //        if (string.IsNullOrEmpty(dr["EvalParam_Caption"].ToString()))
+                    //            if (rowIdx >= lsRowCount - 1)
+                    //                dr.Delete();
+                    //    }
+                    //    dt.AcceptChanges();
 
-                        //create new rows
-                        listOfRows.ForEach(row => dtCleanNew.Rows.Add(row.ItemArray));
-
-                        //bind grid with new information
-                        grid_tabActionParam_EvalParam.DataSource = dtCleanNew;
-                    }
-                    else
+                    //    grid_tabActionParam_EvalParam.DataSource = dt;
+                    //}
+                    //else
                         grid_tabActionParam_EvalParam.DataSource = dt;
                 }
 
@@ -3496,7 +3473,6 @@ namespace Continental.Project.Adam.UI
 
             return true;
         }
-        
         private void grid_tabActionParam_EvalParam_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -3543,32 +3519,6 @@ namespace Continental.Project.Adam.UI
                                         HelperTestBase.Model_GVL.GVL_T07.bForcaAbsoluta = chkStatus;
                                         _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTesteSimples_T07 }, Convert.ToDouble(chkStatus));
 
-                                        if (chkStatus)
-                                        {
-                                            //iRowIndex = iRowIndex + 1;
-
-                                            //DataTable dataTable = (DataTable)grid_tabActionParam_EvalParam.DataSource;
-                                            //DataRow drToAdd = dataTable.NewRow();
-
-                                            ////drToAdd["EvalParam_Caption"] = "ABOLUTE/REATIVE";
-
-                                            //var strEvalParam_Caption = "ABOLUTE/REATIVE";
-
-                                            //DataGridViewCheckBoxCell CheckBoxCell = new DataGridViewCheckBoxCell();
-                                            //CheckBoxCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-                                            //grid_tabActionParam_EvalParam[0, iRowIndex] = CheckBoxCell;
-                                            //grid_tabActionParam_EvalParam[0, iRowIndex].Value = false;
-
-                                            //DataGridViewTextBoxCell TextBoxCell_Caption = new DataGridViewTextBoxCell();
-                                            //grid_tabActionParam_EvalParam[4, iRowIndex] = TextBoxCell_Caption;
-                                            //grid_tabActionParam_EvalParam[4, iRowIndex].Value = strEvalParam_Caption;
-
-                                            //_bUseChkGrid = true;
-
-                                            //dataTable.Rows.InsertAt(drToAdd, iRowIndex);
-                                            //dataTable.AcceptChanges();
-                                        }
                                         break;
                                     default://INCLUIR CHECKBOX (ABOLUTE/REATIVE)
                                         HelperTestBase.Model_GVL.GVL_T07.bForcaAbsoluta = chkStatus;
@@ -3653,9 +3603,6 @@ namespace Continental.Project.Adam.UI
             {
                 if (dblValue < 0)
                     dblValue = (dblValue * -1);
-
-                //if (HelperApp.uiTesteSelecionado > 4)
-                //    TAB_ActuationParameters_WriteComEditGridEvalParameters(iRowIndex, strName, strValue);
 
                 switch (HelperApp.uiTesteSelecionado)
                 {
@@ -4631,7 +4578,6 @@ namespace Continental.Project.Adam.UI
 
                             switch (strName.Trim())
                             {
-
                                 case "ETimeScale":
                                     break;
 
@@ -4656,6 +4602,7 @@ namespace Continental.Project.Adam.UI
                                     if (dblValue > 0)
                                         HelperTestBase.Model_GVL.GVL_T22.iTipoAtuacaoFinal = 1;
                                     break;
+
                                 case "CBOutPress1": //
                                     if (dblValue > 0)
                                         HelperTestBase.Model_GVL.GVL_T22.iTipoAtuacaoFinal = 2;
@@ -4666,10 +4613,14 @@ namespace Continental.Project.Adam.UI
                                         HelperTestBase.Model_GVL.GVL_T22.iTipoAtuacaoFinal = 3;
                                     break;
 
+                                case "ERelTimeTo": //
+                                    break;
+
                                 case "CBMaxPress2": //
                                     if (dblValue > 0)
                                         HelperTestBase.Model_GVL.GVL_T22.iTipoRetornoFinal = 1;
                                     break;
+
                                 case "CBOutPress2": //
                                     if (dblValue > 0)
                                         HelperTestBase.Model_GVL.GVL_T22.iTipoRetornoFinal = 2;
@@ -4687,9 +4638,11 @@ namespace Continental.Project.Adam.UI
                                 case "ETravelAtPOut": //
                                     HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoNaPressao = dblValue;
                                     break;
+
                                 case "EPressGradAt1": //
                                     HelperTestBase.Model_GVL.GVL_T22.rGradientePressaoMin_bar = dblValue;
                                     break;
+
                                 case "EPressGradAt2": //
                                     HelperTestBase.Model_GVL.GVL_T22.rGradientePressaoMax_bar = dblValue;
                                     break;
@@ -5268,29 +5221,6 @@ namespace Continental.Project.Adam.UI
                                 break;
                         }
                         break;
-                    //case 8:      //Hydraulic Leakage - Fully Applied Position
-                    //    switch (iRowIndex)
-                    //    {
-                    //        case 4://TESTING TIME
-                    //            //HelperTestBase.Model_GVL.GVL_T08.rTempoTeste = dblValue; já escreve no outro metodo
-                    //            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T08_LW }, dblValue);
-                    //            break;
-                    //        case 5://STABILIZATION TIME
-                    //            //HelperTestBase.Model_GVL.GVL_T08.rTempoEstabilizacao = dblValue; já escreve no outro metodo
-                    //            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T08_LW }, dblValue);
-                    //            break;
-                    //        case 6: //PERCENT OF EOUT
-                    //            //HelperTestBase.Model_GVL.GVL_T08.rForcaMaximaRelativa = dblValue; já escreve no outro metodo
-                    //            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T08_LW }, dblValue);
-                    //            break;
-                    //        case 8: //INPUT FORCE
-                    //              //HelperTestBase.Model_GVL.GVL_T08.rForcaMaximaAbsoluta_N = dblValue; já escreve no outro metodo
-                    //            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T08_LW }, dblValue);
-                    //            break;
-                    //        default:
-                    //            break;
-                    //    }
-                    //    break;
                     case 9:     //Hydraulic Leakage - At Low Pressure
                         switch (iRowIndex)
                         {
@@ -5378,15 +5308,6 @@ namespace Continental.Project.Adam.UI
                     case 23:    //Breather Hole / Central Valve open
                         switch (iRowIndex)
                         {
-                            //case 1: //Perform Pré Actuation
-                            //    if (dblValue > 0)
-                            //        HelperTestBase.Model_GVL.GVL_T23.bExecutarPreAcionamento = true;
-                            //    else
-                            //        HelperTestBase.Model_GVL.GVL_T23.bExecutarPreAcionamento = false;
-
-                            //    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wExecutarAcionamento_T23}, dblValue);
-
-                            //    break;
                             case 1://Pressao Minima
                                 //HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMin_Bar = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoHidraulicaMin_T23_LW }, dblValue);
@@ -6634,7 +6555,7 @@ namespace Continental.Project.Adam.UI
 
                         lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
 
-                        _helperApp.TXTFileHBM_HeaderAppendData(HelperApp.uiTesteSelecionado, model_GVL);
+                        _helperApp.TXTFileHBM_HeaderAppendDataProjectParameters(HelperApp.uiTesteSelecionado, model_GVL);
 
                         if (!string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
                         {

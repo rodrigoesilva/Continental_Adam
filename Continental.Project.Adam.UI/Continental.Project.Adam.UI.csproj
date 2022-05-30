@@ -492,36 +492,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="trash\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="trash\Form1.designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="trash\Form2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="trash\Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="trash\Form3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="trash\Form3.Designer.cs">
-      <DependentUpon>Form3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="trash\Form_Tests.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="trash\Form_Tests.Designer.cs">
-      <DependentUpon>Form_Tests.cs</DependentUpon>
-    </Compile>
-    <Compile Include="trash\Modbus\Form_Modbus_Test.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="trash\Modbus\Form_Modbus_Test.Designer.cs">
-      <DependentUpon>Form_Modbus_Test.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Form_Adam_About.resx">
       <DependentUpon>Form_Adam_About.cs</DependentUpon>
     </EmbeddedResource>
@@ -581,21 +551,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="trash\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="trash\Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="trash\Form3.resx">
-      <DependentUpon>Form3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="trash\Form_Tests.resx">
-      <DependentUpon>Form_Tests.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="trash\Modbus\Form_Modbus_Test.resx">
-      <DependentUpon>Form_Modbus_Test.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="App.Config" />
     <Compile Include="Enum\E_UnitGroup.cs" />
     <None Include="packages.config" />
