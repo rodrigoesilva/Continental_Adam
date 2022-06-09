@@ -1364,6 +1364,8 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
+        #endregion
+
         #region TAB - ActuationParameters
 
         #region TAB - ActuationParameters - Common
@@ -3237,22 +3239,16 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                if (rbChecked)
+                switch (rbName)
                 {
-                    switch (rbName)
-                    {
-                        case "RBShowPressureForce": //Show Pressure/Force
-                            HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 0;
-                            break;
-                        case "RBShowPressureTimeSlow": //Show Pressure/Time Slow
-                            HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 1;
-                            break;
-                        case "RBShowPressureTimeFast": //Show Pressure/ Time Fast
-                            HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 2;
-                            break;
-                        default:
-                            break;
-                    }
+                    case "RBShowPressureForce": //Show Pressure/Force
+                        break;
+                    case "RBShowPressureTimeSlow": //Show Pressure/Time Slow
+                        break;
+                    case "RBShowPressureTimeFast": //Show Pressure/ Time Fast
+                        break;
+                    default:
+                        break;
                 }
             }
             catch (Exception ex)
@@ -4805,18 +4801,12 @@ namespace Continental.Project.Adam.UI
                             switch (strName.Trim())
                             {
                                 case "RBShowPressureForce":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 0;
                                     break;
 
                                 case "RBShowPressureTimeSlow":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 1;
                                     break;
 
                                 case "RBShowPressureTimeFast":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 2;
                                     break;
 
                                 case "EForceScale":
@@ -4825,21 +4815,18 @@ namespace Continental.Project.Adam.UI
                                 case "EPressureScale":
                                     break;
 
-                                case "ETimeScale":
-                                    break;
-
                                 case "EPause": //Intervalo
                                     HelperTestBase.Model_GVL.GVL_T24.rIntervalo = dblValue;
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwIntervalo_T24_LW }, dblValue);
+                                    //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwIntervalo_T24_LW }, dblValue);
                                     break;
 
                                 case "EFastMaxForce": //Forca Maxima modo rapido
                                     HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaModoRapido = dblValue;
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaModoRapido_T24_LW }, dblValue);
+                                    //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaModoRapido_T24_LW }, dblValue);
                                     break;
 
                                 case "EFastGradient": //Gradiente abertura valvula - utilizar o parametro Geral Gradiente Pressao (%)
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwGradienteForca_LW }, dblValue);
+                                                      //HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoFast = dblValue;
 
                                     break;
                                 case "EPressGradAt1": //Ref Calculo Gradiente Pressao
@@ -4869,13 +4856,6 @@ namespace Continental.Project.Adam.UI
 
                             switch (strName.Trim())
                             {
-                                case "CBShowDualRatioLines":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T25.bMostraLinhasDRAux = true;
-                                    else
-                                        HelperTestBase.Model_GVL.GVL_T25.bMostraLinhasDRAux = false;
-                                    break;
-
                                 case "EForceScale":
                                     break;
 
@@ -4883,84 +4863,85 @@ namespace Continental.Project.Adam.UI
                                     break;
 
                                 case "EP1AtForce": //Pressure at Force(E1)
-                                    HelperTestBase.Model_GVL.GVL_T25.rForca_P1 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EP2AtForce": //Pressure at Force(E2)  
-                                    HelperTestBase.Model_GVL.GVL_T25.rForca_P2 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EP3AtForce": //Pressure at Force(P1)
-                                    HelperTestBase.Model_GVL.GVL_T25.rForca_E1 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EP4AtForce": //Pressure at Force(P2)
-                                    HelperTestBase.Model_GVL.GVL_T25.rForca_E2 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EMeasurePointP7": //Pressure at Force(E6) =
-                                    HelperTestBase.Model_GVL.GVL_T25.rPontoMedicao_P7 = dblValue;
+                                                        //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EPistonTravelAtPressure": //Travel at Pressure = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rDeslocamentoNaPressao = dblValue;
+                                                                //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EActuationForceAtPressure": //Actuation Force at Pressure = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rPressaoCutIn_Bar = dblValue;
+                                                                  //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EReleaseForceMin": //Release Force min = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rReleaseForcePressMin_Bar = dblValue;
+                                                         //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EReleaseForceMax": //Release Force max = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rReleaseForcePressMax_Bar = dblValue;
+                                                         //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EHysteresisAtPressure": //Hysteresis at Pressure(%) = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rPressaoHysterese_pout = dblValue;
+                                                              //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "//EHysteresisAtPressure2": //Hysteresis at Pressure(bar) = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rPressaoHysterese_Bar = dblValue;
+                                                                 //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "ERelForceRemainAtTravel": //Release Force Remaining at = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rReleaseForceAt_mm = dblValue;
-                                    break;
-
-                                case "EJumperNomGrad": //Jumper Gradient P1 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rJumperGradienteNominal = dblValue;
-                                    break;
-
-                                case "EJumperPosTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rJumperTolPos = dblValue;
-                                    break;
-
-                                case "EJumperNegTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rJumperTolNeg = dblValue;
-                                    break;
-
-                                case "ESwitchPointNomGrad": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rSwitchPointGradienteNominal = dblValue;
-                                    break;
-
-                                case "ESwitchPointPosTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rSwitchPointTolPos = dblValue;
-                                    break;
-
-                                case "ESwitchPointNegTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rSwitchPointTolNeg = dblValue;
+                                                                //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "ETMCDiameterPC": //TMC Diameter PC = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rDiametroCMD_mm = dblValue;
+                                                       //HelperTestBase.Model_GVL.GVL_T25.rDiametroCMD_mm = dblValue;
                                     break;
 
                                 case "ETMCDiameterSC": // TMC Diameter SC = 
-
+                                                       //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
+
+                                case "EJumperNomGrad": //Jumper Gradient P1 = 
+                                                       //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
+                                case "EJumperPosTolerance": //Jumper Gradient P2 = 
+                                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
+                                case "EJumperNegTolerance": //Jumper Gradient P2 = 
+                                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
+                                case "ESwitchPointNomGrad": //Jumper Gradient P2 = 
+                                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
+                                case "ESwitchPointPosTolerance": //Jumper Gradient P2 = 
+                                                                 //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
+                                case "ESwitchPointNegTolerance": //Jumper Gradient P2 = 
+                                                                 //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
 
                                 default:
                                     break;
@@ -4971,25 +4952,6 @@ namespace Continental.Project.Adam.UI
                             HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T25;
 
                             break;
-
-                            #region Case Param
-
-                            switch (strName.Trim())
-                            {
-
-
-
-                                case "EJumperGradientP1": //Jumper Gradient P1 = 
-                                    HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = dblValue;
-                                    break;
-
-                                case "EJumperGradientP2": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dblValue;
-                                    break;
-
-                            }
-
-
                         }
                     case 26:    //Force Diagrams - Force/Force Dual Ratio
                         {
@@ -5517,10 +5479,6 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
         }
-
-        #endregion
-
-        #endregion
 
         #endregion
 
@@ -9275,120 +9233,30 @@ namespace Continental.Project.Adam.UI
                                 {
                                     #region  Serie de Valores
 
-                                    //GVL_Graficos.strNomeEixoX = "Input Force (N)";
-                                    //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
-                                    //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
-
-                                    int iPontoInicialSlow = 0;
-                                    int iPontoFinalSlow = 0;
-
-                                    int iPontoInicialFast = 0;
-                                    int iPontoFinalFast = 0;
-
-                                    int diUbound = lstAnalogCh00_Timestamp.Count;
-
-                                    double rForcaMaxSlow =  0;
-                                    int iPosForcaMaxSlow = 0;
-
-                                    double rForcaMaxFast = 0;
-                                    int iPosForcaMaxFast = 0;
-
-                                    //Encontra o ponto inicial da curva de acionamento slow 
-                                    for (i = 0; i <= diUbound; i++)
+                                    if (_modelGVL.GVL_Parametros.iTipoGrafico_T24 == 0)
                                     {
-                                        if (lstAnalogCh02_InputForce1[i] > 400) //Define o ponto de 400 N como ponto de partida da primera curva 
+                                        //GVL_Graficos.strNomeEixoX = "Input Force (N)";
+                                        //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
+                                        //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
+
+                                        for (i = 0; i <= totalPointsCount - 1; i++)
                                         {
-                                            iPontoInicialSlow = i;
-                                            break;
+                                            series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
+                                            series2.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
                                         }
                                     }
-
-                                    //Encontra o ponto final da curva de acionamento slow
-                                    for (i = iPontoInicialSlow; i <= diUbound; i++)
+                                    else
                                     {
-                                        if (lstAnalogCh02_InputForce1[i] <= 0) //Define o ponto de 50 N como ponto final da primeira curva
+                                        //GVL_Graficos.strNomeEixoX = "Time (s)";
+                                        //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
+                                        //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
+
+                                        for (i = 0; i <= totalPointsCount - 1; i++)
                                         {
-                                            iPontoFinalSlow = i;
-                                            break;
+                                            series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
+                                            series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
                                         }
                                     }
-
-                                    //Encontra o ponto inicial da curva de acionamento fast
-                                    for (i = iPontoFinalSlow; i <= diUbound; i++)
-                                    {
-                                        if (lstAnalogCh02_InputForce1[i] > 50) //Define o ponto de 400 N como ponto de partida da primera curva 
-                                        {
-                                            iPontoInicialFast = i - 10000;
-                                            break;
-                                        }
-                                    }
-
-                                    //Encontra o ponto final da curva de acionamento fast
-
-                                    iPontoFinalFast = diUbound -1;
-
-                                    for (i = 0; i <= iPontoFinalSlow; i++)
-                                    {
-                                        if (lstAnalogCh02_InputForce1[i] > rForcaMaxSlow)
-                                        {
-                                            rForcaMaxSlow = lstAnalogCh02_InputForce1[i]; //Atualiza o valor de forca maxima com o maior valor obtido no array
-                                            iPosForcaMaxSlow = i; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
-                                        }
-                                    }
-
-                                    for (i = iPontoInicialFast; i < iPontoFinalFast; i++)
-                                    {
-                                        if (lstAnalogCh02_InputForce1[i] > rForcaMaxFast)
-                                        {
-                                            rForcaMaxFast = lstAnalogCh02_InputForce1[i]; //Atualiza o valor de forca maxima com o maior valor obtido no array
-                                            iPosForcaMaxFast = i; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
-                                        }
-                                    }
-
-                                    switch (_modelGVL.GVL_T24.iTipoGrafico)
-                                    {
-                                        case 0:
-                                            {
-
-
-                                                for (i = 0; i <= iPosForcaMaxSlow; i++)
-                                                {
-                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
-                                                }
-
-                                                for (i = iPontoInicialFast; i <= iPosForcaMaxFast - 1; i++)
-                                                {
-                                                    series2.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
-                                                }
-
-                                                break;
-
-                                            }
-                                        case 1:
-                                            {
-                                                if ((iPontoFinalSlow + 10000) >= lstAnalogCh00_Timestamp.Count)
-                                                    iPontoFinalSlow = lstAnalogCh00_Timestamp.Count;
-                                                else
-                                                    iPontoFinalSlow = iPontoFinalSlow + 10000;
-
-                                                for (i = 0; i <= iPontoFinalSlow + 10000; i++)
-                                                {
-                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
-                                                }
-
-                                                break;
-                                            }
-                                        case 2:
-                                            {
-                                                for (i = iPontoInicialFast; i < lstAnalogCh00_Timestamp.Count - 1; i++)
-                                                {
-                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
-                                                }
-
-                                                break;
-                                            }
-                                    }
-
 
                                     #endregion
 
@@ -9396,21 +9264,7 @@ namespace Continental.Project.Adam.UI
 
                                     #endregion
 
-                                    switch (_modelGVL.GVL_T24.iTipoGrafico)
-                                    {
-                                        case 0:
-                                            {
-                                                devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2 });
-                                                break;
-                                            }
-                                        case 1:
-                                        case 2:
-                                            {
-                                                devChart.Series.AddRange(new Series[] { series1, PontosChart1 });
-                                                break;
-                                            }
-
-                                    }
+                                    devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2 });
                                 }
                                 catch (Exception ex)
                                 {
@@ -10121,267 +9975,213 @@ namespace Continental.Project.Adam.UI
         }
         private void HBM_SaveAquisitionTxtData()
         {
-            try
+            _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
+
+            LOG_TestSequence("Evento - HBM_ReadValues");
+
+            String path = @"D:\HBM_SaveAquisitionTxtData.txt";
+            List<string> lstStr = new List<string>();
+            string formTimestamp = string.Empty;
+
+            List<double> lstTms = new List<double>();
+            List<double> lstVal = new List<double>();
+
+            List<string> lstStrCh = new List<string>();
+            List<string> lstStrTimestamp = new List<string>();
+            List<double> lstTmsCh = new List<double>();
+            List<double>[] lstCh = new List<double>[12];
+
+            int iUpdatedValueCount = 0;
+            int k = 0;
+            int i = 0;
+            int j = 0;
+
+            string strLinha = string.Empty;
+
+            if (_helperHBM.PreparedContinuousMeasurement && _helperHBM.Status)
             {
-                _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
+                _myDevice = _comHBM._myDevice;
+                _daqMeasurement = _comHBM._daqMeasurement;
+                _signalsToMeasure = _comHBM._signalsToMeasure;
+                _daqEnvironment = _comHBM._daqEnvironment;
 
-                LOG_TestSequence("Evento - HBM_ReadValues");
-
-                String path = @"D:\HBM_SaveAquisitionTxtData.txt";
-                List<string> lstStr = new List<string>();
-                string formTimestamp = string.Empty;
-
-                List<double> lstTms = new List<double>();
-                List<double> lstVal = new List<double>();
-
-                List<string> lstStrCh = new List<string>();
-                List<string> lstStrTimestamp = new List<string>();
-                List<double> lstTmsCh = new List<double>();
-                List<double>[] lstCh = new List<double>[12];
-
-                int iUpdatedValueCount = 0;
-                int k = 0;
-                int i = 0;
-                int j = 0;
-
-                string strLinha = string.Empty;
-
-                if (_helperHBM.PreparedContinuousMeasurement && _helperHBM.Status)
+                try
                 {
-                    _myDevice = _comHBM._myDevice;
-                    _daqMeasurement = _comHBM._daqMeasurement;
-                    _signalsToMeasure = _comHBM._signalsToMeasure;
-                    _daqEnvironment = _comHBM._daqEnvironment;
+                    if (!_runMeasurement)
+                    {
+                        // add the chosen signals to the measurement
+                        _daqMeasurement.AddSignals(_myDevice, _signalsToMeasure);
+
+                        _daqMeasurement.PrepareDaq(5000, 10, 1000, false, false);
+
+                        // run continuous measurement with the signals that were added to the measurement
+                        // if (_signalsToMeasure.Count > 0)
+                        _daqMeasurement.StartDaq(DataAcquisitionMode.TimestampSynchronized); //DataAcquisitionMode.Unsynchronized
+
+                        _runMeasurement = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, ex.ToString());
+                }
+
+                //try
+                //{
+                if (_runMeasurement)
+                {
+                    // update measurement values of the signals that were added to the measurement:
+                    _daqMeasurement.FillMeasurementValues();
+
+                    // FillMeasurements updates the ContinuousMeasurementValues of all signals that
+                    // were added to the measurement
+                    // The next call of FillMeasurementValues will overwrite them again with new values....
+
+                    // check the signals that were added to the measurement for new measurement values...
+                    //foreach (Signal signal in _signalsToMeasure)
+                    //{
+                    for (k = 0; k < _signalsToMeasure.Count; k++)
+                    {
+                        try
+                        {
+                            signal = _signalsToMeasure[k];
+
+                            // this is the way you get the measurement values (as doubles) from ALL signals (no matter what type of signal)
+                            // that take part in the measurement (check Signal.ContinuousMeasurementValues)
+                            if (signal.ContinuousMeasurementValues.UpdatedValueCount > 0)
+                            {
+                                //AddToProtocol("-------------------------");
+
+                                //var data = string.Format("CH {0} has {1} new measurement values",
+                                //                            signal.Name,
+                                //                            signal.ContinuousMeasurementValues.UpdatedValueCount //Number of new measurement values filled into Values[0..n]
+                                //                            );
+
+                                //AddToProtocol(data);       //this is an array of doubles containing the measurement values
+
+                                //// have a look at the continuousMeasurementValues in the property grid (see tab "MeasurementValues...") during execution
+                                //MeasurmentValuesPg.SelectedObject = signal.ContinuousMeasurementValues;
+
+                                formTimestamp = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss.ffff",
+                                        CultureInfo.InvariantCulture);
+
+                                string nms = signal.Name;
+
+
+                                lstStrTimestamp.Clear();
+                                lstTms.Clear();
+                                lstVal.Clear();
+                                lstTmsCh.Clear();
+
+                                iUpdatedValueCount = signal.ContinuousMeasurementValues.UpdatedValueCount;
+                                lstTms = signal.ContinuousMeasurementValues.Timestamps.ToList();
+                                lstVal = signal.ContinuousMeasurementValues.Values.ToList();
+
+
+                                lstCh[k] = new List<double>();
+
+                                for (i = 1; i < iUpdatedValueCount - 1; i++)
+                                {
+                                    lstCh[k].Add(Math.Round(lstVal[i], 3));
+                                    lstTmsCh.Add(Math.Round(lstTms[i], 5));
+                                    //lstStrTimestamp.Add(formTimestamp);
+
+                                    //lstTmsCh.Add(Math.Round(lstTms[i],4));
+                                }
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            var abc = k;
+                            MessageBox.Show(ex.Message, _helperApp.appMsg_Error);
+                        }
+                    }
+
+                    int idx = 0;
 
                     try
-				 
-										 
                     {
-                        if (!_runMeasurement)
+                        lstStrCh.Clear();
+                        //lstTmsCh.Clear();
+
+                        //lstTmsCh = lstTms;
+
+                        if (lstCh[0].Count() < iUpdatedValueCount)
+                            iUpdatedValueCount = lstCh[0].Count() - 1;
+
+                        try
                         {
-                            // add the chosen signals to the measurement
-                            _daqMeasurement.AddSignals(_myDevice, _signalsToMeasure);
+                            for (j = 0; j < iUpdatedValueCount; j++)
+                            {
+                                idx = j;
 
-                            _daqMeasurement.PrepareDaq(5000, 10, 1000, false, false);
+                                string row = string.Empty;
 
-                            // run continuous measurement with the signals that were added to the measurement
-                            // if (_signalsToMeasure.Count > 0)
-                            _daqMeasurement.StartDaq(DataAcquisitionMode.TimestampSynchronized); //DataAcquisitionMode.Unsynchronized
+                                //row = string.Format("{0}\t\t" +
+                                //"{1}\t\t {2}\t\t {3}\t\t {4}\t\t {5}\t\t {6}\t\t " +
+                                //"{7}\t\t {8}\t\t {9}\t\t {10}\t\t {11}\t\t {12}\t\t\n ",
 
-                            _runMeasurement = true;
+                                row = string.Format("{0}\t" +
+                               "{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t" +
+                               "{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t",
+
+                               lstTmsCh[j].ToString(),
+                                lstCh[0][j].ToString(), lstCh[1][j].ToString(), lstCh[2][j].ToString(), lstCh[3][j].ToString(), lstCh[4][j].ToString(), lstCh[5][j].ToString(),
+                                lstCh[6][j].ToString(), lstCh[7][j].ToString(), lstCh[8][j].ToString(), lstCh[9][j].ToString(), lstCh[10][j].ToString(), lstCh[11][j].ToString());
+
+                                lstStrCh.Add(row + Environment.NewLine);
+
+                                if (lstStrCh.Count() > 0)
+                                    sbinterno.Append(row + Environment.NewLine);
+
+                            }
+
+                            if (lstStrCh.Count() > 0)
+                            {
+                                sbexterno.Append(sbinterno.ToString());
+                                sbinterno.Clear();
+                            }
+
+
+                            var sbMaxCap = (sbexterno.MaxCapacity * 0.1);
+
+                            if (sbexterno.Length > sbMaxCap || timerHBM.Enabled == false)
+                                TXTFileHBM_Create();
                         }
+                        catch (Exception ex)
+                        {
+                            var err = string.Concat("ex : ", idx, ex.Message);
+
+                            throw;
+                        }
+
+                        //timerHBM.Enabled = true;
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, ex.ToString());
+                        var err = string.Concat("numero : ", idx, ex.Message);
+
+                        throw;
                     }
-				 
-									
-				 
-															   
-				 
-
-                    //try
-                    //{
-                    if (_runMeasurement)
-                    {
-                        // update measurement values of the signals that were added to the measurement:
-                        _daqMeasurement.FillMeasurementValues();
-
-                        // FillMeasurements updates the ContinuousMeasurementValues of all signals that
-                        // were added to the measurement
-                        // The next call of FillMeasurementValues will overwrite them again with new values....
-
-                        // check the signals that were added to the measurement for new measurement values...
-                        //foreach (Signal signal in _signalsToMeasure)
-                        //{
-                        for (k = 0; k < _signalsToMeasure.Count; k++)
-					 
-						   
-                        {
-                            try
-                            {
-                                signal = _signalsToMeasure[k];
-
-                                // this is the way you get the measurement values (as doubles) from ALL signals (no matter what type of signal)
-                                // that take part in the measurement (check Signal.ContinuousMeasurementValues)
-                                if (signal.ContinuousMeasurementValues.UpdatedValueCount > 0)
-                                {
-                                    //AddToProtocol("-------------------------");
-
-                                    //var data = string.Format("CH {0} has {1} new measurement values",
-                                    //                            signal.Name,
-                                    //                            signal.ContinuousMeasurementValues.UpdatedValueCount //Number of new measurement values filled into Values[0..n]
-                                    //                            );
-
-                                    //AddToProtocol(data);       //this is an array of doubles containing the measurement values
-
-                                    //// have a look at the continuousMeasurementValues in the property grid (see tab "MeasurementValues...") during execution
-                                    //MeasurmentValuesPg.SelectedObject = signal.ContinuousMeasurementValues;
-
-                                    formTimestamp = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss.ffff",
-                                            CultureInfo.InvariantCulture);
-
-                                    string nms = signal.Name;
-
-
-                                    lstStrTimestamp.Clear();
-                                    lstTms.Clear();
-                                    lstVal.Clear();
-                                    lstTmsCh.Clear();
-
-                                    iUpdatedValueCount = signal.ContinuousMeasurementValues.UpdatedValueCount;
-                                    lstTms = signal.ContinuousMeasurementValues.Timestamps.ToList();
-                                    lstVal = signal.ContinuousMeasurementValues.Values.ToList();
-
-                                    lstCh[k] = new List<double>();
-
-                                    if (iUpdatedValueCount > 0)
-                                    { 
-                                        for (i = 1; i < iUpdatedValueCount - 1; i++)
-                                        {
-                                            lstCh[k].Add(Math.Round(lstVal[i], 3));
-                                            lstTmsCh.Add(Math.Round(lstTms[i], 5));
-                                            //lstStrTimestamp.Add(formTimestamp);					   
-                                            //lstTmsCh.Add(Math.Round(lstTms[i],4));
-                                        }
-                                    }
-
-                                    
-                                }
-
-                            }
-                            catch (Exception ex)
-                            {
-                                var abc = k;
-                                MessageBox.Show(ex.Message, _helperApp.appMsg_Error);
-                            }
-                        }
-
-                        int idx = 0;
-
-                        if (iUpdatedValueCount > 0)
-                        {
-                            try
-                            {
-                                lstStrCh.Clear();
-                                //lstTmsCh.Clear();
-
-                                //lstTmsCh = lstTms;
-
-                                if (lstCh[0].Count() < iUpdatedValueCount)
-                                    iUpdatedValueCount = lstCh[0].Count() - 1;
-										 
-										   
-
-                                try
-                                {
-                                    for (j = 0; j < iUpdatedValueCount; j++)
-                                    {
-                                        idx = j;
-
-                                        string row = string.Empty;
-																	  
-
-                                        //row = string.Format("{0}\t\t" +
-                                        //"{1}\t\t {2}\t\t {3}\t\t {4}\t\t {5}\t\t {6}\t\t " +
-                                        //"{7}\t\t {8}\t\t {9}\t\t {10}\t\t {11}\t\t {12}\t\t\n ",
-							 
-										
-
-                                        row = string.Format("{0}\t" +
-                                       "{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t" +
-                                       "{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t",
-
-                                       lstTmsCh[j].ToString(),
-                                        lstCh[0][j].ToString(), lstCh[1][j].ToString(), lstCh[2][j].ToString(), lstCh[3][j].ToString(), lstCh[4][j].ToString(), lstCh[5][j].ToString(),
-                                        lstCh[6][j].ToString(), lstCh[7][j].ToString(), lstCh[8][j].ToString(), lstCh[9][j].ToString(), lstCh[10][j].ToString(), lstCh[11][j].ToString());
-
-                                        lstStrCh.Add(row + Environment.NewLine);
-																 
-																   
-
-                                        if (lstStrCh.Count() > 0)
-                                            sbinterno.Append(row + Environment.NewLine);
-																																												  
-
-                                    }
-
-                                    if (lstStrCh.Count() > 0)
-                                    {
-                                        sbexterno.Append(sbinterno.ToString());
-                                        sbinterno.Clear();
-                                    }
-
-							 
-
-                                    var sbMaxCap = (sbexterno.MaxCapacity * 0.1);
-							 
-																	   
-												  
-							 
-
-                                    if (sbexterno.Length > sbMaxCap || timerHBM.Enabled == false)
-                                        TXTFileHBM_Create();
-                                }
-                                catch (Exception ex)
-                                {
-                                    var err = string.Concat("ex : ", idx, ex.Message);
-
-                                    throw;
-                                }
-
-                                //timerHBM.Enabled = true;
-													
-                            }
-                            catch (Exception ex)
-                            {
-                                var err = string.Concat("numero : ", idx, ex.Message);
-
-                                throw;
-                            }
-                        }
-
-												  
-                    }
-                    else
-                    {
-                        timerHBM.Enabled = false;
-                    }
-                    //    }
-                    //        catch (Exception ex)
-                    //    {
-                    //        MessageBox.Show(ex.Message, ex.ToString());
-                    //        this.StopContinuousMeasurementBt.PerformClick();
-                    //    }
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    MessageBox.Show(ex.Message, ex.ToString());
-                    //    this.StopContinuousMeasurementBt.PerformClick();
-                    //}
-
-							  
-					 
                 }
+                else
+                {
+                    timerHBM.Enabled = false;
+                }
+                //    }
+                //        catch (Exception ex)
+                //    {
+                //        MessageBox.Show(ex.Message, ex.ToString());
+                //        this.StopContinuousMeasurementBt.PerformClick();
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show(ex.Message, ex.ToString());
+                //    this.StopContinuousMeasurementBt.PerformClick();
+                //}
 
-            }
-            catch (Exception ex)
-            {
-					   
-											  
-					   
-                MessageBox.Show(ex.Message, _helperApp.appMsg_Error);
-																		  
-					   
-				   
-									  
-				   
-																 
-																	  
-				   
-
-                throw;
             }
         }
 

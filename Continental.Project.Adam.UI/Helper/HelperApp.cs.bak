@@ -2075,6 +2075,8 @@ namespace Continental.Project.Adam.UI.Helper
 
                                 HelperTestBase.Model_GVL.GVL_T22.rTempoRetorno_s = matchesReleaseTime.Count() > 0 ? NumberDoubleCheck(matchesReleaseTime.ToList()[0].Value) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T22.rTempoRetornoNoDeslocamento_s = matchesReleaseTime.Count() > 0 ? NumberDoubleCheck(matchesReleaseTime.ToList()[1].Value) * -1 : 0;
+																																																							 
+																																																										   
 
                                 HelperTestBase.Model_GVL.GVL_T22.rDiferencaPressaoPCSC_bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure Difference PC SC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Difference PC SC"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T22.rPressaoAuxiliarRef = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) * -1 : 0;
@@ -2111,12 +2113,12 @@ namespace Continental.Project.Adam.UI.Helper
                             #region Results
 
                             dicResultParam.Add("resultCalcTestParam_T22_InputTravel", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoMaximo, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T22_ActuationTime", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoAtuacao_s, 3).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T22_ReleaseTime", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoRetorno_s, 3).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T22_ReleaseTimeToTravel", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoRetornoNoDeslocamento_s, 3).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ActuationTime", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoAtuacao_s, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ReleaseTime", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoRetorno_s, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_ReleaseTimeToTravel", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rTempoFinalRetornoNoDeslocamento_s, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T22_PressureDifferencePCSC", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rDiferencaPressaoPCSC_bar, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T22_AuxiliaryPressure", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rPressaoAuxiliarRef, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T22_InputTraveAt", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoNaPressao_mm, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T22_InputTraveAt", Math.Round(HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoNaPressao, 2).ToString());
 
                             #endregion
 
@@ -2261,25 +2263,25 @@ namespace Continental.Project.Adam.UI.Helper
 
                             #region #region Results_Header
 
-                            dicResultParam.Add("resultCalcTestParam_T24_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rVacuoInicial, 3).ToString());
+                            dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rVacuoInicial, 2).ToString());
 
                             #endregion
 
                             #region Results
 
-                            dicResultParam.Add("resultCalcTestParam_T24_ActuationForceSlow", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaSlow, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T24_ActuationForceFast", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaFast, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T24_PressureGradientSlow", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoSlow, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T24_PressureGradientFast", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoFast, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T24_EfficiencyAtForce", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rEficiencia, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_ActuationForceSlow", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaSlow, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_ActuationForceFast", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaFast, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_PressureGradientSlow", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoSlow, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_PressureGradientFast", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoFast, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_Efficiency", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rEficiencia, 2).ToString());
 
                             #endregion
 
                             #region Results_Footer
 
-                            dicResultParam.Add("resultCalcTestParam_T24_PCHoseConsumers", HelperTestBase.Model_GVL.GVL_T24.iConsumidoresCP.ToString());
-                            dicResultParam.Add("resultCalcTestParam_T24_SCHoseConsumers", HelperTestBase.Model_GVL.GVL_T24.iConsumidoresCS.ToString());
-                            dicResultParam.Add("resultCalcTestParam_T24_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rTemperaturaInicial, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_PCHoseConsumers", HelperTestBase.Model_GVL.GVL_T24.iConsumidoresCP.ToString());
+                            dicResultParam.Add("resultCalcTestParam_SCHoseConsumers", HelperTestBase.Model_GVL.GVL_T24.iConsumidoresCS.ToString());
+                            dicResultParam.Add("resultCalcTestParam_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rTemperaturaInicial, 2).ToString());
 
                             #endregion
 
@@ -2291,119 +2293,6 @@ namespace Continental.Project.Adam.UI.Helper
                         }
                     case 25:    //Force Diagrams - Force/Pressure Dual Ratio
                         {
-                            #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T25.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                //recupera VARIOS itens que contenham o memso texto e guarda a qtd
-                                var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
-                                                             where k.Key.Contains("Pressure at")
-                                                             select new
-                                                             {
-                                                                 k.Key,
-                                                                 k.Value
-                                                             };
-
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_E1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_E2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[1].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_P1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[2].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_P2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[3].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rRunOutPressure_Real_Bar = dicReturnReadFileHeaderResults.ContainsKey("Runout Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Pressure"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-in Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-in Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rHysterese_Xpout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rReleaseForceAt_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Realease Force at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Realease Force at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressaoAuxiliar_P3_Bar = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointF_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point F") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point F"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointP_Bar = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point P") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point P"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff1 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 1") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 1"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff2 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 2") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 2"]) : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T25.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
-                            #region #region Results_Header
-
-                            dicResultParam.Add("resultCalcTestParam_T25_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rVacuoInicial, 3).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_ForceIncreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rGradienteForcaAvanco, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_ActuationGradientForward", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rGradienteDeslocamentoAvanco, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_ActuationForce", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rForcaMaxima, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_ForceDecreaseGradient", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rGradienteForcaRetorno, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_ActuationGradientBackward", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rGradienteDeslocamentoRetorno, 2).ToString());
-
-                            #endregion
-
-                            #region Results
-
-                            dicResultParam.Add("resultCalcTestParam_T25_PressureAtForceE1", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rPressao_E1_Bar, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_PressureAtForceE2", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rPressao_E2_Bar, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_PressureAtForceP1", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rPressao_P1_Bar, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_PressureAtForceP2", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rPressao_P2_Bar, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_RunoutPressure", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rRunOutPressure_Real_Bar, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_RunoutForce", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rRunOutForce_Real_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_TravelAtPressure", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rDeslocamentoNaPressao_mm, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_Jumper", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rPressaoJumper_Bar, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_CutInForce", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rForcaCutIn_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_ReleaseForce", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rReleaseForce_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_HysteresisAtPressure", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rHysterese_Xpout_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_ReleaseForceRemainingAt", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rReleaseForceAt_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_AuxiliaryPressure", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rPressaoAuxiliar_P3_Bar, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_DRSwitchPointF", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointF_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_DRSwitchPointP", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointP_Bar, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_DRGradientIeff1", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff1, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_DRGradientIeff2", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff2, 2).ToString());
-
-                            #endregion
-
-                            #region Results_Footer
-
-                            dicResultParam.Add("resultCalcTestParam_T25_PCHoseConsumers", HelperTestBase.Model_GVL.GVL_T25.iConsumidoresCP.ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_SCHoseConsumers", HelperTestBase.Model_GVL.GVL_T25.iConsumidoresCS.ToString());
-                            dicResultParam.Add("resultCalcTestParam_T25_RoomTemperature", Math.Round(HelperTestBase.Model_GVL.GVL_T25.rTemperaturaInicial, 2).ToString());
-
-                            #endregion
-
-                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T25;
-
-                            #endregion
-
                             break;
                         }
                     case 26:    //Force Diagrams - Force/Force Dual Ratio
@@ -2680,6 +2569,19 @@ namespace Continental.Project.Adam.UI.Helper
                                         strResultParam_Measured = keyResultParam_Value;
 
                                         strResultParam_Name = tempParmName.Equals("T21_ForceAtXXbar") ? "T21_ForceAtXXbar" : "T21_TravelAtXXbar";
+                                        break;
+                                    }
+
+                                #endregion
+
+                                #region T22
+
+                                case "T22_ActuationTime": //T22_
+                                case "T22_ReleaseTime": //T22_
+                                case "T22_ReleaseTimeToTravel": //T22_
+                                case "T22_InputTraveAt": //T22_
+                                    {
+
                                         break;
                                     }
 
@@ -3235,7 +3137,6 @@ namespace Continental.Project.Adam.UI.Helper
                             _modelGVLCalc = CalcGraphT24_ET_Efficiency(bCalculaResultados, lstDblReturnReadFile);
                             break;
                         case 25:    //Force Diagrams - Force/Pressure Dual Ratio
-                            _modelGVLCalc = CalcGraphT25_ET_ForceDiagrams_ForcePressure_DualRatio_WithVacuum(bCalculaResultados, lstDblReturnReadFile);
                             break;
                         case 26:    //Force Diagrams - Force/Force Dual Ratio
                             break;
@@ -3375,6 +3276,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                                 break;
                             }
+
                         case 8:     //Hydraulic Leakage - Fully Applied Position
                             {
                                 HelperTestBase.Model_GVL.GVL_T08.rVacuoInicial = dblVacuoInicial;
@@ -3513,8 +3415,9 @@ namespace Continental.Project.Adam.UI.Helper
                             }
                         case 25:    //Force Diagrams - Force/Pressure Dual Ratio
                             {
-                                HelperTestBase.Model_GVL.GVL_T25.rVacuoInicial = dblVacuoInicial;
-                                HelperTestBase.Model_GVL.GVL_T25.rTemperaturaInicial = dblTemperaturaInicial;
+                                //GVL_T25.rVacuoInicial = dblVacuoInicial;
+                                //GVL_T25.rTemperaturaInicial = dblTemperaturaInicial;
+
                                 break;
                             }
                         case 26:    //Force Diagrams - Force/Force Dual Ratio
@@ -11171,7 +11074,9 @@ namespace Continental.Project.Adam.UI.Helper
             {
                 #region Limpa ultimos resultados
 
-                dictVarList.Clear();				
+                dictVarList.Clear();
+
+													
 														  
                 _modelGVL.GVL_T22.iConsumidoresCP = 0;
                 _modelGVL.GVL_T22.iConsumidoresCS = 0;
@@ -11187,13 +11092,6 @@ namespace Continental.Project.Adam.UI.Helper
 
                 _modelGVL.GVL_T22.rTempoAtuacao_s = 0; //tempo total atuacao, baseado nos parametros definidos
                 _modelGVL.GVL_T22.rTempoRetorno_s = 0; //tempo total retorno baseado nos parametros definidos
-                _modelGVL.GVL_T22.rTempoInicialAtuacao_s = 0;
-                _modelGVL.GVL_T22.rTempoFinalAtuacao_s = 0;
-                _modelGVL.GVL_T22.rTempoInicialRetorno_s = 0;
-                _modelGVL.GVL_T22.rTempoFinalRetorno_s = 0;
-                _modelGVL.GVL_T22.rTempoInicialRetornoNoDeslocamento_s = 0;
-                _modelGVL.GVL_T22.rTempoFinalRetornoNoDeslocamento_s = 0;
-                _modelGVL.GVL_T22.rTempoRetornoNoDeslocamento_s = 0;
 
                 _modelGVL.GVL_T22.rDiferencaPressaoPCSC_bar = 0; //Diferenca de pressao entre Camara Primaria e Camara Secundaria
 
@@ -11300,7 +11198,8 @@ namespace Continental.Project.Adam.UI.Helper
                     diUbound = _modelGVL.GVL_Graficos.diBuffer - 1;
 
                     #region Loop para identificar a forca maxima do teste, e armazenar o ponto de inflexao do teste (quando o atuador comeca a retornar)
-                    
+                    //========================================================================================================================================================
+
                      var lstInputForce1 = lstDblReturnReadFile[2];
 
                     _modelGVL.GVL_T22.rForcaMaxima = lstInputForce1.Max();
@@ -11309,9 +11208,13 @@ namespace Continental.Project.Adam.UI.Helper
 
                     HelperTestBase.MaxForce = _modelGVL.GVL_T22.rForcaMaxima; //Atualiza o valor de forca maxima com o maior valor obtido no array
 
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Loop para identificar o deslocamento maximo
+
+                    //========================================================================================================================================================
 
                     for (di = 0; di < diUbound; di++)
                     {
@@ -11321,9 +11224,13 @@ namespace Continental.Project.Adam.UI.Helper
                         }
                     }
 					
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Loop para identificar a pressao maxima
+
+                    //========================================================================================================================================================
 
                     for (di = 0; di < diUbound; di++)
                     {
@@ -11333,12 +11240,19 @@ namespace Continental.Project.Adam.UI.Helper
                             _modelGVL.GVL_T22.diPosicaoPressaoMaxima = di; //Indica de pressao maxima onde F = FmaxAtuacao
                         }
                     }
+
+                    //========================================================================================================================================================
                     #endregion
 
                     #region Calculo do gradiente de aplicacao de força no avanço
 
+                    //========================================================================================================================================================		 
+
                     for (di = 0; di < _modelGVL.GVL_T22.diPosicaoForcaMaxima; di++)
-                    {										  
+                    {
+
+																															 
+																	  
                         if (_modelGVL.GVL_Graficos.arrVarY1[di] >= 100)
                         {
                             rForcaInicialGradiente = _modelGVL.GVL_Graficos.arrVarY1[di]; //Valor forca inicial para calculo 
@@ -11354,11 +11268,14 @@ namespace Continental.Project.Adam.UI.Helper
                     //Calcula o gradiente de aplicacao de forca no avanco
                     _modelGVL.GVL_T22.rGradienteForcaAvanco = (rForcaFinalGradiente - rForcaInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
 
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Calculo do gradiente de aplicacao de força no retorno
 
-                   //Busca no array o momento em que a forca caiu abaixo de 100N (forca <= 100N) e o tempo decorrido desta forca
+                    //========================================================================================================================================================
+					//Busca no array o momento em que a forca caiu abaixo de 100N (forca <= 100N) e o tempo decorrido desta forca
                     
 					for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
                     {
@@ -11384,11 +11301,14 @@ namespace Continental.Project.Adam.UI.Helper
                     //Calcula o gradiente de aplicacao de forca no retorno
                     _modelGVL.GVL_T22.rGradienteForcaRetorno = (rForcaFinalGradiente - rForcaInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
 
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Calculo do gradiente de avanço 
 
-                    //Busca no array o momento em que o deslocamento comecou a variar (deslocamento >= 1)
+                    //========================================================================================================================================================
+					//Busca no array o momento em que o deslocamento comecou a variar (deslocamento >= 1)
                     for (di = 0; di < _modelGVL.GVL_T22.diPosicaoForcaMaxima; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarY3[di] >= 1) //Deslocamento >= 1
@@ -11402,15 +11322,24 @@ namespace Continental.Project.Adam.UI.Helper
                     //Define a forca final e o tempo final do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
                     rDeslocamentoFinalGradiente = _modelGVL.GVL_Graficos.arrVarY3[_modelGVL.GVL_T22.diPosicaoForcaMaxima];
                     rTempoFinalGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[_modelGVL.GVL_T22.diPosicaoForcaMaxima];
-			 
+																																	
+																																	
+																			   
+								
+							 
+
                     //Calcula o gradiente de aplicacao de forca no avanco
                     _modelGVL.GVL_T22.rGradienteDeslocamentoAvanco = (rDeslocamentoFinalGradiente - rDeslocamentoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
-					
+																										  
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Calculo do gradiente de deslocamento no retorno
 
-                    //Busca no array o momento em que o deslocamento <= 1
+                    //========================================================================================================================================================
+
+                    ////Busca no array o momento em que o deslocamento <= 1
                     for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarY1[di] <= _modelGVL.GVL_T22.rRunOutForceRef) //Ponto Runout
@@ -11434,28 +11363,35 @@ namespace Continental.Project.Adam.UI.Helper
                     ///Calcula o gradiente de aplicacao de forca no retorno
                     _modelGVL.GVL_T22.rGradienteDeslocamentoRetorno = (rDeslocamentoFinalGradiente - rDeslocamentoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
 
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Obtem valor de deslocamento em funcao do parametro DeslocamentoNaPressao (%Pout) Input Travel At X% pOut
-                    
-                    //Calcula a pressao X% da pressao runout
 
+                    //========================================================================================================================================================
+                    ///Calcula a pressao X% da pressao runout
                     double rPresaoXPout = ((_modelGVL.GVL_T22.rDeslocamentoNaPressao / 100) * _modelGVL.GVL_T22.rRunOutPressureRef);
 
                     for (di = 0; di < _modelGVL.GVL_T22.diPosicaoForcaMaxima; di++)
                     {
+
+																	
+
                         if (_modelGVL.GVL_Graficos.arrVarY2[di] >= rPresaoXPout)
                         {
                             _modelGVL.GVL_T22.rDeslocamentoNaPressao_mm = _modelGVL.GVL_Graficos.arrVarY3[di]; //Valor do deslocamento obtido na pressao definida
                             break; //Encerra a busca
                         }
                     }
-                    
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Calculo do tempo de atuacao
-                            
-                    double SomaForca = 0;
+
+                    //========================================================================================================================================================
+					 double SomaForca = 0;
                     double MediaForca = 0;
 
                     //Encontra o ponto inicial de atuacao
@@ -11486,6 +11422,7 @@ namespace Continental.Project.Adam.UI.Helper
                         case 1: // % Max Pressure
                             {
                                 double rPressaoXMaxAvanco = ((_modelGVL.GVL_T22.rPorcentagemCalcTempoFinalAtuacao / 100) * _modelGVL.GVL_T22.rPressaoMaxima_Bar);
+									   
 
                                 for (di = 0; di < _modelGVL.GVL_T22.diPosicaoForcaMaxima; di++)
                                 {
@@ -11494,6 +11431,9 @@ namespace Continental.Project.Adam.UI.Helper
                                     {
 
                                         _modelGVL.GVL_T22.rTempoFinalAtuacao_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di];
+                                        //Coloca o ponto x no grafico
+                                        //                  GVL_Graficos.arrVarXPoint2[1] := GVL_T22.rTempoFinalAtuacao_s;
+                                        //                  GVL_Graficos.arrVarYPoint2[1] := GVL_Graficos.arrVarY2[di];
                                         break;
                                     }
                                 }
@@ -11509,6 +11449,9 @@ namespace Continental.Project.Adam.UI.Helper
                                     if (_modelGVL.GVL_Graficos.arrVarY2[di] >= rPressaoXPoutAvanco) // Pressao  >= Pressao Runout
                                     {
                                         _modelGVL.GVL_T22.rTempoFinalAtuacao_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di]; //
+                                        //Coloca o ponto x no grafico
+                                        //GVL_Graficos.arrVarXPoint2[1] := GVL_T22.rTempoFinalAtuacao_s;
+                                        // GVL_Graficos.arrVarYPoint2[1] := GVL_Graficos.arrVarY2[di];
                                         break;
                                     }
                                 }
@@ -11523,7 +11466,10 @@ namespace Continental.Project.Adam.UI.Helper
 
                                     if (_modelGVL.GVL_Graficos.arrVarY2[di] >= rPressaoXPressaoAuxAvanco) // Forca >= Forca Runout
                                     {
-                                        _modelGVL.GVL_T22.rTempoFinalAtuacao_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di]; 
+                                        _modelGVL.GVL_T22.rTempoFinalAtuacao_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di]; //
+                                        //Coloca o ponto x no grafico
+                                        //GVL_Graficos.arrVarXPoint2[1] := GVL_T22.rTempoFinalAtuacao_s;
+                                        //GVL_Graficos.arrVarYPoint2[1] := GVL_Graficos.arrVarY2[di];
                                         break;
                                     }
                                 }
@@ -11537,17 +11483,28 @@ namespace Continental.Project.Adam.UI.Helper
 					
 					 //Calcula o tempo de atuacao	 
                     _modelGVL.GVL_T22.rTempoAtuacao_s = _modelGVL.GVL_T22.rTempoFinalAtuacao_s - _modelGVL.GVL_T22.rTempoInicialAtuacao_s;
-		
+
+					
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Calculo do tempo de retorno
 
-                    //Encontra o ponto inicial de retorno
+                    //========================================================================================================================================================
+					 //Encontra o ponto inicial de retorno
                     for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
-                    {														 
+                    {
+
+																	 
+																					 
                         if (_modelGVL.GVL_Graficos.arrVarY1[di] <= _modelGVL.GVL_T22.rRunOutForceRef) //Forca <= RunoutForce
                         {
+
                             _modelGVL.GVL_T22.rTempoInicialRetorno_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di];
+                            //Gera o ponto (X) no grafico
+                            //GVL_Graficos.arrVarXPoint2[2] := GVL_T22.rTempoInicialRetorno_s; // tempo em s
+                            //GVL_Graficos.arrVarYPoint2[2] := GVL_Graficos.arrVarY2[di]; //Pressao CP bar
                             break; //Encerra a busca
                         }
                     }
@@ -11565,6 +11522,9 @@ namespace Continental.Project.Adam.UI.Helper
                                     {
 
                                         _modelGVL.GVL_T22.rTempoFinalRetorno_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di];
+                                        //Gera o ponto (X) no grafico
+                                        //GVL_Graficos.arrVarXPoint2[3] := GVL_T22.rTempoFinalRetorno_s; // tempo em s
+                                        //GVL_Graficos.arrVarYPoint2[3] := GVL_Graficos.arrVarY2[di]; //Pressao CP bar
                                         break; //Encerra a busca
                                     }
                                 }
@@ -11578,7 +11538,14 @@ namespace Continental.Project.Adam.UI.Helper
                                 {
                                     if (_modelGVL.GVL_Graficos.arrVarY1[di] <= rPressaoXPoutRetorno) // pressao <= Pressao Runout * %
                                     {
+															   
+											  
+									   
+
                                         _modelGVL.GVL_T22.rTempoFinalRetorno_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di]; //
+                                        //Gera o ponto (X) no grafico
+                                        //GVL_Graficos.arrVarXPoint2[3] := GVL_T22.rTempoFinalRetorno_s;
+                                        //GVL_Graficos.arrVarYPoint2[3] := GVL_Graficos.arrVarY2[di];
                                         break;
                                     }
                                 }
@@ -11594,6 +11561,9 @@ namespace Continental.Project.Adam.UI.Helper
                                     {
 
                                         _modelGVL.GVL_T22.rTempoFinalRetorno_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di]; //
+                                        //Gera o ponto (X) no grafico
+                                        //GVL_Graficos.arrVarXPoint2[3] := GVL_T22.rTempoFinalRetorno_s;
+                                        //GVL_Graficos.arrVarYPoint2[3] := GVL_Graficos.arrVarY2[di];
                                         break;
                                     }
                                 }
@@ -11603,16 +11573,21 @@ namespace Continental.Project.Adam.UI.Helper
                             {
                                 break;
                             }
+
                     }
 					
                     //Calcula o tempo de retorno	 
                     _modelGVL.GVL_T22.rTempoRetorno_s = _modelGVL.GVL_T22.rTempoFinalRetorno_s - _modelGVL.GVL_T22.rTempoInicialRetorno_s;
-					
+
+										
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Calculo do tempo de retorno a posicao
 
-                    //Encontra o ponto inicial de atuacao
+                    //========================================================================================================================================================
+						//Encontra o ponto inicial de atuacao
                     for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarY1[di] <= _modelGVL.GVL_T22.rRunOutForceRef) //Forca <= RunoutForce
@@ -11621,28 +11596,44 @@ namespace Continental.Project.Adam.UI.Helper
                             break; //Encerra a busca
                         }
                     }
-					
+
+																   
+																				   
+																														 
+
                     for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarY3[di] <= _modelGVL.GVL_T22.rPosicaoTempoRetornoNoDeslocamento_mm)
                         {
                             _modelGVL.GVL_T22.rTempoFinalRetornoNoDeslocamento_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di];
+                            //Gera o ponto (X) no grafico
+                            // GVL_Graficos.arrVarXPoint3[0] := GVL_T22.rTempoFinalRetorno_s; // tempo em s
+                            //GVL_Graficos.arrVarYPoint3[0] := GVL_Graficos.arrVarY3[di]; //Pressao CP bar
                             break; //Encerra a busca
                         }
                     }					
 
                     //Calcula o tempo de retorno	 
                     _modelGVL.GVL_T22.rTempoRetornoNoDeslocamento_s = _modelGVL.GVL_T22.rTempoFinalRetornoNoDeslocamento_s - _modelGVL.GVL_T22.rTempoInicialRetornoNoDeslocamento_s;
-			
+
+								
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Calculo da diferenca de pressao em runout point
 
-                    double rPressaoCPRunout = 0;
+                    //========================================================================================================================================================
+					double rPressaoCPRunout = 0;
                     double rPressaoCSRunout = 0;
 
                     for (di = 0; di < diUbound; di++)
                     {
+																				
+																				   
+											
+										 
+
                         if (GVL_Graficos.arrVarY2[di] >= _modelGVL.GVL_T22.rRunOutPressureRef) //
                         {
                            rPressaoCPRunout = _modelGVL.GVL_Graficos.arrVarY2[di];
@@ -11650,17 +11641,23 @@ namespace Continental.Project.Adam.UI.Helper
                            break;
                         }
                     }
-					
+
+																					  
+
                     _modelGVL.GVL_T22.rDiferencaPressaoPCSC_bar = rPressaoCPRunout - rPressaoCSRunout;
-                    
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Calculo do gradiente de pressao
 
-                    double rPressaoInicialGradiente = 0;
+                    //========================================================================================================================================================
+					double rPressaoInicialGradiente = 0;
                     double rPressaoFinalGradiente = 0;
-					
-					//Busca no array pressao >= pressao inicial gradiente
+
+																																											  
+
+                    //                ///Busca no array pressao >= pressao inicial gradiente
                     for (di = 0; di < _modelGVL.GVL_T22.diPosicaoForcaMaxima; di++)
                     {
                         if (GVL_Graficos.arrVarY2[di] >= _modelGVL.GVL_T22.rGradientePressaoMin_bar) //Pressao >= pressao min grad.
@@ -11685,9 +11682,13 @@ namespace Continental.Project.Adam.UI.Helper
                     //Calcula o gradiente de pressao
                     _modelGVL.GVL_T22.rGradientePressao = (rPressaoFinalGradiente - rPressaoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
 
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Calculo dos Consumidores Utilizados
+
+                    //========================================================================================================================================================
 
                     _modelGVL.GVL_T22.iConsumidoresCP = 0;
                     _modelGVL.GVL_T22.iConsumidoresCS = 0;
@@ -12024,55 +12025,58 @@ namespace Continental.Project.Adam.UI.Helper
 
                     #region Calculo dos Consumidores Utilizados
 
-                    HelperTestBase.Model_GVL.GVL_Parametros.iTipoConsumidores = HelperMODBUS.CS_wTipoConsumidores;
+                    //========================================================================================================================================================
 
-                    if (HelperMODBUS.CS_wTipoConsumidores != 2)
+                    _modelGVL.GVL_T23.iConsumidoresCP = 0;
+                    _modelGVL.GVL_T23.iConsumidoresCS = 0;
 
-
-
+                    if (_modelGVL.GVL_Parametros.iTipoConsumidores != 2)
                     {
                         _modelGVL.GVL_T23.iConsumidoresCP = 0;
                         _modelGVL.GVL_T23.iConsumidoresCS = 0;
                     }
                     else
                     {
-                        //HelperMODBUS.CS_wStatusLiga17MangueirasCS 
-                        if (HelperMODBUS.CS_wStatusLiga1MangueiraCP)
+
+                        if (_modelGVL.GVL_Parametros.bLiga1MangueiraCP)
                             _modelGVL.GVL_T23.iConsumidoresCP = _modelGVL.GVL_T23.iConsumidoresCP + 1;
 
-                        if (HelperMODBUS.CS_wStatusLiga2MangueirasCP)
+
+                        if (_modelGVL.GVL_Parametros.bLiga2MangueirasCP)
                             _modelGVL.GVL_T23.iConsumidoresCP = _modelGVL.GVL_T23.iConsumidoresCP + 2;
 
-                        if (HelperMODBUS.CS_wStatusLiga4MangueirasCP)
+                        if (_modelGVL.GVL_Parametros.bLiga4MangueirasCP)
                             _modelGVL.GVL_T23.iConsumidoresCP = _modelGVL.GVL_T23.iConsumidoresCP + 4;
 
-                        if (HelperMODBUS.CS_wStatusLiga8MangueirasCP)
+                        if (_modelGVL.GVL_Parametros.bLiga8MangueirasCP)
                             _modelGVL.GVL_T23.iConsumidoresCP = _modelGVL.GVL_T23.iConsumidoresCP + 8;
 
-                        if (HelperMODBUS.CS_wStatusLiga10MangueirasCP)
+                        if (_modelGVL.GVL_Parametros.bLiga10MangueirasCP)
                             _modelGVL.GVL_T23.iConsumidoresCP = _modelGVL.GVL_T23.iConsumidoresCP + 10;
 
-                        if (HelperMODBUS.CS_wStatusLiga17MangueirasCP)
+                        if (_modelGVL.GVL_Parametros.bLiga17MangueirasCP)
                             _modelGVL.GVL_T23.iConsumidoresCP = _modelGVL.GVL_T23.iConsumidoresCP + 17;
 
-                        if (HelperMODBUS.CS_wStatusLiga1MangueiraCS)
+                        if (_modelGVL.GVL_Parametros.bLiga1MangueiraCS)
                             _modelGVL.GVL_T23.iConsumidoresCS = _modelGVL.GVL_T23.iConsumidoresCS + 1;
 
-                        if (HelperMODBUS.CS_wStatusLiga2MangueirasCS)
+                        if (_modelGVL.GVL_Parametros.bLiga2MangueirasCS)
                             _modelGVL.GVL_T23.iConsumidoresCS = _modelGVL.GVL_T23.iConsumidoresCS + 2;
 
-                        if (HelperMODBUS.CS_wStatusLiga4MangueirasCS)
+                        if (_modelGVL.GVL_Parametros.bLiga4MangueirasCS)
                             _modelGVL.GVL_T23.iConsumidoresCS = _modelGVL.GVL_T23.iConsumidoresCS + 4;
 
-                        if (HelperMODBUS.CS_wStatusLiga8MangueirasCS)
+                        if (_modelGVL.GVL_Parametros.bLiga8MangueirasCS)
                             _modelGVL.GVL_T23.iConsumidoresCS = _modelGVL.GVL_T23.iConsumidoresCS + 8;
 
-                        if (HelperMODBUS.CS_wStatusLiga10MangueirasCS)
+                        if (_modelGVL.GVL_Parametros.bLiga10MangueirasCS)
                             _modelGVL.GVL_T23.iConsumidoresCS = _modelGVL.GVL_T23.iConsumidoresCS + 10;
 
-                        if (HelperMODBUS.CS_wStatusLiga17MangueirasCS)
+                        if (_modelGVL.GVL_Parametros.bLiga17MangueirasCS)
                             _modelGVL.GVL_T23.iConsumidoresCS = _modelGVL.GVL_T23.iConsumidoresCS + 17;
                     }
+                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Registro Pressoes
@@ -12207,72 +12211,67 @@ namespace Continental.Project.Adam.UI.Helper
                     //Define o ponto maximo do array que foi plotado durante o teste
                     _modelGVL.GVL_Graficos.diBuffer = lstDblReturnReadFile[0].Count() > 0 ? lstDblReturnReadFile[0].Count() : 0;
 
-                    diUbound = _modelGVL.GVL_Graficos.diBuffer -1; //Define o ponto maximo do array que foi plotado durante o teste
-
                     #region Loop para identificar a forca maxima do teste, slow
+                    //========================================================================================================================================================
 
-                    long iPontoInicialSlow = 0;
-                    long iPontoFinalSlow = 0;
-
-                    for (di = 0; di < diUbound; di++)
+                    if (_modelGVL.GVL_T24.iTipoGrafico == 0)
                     {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] > 400) //Define o ponto de 400 N como ponto de partida da primera curva 
+                        for (di = 0; di <= (_modelGVL.GVL_T24.diInicioBufferFast - 10); di++)
                         {
-                            iPontoInicialSlow = di;
-                            break;
-                        }
-                    }
-
-                    for (di = iPontoInicialSlow; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] <= 50) //Define o ponto de 50 N como ponto final da primeira curva
-                        {
-                            iPontoFinalSlow = di;
-                            break;
-                        }
-                    }
-
-                    for (di = iPontoInicialSlow; di <= iPontoFinalSlow; di++)
-                        {
-                            if (_modelGVL.GVL_Graficos.arrVarX[di] > _modelGVL.GVL_T24.rForcaMaximaSlow)
+                            if (GVL_Graficos.arrVarX[di] > _modelGVL.GVL_T24.rForcaMaximaSlow)
                             {
                                 _modelGVL.GVL_T24.rForcaMaximaSlow = _modelGVL.GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
                                 _modelGVL.GVL_T24.diPosicaoForcaMaximaSlow = di; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
                             }
                         }
-
-                    #endregion
-
-                    #region Loop para identificar a forca maxima do teste, fast
-
-                    long iPontoInicialFast = 0;
-                    long iPontoFinalFast = 0;
-
-                    for (di = iPontoFinalSlow; di < diUbound; di++)
+                    }
+                    else
                     {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] > 400) //Define o ponto de 400 N como ponto de partida da primera curva 
+                        for (di = 0; di <= (_modelGVL.GVL_T24.diInicioBufferFast - 10); di++)
                         {
-                            iPontoInicialFast = di;
-                            break;
+                            if (_modelGVL.GVL_Graficos.arrVarY3[di] > _modelGVL.GVL_T24.rForcaMaximaSlow)
+                            {
+
+
+                                _modelGVL.GVL_T24.rForcaMaximaSlow = _modelGVL.GVL_Graficos.arrVarY3[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                                _modelGVL.GVL_T24.diPosicaoForcaMaximaSlow = di; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
+                            }
                         }
+
                     }
 
-  
-                    iPontoFinalFast = diUbound;
+                    //========================================================================================================================================================
+                    #endregion
 
+                    #region //Loop para identificar a forca maxima do teste, fast
 
-                    for (di = iPontoInicialFast; di < iPontoFinalFast; di++)
+                    if (_modelGVL.GVL_T24.iTipoGrafico == 0)
+                    {
+                        for (di = _modelGVL.GVL_T24.diInicioBufferFast; di < diUbound; di++)
                         {
                             if (_modelGVL.GVL_Graficos.arrVarX[di] > _modelGVL.GVL_T24.rForcaMaximaFast)
                             {
+
                                 _modelGVL.GVL_T24.rForcaMaximaFast = _modelGVL.GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
                                 _modelGVL.GVL_T24.diPosicaoForcaMaximaFast = di; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
                             }
                         }
-  
+                    }
+                    else
+                    {
+                        for (di = _modelGVL.GVL_T24.diInicioBufferFast; di < diUbound; di++)
+                        {
+                            if (GVL_Graficos.arrVarY3[di] > _modelGVL.GVL_T24.rForcaMaximaSlow)
+                            {
+
+                                _modelGVL.GVL_T24.rForcaMaximaFast = _modelGVL.GVL_Graficos.arrVarY3[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                                _modelGVL.GVL_T24.diPosicaoForcaMaximaFast = di; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
+                            }
+                        }
+                    }
                     #endregion
 
-                    #region Calculo do gradiente de pressao teste slow
+                    #region //Calculo do gradiente de pressao teste slow
 
                     //Busca no array o momento em que a pressao comecou a subir (pressao >= parametroinicial) e o tempo decorrido desta pressao
                     for (di = 0; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaSlow; di++)
@@ -12300,13 +12299,12 @@ namespace Continental.Project.Adam.UI.Helper
 
                     //Calcula o gradiente de aplicacao de forca no avanco
                     _modelGVL.GVL_T24.rGradientePressaoSlow = (rPressaoFinalGradiente - rPressaoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
-
                     #endregion
 
                     #region Calculo do gradiente de pressao teste fast
 
                     //Busca no array o momento em que a pressao comecou a subir (pressao >= parametroinicial) e o tempo decorrido desta pressao
-                    for (di = iPontoInicialFast; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaFast; di++)
+                    for (di = _modelGVL.GVL_T24.diInicioBufferFast; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaFast; di++)
                     {
 
                         if (_modelGVL.GVL_Graficos.arrVarY2[di] >= _modelGVL.GVL_T24.rInicioGradientePressao_Bar) //Pressao >= parametros
@@ -12318,7 +12316,7 @@ namespace Continental.Project.Adam.UI.Helper
                     }
 
                     //Busca no array o momento em que a pressao comecou a subir (pressao >= parametrofinal) e o tempo decorrido desta pressao
-                    for (di = iPontoInicialFast; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaFast; di++)
+                    for (di = _modelGVL.GVL_T24.diInicioBufferFast; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaFast; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarY2[di] >= _modelGVL.GVL_T24.rFimGradientePressao_Bar) //Pressao >= parametros
                         {
@@ -12336,22 +12334,49 @@ namespace Continental.Project.Adam.UI.Helper
                     #region Calculo da eficiencia
 
                     //Loop para identificar a forca de eficiencia slow		 
-                    for (di = 0; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaSlow; di++)
+                    if (_modelGVL.GVL_T24.iTipoGrafico == 0)
                     {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] >= _modelGVL.GVL_T24.rEficienciaNaForca_N)
+                        for (di = 0; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaFast; di++)
                         {
-                            _modelGVL.GVL_T24.rForcaEficienciaSlow = _modelGVL.GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
-                            break;
+                            if (_modelGVL.GVL_Graficos.arrVarX[di] >= _modelGVL.GVL_T24.rEficienciaNaForca_N)
+                            {
+                                _modelGVL.GVL_T24.rForcaEficienciaSlow = _modelGVL.GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                            }
                         }
                     }
- 
-                    //Loop para identificar a forca de eficiencia fast		 
-                    for (di = iPontoInicialFast; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaFast; di++)
+                    else
                     {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] >= _modelGVL.GVL_T24.rEficienciaNaForca_N)
+                        for (di = 0; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaFast; di++)
                         {
-                            _modelGVL.GVL_T24.rForcaEficienciaFast = _modelGVL.GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
-                            break;
+                            if (_modelGVL.GVL_Graficos.arrVarY3[di] > _modelGVL.GVL_T24.rEficienciaNaForca_N)
+                            {
+                                _modelGVL.GVL_T24.rForcaEficienciaSlow = _modelGVL.GVL_Graficos.arrVarY3[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                            }
+                        }
+
+                    }
+
+                    //Loop para identificar a forca de eficiencia fast		 
+                    if (_modelGVL.GVL_T24.iTipoGrafico == 0)
+                    {
+                        for (di = _modelGVL.GVL_T24.diInicioBufferFast; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaFast; di++)
+                        {
+                            if (_modelGVL.GVL_Graficos.arrVarX[di] >= _modelGVL.GVL_T24.rEficienciaNaForca_N)
+                            {
+                                _modelGVL.GVL_T24.rForcaEficienciaFast = _modelGVL.GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        for (di = _modelGVL.GVL_T24.diInicioBufferFast; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaFast; di++)
+                        {
+
+                            if (_modelGVL.GVL_Graficos.arrVarY3[di] > _modelGVL.GVL_T24.rEficienciaNaForca_N)
+                            {
+                                _modelGVL.GVL_T24.rForcaEficienciaFast = _modelGVL.GVL_Graficos.arrVarY3[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                            }
                         }
 
                     }
@@ -12362,6 +12387,8 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Calculo dos Consumidores Utilizados
+
+                    //========================================================================================================================================================
 
                     _modelGVL.GVL_T24.iConsumidoresCP = 0;
                     _modelGVL.GVL_T24.iConsumidoresCS = 0;
@@ -12412,7 +12439,8 @@ namespace Continental.Project.Adam.UI.Helper
                         if (HelperMODBUS.CS_wStatusLiga17MangueirasCS)
                             _modelGVL.GVL_T24.iConsumidoresCS = _modelGVL.GVL_T24.iConsumidoresCS + 17;
                     }
-                   
+                    //============================. ============================================================================================================================
+
                     #endregion
 
                     _modelGVL.GVL_T24.bCalculaResultados = false;
@@ -12440,877 +12468,6 @@ namespace Continental.Project.Adam.UI.Helper
 
         #endregion
 
-        #region T25 - Calculos Forca Pressao Dual Ratio - ET_ForceDiagrams_ForcePressure_DualRatio_WithVacuum
-        public Model_GVL CalcGraphT25_ET_ForceDiagrams_ForcePressure_DualRatio_WithVacuum(bool bCalculaResultados, List<double>[] lstDblReturnReadFile)
-        {
-            #region PROGRAM T01_Calculos_Resultados
-
-            try
-            {
-                #region Limpa ultimos resultados
-
-                dictVarList.Clear();
-
-                _modelGVL.GVL_T25.diPosicaoForcaMaxima = 0;
-                _modelGVL.GVL_T25.rForcaMaxima = 0; //Zera o ultimo valor de força obtido
-                _modelGVL.GVL_T25.rDeslocamentoMaximo = 0;
-                _modelGVL.GVL_T25.rForcaReal_P1_N = 0;
-                _modelGVL.GVL_T25.rPressao_P1_Bar = 0;
-                _modelGVL.GVL_T25.rForcaReal_P2_N = 0;
-                _modelGVL.GVL_T25.rPressao_P2_Bar = 0;
-                _modelGVL.GVL_T25.rForcaReal_E1_N = 0;
-                _modelGVL.GVL_T25.rPressao_E1_Bar = 0;
-                _modelGVL.GVL_T25.rForcaReal_E2_N = 0;
-                _modelGVL.GVL_T25.rPressao_E2_Bar = 0;
-                
-                _modelGVL.GVL_T25.rGradienteForcaAvanco = 0; //Zera o ultimo valor obtido
-                _modelGVL.GVL_T25.rGradienteForcaRetorno = 0; //Zera o ultimo valor obtido
-                _modelGVL.GVL_T25.rGradienteDeslocamentoAvanco = 0; //Zera o ultimo valor obtido
-                _modelGVL.GVL_T25.rGradienteDeslocamentoRetorno = 0; //Zera o ultimo valor obtido
-
-                _modelGVL.GVL_T25.rPressaoAuxiliar_P3_Bar = 0;
-                _modelGVL.GVL_T25.rPressao_P4_Bar = 0;
-                _modelGVL.GVL_T25.rForca_P4_N = 0;
-
-                _modelGVL.GVL_T25.rRunOutForce_LinearInt_N = 0;
-                _modelGVL.GVL_T25.rRunOutPressure_LinearInt_Bar = 0;
-
-                 _modelGVL.GVL_T25.rRunOutForce_Real_N = 0;
-                _modelGVL.GVL_T25.rRunOutPressure_Real_Bar = 0;
-
-                _modelGVL.GVL_T25.rPressao_70pout_bar = 0;
-                _modelGVL.GVL_T25.rForca_70pout_N = 0;
-                _modelGVL.GVL_T25.rPressao_90pout_bar = 0;
-                _modelGVL.GVL_T25.rForca_90pout_N = 0;
-                _modelGVL.GVL_T25.rDeslocamento_90pout_mm = 0;
-                _modelGVL.GVL_T25.rDeslocamentoNaPressao_mm = 0;
-                _modelGVL.GVL_T25.rPressao_P5_Bar = 0;
-                _modelGVL.GVL_T25.rForca_F5_N = 0;
-                _modelGVL.GVL_T25.rPressao_P6_Bar = 0;
-                _modelGVL.GVL_T25.rForca_F6_N = 0;
-                _modelGVL.GVL_T25.rForcaCutIn_N = 0;
-                _modelGVL.GVL_T25.rPressaoJumper_Bar = 0;
-                _modelGVL.GVL_T25.rGradientJumper = 0;
-                _modelGVL.GVL_T25.rReleaseForce_N = 0;
-                _modelGVL.GVL_T25.rReleaseForceAt_N = 0;
-                _modelGVL.GVL_T25.rReleaseForceAtReal_mm = 0;
-                _modelGVL.GVL_T25.rPressaoHysteresePout_Bar = 0;
-                _modelGVL.GVL_T25.rForcaAvanco_Xpout_N = 0;
-                _modelGVL.GVL_T25.rForcaRetorno_Xpout_N = 0;
-                _modelGVL.GVL_T25.rHysterese_Xpout_N = 0;
-                _modelGVL.GVL_T25.rForcaAvanco_Xbar_N = 0;
-                _modelGVL.GVL_T25.rForcaRetorno_Xbar_N = 0;
-                _modelGVL.GVL_T25.rHysterese_Xbar_N = 0;
-                _modelGVL.GVL_T25.rTaxaAmplificacao = 0;
-                _modelGVL.GVL_T25.iConsumidoresCP = 0;
-                _modelGVL.GVL_T25.iConsumidoresCS = 0;
-                _modelGVL.GVL_T25.rForcaP1Jumper_N = 0;
-                _modelGVL.GVL_T25.rPressaoP2Jumper_Bar = 0;
-                _modelGVL.GVL_T25.rForcaP2Jumper_N = 0;
-                _modelGVL.GVL_T25.rDualRatioSwithcPointF_N = 0;
-                _modelGVL.GVL_T25.rDualRatioSwithcPointP_Bar = 0;
-                _modelGVL.GVL_T25.rDualRatioGradiente1Eff1 = 0;
-                _modelGVL.GVL_T25.rDualRatioGradiente1Eff2 = 0;
-                _modelGVL.GVL_T25.bCalculaResultados = bCalculaResultados;
-
-
-        #region VARIABLES
-
-                long diUbound = 0; //  ; DINT;
-                long di = 0; //  ; DINT;
-                double rForcaInicialGradiente = 0; //  ; REAL;
-                double rForcaFinalGradiente = 0; //  ; REAL;
-                double rDeslocamentoInicialGradiente = 0; //   ; REAL;
-                double rDeslocamentoFinalGradiente = 0; //  ; REAL;
-                double rTempoInicialGradiente = 0; //  ; REAL;
-                double rTempoFinalGradiente = 0; //   ; REAL;
-
-                double rCoeficienteAngular_L1 = 0; //   = 0; REAL = 0;
-                double rCoeficienteLinear_L1 = 0; //   = 0; REAL = 0;
-                double rCoeficienteAngular_L2 = 0; //   = 0; REAL = 0;
-                double rCoeficienteLinear_L2 = 0; //   = 0; REAL = 0;
-                double rCoeficienteAngular_L3 = 0; //   = 0; REAL = 0;
-                double rCoeficienteLinear_L3 = 0; //   = 0; REAL = 0;
-
-                long diIndice_P4 = 0; //   = 0; DINT = 0;
-                long diIndice_P2 = 0; //   = 0; DINT = 0;
-                long diIndice_p70 = 0; //   = 0; DINT = 0;
-                long diIndice_p90 = 0; //   = 0; DINT = 0;
-                long diIndice_ReleaseMax = 0; //   = 0; DINT = 0;
-                long diIndice_ReleaseMin = 0; //   = 0; DINT = 0;
-
-                double rA_L3 = 0; //   = 0; REAL = 0;
-                double rB_L3 = 0; //   = 0; REAL = 0;
-                double rC_L3 = 0; //   = 0; REAL = 0;
-                double rRaizAB = 0; //   = 0; REAL = 0;
-
-                double rCoordX = 0; //   = 0; REAL = 0;
-                double rCoordY = 0; //   = 0; REAL = 0;
-
-                double rResulTemp = 0; //   = 0; REAL = 0;
-                double rMaiorDistancia = 0; //   = 0; REAL = 0;
-
-                #endregion
-
-                #endregion
-
-                #region Variaveis Grafico
-
-                _modelGVL.GVL_Graficos.rEscalaX = 2500;
-                _modelGVL.GVL_Graficos.EixoX.wsTLLabel = "AxesChart.1";
-                _modelGVL.GVL_Graficos.rEscalaY1 = 150;
-                _modelGVL.GVL_Graficos.EixoY1.wsTLLabel = "AxesChart.3";
-                _modelGVL.GVL_Graficos.rEscalaY2 = 150;
-                _modelGVL.GVL_Graficos.EixoY2.wsTLLabel = "AxesChart.4";
-                _modelGVL.GVL_Graficos.rEscalaY3 = 0;
-                _modelGVL.GVL_Graficos.EixoY3.wsTLLabel = string.Empty;
-                _modelGVL.GVL_Graficos.rEscalaY4 = 0;
-                _modelGVL.GVL_Graficos.EixoY4.wsTLLabel = string.Empty;
-
-                _modelGVL.GVL_Graficos.strNomeEixoX = "Input Force (N)";
-                _modelGVL.GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
-                _modelGVL.GVL_Graficos.strNomeEixoY2 = "Pressure SC (bar)";
-                _modelGVL.GVL_Graficos.strNomeEixoY3 = string.Empty;
-                _modelGVL.GVL_Graficos.strNomeEixoY4 = string.Empty;
-
-                _modelGVL.GVL_Graficos.strUnidadeX = "N";
-                _modelGVL.GVL_Graficos.strUnidadeY1 = "bar";
-                _modelGVL.GVL_Graficos.strUnidadeY2 = "bar";
-                _modelGVL.GVL_Graficos.strUnidadeY3 = string.Empty;
-                _modelGVL.GVL_Graficos.strUnidadeY4 = string.Empty;
-
-                _modelGVL.GVL_Graficos.bOcultaY2 = false;
-                _modelGVL.GVL_Graficos.bOcultaY3 = true;
-                _modelGVL.GVL_Graficos.bOcultaY4 = true;
-
-                //Marcacoes Grafico
-                int pointArr = 0;
-                int pointPos = 0;
-                string pointName = string.Empty;
-
-                #endregion
-
-                #region Varriaveis Array Dados
-                //os arrays dinamicos obtidos neste teste contem as seguintes grandezas:
-                //GVL_Graficos.arrVarX  = //ch9.2 - HelperHBM._rInputForce1 - Valores Forca Entrada                     //Input Force 1 [N]
-                //GVL_Graficos.arrVarY1 = //ch9.7 - HelperHBM._rPressurePC - Valores Pressao PC                         //Hydraulic Pressure PC [bar]
-                //GVL_Graficos.arrVarY2 = //ch9.6 - HelperHBM._rPressureSC - Valores Pressao SC                         //Hydraulic Pressure SC [bar]
-                //GVL_Graficos.arrVarY3 = //ch9.5 - HelperHBM._rTravelPiston - Valores Deslocamento Pistao (Entrada)   //Input Travel [m]
-
-                ClearArrayGVL_Graficos();
-
-                _modelGVL.GVL_Graficos.arrVarTimeStamp = lstDblReturnReadFile[0].ToArray();
-                _modelGVL.GVL_Graficos.arrVarX = lstDblReturnReadFile[2].ToArray();
-
-                if (_modelGVL.GVL_Parametros.iOutput < 2) //OutputPC
-                {
-                    _modelGVL.GVL_Parametros.iOutput = 1;
-                    _modelGVL.GVL_Graficos.arrVarY1 = lstDblReturnReadFile[7].ToArray();
-                    _modelGVL.GVL_Graficos.arrVarY2 = lstDblReturnReadFile[6].ToArray();
-                }
-                else  //OutputSC
-                {
-                    _modelGVL.GVL_Graficos.arrVarY1 = lstDblReturnReadFile[6].ToArray();
-                    _modelGVL.GVL_Graficos.arrVarY2 = lstDblReturnReadFile[7].ToArray();
-                }
-
-                _modelGVL.GVL_Graficos.arrVarY3 = lstDblReturnReadFile[5].ToArray();
-
-                #endregion
-
-                #region Calculos 
-
-                if (_modelGVL.GVL_T25.bCalculaResultados)
-                {
-                    _modelGVL.GVL_T25 = HelperTestBase.Model_GVL.GVL_T25;
-
-                    //Define o ponto maximo do array que foi plotado durante o teste
-                    _modelGVL.GVL_Graficos.diBuffer = lstDblReturnReadFile[0].Count() > 0 ? lstDblReturnReadFile[0].Count() : 0;
-
-                    diUbound = _modelGVL.GVL_Graficos.diBuffer - 1;
-
-                    #region Loop para identificar a forca maxima do teste, e armazenar o ponto de inflexao do teste (quando o atuador comeca a retornar)
-                    
-                    var lstInputForce1 = lstDblReturnReadFile[2];
-
-                    _modelGVL.GVL_T25.rForcaMaxima = lstInputForce1.Max(); //1243.34
-
-                    _modelGVL.GVL_T25.diPosicaoForcaMaxima = lstInputForce1.IndexOf(_modelGVL.GVL_T25.rForcaMaxima); //34272 //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
-
-                    HelperTestBase.MaxForce = _modelGVL.GVL_T25.rForcaMaxima; //Atualiza o valor de forca maxima com o maior valor obtido no array
-
-                    #endregion
-
-                    #region Calculo do gradiente de aplicacao de força no avanço
-                    
-                    var idxUpForce = lstInputForce1.FindIndex(v => v >= 100);//forca comecou a subir (>=100N) - 16544
-                    rForcaInicialGradiente = lstInputForce1.ElementAt(idxUpForce); //Valor forca inicial para calculo - 100.37
-
-                    var lstTime = lstDblReturnReadFile[0];
-                    rTempoInicialGradiente = lstTime.ElementAt(idxUpForce); //Valor to tempo em ms inicial para calculo - 6.90084
-
-                    //Define a forca final e o tempo final do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
-                    rForcaFinalGradiente = _modelGVL.GVL_Graficos.arrVarX[_modelGVL.GVL_T25.diPosicaoForcaMaxima]; //1243.34
-                    rTempoFinalGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[_modelGVL.GVL_T25.diPosicaoForcaMaxima]; //14.29448
-
-                    //Calcula o gradiente de aplicacao de forca no avanco
-                    _modelGVL.GVL_T25.rGradienteForcaAvanco = Math.Round((rForcaFinalGradiente - rForcaInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente), 2); //154.59
-                                                                                                                                                                                //========================================================================================================================================================
-                     #endregion
-
-                    #region Calculo do gradiente de aplicacao de força no retorno
-                    //Busca no array o momento em que a forca caiu abaixo de 100N (forca <= 100N) e o tempo decorrido desta forca
-
-                    //Busca no array o momento em que a forca caiu abaixo de 100N (forca <= 100N) e o tempo decorrido desta forca
-                    for (di = _modelGVL.GVL_T25.diPosicaoForcaMaxima; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] <= 100) //Forca proxima de 0 (<=100N)
-                        {
-                            rForcaFinalGradiente = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor forca final para calculo  //99.934
-                            rTempoFinalGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[di]; //Valor to tempo em ms final para calculo //22.74662
-
-                            break; //Encerra a busca pela forca final
-                        }
-                    }
-
-                     //Define a forca inicial e o tempo inicial do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
-                    rForcaInicialGradiente = _modelGVL.GVL_Graficos.arrVarX[_modelGVL.GVL_T25.diPosicaoForcaMaxima]; //1240.597
-                    rTempoInicialGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[_modelGVL.GVL_T25.diPosicaoForcaMaxima]; //14.36238
-
-
-                    //Calcula o gradiente de aplicacao de forca no retorno
-                    _modelGVL.GVL_T25.rGradienteForcaRetorno = Math.Round((rForcaFinalGradiente - rForcaInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente), 2); //	-1140.663 / 8.38424	= -136.05
-
-                    #endregion
-
-                    #region Calculo do gradiente de avanço 
-                    
-                    //Busca no array o momento em que o deslocamento comecou a variar (deslocamento >= 1)
-                    for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY3[di] >= 1) //Deslocamento >= 1mm
-                        {
-                            rDeslocamentoInicialGradiente = _modelGVL.GVL_Graficos.arrVarY3[di]; //Valor deslocamento inicial para calculo  //1
-                            rTempoInicialGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[di]; //Valor to tempo em ms inicial para calculo //6.46803
-
-                            break; //Encerra a busca pelo deslocamento inicial
-                        }
-                    }
-
-                    //Define a forca final e o tempo final do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
-                    rDeslocamentoFinalGradiente = _modelGVL.GVL_Graficos.arrVarY3[_modelGVL.GVL_T25.diPosicaoForcaMaxima]; //13.01
-                    rTempoFinalGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[_modelGVL.GVL_T25.diPosicaoForcaMaxima]; //14.36238
-
-                    //Calcula o gradiente de aplicacao de forca no avanco
-                    _modelGVL.GVL_T25.rGradienteDeslocamentoAvanco = (rDeslocamentoFinalGradiente - rDeslocamentoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente); //12.01 / 7.89435	= 1.5213412123860735
-
-                    //========================================================================================================================================================
-
-                    #endregion
-
-                    #region Calculo do gradiente de deslocamento no retorno
-
-                     //Busca no array o momento em que o deslocamento <= 1
-                    for (di = _modelGVL.GVL_T25.diPosicaoForcaMaxima; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY3[di] <= 1) //Deslocamento <= 1
-                        {
-                            rDeslocamentoFinalGradiente = _modelGVL.GVL_Graficos.arrVarY3[di]; //Deslocamento final para calculo //1
-                            rTempoFinalGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[di]; //Valor to tempo em ms final para calculo //24.10504
-
-                            break; //Encerra a busca pelo deslocamento final
-                        }
-                    }
-
-                    //Define o deslocamento inicial e o tempo inicial do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
-                    rDeslocamentoInicialGradiente = _modelGVL.GVL_Graficos.arrVarY3[_modelGVL.GVL_T25.diPosicaoForcaMaxima]; //13.01
-                    rTempoInicialGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[_modelGVL.GVL_T25.diPosicaoForcaMaxima]; //14.36238
-
-                    //Calcula o gradiente de aplicacao de forca no retorno
-                    _modelGVL.GVL_T25.rGradienteDeslocamentoRetorno = (rDeslocamentoFinalGradiente - rDeslocamentoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente); //-12.01 / 9.742659999999999	= 1.2327228908737451
-            
-                    #endregion
-
-                    #region Pega os valores de pressão no cruzamento com as forças solicitadas: P1
-
-                    for (di = 0; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] >= _modelGVL.GVL_T25.rForca_P1) //Encontrou a forca >= parametro definido
-                        {
-                            _modelGVL.GVL_T25.rForcaReal_P1_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Armazena o valor real encontrado (>=) //0.29
-                            _modelGVL.GVL_T25.rPressao_P1_Bar = _modelGVL.GVL_Graficos.arrVarY1[di]; //Armazena a pressao correspondente encontrada //0
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #endregion
-
-                    #region Pega os valores de pressão no cruzamento com as forças solicitadas: P2
-
-                    for (di = 0; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] >= _modelGVL.GVL_T25.rForca_P2) //Encontrou a forca >= parametro definido
-                        {
-                            _modelGVL.GVL_T25.rForcaReal_P2_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Armazena o valor real encontrado (>=)
-                            _modelGVL.GVL_T25.rPressao_P2_Bar = _modelGVL.GVL_Graficos.arrVarY1[di]; //Armazena a pressao correspondente encontrada
-
-                            diIndice_P2 = di; //Armazena o Indice de P2 para o calculo posterior, runoutpoint
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #endregion
-
-                    #region Pega os valores de pressão no cruzamento com as forças solicitadas: E1
-
-                    for (di = 0; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] >= _modelGVL.GVL_T25.rForca_E1) //Encontrou a forca >= parametro definido
-                        {
-                            _modelGVL.GVL_T25.rForcaReal_E1_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Armazena o valor real encontrado (>=)
-                            _modelGVL.GVL_T25.rPressao_E1_Bar = _modelGVL.GVL_Graficos.arrVarY1[di]; //Armazena a pressao correspondente encontrada
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #endregion
-
-                    #region Pega os valores de pressão no cruzamento com as forças solicitadas: E2
-
-                    for (di = 0; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] >= _modelGVL.GVL_T25.rForca_E2) //Encontrou a forca >= parametro definido
-                        {
-                            _modelGVL.GVL_T25.rForcaReal_E2_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Armazena o valor real encontrado (>=)
-                            _modelGVL.GVL_T25.rPressao_E2_Bar = _modelGVL.GVL_Graficos.arrVarY1[di]; //Armazena a pressao correspondente encontrada
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #region Gera o ponto (X) no grafico
-
-                    //pointArr = 3;
-                    //pointPos = 4;
-                    //pointName = "E2";
-
-                    //_modelGVL.GVL_Graficos.arrVarXPoint1[pointArr] = _modelGVL.GVL_T25.rForcaReal_E2_N;
-                    //_modelGVL.GVL_Graficos.arrVarYPoint1[pointArr] = _modelGVL.GVL_T25.rPressao_E2_Bar;
-
-                    ////Marcacoes no Grafico
-                    //_modelGVL.GVL_Graficos.lstMarkedPoint_Name[pointPos] = pointName;
-                    //_modelGVL.GVL_Graficos.lstMarkedPoint_X[pointPos] = _modelGVL.GVL_Graficos.arrVarXPoint1[pointArr];
-                    //_modelGVL.GVL_Graficos.lstMarkedPoint_Y[pointPos] = _modelGVL.GVL_Graficos.arrVarYPoint1[pointArr];
-                    //_modelGVL.GVL_Graficos.dictXMarkedPoint.Add($"PX{pointPos}_{pointName}", _modelGVL.GVL_Graficos.arrVarXPoint1[pointArr]);
-                    //_modelGVL.GVL_Graficos.dictYMarkedPoint.Add($"PY{pointPos}_{pointName}", _modelGVL.GVL_Graficos.arrVarYPoint1[pointArr]);
-
-                    //========================================================================================================================================================
-
-                    #endregion
-
-                    #endregion
-
-                    #region Calculo do runout point por intersecção linear (cruzamento das retas 1 (amplificação) e 2 (saturação)
-                    
-                    //Reta 1 tambem chamada de L1
-                    // Y = m.X + n onde:
-                    // Y/X pontos na curva
-                    // m - coeficiente angular da reta
-                    // n - coeficiente linear da reta
-                    //m pode ser calculado pela variacao entre 2 pontos (y2-y1)/(x2-x1)
-
-                    //Retal L1
-                    //Define o coeficiente angular e linear da reta 1 (amplificacao)
-                    rCoeficienteAngular_L1 = (_modelGVL.GVL_T25.rPressao_E2_Bar - _modelGVL.GVL_T25.rPressao_E1_Bar) / (_modelGVL.GVL_T25.rForcaReal_E2_N - _modelGVL.GVL_T25.rForcaReal_E1_N);
-                    rCoeficienteLinear_L1 = _modelGVL.GVL_T25.rPressao_E1_Bar - (rCoeficienteAngular_L1 * _modelGVL.GVL_T25.rForcaReal_E1_N); //(Y = m.X + n) > n = Y-(m.X)
-
-                    //Retal L2
-                    //Define o coeficiente angular e linear da reta 2 (saturacao)
-                    rCoeficienteAngular_L2 = (_modelGVL.GVL_T25.rPressao_P2_Bar - _modelGVL.GVL_T25.rPressao_P1_Bar) / (_modelGVL.GVL_T25.rForcaReal_P2_N - _modelGVL.GVL_T25.rForcaReal_P1_N);
-                    rCoeficienteLinear_L2 = _modelGVL.GVL_T25.rPressao_P1_Bar - (rCoeficienteAngular_L2 * _modelGVL.GVL_T25.rForcaReal_P1_N); //(Y = m.X + n) > n = Y-(m.X)
-
-                    //Cruzamento das retas para calculo das coordenadas de runoutForce e runoutPressure por instersecção linear
-
-                    _modelGVL.GVL_T25.rRunOutForce_LinearInt_N = ((rCoeficienteLinear_L1 - rCoeficienteLinear_L2) / (rCoeficienteAngular_L1 - rCoeficienteAngular_L2)) * -1;
-                    _modelGVL.GVL_T25.rRunOutPressure_LinearInt_Bar = (rCoeficienteAngular_L1 * _modelGVL.GVL_T25.rRunOutForce_LinearInt_N) + rCoeficienteLinear_L1;
-                    
-                    #endregion
-
-                    #region Calculo do auxiliary pressure P3, pressao auxiliar para calculo do runout point real (vide norma continental)
-                    
-                    //Pressao auxiliar P3 eh o rebatimento da linha L2 (reta de saturacao) aonde o valor de forca (eixo x) = 0, ou seja, P3=Coeficiente Linear de L2
-                    _modelGVL.GVL_T25.rPressaoAuxiliar_P3_Bar = rCoeficienteLinear_L2;
-                    //A pressao P4 é o rebatimento da forca p3 no grafico, porem com o valor de um ponto real o mais proximo possivel do valor p3.
-                    //Busca no array o valor mais proximo da pressao p3 para obter a pressao real p4 e a forca p4
-                    for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= _modelGVL.GVL_T25.rPressaoAuxiliar_P3_Bar) //Pressao no array >= Pressao auxiliar P3
-                        {
-                            _modelGVL.GVL_T25.rPressao_P4_Bar = _modelGVL.GVL_Graficos.arrVarY1[di]; //Valor da pressao real obtida no grafico valida para P3 
-                            _modelGVL.GVL_T25.rForca_P4_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da forca no ponto de pressao real P4
-
-                            diIndice_P4 = di; //Memoriza o indice do parametro P4 para o calculo de distancia do ponto (runout, proximo calculo)
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #endregion
-
-                    #region Calculo da reta auxiliar L3, utilizada para identificar o ponto mais distante (runoutpoint)
-
-                    //========================================================================================================================================================
-                    // Y = m.X + n onde:
-                    // Y/X pontos na curva
-                    // m - coeficiente angular da reta
-                    // n - coeficiente linear da reta
-                    //m pode ser calculado pela variacao entre 2 pontos (y2-y1)/(x2-x1)
-
-                    //Reta L3 - entre o ponto P2 e o Ponto P4
-                    //Define o coeficiente angular e linear da reta 3 (reta auxiliar)
-                    rCoeficienteAngular_L3 = (_modelGVL.GVL_T25.rPressao_P2_Bar - _modelGVL.GVL_T25.rPressao_P4_Bar) / (_modelGVL.GVL_T25.rForcaReal_P2_N - _modelGVL.GVL_T25.rForca_P4_N);
-                    rCoeficienteLinear_L3 = _modelGVL.GVL_T25.rPressao_P2_Bar - (rCoeficienteAngular_L3 * _modelGVL.GVL_T25.rForcaReal_P2_N); //(Y = m.X + n) > n = Y-(m.X)
-
-                    //Medicao da distancia perpendicular de todos os pontos, partindo das coordenadas de P4 ate P2, para identificar o ponto mais distante (runoutpoint).
-                    //Formula da geometria analitica para encontrar a distancia entre o ponto e a reta:
-                    //Primeiro, encontrar a equacao da reta e localizar os pontos a, b e c onde
-                    // eq da reta ||aX + bY + c = 0
-                    //DistanciaAB = | aX + bY + c |
-                    //				|-------------|
-                    //				|   √(a²+b²)  |
-
-                    rA_L3 = rCoeficienteAngular_L3 * -1;
-                    rB_L3 = 1;
-                    rC_L3 = (rCoeficienteAngular_L3 * _modelGVL.GVL_T25.rForca_P4_N) - _modelGVL.GVL_T25.rPressao_P4_Bar;
-
-                    rRaizAB = Math.Sqrt((rA_L3 * rA_L3) + (rB_L3 * rB_L3));
-
-                    for (di = diIndice_P4; di <= diIndice_P2; di++)
-                    {
-                        rCoordX = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor do Ponto na coordenada X
-                        rCoordY = _modelGVL.GVL_Graficos.arrVarY1[di]; //Valor do ponto na coordenada Y
-
-                        rResulTemp = ((rCoordX * rA_L3) + (rCoordY * rB_L3) + rC_L3) / rRaizAB;
-
-                        //arResultados[di - diIndice_P4] = rResulTemp;
-
-                        if (rResulTemp > rMaiorDistancia) //Pressao no array >= Pressao auxiliar P3
-                        {
-                            rMaiorDistancia = rResulTemp;
-                            _modelGVL.GVL_T25.rRunOutForce_Real_N = _modelGVL.GVL_Graficos.arrVarX[di];
-                            _modelGVL.GVL_T25.rRunOutPressure_Real_Bar = _modelGVL.GVL_Graficos.arrVarY1[di];
-                        }
-                    }
-
-                    #region Gera o ponto (X) no grafico
-
-                    //pointArr = 4;
-                    //pointPos = 5;
-                    //pointName = _modelGVL.GVL_T25.bRunOutTeorico ? "RunOut-Teorico" : "RunOut-Real";
-
-                    //if (!_modelGVL.GVL_T25.bRunOutTeorico)
-                    //{
-                    //    _modelGVL.GVL_Graficos.arrVarXPoint1[pointArr] = _modelGVL.GVL_T25.rRunOutForce_Real_N;
-                    //    _modelGVL.GVL_Graficos.arrVarYPoint1[pointArr] = _modelGVL.GVL_T25.rRunOutPressure_Real_Bar;
-                    //}
-                    //else
-                    //{
-                    //    _modelGVL.GVL_Graficos.arrVarXPoint1[pointArr] = _modelGVL.GVL_T25.rRunOutForce_LinearInt_N;
-                    //    _modelGVL.GVL_Graficos.arrVarYPoint1[pointArr] = _modelGVL.GVL_T25.rRunOutPressure_LinearInt_Bar;
-                    //}
-
-                    ////Marcacoes no Grafico
-                    //_modelGVL.GVL_Graficos.lstMarkedPoint_Name[pointPos] = pointName;
-                    //_modelGVL.GVL_Graficos.lstMarkedPoint_X[pointPos] = _modelGVL.GVL_Graficos.arrVarXPoint1[pointArr];
-                    //_modelGVL.GVL_Graficos.lstMarkedPoint_Y[pointPos] = _modelGVL.GVL_Graficos.arrVarYPoint1[pointArr];
-                    //_modelGVL.GVL_Graficos.dictXMarkedPoint.Add($"PX{pointPos}_{pointName}", _modelGVL.GVL_Graficos.arrVarXPoint1[pointArr]);
-                    //_modelGVL.GVL_Graficos.dictYMarkedPoint.Add($"PY{pointPos}_{pointName}", _modelGVL.GVL_Graficos.arrVarYPoint1[pointArr]);
-
-                    #endregion
-
-                    //========================================================================================================================================================
-
-                    #endregion
-
-                    #region Calcula a forca a 70%pout e encontra um ponto real no grafico
-
-                    for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= (_modelGVL.GVL_T25.rRunOutPressure_Real_Bar * 0.7)) //Pressao no array >= (Pressao runout *0.7)
-                        {
-                            _modelGVL.GVL_T25.rPressao_70pout_bar = _modelGVL.GVL_Graficos.arrVarY1[di]; //Valor da pressao real obtida no grafico valida para 70% runout 
-                            _modelGVL.GVL_T25.rForca_70pout_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da forca real obtida no grafico valida para 70% runout (apnas exibe)
-                            diIndice_p70 = di; //Memoriza o indice do parametro
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #endregion
-
-                    #region Calcula a forca a 90%pout e encontra um ponto real no grafico
-
-                    //tambem salva o deslocamento a 90% do runout, aproveitando o loop de busca
-                    _modelGVL.GVL_T25.rPressao_90pout_bar = _modelGVL.GVL_T25.rRunOutPressure_Real_Bar * 0.9; //Calcula a pressao teorica 90%pout
-
-                    for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= _modelGVL.GVL_T25.rPressao_90pout_bar)  //Pressao no array >= Pressao RUnout * 0.9
-                        {
-                            _modelGVL.GVL_T25.rPressao_90pout_bar = _modelGVL.GVL_Graficos.arrVarY1[di]; //Valor da pressao real obtida no grafico valida para 90 runout 
-                            _modelGVL.GVL_T25.rDeslocamento_90pout_mm = _modelGVL.GVL_Graficos.arrVarY3[di]; //Valor de deslocamento a 90% pout
-                            _modelGVL.GVL_T25.rForca_90pout_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao 90% pout
-                            _modelGVL.GVL_T25.rForca_F6_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao 90% pout
-                            _modelGVL.GVL_T25.rPressao_P6_Bar = _modelGVL.GVL_Graficos.arrVarY1[di];
-                            diIndice_p90 = di; //Memoriza o indice do parametro 
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                     #endregion
-
-                    #region Obtem valor de deslocamento em funcao do parametro DeslocamentoNaPressao (%Pout)
-
-                    for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= ((_modelGVL.GVL_T25.rDeslocamentoNaPressao / 100) * _modelGVL.GVL_T25.rRunOutPressure_Real_Bar))  //Valor do deslocamento obtido na pressao definida
-                        {
-                            _modelGVL.GVL_T25.rDeslocamentoNaPressao_mm = _modelGVL.GVL_Graficos.arrVarY3[di]; //Valor do deslocamento obtido na pressao definida
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    //========================================================================================================================================================
-
-                    #endregion
-
-                    #region Calcula a forca Cut IN
-
-                    for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= _modelGVL.GVL_T25.rPressaoCutIn_Bar)  //Pressao de cut in
-                        {
-                            _modelGVL.GVL_T25.rForcaCutIn_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da forca obtida na pressao de cut in
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #endregion
-
-                    #region Calculo do Jumper
-
-                    //========================================================================================================================================================
-                    //Formula na norma - Pjumper = P5 + (Fcutin - Fe200)*((P6-P5)/(F6-FE200))
-                    //P6 = pressao runout * 0.9, obtido anteriormente
-                    //F6 = Forca correspondente a P6, obtido anteriormente
-                    //FE200 = 200N, esta na norma, so muda se for especificado "The point P5 is calculated with an input force of FE200 = 200N, unless otherwise specified"
-                    //FAN=Fcutin
-
-                    //Encontra a pressao P5, que corresponde na tabela de dados a forca = 200N
-
-                    for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] >= 200) //Pressao de cut in.
-                        {
-                            _modelGVL.GVL_T25.rPressao_P5_Bar = _modelGVL.GVL_Graficos.arrVarY1[di]; //Valor da pressao correspondente a uma forca 200N
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    _modelGVL.GVL_T25.rPressaoJumper_Bar = _modelGVL.GVL_T25.rPressao_P5_Bar + (_modelGVL.GVL_T25.rForcaCutIn_N - 200) *
-                                                            ((_modelGVL.GVL_T25.rPressao_P6_Bar - _modelGVL.GVL_T25.rPressao_P5_Bar) / (_modelGVL.GVL_T25.rForca_F6_N - 200));
-
-                    _modelGVL.GVL_Graficos.arrVarXPoint1[5] = _modelGVL.GVL_T25.rForcaCutIn_N;
-                    _modelGVL.GVL_Graficos.arrVarYPoint1[5] = _modelGVL.GVL_T25.rPressaoJumper_Bar;
-                    
-                    #endregion
-
-                    #region Jumper Gradient
-
-                    ////========================================================================================================================================================
-
-                    ////Obtem a pressão e forca no ponto definido nos parametros
-
-                    ////        FOR di := 0 TO GVL_T25.diPosicaoForcaMaxima DO //Pressao >= parametro Jumper P1
-                    ////            IF GVL_Graficos.arrVarY1[di] >= GVL_T25.rGradienteJumper_P1_Bar THEN //Pressao no array  >= pressao P1 Jumper
-                    ////                GVL_T25.rPressaoP1Jumper_Bar  := GVL_Graficos.arrVarY1[di]; //Valor da pressao real de jumper P1
-                    ////        GVL_T25.rForcaP1Jumper_N  := GVL_Graficos.arrVarX[di]; //Valor da forca real de jumper P1
-                    ////        EXIT; //Encerra a busca
-                    ////        END_IF
-                    ////END_FOR
-
-                    ////                //Obtem a pressão e forca no ponto definido nos parametros
-                    ////        FOR di := 0 TO GVL_T25.diPosicaoForcaMaxima DO //Pressao >= parametro Jumper P1
-                    ////            IF GVL_Graficos.arrVarY1[di] >= GVL_T25.rGradienteJumper_P2_Bar THEN //Pressao no array  >= pressao P1 Jumper
-                    ////                GVL_T25.rPressaoP2Jumper_Bar  := GVL_Graficos.arrVarY1[di]; //Valor da pressao real de jumper P1
-                    ////        GVL_T25.rForcaP2Jumper_N  := GVL_Graficos.arrVarX[di]; //Valor da forca real de jumper P1
-                    ////        EXIT; //Encerra a busca
-                    ////        END_IF
-                    ////END_FOR
-
-                    ////        GVL_T25.rGradientJumper := (GVL_T25.rForcaP2Jumper_N - GVL_T25.rForcaP1Jumper_N) / (GVL_T25.rPressaoP2Jumper_Bar - GVL_T25.rPressaoP1Jumper_Bar);
-
-
-                    ////Obtem a pressão e forca no ponto definido nos parametros
-                    //for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    //{
-                    //    if (_modelGVL.GVL_Graficos.arrVarY1[di] >= _modelGVL.GVL_T25.rGradienteJumper_P1_Bar) //Pressao no array  >= pressao P1 Jumper
-                    //    {
-                    //        _modelGVL.GVL_T25.rPressaoP1Jumper_Bar = _modelGVL.GVL_Graficos.arrVarY1[di]; //Valor da pressao real de jumper P1
-                    //        _modelGVL.GVL_T25.rForcaP1Jumper_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da forca real de jumper P1
-
-                    //        break; //Encerra a busca
-                    //    }
-                    //}
-
-                    ////Obtem a pressão e forca no ponto definido nos parametros
-                    //for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    //{
-                    //    if (_modelGVL.GVL_Graficos.arrVarY1[di] >= _modelGVL.GVL_T25.rGradienteJumper_P2_Bar) //Pressao no array  >= pressao P2 Jumper
-                    //    {
-                    //        _modelGVL.GVL_T25.rPressaoP2Jumper_Bar = _modelGVL.GVL_Graficos.arrVarY1[di]; //Valor da pressao real de jumper P2
-                    //        _modelGVL.GVL_T25.rForcaP2Jumper_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da forca real de jumper P2
-
-                    //        break; //Encerra a busca
-                    //    }
-                    //}
-
-                    ////     //Calcula o gradiente de Jumper (N/bar)
-                    //_modelGVL.GVL_T25.rGradientJumper = (_modelGVL.GVL_T25.rForcaP2Jumper_N - _modelGVL.GVL_T25.rForcaP1Jumper_N) / (_modelGVL.GVL_T25.rPressaoP2Jumper_Bar - _modelGVL.GVL_T25.rPressaoP1Jumper_Bar);
-
-                    #region Gera o ponto (X) no grafico
-
-                    #endregion
-
-                    //========================================================================================================================================================
-
-                    #endregion
-
-                    #region Calcula a release force
-
-                    //Release force é o pico de força no retorno encontrado na tabela de pontos, entre os parametros release force min/ release force max.
-
-                    //Encontra o indice do release force max (como é decrescente, max primeiro, min depois na tabela)
-                    for (di = _modelGVL.GVL_T25.diPosicaoForcaMaxima; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] <= _modelGVL.GVL_T25.rReleaseForcePressMax_Bar)
-                        {
-                            diIndice_ReleaseMax = di; //Indice aonde esta a pressao maxima para avaliar o pico de forca no retorno 
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    //Encontra o indice do release force min (como é decrescente, max primeiro, min depois na tabela)
-                    for (di = diIndice_ReleaseMax; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] <= _modelGVL.GVL_T25.rReleaseForcePressMin_Bar)
-                        {
-                            diIndice_ReleaseMin = di; //Indice aonde esta a pressao minima para avaliar o pico de forca no retorno 
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-
-                    //Encontra o pico de forca entre Max e Min
-                    for (di = diIndice_ReleaseMax; di <= diIndice_ReleaseMin; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarX[di] > _modelGVL.GVL_T25.rReleaseForce_N)
-                        {
-                            _modelGVL.GVL_T25.rReleaseForce_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Pico de forca entre as pressoes definidas no retorno                     
-                        }
-                    }
-
-                    double ReleaseTravel = 0;
-
-                    //Encontra o pico de forca no deslocamento de retorno definido
-                    for (di = _modelGVL.GVL_T25.diPosicaoForcaMaxima; di < diUbound; di++)
-                    {
-                        ReleaseTravel = Math.Round(_modelGVL.GVL_Graficos.arrVarY3[di], 1);
-
-                        if (ReleaseTravel <= _modelGVL.GVL_T25.rReleaseForceAt_mm) // Deslocamento no ponto <= o valor definido no parametro
-                        {
-                            _modelGVL.GVL_T25.rReleaseForceAt_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Forca Obtida no ponto de retorno
-                            _modelGVL.GVL_T25.rReleaseForceAtReal_mm = _modelGVL.GVL_Graficos.arrVarY3[di]; //Valor de deslocamento real obtido
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #endregion
-
-                    #region Calcula a hysterese (diferenca de forca na ida e na volta, com pontos de pressao iguais
-
-                    _modelGVL.GVL_T25.rPressaoHysteresePout_Bar = _modelGVL.GVL_T25.rRunOutPressure_Real_Bar * (_modelGVL.GVL_T25.rPressaoHysterese_pout / 100);
-
-                    //Obtem a forca relacionada a pressao x% pout no avanco
-                    for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= _modelGVL.GVL_T25.rPressaoHysteresePout_Bar)//Pressao no array >= Pressao Runout * x%
-                        {
-                            _modelGVL.GVL_T25.rForcaAvanco_Xpout_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao x% pout no avanco
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #region Gera o ponto (X) no grafico
-
-                    #endregion
-
-                    //Obtem a forca relacionada a pressao x% pout no retorno
-                    for (di = _modelGVL.GVL_T25.diPosicaoForcaMaxima; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] <= _modelGVL.GVL_T25.rPressaoHysteresePout_Bar) //Pressao no array <= Pressao Runout * x%
-                        {
-                            _modelGVL.GVL_T25.rForcaRetorno_Xpout_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao x% pout no retorno
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #region Gera o ponto (X) no grafico
-
-                    #endregion
-
-                    ////Calculo do hysterese (diferenca de forca no avanco e no retorno, no mesmo ponto de pressao)
-                    _modelGVL.GVL_T25.rHysterese_Xpout_N = _modelGVL.GVL_T25.rForcaAvanco_Xpout_N - _modelGVL.GVL_T25.rForcaRetorno_Xpout_N;
-
-                    //Obtem a forca relacionada a pressao Xbar pout no avanco
-                    for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] >= _modelGVL.GVL_T25.rPressaoHysterese_Bar) //Pressao no array >= xbar
-                        {
-                            _modelGVL.GVL_T25.rForcaAvanco_Xbar_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao xbar no avanco
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #region Gera o ponto (X) no grafico
-
-                    #endregion
-
-                    //Obtem a forca relacionada a pressao Xbar pout no retorno
-                    for (di = _modelGVL.GVL_T25.diPosicaoForcaMaxima; di < diUbound; di++)
-                    {
-                        if (_modelGVL.GVL_Graficos.arrVarY1[di] <= _modelGVL.GVL_T25.rPressaoHysterese_Bar) //Pressao no array <= xbar
-                        {
-                            _modelGVL.GVL_T25.rForcaRetorno_Xbar_N = _modelGVL.GVL_Graficos.arrVarX[di]; //Valor da Forca relacionada a pressao xbar no retorno
-
-                            break; //Encerra a busca
-                        }
-                    }
-
-                    #region Gera o ponto (X) no grafico
-
-                    #endregion
-
-                    //Calculo do hysterese (diferenca de forca no avanco e no retorno, no mesmo ponto de pressao)
-                    _modelGVL.GVL_T25.rHysterese_Xbar_N = _modelGVL.GVL_T25.rForcaAvanco_Xbar_N - _modelGVL.GVL_T25.rForcaRetorno_Xbar_N;
-
-                    #endregion
-
-                    #region Calcula a taxa de amplificacao (ratio) do booster
-
-                    //========================================================================================================================================================
-
-                    //Formula conforma norma || ieff (ratio) = ((P6-P5)*(d^2)*pi)/((F6-FE200)*4)
-                    //Obs 1 estamos usando o ponto E2, e nao P6 da norma, solicitacao da continental
-                    //Obs 2 valor total dividido por 10 para converter de MPa para Bar...
-
-                    _modelGVL.GVL_T25.rTaxaAmplificacao = ((((_modelGVL.GVL_T25.rPressao_E2_Bar - _modelGVL.GVL_T25.rPressao_P5_Bar) * (_modelGVL.GVL_T25.rDiametroCMD_mm * _modelGVL.GVL_T25.rDiametroCMD_mm) * 3.141516)) / ((_modelGVL.GVL_T25.rForca_E2 - 200) * 4)) / 10;
-
-                    #endregion
-
-                    #region Calculo dos Consumidores Utilizados
-
-                    _modelGVL.GVL_T25.iConsumidoresCP = 0;
-                    _modelGVL.GVL_T25.iConsumidoresCS = 0;
-
-                    HelperTestBase.Model_GVL.GVL_Parametros.iTipoConsumidores = HelperMODBUS.CS_wTipoConsumidores;
-
-                    if (HelperMODBUS.CS_wTipoConsumidores != 2)
-                    {
-                        _modelGVL.GVL_T25.iConsumidoresCP = 0;
-                        _modelGVL.GVL_T25.iConsumidoresCS = 0;
-                    }
-                    else
-                    {
-                        //HelperMODBUS.CS_wStatusLiga17MangueirasCS 
-                        if (HelperMODBUS.CS_wStatusLiga1MangueiraCP)
-                            _modelGVL.GVL_T25.iConsumidoresCP = _modelGVL.GVL_T25.iConsumidoresCP + 1;
-
-                        if (HelperMODBUS.CS_wStatusLiga2MangueirasCP)
-                            _modelGVL.GVL_T25.iConsumidoresCP = _modelGVL.GVL_T25.iConsumidoresCP + 2;
-
-                        if (HelperMODBUS.CS_wStatusLiga4MangueirasCP)
-                            _modelGVL.GVL_T25.iConsumidoresCP = _modelGVL.GVL_T25.iConsumidoresCP + 4;
-
-                        if (HelperMODBUS.CS_wStatusLiga8MangueirasCP)
-                            _modelGVL.GVL_T25.iConsumidoresCP = _modelGVL.GVL_T25.iConsumidoresCP + 8;
-
-                        if (HelperMODBUS.CS_wStatusLiga10MangueirasCP)
-                            _modelGVL.GVL_T25.iConsumidoresCP = _modelGVL.GVL_T25.iConsumidoresCP + 10;
-
-                        if (HelperMODBUS.CS_wStatusLiga17MangueirasCP)
-                            _modelGVL.GVL_T25.iConsumidoresCP = _modelGVL.GVL_T25.iConsumidoresCP + 17;
-
-                        if (HelperMODBUS.CS_wStatusLiga1MangueiraCS)
-                            _modelGVL.GVL_T25.iConsumidoresCS = _modelGVL.GVL_T25.iConsumidoresCS + 1;
-
-                        if (HelperMODBUS.CS_wStatusLiga2MangueirasCS)
-                            _modelGVL.GVL_T25.iConsumidoresCS = _modelGVL.GVL_T25.iConsumidoresCS + 2;
-
-                        if (HelperMODBUS.CS_wStatusLiga4MangueirasCS)
-                            _modelGVL.GVL_T25.iConsumidoresCS = _modelGVL.GVL_T25.iConsumidoresCS + 4;
-
-                        if (HelperMODBUS.CS_wStatusLiga8MangueirasCS)
-                            _modelGVL.GVL_T25.iConsumidoresCS = _modelGVL.GVL_T25.iConsumidoresCS + 8;
-
-                        if (HelperMODBUS.CS_wStatusLiga10MangueirasCS)
-                            _modelGVL.GVL_T25.iConsumidoresCS = _modelGVL.GVL_T25.iConsumidoresCS + 10;
-
-                        if (HelperMODBUS.CS_wStatusLiga17MangueirasCS)
-                            _modelGVL.GVL_T25.iConsumidoresCS = _modelGVL.GVL_T25.iConsumidoresCS + 17;
-                    }
-                    //============================. ============================================================================================================================
-
-                    #endregion
-
-                    _modelGVL.GVL_T25.bCalculaResultados = false;
-
-                    _modelGVL.GVL_Graficos.bDadosCalculados = true;
-                }
-
-                HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T25;
-
-                HelperTestBase.Model_GVL = _modelGVL;
-
-                #endregion
-
-            }
-            catch (Exception ex)
-            {
-                var err = ex.Message;
-                throw;
-            }
-
-            return _modelGVL;
-
-            #endregion
-        }
-
-        #endregion
-       
         #endregion
 
         #endregion
@@ -13359,17 +12516,17 @@ namespace Continental.Project.Adam.UI.Helper
                                     GVL_Graficos.EixoX.wsTLLabel = "AxesChart.1";
                                     GVL_Graficos.rEscalaX = lstInfoEvaluationParameters != null ?
                                         lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EForceScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
-                                        : 2500;
+                                        : 1500;
 
                                     GVL_Graficos.EixoY1.wsTLLabel = "AxesChart.2";
                                     GVL_Graficos.rEscalaY1 = lstInfoEvaluationParameters != null ?
                                         lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
-                                        : 150;
+                                        : 100;
 
                                     GVL_Graficos.EixoY2.wsTLLabel = "AxesChart.3";
                                     GVL_Graficos.rEscalaY2 = lstInfoEvaluationParameters != null ?
                                         lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
-                                        : 150;
+                                        : 100;
 
                                     GVL_Graficos.EixoY3.wsTLLabel = string.Empty;
                                     GVL_Graficos.rEscalaY3 = 0;
@@ -14111,10 +13268,14 @@ namespace Continental.Project.Adam.UI.Helper
                             case 23:    //Breather Hole / Central Valve open
                                 {
                                     GVL_Graficos.EixoX.wsTLLabel = "AxesChart.1";
-                                    GVL_Graficos.rEscalaX = 10;
+                                    GVL_Graficos.rEscalaX = lstInfoEvaluationParameters != null ?
+                                        lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("ETimeScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
+                                        : 20;
 
                                     GVL_Graficos.EixoY1.wsTLLabel = "AxesChart.2";
-                                    GVL_Graficos.rEscalaY1 = 2;
+                                    GVL_Graficos.rEscalaY1 = lstInfoEvaluationParameters != null ?
+                                        lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EHydrFillPressure")).Select(x => x.EvalParam_Hi).FirstOrDefault()
+                                        : 2;
 
                                     GVL_Graficos.EixoY2.wsTLLabel = string.Empty;
                                     GVL_Graficos.rEscalaY2 = 0;
@@ -14157,12 +13318,12 @@ namespace Continental.Project.Adam.UI.Helper
                                 }
                             case 24:    //Efficiency
                                 {
-                                    if (_modelGVL.GVL_T24.iTipoGrafico == 0)
+                                    if (_modelGVL.GVL_Parametros.iTipoGrafico_T24 == 0)
                                     {
                                         GVL_Graficos.EixoX.wsTLLabel = "AxesChart.1";
                                         GVL_Graficos.rEscalaX = lstInfoEvaluationParameters != null ?
                                             lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EForceScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
-                                            : 2000;
+                                            : 1500;
 
                                         GVL_Graficos.EixoY1.wsTLLabel = "AxesChart.2";
                                         GVL_Graficos.rEscalaY1 = lstInfoEvaluationParameters != null ?
@@ -14173,52 +13334,12 @@ namespace Continental.Project.Adam.UI.Helper
                                         GVL_Graficos.rEscalaY2 = lstInfoEvaluationParameters != null ?
                                             lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
                                             : 100;
-
-                                        GVL_Graficos.EixoY3.wsTLLabel = string.Empty;
-                                        GVL_Graficos.rEscalaY3 = 0;
-
-                                        GVL_Graficos.EixoY4.wsTLLabel = string.Empty;
-                                        GVL_Graficos.rEscalaY4 = 0;
-
-                                        var unitX = lstInfoEvaluationParameters != null ?
-                                        !string.IsNullOrEmpty(lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EForceScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()) ?
-                                        lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EForceScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()
-                                        : "N"
-                                        : "N";
-
-                                        var unitY1 = lstInfoEvaluationParameters != null ?
-                                            !string.IsNullOrEmpty(lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()) ?
-                                            lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()
-                                            : "bar"
-                                            : "bar";
-
-                                        var unitY2 = lstInfoEvaluationParameters != null ?
-                                            !string.IsNullOrEmpty(lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()) ?
-                                            lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()
-                                            : "bar"
-                                            : "bar";
-
-                                        GVL_Graficos.strNomeEixoX = string.Concat("Input Force", " ", unitX);
-                                        GVL_Graficos.strNomeEixoY1 = string.Concat("Pressure PC (Slow)", " ", unitY1);
-                                        GVL_Graficos.strNomeEixoY2 = string.Concat("Pressure PC (Fast)", " ", unitY2);
-                                        GVL_Graficos.strNomeEixoY3 = string.Empty;
-                                        GVL_Graficos.strNomeEixoY4 = string.Empty;
-
-                                        GVL_Graficos.strUnidadeX = unitX;
-                                        GVL_Graficos.strUnidadeY1 = unitY1;
-                                        GVL_Graficos.strUnidadeY2 = unitY2;
-                                        GVL_Graficos.strUnidadeY3 = string.Empty;
-                                        GVL_Graficos.strUnidadeY4 = string.Empty;
-
-                                        GVL_Graficos.bOcultaY2 = false;
-                                        GVL_Graficos.bOcultaY3 = true;
-                                        GVL_Graficos.bOcultaY4 = true;
                                     }
                                     else
                                     {
                                         GVL_Graficos.EixoX.wsTLLabel = "AxesChart.1";
                                         GVL_Graficos.rEscalaX = lstInfoEvaluationParameters != null ?
-                                            lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("ETimeScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
+                                            lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EForceScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
                                             : 60;
 
                                         GVL_Graficos.EixoY1.wsTLLabel = "AxesChart.2";
@@ -14226,43 +13347,52 @@ namespace Continental.Project.Adam.UI.Helper
                                             lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
                                             : 100;
 
-                                        GVL_Graficos.EixoY2.wsTLLabel = string.Empty;
-                                        GVL_Graficos.rEscalaY2 = 0;
-
-                                        GVL_Graficos.EixoY3.wsTLLabel = string.Empty;
-                                        GVL_Graficos.rEscalaY3 = 0;
-
-                                        GVL_Graficos.EixoY4.wsTLLabel = string.Empty;
-                                        GVL_Graficos.rEscalaY4 = 0;
-
-                                        var unitX = lstInfoEvaluationParameters != null ?
-                                        !string.IsNullOrEmpty(lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("ETimeScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()) ?
-                                        lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("ETimeScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()
-                                        : "s"
-                                        : "s";
-
-                                        var unitY1 = lstInfoEvaluationParameters != null ?
-                                            !string.IsNullOrEmpty(lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()) ?
-                                            lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()
-                                            : "bar"
-                                            : "bar";
-
-                                        GVL_Graficos.strNomeEixoX = string.Concat("Time", " ", unitX);
-                                        GVL_Graficos.strNomeEixoY1 = string.Concat("Pressure PC", " ", unitY1);
-                                        GVL_Graficos.strNomeEixoY2 = string.Empty;
-                                        GVL_Graficos.strNomeEixoY3 = string.Empty;
-                                        GVL_Graficos.strNomeEixoY4 = string.Empty;
-
-                                        GVL_Graficos.strUnidadeX = unitX;
-                                        GVL_Graficos.strUnidadeY1 = unitY1;
-                                        GVL_Graficos.strUnidadeY2 = string.Empty;
-                                        GVL_Graficos.strUnidadeY3 = string.Empty;
-                                        GVL_Graficos.strUnidadeY4 = string.Empty;
-
-                                        GVL_Graficos.bOcultaY2 = true;
-                                        GVL_Graficos.bOcultaY3 = true;
-                                        GVL_Graficos.bOcultaY4 = true;
+                                        GVL_Graficos.EixoY2.wsTLLabel = "AxesChart.3";
+                                        GVL_Graficos.rEscalaY2 = lstInfoEvaluationParameters != null ?
+                                            lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Hi).FirstOrDefault()
+                                            : 100;
                                     }
+
+                                    GVL_Graficos.EixoY3.wsTLLabel = string.Empty;
+                                    GVL_Graficos.rEscalaY3 = 0;
+
+                                    GVL_Graficos.EixoY4.wsTLLabel = string.Empty;
+                                    GVL_Graficos.rEscalaY4 = 0;
+
+                                    var unitX = lstInfoEvaluationParameters != null ?
+                                        !string.IsNullOrEmpty(lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EForceScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()) ?
+                                        lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EForceScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()
+                                        : "N"
+                                        : "N";
+
+                                    var unitY1 = lstInfoEvaluationParameters != null ?
+                                        !string.IsNullOrEmpty(lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()) ?
+                                        lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()
+                                        : "bar"
+                                        : "bar";
+
+                                    var unitY2 = lstInfoEvaluationParameters != null ?
+                                        !string.IsNullOrEmpty(lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()) ?
+                                        lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(x => x.EvalParam_Mksunit).FirstOrDefault()
+                                        : "bar"
+                                        : "bar";
+
+                                    GVL_Graficos.strNomeEixoX = string.Concat("Input Force", " ", unitX);
+                                    GVL_Graficos.strNomeEixoY1 = string.Concat("Pressure PC", " ", unitY1);
+                                    GVL_Graficos.strNomeEixoY2 = string.Concat("Pressure PC", " ", unitY2);
+                                    GVL_Graficos.strNomeEixoY3 = string.Empty;
+                                    GVL_Graficos.strNomeEixoY4 = string.Empty;
+
+                                    GVL_Graficos.strUnidadeX = unitX;
+                                    GVL_Graficos.strUnidadeY1 = unitY1;
+                                    GVL_Graficos.strUnidadeY2 = unitY2;
+                                    GVL_Graficos.strUnidadeY3 = string.Empty;
+                                    GVL_Graficos.strUnidadeY4 = string.Empty;
+
+                                    GVL_Graficos.bOcultaY2 = false;
+                                    GVL_Graficos.bOcultaY3 = true;
+                                    GVL_Graficos.bOcultaY4 = true;
+
 
                                     break;
                                 }
