@@ -998,8 +998,6 @@ namespace Continental.Project.Adam.UI
 
                             #region Define
 
-
-
                             string fileName = string.Empty;
 
                             string pathWithFileName = string.Empty;
@@ -2350,14 +2348,7 @@ namespace Continental.Project.Adam.UI
 
             int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
 
-            if (idxSelected > 27)
-            {
-                _bCoBSelectTestSelected = true;
-                mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = HelperApp.uiTesteSelecionado;
-                MessageBox.Show("Error, test empty data!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-                TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
+            TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
         }
         public void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(int idxSelected, string origin)
         {
@@ -4883,19 +4874,19 @@ namespace Continental.Project.Adam.UI
                                     break;
 
                                 case "EP1AtForce": //Pressure at Force(E1)
-                                    HelperTestBase.Model_GVL.GVL_T25.rForca_P1 = dblValue;
-                                    break;
-
-                                case "EP2AtForce": //Pressure at Force(E2)  
-                                    HelperTestBase.Model_GVL.GVL_T25.rForca_P2 = dblValue;
-                                    break;
-
-                                case "EP3AtForce": //Pressure at Force(P1)
                                     HelperTestBase.Model_GVL.GVL_T25.rForca_E1 = dblValue;
                                     break;
 
-                                case "EP4AtForce": //Pressure at Force(P2)
+                                case "EP2AtForce": //Pressure at Force(E2)  
                                     HelperTestBase.Model_GVL.GVL_T25.rForca_E2 = dblValue;
+                                    break;
+
+                                case "EP3AtForce": //Pressure at Force(P1)
+                                    HelperTestBase.Model_GVL.GVL_T25.rForca_P1 = dblValue;
+                                    break;
+
+                                case "EP4AtForce": //Pressure at Force(P2)
+                                    HelperTestBase.Model_GVL.GVL_T25.rForca_P2 = dblValue;
                                     break;
 
                                 case "EMeasurePointP7": //Pressure at Force(E6) =
@@ -4922,7 +4913,7 @@ namespace Continental.Project.Adam.UI
                                     HelperTestBase.Model_GVL.GVL_T25.rPressaoHysterese_pout = dblValue;
                                     break;
 
-                                case "//EHysteresisAtPressure2": //Hysteresis at Pressure(bar) = 
+                                case "EHysteresisAtPressure2": //Hysteresis at Pressure(bar) = 
                                     HelperTestBase.Model_GVL.GVL_T25.rPressaoHysterese_Bar = dblValue;
                                     break;
 
@@ -4972,23 +4963,6 @@ namespace Continental.Project.Adam.UI
 
                             break;
 
-                            #region Case Param
-
-                            switch (strName.Trim())
-                            {
-
-
-
-                                case "EJumperGradientP1": //Jumper Gradient P1 = 
-                                    HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = dblValue;
-                                    break;
-
-                                case "EJumperGradientP2": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dblValue;
-                                    break;
-
-                            }
-
 
                         }
                     case 26:    //Force Diagrams - Force/Force Dual Ratio
@@ -4997,6 +4971,13 @@ namespace Continental.Project.Adam.UI
 
                             switch (strName.Trim())
                             {
+                                case "CBShowDualRatioLines":
+                                    if (dblValue > 0)
+                                        HelperTestBase.Model_GVL.GVL_T26.bMostraLinhasDRAux = true;
+                                    else
+                                        HelperTestBase.Model_GVL.GVL_T26.bMostraLinhasDRAux = false;
+                                    break;
+
                                 case "EForceScaleI":
                                     break;
 
@@ -5004,63 +4985,67 @@ namespace Continental.Project.Adam.UI
                                     break;
 
                                 case "EP1AtForce": //Pressure at Force(E1)
-                                                   //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rForca_E1 = dblValue;
                                     break;
 
                                 case "EP2AtForce": //Pressure at Force(E2)  
-                                                   //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rForca_E2 = dblValue;
                                     break;
 
                                 case "EP3AtForce": //Pressure at Force(P1)
-                                                   //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rForca_P1 = dblValue;
                                     break;
 
                                 case "EP4AtForce": //Pressure at Force(P2)
-                                                   //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rForca_P2 = dblValue;
                                     break;
 
                                 case "EMeasurePointP7": //Pressure at Force(E6) =
-                                                        //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rPontoMedicao_P7 = dblValue;
                                     break;
 
                                 case "EActuationForceAtForce": //Actuation Force at Pressure = 
-                                                               //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rForcaFOutCutIn_N = dblValue;
                                     break;
 
                                 case "EReleaseForceMin": //Release Force min = 
-                                                         //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rReleaseForceFoutMin_N = dblValue;
                                     break;
 
                                 case "EReleaseForceMax": //Release Force max = 
-                                                         //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rReleaseForceFoutMax_N = dblValue;
                                     break;
 
                                 case "EHysteresisAtForce": //Hysteresis at Pressure(%) = 
-                                                           //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rForcaHysterese_Fout = dblValue;
+                                    break;
+
+                                case "ERelForceRemainAtTravel": //Release Force Remaining at = 
+                                    HelperTestBase.Model_GVL.GVL_T26.rReleaseForceAt_mm = dblValue;
                                     break;
 
                                 case "EJumperNomGrad": //Jumper Gradient P1 = 
-                                                       //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rJumperGradienteNominal = dblValue;
                                     break;
 
                                 case "EJumperPosTolerance": //Jumper Gradient P2 = 
-                                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                   HelperTestBase.Model_GVL.GVL_T26.rJumperTolPos = dblValue;
                                     break;
 
                                 case "EJumperNegTolerance": //Jumper Gradient P2 = 
-                                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rJumperTolNeg = dblValue;
                                     break;
 
                                 case "ESwitchPointNomGrad": //Jumper Gradient P2 = 
-                                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rSwitchPointGradienteNominal = dblValue;
                                     break;
 
                                 case "ESwitchPointPosTolerance": //Jumper Gradient P2 = 
-                                                                 //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rSwitchPointTolPos = dblValue;
                                     break;
 
                                 case "ESwitchPointNegTolerance": //Jumper Gradient P2 = 
-                                                                 //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rSwitchPointTolNeg = dblValue;
                                     break;
 
                                 default:
@@ -5080,8 +5065,15 @@ namespace Continental.Project.Adam.UI
                             switch (strName.Trim())
                             {
                                 case "CBForcePressDiagram":
+                                    if (dblValue > 0)
+                                        HelperTestBase.Model_GVL.GVL_T27.iTipoGrafico = 0;
+                                        _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T27 }, 0);
                                     break;
-
+                                case "CBDiffTravel":
+                                    if (dblValue > 0)
+                                        HelperTestBase.Model_GVL.GVL_T27.iTipoGrafico = 1;
+                                        _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T27 }, 1);
+                                    break;
                                 case "EForceScale":
                                     break;
 
@@ -5091,36 +5083,27 @@ namespace Continental.Project.Adam.UI
                                 case "ETravelScale":
                                     break;
 
-                                case "EDiffTravelScale":
+                                case "EDiffTravelScaleMin":
+                                    break;
+
+                                case "EDiffTravelScaleMax":
                                     break;
 
                                 case "ETimeScale":
                                     break;
 
                                 case "EBackwardGradient": //Vel. Retorno
-                                                          //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwVelocidadeRetorno_mms_T27_LW }, dblValue);
                                     break;
 
                                 case "EActuationGradient1": //Vel. Avanco 1
-                                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T27.rVelocidadeNominal_mms = dblValue;
+                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwVelocidade_Avanco1_mms_T27_LW }, dblValue);
                                     break;
 
-                                case "EActuationGradient2": //Vel. Avanco 2
-                                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                case "ETwoPointEvaluationTime":
+                                    HelperTestBase.Model_GVL.GVL_T27.rTempoVerificacao2Pontos = dblValue;
                                     break;
-
-                                case "EActuationGradient3": //Vel. Avanco 3
-                                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
-                                    break;
-
-                                case "EActuationGradient4": //Vel. Avanco 4
-                                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
-                                    break;
-
-                                case "EActuationGradient5": //Vel. Avanco 5
-                                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
-                                    break;
-
 
                                 default:
                                     break;
@@ -5139,82 +5122,44 @@ namespace Continental.Project.Adam.UI
                             switch (strName.Trim())
                             {
                                 case "CBForcePressDiagram":
+                                    if (dblValue > 0)
+                                        HelperTestBase.Model_GVL.GVL_T28.iTipoGrafico = 0;
+                                        _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T28 }, 0);
+                                    break;
+                                case "CBDiffTravel":
+                                    if (dblValue > 0)
+                                        HelperTestBase.Model_GVL.GVL_T28.iTipoGrafico = 1;
+                                        _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T28 }, 1);
+                                    break;
+                                case "EForceScaleI":
                                     break;
 
-                                case "EForceScale":
-                                    break;
-
-                                case "EPressScale":
+                                case "EForceScaleO":
                                     break;
 
                                 case "ETravelScale":
                                     break;
 
-                                case "EDiffTravelScale":
+                                case "EDiffTravelScaleMin":
+                                    break;
+
+                                case "EDiffTravelScaleMax":
                                     break;
 
                                 case "ETimeScale":
                                     break;
 
                                 case "EBackwardGradient": //Vel. Retorno
-                                                          //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwVelocidadeRetorno_mms_T28_LW }, dblValue);
                                     break;
 
                                 case "EActuationGradient1": //Vel. Avanco 1
-                                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T28.rVelocidadeNominal_mms = dblValue;
+                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwVelocidade_Avanco1_mms_T28_LW }, dblValue);
                                     break;
-
-                                case "EActuationGradient2": //Vel. Avanco 2
-                                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                case "ETwoPointEvaluationTime":
+                                    HelperTestBase.Model_GVL.GVL_T28.rTempoVerificacao2Pontos = dblValue;
                                     break;
-
-                                case "EActuationGradient3": //Vel. Avanco 3
-                                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
-                                    break;
-
-                                case "EActuationGradient4": //Vel. Avanco 4
-                                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
-                                    break;
-
-                                case "EActuationGradient5": //Vel. Avanco 5
-                                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
-                                    break;
-
-
-                                default:
-                                    break;
-                            }
-
-                            #endregion
-
-                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T28;
-
-                            break;
-                        }
-                    case 29:    //Bleed
-                        {
-                            #region Case Param
-
-                            switch (strName.Trim())
-                            {
-
-
-                                case "Actuations": //
-                                                   //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
-                                                   //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wNumeroAtuacoes_T29 }, dblValue);
-                                    break;
-
-                                case "Repetitions": //
-                                                    //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
-                                                    //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wNumeroRepeticoes_T29 }, dblValue);
-                                    break;
-
-                                case "PumpingTime": //
-                                                    //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
-                                                    //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoBombeamento_T29_LW }, dblValue);
-                                    break;
-
-
                                 default:
                                     break;
                             }
@@ -5517,8 +5462,6 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
         }
-
-        #endregion
 
         #endregion
 
@@ -7115,7 +7058,6 @@ namespace Continental.Project.Adam.UI
 
                             diagram.AxisX.GridSpacingAuto = false;
 
-                            //lmr
                             if (chartGVL.EixoX.rMax > 0)
                                 diagram.AxisX.NumericScaleOptions.GridSpacing = chartGVL.EixoX.rMax / 10;
 
@@ -7124,7 +7066,6 @@ namespace Continental.Project.Adam.UI
 
                             if (chartGVL.EixoX.rMax == 0)
                                 diagram.AxisX.NumericScaleOptions.GridSpacing = 1;
-                            //lmr
 
                             //diagram.AxisX.GridSpacing = 1;
 
@@ -7265,7 +7206,6 @@ namespace Continental.Project.Adam.UI
                                     EixoY2.WholeRange.SideMarginsValue = 0;
                                     EixoY2.MinorCount = 1;
 
-                                    //lmr
                                     if (chartGVL.EixoY2.rMax > 0)
                                         EixoY2.NumericScaleOptions.GridSpacing = chartGVL.EixoY2.rMax / 10;
 
@@ -7274,8 +7214,6 @@ namespace Continental.Project.Adam.UI
 
                                     if (chartGVL.EixoY2.rMax == 0)
                                         EixoY2.NumericScaleOptions.GridSpacing = 1;
-                                    //lmr
-
                                 }
 
                                 #endregion
@@ -7297,9 +7235,6 @@ namespace Continental.Project.Adam.UI
                                     //// Create two secondary axes, and add them to the chart's Diagram.
                                     SecondaryAxisY EixoY3 = new SecondaryAxisY(chartGVL.strNomeEixoY3);
                                     diagram.SecondaryAxesY.Add(EixoY3);
-
-
-
 
                                     //// Assign the series3 to the created axes.
                                     ((LineSeriesView)serieY3.View).AxisY = EixoY3;
@@ -7373,7 +7308,6 @@ namespace Continental.Project.Adam.UI
                                     EixoY4.WholeRange.SideMarginsValue = 0;
                                     EixoY4.MinorCount = 1;
 
-                                    //lmr
                                     if (chartGVL.EixoY4.rMax > 0)
                                         EixoY4.NumericScaleOptions.GridSpacing = chartGVL.EixoY4.rMax / 10;
 
@@ -7382,7 +7316,55 @@ namespace Continental.Project.Adam.UI
 
                                     if (chartGVL.EixoY4.rMax == 0)
                                         EixoY4.NumericScaleOptions.GridSpacing = 1;
-                                    //lmr 
+                                }
+
+                                #endregion
+
+                                #region Y05
+
+                                if (!chartGVL.bOcultaY5)
+                                {
+                                    Series serieY5 = devChart.Series[8];
+                                    Series seriePontosChart = devChart.Series[9];
+
+                                    if (serieY5 == null) return false;
+
+                                    setColor = serieY5.View.Color;
+
+                                    //// Create two secondary axes, and add them to the chart's Diagram.
+                                    SecondaryAxisY EixoY5 = new SecondaryAxisY(chartGVL.strNomeEixoY5);
+                                    diagram.SecondaryAxesY.Add(EixoY5);
+
+                                    //// Assign the series4 to the created axes.
+                                    ((LineSeriesView)serieY5.View).AxisY = EixoY5;
+                                    ((PointSeriesView)seriePontosChart.View).AxisY = EixoY5;
+
+                                    EixoY5.Title.Text = chartGVL.strNomeEixoY5;
+                                    EixoY5.Title.Visibility = DevExpress.Utils.DefaultBoolean.True;
+                                    EixoY5.Title.TextColor = setColor;
+                                    EixoY5.Label.TextColor = setColor;
+                                    EixoY5.Alignment = AxisAlignment.Near;
+                                    EixoY5.Color = setColor;
+
+                                    EixoY5.VisualRange.Auto = false;
+                                    EixoY5.GridSpacingAuto = false;
+
+                                    EixoY5.Range.MinValue = chartGVL.EixoY5.rMin;
+                                    EixoY5.Range.MaxValue = chartGVL.EixoY5.rMax;
+                                    EixoY5.VisualRange.MinValue = chartGVL.EixoY5.rMin;
+                                    EixoY5.VisualRange.MaxValue = chartGVL.EixoY5.rMax;
+                                    //Propriedade que elimina as "bordas" para fazer o eixo iniciar exatamente na escala definida
+                                    EixoY5.WholeRange.SideMarginsValue = 0;
+                                    EixoY5.MinorCount = 1;
+
+                                    if (chartGVL.EixoY5.rMax > 0)
+                                        EixoY5.NumericScaleOptions.GridSpacing = chartGVL.EixoY5.rMax / 10;
+
+                                    if (chartGVL.EixoY5.rMax < 0)
+                                        EixoY5.NumericScaleOptions.GridSpacing = (chartGVL.EixoY5.rMax * -1) / 10;
+
+                                    if (chartGVL.EixoY5.rMax == 0)
+                                        EixoY5.NumericScaleOptions.GridSpacing = 1;
 
                                 }
 
@@ -7510,8 +7492,9 @@ namespace Continental.Project.Adam.UI
                 List<double> lstAnalogCh08_PneumTestPressure = lstDblChReadFileArr[8];  //ch9.8 - HelperHBM._rPneumTestPressure - Pressao Teste Bolhas 0-1 bar(Linearizada)
                 List<double> lstAnalogCh09_HydrFillPressure = lstDblChReadFileArr[9];   //ch9.9 - HelperHBM._rHydrFillPressure - Pressao Sangria 0-6 bar (Linearizada)
                 List<double> lstAnalogCh10_Vacuum = lstDblChReadFileArr[10];            //ch9.10 - HelperHBM._rVacuum - Pressao Linha Vacuo (-1)-0 bar (Linearizada)
-                List<double> lstAnalogCh11_Reserv = lstDblChReadFileArr[11];            //ch9.11 - RESERVA
-                List<double> lstAnalogCh12_Reserv = lstDblChReadFileArr[12];            //ch9.12 - RESERVA
+                List<double> lstAnalogCh11_Velocity = lstDblChReadFileArr[11];          //ch9.11 - RESERVA
+                List<double> lstAnalogCh12_Power = lstDblChReadFileArr[12];             //ch9.12 - RESERVA
+
 
                 int totalPointsCount = lstDblChReadFileArr[0].Count(); //70000
 
@@ -7546,6 +7529,10 @@ namespace Continental.Project.Adam.UI
                     series4.ArgumentScaleType = ScaleType.Numerical;
                     series4.View.Color = Color.Magenta;
 
+                    Series series5 = new Series(modelChartGVL.strNomeEixoY5, ViewType.ScatterLine);
+                    series5.ArgumentScaleType = ScaleType.Numerical;
+                    series5.View.Color = Color.DarkGray;
+
                     #endregion
 
                     #region  Serie Inclusao de Pontos de Interesse
@@ -7556,7 +7543,7 @@ namespace Continental.Project.Adam.UI
                     PointSeriesView PontosChartView1 = (PointSeriesView)PontosChart1.View; //Define a visualizacao da serie
                     PontosChartView1.PointMarkerOptions.Kind = MarkerKind.Cross; //Define o X
                     PontosChartView1.PointMarkerOptions.Size = 10;
-                    PontosChartView1.Color = Color.Brown;
+                    PontosChartView1.Color = Color.Red;
 
                     Series PontosChart2 = new Series("PontosInteresseY2", ViewType.Point);
                     PontosChart2.ArgumentScaleType = ScaleType.Numerical;
@@ -7564,7 +7551,7 @@ namespace Continental.Project.Adam.UI
                     PointSeriesView PontosChartView2 = (PointSeriesView)PontosChart2.View; //Define a visualizacao da serie
                     PontosChartView2.PointMarkerOptions.Kind = MarkerKind.Cross; //Define o X
                     PontosChartView2.PointMarkerOptions.Size = 10;
-                    PontosChartView2.Color = Color.Brown;
+                    PontosChartView2.Color = Color.Red;
 
                     Series PontosChart3 = new Series("PontosInteresseY3", ViewType.Point);
                     PontosChart3.ArgumentScaleType = ScaleType.Numerical;
@@ -7572,7 +7559,7 @@ namespace Continental.Project.Adam.UI
                     PointSeriesView PontosChartView3 = (PointSeriesView)PontosChart3.View; //Define a visualizacao da serie
                     PontosChartView3.PointMarkerOptions.Kind = MarkerKind.Cross; //Define o X
                     PontosChartView3.PointMarkerOptions.Size = 10;
-                    PontosChartView3.Color = Color.Brown;
+                    PontosChartView3.Color = Color.Red;
 
                     Series PontosChart4 = new Series("PontosInteresseY4", ViewType.Point);
                     PontosChart4.ArgumentScaleType = ScaleType.Numerical;
@@ -7580,9 +7567,15 @@ namespace Continental.Project.Adam.UI
                     PointSeriesView PontosChartView4 = (PointSeriesView)PontosChart4.View; //Define a visualizacao da serie
                     PontosChartView4.PointMarkerOptions.Kind = MarkerKind.Cross; //Define o X
                     PontosChartView4.PointMarkerOptions.Size = 10;
-                    PontosChartView4.Color = Color.Brown;
+                    PontosChartView4.Color = Color.Red;
 
-                    //vou fazer copia.. ja fica pronto se precisar
+                    Series PontosChart5 = new Series("PontosInteresseY5", ViewType.Point);
+                    PontosChart5.ArgumentScaleType = ScaleType.Numerical;
+
+                    PointSeriesView PontosChartView5 = (PointSeriesView)PontosChart5.View; //Define a visualizacao da serie
+                    PontosChartView5.PointMarkerOptions.Kind = MarkerKind.Cross; //Define o X
+                    PontosChartView5.PointMarkerOptions.Size = 10;
+                    PontosChartView5.Color = Color.Red;
 
                     #endregion
 
@@ -7664,7 +7657,15 @@ namespace Continental.Project.Adam.UI
                                             break;
                                         case 25:
                                             {
-
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForca_E1, _modelGVL.GVL_T25.rPressao_E1_Bar));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForca_E2, _modelGVL.GVL_T25.rPressao_E2_Bar));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaCutIn_N, _modelGVL.GVL_T25.rPressaoJumper_Bar));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rDualRatioSwithcPointF_N, _modelGVL.GVL_T25.rDualRatioSwithcPointP_Bar));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaAvanco_Xpout_N, _modelGVL.GVL_T25.rPressaoHysteresePout_Bar));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaRetorno_Xpout_N, _modelGVL.GVL_T25.rPressaoHysteresePout_Bar));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaAvanco_Xbar_N, _modelGVL.GVL_T25.rPressaoHysterese_Bar));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaRetorno_Xbar_N, _modelGVL.GVL_T25.rPressaoHysterese_Bar));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rRunOutForce_Real_N, _modelGVL.GVL_T25.rRunOutPressure_Real_Bar));
                                             }
                                             break;
                                         default:
@@ -7732,16 +7733,13 @@ namespace Continental.Project.Adam.UI
                                             break;
                                         case 26:
                                             {
-
-
-
-
-
-
-
-
-
-
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rForca_E1, _modelGVL.GVL_T26.rForcaOut_E1_N));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rForca_E2, _modelGVL.GVL_T26.rForcaOut_E2_N));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rForcaCutIn_N, _modelGVL.GVL_T26.rForcaFOutCutIn_N));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rDualRatioSwithcPointF_N, _modelGVL.GVL_T26.rDualRatioSwithcPointFout_N));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rForcaAvanco_XFout_N, _modelGVL.GVL_T26.rForcaOutHystereseFout_N));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rForcaRetorno_XFout_N, _modelGVL.GVL_T26.rForcaOutHystereseFout_N));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rRunOutForce_Real_N, _modelGVL.GVL_T26.rRunOutForceOut_Real_N));
                                             }
                                             break;
                                         default:
@@ -9426,7 +9424,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 try
                                 {
-                                    if (_modelGVL.GVL_Parametros.iTipoGrafico_T27 == 0)
+                                    if (_modelGVL.GVL_T27.iTipoGrafico == 0)
                                     {
                                         #region  Serie de Valores
 
@@ -9454,35 +9452,53 @@ namespace Continental.Project.Adam.UI
                                         //GVL_Graficos.strNomeEixoY1 = "Input Force (N)";
                                         //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
                                         //GVL_Graficos.strNomeEixoY3 = "Piston Travel (mm)";
-                                        //GVL_Graficos.strNomeEixoY4 = "Diff. Travel (mm)";
+                                        //GVL_Graficos.strNomeEixoY4 = "Velocity (mm/s)";
+                                        //GVL_Graficos.strNomeEixoY5 = "Power (W);
+
+                                        double rDeslocamentoInicial = 0;
+                                        double rTempoInicial = 0;
+                                        int iPosDeslocamentoInicial = 0;
 
                                         for (i = 0; i <= totalPointsCount - 1; i++)
                                         {
-                                            series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh02_InputForce1[i]));
-                                            series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
-                                            series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh05_TravelPiston[i]));
-                                            series4.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh01_DiffTravel[i]));
+                                            if (lstAnalogCh05_TravelPiston[i] > 0.1)
+                                            {
+                                                rTempoInicial = lstAnalogCh00_Timestamp[i];
+                                                rDeslocamentoInicial = lstAnalogCh05_TravelPiston[i];
+                                                iPosDeslocamentoInicial = i;
+                                                break;
+                                            }
+                                        }
+
+
+
+
+
+                                        for (i = iPosDeslocamentoInicial; i <= totalPointsCount - 1; i++)
+                                        {
+                                            //Calcula a velocidade
+                                            if (lstAnalogCh00_Timestamp[i] > 0)
+                                                lstAnalogCh11_Velocity[i] = (lstAnalogCh05_TravelPiston[i] - rDeslocamentoInicial) / (lstAnalogCh00_Timestamp[i] - rTempoInicial);
+                                            else
+                                                lstAnalogCh11_Velocity[i] = 0;
+
+                                            //Calcula a potencia
+                                            lstAnalogCh12_Power[i] = ((lstAnalogCh11_Velocity[i] / 1000) * lstAnalogCh02_InputForce1[i]);
+
+                                            series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh02_InputForce1[i]));
+                                            series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh07_PressurePC[i]));
+                                            series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh05_TravelPiston[i]));
+                                            series4.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh11_Velocity[i]));
+                                            series5.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh12_Power[i]));
                                         }
 
                                         #endregion
 
                                         #region  Serie Pontos de Interesse
 
-
-
-
-
-
-
-
-
-
-
-
-
                                         #endregion
 
-                                        devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2, series3, PontosChart3, series4, PontosChart4 });
+                                        devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2, series3, PontosChart3, series4, PontosChart4, series5, PontosChart5 });
                                     }
                                 }
                                 catch (Exception ex)
@@ -9499,7 +9515,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 try
                                 {
-                                    if (_modelGVL.GVL_Parametros.iTipoGrafico_T28 == 0)
+                                    if (_modelGVL.GVL_T28.iTipoGrafico == 0)
                                     {
                                         #region  Serie de Valores
 
@@ -9508,7 +9524,7 @@ namespace Continental.Project.Adam.UI
 
                                         for (i = 0; i <= totalPointsCount - 1; i++)
                                         {
-                                            series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
+                                            series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh03_OutputForce[i]));
                                         }
 
                                         #endregion
@@ -9525,73 +9541,56 @@ namespace Continental.Project.Adam.UI
 
                                         //GVL_Graficos.strNomeEixoX = "Time (s)";
                                         //GVL_Graficos.strNomeEixoY1 = "Input Force (N)";
-                                        //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
+                                        //GVL_Graficos.strNomeEixoY2 = "Output Force (N)";
                                         //GVL_Graficos.strNomeEixoY3 = "Piston Travel (mm)";
-                                        //GVL_Graficos.strNomeEixoY4 = "Diff. Travel (mm)";
+                                        //GVL_Graficos.strNomeEixoY4 = "Velocity (mm/s)";
+                                        //GVL_Graficos.strNomeEixoY5 = "Power (W);
+
+                                        double rDeslocamentoInicial = 0;
+                                        double rTempoInicial = 0;
+                                        int iPosDeslocamentoInicial = 0;
 
                                         for (i = 0; i <= totalPointsCount - 1; i++)
                                         {
-                                            series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh02_InputForce1[i]));
-                                            series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
-                                            series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh05_TravelPiston[i]));
-                                            series4.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh01_DiffTravel[i]));
+                                            if (lstAnalogCh05_TravelPiston[i] > 0.1)
+                                            {
+                                                rTempoInicial = lstAnalogCh00_Timestamp[i];
+                                                rDeslocamentoInicial = lstAnalogCh05_TravelPiston[i];
+                                                iPosDeslocamentoInicial = i;
+                                                break;
+                                            }
+                                        }
+
+
+
+
+
+                                        for (i = iPosDeslocamentoInicial; i <= totalPointsCount - 1; i++)
+                                        {
+                                            //Calcula a velocidade
+                                            if (lstAnalogCh00_Timestamp[i] > 0)
+                                                lstAnalogCh11_Velocity[i] = (lstAnalogCh05_TravelPiston[i] - rDeslocamentoInicial) / (lstAnalogCh00_Timestamp[i] - rTempoInicial);
+                                            else
+                                                lstAnalogCh11_Velocity[i] = 0;
+
+                                            //Calcula a potencia
+                                            lstAnalogCh12_Power[i] = ((lstAnalogCh11_Velocity[i] / 1000) * lstAnalogCh02_InputForce1[i]);
+
+                                            series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh02_InputForce1[i]));
+                                            series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh03_OutputForce[i]));
+                                            series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh05_TravelPiston[i]));
+                                            series4.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh11_Velocity[i]));
+                                            series5.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh12_Power[i]));
                                         }
 
                                         #endregion
 
                                         #region  Serie Pontos de Interesse
 
-
-
-
-
-
-
-
-
-
-
-
                                         #endregion
 
-                                        devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2, series3, PontosChart3, series4, PontosChart4 });
+                                        devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2, series3, PontosChart3, series4, PontosChart4, series5, PontosChart5 });
                                     }
-                                }
-                                catch (Exception ex)
-                                {
-                                    var err = i;
-                                    bCharSeriesOK = false;
-
-                                    MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    throw;
-                                }
-                            }
-                            break;
-                        case 29:    //Bleed
-                            {
-                                try
-                                {
-                                    #region  Serie de Valores
-
-                                    //GVL_Graficos.strNomeEixoX = "Time (s)";
-                                    //GVL_Graficos.strNomeEixoY1 = "Input Force (N)";
-                                    //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
-                                    //GVL_Graficos.strNomeEixoY3 = "Pressure SC (bar)";
-
-                                    for (i = 0; i <= totalPointsCount - 1; i++)
-                                    {
-                                        series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh02_InputForce1[i]));
-                                        series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
-                                        series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh06_PressureSC[i]));
-                                    }
-
-                                    #endregion
-
-                                    #region  Serie Pontos de Interesse
-
-                                    #endregion
-
-                                    devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2, series3, PontosChart3 });
                                 }
                                 catch (Exception ex)
                                 {

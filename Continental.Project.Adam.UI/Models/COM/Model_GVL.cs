@@ -366,6 +366,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rEscalaY2;   // REAL;
         public double rEscalaY3;   // REAL;
         public double rEscalaY4;   // REAL;
+        public double rEscalaY5;   // REAL;
         public long diBuffer;   // DINT;
         public VisuStructXYChartCurve Curva1 = new VisuStructXYChartCurve();    // VisuStructXYChartCurve;
         public VisuStructXYChartCurve Curva2 = new VisuStructXYChartCurve();    // VisuStructXYChartCurve;
@@ -377,6 +378,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public VisuStructXYChartCurve EixoY2 = new VisuStructXYChartCurve();    // VisuStructXYChartAxis;
         public VisuStructXYChartCurve EixoY3 = new VisuStructXYChartCurve();    // VisuStructXYChartAxis;
         public VisuStructXYChartCurve EixoY4 = new VisuStructXYChartCurve();    // VisuStructXYChartAxis;
+        public VisuStructXYChartCurve EixoY5 = new VisuStructXYChartCurve();    // VisuStructXYChartAxis;
         public bool bHabilitaZoom;   // BOOL;
         public bool bDesabilitaZoom;   // BOOL;
         public bool bHabilitaExpandir;   // BOOL;
@@ -390,16 +392,19 @@ namespace Continental.Project.Adam.UI.Models.COM
         public string strNomeEixoY2;   // STRING[30];
         public string strNomeEixoY3;   // STRING[30];
         public string strNomeEixoY4;   // STRING[30];
+        public string strNomeEixoY5;   // STRING[30];
 
         public string strUnidadeX;   // STRING[10];
         public string strUnidadeY1;   // STRING[10];
         public string strUnidadeY2;   // STRING[10];
         public string strUnidadeY3; //STRING(10);
         public string strUnidadeY4;   // STRING[10];
+        public string strUnidadeY5;   // STRING[10];
 
         public bool bOcultaY2;   // BOOL;
         public bool bOcultaY3;   // BOOL;
         public bool bOcultaY4;   // BOOL;
+        public bool bOcultaY5;   // BOOL;
 
         public int iOutput;	//0=OFF 1=OutputPC 2=OutpuctSC
 
@@ -1032,7 +1037,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         public bool bCalculaResultados; //: BOOL;
 
@@ -1136,7 +1141,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados; // : BOOL;
@@ -1232,7 +1237,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1296,7 +1301,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1390,7 +1395,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1427,7 +1432,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1483,7 +1488,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1522,7 +1527,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1558,7 +1563,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1594,14 +1599,12 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
 
         //Parametros do teste
-
-        //
 
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
@@ -1624,7 +1627,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1634,8 +1637,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rForcaInicialTempoAtuacao_N;// : REAL;			//Ponto de força inicial para o calculo de tempo de atuacao
         public double rForcaFinalTempoAtuacao;// : REAL;				//Ponto final para calculo do tempo de atuação em % da forca maxima atingida
         public double rForcaRetornoTempoAtuacao;// : REAL;			//Força para calculo do tempo de retorno, em % da fmax atingida
-
-        //
 
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
@@ -1665,7 +1666,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1702,7 +1703,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1734,7 +1735,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1762,7 +1763,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1794,7 +1795,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1806,8 +1807,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rCursoNaPressao2_Bar;// : REAL;
         public double rCursoNaPressao3_Bar;// : REAL;
         public double rCursoNaPressao4_Bar;// : REAL;
-
-        //
 
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
@@ -1836,7 +1835,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1876,7 +1875,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1918,7 +1917,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1933,8 +1932,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bConfirmaP2;// : BOOL;						//Confirnação Pressão 0.3 bar
         public bool bCancelaP2;// : BOOL;						//Confirnação Pressão 0.3 bar
         public double rDeslocamentoNaPressao_Bar;// : REAL;		//Pressao para coletar o deslocamento
-
-        //
 
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
@@ -1960,7 +1957,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         //
         public bool bCalculaResultados;// : BOOL;
@@ -1968,8 +1965,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         //Parametros do teste
         public double rPressaoCutIn_Bar;// : REAL;
         public double rPressaoTeste_Bar;// : REAL;
-
-        //
 
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
@@ -2012,7 +2007,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
         public bool bCalculaResultados;// : BOOL;
 
         #endregion
@@ -2045,7 +2040,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public long diPosicaoPressAuxiliar; //: DINT;
         public long diPosicaoRunOutRetorno; //: DINT;
         public double rDeslocamentoMaximo; // : REAL; 
-        public double rPressaoEmForcaMaxima_Bar; // : REAL; 
+        public double rPressaoMaxima_Bar; // : REAL; 
         public double rGradienteForcaAvanco; // : REAL; 
         public double rGradienteDeslocamentoAvanco; // : REAL; 
         public double rGradienteForcaRetorno; // : REAL; 
@@ -2081,7 +2076,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arc
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arc
 
         public bool bCalculaResultados;// : BOOL;
 
@@ -2115,7 +2110,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
         public bool bCalculaResultados;// : BOOL;
 
@@ -2152,12 +2147,114 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
-        //Parametros e resultados do teste
-        //em execucao
-        //
-        //
+        public bool bCalculaResultados; //: BOOL;
+
+        //Parametros do teste
+        public bool bMostraLinhasDRAux;
+        public double rForca_P1; //  ;REAL; //Forca no ponto P1 (xForca yPressao que deve ser coletada neste ponto) reta saturacao
+        public double rForca_P2; //  ;REAL; //Forca no ponto P2 (xForca yPressao que deve ser coletada neste ponto) reta saturacao
+        public double rForca_E1; //  ;REAL; //Forca no ponto E1 (xForca yPressao que deve ser coletada neste ponto) reta amplificacao
+        public double rForca_E2; //  ;REAL; //Forca no ponto E2 (xForca yPressao que deve ser coletada neste ponto) reta amplificacao
+        public double rPontoMedicao_P7; // ; REAL //Parametro aquisição força P7
+        public double rDeslocamentoNaPressao; //  ;REAL; //Obter o  valor do deslocamento na pressao definida aqui (em % de pout)
+        public double rPressaoCutIn_Bar; //  ;REAL; //Pressao na qual eh obtida a forca de cut-in, Padrao normalizado 0.2, mas como parametro pois pode mudar um dia.
+        public double rReleaseForcePressMin_Bar; //  ;REAL; //Pressao para calculo da forca no retorno, valor minimo
+        public double rReleaseForcePressMax_Bar; //  ;REAL; //Pressao para calculo da forca no retorno, valor maximo
+        public double rPressaoHysterese_pout; //  ;REAL; //Calculo da pressao = X%pout(runout)
+        public double rPressaoHysterese_Bar; //  ;REAL; //Pressao calculada (% pout)
+        public double rReleaseForceAt_mm; //  ;REAL; //Deslocamento para mostrar a forca no retorno.
+        public double rJumperGradienteNominal; //
+        public double rJumperTolPos; //  ;REAL;
+        public double rJumperTolNeg; //  ;REAL;
+        public double rSwitchPointGradienteNominal; //
+        public double rSwitchPointTolPos; //  ;REAL;
+        public double rSwitchPointTolNeg; //  ;REAL;
+        public double rDiametroCMD_mm; //  ;REAL; //Diametro do CMD
+
+
+        //Resultados do teste
+        public double rVacuoInicial; //  ;REAL;
+        public double rTemperaturaInicial; //  ;REAL;
+        public int iConsumidoresCP; //  ;INT;
+        public int iConsumidoresCS; //  ;INT;
+        public long diPosicaoForcaMaxima; //  ;DINT; //indice do array que indica o pico de forca, tambem indica que o gráfico começou a "voltar" a partir daqui
+        public double rForcaMaxima; //  ;REAL;
+        public double rDeslocamentoMaximo; //  ;REAL;
+        public double rGradienteForcaAvanco; //  ;REAL;
+        public double rGradienteDeslocamentoAvanco; //  ;REAL;
+        public double rGradienteForcaRetorno; //  ;REAL;
+        public double rGradienteDeslocamentoRetorno; //  ;REAL;
+        public double rForcaReal_P1_N; //  ;REAL;
+        public double rPressao_P1_Bar; //  ;REAL;
+        public double rForcaReal_P2_N; //  ;REAL;
+        public double rPressao_P2_Bar; //  ;REAL;
+        public double rForcaReal_E1_N; //  ;REAL;
+        public double rPressao_E1_Bar; //  ;REAL;
+        public double rForcaReal_E2_N; //  ;REAL;
+        public double rPressao_E2_Bar; //  ;REAL;
+
+        public double rPressaoAuxiliar_P3_Bar; //  ;REAL;
+
+        public double rPressao_P4_Bar; //  ;REAL;
+        public double rForca_P4_N; //  ;REAL;
+        public double rForca_P5_N; //  ;REAL;
+        public double rForcaReal_P6_N; //  ;REAL;
+
+        public double rRunOutForce_LinearInt_N;
+        public double rRunOutPressure_LinearInt_Bar;
+        public double rRunOutForce_Real_N; //  ;REAL;
+        public double rRunOutPressure_Real_Bar; //  ;REAL;
+
+        //Usado para Temporario nos testes adicionais...
+        public double temp_rRunOutForce_Real_N; //  ;REAL;
+        public double temp_rRunOutPressure_Real_Bar; //  ;REAL;
+
+        public double rPressao_70pout_bar; //  ;REAL;
+        public double rForca_70pout_N; //  ;REAL;
+
+        public double rPressao_90pout_bar; //  ;REAL;
+        public double rForca_90pout_N; //  ;REAL;
+        public double rDeslocamento_90pout_mm; //  ;REAL;
+        public double rDeslocamentoNaPressao_mm; //  ;REAL; //Deslocamento obtido atraves do parametro "DeslocamentoNaPressao (%Pout)
+        public double rForcaPontoMedicaoP7_N;
+        public double rPressaoPontoMedicaoP7_bar;
+
+        public double rPressao_P5_Bar; //  ;REAL;
+        public double rForca_F5_N; //  ;REAL;
+        public double rPressao_P6_Bar; //  ;REAL;
+        public double rForca_F6_N; //  ;REAL;
+
+        public double rForcaCutIn_N; //  ;REAL; 
+
+        public double rPressaoJumper_Bar; //  ;REAL; 
+        public double rPressaoP1Jumper_Bar; //  ;REAL; 
+        public double rForcaP1Jumper_N; //  ;REAL; 
+        public double rPressaoP2Jumper_Bar; //  ;REAL; 
+        public double rForcaP2Jumper_N; //  ;REAL; 
+        public double rGradientJumper; //  ;REAL;
+
+        public double rReleaseForce_N; //  ;REAL; //Forca no retorno entre as pressoes max min definidas
+        public double rReleaseForceAt_N; //  ;REAL; // Forca no retorno no pondo de deslocamento definido
+
+        public double rReleaseForceAtReal_mm; //  ;REAL; //Deslocamento real no qual o release force foi coletado
+
+        public double rTaxaAmplificacao; //  ;REAL;
+
+        public double rPressaoHysteresePout_Bar; //  ;REAL;//
+        public double rForcaAvanco_Xpout_N; //  ;REAL; //Forca obtida no avanco correspondente a pressao 50pout
+        public double rForcaRetorno_Xpout_N; //  ;REAL; //Forca obtida no retorno correspontente a pressao 50pout
+        public double rHysterese_Xpout_N; //  ;REAL; //Forca obtida no avanco - forca obtida no retorno correspondente a pressao 50% pout
+        public double rForcaAvanco_Xbar_N; //  ;REAL; //Forca obtida no avanco correspondente a pressao 50bar
+        public double rForcaRetorno_Xbar_N; //  ;REAL; //Forca obtida no retorno correspontente a pressao 50pout
+        public double rHysterese_Xbar_N; //  ;REAL; //Forca obtida no avanco - forca obtida no retorno correspondente a pressao 50bar
+
+        public double rDualRatioSwithcPointF_N;
+        public double rDualRatioSwithcPointP_Bar;
+
+        public double rDualRatioGradiente1Eff1;
+        public double rDualRatioGradiente1Eff2;
     }
     public class GVL_T26
     {
@@ -2168,12 +2265,108 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
-        //Parametros e resultados do teste
-        //em execucao
-        //
-        //
+        public bool bCalculaResultados; //: BOOL;
+
+        //Parametros do teste
+        public bool bMostraLinhasDRAux;
+        public double rForca_P1; //  ;REAL; //Forca no ponto P1 (xForca yPressao que deve ser coletada neste ponto) reta saturacao
+        public double rForca_P2; //  ;REAL; //Forca no ponto P2 (xForca yPressao que deve ser coletada neste ponto) reta saturacao
+        public double rForca_E1; //  ;REAL; //Forca no ponto E1 (xForca yPressao que deve ser coletada neste ponto) reta amplificacao
+        public double rForca_E2; //  ;REAL; //Forca no ponto E2 (xForca yPressao que deve ser coletada neste ponto) reta amplificacao
+        public double rPontoMedicao_P7; // ; REAL //Parametro aquisição força P7
+        public double rDeslocamentoNaForca; //  ;REAL; //Obter o  valor do deslocamento na pressao definida aqui (em % de pout)
+        public double rForcaFOutCutIn_N; //  ;REAL; //Pressao na qual eh obtida a forca de cut-in, Padrao normalizado 0.2, mas como parametro pois pode mudar um dia.
+        public double rReleaseForceFoutMin_N; //  ;REAL; 
+        public double rReleaseForceFoutMax_N; //  ;REAL; 
+        public double rForcaHysterese_Fout; //  ;REAL;
+        public double rForcaHysterese_N; //  ;REAL; 
+        public double rReleaseForceAt_mm; //  ;REAL; //Deslocamento para mostrar a forca no retorno.
+        public double rJumperGradienteNominal; //
+        public double rJumperTolPos; //  ;REAL;
+        public double rJumperTolNeg; //  ;REAL;
+        public double rSwitchPointGradienteNominal; //
+        public double rSwitchPointTolPos; //  ;REAL;
+        public double rSwitchPointTolNeg; //  ;REAL;
+        public double rDiametroCMD_mm; //  ;REAL; //Diametro do CMD
+
+        //Resultados do teste
+        public double rVacuoInicial; //  ;REAL;
+        public double rTemperaturaInicial; //  ;REAL;
+        public int iConsumidoresCP; //  ;INT;
+        public int iConsumidoresCS; //  ;INT;
+        public long diPosicaoForcaMaxima; //
+        public double rForcaMaxima; //  ;REAL;
+        public double rDeslocamentoMaximo; //  ;REAL;
+        public double rGradienteForcaAvanco; //  ;REAL;
+        public double rGradienteDeslocamentoAvanco; //  ;REAL;
+        public double rGradienteForcaRetorno; //  ;REAL;
+        public double rGradienteDeslocamentoRetorno; //  ;REAL;
+        public double rForcaReal_P1_N; //  ;REAL;
+        public double rForcaOut_P1_N; //  ;REAL;
+        public double rForcaReal_P2_N; //  ;REAL;
+        public double rForcaOut_P2_N; //  ;REAL;
+        public double rForcaReal_E1_N; //  ;REAL;
+        public double rForcaOut_E1_N; //  ;REAL;
+        public double rForcaReal_E2_N; //  ;REAL;
+        public double rForcaOut_E2_N; //  ;REAL;
+
+        public double rForcaAuxiliar_P3_N; //  ;REAL;
+
+        public double rForcaOut_P4_N; //  ;REAL;
+        public double rForca_P4_N; //  ;REAL;
+
+        public double rRunOutForce_LinearInt_N;
+        public double rRunOutForceOut_LinearInt_N;
+        public double rRunOutForce_Real_N; //  ;REAL;
+        public double rRunOutForceOut_Real_N; //  ;REAL;
+
+        public double rForcaOut_70Fout_N; //  ;REAL;
+        public double rForca_70Fout_N; //  ;REAL;
+
+        public double rForcaOut_90Fout_N; //  ;REAL;
+        public double rForca_90Fout_N; //  ;REAL;
+        public double rDeslocamento_90Fout_mm; //  ;REAL;
+        public double rDeslocamentoNaForca_mm; //  ;REAL; //Deslocamento obtido atraves do parametro "DeslocamentoNaPressao (%Pout)
+        public double rForcaPontoMedicaoP7_N;
+        public double rForcaOutPontoMedicaoP7_N;
+
+        public double rForcaOut_P5_N; //  ;REAL;
+        public double rForca_F5_N; //  ;REAL;
+        public double rForcaOut_P6_N; //  ;REAL;
+        public double rForca_F6_N; //  ;REAL;
+
+        public double rForcaCutIn_N; //  ;REAL; 
+
+        public double rForcaOutJumper_N; //  ;REAL; 
+        public double rForcaOutP1Jumper_N; //  ;REAL; 
+        public double rForcaP1Jumper_N; //  ;REAL; 
+        public double rForcaOutP2Jumper_N; //  ;REAL; 
+        public double rForcaP2Jumper_N; //  ;REAL; 
+        public double rGradientJumper; //  ;REAL;
+
+        public double rReleaseForce_N; //  ;REAL; //Forca no retorno entre as pressoes max min definidas
+        public double rReleaseForceAt_N; //  ;REAL; // Forca no retorno no pondo de deslocamento definido
+
+        public double rReleaseForceAtReal_mm; //  ;REAL; //Deslocamento real no qual o release force foi coletado
+
+        public double rTaxaAmplificacao; //  ;REAL;
+
+        public double rForcaOutHystereseFout_N; //  ;REAL;//
+        public double rForcaAvanco_XFout_N; //  ;REAL; //Forca obtida no avanco correspondente a pressao 50pout
+        public double rForcaRetorno_XFout_N; //  ;REAL; //Forca obtida no retorno correspontente a pressao 50pout
+        public double rHysterese_XFout_N; //  ;REAL; //Forca obtida no avanco - forca obtida no retorno correspondente a pressao 50% pout
+        public double rForcaAvanco_Xbar_N; //  ;REAL; //Forca obtida no avanco correspondente a pressao 50bar
+        public double rForcaRetorno_Xbar_N; //  ;REAL; //Forca obtida no retorno correspontente a pressao 50pout
+        public double rHysterese_Xbar_N; //  ;REAL; //Forca obtida no avanco - forca obtida no retorno correspondente a pressao 50bar
+
+        public double rDualRatioSwithcPointF_N;
+        public double rDualRatioSwithcPointFout_N;
+
+        public double rDualRatioGradiente1Eff1;
+        public double rDualRatioGradiente1Eff2;
+
     }
     public class GVL_T27
     {
@@ -2184,13 +2377,30 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bIniciaCiclo;       //Comando para iniciar o teste
         public bool bCicloFinalizado;   //Final de ciclo
         public bool bEmCiclo;
-        public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
+        public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
 
-        //Parametros e resultados do teste
-        //em execucao
-        //em execucao
+        public bool bCalculaResultados; //: BOOL;
 
-        public int iCicloAtual;
+        //Parametro
+        public int iTipoGrafico;
+        public double rTempoVerificacao2Pontos;
+
+        //Resultados do teste
+        public double rVacuoInicial;
+        public double rTemperaturaInicial; //
+        public int iConsumidoresCP; //
+        public int iConsumidoresCS; //
+        public double rGradienteDeslocamentoAvanco; //  ;REAL;
+        public long diPosicaoForcaMaxima;
+        public long diPosicaoForcaAtuacao;
+        public double rForcaMaxima; //  ;REAL;
+        public double rPressaoMaxima_bar;
+        public double rPotenciaAtuacao_W;
+        public double rDeslocamentoDiferencialMax_mm;
+        public double rVelocidadeAtuacao2Pontos_mms;
+        public double rForcaMaximaAtuacao_N; //  ;REAL;
+        public double rPotenciaAtuacao2Pontos_W;
+        public double rVelocidadeNominal_mms;
     }
     public class GVL_T28
     {
@@ -2203,9 +2413,27 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bEmCiclo;
         public int iMontagemArco = 2;   //0=irrelevante 1=sem arco 2=com arco
 
-        //Parametros e resultados do teste
-        //em execucao
-        //
+        public bool bCalculaResultados; //: BOOL;
+
+        //Parametro
+        public int iTipoGrafico;
+        public double rTempoVerificacao2Pontos;
+
+        //Resultados do teste
+        public double rVacuoInicial;
+        public double rTemperaturaInicial; //
+        public int iConsumidoresCP; //
+        public int iConsumidoresCS; //
+        public double rGradienteDeslocamentoAvanco; //  ;REAL;
+        public long diPosicaoForcaMaxima;
+        public long diPosicaoForcaAtuacao;
+        public double rForcaMaxima; //  ;REAL;
+        public double rPotenciaAtuacao_W;
+        public double rDeslocamentoDiferencialMax_mm;
+        public double rVelocidadeAtuacao2Pontos_mms;
+        public double rForcaMaximaAtuacao_N; //  ;REAL;
+        public double rPotenciaAtuacao2Pontos_W;
+        public double rVelocidadeNominal_mms;
     }
     public class GVL_T29
     {

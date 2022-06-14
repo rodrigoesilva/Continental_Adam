@@ -197,28 +197,28 @@ namespace Continental.Project.Adam.UI.Helper.Com
 
                             #region Analogicas Mobdus
                             case 0:
-                                HelperMODBUS.CS_dwPressaoCS_Bar_LW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwPressaoCS_Bar_LW = Convert.ToDouble(signalValue);
                                 break;
                             case 1:
-                                HelperMODBUS.CS_dwPressaoCS_Bar_HW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwPressaoCS_Bar_HW = Convert.ToDouble(signalValue);
                                 break;
                             case 2:
-                                HelperMODBUS.CS_dwPressaoCP_Bar_LW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwPressaoCP_Bar_LW = Convert.ToDouble(signalValue);
                                 break;
                             case 3:
-                                HelperMODBUS.CS_dwPressaoCP_Bar_HW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwPressaoCP_Bar_HW = Convert.ToDouble(signalValue);
                                 break;
                             case 4:
-                                HelperMODBUS.CS_dwPressaoBubbleTest_Bar_LW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwPressaoBubbleTest_Bar_LW = Convert.ToDouble(signalValue);
                                 break;
                             case 5:
-                                HelperMODBUS.CS_dwPressaoBubbleTest_Bar_HW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwPressaoBubbleTest_Bar_HW = Convert.ToDouble(signalValue);
                                 break;
                             case 6:
-                                HelperMODBUS.CS_dwPressaoHidraulica_Bar_LW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwPressaoHidraulica_Bar_LW = Convert.ToDouble(signalValue);
                                 break;
                             case 7:
-                                HelperMODBUS.CS_dwPressaoHidraulica_Bar_HW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwPressaoHidraulica_Bar_HW = Convert.ToDouble(signalValue);
                                 break;
                             case 8:
                                 HelperMODBUS.CS_dwVacuo_Bar_LW = (Convert.ToDouble(signalValue) * -1);
@@ -227,34 +227,34 @@ namespace Continental.Project.Adam.UI.Helper.Com
                                 HelperMODBUS.CS_dwVacuo_Bar_HW = Convert.ToDouble(signalValue);
                                 break;
                             case 10:
-                                HelperMODBUS.CS_dwDeslocamentoDiferencial_mm_LW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwDeslocamentoDiferencial_mm_LW = Convert.ToDouble(signalValue);
                                 break;
                             case 11:
-                                HelperMODBUS.CS_dwDeslocamentoDiferencial_mm_HW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwDeslocamentoDiferencial_mm_HW = Convert.ToDouble(signalValue);
                                 break;
                             case 12:
-                                HelperMODBUS.CS_dwDeslocamentoEntradaBooster_mm_LW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwDeslocamentoEntradaBooster_mm_LW = Convert.ToDouble(signalValue);
                                 break;
                             case 13:
-                                HelperMODBUS.CS_dwDeslocamentoEntradaBooster_mm_HW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwDeslocamentoEntradaBooster_mm_HW = Convert.ToDouble(signalValue);
                                 break;
                             case 14:
-                                HelperMODBUS.CS_dwDeslocamentoSaidaBooster_mm_LW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwDeslocamentoSaidaBooster_mm_LW = Convert.ToDouble(signalValue);
                                 break;
                             case 15:
-                                HelperMODBUS.CS_dwDeslocamentoSaidaBooster_mm_HW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwDeslocamentoSaidaBooster_mm_HW = Convert.ToDouble(signalValue);
                                 break;
                             case 16:
-                                HelperMODBUS.CS_dwForcaEntradaBooster_N_LW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwForcaEntradaBooster_N_LW = Convert.ToDouble(signalValue);
                                 break;
                             case 17:
-                                HelperMODBUS.CS_dwForcaEntradaBooster_N_HW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwForcaEntradaBooster_N_HW = Convert.ToDouble(signalValue);
                                 break;
                             case 18:
-                                HelperMODBUS.CS_dwForcaSaidaBooster_N_LW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwForcaSaidaBooster_N_LW = Convert.ToDouble(signalValue);
                                 break;
                             case 19:
-                                HelperMODBUS.CS_dwForcaSaidaBooster_N_HW = Convert.ToDouble(signalValue);
+                                //HelperMODBUS.CS_dwForcaSaidaBooster_N_HW = Convert.ToDouble(signalValue);
                                 break;
                             case 20:
                                 HelperMODBUS.CS_dwTemperaturaAmbiente_C_LW = Convert.ToDouble(signalValue);
@@ -336,37 +336,37 @@ namespace Continental.Project.Adam.UI.Helper.Com
                                 HelperMODBUS.CS_wFinalizaGravacao = Convert.ToBoolean(signalValue);
                                 break;
                             case 45:
-                                HelperMODBUS.CS_wSens_S0402 = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wSens_S0402 = Convert.ToBoolean(signalValue);
                                 break;
                             case 46:
-                                HelperMODBUS.CS_wSens_S0423 = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wSens_S0423 = Convert.ToBoolean(signalValue);
                                 break;
                             case 47:
-                                HelperMODBUS.CS_wSens_S0405 = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wSens_S0405 = Convert.ToBoolean(signalValue);
                                 break;
                             case 48:
-                                HelperMODBUS.CS_wSens_S0415 = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wSens_S0415 = Convert.ToBoolean(signalValue);
                                 break;
                             case 49:
-                                HelperMODBUS.CS_wSens_S0102 = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wSens_S0102 = Convert.ToBoolean(signalValue);
                                 break;
                             case 50:
-                                HelperMODBUS.CS_wSens_S0701 = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wSens_S0701 = Convert.ToBoolean(signalValue);
                                 break;
                             case 51:
-                                HelperMODBUS.CS_wSens_S0702 = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wSens_S0702 = Convert.ToBoolean(signalValue);
                                 break;
                             case 52:
-                                HelperMODBUS.CS_wSens_S0703 = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wSens_S0703 = Convert.ToBoolean(signalValue);
                                 break;
                             case 53:
-                                HelperMODBUS.CS_wDisjuntorBombaVacuo_Q003 = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wDisjuntorBombaVacuo_Q003 = Convert.ToBoolean(signalValue);
                                 break;
                             case 54:
-                                HelperMODBUS.CS_wDisjuntorBombaHidraulica_Q002 = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wDisjuntorBombaHidraulica_Q002 = Convert.ToBoolean(signalValue);
                                 break;
                             case 55:
-                                HelperMODBUS.CS_wEmergencia = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wEmergencia = Convert.ToBoolean(signalValue);
                                 break;
                             case 56:
                                 HelperMODBUS.CS_wSomaConsumidoresCP = Convert.ToInt32(signalValue);
@@ -375,7 +375,7 @@ namespace Continental.Project.Adam.UI.Helper.Com
                                 HelperMODBUS.CS_wSomaConsumidoresCS = Convert.ToInt32(signalValue);
                                 break;
                             case 58:
-                                HelperMODBUS.CS_wProtecoes = Convert.ToBoolean(signalValue);
+                                //HelperMODBUS.CS_wProtecoes = Convert.ToBoolean(signalValue);
                                 break;
                             #endregion
 
