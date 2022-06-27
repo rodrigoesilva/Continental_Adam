@@ -824,7 +824,7 @@ namespace Continental.Project.Adam.UI
                         {
                             TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
 
-                            if (!TAB_TableResult_SetData())
+                            if (!TAB_TableResult_SetData("TAB_Main_ActivePage"))
                                 MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error); ;
 
                             break;
@@ -908,7 +908,7 @@ namespace Continental.Project.Adam.UI
         #region TAB - TableResults
 
         #region TAB - TableResults - Common
-        private bool TAB_TableResult_SetData()
+        private bool TAB_TableResult_SetData(string origin)
         {
             try
             {
@@ -1076,7 +1076,6 @@ namespace Continental.Project.Adam.UI
 
                 throw;
             }
-
 
             return true;
         }
@@ -1411,9 +1410,15 @@ namespace Continental.Project.Adam.UI
                         case 25:    //Force Diagrams - Force/Pressure Dual Ratio
                             {
                                 if (HelperTestBase.Model_GVL.GVL_Graficos.iOutput == 1)
+                                {
                                     rad_EvaluationParameters_CBOutputPC.Checked = true;
+                                    rad_EvaluationParameters_CBOutputSC.Enabled = HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0 ? false : true;
+                                }
                                 else
+                                {
                                     rad_EvaluationParameters_CBOutputSC.Checked = true;
+                                    rad_EvaluationParameters_CBOutputPC.Enabled = HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0 ? false : true;
+                                }
 
                                 grpOutput.Visible = true;
 
@@ -1435,7 +1440,7 @@ namespace Continental.Project.Adam.UI
                     _modelGVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
 
                     HelperTestBase.iOutputType = _modelGVL.GVL_Graficos.iOutput;
-                    HelperTestBase.Model_GVL.GVL_Graficos = _modelGVL.GVL_Graficos;
+                    HelperTestBase.Model_GVL.GVL_Graficos = _modelGVL.GVL_Graficos; 
 
                     #endregion
                 }
@@ -6404,7 +6409,7 @@ namespace Continental.Project.Adam.UI
                         {
                             LOG_TestSequence("TESTE CALC CONCLUDED");
 
-                            if (!TAB_TableResult_SetData())
+                            if (!TAB_TableResult_SetData("TXTFileHBM_LoadData"))
                             {
                                 MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return false;
@@ -6578,7 +6583,7 @@ namespace Continental.Project.Adam.UI
                         {
                             LOG_TestSequence("TESTE CALC CONCLUDED");
 
-                            if (!TAB_TableResult_SetData())
+                            if (!TAB_TableResult_SetData("TXTFileHBM_LoadDataConcluded"))
                                 MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else
                             {
@@ -6923,6 +6928,8 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
+                CHART_Clear(devChart);
+
                 if (_modelGVL.GVL_Graficos.arrVarX.Count() != 1000000)
                 {
 
@@ -6975,15 +6982,8 @@ namespace Continental.Project.Adam.UI
             try
             {
                 #region Variable
+
                 List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
-
-                //int outputChecked = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : rad_EvaluationParameters_CBOutputSC.Checked ? 2 : 0;
-
-                //_modelGVL.GVL_Parametros.iOutput = outputChecked > 0 ? outputChecked : modelChartGVL.iOutput;
-
-                //_modelGVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
-
-                //HelperTestBase.Model_GVL = _modelGVL;
 
                 _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput, lstInfoEvaluationParameters);
 

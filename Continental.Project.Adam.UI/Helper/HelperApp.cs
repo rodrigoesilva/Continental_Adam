@@ -220,9 +220,39 @@ namespace Continental.Project.Adam.UI.Helper
                                 var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
                                 var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
 
-                                #region Results
+                                #region File Data Results
 
-                                #region Results_Header
+                                #region Results_FileHeader_Project
+
+                                HelperTestBase.ProjectTestConcluded.Project.Identification = dicReturnReadFileHeaderPrj.ContainsKey("Ident") ? dicReturnReadFileHeaderPrj["Ident"].ToString().Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.CustomerType = dicReturnReadFileHeaderPrj.ContainsKey("Customer/Type") ? dicReturnReadFileHeaderPrj["Customer/Type"].ToString().Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.Booster = dicReturnReadFileHeaderPrj.ContainsKey("Booster") ? dicReturnReadFileHeaderPrj["Booster"].ToString().Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.TMC = dicReturnReadFileHeaderPrj.ContainsKey("TMC") ? dicReturnReadFileHeaderPrj["TMC"].ToString().Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.ProductionDate = dicReturnReadFileHeaderPrj.ContainsKey("Production Date") ? dicReturnReadFileHeaderPrj["Production Date"].ToString().Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.T_O = dicReturnReadFileHeaderPrj.ContainsKey("T.O.") ? dicReturnReadFileHeaderPrj["T.O."].ToString().Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.User.UName = dicReturnReadFileHeaderPrj.ContainsKey("Operator") ? GetUserName(Convert.ToInt64(dicReturnReadFileHeaderPrj["Operator"].ToString().Trim()))?.ToUpper() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.TestingDate = dicReturnReadFileHeaderPrj.ContainsKey("Testing Date") ? dicReturnReadFileHeaderPrj["Testing Date"].ToString().Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.Comment = dicReturnReadFileHeaderPrj.ContainsKey("Comment") ? dicReturnReadFileHeaderPrj["Comment"].ToString().Trim() : string.Empty;
+
+                                #endregion
+
+                                #region Results_FileHeader_Param 
+
+                                HelperApp.strActuationMode = dicReturnReadFileHeaderParam.ContainsKey("Actuation Type") ? dicReturnReadFileHeaderParam["Actuation Type"].ToString().Trim() : string.Empty;
+                                HelperTestBase.iOutputType = dicReturnReadFileHeaderParam.ContainsKey("Output Type") ? dicReturnReadFileHeaderParam["Output Type"].ToString().Trim().Equals("PC") ? 1 : 2 : 0;
+                                HelperTestBase.VacuumMin = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (min)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (min)"]) * -1 : 0;
+                                HelperTestBase.VacuumMax = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (max)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (max)"]) * -1 : 0;
+                                HelperTestBase.Vacuum = dicReturnReadFileHeaderParam.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum"]) * -1 : 0;
+                                HelperTestBase.chkPistonLock = dicReturnReadFileHeaderParam.ContainsKey("Lock Piston") ? dicReturnReadFileHeaderParam["Lock Piston"].ToString().Trim().Equals("Yes") ? true : false : false;
+                                HelperTestBase.ForceGradient = dicReturnReadFileHeaderParam.ContainsKey("Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Gradient"]) * -1 : 0;
+                                HelperTestBase.MaxForce = dicReturnReadFileHeaderParam.ContainsKey("Max. Force") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Max. Force"]) * -1 : 0;
+                                HelperTestBase.iTipoConsumidores = dicReturnReadFileHeaderParam.ContainsKey("Consumer") ? dicReturnReadFileHeaderParam["Consumer"].ToString().Trim().Equals("Original Consumer") ? 1 : 2 : 0;
+                                HelperTestBase.iSumHoseConsumerPC = dicReturnReadFileHeaderParam.ContainsKey("Hose Consumer PC") ? Convert.ToInt32(dicReturnReadFileHeaderParam["Hose Consumer PC"]) : 0;
+                                HelperTestBase.iSumHoseConsumerSC = dicReturnReadFileHeaderParam.ContainsKey("Hose Consumer SC") ? Convert.ToInt32(dicReturnReadFileHeaderParam["Hose Consumer SC"]) : 0;
+
+                                #endregion
+
+                                #region #region Results_Header
 
                                 HelperTestBase.Model_GVL.GVL_T01.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
                                 HelperTestBase.Model_GVL.GVL_T01.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
@@ -254,19 +284,20 @@ namespace Continental.Project.Adam.UI.Helper
                                 HelperTestBase.Model_GVL.GVL_T01.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T01.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-in Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-in Force"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T01.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rHysterese_Xpout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 % p out"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rHysterese_Xbar_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 bar"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rHysterese_Xpout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 % p out"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rHysterese_Xbar_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 bar"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Realease Force at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Realease Force at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressaoAuxiliar_P3_Bar = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Radio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Radio"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressaoAuxiliar_P3_Bar = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Radio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Radio"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T01.rPressao_90pout_bar = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 90.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 90.0 %")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T01.rPressao_70pout_bar = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 70.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
 
                                 //define captions data
                                 HelperTestBase.Model_GVL.GVL_T01.rForca_90pout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 90.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 90.0 %")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Replace("Pressure at 90.0 %", "").Replace("(=", "").Replace("N)", "").Trim()) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rForca_70pout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 70.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Replace("Pressure at 70.0 %", "").Replace("(=", "").Replace("N)", "").Trim()) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rForca_70pout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 70.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Replace("Pressure at 70.0 %", "").Replace("(=", "").Replace("N)", "").Trim()) *-1 : 0;
 
                                 //jumper gradient
+                                //HelperTestBase.Model_GVL.GVL_T01.rGradientJumper = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
 
                                 var spl = dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Jumper Gradient (")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Split(',');
 
@@ -281,7 +312,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 //TEMPORARIO rRunOutForce para T06/07/08
                                 HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutForce_Real_N = HelperTestBase.Model_GVL.GVL_T01.rRunOutForce_Real_N;
                                 HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutPressure_Real_Bar = HelperTestBase.Model_GVL.GVL_T01.rRunOutPressure_Real_Bar;
-                               
+
                                 #endregion
 
                                 #region Results_Footer
@@ -334,7 +365,7 @@ namespace Continental.Project.Adam.UI.Helper
                             dicResultParam.Add("resultCalcTestParam_ForcaAt90Percent", Math.Round(HelperTestBase.Model_GVL.GVL_T01.rForca_90pout_N, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_ForcaAt70Percent", Math.Round(HelperTestBase.Model_GVL.GVL_T01.rForca_70pout_N, 2).ToString());
 
-                            //jumper gradient
+                            //jumper gradient							
                             dicResultParam.Add("resultCalcTestParam_ForcaP2Jumper_N", Math.Round(HelperTestBase.Model_GVL.GVL_T01.rForcaP2Jumper_N, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_GradienteJumper_P2_Bar", Math.Round(HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_ForcaP1Jumper_N", Math.Round(HelperTestBase.Model_GVL.GVL_T01.rForcaP1Jumper_N, 2).ToString());
@@ -390,40 +421,41 @@ namespace Continental.Project.Adam.UI.Helper
 
                                 //recupera VARIOS itens que contenham o memso texto e guarda a qtd
                                 var matchesOutputForceAt = from k in dicReturnReadFileHeaderResults
-                                                             where k.Key.Contains("Output Force at")
-                                                             select new
-                                                             {
-                                                                 k.Key,
-                                                                 k.Value
-                                                             };
+                                                           where k.Key.Contains("Output Force at")
+                                                           select new
+                                                           {
+                                                               k.Key,
+                                                               k.Value
+                                                           };
                                 HelperTestBase.Model_GVL.GVL_T02.rForcaOutJumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForca_E1 = matchesOutputForceAt.Count() > 0 ? NumberDoubleCheck(matchesOutputForceAt.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForca_E2 = matchesOutputForceAt.Count() > 0 ? NumberDoubleCheck(matchesOutputForceAt.ToList()[1].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForca_P1 = matchesOutputForceAt.Count() > 0 ? NumberDoubleCheck(matchesOutputForceAt.ToList()[2].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForca_P2 = matchesOutputForceAt.Count() > 0 ? NumberDoubleCheck(matchesOutputForceAt.ToList()[3].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rForca_E1 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rForca_E2 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rForca_P1 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rForca_P2 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T02.rRunOutForceOut_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force Runout"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T02.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Radio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Radio"]) : 0;
-                                //HelperTestBase.Model_GVL.GVL_T02.rDeslocamentoNaForca_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaFOutCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-in Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-in Force"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Ratio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Ratio"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rForcaFOutCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T02.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rHysterese_XFout_N= dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at {0} % f out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 % p out"]) : 0;
-                                //HelperTestBase.Model_GVL.GVL_T02.rHysterese_XFout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 bar"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rReleaseForceAt_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Release Force at {0} mm")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Realease Force at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaAuxiliar_P3_N = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) : 0;
-                                
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_90Fout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Output Force at 90.0 % (= {0} N)")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 90.0 %")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_70Fout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Output Force at 70.0 % (= {0} N)")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rHysterese_XFout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at {0} % f out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at {0} % f out"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rForcaAuxiliar_P3_N = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Force"]) * -1 : 0;
 
-                                //define captions data
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_90Fout_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_70Fout_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_90Fout_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at 90.0 %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at 90.0 %"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_70Fout_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at 70.0 %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at 70.0 %"]) * -1 : 0;
 
-                                //jumper gradient
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaP2Jumper_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient (")) ? Convert.ToDouble(dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))) : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P2_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient (")) ? Convert.ToDouble(dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))) : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaP1Jumper_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient (")) ? Convert.ToDouble(dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))) : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P1_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient (")) ? Convert.ToDouble(dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))) : 0;
+                                //define captions data ??
+                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_90Fout_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vacuum"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_70Fout_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vacuum"]) * -1 : 0;
+                                //??
+
+                                //jumper gradient, precisa verificar
+                                HelperTestBase.Model_GVL.GVL_T02.rGradientJumper = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+                                //HelperTestBase.Model_GVL.GVL_T02.rForcaP2Jumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+                                //HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P2_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+                                //HelperTestBase.Model_GVL.GVL_T02.rForcaP1Jumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+                                //HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P1_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+
 
 
                                 #endregion
@@ -461,7 +493,7 @@ namespace Continental.Project.Adam.UI.Helper
                             dicResultParam.Add("resultCalcTestParam_T02_OutputForceAtE5", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_P1_N, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T02_OutputForceAtE6", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaOut_P2_N, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T02_OutputForceRunout", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rRunOutForceOut_Real_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T02_RunoutForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rRunOutForce_Real_N, 2).ToString());                            
+                            dicResultParam.Add("resultCalcTestParam_T02_RunoutForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rRunOutForce_Real_N, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T02_OutputInputRatio", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T02_CutInForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rForcaFOutCutIn_N, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T02_ReleaseForce", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rReleaseForce_N, 2).ToString());
@@ -530,13 +562,13 @@ namespace Continental.Project.Adam.UI.Helper
                                                                  k.Value
                                                              };
 
-                                HelperTestBase.Model_GVL.GVL_T03.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-in Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-in Force"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T03.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T03.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rReleaseForceAt_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Realease Force at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Realease Force at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rPressao_E1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rPressao_E2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[1].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rPressao_P1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[2].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rPressao_P2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[3].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T03.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Realease Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Realease Force at {0} mm"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T03.rPressao_E1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T03.rPressao_E2_Bar = dicReturnReadFileHeaderResults.ContainsKey("RPressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["RPressure at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T03.rPressao_P1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T03.rPressao_P2_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) * -1 : 0;
 
                                 #endregion
 
@@ -626,14 +658,12 @@ namespace Continental.Project.Adam.UI.Helper
                                                                k.Key,
                                                                k.Value
                                                            };
-                                HelperTestBase.Model_GVL.GVL_T04.rForca_E1 = matchesOutputForceAt.Count() > 0 ? NumberDoubleCheck(matchesOutputForceAt.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rForca_E2 = matchesOutputForceAt.Count() > 0 ? NumberDoubleCheck(matchesOutputForceAt.ToList()[1].Value) * -1 : 0;
-                                //HelperTestBase.Model_GVL.GVL_T04.rDeslocamentoNaForca_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Radio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Radio"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rForcaFOutCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-in Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-in Force"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T04.rForca_E1 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T04.rForca_E2 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Ratio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Ratio"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T04.rForcaFOutCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T04.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                //HelperTestBase.Model_GVL.GVL_T04.rHysterese_XFout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 bar"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rReleaseForceAt_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Release Force at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Realease Force at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T04.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) * -1 : 0;
 
 
                                 #endregion
@@ -664,10 +694,10 @@ namespace Continental.Project.Adam.UI.Helper
                             #endregion
 
                             #region Results
-                            
+
                             dicResultParam.Add("resultCalcTestParam_T04_OutputForceAtE1", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaOut_E1_N, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T04_OutputForceAtE2", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaOut_E2_N, 2).ToString());
-                            dicResultParam.Add("resultCalcTestParam_T04_OutputInputRatio",Math.Round(HelperTestBase.Model_GVL.GVL_T04.rTaxaAmplificacao, 2).ToString());
+                            dicResultParam.Add("resultCalcTestParam_T04_OutputInputRatio", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rTaxaAmplificacao, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T04_CutInForce", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rForcaFOutCutIn_N, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T04_ReleaseForce", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rReleaseForce_N, 2).ToString());
                             dicResultParam.Add("resultCalcTestParam_T04_ReleaseForceRemainingAt", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rReleaseForceAt_N, 2).ToString());
@@ -768,13 +798,13 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results_Header
 
                                 HelperTestBase.Model_GVL.GVL_T06.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T06.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T06.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
 
                                 #endregion
 
                                 #region Results
                                 HelperTestBase.Model_GVL.GVL_T06.rRunOutForceRef = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T06.rDeslocamentoEmFmax = dicReturnReadFileHeaderResults.ContainsKey("Travel at") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T06.rDeslocamentoEmFmax = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T06.rTempoTotal = dicReturnReadFileHeaderResults.ContainsKey("Total Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Total Time"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T06.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
 
@@ -840,37 +870,36 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results_Header
 
                                 HelperTestBase.Model_GVL.GVL_T07.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                //HelperTestBase.Model_GVL.GVL_T07.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
 
                                 #endregion
 
                                 #region Results
                                 //recupera VARIOS itens que contenham o memso texto e guarda a qtd
                                 var matchesActuationForceAt = from k in dicReturnReadFileHeaderResults
-                                                             where k.Key.Contains("Actuation Force")
-                                                             select new
-                                                             {
-                                                                 k.Key,
-                                                                 k.Value
-                                                             };
-
-                                HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaAvanco = matchesActuationForceAt.Count() > 0 ? NumberDoubleCheck(matchesActuationForceAt.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaRetorno = matchesActuationForceAt.Count() > 0 ? NumberDoubleCheck(matchesActuationForceAt.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaFinal = matchesActuationForceAt.Count() > 0 ? NumberDoubleCheck(matchesActuationForceAt.ToList()[0].Value) * -1 : 0;
-
-                                HelperTestBase.Model_GVL.GVL_T07.rRunOutForceRef = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-
-                                var matchesTravelAtAt = from k in dicReturnReadFileHeaderResults
-                                                              where k.Key.Contains("Travel at")
+                                                              where k.Key.Contains("Actuation Force")
                                                               select new
                                                               {
                                                                   k.Key,
                                                                   k.Value
                                                               };
 
-                                HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaAvanco = matchesTravelAtAt.Count() > 0 ? NumberDoubleCheck(matchesTravelAtAt.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaRetorno = matchesTravelAtAt.Count() > 0 ? NumberDoubleCheck(matchesTravelAtAt.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaFinal = matchesTravelAtAt.Count() > 0 ? NumberDoubleCheck(matchesTravelAtAt.ToList()[0].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaFinal = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
+
+                                HelperTestBase.Model_GVL.GVL_T07.rRunOutForceRef = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
+
+                                var matchesTravelAtAt = from k in dicReturnReadFileHeaderResults
+                                                        where k.Key.Contains("Travel at")
+                                                        select new
+                                                        {
+                                                            k.Key,
+                                                            k.Value
+                                                        };
+
+                                HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaFinal = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
 
                                 HelperTestBase.Model_GVL.GVL_T07.rTempoTotal = dicReturnReadFileHeaderResults.ContainsKey("Total Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Total Time"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T07.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
@@ -940,14 +969,14 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results_Header
 
                                 HelperTestBase.Model_GVL.GVL_T08.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T08.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T08.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
 
                                 #endregion
 
                                 #region Results
 
                                 HelperTestBase.Model_GVL.GVL_T08.rRunOutForceRef = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T08.rDeslocamentoEmFMax = dicReturnReadFileHeaderResults.ContainsKey("Travel at") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T08.rDeslocamentoEmFMax = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T08.rPerdaPressaoCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss PC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss PC while testing"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T08.rPerdaPressaoCS = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss SC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss SC while testing"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T08.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
@@ -1022,6 +1051,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results
 
                                 HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure PC"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T09.rDeslocamentoEmPMax = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T09.rPerdaPressaoCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss PC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss PC while testing"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T09.rPerdaPressaoCS = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss SC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss SC while testing"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T09.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
@@ -1096,8 +1126,8 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results
 
                                 HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure PC"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T10.rDeslocamentoEmPMax = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure PC"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T10.rPerdaPressaoCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss PC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T10.rDeslocamentoEmPMax = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T10.rPerdaPressaoCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss PC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss PC while testing"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T10.rPerdaPressaoCS = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss SC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss SC while testing"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T10.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
 
@@ -1247,8 +1277,8 @@ namespace Continental.Project.Adam.UI.Helper
 
 
                                 HelperTestBase.Model_GVL.GVL_T12.rDeslocamentoMaximo = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rTempoAtuacao = dicReturnReadFileHeaderResults.ContainsKey("Actuation Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Time"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rTempoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Release Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Time"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T12.rTempoAtuacao = dicReturnReadFileHeaderResults.ContainsKey("Actuation Time {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Time {0} %"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T12.rTempoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Release Time {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Time {0} %"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T12.rPressaoMaximaCP_bar = dicReturnReadFileHeaderResults.ContainsKey("Max. Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Max. Pressure PC"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T12.rPressaoMaximaCS_bar = dicReturnReadFileHeaderResults.ContainsKey("Max. pressure SC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Max. pressure SC"]) * -1 : 0;
 
@@ -1331,18 +1361,18 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results
                                 //recupera VARIOS itens que contenham o memso texto e guarda a qtd
                                 var matchesDifferenceAtForce = from k in dicReturnReadFileHeaderResults
-                                                             where k.Key.Contains("Difference at")
-                                                             select new
-                                                             {
-                                                                 k.Key,
-                                                                 k.Value
-                                                             };
+                                                               where k.Key.Contains("Difference at")
+                                                               select new
+                                                               {
+                                                                   k.Key,
+                                                                   k.Value
+                                                               };
 
 
-                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP1_bar = matchesDifferenceAtForce.Count() > 0 ? NumberDoubleCheck(matchesDifferenceAtForce.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP2_bar = matchesDifferenceAtForce.Count() > 0 ? NumberDoubleCheck(matchesDifferenceAtForce.ToList()[1].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP3_bar = matchesDifferenceAtForce.Count() > 0 ? NumberDoubleCheck(matchesDifferenceAtForce.ToList()[2].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP4_bar = matchesDifferenceAtForce.Count() > 0 ? NumberDoubleCheck(matchesDifferenceAtForce.ToList()[3].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP1_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) FW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) FW"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP2_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) FW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) FW"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP3_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) BW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) BW"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP4_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) BW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) BW"]) : 0;
 
                                 #endregion
 
@@ -1572,7 +1602,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results
 
                                 HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoMaximo_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel at") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel at"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel at {0} bar"]) * -1 : 0;
 
                                 #endregion
 
@@ -1658,11 +1688,11 @@ namespace Continental.Project.Adam.UI.Helper
                                                                  k.Value
                                                              };
 
-                                HelperTestBase.Model_GVL.GVL_T17.rCursoMorto_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Lost Travel")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Lost Travel")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao1_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel At")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel At")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao2_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel At")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel At")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao3_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel At")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel At")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao4_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel At")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel At")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T17.rCursoMorto_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao1_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao2_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao3_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao4_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
 
                                 #endregion
 
@@ -1732,7 +1762,6 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results_Header
 
                                 HelperTestBase.Model_GVL.GVL_T18.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T18.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T18.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
 
@@ -1749,11 +1778,11 @@ namespace Continental.Project.Adam.UI.Helper
                                                                  k.Value
                                                              };
 
-                                HelperTestBase.Model_GVL.GVL_T18.rCursoMorto_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Lost Travel")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Lost Travel")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao1_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel At")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel At")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao2_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel At")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel At")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao3_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel At")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel At")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao4_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel At")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel At")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T18.rCursoMorto_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao1_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao2_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao3_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao4_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
 
                                 #endregion
 
@@ -1820,19 +1849,17 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results_Header
 
                                 HelperTestBase.Model_GVL.GVL_T19.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T19.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T19.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T19.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T19.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
                                 HelperTestBase.Model_GVL.GVL_T19.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
 
                                 #endregion
 
                                 #region Results
-                                
-                                HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaFechadoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with closed system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with closed system"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaAbertoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with opened system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with opened system"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at"]) : 0;
+
+                                HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaFechadoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with closed system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with closed system"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaAbertoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with opened system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with opened system"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel Closing Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel Closing Travel"]) * -1 : 0;
 
                                 #endregion
 
@@ -1894,19 +1921,17 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results_Header
 
                                 HelperTestBase.Model_GVL.GVL_T20.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T20.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T20.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T20.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T20.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
                                 HelperTestBase.Model_GVL.GVL_T20.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
 
                                 #endregion
 
                                 #region Results
 
-                                HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaFechadoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with closed system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with closed system"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaAbertoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with opened system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with opened system"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaFechadoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with closed system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with closed system"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaAbertoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with opened system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with opened system"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel Closing Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel Closing Travel"]) * -1 : 0;
 
                                 #endregion
 
@@ -1969,21 +1994,19 @@ namespace Continental.Project.Adam.UI.Helper
 
                                 HelperTestBase.Model_GVL.GVL_T21.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
                                 HelperTestBase.Model_GVL.GVL_T21.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                //HelperTestBase.Model_GVL.GVL_T21.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T21.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T21.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                //HelperTestBase.Model_GVL.GVL_T21.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
 
                                 #endregion
 
                                 #region Results
 
-                              
-                                HelperTestBase.Model_GVL.GVL_T21.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-in Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-in Force"]) * -1 : 0;
+
+                                HelperTestBase.Model_GVL.GVL_T21.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T21.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T21.rForcaNoJumper_N = dicReturnReadFileHeaderResults.ContainsKey("Input force at jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input force at jumper"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T21.rDeslocamentoNoJumper_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at jumper"]) * -1 : 0;
-                                
+
                                 //verificar
                                 HelperTestBase.Model_GVL.GVL_T21.rForcaNaPressao_N = dicReturnReadFileHeaderResults.ContainsKey("Force at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force at {0} bar"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T21.rForcaNaPressao_N = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
@@ -2067,7 +2090,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results
 
                                 HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoMaximo = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rTempoAtuacao_s = dicReturnReadFileHeaderResults.ContainsKey("Actuation Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Time"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T22.rTempoAtuacao_s = dicReturnReadFileHeaderResults.ContainsKey("Actuation Time {0} % Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Time {0} % Runout"]) * -1 : 0;
 
                                 //recupera VARIOS itens que contenham o memso texto e guarda a qtd
                                 var matchesReleaseTime = from k in dicReturnReadFileHeaderResults
@@ -2078,12 +2101,12 @@ namespace Continental.Project.Adam.UI.Helper
                                                              k.Value
                                                          };
 
-                                HelperTestBase.Model_GVL.GVL_T22.rTempoRetorno_s = matchesReleaseTime.Count() > 0 ? NumberDoubleCheck(matchesReleaseTime.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rTempoRetornoNoDeslocamento_s = matchesReleaseTime.Count() > 0 ? NumberDoubleCheck(matchesReleaseTime.ToList()[1].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T22.rTempoRetorno_s = dicReturnReadFileHeaderResults.ContainsKey("Release Time {0} % Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Time {0} % Runout"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T22.rTempoRetornoNoDeslocamento_s = dicReturnReadFileHeaderResults.ContainsKey("Release Time to {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Time to {0} mm"]) * -1 : 0;
 
                                 HelperTestBase.Model_GVL.GVL_T22.rDiferencaPressaoPCSC_bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure Difference PC SC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Difference PC SC"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T22.rPressaoAuxiliarRef = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel at") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel at"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel at {0} % Pout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel at {0} % Pout"]) * -1 : 0;
 
                                 #endregion
 
@@ -2144,7 +2167,7 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-							#region Resuls Load Offline
+                            #region Resuls Load Offline
 
                             if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
                             {
@@ -2237,7 +2260,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 #region Results_Header
 
                                 HelperTestBase.Model_GVL.GVL_T24.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                
+
                                 #endregion
 
                                 #region Results
@@ -2246,7 +2269,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaFast = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force Fast") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force Fast"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoSlow = dicReturnReadFileHeaderResults.ContainsKey("Pressure Gradient Slow") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Gradient Slow"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoFast = dicReturnReadFileHeaderResults.ContainsKey("Pressure Gradient Fast") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Gradient Fast"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T24.rEficiencia = dicReturnReadFileHeaderResults.ContainsKey("Efficiency at") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Efficiency at"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T24.rEficiencia = dicReturnReadFileHeaderResults.ContainsKey("Efficiency at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Efficiency at {0} N"]) * -1 : 0;
 
                                 #endregion
 
@@ -2330,23 +2353,23 @@ namespace Continental.Project.Adam.UI.Helper
                                                                  k.Value
                                                              };
 
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_E1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_E2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[1].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_P1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[2].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_P2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[3].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rPressao_E1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rPressao_E2_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rPressao_P1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rPressao_P2_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
                                 HelperTestBase.Model_GVL.GVL_T25.rRunOutPressure_Real_Bar = dicReturnReadFileHeaderResults.ContainsKey("Runout Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Pressure"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T25.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} % p out"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T25.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-in Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-in Force"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T25.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rHysterese_Xpout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rReleaseForceAt_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Realease Force at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Realease Force at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressaoAuxiliar_P3_Bar = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointF_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point F") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point F"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointP_Bar = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point P") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point P"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff1 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 1") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 1"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff2 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 2") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 2"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rHysterese_Xpout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at {0} % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at {0} % p out"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rPressaoAuxiliar_P3_Bar = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointF_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point F") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point F"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointP_Bar = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point P") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point P"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff1 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 1") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 1"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff2 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 2") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 2"]) * -1 : 0;
 
                                 #endregion
 
@@ -2449,18 +2472,17 @@ namespace Continental.Project.Adam.UI.Helper
                                                                  k.Value
                                                              };
 
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_E1_N = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_E2_N = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[1].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_P1_N = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[2].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_P2_N = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[3].Value) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_E1_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_E2_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_P1_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_P2_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T26.rRunOutForceOut_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force Runout"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T26.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Ratio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;                                
+                                HelperTestBase.Model_GVL.GVL_T26.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Ratio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Ratio"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T26.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
                                 HelperTestBase.Model_GVL.GVL_T26.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rHysterese_XFout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rReleaseForceAt_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Realease Force at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Realease Force at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaAuxiliar_P3_N = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T26.rHysterese_XFout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at {0} % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at {0} % p out"]) : 0;
+                                HelperTestBase.Model_GVL.GVL_T26.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) : 0;
                                 HelperTestBase.Model_GVL.GVL_T26.rDualRatioSwithcPointF_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point F") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point F"]) : 0;
                                 HelperTestBase.Model_GVL.GVL_T26.rDualRatioSwithcPointFout_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point Fout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point Fout"]) : 0;
                                 HelperTestBase.Model_GVL.GVL_T26.rDualRatioGradiente1Eff1 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 1") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 1"]) : 0;
@@ -16236,23 +16258,23 @@ namespace Continental.Project.Adam.UI.Helper
                 sbHeader.Append($"|- PROJECT -|");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Ident\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"Ident\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Identification) ? HelperTestBase.ProjectTestConcluded.Project.Identification : strVarProj)}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Customer/Type\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"Customer/Type\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.CustomerType) ? HelperTestBase.ProjectTestConcluded.Project.CustomerType : strVarProj)}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Booster\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"Booster\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Booster) ? HelperTestBase.ProjectTestConcluded.Project.Booster : strVarProj)}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"TMC\t\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"TMC\t\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.TMC) ? HelperTestBase.ProjectTestConcluded.Project.TMC : strVarProj)}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Production Date\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"Production Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.ProductionDate) ? HelperTestBase.ProjectTestConcluded.Project.ProductionDate : strVarProj)}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"T.O.\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"T.O.\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.T_O) ? HelperTestBase.ProjectTestConcluded.Project.T_O : strVarProj)}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Operator\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"Operator\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.User.UName) ? HelperTestBase.ProjectTestConcluded.Project.User.UName : strVarProj)}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Testing Date\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"Testing Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.TestingDate) ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : strVarProj)}");
                 sbHeader.Append($"\r\n");
-                sbHeader.Append($"Comment\t\t\t {strCharSplit_TXTHeader_Data}\t{strVarProj}");
+                sbHeader.Append($"Comment\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Comment) ? HelperTestBase.ProjectTestConcluded.Project.Comment : strVarProj)}");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"\r\n");
                 sbHeader.Append($"|- PARAMETERS -|");
@@ -18079,19 +18101,19 @@ namespace Continental.Project.Adam.UI.Helper
                 Cell cell_Ident = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Ident #: {strInfo}"));
+                    .Add(new Paragraph($"Ident #: {HelperTestBase.ProjectTestConcluded.Project.Identification}"));
                 table.AddCell(cell_Ident);
 
                 Cell cell_Booster = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Booster #: {strInfo}"));
+                    .Add(new Paragraph($"Booster #: {HelperTestBase.ProjectTestConcluded.Project.Booster}"));
                 table.AddCell(cell_Booster);
 
                 Cell cell_TestOrder = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Testorder #: {strInfo}"));
+                    .Add(new Paragraph($"Testorder #: {HelperTestBase.ProjectTestConcluded.Project.T_O}"));
                 table.AddCell(cell_TestOrder);
 
                 #endregion
@@ -18101,19 +18123,19 @@ namespace Continental.Project.Adam.UI.Helper
                 Cell cell_CustomerType = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Customer/Type : {strInfo}"));
+                    .Add(new Paragraph($"Customer/Type : {HelperTestBase.ProjectTestConcluded.Project.CustomerType}"));
                 table.AddCell(cell_CustomerType);
 
                 Cell cell_TMC = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"TMC #: {strInfo}"));
+                    .Add(new Paragraph($"TMC #: {HelperTestBase.ProjectTestConcluded.Project.TMC}"));
                 table.AddCell(cell_TMC);
 
                 Cell cell_Operator = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Operator: {HelperApp.UserName}"));
+                    .Add(new Paragraph($"Operator: {HelperTestBase.ProjectTestConcluded.Project.User.UName}"));
                 table.AddCell(cell_Operator);
 
                 #endregion
@@ -18123,13 +18145,13 @@ namespace Continental.Project.Adam.UI.Helper
                 Cell cell_ProductionDate = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Production Date: {strInfo}"));
+                    .Add(new Paragraph($"Production Date: {HelperTestBase.ProjectTestConcluded.Project.ProductionDate}"));
                 table.AddCell(cell_ProductionDate);
 
                 Cell cell_TestingDate = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Testing Date: {strInfo}"));
+                    .Add(new Paragraph($"Testing Date: {HelperTestBase.ProjectTestConcluded.Project.TestingDate}"));
                 table.AddCell(cell_TestingDate);
 
                 Cell cell_PassedFailed = new Cell(1, 4)
