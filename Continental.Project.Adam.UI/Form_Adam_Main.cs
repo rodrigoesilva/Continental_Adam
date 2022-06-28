@@ -126,6 +126,7 @@ namespace Continental.Project.Adam.UI
         private string _notReadValue = "NaN";
         private string _initialDirPathTestFile = string.Empty;
 
+        private bool _bPrjTestOffLineCarregado = false;
         private string _prjTestFilename = string.Empty;
         private string _prjTestHeaderFilename = string.Empty;
         private string _prjTestFilenameUnion = string.Empty;
@@ -1300,8 +1301,6 @@ namespace Continental.Project.Adam.UI
 
                     var lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
 
-
-
                     foreach (var chk in lstChk)
                     {
                         var chkState = ((System.Windows.Forms.CheckBox)chk).Checked;
@@ -1440,7 +1439,7 @@ namespace Continental.Project.Adam.UI
                     _modelGVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
 
                     HelperTestBase.iOutputType = _modelGVL.GVL_Graficos.iOutput;
-                    HelperTestBase.Model_GVL.GVL_Graficos = _modelGVL.GVL_Graficos; 
+                    HelperTestBase.Model_GVL.GVL_Graficos = _modelGVL.GVL_Graficos;
 
                     #endregion
                 }
@@ -1740,7 +1739,7 @@ namespace Continental.Project.Adam.UI
 
                 }
 
-                    #endregion
+                #endregion
             }
             catch (Exception ex)
             {
@@ -2484,11 +2483,14 @@ namespace Continental.Project.Adam.UI
                             //SetNewBasicTestProgram((eEXAMTYPE)(CoBSelectTest->Items->Objects[sel_ix]));
                         }
 
-                    HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput);
+                    if (HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
+                    {
+                        HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput);
+
+                        HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
+                    }
 
                     tab_TableResultsEnable = false;
-                    HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
-
                     _bCoBSelectTestSelected = false;
 
                     TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado);
@@ -2533,17 +2535,19 @@ namespace Continental.Project.Adam.UI
                         }
                         else
                         {
-                            if (TXTFileHBM_LoadDataConcluded())
-                            {
-                                tab_TableResultsEnable = true;
-                                TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
-                            }
-                            else
-                                MessageBox.Show("Error TXTFileHBM_LoadDataConcluded, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            //if (!_bPrjTestOffLineCarregado)
+                            //{
+                                if (TXTFileHBM_LoadDataConcluded())
+                                {
+                                    tab_TableResultsEnable = true;
+                                    TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                                }
+                                else
+                                    MessageBox.Show("Error TXTFileHBM_LoadDataConcluded, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            //}
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -2582,13 +2586,16 @@ namespace Continental.Project.Adam.UI
                         }
                         else
                         {
-                            if (TXTFileHBM_LoadDataConcluded())
+                            if (!_bPrjTestOffLineCarregado)
                             {
-                                tab_TableResultsEnable = true;
-                                TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                                if (TXTFileHBM_LoadDataConcluded())
+                                {
+                                    tab_TableResultsEnable = true;
+                                    TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                                }
+                                else
+                                    MessageBox.Show("Error TXTFileHBM_LoadDataConcluded, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
-                            else
-                                MessageBox.Show("Error TXTFileHBM_LoadDataConcluded, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
 
@@ -3288,7 +3295,7 @@ namespace Continental.Project.Adam.UI
                 DataTable dt = new DataTable();
                 var listOfCols = new List<DataColumn>();
                 var listOfRows = new List<DataRow>();
-                
+
 
                 #region SET COLUMNS
 
@@ -3499,10 +3506,10 @@ namespace Continental.Project.Adam.UI
                                         grpBox.Controls.Add(radBtn);
 
 
-                                       //dt.AcceptChanges();
-                                       // DataRow dr = dt.Rows[iRowIndex];
-                                       //         dr.Delete();
-                                       // dt.AcceptChanges();
+                                        //dt.AcceptChanges();
+                                        // DataRow dr = dt.Rows[iRowIndex];
+                                        //         dr.Delete();
+                                        // dt.AcceptChanges();
                                     }
                                     // Set the FlatStyle of the GroupBox.
                                     grpBox.FlatStyle = FlatStyle.Standard;
@@ -4719,7 +4726,7 @@ namespace Continental.Project.Adam.UI
                                     break;
 
                                 case "ERelTimeTo": //
-									HelperTestBase.Model_GVL.GVL_T22.rPorcentagemCalcTempoFinalRetorno = dblValue;																				  
+                                    HelperTestBase.Model_GVL.GVL_T22.rPorcentagemCalcTempoFinalRetorno = dblValue;
                                     break;
 
                                 case "CBMaxPress2": //
@@ -5034,7 +5041,7 @@ namespace Continental.Project.Adam.UI
                                     break;
 
                                 case "EJumperPosTolerance": //Jumper Gradient P2 = 
-                                   HelperTestBase.Model_GVL.GVL_T26.rJumperTolPos = dblValue;
+                                    HelperTestBase.Model_GVL.GVL_T26.rJumperTolPos = dblValue;
                                     break;
 
                                 case "EJumperNegTolerance": //Jumper Gradient P2 = 
@@ -5072,12 +5079,12 @@ namespace Continental.Project.Adam.UI
                                 case "CBForcePressDiagram":
                                     if (dblValue > 0)
                                         HelperTestBase.Model_GVL.GVL_T27.iTipoGrafico = 0;
-                                        _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T27 }, 0);
+                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T27 }, 0);
                                     break;
                                 case "CBDiffTravel":
                                     if (dblValue > 0)
                                         HelperTestBase.Model_GVL.GVL_T27.iTipoGrafico = 1;
-                                        _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T27 }, 1);
+                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T27 }, 1);
                                     break;
                                 case "EForceScale":
                                     break;
@@ -5129,12 +5136,12 @@ namespace Continental.Project.Adam.UI
                                 case "CBForcePressDiagram":
                                     if (dblValue > 0)
                                         HelperTestBase.Model_GVL.GVL_T28.iTipoGrafico = 0;
-                                        _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T28 }, 0);
+                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T28 }, 0);
                                     break;
                                 case "CBDiffTravel":
                                     if (dblValue > 0)
                                         HelperTestBase.Model_GVL.GVL_T28.iTipoGrafico = 1;
-                                        _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T28 }, 1);
+                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T28 }, 1);
                                     break;
                                 case "EForceScaleI":
                                     break;
@@ -6187,6 +6194,8 @@ namespace Continental.Project.Adam.UI
             {
                 if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
                 {
+                    _bPrjTestOffLineCarregado = false;
+
                     TXTFileHBM_LoadDataConcluded();
 
                     TAB_Main_ActivePage(2);
@@ -6554,9 +6563,9 @@ namespace Continental.Project.Adam.UI
 
                         #region CALC TEST
 
-                        bool breturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
+                        bool bReturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
 
-                        if (!breturnCalcStep)
+                        if (!bReturnCalcStep)
                         {
                             string strMsg = "Failed, calc step test -  not calculated !";
 
@@ -6618,7 +6627,9 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
 
-            return true;
+            _bPrjTestOffLineCarregado = true;
+
+            return _bPrjTestOffLineCarregado;
         }
         #endregion
 
@@ -6932,7 +6943,6 @@ namespace Continental.Project.Adam.UI
 
                 if (_modelGVL.GVL_Graficos.arrVarX.Count() != 1000000)
                 {
-
                     int outputChecked = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : rad_EvaluationParameters_CBOutputSC.Checked ? 2 : 0;
 
                     _modelGVL.GVL_Parametros.iOutput = outputChecked > 0 ? outputChecked : HelperTestBase.Model_GVL.GVL_Parametros.iOutput;
@@ -6941,7 +6951,6 @@ namespace Continental.Project.Adam.UI
 
                     HelperTestBase.Model_GVL = _modelGVL;
 
-                    //ChartLoadData(HelperTestBase.Model_GVL.GVL_Graficos, lstDblChReadFileArr);
                     bool bCreateChart = CHART_BinddDataConfig(HelperTestBase.Model_GVL.GVL_Graficos, lstDblChReadFileArr);
 
                     if (!bCreateChart)
@@ -6983,11 +6992,19 @@ namespace Continental.Project.Adam.UI
             {
                 #region Variable
 
-                List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+                if (!HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
+                {
+                    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
+                        _helperApp.GVL_Graficos = HelperTestBase.Model_GVL.GVL_Graficos;
+                }
+                else
+                {
+                    List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
-                _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput, lstInfoEvaluationParameters);
+                    _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput, lstInfoEvaluationParameters);
 
-                HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.GVL_Graficos;
+                    HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.GVL_Graficos;
+                }
 
                 modelChartGVL = HelperTestBase.Model_GVL.GVL_Graficos;
 
@@ -9137,7 +9154,7 @@ namespace Continental.Project.Adam.UI
                                                         break;
                                                     }
                                                 }
-                                                
+
                                                 double rPressaoXPoutRetorno = ((_modelGVL.GVL_T22.rPorcentagemCalcTempoFinalRetorno / 100) * _modelGVL.GVL_T22.rRunOutPressureRef);
 
                                                 for (i = maxPos_Force; i < lstAnalogCh07_PressurePC.Count; i++)
@@ -9177,7 +9194,7 @@ namespace Continental.Project.Adam.UI
                                                         break;
                                                     }
                                                 }
-                                                
+
                                                 break;
                                             }
                                         default:
@@ -9252,7 +9269,7 @@ namespace Continental.Project.Adam.UI
                                     #endregion
 
                                     #region  Serie Pontos de Interesse
-                                        //não existem pontos de interesse
+                                    //não existem pontos de interesse
                                     #endregion
 
                                     devChart.Series.AddRange(new Series[] { series1, PontosChart1 });
@@ -9285,7 +9302,7 @@ namespace Continental.Project.Adam.UI
 
                                     int diUbound = lstAnalogCh00_Timestamp.Count;
 
-                                    double rForcaMaxSlow =  0;
+                                    double rForcaMaxSlow = 0;
                                     int iPosForcaMaxSlow = 0;
 
                                     double rForcaMaxFast = 0;
@@ -9323,7 +9340,7 @@ namespace Continental.Project.Adam.UI
 
                                     //Encontra o ponto final da curva de acionamento fast
 
-                                    iPontoFinalFast = diUbound -1;
+                                    iPontoFinalFast = diUbound - 1;
 
                                     for (i = 0; i <= iPontoFinalSlow; i++)
                                     {
@@ -10153,8 +10170,8 @@ namespace Continental.Project.Adam.UI
                     _daqEnvironment = _comHBM._daqEnvironment;
 
                     try
-				 
-										 
+
+
                     {
                         if (!_runMeasurement)
                         {
@@ -10174,11 +10191,11 @@ namespace Continental.Project.Adam.UI
                     {
                         MessageBox.Show(ex.Message, ex.ToString());
                     }
-				 
-									
-				 
-															   
-				 
+
+
+
+
+
 
                     //try
                     //{
@@ -10195,8 +10212,8 @@ namespace Continental.Project.Adam.UI
                         //foreach (Signal signal in _signalsToMeasure)
                         //{
                         for (k = 0; k < _signalsToMeasure.Count; k++)
-					 
-						   
+
+
                         {
                             try
                             {
@@ -10236,7 +10253,7 @@ namespace Continental.Project.Adam.UI
                                     lstCh[k] = new List<double>();
 
                                     if (iUpdatedValueCount > 0)
-                                    { 
+                                    {
                                         for (i = 1; i < iUpdatedValueCount - 1; i++)
                                         {
                                             lstCh[k].Add(Math.Round(lstVal[i], 3));
@@ -10246,7 +10263,7 @@ namespace Continental.Project.Adam.UI
                                         }
                                     }
 
-                                    
+
                                 }
 
                             }
@@ -10270,8 +10287,8 @@ namespace Continental.Project.Adam.UI
 
                                 if (lstCh[0].Count() < iUpdatedValueCount)
                                     iUpdatedValueCount = lstCh[0].Count() - 1;
-										 
-										   
+
+
 
                                 try
                                 {
@@ -10280,13 +10297,13 @@ namespace Continental.Project.Adam.UI
                                         idx = j;
 
                                         string row = string.Empty;
-																	  
+
 
                                         //row = string.Format("{0}\t\t" +
                                         //"{1}\t\t {2}\t\t {3}\t\t {4}\t\t {5}\t\t {6}\t\t " +
                                         //"{7}\t\t {8}\t\t {9}\t\t {10}\t\t {11}\t\t {12}\t\t\n ",
-							 
-										
+
+
 
                                         row = string.Format("{0}\t" +
                                        "{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t" +
@@ -10297,12 +10314,12 @@ namespace Continental.Project.Adam.UI
                                         lstCh[6][j].ToString(), lstCh[7][j].ToString(), lstCh[8][j].ToString(), lstCh[9][j].ToString(), lstCh[10][j].ToString(), lstCh[11][j].ToString());
 
                                         lstStrCh.Add(row + Environment.NewLine);
-																 
-																   
+
+
 
                                         if (lstStrCh.Count() > 0)
                                             sbinterno.Append(row + Environment.NewLine);
-																																												  
+
 
                                     }
 
@@ -10312,13 +10329,13 @@ namespace Continental.Project.Adam.UI
                                         sbinterno.Clear();
                                     }
 
-							 
+
 
                                     var sbMaxCap = (sbexterno.MaxCapacity * 0.1);
-							 
-																	   
-												  
-							 
+
+
+
+
 
                                     if (sbexterno.Length > sbMaxCap || timerHBM.Enabled == false)
                                         TXTFileHBM_Create();
@@ -10331,7 +10348,7 @@ namespace Continental.Project.Adam.UI
                                 }
 
                                 //timerHBM.Enabled = true;
-													
+
                             }
                             catch (Exception ex)
                             {
@@ -10341,7 +10358,7 @@ namespace Continental.Project.Adam.UI
                             }
                         }
 
-												  
+
                     }
                     else
                     {
@@ -10360,25 +10377,25 @@ namespace Continental.Project.Adam.UI
                     //    this.StopContinuousMeasurementBt.PerformClick();
                     //}
 
-							  
-					 
+
+
                 }
 
             }
             catch (Exception ex)
             {
-					   
-											  
-					   
+
+
+
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Error);
-																		  
-					   
-				   
-									  
-				   
-																 
-																	  
-				   
+
+
+
+
+
+
+
+
 
                 throw;
             }

@@ -18291,7 +18291,7 @@ namespace Continental.Project.Adam.UI.Helper
                 Cell cellTable_Footer = new Cell(1, 5)
                     .SetFontSize(7)
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .Add(new Paragraph($"{strInfo}"));
+                    .Add(new Paragraph($"{HelperTestBase.ProjectTestConcluded.Project.Comment}"));
                 table.AddCell(cellTable_Footer);
 
                 #endregion
