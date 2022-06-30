@@ -766,7 +766,7 @@ namespace Continental.Project.Adam.UI.COM
 
         public void HBM_SaveRunContinuousMeasurement(string pathTestFile, List<string> lstChNames)
         {
-            String path = !string.IsNullOrEmpty(pathTestFile) ? pathTestFile : @"D:\HBM_SaveAquisitionTxtData.txt";
+            String path = !string.IsNullOrEmpty(pathTestFile) ? pathTestFile : string.Concat(@"D:\", _helperApp.AppTests_DefaultNameData, ".txt");
 
             HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = path;
             //
@@ -1067,10 +1067,6 @@ namespace Continental.Project.Adam.UI.COM
                 // stop running data acquisition
                 _runMeasurement = false;
                 _daqMeasurement.StopDaq();
-
-                //String path = !string.IsNullOrEmpty(pathTestFile) ? pathTestFile : @"D:\HBM_SaveAquisitionTxtData.txt";
-                //File.AppendAllLines(path, _helperApp.sbexterno.ToString().Split(Environment.NewLine.ToCharArray()));
-
 
                 msgReturn = "Continuous measuring stopped!";
 

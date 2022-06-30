@@ -123,6 +123,10 @@ namespace Continental.Project.Adam.UI.Helper
         public string AppTests_Path = ConfigurationManager.AppSettings["AppTests_Path"].ToString();
         public string AppTests_DefaultExtension = ConfigurationManager.AppSettings["AppTests_DefaultExtension"].ToString();
 
+        public string AppTests_DefaultNameHeader = ConfigurationManager.AppSettings["AppTests_DefaultNameHeader"].ToString();
+        public string AppTests_DefaultNameData = ConfigurationManager.AppSettings["AppTests_DefaultNameData"].ToString();
+        public string AppTests_DefaultNameUnion = ConfigurationManager.AppSettings["AppTests_DefaultNameUnion"].ToString();
+
         //report tests
         public string AppReport_PathTests = ConfigurationManager.AppSettings["AppReport_PathTests"].ToString();
         public string AppReport_PathResources = ConfigurationManager.AppSettings["AppReport_PathResources"].ToString();
@@ -16233,654 +16237,696 @@ namespace Continental.Project.Adam.UI.Helper
         #region Aquisition Txt Data
         public HelperTestBase TXTFileHBM_HeaderAppendDataProjectParameters(int iTesteSelecionado, Model_GVL modelGVL)
         {
-            StringBuilder sbHeader = new StringBuilder();
-            string strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss", CultureInfo.InvariantCulture); // string.Empty;
-
-            if (iTesteSelecionado > 0)
+            try
             {
-                //set Variables
-                HelperApp.uiTesteSelecionado = iTesteSelecionado;
+                StringBuilder sbHeader = new StringBuilder();
+                string strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss", CultureInfo.InvariantCulture); // string.Empty;
 
-                #region StringBuilder TxtData_Header - Type Test
-
-                sbHeader.Append($"{strTimeStamp}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"{HelperTestBase.eExamType}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"\r\n");
-
-                #endregion
-
-                #region StringBuilder TxtData_Header - Project Info
-
-                string strVarProj = "NaN"; // string.Empty;
-
-                sbHeader.Append($"|- PROJECT -|");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"Ident\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Identification) ? HelperTestBase.ProjectTestConcluded.Project.Identification : strVarProj)}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"Customer/Type\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.CustomerType) ? HelperTestBase.ProjectTestConcluded.Project.CustomerType : strVarProj)}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"Booster\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Booster) ? HelperTestBase.ProjectTestConcluded.Project.Booster : strVarProj)}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"TMC\t\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.TMC) ? HelperTestBase.ProjectTestConcluded.Project.TMC : strVarProj)}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"Production Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.ProductionDate) ? HelperTestBase.ProjectTestConcluded.Project.ProductionDate : strVarProj)}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"T.O.\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.T_O) ? HelperTestBase.ProjectTestConcluded.Project.T_O : strVarProj)}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"Operator\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.User.UName) ? HelperTestBase.ProjectTestConcluded.Project.User.UName : strVarProj)}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"Testing Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.TestingDate) ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : strVarProj)}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"Comment\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Comment) ? HelperTestBase.ProjectTestConcluded.Project.Comment : strVarProj)}");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"|- PARAMETERS -|");
-                sbHeader.Append($"\r\n");
-                sbHeader.Append($"\r\n");
-
-                #endregion
-
-                switch (iTesteSelecionado)
+                if (iTesteSelecionado > 0)
                 {
-                    case 1:     //Force Diagrams - Force/Pressure With Vacuum
-                    case 3:     //Force Diagrams - Force/Pressure Without Vacuum
-                    case 25:    //Force Diagrams - Force/Pressure Dual Ratio
+                    //set Variables
+                    HelperApp.uiTesteSelecionado = iTesteSelecionado;
+
+                    #region StringBuilder TxtData_Header - Type Test
+
+                    sbHeader.Append($"{strTimeStamp}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"{HelperTestBase.eExamType}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"\r\n");
+
+                    #endregion
+
+                    #region StringBuilder TxtData_Header - Project Info
+
+                    string strVarProj = "NaN"; // string.Empty;
+
+                    sbHeader.Append($"|- PROJECT -|");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"Ident\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Identification) ? HelperTestBase.ProjectTestConcluded.Project.Identification : strVarProj)}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"Customer/Type\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.CustomerType) ? HelperTestBase.ProjectTestConcluded.Project.CustomerType : strVarProj)}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"Booster\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Booster) ? HelperTestBase.ProjectTestConcluded.Project.Booster : strVarProj)}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"TMC\t\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.TMC) ? HelperTestBase.ProjectTestConcluded.Project.TMC : strVarProj)}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"Production Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.ProductionDate) ? HelperTestBase.ProjectTestConcluded.Project.ProductionDate : strVarProj)}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"T.O.\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.T_O) ? HelperTestBase.ProjectTestConcluded.Project.T_O : strVarProj)}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"Operator\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.User.UName) ? HelperTestBase.ProjectTestConcluded.Project.User.UName : strVarProj)}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"Testing Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.TestingDate) ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : strVarProj)}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"Comment\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Comment) ? HelperTestBase.ProjectTestConcluded.Project.Comment : strVarProj)}");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"\r\n");
+
+                    #endregion
+
+                    #region StringBuilder TxtData_Header - Parameters Grid
+
+                    List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = HelperApp.lstEvaluationParameters;
+
+                    sbHeader.Append($"|- PARAMETERS GRID -|");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"\r\n");
+
+                    for (int i = 0; i < lstInfoEvaluationParameters.Count; i++)
+                    {
+                        string varGrid_EvalParam_Hi = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Hi.ToString();
+                        
+                        if (!string.IsNullOrEmpty(varGrid_EvalParam_Hi))
                         {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
+                            string varGrid_EvalParam_Caption = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Caption?.ToString()?.Trim();
 
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
+                            string varGrid_EvalParam_Mksunit = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Mksunit?.ToString()?.Trim();
 
-                            break;
+                            if (!string.IsNullOrEmpty(varGrid_EvalParam_Caption))
+                                sbHeader.Append($"{varGrid_EvalParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {varGrid_EvalParam_Hi} {varGrid_EvalParam_Mksunit}");
 
-                            #endregion
+                            sbHeader.Append($"\r\n");
                         }
-                    case 2:     //Force Diagrams - Force/Force With Vacuum
-                    case 4:     //Force Diagrams - Force/Force Without Vacuum
-                    case 26:    //Force Diagrams - Force/Force Dual Ratio
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
+                    }
 
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
+                    #endregion
 
-                            #endregion
+                    #region StringBuilder TxtData_Header - Parameters Actuation
 
-                            break;
-                        }
-                    case 5: //Vacuum Leakage - Released Position
-                    case 6: //Vacuum Leakage - Fully Applied Position
-                    case 7: //Vacuum Leakage - Lap Position
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"|- PARAMETERS -|");
+                    sbHeader.Append($"\r\n");
+                    sbHeader.Append($"\r\n");
 
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            //sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            //sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t None");
+                    #endregion
 
-                            if (iTesteSelecionado != 5)
+                    switch (iTesteSelecionado)
+                    {
+                        case 1:     //Force Diagrams - Force/Pressure With Vacuum
+                        case 3:     //Force Diagrams - Force/Pressure Without Vacuum
+                        case 25:    //Force Diagrams - Force/Pressure Dual Ratio
                             {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                break;
+
+                                #endregion
                             }
+                        case 2:     //Force Diagrams - Force/Force With Vacuum
+                        case 4:     //Force Diagrams - Force/Force Without Vacuum
+                        case 26:    //Force Diagrams - Force/Force Dual Ratio
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                #endregion
+
+                                break;
+                            }
+                        case 5: //Vacuum Leakage - Released Position
+                        case 6: //Vacuum Leakage - Fully Applied Position
+                        case 7: //Vacuum Leakage - Lap Position
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                //sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                //sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t None");
+
+                                if (iTesteSelecionado != 5)
+                                {
+                                    sbHeader.Append($"\r\n");
+                                    sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                    sbHeader.Append($"\r\n");
+                                    sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                }
                             
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            break;
-
-                            #endregion
-                        }
-                    case 8:     //Hydraulic Leakage - Fully Applied Position
-                    case 9:     //Hydraulic Leakage - At Low Pressure
-                    case 10:    //Hydraulic Leakage - At High Pressure
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-
-                            if (iTesteSelecionado == 8)
-                            {
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
+
+                                break;
+
+                                #endregion
                             }
-
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-                    case 11:    //Adjustment - Actuation Slow
-                    case 12:    //Adjustment - Actuation Fast
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            //sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            //sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t None");
-
-                            if (iTesteSelecionado != 5)
+                        case 8:     //Hydraulic Leakage - Fully Applied Position
+                        case 9:     //Hydraulic Leakage - At Low Pressure
+                        case 10:    //Hydraulic Leakage - At High Pressure
                             {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+
+                                if (iTesteSelecionado == 8)
+                                {
+                                    sbHeader.Append($"\r\n");
+                                    sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
+                                    sbHeader.Append($"\r\n");
+                                    sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
+                                }
+
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                #endregion
+
+                                break;
                             }
-
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            break;
-
-                            #endregion
-                        }
-                    case 13:    //Check Sensors - Pressure Difference
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            break;
-
-                            #endregion
-                        }
-                    case 14:    //Check Sensors - Input/Output Travel
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            HelperTestBase.ETestActuationType = E_TestActuationType.PneumaticSlow;
-                            HelperTestBase.VacuumMin = -0.82;
-                            HelperTestBase.VacuumMax = -0.78;
-                            HelperTestBase.Vacuum = -0.8;
-                            HelperTestBase.chkPistonLock = false;
-                            HelperTestBase.ForceGradient = 100;
-                            HelperTestBase.MaxForce = 1500;
-                            HelperTestBase.radHoseConsumer = false;
-
-                            sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min)        : {HelperTestBase.VacuumMin}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max)        : {HelperTestBase.VacuumMax}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum              : {HelperTestBase.Vacuum}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston         : {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient            : {HelperTestBase.ForceGradient}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force          : {HelperTestBase.MaxForce}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-                    case 15:    //Adjustment - Input Travel VS Input Force
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            break;
-
-                            #endregion
-
-                            break;
-                        }
-                    case 16:    //Adjustment - Hose Consumer
-                    case 17:    //Lost Travel ACU - Hydraulic
-                    case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min)        : {HelperTestBase.VacuumMin}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max)        : {HelperTestBase.VacuumMax}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum              : {HelperTestBase.Vacuum}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston         : {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient            : {HelperTestBase.ForceGradient}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force          : {HelperTestBase.MaxForce}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
-
-                            if (iTesteSelecionado == 17)
+                        case 11:    //Adjustment - Actuation Slow
+                        case 12:    //Adjustment - Actuation Fast
                             {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
+                                //sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                //sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t None");
+
+                                if (iTesteSelecionado != 5)
+                                {
+                                    sbHeader.Append($"\r\n");
+                                    sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                    sbHeader.Append($"\r\n");
+                                    sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                }
+
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                break;
+
+                                #endregion
+                            }
+                        case 13:    //Check Sensors - Pressure Difference
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                break;
+
+                                #endregion
+                            }
+                        case 14:    //Check Sensors - Input/Output Travel
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                HelperTestBase.ETestActuationType = E_TestActuationType.PneumaticSlow;
+                                HelperTestBase.VacuumMin = -0.82;
+                                HelperTestBase.VacuumMax = -0.78;
+                                HelperTestBase.Vacuum = -0.8;
+                                HelperTestBase.chkPistonLock = false;
+                                HelperTestBase.ForceGradient = 100;
+                                HelperTestBase.MaxForce = 1500;
+                                HelperTestBase.radHoseConsumer = false;
+
+                                sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min)        : {HelperTestBase.VacuumMin}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max)        : {HelperTestBase.VacuumMax}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum              : {HelperTestBase.Vacuum}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston         : {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient            : {HelperTestBase.ForceGradient}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force          : {HelperTestBase.MaxForce}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                #endregion
+
+                                break;
+                            }
+                        case 15:    //Adjustment - Input Travel VS Input Force
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                break;
+
+                                #endregion
+
+                                break;
+                            }
+                        case 16:    //Adjustment - Hose Consumer
+                        case 17:    //Lost Travel ACU - Hydraulic
+                        case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min)        : {HelperTestBase.VacuumMin}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max)        : {HelperTestBase.VacuumMax}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum              : {HelperTestBase.Vacuum}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston         : {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient            : {HelperTestBase.ForceGradient}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force          : {HelperTestBase.MaxForce}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
+
+                                if (iTesteSelecionado == 17)
+                                {
+                                    sbHeader.Append($"\r\n");
+                                    sbHeader.Append($"Hose Consumer PC    : {HelperTestBase.iSumHoseConsumerPC}");
+                                    sbHeader.Append($"\r\n");
+                                    sbHeader.Append($"Hose Consumer SC    : {HelperTestBase.iSumHoseConsumerSC}");
+                                }
+
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                #endregion
+
+                                break;
+                            }
+                        case 19:    //Lost Travel ACU - Pneumatic Primary
+                        case 20:    //Lost Travel ACU - Pneumatic Secondary
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                break;
+
+                                #endregion
+
+                                break;
+                            }
+                        case 21:    //Pedal Feeling Characteristics
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");                            
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                #endregion
+
+                                break;
+                            }
+                        case 22:    //Actuation / Release - Mechanical Actuation
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                #endregion
+
+                                break;
+                            }
+                        case 23:    //Breather Hole / Central Valve open
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                #endregion
+
+                                break;
+                            }
+                        case 24:    //Efficiency
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                #endregion
+
+                                break;
                             }
 
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
+                        case 27:    //ADAM - Find Switching Point With TMC
+                            {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
 
-                            #endregion
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
 
+                                #endregion
+
+                                break;
+                            }
+
+                        case 28:    //ADAM - Switching Point Without TMC
+                            {
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"\r\n");
+
+                                break;
+                            }
+
+                        case 29:    //Bleed
+                            {
+
+
+                                break;
+                            }
+
+                        default:
                             break;
-                        }
-                    case 19:    //Lost Travel ACU - Pneumatic Primary
-                    case 20:    //Lost Travel ACU - Pneumatic Secondary
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            break;
-
-                            #endregion
-
-                            break;
-                        }
-                    case 21:    //Pedal Feeling Characteristics
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");                            
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-                    case 22:    //Actuation / Release - Mechanical Actuation
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-                    case 23:    //Breather Hole / Central Valve open
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-                    case 24:    //Efficiency
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 27:    //ADAM - Find Switching Point With TMC
-                        {
-                            #region StringBuilder AppendTxtData_Header_ActuationType
-
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            #endregion
-
-                            break;
-                        }
-
-                    case 28:    //ADAM - Switching Point Without TMC
-                        {
-                            sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
-                            sbHeader.Append($"\r\n");
-                            if (HelperTestBase.iTipoConsumidores > 0)
-                                sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
-                            else
-                                sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
-                            sbHeader.Append($"\r\n");
-                            sbHeader.Append($"\r\n");
-
-                            break;
-                        }
-
-                    case 29:    //Bleed
-                        {
-
-
-                            break;
-                        }
-
-                    default:
-                        break;
+                    }
                 }
-            }
 
-            HelperTestBase.sbHeaderAppendTxtData = sbHeader;
+                HelperTestBase.sbHeaderAppendTxtData = sbHeader;
+            }
+            catch (Exception ex)
+            {
+                var err = ex.Message;
+                throw;
+            }
 
             return _helperTestBase;
         }
@@ -17795,8 +17841,6 @@ namespace Continental.Project.Adam.UI.Helper
 
                             #endregion
 
-
-
                             break;
                         }
 
@@ -18483,28 +18527,24 @@ namespace Continental.Project.Adam.UI.Helper
         //get e set
         public static string lblstsbar01
         {
-
             get { return HelperApp._lblstsbar01; }
             set { HelperApp._lblstsbar01 = value; }
         }
 
         public static string lblstsbar02
         {
-
             get { return HelperApp._lblstsbar02; }
             set { HelperApp._lblstsbar02 = value; }
         }
 
         public static string lblstsbar03
         {
-
             get { return HelperApp._lblstsbar03; }
             set { HelperApp._lblstsbar03 = value; }
         }
 
         public static string lblstsbar04
         {
-
             get { return HelperApp._lblstsbar04; }
             set { HelperApp._lblstsbar04 = value; }
         }

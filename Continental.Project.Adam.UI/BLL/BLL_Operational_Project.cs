@@ -36,7 +36,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_LoadEval : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetAvailableProjects : " + ex.Message);
                 throw (ex);
             }
         }
@@ -82,7 +82,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_LoadEval : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetChildTestsByProject : " + ex.Message);
                 throw (ex);
             }
         }
@@ -127,7 +127,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetProjects_x_Tests : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetProject_TestConcluded : " + ex.Message);
                 throw (ex);
             }
         }
@@ -194,7 +194,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Manager_SelectEvalProgram : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetNodeAvailableTests : " + ex.Message);
                 throw (ex);
             }
         }
@@ -223,7 +223,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Manager_SelectEvalProgram : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetUserDefinedTests : " + ex.Message);
                 throw (ex);
             }
         }
@@ -262,7 +262,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_LoadEval : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - DeleteProjectTestConcluded : " + ex.Message);
                 throw (ex);
             }
         }
@@ -291,7 +291,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_LoadEval : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - DeleteProject : " + ex.Message);
                 throw (ex);
             }
         }
@@ -320,7 +320,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_LoadEval : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - DeleteTest : " + ex.Message);
                 throw (ex);
             }
         }
@@ -348,7 +348,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetProjectByIdent : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - CheckProjectByIdent : " + ex.Message);
                 throw (ex);
             }
 
@@ -370,7 +370,8 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append("INSERT INTO");
                 sb.Append(" [Operational_Project]");
                 sb.Append(" (");
-                sb.Append(" [Identification]");
+                sb.Append(" [PartNumber]");
+                sb.Append(" ,[Identification]");
                 sb.Append(" ,[CustomerType]");
                 sb.Append(" ,[Booster]");
                 sb.Append(" ,[TMC]");
@@ -382,7 +383,8 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append(")");
                 sb.Append(" VALUES");
                 sb.Append(" (");
-                sb.Append($" '{model.Identification}'");
+                sb.Append($" '{model.PartNumber}'");
+                sb.Append($" ,'{model.Identification}'");
                 sb.Append($" ,'{model.CustomerType}'");
                 sb.Append($" ,'{model.Booster}'");
                 sb.Append($" ,'{model.TMC}'");
@@ -413,6 +415,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - AddProject : " + ex.Message);
                 throw ex;
             }
 
@@ -470,6 +473,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - AddProjectTestConcluded : " + ex.Message);
                 throw ex;
             }
 

@@ -89,7 +89,7 @@ namespace Continental.Project.Adam.UI
                         HelperApp.UserId = Convert.ToInt64(uId);
                         HelperApp.UserName = uName;
 
-                        HelperApp.lblstsbar01 = _helperApp.AppMsg_Welcome + uName;
+                        HelperApp.lblstsbar01 = _helperApp.AppMsg_Welcome;
 
                         Itens_Hide();
 

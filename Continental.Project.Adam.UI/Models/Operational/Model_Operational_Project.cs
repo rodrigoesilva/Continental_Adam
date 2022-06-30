@@ -7,6 +7,7 @@ namespace Continental.Project.Adam.UI.Models.Operational
     public class Model_Operational_Project
     {
         public long IdProject { get; set; }
+        public string PartNumber { get; set; }
         public string Identification { get; set; }
         public string CustomerType { get; set; }
         public string Booster { get; set; }

@@ -119,7 +119,8 @@ namespace Continental.Project.Adam.UI
                 string nullValue = "NULL";
 
                 model.Project.Identification = !string.IsNullOrEmpty(mtxt_EIdent.Text) ? mtxt_EIdent.Text.Trim() : nullValue;
-                model.Project.CustomerType = !string.IsNullOrEmpty(mtxt_ECustomer.Text) ? mtxt_ECustomer.Text.Trim() : nullValue;
+                model.Project.PartNumber = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "_|_", model.Project.Identification);
+;               model.Project.CustomerType = !string.IsNullOrEmpty(mtxt_ECustomer.Text) ? mtxt_ECustomer.Text.Trim() : nullValue;
                 model.Project.Booster = !string.IsNullOrEmpty(mtxt_Booster.Text) ? mtxt_Booster.Text.Trim() : nullValue;
                 model.Project.TMC = !string.IsNullOrEmpty(mtxt_Tmc.Text) ? mtxt_Tmc.Text.Trim() : nullValue;
                 model.Project.ProductionDate = !string.IsNullOrEmpty(mtxt_ProductionDate.Text) ? mtxt_ProductionDate.Text.Trim() : nullValue;
@@ -219,9 +220,13 @@ namespace Continental.Project.Adam.UI
                             HelperTestBase.ProjectTestConcluded.Project = modelPrjTestConcluded.Project;
 
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+
+                            HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.Project?.Identification, " ]");
                         }
                         else
                         {
+                            HelperApp.lblstsbar03 = string.Empty;
+
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
 
                             MessageBox.Show("Failed, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -258,176 +263,7 @@ namespace Continental.Project.Adam.UI
             return false;
         }
         ///---------------------------------------------------------------------------
-
-
-        //    void __fastcall TFormLoadEval::LVExplorerCompare(TObject * Sender,
-        //                                                      TListItem * Item1,
-        //                                                      TListItem * Item2,
-        //                                                      int Data,
-        //                                                      int & Compare)
-        //{
-        //        cDATABASE_FILEDB::sDIRECTORY::sENTRY* entry1 = (cDATABASE_FILEDB::sDIRECTORY::sENTRY*)(Item1->Data);
-        //        cDATABASE_FILEDB::sDIRECTORY::sENTRY* entry2 = (cDATABASE_FILEDB::sDIRECTORY::sENTRY*)(Item2->Data);
-
-        //        Compare = -strcmp(entry1->header.UniqueID.c_str(), entry2->header.UniqueID.c_str());
-        //    }
-
-        ///---------------------------------------------------------------------------
         ///
-        ///---------------------------------------------------------------------------
-
-        //    void __fastcall TFormLoadEval::LVExplorerSelectItem(TObject * Sender, TListItem * Item, bool Selected)
-        //{
-        //        EIdent->Text = "";
-        //        ECustomer->Text = "";
-        //        ETestingDate->Text = "";
-        //        EProduct1->Text = "";
-        //        EProduct2->Text = "";
-        //        EProduct3->Text = "";
-        //        ETester->Text = "";
-        //        EProduct4->Text = "";
-        //        LComment->CxLabel = "";
-
-        //        if (Selected)
-        //        {
-        //            selected_entry = (cDATABASE_FILEDB::sDIRECTORY::sENTRY*)(Item->Data);
-
-        //            if (selected_entry)
-        //            {
-        //                EIdent->Text = selected_entry->header.Ident;
-
-        //                if (strlen(selected_entry->header.UniqueID.c_str()) > 0)
-        //                {
-        //                    ECustomer->Text = selected_entry->header.Customer;
-
-        //                    if (Item->SubItems->Count > 0)    // there will be the complete header info only if it's a leaf (Count > 0)
-        //                        HeaderDataToDialog(&(selected_entry->header));
-        //                }
-        //            }
-        //        }
-        //        else
-        //            selected_entry = 0;
-        //    }
-
-        ///---------------------------------------------------------------------------
-
-        //void __fastcall TFormLoadEval::TVExplorerChange(TObject *Sender, TTreeNode *Node)
-        //{
-        //    if (no_lv_update)
-        //        return;
-
-        //    ClearLVExplorer();
-
-        //    LVExplorer->Items->BeginUpdate();
-
-        //#define BUILD_COL_EX(_caption)               \
-        //    column = LVExplorer->Columns->Add();      \
-        //    column->Caption = _caption;                \
-        //    column->Width = ColumnTextWidth;
-
-        //#define BUILD_COL(_item_type)                                                                                   \
-        //    BUILD_COL_EX(cPF_STRING(cDATABASE::sEXAMFILE::db_headinfo[cDATABASE::sEXAMFILE::_item_type].Caption()));  \
-
-        //  try
-        //    {
-        //        selected_entry = (cDATABASE_FILEDB::sDIRECTORY::sENTRY*)(Node->Data);
-
-        //        if (selected_entry)
-        //        {
-        //            // create new columns of the list-view
-        //            TListColumn* column;
-
-        //            BUILD_COL(IT_Customer)
-        //          BUILD_COL(IT_TestingDate)
-        //          BUILD_COL(IT_Product1)
-        //          BUILD_COL(IT_Product2)
-        //          BUILD_COL(IT_Product3)
-        //          BUILD_COL(IT_Tester)
-        //          BUILD_COL(IT_Product4)
-        //          BUILD_COL(IT_Comment)
-
-        //      cDATABASE_FILEDB::sDIRECTORY::sENTRY* entry = database.Directory()->First();
-        //            while (entry)
-        //            {
-        //                if (strcmp(entry->header.Ident.c_str(), selected_entry->header.Ident.c_str()) == 0
-        //                    && entry->header.ExamType == selected_entry->header.ExamType
-        //                    && (!CBMatchingOnly->Checked
-        //                        || ((strlen(EIdent->Text.Trim().c_str()) == 0
-        //                                || strstr(entry->header.Ident.c_str(), EIdent->Text.Trim().c_str()))
-        //                            && (strlen(ECustomer->Text.Trim().c_str()) == 0
-        //                                || strstr(entry->header.Customer.c_str(), ECustomer->Text.Trim().c_str()))
-        //                            && (strlen(EProduct1->Text.Trim().c_str()) == 0
-        //                                || strstr(entry->header.Product1.c_str(), EProduct1->Text.Trim().c_str()))
-        //                            && (strlen(EProduct2->Text.Trim().c_str()) == 0
-        //                                || strstr(entry->header.Product2.c_str(), EProduct2->Text.Trim().c_str()))
-        //                            && (strlen(EProduct3->Text.Trim().c_str()) == 0
-        //                                || strstr(entry->header.Product3.c_str(), EProduct3->Text.Trim().c_str()))
-        //                            && (strlen(EProduct4->Text.Trim().c_str()) == 0
-        //                                || strstr(entry->header.Product4.c_str(), EProduct4->Text.Trim().c_str()))
-        //                            && (strlen(ETestingDate->Text.Trim().c_str()) == 0
-        //                                || strstr(entry->header.TestingDate.c_str(), ETestingDate->Text.Trim().c_str()))
-        //                            && (strlen(ETester->Text.Trim().c_str()) == 0
-        //                                || strstr(entry->header.Tester.c_str(), ETester->Text.Trim().c_str())))))
-        //                {
-        //                    TListItem* list_item = LVExplorer->Items->Add();
-        //                    list_item->Caption = entry->header.Customer;
-
-        //                    switch (entry->header.DataType)
-        //                    {
-        //                        default:
-        //                        case cDATABASE::sEXAMFILE::DT_UNKNOWN:
-        //                            list_item->ImageIndex = 0;
-        //                            break;
-        //                        case cDATABASE::sEXAMFILE::DT_EXAM:
-        //                            list_item->ImageIndex = 1;
-        //                            break;
-        //                        case cDATABASE::sEXAMFILE::DT_PURE_PARAMSET:
-        //                            list_item->ImageIndex = 2;
-        //                            break;
-        //                    }
-
-        //                    list_item->Data = (void*)entry;
-
-        //                    list_item->SubItems->Add(entry->header.TestingDate);
-        //                    list_item->SubItems->Add(entry->header.Product1);
-        //                    list_item->SubItems->Add(entry->header.Product2);
-        //                    list_item->SubItems->Add(entry->header.Product3);
-        //                    list_item->SubItems->Add(entry->header.Tester);
-        //                    list_item->SubItems->Add(entry->header.Product4);
-        //                    list_item->SubItems->Add(entry->header.Comment);
-        //                }
-
-        //                entry = database.Directory()->Next();
-        //            }
-        //        }
-        //    }
-        //    catch (...) { }
-
-        //    LVExplorer->AlphaSort();
-
-        //    LVExplorer->Items->EndUpdate();
-        //    }
-
-        ///---------------------------------------------------------------------------
-
-        //        AnsiString & TFormLoadEval::BuildBackupDirName(void)
-        //    {
-        //            static AnsiString result;
-
-        //            char buf[100];
-        //            time_t t = time(NULL);
-
-        //    struct tm * loctm = localtime(&t);
-        //    sprintf(buf, "Conti_Backup_%.2d.%.2d.%.2d_%.2d.%.2d.%.2d", loctm->tm_mday, loctm->tm_mon + 1, (loctm->tm_year) % 100,
-        //																														  loctm->tm_hour, loctm->tm_min, loctm->tm_sec);
-
-        //	result = buf;
-        //	return result;
-        //    }
-
-        ///---------------------------------------------------------------------------
-        ///
-
         #endregion
 
         #region TREE
@@ -626,11 +462,17 @@ namespace Continental.Project.Adam.UI
                 grid_ProjectTest.Columns["IdProjectTestConcluded"].DefaultCellStyle.ForeColor = Color.White;
                 grid_ProjectTest.Columns["IdProjectTestConcluded"].DisplayIndex = 7;
 
+                grid_ProjectTest.Columns["PartNumber"].Visible = true;
+                grid_ProjectTest.Columns["PartNumber"].Width = 0;
+                grid_ProjectTest.Columns["PartNumber"].DefaultCellStyle.BackColor = Color.White;
+                grid_ProjectTest.Columns["PartNumber"].DefaultCellStyle.ForeColor = Color.White;
+                grid_ProjectTest.Columns["PartNumber"].DisplayIndex = 8;
+
                 grid_ProjectTest.Columns["IdProject"].Visible = true;
                 grid_ProjectTest.Columns["IdProject"].Width = 0;
                 grid_ProjectTest.Columns["IdProject"].DefaultCellStyle.BackColor = Color.White;
                 grid_ProjectTest.Columns["IdProject"].DefaultCellStyle.ForeColor = Color.White;
-                grid_ProjectTest.Columns["IdProject"].DisplayIndex = 8;
+                grid_ProjectTest.Columns["IdProject"].DisplayIndex = 9;
 
                 ////Changes grid's column's header's font size to 10.
                 grid_ProjectTest.ColumnHeadersDefaultCellStyle.Font = new Font("", 10.0f, FontStyle.Bold);
@@ -675,6 +517,7 @@ namespace Continental.Project.Adam.UI
                     Project = new Model_Operational_Project()
                     {
                         IdProject = (long)gvRow.Cells["IdProject1"].Value,
+                        PartNumber = gvRow.Cells["PartNumber"].Value?.ToString()?.Trim(),
                         Identification = gvRow.Cells["Identification"].Value?.ToString()?.Trim(),
                         CustomerType = gvRow.Cells["CustomerType"].Value?.ToString()?.Trim(),
                         Booster = gvRow.Cells["Booster"].Value?.ToString()?.Trim(),
@@ -746,8 +589,6 @@ namespace Continental.Project.Adam.UI
                 {
                     if (HelperTestBase.ProjectTestConcluded.Project.IdProject != null)
                     {
-                        HelperTestBase.ProjectTest = HelperTestBase.ProjectTestConcluded.Project;
-
                         if (DialogResult.Yes == MessageBox.Show($"      You want the selected Project data  \n\n\t {HelperTestBase.ProjectTestConcluded.Project.Identification} \n\n    and all it´s measurement data ? \n\n        Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         {
 
@@ -756,6 +597,8 @@ namespace Continental.Project.Adam.UI
                             HelperApp.uiProjectSelecionado = !string.IsNullOrEmpty(strIdProjectSelect) ? Convert.ToInt32(strIdProjectSelect) : 0;
 
                             HelperApp.uiProjectTestSelecionado = !string.IsNullOrEmpty(strIdTestSelect) ? Convert.ToInt32(strIdTestSelect) : 0;
+
+                            HelperTestBase.ProjectTest = HelperTestBase.ProjectTestConcluded.Project;
 
                             this.Close();
                         }
