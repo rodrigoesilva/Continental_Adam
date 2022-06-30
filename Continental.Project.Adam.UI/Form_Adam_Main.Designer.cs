@@ -75,10 +75,13 @@ namespace Continental.Project.Adam.UI
             this.mbtn_BRecordStop = new MetroFramework.Controls.MetroButton();
             this.mbtn_BRun = new MetroFramework.Controls.MetroButton();
             this.mbtn_BRecording = new MetroFramework.Controls.MetroButton();
+            this.mbtn_EoutPressure = new MetroFramework.Controls.MetroButton();
+            this.mbtn_EoutForce = new MetroFramework.Controls.MetroButton();
             this.metroPanel5 = new MetroFramework.Controls.MetroPanel();
             this.lvLog = new System.Windows.Forms.ListView();
             this.mTile_Diagram_TestSequence = new MetroFramework.Controls.MetroTile();
             this.mbtn_BHandshakePLC = new MetroFramework.Controls.MetroButton();
+            this.mbtn_EoutRef = new MetroFramework.Controls.MetroButton();
             this.mbtn_BAlert = new MetroFramework.Controls.MetroButton();
             this.mTile_Diagram_TestInfo = new MetroFramework.Controls.MetroTile();
             this.timerHBM = new System.Windows.Forms.Timer(this.components);
@@ -194,9 +197,6 @@ namespace Continental.Project.Adam.UI
             this.subMenu_Account_UserReport = new System.Windows.Forms.ToolStripMenuItem();
             this.printDialog = new System.Windows.Forms.PrintDialog();
             this.mpnl_HeaderInfoAnalogInputVisu = new MetroFramework.Controls.MetroPanel();
-            this.mbtn_EoutRef = new MetroFramework.Controls.MetroButton();
-            this.mbtn_EoutForce = new MetroFramework.Controls.MetroButton();
-            this.mbtn_EoutPressure = new MetroFramework.Controls.MetroButton();
             this.mpnl_HeaderInfoAnalogInput.SuspendLayout();
             this.mpnl_Buttons.SuspendLayout();
             this.mpnl_Eventlog.SuspendLayout();
@@ -236,7 +236,6 @@ namespace Continental.Project.Adam.UI
             this.mTile_LCurrentSelectedTest.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.mTile_LCurrentSelectedTest.UseSelectable = true;
             this.mTile_LCurrentSelectedTest.UseWaitCursor = true;
-            this.mTile_LCurrentSelectedTest.Click += new System.EventHandler(this.mTile_LCurrentSelectedTest_Click);
             // 
             // lbl_RoomTemperature
             // 
@@ -785,7 +784,6 @@ namespace Continental.Project.Adam.UI
             this.mbtn_BGlobalWarning.UseCustomBackColor = true;
             this.mbtn_BGlobalWarning.UseCustomForeColor = true;
             this.mbtn_BGlobalWarning.UseSelectable = true;
-            this.mbtn_BGlobalWarning.Click += new System.EventHandler(this.mbtn_BGlobalWarning_Click);
             // 
             // mbtn_BReportPDF
             // 
@@ -1086,6 +1084,30 @@ namespace Continental.Project.Adam.UI
             this.mbtn_BRecording.UseCustomForeColor = true;
             this.mbtn_BRecording.UseSelectable = true;
             // 
+            // mbtn_EoutPressure
+            // 
+            this.mbtn_EoutPressure.Enabled = false;
+            this.mbtn_EoutPressure.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.mbtn_EoutPressure.Location = new System.Drawing.Point(306, 281);
+            this.mbtn_EoutPressure.Name = "mbtn_EoutPressure";
+            this.mbtn_EoutPressure.Size = new System.Drawing.Size(135, 30);
+            this.mbtn_EoutPressure.TabIndex = 67;
+            this.mbtn_EoutPressure.Text = "0,0 bar";
+            this.mbtn_EoutPressure.UseSelectable = true;
+            this.mbtn_EoutPressure.Click += new System.EventHandler(this.mbtn_GeneralSettings_BLoadAdjSettings_Click);
+            // 
+            // mbtn_EoutForce
+            // 
+            this.mbtn_EoutForce.Enabled = false;
+            this.mbtn_EoutForce.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.mbtn_EoutForce.Location = new System.Drawing.Point(144, 281);
+            this.mbtn_EoutForce.Name = "mbtn_EoutForce";
+            this.mbtn_EoutForce.Size = new System.Drawing.Size(135, 30);
+            this.mbtn_EoutForce.TabIndex = 67;
+            this.mbtn_EoutForce.Text = "0,0 N";
+            this.mbtn_EoutForce.UseSelectable = true;
+            this.mbtn_EoutForce.Click += new System.EventHandler(this.mbtn_GeneralSettings_BLoadAdjSettings_Click);
+            // 
             // metroPanel5
             // 
             this.metroPanel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1135,6 +1157,17 @@ namespace Continental.Project.Adam.UI
             this.mbtn_BHandshakePLC.UseCustomBackColor = true;
             this.mbtn_BHandshakePLC.UseCustomForeColor = true;
             this.mbtn_BHandshakePLC.UseSelectable = true;
+            // 
+            // mbtn_EoutRef
+            // 
+            this.mbtn_EoutRef.Location = new System.Drawing.Point(9, 281);
+            this.mbtn_EoutRef.Name = "mbtn_EoutRef";
+            this.mbtn_EoutRef.Size = new System.Drawing.Size(125, 30);
+            this.mbtn_EoutRef.TabIndex = 38;
+            this.mbtn_EoutRef.Text = "Eout Ref";
+            this.mbtn_EoutRef.UseCustomBackColor = true;
+            this.mbtn_EoutRef.UseCustomForeColor = true;
+            this.mbtn_EoutRef.UseSelectable = true;
             // 
             // mbtn_BAlert
             // 
@@ -2863,41 +2896,6 @@ namespace Continental.Project.Adam.UI
             this.mpnl_HeaderInfoAnalogInputVisu.VerticalScrollbarBarColor = true;
             this.mpnl_HeaderInfoAnalogInputVisu.VerticalScrollbarHighlightOnWheel = false;
             this.mpnl_HeaderInfoAnalogInputVisu.VerticalScrollbarSize = 10;
-            // 
-            // mbtn_EoutRef
-            // 
-            this.mbtn_EoutRef.Location = new System.Drawing.Point(9, 281);
-            this.mbtn_EoutRef.Name = "mbtn_EoutRef";
-            this.mbtn_EoutRef.Size = new System.Drawing.Size(125, 30);
-            this.mbtn_EoutRef.TabIndex = 38;
-            this.mbtn_EoutRef.Text = "Eout Ref";
-            this.mbtn_EoutRef.UseCustomBackColor = true;
-            this.mbtn_EoutRef.UseCustomForeColor = true;
-            this.mbtn_EoutRef.UseSelectable = true;
-            // 
-            // mbtn_EoutForce
-            // 
-            this.mbtn_EoutForce.Enabled = false;
-            this.mbtn_EoutForce.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.mbtn_EoutForce.Location = new System.Drawing.Point(144, 281);
-            this.mbtn_EoutForce.Name = "mbtn_EoutForce";
-            this.mbtn_EoutForce.Size = new System.Drawing.Size(135, 30);
-            this.mbtn_EoutForce.TabIndex = 67;
-            this.mbtn_EoutForce.Text = "0,0 N";
-            this.mbtn_EoutForce.UseSelectable = true;
-            this.mbtn_EoutForce.Click += new System.EventHandler(this.mbtn_GeneralSettings_BLoadAdjSettings_Click);
-            // 
-            // mbtn_EoutPressure
-            // 
-            this.mbtn_EoutPressure.Enabled = false;
-            this.mbtn_EoutPressure.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.mbtn_EoutPressure.Location = new System.Drawing.Point(306, 281);
-            this.mbtn_EoutPressure.Name = "mbtn_EoutPressure";
-            this.mbtn_EoutPressure.Size = new System.Drawing.Size(135, 30);
-            this.mbtn_EoutPressure.TabIndex = 67;
-            this.mbtn_EoutPressure.Text = "0,0 bar";
-            this.mbtn_EoutPressure.UseSelectable = true;
-            this.mbtn_EoutPressure.Click += new System.EventHandler(this.mbtn_GeneralSettings_BLoadAdjSettings_Click);
             // 
             // Form_Adam_Main
             // 

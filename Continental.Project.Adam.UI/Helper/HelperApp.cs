@@ -12,10 +12,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -95,7 +97,7 @@ namespace Continental.Project.Adam.UI.Helper
 
         public List<double>[] lstDblReturnReadFile = new List<double>[13];
 
-        Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[3];
+        Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[4];
         public string strCharSplit_TXTHeader_Data = "*";
 
         #endregion
@@ -206,7 +208,6 @@ namespace Continental.Project.Adam.UI.Helper
 
             try
             {
-                List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                 #region Check TEST Results
 
@@ -221,22 +222,43 @@ namespace Continental.Project.Adam.UI.Helper
                             if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
                             {
                                 var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
+                                var dicReturnReadFileHeaderParamGrid = dicReturnReadFileHeader[1];
+                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[2];
+                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[3];
 
                                 #region File Data Results
 
                                 #region Results_FileHeader_Project
 
-                                HelperTestBase.ProjectTestConcluded.Project.Identification = dicReturnReadFileHeaderPrj.ContainsKey("Ident") ? dicReturnReadFileHeaderPrj["Ident"].ToString().Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.CustomerType = dicReturnReadFileHeaderPrj.ContainsKey("Customer/Type") ? dicReturnReadFileHeaderPrj["Customer/Type"].ToString().Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.Booster = dicReturnReadFileHeaderPrj.ContainsKey("Booster") ? dicReturnReadFileHeaderPrj["Booster"].ToString().Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.TMC = dicReturnReadFileHeaderPrj.ContainsKey("TMC") ? dicReturnReadFileHeaderPrj["TMC"].ToString().Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.ProductionDate = dicReturnReadFileHeaderPrj.ContainsKey("Production Date") ? dicReturnReadFileHeaderPrj["Production Date"].ToString().Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.T_O = dicReturnReadFileHeaderPrj.ContainsKey("T.O.") ? dicReturnReadFileHeaderPrj["T.O."].ToString().Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.User.UName = dicReturnReadFileHeaderPrj.ContainsKey("Operator") ? GetUserName(Convert.ToInt64(dicReturnReadFileHeaderPrj["Operator"].ToString().Trim()))?.ToUpper() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.TestingDate = dicReturnReadFileHeaderPrj.ContainsKey("Testing Date") ? dicReturnReadFileHeaderPrj["Testing Date"].ToString().Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.Comment = dicReturnReadFileHeaderPrj.ContainsKey("Comment") ? dicReturnReadFileHeaderPrj["Comment"].ToString().Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.Identification = dicReturnReadFileHeaderPrj.ContainsKey("Ident") ? dicReturnReadFileHeaderPrj["Ident"].ToString()?.Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.CustomerType = dicReturnReadFileHeaderPrj.ContainsKey("Customer/Type") ? dicReturnReadFileHeaderPrj["Customer/Type"].ToString()?.Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.Booster = dicReturnReadFileHeaderPrj.ContainsKey("Booster") ? dicReturnReadFileHeaderPrj["Booster"].ToString()?.Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.TMC = dicReturnReadFileHeaderPrj.ContainsKey("TMC") ? dicReturnReadFileHeaderPrj["TMC"].ToString()?.Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.ProductionDate = dicReturnReadFileHeaderPrj.ContainsKey("Production Date") ? dicReturnReadFileHeaderPrj["Production Date"].ToString()?.Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.T_O = dicReturnReadFileHeaderPrj.ContainsKey("T.O.") ? dicReturnReadFileHeaderPrj["T.O."].ToString()?.Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.User.UName = dicReturnReadFileHeaderPrj.ContainsKey("Operator") ? dicReturnReadFileHeaderPrj["Operator"].ToString()?.Trim()?.ToUpper() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.TestingDate = dicReturnReadFileHeaderPrj.ContainsKey("Testing Date") ? dicReturnReadFileHeaderPrj["Testing Date"].ToString()?.Trim() : string.Empty;
+                                HelperTestBase.ProjectTestConcluded.Project.Comment = dicReturnReadFileHeaderPrj.ContainsKey("Comment") ? dicReturnReadFileHeaderPrj["Comment"].ToString()?.Trim() : string.Empty;
+
+                                #endregion
+
+                                #region Results_FileHeader_Param_Grid
+
+                                HelperTestBase.Model_GVL.GVL_T01.rForca_E1 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E3)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E3)"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rForca_E2 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E4)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E4)"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rForca_P1 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E5)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E5)"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rForca_P2 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E6)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E6)"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rDeslocamentoNaPressao = dicReturnReadFileHeaderParamGrid.ContainsKey("Travel at Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Travel at Pressure"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressaoCutIn_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Actuation Force at Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Actuation Force at Pressure"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMin_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force min") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force min"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMax_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force max") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force max"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_pout = dicReturnReadFileHeaderParamGrid.ContainsKey("Hysteresis at Pressure (%)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Hysteresis at Pressure (%)"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Hysteresis at Pressure (bar)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Hysteresis at Pressure (bar)"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force Remaining at") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force Remaining at"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("TMC Diameter PC") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["TMC Diameter PC"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("TMC Diameter SC") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["TMC Diameter SC"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Jumper Gradient P1") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Jumper Gradient P1"]) * -1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Jumper Gradient P2") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Jumper Gradient P2"]) * -1 : 0;
 
                                 #endregion
 
@@ -328,7 +350,6 @@ namespace Continental.Project.Adam.UI.Helper
                                 #endregion
 
                                 #endregion
-
                             }
 
                             #endregion
@@ -2719,8 +2740,11 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #endregion
 
+                List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                 listResultParam = TabTableParameters_FormatResultParam(dtTableResults, lstInfoEvaluationParameters, dicResultParam);
+
+                //HelperApp.lstEvaluationParameters
             }
             catch (Exception ex)
             {
@@ -3054,8 +3078,7 @@ namespace Continental.Project.Adam.UI.Helper
         {
             //Setup list object
             var lstParamAnalog = new List<ActuationParameters_EvaluationParameters>();
-
-            try
+                        try
             {
                 //Loop through datagridview rows
                 foreach (DataGridViewRow row in grid.Rows)
@@ -3092,61 +3115,91 @@ namespace Continental.Project.Adam.UI.Helper
 
             return lstParamAnalog;
         }
-        public Model_TabActuationParameters_EvaluationParameters TransfValuesEvalParam(List<ActuationParameters_EvaluationParameters> lstParamAnalog)
+        public List<ActuationParameters_EvaluationParameters> GridView_GetValuesEvalParamOffLineByFile(DataGridView grid)
         {
+            #region Define
 
-            var evalParamAnalog = new Model_TabActuationParameters_EvaluationParameters();
+            //Setup list object
+            var lstParamAnalog = new List<ActuationParameters_EvaluationParameters>();
+
+            Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[3];
+
+            string fileName = string.Empty;
+
+            string pathWithFileName = string.Empty;
+
+            #endregion
 
             try
             {
-                if (lstParamAnalog?.Count > 0)
-                {
-                    evalParamAnalog = new Model_TabActuationParameters_EvaluationParameters()
-                    {
-                        EForceScale = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EForceScale")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EPressureScale = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EPressureScale")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EP3AtForce = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EP3AtForce")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EP4AtForce = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EP4AtForce")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EP5AtForce = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EP5AtForce")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EP6AtForce = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EP6AtForce")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EPistonTravelAtPressure = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EPistonTravelAtPressure")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EActuationForceAtPressure = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EActuationForceAtPressure")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EReleaseForceMin = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EReleaseForceMin")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EReleaseForceMax = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EReleaseForceMax")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EHysteresisAtPressure = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EHysteresisAtPressure")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EHysteresisAtPressure2 = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EHysteresisAtPressure2")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        ERelForceRemainAtTravel = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("ERelForceRemainAtTravel")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        ETMCDiameterPC = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("ETMCDiameterPC")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        ETMCDiameterSC = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("ETMCDiameterSC")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EJumperGradientP1 = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EJumperGradientP1")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        EJumperGradientP2 = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("EJumperGradientP2")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                        CBUseLinearIntersection = lstParamAnalog.Where(x => x.EvalParam_Name.Equals("CBUseLinearIntersection")).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString(),
-                    };
-                }
+                #region load existent file project
+
+                #region Header Name File Test
+
+                string strHeader = AppTests_DefaultNameHeader;
+
+            string _initialDirPathTestFile = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppTests_Path);
+
+            AppTests_Path = _initialDirPathTestFile;
+
+
+            if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName))
+            {
+                fileName = string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), AppTests_DefaultExtension);
+
+                pathWithFileName = System.IO.Path.Combine(_initialDirPathTestFile, fileName);
+
+                HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = pathWithFileName;
+
+                pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(AppTests_DefaultNameData, strHeader);
+                fileName = string.Concat(pathWithFileName.Replace(_initialDirPathTestFile, string.Empty).Replace(AppTests_DefaultExtension, string.Empty), AppTests_DefaultExtension);
+            }
+
+            #endregion
+
+                #region load data
+
+                if (!string.IsNullOrEmpty(fileName))
+                    dicReturnReadFileHeader = ReadTXTFileHeaderHBM(fileName, pathWithFileName);
                 else
                 {
-                    evalParamAnalog = new Model_TabActuationParameters_EvaluationParameters()
-                    {
-                        EForceScale = string.Empty,
-                        EPressureScale = string.Empty,
-                        EP3AtForce = string.Empty,
-                        EP4AtForce = string.Empty,
-                        EP5AtForce = string.Empty,
-                        EP6AtForce = string.Empty,
-                        EPistonTravelAtPressure = string.Empty,
-                        EActuationForceAtPressure = string.Empty,
-                        EReleaseForceMin = string.Empty,
-                        EReleaseForceMax = string.Empty,
-                        EHysteresisAtPressure = string.Empty,
-                        EHysteresisAtPressure2 = string.Empty,
-                        ERelForceRemainAtTravel = string.Empty,
-                        ETMCDiameterPC = string.Empty,
-                        ETMCDiameterSC = string.Empty,
-                        EJumperGradientP1 = string.Empty,
-                        EJumperGradientP2 = string.Empty,
-                        CBUseLinearIntersection = string.Empty,
-                    };
+                    MessageBox.Show("Failed, error path project !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
                 }
+
+                #endregion
+
+                #endregion
+
+                var dicReturnReadFileHeaderParamGrid = dicReturnReadFileHeader[1];
+            
+                //Loop through datagridview rows
+                for (int i = 0; i < dicReturnReadFileHeaderParamGrid.Count(); i++)
+                {
+                    DataGridViewRow row = grid.Rows[i];
+
+                    if (row.Cells.Count > 0)
+                    {
+                        var obj = new ActuationParameters_EvaluationParameters()
+                        {
+                            IdEvalParam = !string.IsNullOrEmpty(row.Cells["IdEvalParam"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdEvalParam"]?.Value) : 0,
+                            EvalParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
+                            //EvalParam_Caption = !string.IsNullOrEmpty(row.Cells["EvalParam_Caption"]?.Value?.ToString()) ? row.Cells["EvalParam_Caption"]?.Value?.ToString()?.Trim() : string.Empty,
+                            EvalParam_Caption = !string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()) ? dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()?.Trim() : string.Empty,
+                            EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
+                            //EvalParam_Hi = !string.IsNullOrEmpty(row.Cells["EvalParam_Hi"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Hi"]?.Value) : 0,
+                            EvalParam_Hi = !string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value?.ToString()) ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value) * -1 : 0,
+                            EvalParam_Mksunit = !string.IsNullOrEmpty(row.Cells["UnitSymbol"]?.Value?.ToString()) ? row.Cells["UnitSymbol"]?.Value?.ToString()?.Trim() : string.Empty
+                        };
+
+                        if (obj.IdEvalParam > 0)
+                            lstParamAnalog.Add(obj);
+                    }
+                }
+            
+
+                HelperApp.lstEvaluationParameters.Clear();
+                HelperApp.lstEvaluationParameters = lstParamAnalog;
             }
             catch (Exception ex)
             {
@@ -3154,7 +3207,7 @@ namespace Continental.Project.Adam.UI.Helper
                 throw;
             }
 
-            return evalParamAnalog;
+            return lstParamAnalog;
         }
 
         #endregion
@@ -3166,6 +3219,15 @@ namespace Continental.Project.Adam.UI.Helper
         #endregion
 
         #region Methods
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public string GetMethodName()
+        {
+            var st = new StackTrace();
+            var sf = st.GetFrame(1);
+
+            return sf.GetMethod().Name;
+        }
         public NumberFormatInfo NumberDoubleFormat()
         {
             var format = new NumberFormatInfo();
@@ -3214,6 +3276,7 @@ namespace Continental.Project.Adam.UI.Helper
                         string[] lines = File.ReadAllLines(pathWithFileName);
 
                         //project 5->13
+                        //parameters grid 18-> depend of test
                         //parameters 17->27
                         //results 32->58
 
@@ -3245,11 +3308,39 @@ namespace Continental.Project.Adam.UI.Helper
 
                         #endregion
 
+                        #region HEADER - PARAMETERS GRID
+
+                        var lstParamGrid = lines
+                            .SkipWhile(lin1 => !lin1.Contains("|-"))
+                            .Skip(lstProject.Count() + 2)
+                            .TakeWhile(lin1 => !lin1.Contains("|-"))
+                            .ToList();
+
+                        Dictionary<string, string> dicReturnReadFileHeaderParamGrid = new Dictionary<string, string>();
+
+                        foreach (var headerItem in lstParamGrid)
+                        {
+                            if (!string.IsNullOrWhiteSpace(headerItem))
+                            {
+                                string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
+
+                                if (strArray.Length > 0)
+                                {
+                                    var headerVariableName = strArray[0]?.Trim();
+                                    var headerVariableValue = !string.IsNullOrEmpty(strArray[1]) ? strArray[1].Substring(0, strArray[1].IndexOf("[")).Trim() : strArray[1]?.Trim();
+
+                                    dicReturnReadFileHeaderParamGrid.Add(headerVariableName, headerVariableValue);
+                                }
+                            }
+                        }
+
+                        #endregion
+
                         #region HEADER - PARAMETERS
 
                         var lstParam = lines
                             .SkipWhile(lin1 => !lin1.Contains("|-"))
-                            .Skip(lstProject.Count() + 2)
+                            .Skip(lstProject.Count() + lstParamGrid.Count() + 3)
                             .TakeWhile(lin1 => !lin1.Contains("|-"))
                             .ToList();
 
@@ -3277,7 +3368,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                         var lstResults = lines
                             .SkipWhile(lin => !lin.Contains("|-"))
-                            .Skip(lstProject.Count() + lstParam.Count() + 3)
+                            .Skip(lstProject.Count() + lstParamGrid.Count() + lstParam.Count() + 4)
                             .TakeWhile(lin => !lin.Contains("|-"))
                             .ToList();
 
@@ -3304,8 +3395,9 @@ namespace Continental.Project.Adam.UI.Helper
                         #region HEADER - DICTIONARY
 
                         dicReturnReadFileHeader[0] = dicReturnReadFileHeaderPrj;
-                        dicReturnReadFileHeader[1] = dicReturnReadFileHeaderParam;
-                        dicReturnReadFileHeader[2] = dicReturnReadFileHeaderResults;
+                        dicReturnReadFileHeader[1] = dicReturnReadFileHeaderParamGrid;
+                        dicReturnReadFileHeader[2] = dicReturnReadFileHeaderParam;
+                        dicReturnReadFileHeader[3] = dicReturnReadFileHeaderResults;
 
                         #endregion
                     }
@@ -16290,6 +16382,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = HelperApp.lstEvaluationParameters;
 
+                    sbHeader.Append($"\r\n");
                     sbHeader.Append($"|- PARAMETERS GRID -|");
                     sbHeader.Append($"\r\n");
                     sbHeader.Append($"\r\n");

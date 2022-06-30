@@ -57,6 +57,8 @@ namespace Continental.Project.Adam.UI
 
                 Load_StartInfoData();
 
+                DisableButtons();
+
                 mchk_CBPrintSeries.Checked = false;
                 mchk_CBExportBitmapSeries.Checked = false;
                 mchk_CBExportExcelSeries.Checked = false;
@@ -373,7 +375,11 @@ namespace Continental.Project.Adam.UI
                             if (modelOperationalProjectTestConcluded != null)
                             {
                                 if (selected_entry && modelOperationalProjectTestConcluded.IdProjectTestConcluded > 0)
+                                {
                                     HeaderDataToDialog(modelOperationalProjectTestConcluded.Project);
+
+                                    EnableButtons();
+                                } 
                             }
                             else
                                 selected_entry = false;
@@ -581,6 +587,19 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region BUTTONS
+
+        private void EnableButtons() {
+
+            mbtn_BDeleteTest.Enabled = true;
+            mbtn_BLoadTest.Enabled = true;
+        }
+
+        private void DisableButtons()
+        {
+
+            mbtn_BDeleteTest.Enabled = false;
+            mbtn_BLoadTest.Enabled = false;
+        }
         private void mbtn_BLoadTest_Click(object sender, EventArgs e)
         {
             try

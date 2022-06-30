@@ -302,11 +302,13 @@ namespace Continental.Project.Adam.UI
         {
             _initialDirPathTestFile = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppTests_Path);
 
+            _helperApp.AppTests_Path = _initialDirPathTestFile;
+
             this.WindowState = FormWindowState.Maximized;
 
             TAB_Disable();
 
-            TAB_Main_ActivePage(2);
+            TAB_Main_ActivePage(2, _helperApp.GetMethodName());
 
             CONTROLS_EnableMetroButton();
 
@@ -747,9 +749,9 @@ namespace Continental.Project.Adam.UI
         }
         private void TAB_Main_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TAB_Main_ActivePage(TAB_Main.SelectedIndex);
+            TAB_Main_ActivePage(TAB_Main.SelectedIndex, _helperApp.GetMethodName());
         }
-        public void TAB_Main_ActivePage(int tabIdx)
+        public void TAB_Main_ActivePage(int tabIdx, string origin)
         {
             try
             {
@@ -766,8 +768,8 @@ namespace Continental.Project.Adam.UI
                         {
                             TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
 
-                            if (!TAB_TableResult_SetData("TAB_Main_ActivePage"))
-                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error); ;
+                            if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
+                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                             break;
                         }
@@ -776,7 +778,12 @@ namespace Continental.Project.Adam.UI
                             if (TAB_Main.TabPages["tab_CPX_Visu"] == null)
                                 TAB_CPXVisu_Create();
 
-                            TAB_ActuationParameters_SetData();
+                            if (!TAB_ActuationParameters_SetData(_helperApp.GetMethodName()))
+                            {
+                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                break;
+                            }
+                            
 
                             TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
@@ -1150,7 +1157,7 @@ namespace Continental.Project.Adam.UI
                     string strResultParam_Nominal = ((System.Windows.Forms.DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
 
                     if (!string.IsNullOrEmpty(strResultParam_Nominal) && row != null)
-                        TAB_TableResults_Grid_WriteNominaParameters(row, strIdTestAvailable, strResultParam_Nominal);
+                        TAB_TableResults_Grid_WriteNominalParameters(row, strIdTestAvailable, strResultParam_Nominal);
                 }
             }
             catch (Exception)
@@ -1159,7 +1166,7 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
         }
-        private void TAB_TableResults_Grid_WriteNominaParameters(DataGridViewRow row, string strIdTestAvailable, string strResultParam_Nominal)
+        private void TAB_TableResults_Grid_WriteNominalParameters(DataGridViewRow row, string strIdTestAvailable, string strResultParam_Nominal)
         {
             try
             {
@@ -1301,10 +1308,12 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
+        #endregion
+
         #region TAB - ActuationParameters
 
         #region TAB - ActuationParameters - Common
-        private void TAB_ActuationParameters_SetData()
+        private bool TAB_ActuationParameters_SetData(string origin)
         {
             try
             {
@@ -1312,7 +1321,6 @@ namespace Continental.Project.Adam.UI
 
                 mtxt_Actuation_Unit_E1ParMaxForce.Enabled = false;
                 mtxt_Actuation_Unit_E1ParForceGrad.Enabled = false;
-
 
                 #region TAB_ActuationParameters - Evoluation Parameters - Set data
 
@@ -1409,7 +1417,7 @@ namespace Continental.Project.Adam.UI
 
                 #endregion
 
-                if (!TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado))
+                if (!TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName()))
                 {
                     grid_tabActionParam_EvalParam.DataSource = null;
                     HelperApp.uiTesteSelecionado = 0;
@@ -1423,7 +1431,11 @@ namespace Continental.Project.Adam.UI
             {
                 var exc = ex.Message;
                 MessageBox.Show(exc);
+
+                return false;
             }
+
+            return true;
         }
         private bool TAB_ActuationParameters_ValidateInputTxt(object sender, KeyPressEventArgs e)
         {
@@ -1522,7 +1534,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TAB - ActuationParameters - Populate Data
-        private bool TAB_ActuationParameters_PopulateData(int uiTesteSelecionado)
+        private bool TAB_ActuationParameters_PopulateData(int uiTesteSelecionado, string origin)
         {
             try
             {
@@ -1542,9 +1554,6 @@ namespace Continental.Project.Adam.UI
                         if (uiTesteSelecionado != 0)
                         {
                             HelperApp.uiTesteSelecionado = uiTesteSelecionado;
-
-                            //if (HelperTestBase.ParamEval == null)
-                            //    BindDataParam();
 
                             if (!_bCoBSelectTestSelected)
                             {
@@ -1586,6 +1595,8 @@ namespace Continental.Project.Adam.UI
                 }
                 else
                 {
+                    #region Actuation Parameters
+
                     foreach (DataRow row in dtActionParameter.Rows)
                     {
                         #region General Settings
@@ -1635,6 +1646,8 @@ namespace Continental.Project.Adam.UI
                         #endregion
                     }
 
+                    #endregion
+
                     #region Evaluation Parameters
 
                     DataTable dtGridEvalParameters = _bll_Main_Tab_ActionParameters.PopulateGridEvalParametersByTest(strIdxTestSelected);
@@ -1646,6 +1659,9 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
+                        Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[4];
+                        List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = new List<ActuationParameters_EvaluationParameters>();
+
                         if (dtGridEvalParameters.Rows.Count > 0)
                         {
                             //Rows Format
@@ -1654,7 +1670,21 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (TAB_ActuationParameters_EvalParameters_Grid_Format())
                                 {
-                                    List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+                                    if (!HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
+                                    {
+                                        if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
+                                            lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
+                                        else
+                                        {
+                                            MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                            TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                                            return false;
+                                        }
+                                    }
+                                    else
+                                        lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                                     if (HelperApp.uiTesteSelecionado > 0)
                                         TAB_ActuationParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters, string.Empty, string.Empty);
@@ -2279,19 +2309,22 @@ namespace Continental.Project.Adam.UI
                 mcbo_tabActParam_GenSettings_CoBSelectTest.DisplayMember = "Name";
                 mcbo_tabActParam_GenSettings_CoBSelectTest.DataSource = dt;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                var msgError = ex.Message;
                 throw;
             }
         }
         private void mcbo_GeneralSettings_CoBSelectTest_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TAB_Disable();
+            if (!_bAppStart)
+            {
+                TAB_Disable();
 
-            int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
+                int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
 
-            TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
+                TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, _helperApp.GetMethodName());
+            }
         }
         public void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(int idxSelected, string origin)
         {
@@ -2432,7 +2465,8 @@ namespace Continental.Project.Adam.UI
                     tab_TableResultsEnable = false;
                     _bCoBSelectTestSelected = false;
 
-                    TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado);
+                    //if (HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
+                        TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName());
 
                     last_sel_ix = sel_ix;
                 }
@@ -2535,8 +2569,8 @@ namespace Continental.Project.Adam.UI
                         }
                         else
                         {
-                            if (!_bPrjTestOffLineCarregado)
-                            {
+                            //if (!_bPrjTestOffLineCarregado)
+                            //{
                                 if (TXTFileHBM_LoadDataConcluded())
                                 {
                                     TAB_Enable();
@@ -2544,7 +2578,7 @@ namespace Continental.Project.Adam.UI
                                 }
                                 else
                                     MessageBox.Show("Error TXTFileHBM_LoadDataConcluded, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
+                            //}
                         }
                     }
 
@@ -5428,8 +5462,6 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #endregion
-
         #region TIMERS
         private void timerDateTime_Tick(object sender, EventArgs e)
         {
@@ -6085,8 +6117,6 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                BLL_Operational_Project bll_Project = new BLL_Operational_Project();
-
                 Model_Operational_Project_TestConcluded modelPrjTestConcluded = new Model_Operational_Project_TestConcluded();
 
                 modelPrjTestConcluded = new Model_Operational_Project_TestConcluded()
@@ -6099,6 +6129,8 @@ namespace Continental.Project.Adam.UI
                     TestFileName = _prjTestFilename.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, ""),
                     LastUpdate = DateTime.Now.ToString()
                 };
+
+                BLL_Operational_Project bll_Project = new BLL_Operational_Project();
 
                 int idProjectTestConcludedInsert = bll_Project.AddProjectTestConcluded(modelPrjTestConcluded);
 
@@ -6143,7 +6175,7 @@ namespace Continental.Project.Adam.UI
         private void TEST_Concluded_LoadData(bool bLoasTestConcluded)
         {
             if (bLoasTestConcluded)
-                TEST_FileDataConcluded_SetData();// this.Hide();
+                TEST_FileDataConcluded_SetData();
         }
 
         public void TEST_FileDataConcluded_SetData()
@@ -6154,17 +6186,19 @@ namespace Continental.Project.Adam.UI
                 {
                     _bPrjTestOffLineCarregado = false;
 
+                    HelperApp.uiTesteSelecionado = HelperApp.uiProjectTestSelecionado;
+
+                    mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = HelperApp.uiTesteSelecionado;
+
+                    //TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName());
+
+                    TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName());
+
                     TXTFileHBM_LoadDataConcluded();
 
-                    TAB_Main_ActivePage(2);
+                    TAB_Main_ActivePage(2, _helperApp.GetMethodName());
 
-                    int idxSelected = HelperApp.uiProjectTestSelecionado; // mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex;
-
-                    mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = idxSelected;
-
-                    TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
-
-                    MessageBox.Show("Test Data Loaded!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Test with file Ident # - [ { HelperTestBase.ProjectTestConcluded.TestIdentName} ] loaded!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.Project?.Identification, " ]");
                 }
@@ -6179,6 +6213,8 @@ namespace Continental.Project.Adam.UI
 
                 throw;
             }
+
+            _bPrjTestOffLineCarregado = true;
         }
 
         private void TEST_Concluded_ClearData()
@@ -6402,7 +6438,7 @@ namespace Continental.Project.Adam.UI
                         {
                             LOG_TestSequence("TESTE CALC CONCLUDED");
 
-                            if (!TAB_TableResult_SetData("TXTFileHBM_LoadData"))
+                            if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
                             {
                                 MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return false;
@@ -6476,9 +6512,7 @@ namespace Continental.Project.Adam.UI
 
                 #region set Path
 
-                int idTest = HelperApp.uiTesteSelecionado;
-
-                if (idTest == 0 && _bCoBSelectTestSelected)
+                if (HelperApp.uiTesteSelecionado == 0 && _bCoBSelectTestSelected)
                 {
                     mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = 0;
 
@@ -6557,7 +6591,7 @@ namespace Continental.Project.Adam.UI
                         {
                             LOG_TestSequence("TESTE CALC CONCLUDED");
 
-                            if (!TAB_TableResult_SetData("TXTFileHBM_LoadDataConcluded"))
+                            if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
                                 MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else
                             {
@@ -10560,153 +10594,6 @@ namespace Continental.Project.Adam.UI
         }
 
         #endregion
-
-        #region TODO
-        //TODO
-        public void SaveCurrentMeasurement()
-        {
-            if (HelperTestBase.eExamType == eEXAMTYPE.ET_NONE)
-                MessageBox.Show("No test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
-            {
-                //DialogToParams(&(current_exam.base_params),
-                //                                &(current_exam.add_params));
-
-                //currentTestFile.base_params = current_exam.base_params;
-                //currentTestFile.add_params = current_exam.add_params;
-                //currentTestFile.results = current_exam.Batch()->Results();
-                //currentTestFile.graph_data = current_exam.Batch()->GraphData();
-
-                //currentTestFile.header.ExamType = current_exam.base_type;
-
-                //if (!database.SaveExam(&currentTestFile))
-                //    MessageBox.Show("Error while saving to database!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //else
-                //    MessageBox.Show("Ok!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-            //if (current_exam.base_type == ET_NONE)
-            //    FormErrorMessage->ShowModal("No test selected!");
-            //else
-            //{
-            //    DialogToParams(&(current_exam.base_params),
-            //                                    &(current_exam.add_params));
-
-            //    currentTestFile.base_params = current_exam.base_params;
-            //    currentTestFile.add_params = current_exam.add_params;
-            //    currentTestFile.results = current_exam.Batch()->Results();
-            //    currentTestFile.graph_data = current_exam.Batch()->GraphData();
-
-            //    currentTestFile.header.ExamType = current_exam.base_type;
-
-            //    if (!database.SaveExam(&currentTestFile))
-            //        FormErrorMessage->ShowModal("Error while saving to database!");
-            //    else
-            //        FormOkSplash->Show();
-            //}
-        }
-        //TODO
-        public void SetNewTestProgram(eEXAMTYPE examtype, string udt_filename)
-        {
-            // pre-check
-            if (examtype == eEXAMTYPE.ET_NONE)
-                return;
-
-            //// set main information label & dropdown-list for test-selection
-            mcbo_tabActParam_GenSettings_CoBSelectTest.DataSource = null;
-            //current_exam.base_type = eEXAMTYPE.ET_NONE;
-            //current_exam.user_defined_ix = 0;
-
-            if (examtype != eEXAMTYPE.ET_USER_DEFINED)
-            {
-                //    AnsiString label = examdefs.ExamName(examtype);
-
-                //    CoBSelectTest->Items->Add(label);
-                //    CoBSelectTest->Items->Objects[0] = (TObject*)examtype;
-
-                //    current_exam.is_user_defined = false;
-
-                //    // preset with default values
-                //    current_exam.base_params = *(current_exam.batch[examtype]->DefaultBaseParams());
-
-                //    SBEvaluation->Visible = false;                  // reduce flickering
-                //    SBEvaluation->Update();
-                //    current_exam.batch[examtype]->InitPanels();     // to initialize the add_param_fifo...
-                //    SBEvaluation->Visible = true;                     // reduce flickering
-                //    current_exam.add_params.Flush();
-                //    unsigned int n_avail = current_exam.batch[examtype]->AddParams().DataAvail();
-                //    for (unsigned int add_param_ix = 0; add_param_ix < n_avail; add_param_ix++)
-                //    {
-                //        current_exam.batch[examtype]->AddParams()[add_param_ix]->value = 0.0;
-                //        current_exam.add_params.DoExpPut(current_exam.batch[examtype]->AddParams()[add_param_ix]);
-                //    }
-            }
-            else
-            {
-                //    // load test
-                //    current_exam.user_defined.Filename(udt_filename.c_str());
-
-                //    // setup all basic-tests
-                //    for (unsigned int i = 0; i < current_exam.user_defined.Params().DataAvail(); i++)
-                //    {
-                //        eEXAMTYPE et = (*(current_exam.user_defined.Params()[i]))->examtype;
-
-
-                //        AnsiString label = examdefs.ExamName(et);
-
-                //        CoBSelectTest->Items->Add(label);
-                //        CoBSelectTest->Items->Objects[i] = (TObject*)et;
-
-                //        // preset with default values
-                //        (*(current_exam.user_defined.Params()[i]))->base_params = *(current_exam.batch[et]->DefaultBaseParams());
-
-                //        SBEvaluation->Visible = false;            // reduce flickering
-                //        SBEvaluation->Update();
-                //        current_exam.batch[et]->InitPanels();       // to initialize the add_param_fifo...
-                //        SBEvaluation->Visible = true;               // reduce flickering
-                //        (*(current_exam.user_defined.Params()[i]))->add_params.Flush();
-                //        unsigned int n_avail = current_exam.batch[et]->AddParams().DataAvail();
-                //        for (unsigned int add_param_ix = 0; add_param_ix < n_avail; add_param_ix++)
-                //        {
-                //            current_exam.batch[et]->AddParams()[add_param_ix]->value = 0.0;
-                //            (*(current_exam.user_defined.Params()[i]))->add_params.DoExpPut(current_exam.batch[et]->AddParams()[add_param_ix]);
-                //        }
-                //    }
-
-                //    current_exam.is_user_defined = true;
-            }
-
-            if (mcbo_tabActParam_GenSettings_CoBSelectTest.Items.Count > 0)
-            {
-                mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = 0;
-                //    CoBSelectTestChange(0);         // simulate "selection changed"
-            }
-
-            //// update the access-status
-            //cCX_ACCESSBASE accessbase;
-            //accessbase.Refresh();
-        }
-
-        #endregion
-        private void mTile_LCurrentSelectedTest_Click(object sender, EventArgs e)
-        {
-            if (_helperApp.AppUseSimulateLocal)
-                if (!_bAppStart)
-                {
-                    HelperTestBase.ProjectTestConcluded.Project.is_OnLIne = true;
-
-                    if (TXTFileHBM_LoadData())
-                        if (TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL))
-                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
-                        else
-                            MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-        }
-
-        private void mbtn_BGlobalWarning_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Click OK", _helperApp.appMsg_Error);
-        }
 
         #endregion
 
