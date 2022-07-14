@@ -320,19 +320,38 @@ namespace Continental.Project.Adam.UI.Helper
 
                                 //define captions data
                                 HelperTestBase.Model_GVL.GVL_T01.rForca_90pout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 90.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 90.0 %")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Replace("Pressure at 90.0 %", "").Replace("(=", "").Replace("N)", "").Trim()) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rForca_70pout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 70.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Replace("Pressure at 70.0 %", "").Replace("(=", "").Replace("N)", "").Trim()) *-1 : 0;
+                                HelperTestBase.Model_GVL.GVL_T01.rForca_70pout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 70.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Replace("Pressure at 70.0 %", "").Replace("(=", "").Replace("N)", "").Trim()) * -1 : 0;
 
                                 //jumper gradient
                                 //HelperTestBase.Model_GVL.GVL_T01.rGradientJumper = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
 
-                                var spl = dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Jumper Gradient (")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Split(',');
+                                var strJumpGrad = dicReturnReadFileHeaderResults
+                                    .ElementAt(dicReturnReadFileHeaderResults.Keys
+                                    .Select(x => x.Contains("Jumper Gradient ("))
+                                                    .ToList()
+                                                    .FindIndex(a => a.Equals(true))
+                                                    )
+                                    .Key
+                                    .ToString();
 
-                                if (spl.Count() > 0)
+                                if (!string.IsNullOrEmpty(strJumpGrad))
                                 {
-                                    HelperTestBase.Model_GVL.GVL_T01.rForcaP2Jumper_N = NumberDoubleCheck(string.Concat(spl[0].Replace("Jumper Gradient (", ""), ",", spl[1].Replace("N", "")).Trim()) * -1;
-                                    HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = NumberDoubleCheck(spl[2].Substring(0, spl[2].Trim().IndexOf("/")).Replace("bar", "").Trim()) * -1;
-                                    HelperTestBase.Model_GVL.GVL_T01.rForcaP1Jumper_N = NumberDoubleCheck(string.Concat(spl[2], ",", spl[3]).Substring(string.Concat(spl[2], ",", spl[3]).Trim().IndexOf("/") + 2, string.Concat(spl[2], ",", spl[3]).Trim().IndexOf("N") - string.Concat(spl[2], ",", spl[3]).Trim().IndexOf("/") - 2).Trim()) * -1;
-                                    HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = NumberDoubleCheck(spl[4].Replace("bar )", "").Trim()) * -1;
+                                    var strJumpGradClear = string.Concat(strJumpGrad.Substring(strJumpGrad.Trim().IndexOf("(") + 1, strJumpGrad.Trim().IndexOf(")") - strJumpGrad.Trim().IndexOf("(") - 1).Where(c => !char.IsWhiteSpace(c)));
+
+                                    var splJumpGradClear = strJumpGradClear?.Split('/');
+
+                                    var strP2_JumpGradClear = splJumpGradClear[0];
+                                    var p2_1 = strP2_JumpGradClear.Substring(0, strP2_JumpGradClear.IndexOf("N"));
+                                    var p2_2 = strP2_JumpGradClear.Remove(strP2_JumpGradClear.Length - 3).Substring(strP2_JumpGradClear.IndexOf("N") + 2);
+
+                                    var strP1_JumpGradClear = splJumpGradClear[1];
+                                    var p1_1 = strP1_JumpGradClear.Substring(0, strP1_JumpGradClear.IndexOf("N"));
+                                    var p1_2 = strP1_JumpGradClear.Remove(strP1_JumpGradClear.Length - 3).Substring(strP1_JumpGradClear.IndexOf("N") + 2);
+
+                                    HelperTestBase.Model_GVL.GVL_T01.rForcaP2Jumper_N = NumberDoubleCheck(p2_1) * -1;
+                                    HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = NumberDoubleCheck(p2_2) * -1;
+                                    HelperTestBase.Model_GVL.GVL_T01.rForcaP1Jumper_N = NumberDoubleCheck(p1_1) * -1;
+                                    HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = NumberDoubleCheck(p1_2) * -1;
                                 }
 
                                 //TEMPORARIO rRunOutForce para T06/07/08
@@ -2829,6 +2848,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                                         strResultParam_Caption = String.Format(strResultParam_Caption, str01_ForcaP2Jumper_N, str02_GradienteJumper_P2_Bar, str03_ForcaP1Jumper_N, str04_GradienteJumper_P1_Bar);
                                         strResultParam_Measured = dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim();
+                                        //strResultParam_Measured = dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim() == "NaN" ? "-" : dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim();
                                     }
                                     break;
 
@@ -2848,7 +2868,7 @@ namespace Continental.Project.Adam.UI.Helper
                                         strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_ForceAt70Percent"]?.Trim();
                                         break;
                                     }
-                               case "T02_JumperGradient": //T02
+                                case "T02_JumperGradient": //T02
                                     {
                                         string str01_ForcaP2Jumper_N = dicResultParam["resultCalcTestParam_T02_ForcaP2Jumper_N"]?.Trim();
                                         string str02_GradienteJumper_P2_Bar = dicResultParam["resultCalcTestParam_T02_GradienteJumper_P2_Bar"]?.Trim();
@@ -3078,7 +3098,7 @@ namespace Continental.Project.Adam.UI.Helper
         {
             //Setup list object
             var lstParamAnalog = new List<ActuationParameters_EvaluationParameters>();
-                        try
+            try
             {
                 //Loop through datagridview rows
                 foreach (DataGridViewRow row in grid.Rows)
@@ -3122,8 +3142,6 @@ namespace Continental.Project.Adam.UI.Helper
             //Setup list object
             var lstParamAnalog = new List<ActuationParameters_EvaluationParameters>();
 
-            Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[3];
-
             string fileName = string.Empty;
 
             string pathWithFileName = string.Empty;
@@ -3138,24 +3156,24 @@ namespace Continental.Project.Adam.UI.Helper
 
                 string strHeader = AppTests_DefaultNameHeader;
 
-            string _initialDirPathTestFile = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppTests_Path);
+                string _initialDirPathTestFile = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppTests_Path);
 
-            AppTests_Path = _initialDirPathTestFile;
+                AppTests_Path = _initialDirPathTestFile;
 
 
-            if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName))
-            {
-                fileName = string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), AppTests_DefaultExtension);
+                if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName))
+                {
+                    fileName = string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), AppTests_DefaultExtension);
 
-                pathWithFileName = System.IO.Path.Combine(_initialDirPathTestFile, fileName);
+                    pathWithFileName = System.IO.Path.Combine(_initialDirPathTestFile, fileName);
 
-                HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = pathWithFileName;
+                    HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = pathWithFileName;
 
-                pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(AppTests_DefaultNameData, strHeader);
-                fileName = string.Concat(pathWithFileName.Replace(_initialDirPathTestFile, string.Empty).Replace(AppTests_DefaultExtension, string.Empty), AppTests_DefaultExtension);
-            }
+                    pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(AppTests_DefaultNameData, strHeader);
+                    fileName = string.Concat(pathWithFileName.Replace(_initialDirPathTestFile, string.Empty).Replace(AppTests_DefaultExtension, string.Empty), AppTests_DefaultExtension);
+                }
 
-            #endregion
+                #endregion
 
                 #region load data
 
@@ -3172,7 +3190,7 @@ namespace Continental.Project.Adam.UI.Helper
                 #endregion
 
                 var dicReturnReadFileHeaderParamGrid = dicReturnReadFileHeader[1];
-            
+
                 //Loop through datagridview rows
                 for (int i = 0; i < dicReturnReadFileHeaderParamGrid.Count(); i++)
                 {
@@ -3196,7 +3214,7 @@ namespace Continental.Project.Adam.UI.Helper
                             lstParamAnalog.Add(obj);
                     }
                 }
-            
+
 
                 HelperApp.lstEvaluationParameters.Clear();
                 HelperApp.lstEvaluationParameters = lstParamAnalog;
@@ -3411,6 +3429,8 @@ namespace Continental.Project.Adam.UI.Helper
                 var err = ex.Message;
                 throw;
             }
+
+            HelperApp.dicReadFileHeader = dicReturnReadFileHeader;
 
             return dicReturnReadFileHeader;
         }
@@ -6894,7 +6914,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     if (!_modelGVL.GVL_T07.bTesteSimples)
                     {
-                        double rForcaRelativaAvanco = (_modelGVL.GVL_T07.rForcaRelativaAvanco/100) * _modelGVL.GVL_T07.rRunOutForceRef;
+                        double rForcaRelativaAvanco = (_modelGVL.GVL_T07.rForcaRelativaAvanco / 100) * _modelGVL.GVL_T07.rRunOutForceRef;
                         for (di = 0; di < diUbound; di++)
                         {
                             if (_modelGVL.GVL_Graficos.arrVarY2[di] > rForcaRelativaAvanco)
@@ -7390,7 +7410,7 @@ namespace Continental.Project.Adam.UI.Helper
                     _modelGVL.GVL_T09.rVacuoInicial = Y2_VacuoInicial;
                     _modelGVL.GVL_T09.rPerdaVacuo = Y2_VacuoInicial - Y1_VacuoFinal;
 
- 
+
                     #endregion
 
                     #region  Calculo da perda de pressao CP
@@ -7565,7 +7585,7 @@ namespace Continental.Project.Adam.UI.Helper
                     diUbound = _modelGVL.GVL_Graficos.diBuffer; //Define o ponto maximo do array que foi plotado durante o teste
 
                     #region Loop para identificar a pressao maxima do teste
-                    
+
                     for (di = 0; di < diUbound; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarY2[di] > _modelGVL.GVL_T10.rPressaoMaxima)
@@ -10611,7 +10631,7 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Calculo do gradiente de aplicacao de força no avanço
-  
+
                     //Busca no array o momento em que a forca comecou a subir (forca >= 100N) e o tempo decorrido desta forca
                     for (di = 0; di <= _modelGVL.GVL_T19.diPosicaoForcaMaxima; di++)
                     {
@@ -11284,7 +11304,7 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             _modelGVL.GVL_T21.rForcaNoJumper_N = _modelGVL.GVL_Graficos.arrVarY2[di]; //Forca no jumper
                             _modelGVL.GVL_T21.rDeslocamentoNoJumper_mm = _modelGVL.GVL_Graficos.arrVarX[di]; //Deslocamento no jumper
-                        break; //Encerra a busca
+                            break; //Encerra a busca
                         }
                     }
 
@@ -11395,8 +11415,8 @@ namespace Continental.Project.Adam.UI.Helper
             {
                 #region Limpa ultimos resultados
 
-                dictVarList.Clear();				
-														  
+                dictVarList.Clear();
+
                 _modelGVL.GVL_T22.iConsumidoresCP = 0;
                 _modelGVL.GVL_T22.iConsumidoresCS = 0;
                 _modelGVL.GVL_T22.diPosicaoForcaMaxima = 0; //indice do array que indica o pico de forca, tambem indica que o gráfico começou a "voltar" a partir daqui
@@ -11529,8 +11549,8 @@ namespace Continental.Project.Adam.UI.Helper
                     diUbound = _modelGVL.GVL_Graficos.diBuffer - 1;
 
                     #region Loop para identificar a forca maxima do teste, e armazenar o ponto de inflexao do teste (quando o atuador comeca a retornar)
-                    
-                     var lstInputForce1 = lstDblReturnReadFile[2];
+
+                    var lstInputForce1 = lstDblReturnReadFile[2];
 
                     _modelGVL.GVL_T22.rForcaMaxima = lstInputForce1.Max();
 
@@ -11549,7 +11569,7 @@ namespace Continental.Project.Adam.UI.Helper
                             _modelGVL.GVL_T22.rDeslocamentoMaximo = _modelGVL.GVL_Graficos.arrVarY3[di];//Atualiza o valor de deslocamento maximo			
                         }
                     }
-					
+
                     #endregion
 
                     #region Loop para identificar a pressao maxima
@@ -11567,7 +11587,7 @@ namespace Continental.Project.Adam.UI.Helper
                     #region Calculo do gradiente de aplicacao de força no avanço
 
                     for (di = 0; di < _modelGVL.GVL_T22.diPosicaoForcaMaxima; di++)
-                    {										  
+                    {
                         if (_modelGVL.GVL_Graficos.arrVarY1[di] >= 100)
                         {
                             rForcaInicialGradiente = _modelGVL.GVL_Graficos.arrVarY1[di]; //Valor forca inicial para calculo 
@@ -11587,9 +11607,9 @@ namespace Continental.Project.Adam.UI.Helper
 
                     #region Calculo do gradiente de aplicacao de força no retorno
 
-                   //Busca no array o momento em que a forca caiu abaixo de 100N (forca <= 100N) e o tempo decorrido desta forca
-                    
-					for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
+                    //Busca no array o momento em que a forca caiu abaixo de 100N (forca <= 100N) e o tempo decorrido desta forca
+
+                    for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarY1[di] <= _modelGVL.GVL_T22.rRunOutForceRef) //Forca <= RunoutForce
                         {
@@ -11599,7 +11619,7 @@ namespace Continental.Project.Adam.UI.Helper
                         }
                     }
 
-																																   
+
                     for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarY1[di] <= 100) //Forca <= 100
@@ -11631,10 +11651,10 @@ namespace Continental.Project.Adam.UI.Helper
                     //Define a forca final e o tempo final do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
                     rDeslocamentoFinalGradiente = _modelGVL.GVL_Graficos.arrVarY3[_modelGVL.GVL_T22.diPosicaoForcaMaxima];
                     rTempoFinalGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[_modelGVL.GVL_T22.diPosicaoForcaMaxima];
-			 
+
                     //Calcula o gradiente de aplicacao de forca no avanco
                     _modelGVL.GVL_T22.rGradienteDeslocamentoAvanco = (rDeslocamentoFinalGradiente - rDeslocamentoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
-					
+
                     #endregion
 
                     #region Calculo do gradiente de deslocamento no retorno
@@ -11666,7 +11686,7 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Obtem valor de deslocamento em funcao do parametro DeslocamentoNaPressao (%Pout) Input Travel At X% pOut
-                    
+
                     //Calcula a pressao X% da pressao runout
 
                     double rPresaoXPout = ((_modelGVL.GVL_T22.rDeslocamentoNaPressao / 100) * _modelGVL.GVL_T22.rRunOutPressureRef);
@@ -11679,11 +11699,11 @@ namespace Continental.Project.Adam.UI.Helper
                             break; //Encerra a busca
                         }
                     }
-                    
+
                     #endregion
 
                     #region Calculo do tempo de atuacao
-                            
+
                     double SomaForca = 0;
                     double MediaForca = 0;
 
@@ -11726,7 +11746,7 @@ namespace Continental.Project.Adam.UI.Helper
                                         break;
                                     }
                                 }
-                                    break;
+                                break;
                             }
                         case 2: // % Eout
                             {
@@ -11741,7 +11761,7 @@ namespace Continental.Project.Adam.UI.Helper
                                         break;
                                     }
                                 }
-                                    break;
+                                break;
                             }
                         case 3: // % Aux Pressure
                             {
@@ -11752,28 +11772,28 @@ namespace Continental.Project.Adam.UI.Helper
 
                                     if (_modelGVL.GVL_Graficos.arrVarY2[di] >= rPressaoXPressaoAuxAvanco) // Forca >= Forca Runout
                                     {
-                                        _modelGVL.GVL_T22.rTempoFinalAtuacao_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di]; 
+                                        _modelGVL.GVL_T22.rTempoFinalAtuacao_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di];
                                         break;
                                     }
                                 }
-                                    break;
+                                break;
                             }
                         default:
                             {
                                 break;
                             }
                     }
-					
-					 //Calcula o tempo de atuacao	 
+
+                    //Calcula o tempo de atuacao	 
                     _modelGVL.GVL_T22.rTempoAtuacao_s = _modelGVL.GVL_T22.rTempoFinalAtuacao_s - _modelGVL.GVL_T22.rTempoInicialAtuacao_s;
-		
+
                     #endregion
 
                     #region Calculo do tempo de retorno
 
                     //Encontra o ponto inicial de retorno
                     for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
-                    {														 
+                    {
                         if (_modelGVL.GVL_Graficos.arrVarY1[di] <= _modelGVL.GVL_T22.rRunOutForceRef) //Forca <= RunoutForce
                         {
                             _modelGVL.GVL_T22.rTempoInicialRetorno_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di];
@@ -11797,7 +11817,7 @@ namespace Continental.Project.Adam.UI.Helper
                                         break; //Encerra a busca
                                     }
                                 }
-                                    break;
+                                break;
                             }
                         case 2: // % Eout
                             {
@@ -11811,10 +11831,10 @@ namespace Continental.Project.Adam.UI.Helper
                                         break;
                                     }
                                 }
-                                    break;
+                                break;
                             }
                         case 3: // % Aux Pressure
-                            {	
+                            {
                                 double rPressaoXPressaoAuxRetorno = ((_modelGVL.GVL_T22.rPorcentagemCalcTempoFinalRetorno / 100) * _modelGVL.GVL_T22.rPressaoAuxiliarRef);
 
                                 for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
@@ -11826,17 +11846,17 @@ namespace Continental.Project.Adam.UI.Helper
                                         break;
                                     }
                                 }
-                                    break;
+                                break;
                             }
                         default:
                             {
                                 break;
                             }
                     }
-					
+
                     //Calcula o tempo de retorno	 
                     _modelGVL.GVL_T22.rTempoRetorno_s = _modelGVL.GVL_T22.rTempoFinalRetorno_s - _modelGVL.GVL_T22.rTempoInicialRetorno_s;
-					
+
                     #endregion
 
                     #region Calculo do tempo de retorno a posicao
@@ -11850,7 +11870,7 @@ namespace Continental.Project.Adam.UI.Helper
                             break; //Encerra a busca
                         }
                     }
-					
+
                     for (di = _modelGVL.GVL_T22.diPosicaoForcaMaxima; di < diUbound; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarY3[di] <= _modelGVL.GVL_T22.rPosicaoTempoRetornoNoDeslocamento_mm)
@@ -11858,11 +11878,11 @@ namespace Continental.Project.Adam.UI.Helper
                             _modelGVL.GVL_T22.rTempoFinalRetornoNoDeslocamento_s = _modelGVL.GVL_Graficos.arrVarTimeStamp[di];
                             break; //Encerra a busca
                         }
-                    }					
+                    }
 
                     //Calcula o tempo de retorno	 
                     _modelGVL.GVL_T22.rTempoRetornoNoDeslocamento_s = _modelGVL.GVL_T22.rTempoFinalRetornoNoDeslocamento_s - _modelGVL.GVL_T22.rTempoInicialRetornoNoDeslocamento_s;
-			
+
                     #endregion
 
                     #region Calculo da diferenca de pressao em runout point
@@ -11874,22 +11894,22 @@ namespace Continental.Project.Adam.UI.Helper
                     {
                         if (GVL_Graficos.arrVarY2[di] >= _modelGVL.GVL_T22.rRunOutPressureRef) //
                         {
-                           rPressaoCPRunout = _modelGVL.GVL_Graficos.arrVarY2[di];
-                           rPressaoCSRunout = _modelGVL.GVL_Graficos.arrVarY4[di];
-                           break;
+                            rPressaoCPRunout = _modelGVL.GVL_Graficos.arrVarY2[di];
+                            rPressaoCSRunout = _modelGVL.GVL_Graficos.arrVarY4[di];
+                            break;
                         }
                     }
-					
+
                     _modelGVL.GVL_T22.rDiferencaPressaoPCSC_bar = rPressaoCPRunout - rPressaoCSRunout;
-                    
+
                     #endregion
 
                     #region Calculo do gradiente de pressao
 
                     double rPressaoInicialGradiente = 0;
                     double rPressaoFinalGradiente = 0;
-					
-					//Busca no array pressao >= pressao inicial gradiente
+
+                    //Busca no array pressao >= pressao inicial gradiente
                     for (di = 0; di < _modelGVL.GVL_T22.diPosicaoForcaMaxima; di++)
                     {
                         if (GVL_Graficos.arrVarY2[di] >= _modelGVL.GVL_T22.rGradientePressaoMin_bar) //Pressao >= pressao min grad.
@@ -11904,13 +11924,13 @@ namespace Continental.Project.Adam.UI.Helper
                     for (di = 0; di < _modelGVL.GVL_T22.diPosicaoForcaMaxima; di++)
                     {
                         if (GVL_Graficos.arrVarY2[di] >= _modelGVL.GVL_T22.rGradientePressaoMax_bar) //Pressao >= pressao min grad.
-                        { 
+                        {
                             rPressaoFinalGradiente = _modelGVL.GVL_Graficos.arrVarY2[di]; //Pressao inicial 
                             rTempoFinalGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[di]; //Tempo inicial
                             break; //Encerra a busca pela forca inicial
                         }
                     }
-					
+
                     //Calcula o gradiente de pressao
                     _modelGVL.GVL_T22.rGradientePressao = (rPressaoFinalGradiente - rPressaoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
 
@@ -12446,7 +12466,7 @@ namespace Continental.Project.Adam.UI.Helper
                     //Define o ponto maximo do array que foi plotado durante o teste
                     _modelGVL.GVL_Graficos.diBuffer = lstDblReturnReadFile[0].Count() > 0 ? lstDblReturnReadFile[0].Count() : 0;
 
-                    diUbound = _modelGVL.GVL_Graficos.diBuffer -1; //Define o ponto maximo do array que foi plotado durante o teste
+                    diUbound = _modelGVL.GVL_Graficos.diBuffer - 1; //Define o ponto maximo do array que foi plotado durante o teste
 
                     #region Loop para identificar a forca maxima do teste, slow
 
@@ -12472,13 +12492,13 @@ namespace Continental.Project.Adam.UI.Helper
                     }
 
                     for (di = iPontoInicialSlow; di <= iPontoFinalSlow; di++)
+                    {
+                        if (_modelGVL.GVL_Graficos.arrVarX[di] > _modelGVL.GVL_T24.rForcaMaximaSlow)
                         {
-                            if (_modelGVL.GVL_Graficos.arrVarX[di] > _modelGVL.GVL_T24.rForcaMaximaSlow)
-                            {
-                                _modelGVL.GVL_T24.rForcaMaximaSlow = _modelGVL.GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
-                                _modelGVL.GVL_T24.diPosicaoForcaMaximaSlow = di; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
-                            }
+                            _modelGVL.GVL_T24.rForcaMaximaSlow = _modelGVL.GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                            _modelGVL.GVL_T24.diPosicaoForcaMaximaSlow = di; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
                         }
+                    }
 
                     #endregion
 
@@ -12496,19 +12516,19 @@ namespace Continental.Project.Adam.UI.Helper
                         }
                     }
 
-  
+
                     iPontoFinalFast = diUbound;
 
 
                     for (di = iPontoInicialFast; di < iPontoFinalFast; di++)
+                    {
+                        if (_modelGVL.GVL_Graficos.arrVarX[di] > _modelGVL.GVL_T24.rForcaMaximaFast)
                         {
-                            if (_modelGVL.GVL_Graficos.arrVarX[di] > _modelGVL.GVL_T24.rForcaMaximaFast)
-                            {
-                                _modelGVL.GVL_T24.rForcaMaximaFast = _modelGVL.GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
-                                _modelGVL.GVL_T24.diPosicaoForcaMaximaFast = di; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
-                            }
+                            _modelGVL.GVL_T24.rForcaMaximaFast = _modelGVL.GVL_Graficos.arrVarX[di]; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                            _modelGVL.GVL_T24.diPosicaoForcaMaximaFast = di; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
                         }
-  
+                    }
+
                     #endregion
 
                     #region Calculo do gradiente de pressao teste slow
@@ -12583,7 +12603,7 @@ namespace Continental.Project.Adam.UI.Helper
                             break;
                         }
                     }
- 
+
                     //Loop para identificar a forca de eficiencia fast		 
                     for (di = iPontoInicialFast; di <= _modelGVL.GVL_T24.diPosicaoForcaMaximaFast; di++)
                     {
@@ -12651,7 +12671,7 @@ namespace Continental.Project.Adam.UI.Helper
                         if (HelperMODBUS.CS_wStatusLiga17MangueirasCS)
                             _modelGVL.GVL_T24.iConsumidoresCS = _modelGVL.GVL_T24.iConsumidoresCS + 17;
                     }
-                   
+
                     #endregion
 
                     _modelGVL.GVL_T24.bCalculaResultados = false;
@@ -12895,7 +12915,7 @@ namespace Continental.Project.Adam.UI.Helper
                     diUbound = _modelGVL.GVL_Graficos.diBuffer - 1;
 
                     #region Loop para identificar a forca maxima do teste, e armazenar o ponto de inflexao do teste (quando o atuador comeca a retornar)
-                    
+
                     var lstInputForce1 = lstDblReturnReadFile[2];
 
                     _modelGVL.GVL_T25.rForcaMaxima = lstInputForce1.Max(); //1243.34
@@ -12938,7 +12958,7 @@ namespace Continental.Project.Adam.UI.Helper
                         }
                     }
 
-                     //Define a forca inicial e o tempo inicial do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
+                    //Define a forca inicial e o tempo inicial do gradiente como a FMAX obtida no calculo anterior, utilizando seu indice para coletar o tempo respectivo
                     rForcaInicialGradiente = _modelGVL.GVL_Graficos.arrVarX[_modelGVL.GVL_T25.diPosicaoForcaMaxima]; //1240.597
                     rTempoInicialGradiente = _modelGVL.GVL_Graficos.arrVarTimeStamp[_modelGVL.GVL_T25.diPosicaoForcaMaxima]; //14.36238
 
@@ -12949,7 +12969,7 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Calculo do gradiente de avanço 
-                    
+
                     //Busca no array o momento em que o deslocamento comecou a variar (deslocamento >= 1)
                     for (di = 0; di <= _modelGVL.GVL_T25.diPosicaoForcaMaxima; di++)
                     {
@@ -12973,7 +12993,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     #region Calculo do gradiente de retorno
 
-                     //Busca no array o momento em que o deslocamento <= 1
+                    //Busca no array o momento em que o deslocamento <= 1
                     for (di = _modelGVL.GVL_T25.diPosicaoForcaMaxima; di < diUbound; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarY3[di] <= 1) //Deslocamento <= 1
@@ -12991,7 +13011,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     //Calcula o gradiente de aplicacao de forca no retorno
                     _modelGVL.GVL_T25.rGradienteDeslocamentoRetorno = (rDeslocamentoFinalGradiente - rDeslocamentoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente); //-12.01 / 9.742659999999999	= 1.2327228908737451
-            
+
                     #endregion
 
                     #region Pega os valores de pressão no cruzamento com as forças solicitadas: P1
@@ -13057,7 +13077,7 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Calculo do runout point por intersecção linear (cruzamento das retas 1 (amplificação) e 2 (saturação)
-                    
+
                     //Reta 1 tambem chamada de L1
                     // Y = m.X + n onde:
                     // Y/X pontos na curva
@@ -13079,11 +13099,11 @@ namespace Continental.Project.Adam.UI.Helper
 
                     _modelGVL.GVL_T25.rRunOutForce_LinearInt_N = ((rCoeficienteLinear_L1 - rCoeficienteLinear_L2) / (rCoeficienteAngular_L1 - rCoeficienteAngular_L2)) * -1;
                     _modelGVL.GVL_T25.rRunOutPressure_LinearInt_Bar = (rCoeficienteAngular_L1 * _modelGVL.GVL_T25.rRunOutForce_LinearInt_N) + rCoeficienteLinear_L1;
-                    
+
                     #endregion
 
                     #region Calculo do auxiliary pressure P3, pressao auxiliar para calculo do runout point real (vide norma continental)
-                    
+
                     //Pressao auxiliar P3 eh o rebatimento da linha L2 (reta de saturacao) aonde o valor de forca (eixo x) = 0, ou seja, P3=Coeficiente Linear de L2
                     _modelGVL.GVL_T25.rPressaoAuxiliar_P3_Bar = rCoeficienteLinear_L2;
                     //A pressao P4 é o rebatimento da forca p3 no grafico, porem com o valor de um ponto real o mais proximo possivel do valor p3.
@@ -13738,7 +13758,7 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Calculo do gradiente de aplicacao de força no avanço
-                    
+
                     //Busca no array o momento em que a forca comecou a subir (forca >= 100N) e o tempo decorrido desta forca
                     for (di = 0; di <= _modelGVL.GVL_T26.diPosicaoForcaMaxima; di++)
                     {
@@ -13757,11 +13777,11 @@ namespace Continental.Project.Adam.UI.Helper
 
                     //Calcula o gradiente de aplicacao de forca no avanco
                     _modelGVL.GVL_T26.rGradienteForcaAvanco = (rForcaFinalGradiente - rForcaInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
-                   
+
                     #endregion
 
                     #region Calculo do gradiente de aplicacao de força no retorno
-                    
+
                     //Busca no array o momento em que a forca caiu abaixo de 100N (forca <= 100N) e o tempo decorrido desta forca
                     for (di = _modelGVL.GVL_T26.diPosicaoForcaMaxima; di < diUbound; di++)
                     {
@@ -13780,11 +13800,11 @@ namespace Continental.Project.Adam.UI.Helper
 
                     //Calcula o gradiente de aplicacao de forca no retorno
                     _modelGVL.GVL_T26.rGradienteForcaRetorno = (rForcaFinalGradiente - rForcaInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
-                    
+
                     #endregion
 
                     #region Calculo do gradiente deslocamento de avanço 
-                    
+
                     //Busca no array o momento em que o deslocamento comecou a variar (deslocamento >= 1)
                     for (di = 0; di <= _modelGVL.GVL_T26.diPosicaoForcaMaxima; di++)
                     {
@@ -13803,7 +13823,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     //Calcula o gradiente de aplicacao de forca no avanco
                     _modelGVL.GVL_T26.rGradienteDeslocamentoAvanco = (rDeslocamentoFinalGradiente - rDeslocamentoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
-                    
+
                     #endregion
 
                     #region Calculo do gradiente de deslocamento no retorno
@@ -13826,7 +13846,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     //Calcula o gradiente de aplicacao de forca no retorno
                     _modelGVL.GVL_T26.rGradienteDeslocamentoRetorno = (rDeslocamentoFinalGradiente - rDeslocamentoInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente);
-                   
+
                     #endregion
 
                     #region Pega os valores de pressão no cruzamento com as forças solicitadas: P1
@@ -13891,7 +13911,7 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Calculo do runout point por intersecção linear (cruzamento das retas 1 (amplificação) e 2 (saturação)
-                    
+
                     //Reta 1 tambem chamada de L1
                     // Y = m.X + n onde:
                     // Y/X pontos na curva
@@ -14228,7 +14248,7 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Calcula a hysterese (diferenca de forca na ida e na volta, com pontos de ForcaFOut iguais
-                    
+
                     _modelGVL.GVL_T26.rForcaOutHystereseFout_N = _modelGVL.GVL_T26.rRunOutForceOut_Real_N * (_modelGVL.GVL_T26.rForcaHysterese_Fout / 100);
 
                     //Obtem a forca relacionada a ForcaFOut x% Fout no avanco
@@ -16356,23 +16376,23 @@ namespace Continental.Project.Adam.UI.Helper
                     sbHeader.Append($"|- PROJECT -|");
                     sbHeader.Append($"\r\n");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Ident\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Identification) ? HelperTestBase.ProjectTestConcluded.Project.Identification : strVarProj)}");
+                    sbHeader.Append($"Ident\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.Identification) ? HelperTestBase.ProjectTestConcluded.Project.Identification : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Customer/Type\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.CustomerType) ? HelperTestBase.ProjectTestConcluded.Project.CustomerType : strVarProj)}");
+                    sbHeader.Append($"Customer/Type\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.CustomerType) ? HelperTestBase.ProjectTestConcluded.Project.CustomerType : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Booster\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Booster) ? HelperTestBase.ProjectTestConcluded.Project.Booster : strVarProj)}");
+                    sbHeader.Append($"Booster\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.Booster) ? HelperTestBase.ProjectTestConcluded.Project.Booster : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"TMC\t\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.TMC) ? HelperTestBase.ProjectTestConcluded.Project.TMC : strVarProj)}");
+                    sbHeader.Append($"TMC\t\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project.TMC) ? HelperTestBase.ProjectTestConcluded.Project.TMC : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Production Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.ProductionDate) ? HelperTestBase.ProjectTestConcluded.Project.ProductionDate : strVarProj)}");
+                    sbHeader.Append($"Production Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.ProductionDate) ? HelperTestBase.ProjectTestConcluded.Project.ProductionDate : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"T.O.\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.T_O) ? HelperTestBase.ProjectTestConcluded.Project.T_O : strVarProj)}");
+                    sbHeader.Append($"T.O.\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.T_O) ? HelperTestBase.ProjectTestConcluded.Project.T_O : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Operator\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.User.UName) ? HelperTestBase.ProjectTestConcluded.Project.User.UName : strVarProj)}");
+                    sbHeader.Append($"Operator\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.User?.UName) ? HelperTestBase.ProjectTestConcluded.Project.User.UName : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Testing Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.TestingDate) ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : strVarProj)}");
+                    sbHeader.Append($"Testing Date\t {strCharSplit_TXTHeader_Data}\t{(string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.TestingDate) ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : strTimeStamp)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Comment\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.Comment) ? HelperTestBase.ProjectTestConcluded.Project.Comment : strVarProj)}");
+                    sbHeader.Append($"Comment\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.Comment) ? HelperTestBase.ProjectTestConcluded.Project.Comment : strVarProj)}");
                     sbHeader.Append($"\r\n");
                     sbHeader.Append($"\r\n");
 
@@ -16389,8 +16409,8 @@ namespace Continental.Project.Adam.UI.Helper
 
                     for (int i = 0; i < lstInfoEvaluationParameters.Count; i++)
                     {
-                        string varGrid_EvalParam_Hi = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Hi.ToString();
-                        
+                        string varGrid_EvalParam_Hi = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Hi.ToString("F");
+
                         if (!string.IsNullOrEmpty(varGrid_EvalParam_Hi))
                         {
                             string varGrid_EvalParam_Caption = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Caption?.ToString()?.Trim();
@@ -16428,17 +16448,17 @@ namespace Continental.Project.Adam.UI.Helper
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2).ToString("F")}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2).ToString("F")}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2).ToString("F")}");
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2).ToString("F")}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2).ToString("F")}");
                                 sbHeader.Append($"\r\n");
                                 if (HelperTestBase.iTipoConsumidores > 0)
                                     sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
@@ -16526,7 +16546,7 @@ namespace Continental.Project.Adam.UI.Helper
                                     sbHeader.Append($"\r\n");
                                     sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
                                 }
-                            
+
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"\r\n");
 
@@ -16819,7 +16839,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 if (HelperTestBase.iTipoConsumidores > 0)
                                     sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
                                 else
-                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");                            
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"\r\n");
 
@@ -18735,6 +18755,7 @@ namespace Continental.Project.Adam.UI.Helper
         private static List<Model_Operational_TestTableParameters> _lstTempResultParam = new List<Model_Operational_TestTableParameters>();
         private static List<Model_Operational_TestTableParameters> _lstResultParamFormated = new List<Model_Operational_TestTableParameters>();
         private static Dictionary<string, string> _dicResultParam = new Dictionary<string, string>();
+        private static Dictionary<string, string>[] _dicReadFileHeader = new Dictionary<string, string>[4];
         public static List<ActuationParameters_EvaluationParameters> lstEvaluationParameters
         {
             get { return HelperApp._lstEvaluationParameters; }
@@ -18760,7 +18781,11 @@ namespace Continental.Project.Adam.UI.Helper
             get { return HelperApp._dicResultParam; }
             set { HelperApp._dicResultParam = value; }
         }
-
+        public static Dictionary<string, string>[] dicReadFileHeader
+        {
+            get { return HelperApp._dicReadFileHeader; }
+            set { HelperApp._dicReadFileHeader = value; }
+        }
         #endregion
 
         #region TODO

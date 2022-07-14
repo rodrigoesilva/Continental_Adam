@@ -1,5 +1,9 @@
 ﻿using Continental.Project.Adam.UI.DAL;
+using Continental.Project.Adam.UI.Helper;
+using Continental.Project.Adam.UI.Helper.Tests;
+using Continental.Project.Adam.UI.Models.Manager;
 using Continental.Project.Adam.UI.Models.Operational;
+using Continental.Project.Adam.UI.Models.Security;
 using System;
 using System.Data;
 using System.Text;
@@ -9,6 +13,8 @@ namespace Continental.Project.Adam.UI.BLL
     public class BLL_Operational_Project
     {
         public ComDB db = new ComDB();
+
+        HelperApp _helperApp = new HelperApp();
 
         #region GET
         public DataTable GetAvailableProjects()
@@ -152,6 +158,129 @@ namespace Continental.Project.Adam.UI.BLL
                 if (dt != null)
                 {
                     return dt;
+                }
+                else
+                    return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetProjectByIdent : " + ex.Message);
+                throw (ex);
+            }
+        }
+
+        public DataTable GetProjectById(string strIdPrj)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT");
+                sb.Append(" *");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProject] = '" + strIdPrj.Trim() + "'");
+
+                string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                if (dt != null)
+                {
+                    return dt;
+                }
+                else
+                    return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetProjectByIdent : " + ex.Message);
+                throw (ex);
+            }
+        }
+
+        public Model_Operational_Project GetHelperProjectById(string strIdPrj)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT");
+                sb.Append(" PTC.*");
+                sb.Append(" ,PR.*");
+                sb.Append(" ,SU.[UName]");
+                sb.Append(" ,SU.[ULogin]");
+                sb.Append(" ,TA.[Test]");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestConcluded] PTC");
+                sb.Append(" INNER JOIN");
+                sb.Append(" [Operational_Project] PR");
+                sb.Append(" ON PR.[IdProject] = PTC.[IdProject]");
+                sb.Append(" INNER JOIN");
+                sb.Append(" [Security_User] SU");
+                sb.Append(" ON SU.[IdUser] = PR.[IdUserTester]");
+                sb.Append(" INNER JOIN");
+                sb.Append(" [Manager_TestAvailable] TA");
+                sb.Append(" ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
+                sb.Append(" WHERE");
+                sb.Append(" PR.[IdProject] = " + strIdPrj.Trim());
+                sb.Append(" ORDER BY");
+                sb.Append(" PTC.[IdProjectTestConcluded]");
+
+                string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow row = dt.Rows[0];
+
+                            HelperTestBase.ProjectTestConcluded = new Model_Operational_Project_TestConcluded()
+                            {
+                                IdProjectTestConcluded = row.Field<long>("IdProjectTestConcluded"),
+                                IdProject = row.Field<long>("IdProject"),
+                                IdTestAvailable = row.Field<long>("IdTestAvailable"),
+                                TestDateTime = row.Field<string>("TestingDate")?.ToString()?.Trim(),
+                                TestTypeName = row.Field<string>("TestTypeName")?.ToString()?.Trim(),
+                                TestIdentName = row.Field<string>("TestIdentName")?.ToString()?.Trim(),
+                                TestFileName = row.Field<string>("TestFileName")?.ToString()?.Trim(),
+                                LastUpdate = row.Field<string>("LastUpdate")?.ToString()?.Trim(),
+
+                                Project = new Model_Operational_Project()
+                                {
+                                    IdProject = row.Field<long>("IdProject"),
+                                    PartNumber = row.Field<string>("PartNumber")?.ToString()?.Trim(),
+                                    Identification = row.Field<string>("Identification")?.ToString()?.Trim(),
+                                    CustomerType = row.Field<string>("CustomerType")?.ToString()?.Trim(),
+                                    Booster = row.Field<string>("Booster")?.ToString()?.Trim(),
+                                    TMC = row.Field<string>("TMC")?.ToString()?.Trim(),
+                                    ProductionDate = row.Field<string>("ProductionDate")?.ToString()?.Trim(),
+                                    T_O = row.Field<string>("T_O")?.ToString()?.Trim(),
+                                    IdUserTester = row.Field<long>("IdUserTester"),
+                                    TestingDate = row.Field<string>("TestingDate")?.ToString()?.Trim(),
+                                    Comment = row.Field<string>("Comment")?.ToString()?.Trim(),
+
+                                    TestAvailable = new Model_Manager_TestAvailable()
+                                    {
+                                        IdTestAvailable = row.Field<long>("IdTestAvailable"),
+                                    },
+
+                                    User = new Model_SecurityUser()
+                                    {
+                                        IdUser = row.Field<long>("IdUserTester"),
+                                        ULogin = row.Field<string>("ULogin")?.ToString()?.Trim(),
+                                        UName = row.Field<string>("UName")?.ToString()?.Trim()
+                                    }
+                                }
+                            };
+
+                        return HelperTestBase.ProjectTestConcluded.Project;
+                    }
+
+                    return null;
                 }
                 else
                     return null;

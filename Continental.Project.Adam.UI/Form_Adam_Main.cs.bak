@@ -107,8 +107,6 @@ using Hbm.Api.Common.Entities.SpectrumInfos;
 using Hbm.Api.Common.Entities.Values;
 using static Continental.Project.Adam.UI.COM.ComHBM;
 using System.Drawing.Text;
-using Continental.Project.Adam.UI.Models.Security;
-using Continental.Project.Adam.UI.Models.Manager;
 
 #endregion
 
@@ -124,13 +122,10 @@ namespace Continental.Project.Adam.UI
         private bool _bAppStart = false;
         private bool _bCoBSelectTestSelected = false;
         private bool _bUseChkGrid = false;
-        bool bTabAccessOk = false;
-        private bool _bRunTestExecuted = false;
 
         private string _notReadValue = "NaN";
         private string _initialDirPathTestFile = string.Empty;
 
-        private bool _bPrjTestOffLineCarregado = false;
         private string _prjTestFilename = string.Empty;
         private string _prjTestHeaderFilename = string.Empty;
         private string _prjTestFilenameUnion = string.Empty;
@@ -304,13 +299,12 @@ namespace Continental.Project.Adam.UI
         {
             _initialDirPathTestFile = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppTests_Path);
 
-            _helperApp.AppTests_Path = _initialDirPathTestFile;
-
             this.WindowState = FormWindowState.Maximized;
 
-            TAB_Disable();
+            tab_ChartEnable = false;
+            tab_TableResultsEnable = false;
 
-            TAB_Main_ActivePage(2, _helperApp.GetMethodName());
+            TAB_Main_ActivePage(2);
 
             CONTROLS_EnableMetroButton();
 
@@ -319,6 +313,8 @@ namespace Continental.Project.Adam.UI
             LOG_Clear();
 
             LOG_BindViewEvents();
+
+            //BindDataParam();
 
             LOG_TestSequence(_helperApp.AppMsg_Welcome);
 
@@ -574,9 +570,9 @@ namespace Continental.Project.Adam.UI
         {
             tStatusLabel01.Text = HelperApp.lblstsbar01;
 
-            tStatusLabel02.Text = string.IsNullOrEmpty(HelperApp.lblstsbar02) ? HelperApp.UserName : HelperApp.lblstsbar02;
+            tStatusLabel02.Text = HelperApp.lblstsbar02;
 
-            tStatusLabel03.Text = string.IsNullOrEmpty(HelperApp.lblstsbar03) ? string.Concat("Ident # - [ ", _notReadValue, " ]") : HelperApp.lblstsbar03;
+            tStatusLabel03.Text = HelperApp.lblstsbar03;
 
             HelperApp.lblstsbar04 = DateTime.Now.ToString();
             tStatusLabel04.Text = HelperApp.lblstsbar04;
@@ -610,14 +606,85 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
+        #region BIND
+        public void BindDataParam()
+        {
+            if (HelperApp.uiTesteSelecionado > 0)
+            {
+                #region General Settings
+                //set Variables
+                HelperApp.uiTesteSelecionado = Convert.ToInt32(mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedValue.ToString());
+                HelperTestBase.eExamType = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado);
+
+                #region check box
+                HelperTestBase.chkstartFromActual = mchk_tabActParam_GenSettings_CBStartFromSelection.Checked;
+                HelperTestBase.chkWaitForUse = mchk_tabActParam_GenSettings_CBSWaitBetweenTests.Checked;
+                HelperTestBase.chkPistonLock = mchk_tabActParam_GenSettings_CBStartFromSelection.Checked;
+                #endregion
+
+                #region Vacuum
+                HelperTestBase.Vacuum = string.IsNullOrEmpty(mtxt_GeneralSettings_EParGenVacuum.Text) ? 0 : Convert.ToDouble(mtxt_GeneralSettings_EParGenVacuum.Text);
+                HelperTestBase.VacuumMin = string.IsNullOrEmpty(mtxt_GeneralSettings_EParGenVacuumMin.Text) ? 0 : Convert.ToDouble(mtxt_GeneralSettings_EParGenVacuumMin.Text);
+                HelperTestBase.VacuumMax = string.IsNullOrEmpty(mtxt_GeneralSettings_EParGenVacuumMax.Text) ? 0 : Convert.ToDouble(mtxt_GeneralSettings_EParGenVacuumMax.Text);
+                #endregion
+
+                #region Consumer
+
+                #region check box
+
+                HelperTestBase.iTipoConsumidores = rad_GeneralSettings_CBOriginalConsumer.Checked ? 1 : 2;
+
+                #endregion
+
+                #region HoseConsumer
+                HelperTestBase.iSumHoseConsumerPC = string.IsNullOrEmpty(mtxt_GeneralSettings_ETubeConsumerPCPressSide.Text) ? 0 : Convert.ToInt32(mtxt_GeneralSettings_ETubeConsumerPCPressSide.Text);
+                HelperTestBase.iSumHoseConsumerSC = string.IsNullOrEmpty(mtxt_GeneralSettings_ETubeConsumerSCPressSide.Text) ? 0 : Convert.ToInt32(mtxt_GeneralSettings_ETubeConsumerSCPressSide.Text);
+
+                #endregion
+
+                #endregion
+
+                #endregion
+
+                #region Actuation
+
+                HelperTestBase.ActuationType = mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex;
+                HelperTestBase.MaxForce = !string.IsNullOrEmpty(mtxt_Actuation_E1ParMaxForce.Text) ? Convert.ToDouble(mtxt_Actuation_E1ParMaxForce.Text) : 0;
+                HelperTestBase.ForceGradient = !string.IsNullOrEmpty(mtxt_Actuation_E1ParForceGrad.Text) ? Convert.ToDouble(mtxt_Actuation_E1ParForceGrad.Text) : 0;
+
+                #endregion
+
+                #region Evaluation Parameters
+
+                #region check box
+
+                //HelperTestBase.chkOutputPC { get; set; }
+                //HelperTestBase.chkOutputPC10_1_Printer { get; set; }
+
+                //HelperTestBase.chkOutputSC { get; set; }
+                //HelperTestBase.chkOutputSC10_1_Printer { get; set; }
+                #endregion
+
+                #region ParamList
+
+                HelperTestBase.ParamEval = _helperApp.TransfValuesEvalParam(_helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam));
+
+                #endregion
+
+                #endregion
+            }
+        }
+
+        #endregion
+
         #region BUTTONS
 
         #region BUTTONS HEADER
         private void mbtn_BStart_Click(object sender, EventArgs e)
         {
-            TAB_Disable();
-
             TEST_Start_Command();
+
+            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_CPX_Visu"];
         }
         private void mbtn_BStop_Click(object sender, EventArgs e)
         {
@@ -706,42 +773,30 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TABS
-        public void TAB_Enable()
-        {
-            tab_ChartEnable = true;
-            tab_TableResultsEnable = true;
-        }
-        public void TAB_Disable()
-        {
-            tab_TableResultsEnable = false;
-            tab_ChartEnable = false;
-
-            _bRunTestExecuted = false;
-        }
 
         #region TAB - Main
         private void TAB_Main_Selecting(object sender, TabControlCancelEventArgs e)
         {
             bool bTabAccessOk = false;
 
+            if (_helperApp.AppUseSimulateLocal)
+            {
+                tab_ChartEnable = true;
+                tab_TableResultsEnable = true;
+                HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+            }
             var strTabSelected = e.TabPage.Name.ToString();
 
             switch (strTabSelected)
             {
                 case "tab_Diagram":
-                    bTabAccessOk = _bRunTestExecuted && tab_ChartEnable && HelperApp.uiTesteSelecionado > 0;
+                    bTabAccessOk = tab_ChartEnable && HelperApp.uiTesteSelecionado > 0;
                     break;
                 case "tab_TableResults":
-                    bTabAccessOk = _bRunTestExecuted && tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0;
-                    break;
-                case "Tab_ActuationParameters":
-                    bTabAccessOk = true;
-                    break;
-                case "tab_CPX_Visu":
-                    bTabAccessOk = HelperApp.uiTesteSelecionado > 0;
+                    bTabAccessOk = tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0;
                     break;
                 default:
-                    bTabAccessOk = false;
+                    bTabAccessOk = true;
                     break;
             }
 
@@ -750,9 +805,9 @@ namespace Continental.Project.Adam.UI
         }
         private void TAB_Main_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TAB_Main_ActivePage(TAB_Main.SelectedIndex, _helperApp.GetMethodName());
+            TAB_Main_ActivePage(TAB_Main.SelectedIndex);
         }
-        public void TAB_Main_ActivePage(int tabIdx, string origin)
+        public void TAB_Main_ActivePage(int tabIdx)
         {
             try
             {
@@ -769,8 +824,8 @@ namespace Continental.Project.Adam.UI
                         {
                             TAB_Main.SelectedTab = TAB_Main.TabPages["tab_TableResults"];
 
-                            if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
-                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            if (!TAB_TableResult_SetData())
+                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error); ;
 
                             break;
                         }
@@ -779,23 +834,22 @@ namespace Continental.Project.Adam.UI
                             if (TAB_Main.TabPages["tab_CPX_Visu"] == null)
                                 TAB_CPXVisu_Create();
 
-                            //if (!_bAppStart)
-                            if (!TAB_ActuationParameters_SetData(_helperApp.GetMethodName()))
-                            {
-                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                break;
-                            }
+                            TAB_ActuationParameters_SetData();
 
                             TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                            //show a tab by adding it to the TabPages collection
+                            tab_TableResultsEnable = true;
+
                             break;
                         }
-                    case 3://tab_CPX
+                    case 3://tab_Dev
                         {
-                            if (TAB_Main.TabPages["tab_CPX_Visu"] == null)
-                                TAB_CPXVisu_Create();
-                            else
-                                TAB_Main.SelectedTab = TAB_Main.TabPages["tab_CPX_Visu"];
-
+                            break;
+                        }
+                    case 4://tab_CPX
+                        {
+                            TAB_CPXVisu_SetData();
                             break;
                         }
                 }
@@ -854,49 +908,44 @@ namespace Continental.Project.Adam.UI
         #region TAB - TableResults
 
         #region TAB - TableResults - Common
-        private bool TAB_TableResult_SetData(string origin)
+        private bool TAB_TableResult_SetData()
         {
             try
             {
-                if (!tab_TableResultsEnable && !_bRunTestExecuted)
-                    return false;
-                else
+                if (HelperApp.uiTesteSelecionado != 0)
                 {
-                    if (HelperApp.uiTesteSelecionado != 0)
+                    //grid
+                    for (int i = 0; i < TAB_TableResult_Grid.Rows.Count; i++)
                     {
-                        //grid
-                        for (int i = 0; i < TAB_TableResult_Grid.Rows.Count; i++)
+                        var row = TAB_TableResult_Grid.Rows[i];
+
+                        if (row.Cells[0].Value == null)
                         {
-                            var row = TAB_TableResult_Grid.Rows[i];
-
-                            if (row.Cells[0].Value == null)
-                            {
-                                BindingSource source = new BindingSource();
-                                TAB_TableResult_Grid.DataSource = source;
-                            }
-                        }
-
-                        Control metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mpnl_Table_GivingOut");
-
-                        IOrderedEnumerable<Control> lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
-
-                        if (!TAB_TableResults_Grid_GetData(HelperApp.uiTesteSelecionado.ToString()))
-                        {
-                            MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
-
-                            return false;
+                            BindingSource source = new BindingSource();
+                            TAB_TableResult_Grid.DataSource = source;
                         }
                     }
-                    else
+
+                    Control metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mpnl_Table_GivingOut");
+
+                    IOrderedEnumerable<Control> lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
+
+                    if (!TAB_TableResults_Grid_GetData(HelperApp.uiTesteSelecionado.ToString()))
                     {
-                        MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
                         return false;
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                    return false;
                 }
             }
             catch (Exception ex)
@@ -918,7 +967,6 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-
                 #region Get Grids Info
 
                 Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[3];
@@ -950,47 +998,33 @@ namespace Continental.Project.Adam.UI
 
                             #region Define
 
-                            string fileNameHeader = string.Empty;
 
-                            string pathWithFileNameHeader = string.Empty;
+
+                            string fileName = string.Empty;
+
+                            string pathWithFileName = string.Empty;
 
                             #endregion
 
                             #region Header Name File Test
 
-                            string strHeader = _helperApp.AppTests_DefaultNameHeader;
+                            string strHeader = "HBM_AquisitionHeader";
 
                             if (!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName))
                             {
-                                pathWithFileNameHeader = (HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Contains(_helperApp.AppTests_DefaultNameData) ? HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_helperApp.AppTests_DefaultNameData, strHeader) : string.Concat(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_helperApp.AppTests_DefaultExtension, string.Empty), strHeader, _helperApp.AppTests_DefaultExtension));
-                                fileNameHeader = string.Concat(pathWithFileNameHeader.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty), _helperApp.AppTests_DefaultExtension);
+                                pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace("HBM_SaveAquisitionTxtData", strHeader);
+                                fileName = string.Concat(pathWithFileName.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty), _helperApp.AppTests_DefaultExtension);
                             }
 
                             #endregion
 
                             #region load data
 
-                            if (_helperApp.CheckFileExists(pathWithFileNameHeader))
-                            {
-                                if (string.IsNullOrEmpty(fileNameHeader))
-                                {
-                                    MessageBox.Show("Failed, error fileNameHeader project null !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    return false;
-                                }
-                                else
-                                {
-                                    if (fileNameHeader.Contains(strHeader))
-                                        dicReturnReadFileHeader = _helperApp.ReadTXTFileHeaderHBM(fileNameHeader, pathWithFileNameHeader);
-                                    else
-                                    {
-                                        MessageBox.Show("Failed, error fileNameHeader project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        return false;
-                                    }
-                                }
-                            }
+                            if (!string.IsNullOrEmpty(fileName))
+                                dicReturnReadFileHeader = _helperApp.ReadTXTFileHeaderHBM(fileName, pathWithFileName);
                             else
                             {
-                                MessageBox.Show("Failed, error pathWithFileNameHeader project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Failed, error path project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return false;
                             }
 
@@ -1000,8 +1034,7 @@ namespace Continental.Project.Adam.UI
                         }
                         else
                         {
-                            if (!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.PrjTestFileName))
-                                MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                             TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
@@ -1009,13 +1042,7 @@ namespace Continental.Project.Adam.UI
                         }
                     }
 
-                    if (dicReturnReadFileHeader[0]?.Count() > 0)
-                        listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam, dicReturnReadFileHeader);
-                    else
-                    {
-                        MessageBox.Show("Error, dicReturnReadFileHeader result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
-                    }
+                    listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam, dicReturnReadFileHeader);
 
                     if (listResultParam?.Count() == 0 || listResultParam == null)
                     {
@@ -1051,6 +1078,7 @@ namespace Continental.Project.Adam.UI
 
                 throw;
             }
+
 
             return true;
         }
@@ -1183,7 +1211,7 @@ namespace Continental.Project.Adam.UI
                     string strResultParam_Nominal = ((System.Windows.Forms.DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
 
                     if (!string.IsNullOrEmpty(strResultParam_Nominal) && row != null)
-                        TAB_TableResults_Grid_WriteNominalParameters(row, strIdTestAvailable, strResultParam_Nominal);
+                        TAB_TableResults_Grid_WriteNominaParameters(row, strIdTestAvailable, strResultParam_Nominal);
                 }
             }
             catch (Exception)
@@ -1192,7 +1220,7 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
         }
-        private void TAB_TableResults_Grid_WriteNominalParameters(DataGridViewRow row, string strIdTestAvailable, string strResultParam_Nominal)
+        private void TAB_TableResults_Grid_WriteNominaParameters(DataGridViewRow row, string strIdTestAvailable, string strResultParam_Nominal)
         {
             try
             {
@@ -1275,6 +1303,8 @@ namespace Continental.Project.Adam.UI
 
                     var lstChk = CONTROLS_GetAll(metroPnl, typeof(CheckBox)).OrderBy(m => m.Text);
 
+
+
                     foreach (var chk in lstChk)
                     {
                         var chkState = ((System.Windows.Forms.CheckBox)chk).Checked;
@@ -1301,7 +1331,7 @@ namespace Continental.Project.Adam.UI
                         mChkBox.CheckedChanged += TAB_TableResults_CheckBoxes_CheckedChanged;
                         mChkBox.Tag = i.ToString();
                         mChkBox.Name = !string.IsNullOrEmpty(strResultParam_Name) ? strResultParam_Name : string.Concat("tab_TableResults_Chk", i);
-                        mChkBox.Text = strResultParam_Caption.Replace(".",",");
+                        mChkBox.Text = strResultParam_Caption;
                         mChkBox.AutoSize = true;
                         mChkBox.Font = new Font("", 8.0f, FontStyle.Bold);
                         mChkBox.Location = new Point(15, (i + 3) * 23); //vertical
@@ -1339,7 +1369,7 @@ namespace Continental.Project.Adam.UI
         #region TAB - ActuationParameters
 
         #region TAB - ActuationParameters - Common
-        private bool TAB_ActuationParameters_SetData(string origin)
+        private void TAB_ActuationParameters_SetData()
         {
             try
             {
@@ -1347,6 +1377,7 @@ namespace Continental.Project.Adam.UI
 
                 mtxt_Actuation_Unit_E1ParMaxForce.Enabled = false;
                 mtxt_Actuation_Unit_E1ParForceGrad.Enabled = false;
+
 
                 #region TAB_ActuationParameters - Evoluation Parameters - Set data
 
@@ -1384,15 +1415,9 @@ namespace Continental.Project.Adam.UI
                         case 25:    //Force Diagrams - Force/Pressure Dual Ratio
                             {
                                 if (HelperTestBase.Model_GVL.GVL_Graficos.iOutput == 1)
-                                {
                                     rad_EvaluationParameters_CBOutputPC.Checked = true;
-                                    //rad_EvaluationParameters_CBOutputSC.Enabled = HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0 ? false : true;
-                                }
                                 else
-                                {
                                     rad_EvaluationParameters_CBOutputSC.Checked = true;
-                                    //rad_EvaluationParameters_CBOutputPC.Enabled = HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0 ? false : true;
-                                }
 
                                 grpOutput.Visible = true;
 
@@ -1443,7 +1468,7 @@ namespace Continental.Project.Adam.UI
 
                 #endregion
 
-                if (!TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName()))
+                if (!TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado))
                 {
                     grid_tabActionParam_EvalParam.DataSource = null;
                     HelperApp.uiTesteSelecionado = 0;
@@ -1457,11 +1482,7 @@ namespace Continental.Project.Adam.UI
             {
                 var exc = ex.Message;
                 MessageBox.Show(exc);
-
-                return false;
             }
-
-            return true;
         }
         private bool TAB_ActuationParameters_ValidateInputTxt(object sender, KeyPressEventArgs e)
         {
@@ -1560,7 +1581,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TAB - ActuationParameters - Populate Data
-        private bool TAB_ActuationParameters_PopulateData(int uiTesteSelecionado, string origin)
+        private bool TAB_ActuationParameters_PopulateData(int uiTesteSelecionado)
         {
             try
             {
@@ -1580,6 +1601,9 @@ namespace Continental.Project.Adam.UI
                         if (uiTesteSelecionado != 0)
                         {
                             HelperApp.uiTesteSelecionado = uiTesteSelecionado;
+
+                            //if (HelperTestBase.ParamEval == null)
+                            //    BindDataParam();
 
                             if (!_bCoBSelectTestSelected)
                             {
@@ -1621,8 +1645,6 @@ namespace Continental.Project.Adam.UI
                 }
                 else
                 {
-                    #region Actuation Parameters
-
                     foreach (DataRow row in dtActionParameter.Rows)
                     {
                         #region General Settings
@@ -1672,8 +1694,6 @@ namespace Continental.Project.Adam.UI
                         #endregion
                     }
 
-                    #endregion
-
                     #region Evaluation Parameters
 
                     DataTable dtGridEvalParameters = _bll_Main_Tab_ActionParameters.PopulateGridEvalParametersByTest(strIdxTestSelected);
@@ -1685,9 +1705,6 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[4];
-                        List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = new List<ActuationParameters_EvaluationParameters>();
-
                         if (dtGridEvalParameters.Rows.Count > 0)
                         {
                             //Rows Format
@@ -1696,31 +1713,11 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (TAB_ActuationParameters_EvalParameters_Grid_Format())
                                 {
-                                    if (HelperTestBase.ProjectTestConcluded.Project != null)
-                                    {
-                                        if (!HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
-                                        {
-                                            if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                                                lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
-                                        }
-                                        else
-                                            lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
-                                    }
-                                    else
-                                        lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+                                    List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                                     if (HelperApp.uiTesteSelecionado > 0)
                                         TAB_ActuationParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters, string.Empty, string.Empty);
-                                    else
-                                    {
-                                        MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                                        TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
-
-                                        return false;
-                                    }
                                 }
-
                                 else
                                 {
                                     MessageBox.Show("Error, failed Grid_Format rows data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1739,9 +1736,10 @@ namespace Continental.Project.Adam.UI
                             return false;
                         }
                     }
+
                 }
 
-                #endregion
+                    #endregion
             }
             catch (Exception ex)
             {
@@ -2341,30 +2339,27 @@ namespace Continental.Project.Adam.UI
                 mcbo_tabActParam_GenSettings_CoBSelectTest.DisplayMember = "Name";
                 mcbo_tabActParam_GenSettings_CoBSelectTest.DataSource = dt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var msgError = ex.Message;
+
                 throw;
             }
         }
         private void mcbo_GeneralSettings_CoBSelectTest_SelectedIndexChanged(object sender, EventArgs e)
         {
+            tab_ChartEnable = false;
+            tab_TableResultsEnable = false;
 
-            TAB_Disable();
+            int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
 
-            if (!_bAppStart)
-                TEST_Concluded_ClearData();
-            //{
-            //        if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-            //            lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
-            //    }
-
-            if (!_bAppStart)
+            if (idxSelected > 27)
             {
-                int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
-
-                TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, _helperApp.GetMethodName());
+                _bCoBSelectTestSelected = true;
+                mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = HelperApp.uiTesteSelecionado;
+                MessageBox.Show("Error, test empty data!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            else
+                TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
         }
         public void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(int idxSelected, string origin)
         {
@@ -2466,51 +2461,43 @@ namespace Continental.Project.Adam.UI
 
                     //  // save edited data & load corresp. data of new selection, if user defined test
                     if (HelperTestBase.eExamType != eEXAMTYPE.ET_NONE)
-                        if (HelperTestBase.ProjectTestConcluded.Project != null)
+                        if (HelperTestBase.ProjectTestConcluded.Project.is_user_defined)
                         {
-                            if (HelperTestBase.ProjectTestConcluded.Project.is_user_defined)
+                            if (last_sel_ix >= 0)
                             {
-                                if (last_sel_ix >= 0)
-                                {
-                                    //     DialogToParams(&((*(current_exam.user_defined.Params ()[last_sel_ix]))->base_params),
-                                    //					        &((*(current_exam.user_defined.Params ()[last_sel_ix]))->add_params));
+                                //     DialogToParams(&((*(current_exam.user_defined.Params ()[last_sel_ix]))->base_params),
+                                //					        &((*(current_exam.user_defined.Params ()[last_sel_ix]))->add_params));
 
-                                    //     current_exam.Batch()->Results();    // transfer evtl. made changes of the ref.-column of the result table to the storage
-                                    //    }
+                                //     current_exam.Batch()->Results();    // transfer evtl. made changes of the ref.-column of the result table to the storage
+                                //    }
 
-                                    //    // set actual param-set
-                                    //    current_exam.base_params = (*(current_exam.user_defined.Params ()[sel_ix]))->base_params;
+                                //    // set actual param-set
+                                //    current_exam.base_params = (*(current_exam.user_defined.Params ()[sel_ix]))->base_params;
 
-                                    //    current_exam.add_params.Flush();
-                                    //    unsigned int n_avail = (*(current_exam.user_defined.Params()[sel_ix]))->add_params.DataAvail();
-                                    //    for (unsigned int i = 0; i<n_avail; i++)
-                                    //     current_exam.add_params.DoExpPut((*(current_exam.user_defined.Params ()[sel_ix]))->add_params[i]);
-                                }
-                                else
-                                {
-                                    //    DialogToParams(&(current_exam.base_params),
-                                    //                                    &(current_exam.add_params));
+                                //    current_exam.add_params.Flush();
+                                //    unsigned int n_avail = (*(current_exam.user_defined.Params()[sel_ix]))->add_params.DataAvail();
+                                //    for (unsigned int i = 0; i<n_avail; i++)
+                                //     current_exam.add_params.DoExpPut((*(current_exam.user_defined.Params ()[sel_ix]))->add_params[i]);
+                            }
+                            else
+                            {
+                                //    DialogToParams(&(current_exam.base_params),
+                                //                                    &(current_exam.add_params));
 
-                                    //    current_exam.Batch()->Results();    // transfer evtl. made changes of the ref.-column of the result table to the storage
-                                }
-
-                                //SetNewBasicTestProgram((eEXAMTYPE)(CoBSelectTest->Items->Objects[sel_ix]));
+                                //    current_exam.Batch()->Results();    // transfer evtl. made changes of the ref.-column of the result table to the storage
                             }
 
-                            if (HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
-                            {
-                                HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput);
-
-                                HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
-                            }
-
+                            //SetNewBasicTestProgram((eEXAMTYPE)(CoBSelectTest->Items->Objects[sel_ix]));
                         }
 
+                    HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput);
+
                     tab_TableResultsEnable = false;
+                    HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
+
                     _bCoBSelectTestSelected = false;
 
-                    //if (HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
-                    TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName());
+                    TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado);
 
                     last_sel_ix = sel_ix;
                 }
@@ -2538,43 +2525,31 @@ namespace Continental.Project.Adam.UI
 
                     _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wOutput }, Convert.ToDouble(_modelGVL.GVL_Parametros.iOutput));
 
-                    if (_helperApp.lstDblReturnReadFile[0] != null && HelperTestBase.ProjectTestConcluded.Project != null)
+                    if (_helperApp.lstDblReturnReadFile[0] != null)
                     {
                         if (HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
                         {
                             if (TXTFileHBM_LoadData())
                             {
-                                TAB_Enable();
+                                tab_TableResultsEnable = true;
                                 TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                             }
                             else
-                            {
-                                TAB_Disable();
-                                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
                                 MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-
                         }
                         else
                         {
-                            //if (!_bPrjTestOffLineCarregado)
-                            //{
                             if (TXTFileHBM_LoadDataConcluded())
                             {
-                                TAB_Enable();
+                                tab_TableResultsEnable = true;
                                 TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                             }
                             else
-                            {
-                                TAB_Disable();
-                                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
                                 MessageBox.Show("Error TXTFileHBM_LoadDataConcluded, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-
-                            //}
                         }
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -2599,13 +2574,13 @@ namespace Continental.Project.Adam.UI
 
                     _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wOutput }, Convert.ToDouble(_modelGVL.GVL_Parametros.iOutput));
 
-                    if (_helperApp.lstDblReturnReadFile[0] != null && HelperTestBase.ProjectTestConcluded.Project != null)
+                    if (_helperApp.lstDblReturnReadFile[0] != null)
                     {
                         if (HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
                         {
                             if (TXTFileHBM_LoadData())
                             {
-                                TAB_Enable();
+                                tab_TableResultsEnable = true;
                                 TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                             }
                             else
@@ -2613,16 +2588,13 @@ namespace Continental.Project.Adam.UI
                         }
                         else
                         {
-                            //if (!_bPrjTestOffLineCarregado)
-                            //{
                             if (TXTFileHBM_LoadDataConcluded())
                             {
-                                TAB_Enable();
+                                tab_TableResultsEnable = true;
                                 TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                             }
                             else
                                 MessageBox.Show("Error TXTFileHBM_LoadDataConcluded, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            //}
                         }
                     }
 
@@ -3267,22 +3239,16 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                if (rbChecked)
+                switch (rbName)
                 {
-                    switch (rbName)
-                    {
-                        case "RBShowPressureForce": //Show Pressure/Force
-                            HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 0;
-                            break;
-                        case "RBShowPressureTimeSlow": //Show Pressure/Time Slow
-                            HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 1;
-                            break;
-                        case "RBShowPressureTimeFast": //Show Pressure/ Time Fast
-                            HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 2;
-                            break;
-                        default:
-                            break;
-                    }
+                    case "RBShowPressureForce": //Show Pressure/Force
+                        break;
+                    case "RBShowPressureTimeSlow": //Show Pressure/Time Slow
+                        break;
+                    case "RBShowPressureTimeFast": //Show Pressure/ Time Fast
+                        break;
+                    default:
+                        break;
                 }
             }
             catch (Exception ex)
@@ -3295,6 +3261,7 @@ namespace Continental.Project.Adam.UI
 
             return true;
         }
+
         private void TAB_ActuationParameters_EvalParameters_RadioButton_CheckedChanged(object sender, EventArgs e)
         {
             int rbId = Convert.ToInt32(((System.Windows.Forms.Control)sender).Tag?.ToString()?.Trim());
@@ -3304,6 +3271,7 @@ namespace Continental.Project.Adam.UI
 
             TAB_ActuationParameters_EvalParameters_Grid_FormatRadioGroup(rbId, rbName, rbChecked);
         }
+
         private bool TAB_ActuationParameters_EvalParameters_Grid_GridRowType(DataTable dtGridEvalParameters)
         {
             try
@@ -3320,7 +3288,7 @@ namespace Continental.Project.Adam.UI
                 DataTable dt = new DataTable();
                 var listOfCols = new List<DataColumn>();
                 var listOfRows = new List<DataRow>();
-
+                
 
                 #region SET COLUMNS
 
@@ -3531,10 +3499,10 @@ namespace Continental.Project.Adam.UI
                                         grpBox.Controls.Add(radBtn);
 
 
-                                        //dt.AcceptChanges();
-                                        // DataRow dr = dt.Rows[iRowIndex];
-                                        //         dr.Delete();
-                                        // dt.AcceptChanges();
+                                       //dt.AcceptChanges();
+                                       // DataRow dr = dt.Rows[iRowIndex];
+                                       //         dr.Delete();
+                                       // dt.AcceptChanges();
                                     }
                                     // Set the FlatStyle of the GroupBox.
                                     grpBox.FlatStyle = FlatStyle.Standard;
@@ -4751,7 +4719,7 @@ namespace Continental.Project.Adam.UI
                                     break;
 
                                 case "ERelTimeTo": //
-                                    HelperTestBase.Model_GVL.GVL_T22.rPorcentagemCalcTempoFinalRetorno = dblValue;
+									HelperTestBase.Model_GVL.GVL_T22.rPorcentagemCalcTempoFinalRetorno = dblValue;																				  
                                     break;
 
                                 case "CBMaxPress2": //
@@ -4833,18 +4801,12 @@ namespace Continental.Project.Adam.UI
                             switch (strName.Trim())
                             {
                                 case "RBShowPressureForce":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 0;
                                     break;
 
                                 case "RBShowPressureTimeSlow":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 1;
                                     break;
 
                                 case "RBShowPressureTimeFast":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico = 2;
                                     break;
 
                                 case "EForceScale":
@@ -4853,21 +4815,18 @@ namespace Continental.Project.Adam.UI
                                 case "EPressureScale":
                                     break;
 
-                                case "ETimeScale":
-                                    break;
-
                                 case "EPause": //Intervalo
                                     HelperTestBase.Model_GVL.GVL_T24.rIntervalo = dblValue;
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwIntervalo_T24_LW }, dblValue);
+                                    //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwIntervalo_T24_LW }, dblValue);
                                     break;
 
                                 case "EFastMaxForce": //Forca Maxima modo rapido
                                     HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaModoRapido = dblValue;
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaModoRapido_T24_LW }, dblValue);
+                                    //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaModoRapido_T24_LW }, dblValue);
                                     break;
 
                                 case "EFastGradient": //Gradiente abertura valvula - utilizar o parametro Geral Gradiente Pressao (%)
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwGradienteForca_LW }, dblValue);
+                                                      //HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoFast = dblValue;
 
                                     break;
                                 case "EPressGradAt1": //Ref Calculo Gradiente Pressao
@@ -4897,13 +4856,6 @@ namespace Continental.Project.Adam.UI
 
                             switch (strName.Trim())
                             {
-                                case "CBShowDualRatioLines":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T25.bMostraLinhasDRAux = true;
-                                    else
-                                        HelperTestBase.Model_GVL.GVL_T25.bMostraLinhasDRAux = false;
-                                    break;
-
                                 case "EForceScale":
                                     break;
 
@@ -4911,84 +4863,85 @@ namespace Continental.Project.Adam.UI
                                     break;
 
                                 case "EP1AtForce": //Pressure at Force(E1)
-                                    HelperTestBase.Model_GVL.GVL_T25.rForca_E1 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EP2AtForce": //Pressure at Force(E2)  
-                                    HelperTestBase.Model_GVL.GVL_T25.rForca_E2 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EP3AtForce": //Pressure at Force(P1)
-                                    HelperTestBase.Model_GVL.GVL_T25.rForca_P1 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EP4AtForce": //Pressure at Force(P2)
-                                    HelperTestBase.Model_GVL.GVL_T25.rForca_P2 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EMeasurePointP7": //Pressure at Force(E6) =
-                                    HelperTestBase.Model_GVL.GVL_T25.rPontoMedicao_P7 = dblValue;
+                                                        //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EPistonTravelAtPressure": //Travel at Pressure = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rDeslocamentoNaPressao = dblValue;
+                                                                //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EActuationForceAtPressure": //Actuation Force at Pressure = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rPressaoCutIn_Bar = dblValue;
+                                                                  //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EReleaseForceMin": //Release Force min = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rReleaseForcePressMin_Bar = dblValue;
+                                                         //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EReleaseForceMax": //Release Force max = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rReleaseForcePressMax_Bar = dblValue;
+                                                         //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "EHysteresisAtPressure": //Hysteresis at Pressure(%) = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rPressaoHysterese_pout = dblValue;
+                                                              //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
-                                case "EHysteresisAtPressure2": //Hysteresis at Pressure(bar) = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rPressaoHysterese_Bar = dblValue;
+                                case "//EHysteresisAtPressure2": //Hysteresis at Pressure(bar) = 
+                                                                 //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "ERelForceRemainAtTravel": //Release Force Remaining at = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rReleaseForceAt_mm = dblValue;
-                                    break;
-
-                                case "EJumperNomGrad": //Jumper Gradient P1 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rJumperGradienteNominal = dblValue;
-                                    break;
-
-                                case "EJumperPosTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rJumperTolPos = dblValue;
-                                    break;
-
-                                case "EJumperNegTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rJumperTolNeg = dblValue;
-                                    break;
-
-                                case "ESwitchPointNomGrad": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rSwitchPointGradienteNominal = dblValue;
-                                    break;
-
-                                case "ESwitchPointPosTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rSwitchPointTolPos = dblValue;
-                                    break;
-
-                                case "ESwitchPointNegTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rSwitchPointTolNeg = dblValue;
+                                                                //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
 
                                 case "ETMCDiameterPC": //TMC Diameter PC = 
-                                    HelperTestBase.Model_GVL.GVL_T25.rDiametroCMD_mm = dblValue;
+                                                       //HelperTestBase.Model_GVL.GVL_T25.rDiametroCMD_mm = dblValue;
                                     break;
 
                                 case "ETMCDiameterSC": // TMC Diameter SC = 
-
+                                                       //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
                                     break;
+
+                                case "EJumperNomGrad": //Jumper Gradient P1 = 
+                                                       //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
+                                case "EJumperPosTolerance": //Jumper Gradient P2 = 
+                                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
+                                case "EJumperNegTolerance": //Jumper Gradient P2 = 
+                                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
+                                case "ESwitchPointNomGrad": //Jumper Gradient P2 = 
+                                                            //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
+                                case "ESwitchPointPosTolerance": //Jumper Gradient P2 = 
+                                                                 //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
+                                case "ESwitchPointNegTolerance": //Jumper Gradient P2 = 
+                                                                 //HelperTestBase.Model_GVL.GVL_T25. = dblValue;
+                                    break;
+
 
                                 default:
                                     break;
@@ -4999,8 +4952,6 @@ namespace Continental.Project.Adam.UI
                             HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T25;
 
                             break;
-
-
                         }
                     case 26:    //Force Diagrams - Force/Force Dual Ratio
                         {
@@ -5008,13 +4959,6 @@ namespace Continental.Project.Adam.UI
 
                             switch (strName.Trim())
                             {
-                                case "CBShowDualRatioLines":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T26.bMostraLinhasDRAux = true;
-                                    else
-                                        HelperTestBase.Model_GVL.GVL_T26.bMostraLinhasDRAux = false;
-                                    break;
-
                                 case "EForceScaleI":
                                     break;
 
@@ -5022,67 +4966,63 @@ namespace Continental.Project.Adam.UI
                                     break;
 
                                 case "EP1AtForce": //Pressure at Force(E1)
-                                    HelperTestBase.Model_GVL.GVL_T26.rForca_E1 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EP2AtForce": //Pressure at Force(E2)  
-                                    HelperTestBase.Model_GVL.GVL_T26.rForca_E2 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EP3AtForce": //Pressure at Force(P1)
-                                    HelperTestBase.Model_GVL.GVL_T26.rForca_P1 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EP4AtForce": //Pressure at Force(P2)
-                                    HelperTestBase.Model_GVL.GVL_T26.rForca_P2 = dblValue;
+                                                   //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EMeasurePointP7": //Pressure at Force(E6) =
-                                    HelperTestBase.Model_GVL.GVL_T26.rPontoMedicao_P7 = dblValue;
+                                                        //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EActuationForceAtForce": //Actuation Force at Pressure = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rForcaFOutCutIn_N = dblValue;
+                                                               //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EReleaseForceMin": //Release Force min = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rReleaseForceFoutMin_N = dblValue;
+                                                         //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EReleaseForceMax": //Release Force max = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rReleaseForceFoutMax_N = dblValue;
+                                                         //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EHysteresisAtForce": //Hysteresis at Pressure(%) = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rForcaHysterese_Fout = dblValue;
-                                    break;
-
-                                case "ERelForceRemainAtTravel": //Release Force Remaining at = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rReleaseForceAt_mm = dblValue;
+                                                           //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EJumperNomGrad": //Jumper Gradient P1 = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rJumperGradienteNominal = dblValue;
+                                                       //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EJumperPosTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rJumperTolPos = dblValue;
+                                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "EJumperNegTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rJumperTolNeg = dblValue;
+                                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "ESwitchPointNomGrad": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rSwitchPointGradienteNominal = dblValue;
+                                                            //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "ESwitchPointPosTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rSwitchPointTolPos = dblValue;
+                                                                 //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 case "ESwitchPointNegTolerance": //Jumper Gradient P2 = 
-                                    HelperTestBase.Model_GVL.GVL_T26.rSwitchPointTolNeg = dblValue;
+                                                                 //HelperTestBase.Model_GVL.GVL_T26. = dblValue;
                                     break;
 
                                 default:
@@ -5102,15 +5042,8 @@ namespace Continental.Project.Adam.UI
                             switch (strName.Trim())
                             {
                                 case "CBForcePressDiagram":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T27.iTipoGrafico = 0;
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T27 }, 0);
                                     break;
-                                case "CBDiffTravel":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T27.iTipoGrafico = 1;
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T27 }, 1);
-                                    break;
+
                                 case "EForceScale":
                                     break;
 
@@ -5120,27 +5053,36 @@ namespace Continental.Project.Adam.UI
                                 case "ETravelScale":
                                     break;
 
-                                case "EDiffTravelScaleMin":
-                                    break;
-
-                                case "EDiffTravelScaleMax":
+                                case "EDiffTravelScale":
                                     break;
 
                                 case "ETimeScale":
                                     break;
 
                                 case "EBackwardGradient": //Vel. Retorno
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwVelocidadeRetorno_mms_T27_LW }, dblValue);
+                                                          //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
                                     break;
 
                                 case "EActuationGradient1": //Vel. Avanco 1
-                                    HelperTestBase.Model_GVL.GVL_T27.rVelocidadeNominal_mms = dblValue;
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwVelocidade_Avanco1_mms_T27_LW }, dblValue);
+                                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
                                     break;
 
-                                case "ETwoPointEvaluationTime":
-                                    HelperTestBase.Model_GVL.GVL_T27.rTempoVerificacao2Pontos = dblValue;
+                                case "EActuationGradient2": //Vel. Avanco 2
+                                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
                                     break;
+
+                                case "EActuationGradient3": //Vel. Avanco 3
+                                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                    break;
+
+                                case "EActuationGradient4": //Vel. Avanco 4
+                                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                    break;
+
+                                case "EActuationGradient5": //Vel. Avanco 5
+                                                            //HelperTestBase.Model_GVL.GVL_T27. = dblValue;
+                                    break;
+
 
                                 default:
                                     break;
@@ -5159,44 +5101,82 @@ namespace Continental.Project.Adam.UI
                             switch (strName.Trim())
                             {
                                 case "CBForcePressDiagram":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T28.iTipoGrafico = 0;
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T28 }, 0);
-                                    break;
-                                case "CBDiffTravel":
-                                    if (dblValue > 0)
-                                        HelperTestBase.Model_GVL.GVL_T28.iTipoGrafico = 1;
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wTipoGrafico_T28 }, 1);
-                                    break;
-                                case "EForceScaleI":
                                     break;
 
-                                case "EForceScaleO":
+                                case "EForceScale":
+                                    break;
+
+                                case "EPressScale":
                                     break;
 
                                 case "ETravelScale":
                                     break;
 
-                                case "EDiffTravelScaleMin":
-                                    break;
-
-                                case "EDiffTravelScaleMax":
+                                case "EDiffTravelScale":
                                     break;
 
                                 case "ETimeScale":
                                     break;
 
                                 case "EBackwardGradient": //Vel. Retorno
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwVelocidadeRetorno_mms_T28_LW }, dblValue);
+                                                          //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
                                     break;
 
                                 case "EActuationGradient1": //Vel. Avanco 1
-                                    HelperTestBase.Model_GVL.GVL_T28.rVelocidadeNominal_mms = dblValue;
-                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwVelocidade_Avanco1_mms_T28_LW }, dblValue);
+                                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
                                     break;
-                                case "ETwoPointEvaluationTime":
-                                    HelperTestBase.Model_GVL.GVL_T28.rTempoVerificacao2Pontos = dblValue;
+
+                                case "EActuationGradient2": //Vel. Avanco 2
+                                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
                                     break;
+
+                                case "EActuationGradient3": //Vel. Avanco 3
+                                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                    break;
+
+                                case "EActuationGradient4": //Vel. Avanco 4
+                                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                    break;
+
+                                case "EActuationGradient5": //Vel. Avanco 5
+                                                            //HelperTestBase.Model_GVL.GVL_T28. = dblValue;
+                                    break;
+
+
+                                default:
+                                    break;
+                            }
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T28;
+
+                            break;
+                        }
+                    case 29:    //Bleed
+                        {
+                            #region Case Param
+
+                            switch (strName.Trim())
+                            {
+
+
+                                case "Actuations": //
+                                                   //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
+                                                   //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wNumeroAtuacoes_T29 }, dblValue);
+                                    break;
+
+                                case "Repetitions": //
+                                                    //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
+                                                    //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wNumeroRepeticoes_T29 }, dblValue);
+                                    break;
+
+                                case "PumpingTime": //
+                                                    //HelperTestBase.Model_GVL.GVL_T29. = dblValue;
+                                                    //_helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoBombeamento_T29_LW }, dblValue);
+                                    break;
+
+
                                 default:
                                     break;
                             }
@@ -5509,8 +5489,6 @@ namespace Continental.Project.Adam.UI
         {
             mbtn_BClock.Text = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss", CultureInfo.InvariantCulture);
 
-            HelperMODBUS.CS_wHandShakePC = HelperMODBUS.CS_wHandShakeCLP == false ? 1 : 0; // new Random().Next(1,150);
-
             TaskBarUpdate();
         }
         private void timerHBM_Tick(object sender, EventArgs e)
@@ -5577,34 +5555,24 @@ namespace Continental.Project.Adam.UI
                     return;
                 }
 
-                if (HelperApp.uiTesteSelecionado == 9)
-                {
-                    if (!HelperMODBUS.CS_wEixoReferenciado)
-                    {
-                        MessageBox.Show("TEST NOT STARTED!" + "\n\n\n" + "NOT EMotor Ref. ", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-
-                    }
-                }
-
                 if (HelperTestBase.eExamType == eEXAMTYPE.ET_NONE || HelperApp.uiTesteSelecionado == 0)
                     MessageBox.Show("No test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 else
                 {
                     if (HelperApp.uiProjectSelecionado == 0)
                     {
-                        if (DialogResult.Yes == MessageBox.Show("\tPROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
-                            subMenu_Project_Project_Click(null, null);
+                        if (DialogResult.No == MessageBox.Show("\tPROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                            return;
                     }
-                    else
+
+                    if (HelperApp.uiProjectSelecionado == 9)
                     {
-                        BLL_Operational_Project bll_Project = new BLL_Operational_Project();
-
-                        HelperTestBase.ProjectTestConcluded.Project = bll_Project.GetHelperProjectById(HelperApp.uiProjectSelecionado.ToString());
-
-                        if (DialogResult.No == MessageBox.Show("\tPROJECT CREATED!" + "\n\n\n" + "Do you want following with the PROJECT TEST ? " + "\n\n\n" + $"\t{HelperTestBase.ProjectTestConcluded.Project.Identification}", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                        if (!HelperMODBUS.CS_wEixoReferenciado)
+                        {
+                            MessageBox.Show("TEST NOT STARTED!" + "\n\n\n" + "NOT EMotor Ref. ", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
 
+                        }
                     }
 
                     string strMsg = String.Concat("\tSTART TEST PROCESS !", "\n\n\n", "\tDo you want following with Test ? ", "\n\n\n", $"\t{EnumExtensionMethods.GetDescriptionEXAMTYPE(HelperTestBase.eExamType)}");
@@ -5652,8 +5620,6 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        // TEST_Concluded_ClearData();
-
                         LOG_Clear();
 
                         HBM_ClearBufferAquisitionData();
@@ -5682,9 +5648,6 @@ namespace Continental.Project.Adam.UI
                             _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wModoAuto }, 1);
 
                         LOG_TestSequence("CS_wPartidaGeral OK");
-
-                        TAB_Main.SelectedTab = TAB_Main.TabPages["tab_CPX_Visu"];
-
                         //}
                         //else
                         //    MessageBox.Show("TEST Start Sequence Failed!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -6070,34 +6033,23 @@ namespace Continental.Project.Adam.UI
                     LOG_TestSequence("CMD STOP RECORD DATA HBM ");
 
 
-                    if (HelperTestBase.ProjectTest == null || !HelperTestBase.ProjectTest.is_Created)
+                    if (!HelperTestBase.ProjectTest.is_Created)
                     {
+                        //if (sbexterno.Length > 0)
+                        //{
+
                         HBM_SaveAquisitionTxtData();
 
-                        if (TEST_Concluded_Command())
-                        {
-                            _bRunTestExecuted = true;
+                        TEST_Concluded_Command();
 
-                            HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+                        HBM_ClearBufferAquisitionData();
 
-                            TAB_Enable();
+                        tab_ChartEnable = true;
+                        tab_TableResultsEnable = true;
 
-                            HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+                        HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
-                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
-                        }
-                        else
-                        {
-                            _bRunTestExecuted = false;
-
-                            HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
-
-                            TAB_Disable();
-
-                            MessageBox.Show("Error TEST_Concluded_Command, failed conclude data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            return;
-                        }
+                        //}
                     }
                     else
                         MessageBox.Show("Failed, test existing file !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -6110,14 +6062,12 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
-
-            HBM_ClearBufferAquisitionData();
         }
 
         #endregion
 
         #region CONCLUDED SEQUENCE PROCESS
-        private bool TEST_Concluded_Command()
+        private void TEST_Concluded_Command()
         {
             try
             {
@@ -6129,12 +6079,10 @@ namespace Continental.Project.Adam.UI
                     TEST_Concluded_DeleteData();
 
                     MessageBox.Show("Test data DELETED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return true;
+                    return;
                 }
                 else
                 {
-                    _bRunTestExecuted = true;
-
                     HelperTestBase.ProjectTestConcluded.Project.is_OnLIne = true;
 
                     if (TXTFileHBM_LoadData())
@@ -6143,57 +6091,47 @@ namespace Continental.Project.Adam.UI
 
                         if (TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL))
                         {
-                            if (HelperTestBase.ProjectTestConcluded?.Project?.IdProject > 0)
+                            if (HelperTestBase.ProjectTestConcluded.IdProject > 0)
                             {
                                 if (TEST_Concluded_SaveData())
-                                    HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
-                                else
                                 {
-                                    _bRunTestExecuted = false;
+                                    tab_ChartEnable = true;
+                                    tab_TableResultsEnable = true;
+                                    HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
-                                    TAB_Disable();
-
-                                    MessageBox.Show("Error TEST_Concluded_SaveData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                                    return false;
+                                    TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                                 }
+                                else
+                                    MessageBox.Show("Error TEST_Concluded_SaveData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else
+                            {
+                                tab_ChartEnable = true;
+                                tab_TableResultsEnable = true;
                                 HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+
+                                TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                            }
                         }
                         else
-                        {
-                            _bRunTestExecuted = false;
-                            TAB_Disable();
                             MessageBox.Show("Error TXTFileHBM_HeaderCreate, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            return false;
-                        }
                     }
                     else
-                    {
-                        _bRunTestExecuted = false;
-                        TAB_Disable();
                         MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                        return false;
-                    }
                 }
             }
             catch (Exception ex)
             {
-                _bRunTestExecuted = false;
-                TAB_Disable();
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
-
-            return true;
         }
         private bool TEST_Concluded_SaveData()
         {
             try
             {
+                BLL_Operational_Project bll_Project = new BLL_Operational_Project();
+
                 Model_Operational_Project_TestConcluded modelPrjTestConcluded = new Model_Operational_Project_TestConcluded();
 
                 modelPrjTestConcluded = new Model_Operational_Project_TestConcluded()
@@ -6207,13 +6145,10 @@ namespace Continental.Project.Adam.UI
                     LastUpdate = DateTime.Now.ToString()
                 };
 
-                BLL_Operational_Project bll_Project = new BLL_Operational_Project();
-
                 int idProjectTestConcludedInsert = bll_Project.AddProjectTestConcluded(modelPrjTestConcluded);
 
                 if (idProjectTestConcludedInsert > 0)
                 {
-                    return true;
                     //HelperApp.uiProjectSelecionado = idProjectInsert;
                     // HelperTestBase.currentProjectTest = modelPrjTestConcluded;
                 }
@@ -6253,7 +6188,7 @@ namespace Continental.Project.Adam.UI
         private void TEST_Concluded_LoadData(bool bLoasTestConcluded)
         {
             if (bLoasTestConcluded)
-                TEST_FileDataConcluded_SetData();
+                TEST_FileDataConcluded_SetData();// this.Hide();
         }
 
         public void TEST_FileDataConcluded_SetData()
@@ -6262,23 +6197,17 @@ namespace Continental.Project.Adam.UI
             {
                 if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
                 {
-                    _bPrjTestOffLineCarregado = false;
-
-                    HelperApp.uiTesteSelecionado = HelperApp.uiProjectTestSelecionado;
-
-                    mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = HelperApp.uiTesteSelecionado;
-
-                    //TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName());
-
-                    //TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName());
-
                     TXTFileHBM_LoadDataConcluded();
 
-                    TAB_Main_ActivePage(2, _helperApp.GetMethodName());
+                    TAB_Main_ActivePage(2);
 
-                    MessageBox.Show($"Test with file Ident # - [ { HelperTestBase.ProjectTestConcluded.TestIdentName} ] loaded!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    int idxSelected = HelperApp.uiProjectTestSelecionado; // mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex;
 
-                    HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.Project?.Identification, " ]");
+                    mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = idxSelected;
+
+                    TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, this.ToString());
+
+                    MessageBox.Show("Test Data Loaded!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -6291,19 +6220,7 @@ namespace Continental.Project.Adam.UI
 
                 throw;
             }
-
-            _bPrjTestOffLineCarregado = true;
         }
-
-        private void TEST_Concluded_ClearData()
-        {
-            HelperApp.lblstsbar03 = string.Empty;
-
-            HelperTestBase.ProjectTestConcluded = new Model_Operational_Project_TestConcluded();
-
-            HelperTestBase.ProjectTest = HelperTestBase.ProjectTestConcluded.Project;
-        }
-
         #endregion
 
         #endregion
@@ -6318,29 +6235,14 @@ namespace Continental.Project.Adam.UI
             string testDate = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             string testTypeName = HelperApp.uiTesteSelecionado == 0 ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperTestBase.eExamType.ToString()).ToString() : EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString();
 
-            string testIdentName = string.Empty;
-
-            if (HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                testIdentName = HelperTestBase.ProjectTestConcluded.Project.Identification;
-            else
-            {
-                if (HelperTestBase.ProjectTestConcluded.Project == null)
-                {
-                    HelperTestBase.ProjectTestConcluded.Project = new Model_Operational_Project();
-                    HelperTestBase.ProjectTestConcluded.Project.User = new Model_SecurityUser();
-                    HelperTestBase.ProjectTestConcluded.Project.TestAvailable = new Model_Manager_TestAvailable();
-                }
-
-                testIdentName = HelperTestBase.ProjectTestConcluded.Project.IdProject > 0 ? HelperTestBase.ProjectTestConcluded.Project.Identification : _helperApp.AppTests_DefaultNameData;
-
-                HelperTestBase.ProjectTestConcluded.TestDateTime = testDate;
-                HelperTestBase.ProjectTestConcluded.Project.TestingDate = !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.TestingDate) ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : HelperTestBase.ProjectTestConcluded.TestDateTime;
-                HelperTestBase.ProjectTestConcluded.Project.Identification = testIdentName;
-            }
+            string testIdentName = "HBM_SaveAquisitionTxtData";
 
             string prjTestFilename = string.Concat(testDate, "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension);
 
-            HelperTestBase.ProjectTestConcluded.TestFileName = prjTestFilename;
+            HelperTestBase.ProjectTestConcluded.TestDateTime = testDate;
+            HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.TestDateTime;
+            HelperTestBase.ProjectTestConcluded.Project.Identification = testIdentName;
+
             HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = prjTestFilename.Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
             _prjTestFilename = Path.Combine(_initialDirPathTestFile, prjTestFilename);
@@ -6476,8 +6378,8 @@ namespace Continental.Project.Adam.UI
                     {
                         HelperApp.uiTesteSelecionado = Convert.ToInt32(strArray[1]);
                         HelperTestBase.ProjectTestConcluded.TestDateTime = strArray[0].ToString();
-                        HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.Project.IdProject > 0 ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : HelperTestBase.ProjectTestConcluded.TestDateTime;
-                        HelperTestBase.ProjectTestConcluded.Project.Identification = HelperTestBase.ProjectTestConcluded.Project.IdProject > 0 ? HelperTestBase.ProjectTestConcluded.Project.Identification : strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+                        HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.TestDateTime;
+                        HelperTestBase.ProjectTestConcluded.Project.Identification = strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
                     }
 
                     lstStrChReadFileArr = _helperApp.ReadTXTFileHBM(fileName, pathWithFileName);
@@ -6517,7 +6419,7 @@ namespace Continental.Project.Adam.UI
                         {
                             LOG_TestSequence("TESTE CALC CONCLUDED");
 
-                            if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
+                            if (!TAB_TableResult_SetData())
                             {
                                 MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return false;
@@ -6529,8 +6431,7 @@ namespace Continental.Project.Adam.UI
                                 return false;
                             }
 
-                            TAB_Disable();
-
+                            tab_TableResultsEnable = false;
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
                             if (_modelGVL.GVL_Graficos.bDadosCalculados)
@@ -6564,24 +6465,15 @@ namespace Continental.Project.Adam.UI
             {
                 #region Define
 
-                if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.TestFileName))
+                if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.TestFileName))
                 {
-                    BLL_Operational_Project bll_Project = new BLL_Operational_Project();
-
-                    HelperTestBase.ProjectTestConcluded.Project = bll_Project.GetHelperProjectById(HelperApp.uiProjectSelecionado.ToString());
-
-                    var arrTestDate = HelperTestBase.ProjectTestConcluded.Project.TestingDate.Substring(0, 10).Split('/');
+                    var arrTestDate = HelperTestBase.ProjectTestConcluded.Project.TestingDate.Substring(0, 8).Split('/');//.ToString("yyyyMMdd_HHmmss");
 
                     var arrTestHour = HelperTestBase.ProjectTestConcluded.Project.TestingDate.Substring(11, 8).Split(':');
 
-                    HelperTestBase.ProjectTestConcluded.Project.examtype = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado);
-                    string testTypeName = HelperTestBase.ProjectTestConcluded.Project.examtype == eEXAMTYPE.ET_NONE ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString() : HelperTestBase.ProjectTestConcluded.Project.examtype.ToString();
+                    string testTypeName = HelperTestBase.ProjectTestConcluded.Project.examtype.ToString();
 
-                    string testIdentName = !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.Identification) ? HelperTestBase.ProjectTestConcluded?.Project?.Identification.Trim() : _helperApp.AppTests_DefaultNameData;
-
-                    string prjTestFilename = !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.PartNumber) ? string.Concat(HelperTestBase.ProjectTestConcluded.Project.PartNumber.Substring(0, 15), "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension) : string.Empty;
-
-                    HelperTestBase.ProjectTestConcluded.TestFileName = prjTestFilename.Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+                    string testIdentName = HelperTestBase.ProjectTestConcluded.Project.Identification.Trim(); // "HBM_SaveAquisitionTxtData";
                 }
 
                 string fileName = string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), _helperApp.AppTests_DefaultExtension);
@@ -6601,7 +6493,29 @@ namespace Continental.Project.Adam.UI
 
                 #region set Path
 
-                if (HelperApp.uiTesteSelecionado == 0 && _bCoBSelectTestSelected)
+                //if (_helperApp.AppUseSimulateLocal)
+                //{
+                //    OpenFileDialog theDialog = new OpenFileDialog();
+                //    theDialog.Title = "Open Text File";
+                //    theDialog.Filter = "TXT files|*.txt;*.tst";
+                //    theDialog.InitialDirectory = string.Concat(_initialDirPathTestFile, "texst.txt");
+
+                //    if (theDialog.ShowDialog() == DialogResult.OK)
+                //    {
+                //        fileName = theDialog.SafeFileName;
+
+                //        _prjTestFilename = theDialog.FileName;
+
+                //        HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = _prjTestFilename;
+
+                //        pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
+                //    }
+                //}
+                //else
+                //{
+                int idTest = HelperApp.uiTesteSelecionado;
+
+                if (idTest == 0 && _bCoBSelectTestSelected)
                 {
                     mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = 0;
 
@@ -6619,6 +6533,7 @@ namespace Continental.Project.Adam.UI
                         pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
                     }
                 }
+                //}
 
                 #endregion
 
@@ -6636,24 +6551,22 @@ namespace Continental.Project.Adam.UI
                     if (strArray.Length > 1)
                     {
                         HelperApp.uiTesteSelecionado = Convert.ToInt32(strArray[1]);
-                        HelperTestBase.ProjectTestConcluded.TestDateTime = string.IsNullOrWhiteSpace(HelperTestBase.ProjectTestConcluded.TestDateTime) ? strArray[0].ToString() : HelperTestBase.ProjectTestConcluded.TestDateTime;
-                        HelperTestBase.ProjectTestConcluded.Project.TestingDate = string.IsNullOrWhiteSpace(HelperTestBase.ProjectTestConcluded.Project.TestingDate) ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : HelperTestBase.ProjectTestConcluded.TestDateTime;
-                        HelperTestBase.ProjectTestConcluded.Project.Identification = string.IsNullOrWhiteSpace(HelperTestBase.ProjectTestConcluded.Project.Identification) ? strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty) : HelperTestBase.ProjectTestConcluded.Project.Identification;
+                        HelperTestBase.ProjectTestConcluded.TestDateTime = strArray[0].ToString();
+                        HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.TestDateTime;
+                        HelperTestBase.ProjectTestConcluded.Project.Identification = strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
                     }
 
                     lstStrChReadFileArr = _helperApp.ReadTXTFileHBM(fileName, pathWithFileName);
 
-                    if (lstStrChReadFileArr[0]?.Count() > 0)
+                    if (lstStrChReadFileArr[0].Count() > 0)
                     {
-                        _bRunTestExecuted = true;
-
                         lstDblChReadFileArr = _helperApp.lstDblReturnReadFile;
 
                         #region CALC TEST
 
-                        bool bReturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
+                        bool breturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
 
-                        if (!bReturnCalcStep)
+                        if (!breturnCalcStep)
                         {
                             string strMsg = "Failed, calc step test -  not calculated !";
 
@@ -6669,8 +6582,6 @@ namespace Continental.Project.Adam.UI
 
                         if (!_modelGVL.GVL_Graficos.bDadosCalculados)
                         {
-                            TAB_Disable();
-
                             string strMsg = "Failed, test information not calculated !";
 
                             LOG_TestSequence(strMsg);
@@ -6682,7 +6593,7 @@ namespace Continental.Project.Adam.UI
                         {
                             LOG_TestSequence("TESTE CALC CONCLUDED");
 
-                            if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
+                            if (!TAB_TableResult_SetData())
                                 MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else
                             {
@@ -6690,7 +6601,8 @@ namespace Continental.Project.Adam.UI
                                     MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
 
-                            TAB_Enable();
+                            tab_ChartEnable = true;
+                            tab_TableResultsEnable = true;
 
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
@@ -6702,9 +6614,7 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        TAB_Disable();
-
-                        MessageBox.Show("Failed lstStrChReadFileArr[0]?.Count() , reloading project in TXTFileHBM_LoadDataConcluded !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
                 }
@@ -6712,17 +6622,13 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                TAB_Disable();
-
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
 
                 throw;
             }
 
-            _bPrjTestOffLineCarregado = true;
-
-            return _bPrjTestOffLineCarregado;
+            return true;
         }
         #endregion
 
@@ -6733,15 +6639,15 @@ namespace Continental.Project.Adam.UI
             {
                 #region Header Name File Test
 
-                string strHeader = _helperApp.AppTests_DefaultNameHeader;
-                string strUnion = _helperApp.AppTests_DefaultNameUnion;
+                string strHeader = "HBM_AquisitionHeader";
+                string strUnion = "HBM_AquisitionUnion";
 
                 _prjTestFilename = !string.IsNullOrEmpty(_prjTestFilename) ? _prjTestFilename : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
 
                 string strFileName = _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
-                string strHeaderTestFilename = string.Concat(strFileName.Replace(_helperApp.AppTests_DefaultNameData, string.Empty), strHeader, _helperApp.AppTests_DefaultExtension);
-                string strTestFilenameUnion = string.Concat(strFileName.Replace(_helperApp.AppTests_DefaultNameData, string.Empty), strUnion, _helperApp.AppTests_DefaultExtension);
+                string strHeaderTestFilename = string.Concat(strFileName.Replace("HBM_SaveAquisitionTxtData", string.Empty), strHeader, _helperApp.AppTests_DefaultExtension);
+                string strTestFilenameUnion = string.Concat(strFileName.Replace("HBM_SaveAquisitionTxtData", string.Empty), strUnion, _helperApp.AppTests_DefaultExtension);
 
                 _prjTestHeaderFilename = Path.Combine(_initialDirPathTestFile, strHeaderTestFilename);
                 _prjTestFilenameUnion = Path.Combine(_initialDirPathTestFile, strTestFilenameUnion);
@@ -6752,9 +6658,8 @@ namespace Continental.Project.Adam.UI
                 {
                     if (!_helperApp.CheckFileExists(_prjTestHeaderFilename))
                     {
-                        lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
 
-                        HelperApp.lstEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+                        lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
 
                         _helperApp.TXTFileHBM_HeaderAppendDataProjectParameters(HelperApp.uiTesteSelecionado, model_GVL);
 
@@ -6826,7 +6731,7 @@ namespace Continental.Project.Adam.UI
 
                 string testTypeName = HelperApp.uiTesteSelecionado == 0 ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperTestBase.eExamType.ToString()).ToString() : EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString();
 
-                string testIdentName = _helperApp.AppTests_DefaultNameData;
+                string testIdentName = "HBM_SaveAquisitionTxtData";
 
                 string prjTestFilename = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension);
 
@@ -6834,7 +6739,7 @@ namespace Continental.Project.Adam.UI
 
                 #endregion
 
-                #region Write File Test
+                #region WRite File Test
 
                 try
                 {
@@ -7033,10 +6938,9 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                CHART_Clear(devChart);
-
                 if (_modelGVL.GVL_Graficos.arrVarX.Count() != 1000000)
                 {
+
                     int outputChecked = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : rad_EvaluationParameters_CBOutputSC.Checked ? 2 : 0;
 
                     _modelGVL.GVL_Parametros.iOutput = outputChecked > 0 ? outputChecked : HelperTestBase.Model_GVL.GVL_Parametros.iOutput;
@@ -7045,6 +6949,7 @@ namespace Continental.Project.Adam.UI
 
                     HelperTestBase.Model_GVL = _modelGVL;
 
+                    //ChartLoadData(HelperTestBase.Model_GVL.GVL_Graficos, lstDblChReadFileArr);
                     bool bCreateChart = CHART_BinddDataConfig(HelperTestBase.Model_GVL.GVL_Graficos, lstDblChReadFileArr);
 
                     if (!bCreateChart)
@@ -7085,20 +6990,19 @@ namespace Continental.Project.Adam.UI
             try
             {
                 #region Variable
+                List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
-                if (!HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
-                {
-                    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                        _helperApp.GVL_Graficos = HelperTestBase.Model_GVL.GVL_Graficos;
-                }
-                else
-                {
-                    List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+                //int outputChecked = rad_EvaluationParameters_CBOutputPC.Checked ? 1 : rad_EvaluationParameters_CBOutputSC.Checked ? 2 : 0;
 
-                    _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput, lstInfoEvaluationParameters);
+                //_modelGVL.GVL_Parametros.iOutput = outputChecked > 0 ? outputChecked : modelChartGVL.iOutput;
 
-                    HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.GVL_Graficos;
-                }
+                //_modelGVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
+
+                //HelperTestBase.Model_GVL = _modelGVL;
+
+                _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput, lstInfoEvaluationParameters);
+
+                HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.GVL_Graficos;
 
                 modelChartGVL = HelperTestBase.Model_GVL.GVL_Graficos;
 
@@ -7110,6 +7014,7 @@ namespace Continental.Project.Adam.UI
 
                 if (devChart.Series.Count > 0)
                     CHART_Clear(devChart);
+
 
                 if (!CHART_CreateSerie(modelChartGVL, lstDblChReadFileArr))
                 {
@@ -7168,6 +7073,7 @@ namespace Continental.Project.Adam.UI
 
                             diagram.AxisX.GridSpacingAuto = false;
 
+                            //lmr
                             if (chartGVL.EixoX.rMax > 0)
                                 diagram.AxisX.NumericScaleOptions.GridSpacing = chartGVL.EixoX.rMax / 10;
 
@@ -7176,6 +7082,7 @@ namespace Continental.Project.Adam.UI
 
                             if (chartGVL.EixoX.rMax == 0)
                                 diagram.AxisX.NumericScaleOptions.GridSpacing = 1;
+                            //lmr
 
                             //diagram.AxisX.GridSpacing = 1;
 
@@ -7316,6 +7223,7 @@ namespace Continental.Project.Adam.UI
                                     EixoY2.WholeRange.SideMarginsValue = 0;
                                     EixoY2.MinorCount = 1;
 
+                                    //lmr
                                     if (chartGVL.EixoY2.rMax > 0)
                                         EixoY2.NumericScaleOptions.GridSpacing = chartGVL.EixoY2.rMax / 10;
 
@@ -7324,6 +7232,8 @@ namespace Continental.Project.Adam.UI
 
                                     if (chartGVL.EixoY2.rMax == 0)
                                         EixoY2.NumericScaleOptions.GridSpacing = 1;
+                                    //lmr
+
                                 }
 
                                 #endregion
@@ -7345,6 +7255,9 @@ namespace Continental.Project.Adam.UI
                                     //// Create two secondary axes, and add them to the chart's Diagram.
                                     SecondaryAxisY EixoY3 = new SecondaryAxisY(chartGVL.strNomeEixoY3);
                                     diagram.SecondaryAxesY.Add(EixoY3);
+
+
+
 
                                     //// Assign the series3 to the created axes.
                                     ((LineSeriesView)serieY3.View).AxisY = EixoY3;
@@ -7418,6 +7331,7 @@ namespace Continental.Project.Adam.UI
                                     EixoY4.WholeRange.SideMarginsValue = 0;
                                     EixoY4.MinorCount = 1;
 
+                                    //lmr
                                     if (chartGVL.EixoY4.rMax > 0)
                                         EixoY4.NumericScaleOptions.GridSpacing = chartGVL.EixoY4.rMax / 10;
 
@@ -7426,55 +7340,7 @@ namespace Continental.Project.Adam.UI
 
                                     if (chartGVL.EixoY4.rMax == 0)
                                         EixoY4.NumericScaleOptions.GridSpacing = 1;
-                                }
-
-                                #endregion
-
-                                #region Y05
-
-                                if (!chartGVL.bOcultaY5)
-                                {
-                                    Series serieY5 = devChart.Series[8];
-                                    Series seriePontosChart = devChart.Series[9];
-
-                                    if (serieY5 == null) return false;
-
-                                    setColor = serieY5.View.Color;
-
-                                    //// Create two secondary axes, and add them to the chart's Diagram.
-                                    SecondaryAxisY EixoY5 = new SecondaryAxisY(chartGVL.strNomeEixoY5);
-                                    diagram.SecondaryAxesY.Add(EixoY5);
-
-                                    //// Assign the series4 to the created axes.
-                                    ((LineSeriesView)serieY5.View).AxisY = EixoY5;
-                                    ((PointSeriesView)seriePontosChart.View).AxisY = EixoY5;
-
-                                    EixoY5.Title.Text = chartGVL.strNomeEixoY5;
-                                    EixoY5.Title.Visibility = DevExpress.Utils.DefaultBoolean.True;
-                                    EixoY5.Title.TextColor = setColor;
-                                    EixoY5.Label.TextColor = setColor;
-                                    EixoY5.Alignment = AxisAlignment.Near;
-                                    EixoY5.Color = setColor;
-
-                                    EixoY5.VisualRange.Auto = false;
-                                    EixoY5.GridSpacingAuto = false;
-
-                                    EixoY5.Range.MinValue = chartGVL.EixoY5.rMin;
-                                    EixoY5.Range.MaxValue = chartGVL.EixoY5.rMax;
-                                    EixoY5.VisualRange.MinValue = chartGVL.EixoY5.rMin;
-                                    EixoY5.VisualRange.MaxValue = chartGVL.EixoY5.rMax;
-                                    //Propriedade que elimina as "bordas" para fazer o eixo iniciar exatamente na escala definida
-                                    EixoY5.WholeRange.SideMarginsValue = 0;
-                                    EixoY5.MinorCount = 1;
-
-                                    if (chartGVL.EixoY5.rMax > 0)
-                                        EixoY5.NumericScaleOptions.GridSpacing = chartGVL.EixoY5.rMax / 10;
-
-                                    if (chartGVL.EixoY5.rMax < 0)
-                                        EixoY5.NumericScaleOptions.GridSpacing = (chartGVL.EixoY5.rMax * -1) / 10;
-
-                                    if (chartGVL.EixoY5.rMax == 0)
-                                        EixoY5.NumericScaleOptions.GridSpacing = 1;
+                                    //lmr 
 
                                 }
 
@@ -7602,9 +7468,8 @@ namespace Continental.Project.Adam.UI
                 List<double> lstAnalogCh08_PneumTestPressure = lstDblChReadFileArr[8];  //ch9.8 - HelperHBM._rPneumTestPressure - Pressao Teste Bolhas 0-1 bar(Linearizada)
                 List<double> lstAnalogCh09_HydrFillPressure = lstDblChReadFileArr[9];   //ch9.9 - HelperHBM._rHydrFillPressure - Pressao Sangria 0-6 bar (Linearizada)
                 List<double> lstAnalogCh10_Vacuum = lstDblChReadFileArr[10];            //ch9.10 - HelperHBM._rVacuum - Pressao Linha Vacuo (-1)-0 bar (Linearizada)
-                List<double> lstAnalogCh11_Velocity = lstDblChReadFileArr[11];          //ch9.11 - RESERVA
-                List<double> lstAnalogCh12_Power = lstDblChReadFileArr[12];             //ch9.12 - RESERVA
-
+                List<double> lstAnalogCh11_Reserv = lstDblChReadFileArr[11];            //ch9.11 - RESERVA
+                List<double> lstAnalogCh12_Reserv = lstDblChReadFileArr[12];            //ch9.12 - RESERVA
 
                 int totalPointsCount = lstDblChReadFileArr[0].Count(); //70000
 
@@ -7639,10 +7504,6 @@ namespace Continental.Project.Adam.UI
                     series4.ArgumentScaleType = ScaleType.Numerical;
                     series4.View.Color = Color.Magenta;
 
-                    Series series5 = new Series(modelChartGVL.strNomeEixoY5, ViewType.ScatterLine);
-                    series5.ArgumentScaleType = ScaleType.Numerical;
-                    series5.View.Color = Color.DarkGray;
-
                     #endregion
 
                     #region  Serie Inclusao de Pontos de Interesse
@@ -7653,7 +7514,7 @@ namespace Continental.Project.Adam.UI
                     PointSeriesView PontosChartView1 = (PointSeriesView)PontosChart1.View; //Define a visualizacao da serie
                     PontosChartView1.PointMarkerOptions.Kind = MarkerKind.Cross; //Define o X
                     PontosChartView1.PointMarkerOptions.Size = 10;
-                    PontosChartView1.Color = Color.Red;
+                    PontosChartView1.Color = Color.Brown;
 
                     Series PontosChart2 = new Series("PontosInteresseY2", ViewType.Point);
                     PontosChart2.ArgumentScaleType = ScaleType.Numerical;
@@ -7661,7 +7522,7 @@ namespace Continental.Project.Adam.UI
                     PointSeriesView PontosChartView2 = (PointSeriesView)PontosChart2.View; //Define a visualizacao da serie
                     PontosChartView2.PointMarkerOptions.Kind = MarkerKind.Cross; //Define o X
                     PontosChartView2.PointMarkerOptions.Size = 10;
-                    PontosChartView2.Color = Color.Red;
+                    PontosChartView2.Color = Color.Brown;
 
                     Series PontosChart3 = new Series("PontosInteresseY3", ViewType.Point);
                     PontosChart3.ArgumentScaleType = ScaleType.Numerical;
@@ -7669,7 +7530,7 @@ namespace Continental.Project.Adam.UI
                     PointSeriesView PontosChartView3 = (PointSeriesView)PontosChart3.View; //Define a visualizacao da serie
                     PontosChartView3.PointMarkerOptions.Kind = MarkerKind.Cross; //Define o X
                     PontosChartView3.PointMarkerOptions.Size = 10;
-                    PontosChartView3.Color = Color.Red;
+                    PontosChartView3.Color = Color.Brown;
 
                     Series PontosChart4 = new Series("PontosInteresseY4", ViewType.Point);
                     PontosChart4.ArgumentScaleType = ScaleType.Numerical;
@@ -7677,15 +7538,9 @@ namespace Continental.Project.Adam.UI
                     PointSeriesView PontosChartView4 = (PointSeriesView)PontosChart4.View; //Define a visualizacao da serie
                     PontosChartView4.PointMarkerOptions.Kind = MarkerKind.Cross; //Define o X
                     PontosChartView4.PointMarkerOptions.Size = 10;
-                    PontosChartView4.Color = Color.Red;
+                    PontosChartView4.Color = Color.Brown;
 
-                    Series PontosChart5 = new Series("PontosInteresseY5", ViewType.Point);
-                    PontosChart5.ArgumentScaleType = ScaleType.Numerical;
-
-                    PointSeriesView PontosChartView5 = (PointSeriesView)PontosChart5.View; //Define a visualizacao da serie
-                    PontosChartView5.PointMarkerOptions.Kind = MarkerKind.Cross; //Define o X
-                    PontosChartView5.PointMarkerOptions.Size = 10;
-                    PontosChartView5.Color = Color.Red;
+                    //vou fazer copia.. ja fica pronto se precisar
 
                     #endregion
 
@@ -7767,15 +7622,7 @@ namespace Continental.Project.Adam.UI
                                             break;
                                         case 25:
                                             {
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForca_E1, _modelGVL.GVL_T25.rPressao_E1_Bar));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForca_E2, _modelGVL.GVL_T25.rPressao_E2_Bar));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaCutIn_N, _modelGVL.GVL_T25.rPressaoJumper_Bar));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rDualRatioSwithcPointF_N, _modelGVL.GVL_T25.rDualRatioSwithcPointP_Bar));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaAvanco_Xpout_N, _modelGVL.GVL_T25.rPressaoHysteresePout_Bar));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaRetorno_Xpout_N, _modelGVL.GVL_T25.rPressaoHysteresePout_Bar));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaAvanco_Xbar_N, _modelGVL.GVL_T25.rPressaoHysterese_Bar));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rForcaRetorno_Xbar_N, _modelGVL.GVL_T25.rPressaoHysterese_Bar));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T25.rRunOutForce_Real_N, _modelGVL.GVL_T25.rRunOutPressure_Real_Bar));
+
                                             }
                                             break;
                                         default:
@@ -7830,7 +7677,7 @@ namespace Continental.Project.Adam.UI
                                                 else
                                                     PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T02.rRunOutForce_Real_N, _modelGVL.GVL_T02.rRunOutForceOut_Real_N));
 
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T02.rForcaFOutCutIn_N, _modelGVL.GVL_T02.rForcaOutJumper_N));
+                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T02.rForcaCutIn_N, _modelGVL.GVL_T02.rForcaOutJumper_N));
                                                 PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T02.rForcaAvanco_XFout_N, _modelGVL.GVL_T02.rForcaOutHystereseFout_N));
                                                 PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T02.rForcaRetorno_XFout_N, _modelGVL.GVL_T02.rForcaOutHystereseFout_N));
                                             }
@@ -7843,13 +7690,16 @@ namespace Continental.Project.Adam.UI
                                             break;
                                         case 26:
                                             {
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rForca_E1, _modelGVL.GVL_T26.rForcaOut_E1_N));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rForca_E2, _modelGVL.GVL_T26.rForcaOut_E2_N));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rForcaFOutCutIn_N, _modelGVL.GVL_T26.rForcaFOutCutIn_N));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rDualRatioSwithcPointF_N, _modelGVL.GVL_T26.rDualRatioSwithcPointFout_N));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rForcaAvanco_XFout_N, _modelGVL.GVL_T26.rForcaOutHystereseFout_N));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rForcaRetorno_XFout_N, _modelGVL.GVL_T26.rForcaOutHystereseFout_N));
-                                                PontosChart1.Points.Add(new SeriesPoint(_modelGVL.GVL_T26.rRunOutForce_Real_N, _modelGVL.GVL_T26.rRunOutForceOut_Real_N));
+
+
+
+
+
+
+
+
+
+
                                             }
                                             break;
                                         default:
@@ -9247,7 +9097,7 @@ namespace Continental.Project.Adam.UI
                                                         break;
                                                     }
                                                 }
-
+                                                
                                                 double rPressaoXPoutRetorno = ((_modelGVL.GVL_T22.rPorcentagemCalcTempoFinalRetorno / 100) * _modelGVL.GVL_T22.rRunOutPressureRef);
 
                                                 for (i = maxPos_Force; i < lstAnalogCh07_PressurePC.Count; i++)
@@ -9287,7 +9137,7 @@ namespace Continental.Project.Adam.UI
                                                         break;
                                                     }
                                                 }
-
+                                                
                                                 break;
                                             }
                                         default:
@@ -9362,7 +9212,7 @@ namespace Continental.Project.Adam.UI
                                     #endregion
 
                                     #region  Serie Pontos de Interesse
-                                    //não existem pontos de interesse
+                                        //não existem pontos de interesse
                                     #endregion
 
                                     devChart.Series.AddRange(new Series[] { series1, PontosChart1 });
@@ -9383,120 +9233,30 @@ namespace Continental.Project.Adam.UI
                                 {
                                     #region  Serie de Valores
 
-                                    //GVL_Graficos.strNomeEixoX = "Input Force (N)";
-                                    //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
-                                    //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
-
-                                    int iPontoInicialSlow = 0;
-                                    int iPontoFinalSlow = 0;
-
-                                    int iPontoInicialFast = 0;
-                                    int iPontoFinalFast = 0;
-
-                                    int diUbound = lstAnalogCh00_Timestamp.Count;
-
-                                    double rForcaMaxSlow = 0;
-                                    int iPosForcaMaxSlow = 0;
-
-                                    double rForcaMaxFast = 0;
-                                    int iPosForcaMaxFast = 0;
-
-                                    //Encontra o ponto inicial da curva de acionamento slow 
-                                    for (i = 0; i <= diUbound; i++)
+                                    if (_modelGVL.GVL_Parametros.iTipoGrafico_T24 == 0)
                                     {
-                                        if (lstAnalogCh02_InputForce1[i] > 400) //Define o ponto de 400 N como ponto de partida da primera curva 
+                                        //GVL_Graficos.strNomeEixoX = "Input Force (N)";
+                                        //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
+                                        //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
+
+                                        for (i = 0; i <= totalPointsCount - 1; i++)
                                         {
-                                            iPontoInicialSlow = i;
-                                            break;
+                                            series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
+                                            series2.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
                                         }
                                     }
-
-                                    //Encontra o ponto final da curva de acionamento slow
-                                    for (i = iPontoInicialSlow; i <= diUbound; i++)
+                                    else
                                     {
-                                        if (lstAnalogCh02_InputForce1[i] <= 0) //Define o ponto de 50 N como ponto final da primeira curva
+                                        //GVL_Graficos.strNomeEixoX = "Time (s)";
+                                        //GVL_Graficos.strNomeEixoY1 = "Pressure PC (bar)";
+                                        //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
+
+                                        for (i = 0; i <= totalPointsCount - 1; i++)
                                         {
-                                            iPontoFinalSlow = i;
-                                            break;
+                                            series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
+                                            series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
                                         }
                                     }
-
-                                    //Encontra o ponto inicial da curva de acionamento fast
-                                    for (i = iPontoFinalSlow; i <= diUbound; i++)
-                                    {
-                                        if (lstAnalogCh02_InputForce1[i] > 50) //Define o ponto de 400 N como ponto de partida da primera curva 
-                                        {
-                                            iPontoInicialFast = i - 10000;
-                                            break;
-                                        }
-                                    }
-
-                                    //Encontra o ponto final da curva de acionamento fast
-
-                                    iPontoFinalFast = diUbound - 1;
-
-                                    for (i = 0; i <= iPontoFinalSlow; i++)
-                                    {
-                                        if (lstAnalogCh02_InputForce1[i] > rForcaMaxSlow)
-                                        {
-                                            rForcaMaxSlow = lstAnalogCh02_InputForce1[i]; //Atualiza o valor de forca maxima com o maior valor obtido no array
-                                            iPosForcaMaxSlow = i; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
-                                        }
-                                    }
-
-                                    for (i = iPontoInicialFast; i < iPontoFinalFast; i++)
-                                    {
-                                        if (lstAnalogCh02_InputForce1[i] > rForcaMaxFast)
-                                        {
-                                            rForcaMaxFast = lstAnalogCh02_InputForce1[i]; //Atualiza o valor de forca maxima com o maior valor obtido no array
-                                            iPosForcaMaxFast = i; //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
-                                        }
-                                    }
-
-                                    switch (_modelGVL.GVL_T24.iTipoGrafico)
-                                    {
-                                        case 0:
-                                            {
-
-
-                                                for (i = 0; i <= iPosForcaMaxSlow; i++)
-                                                {
-                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
-                                                }
-
-                                                for (i = iPontoInicialFast; i <= iPosForcaMaxFast - 1; i++)
-                                                {
-                                                    series2.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
-                                                }
-
-                                                break;
-
-                                            }
-                                        case 1:
-                                            {
-                                                if ((iPontoFinalSlow + 10000) >= lstAnalogCh00_Timestamp.Count)
-                                                    iPontoFinalSlow = lstAnalogCh00_Timestamp.Count;
-                                                else
-                                                    iPontoFinalSlow = iPontoFinalSlow + 10000;
-
-                                                for (i = 0; i <= iPontoFinalSlow + 10000; i++)
-                                                {
-                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
-                                                }
-
-                                                break;
-                                            }
-                                        case 2:
-                                            {
-                                                for (i = iPontoInicialFast; i < lstAnalogCh00_Timestamp.Count - 1; i++)
-                                                {
-                                                    series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
-                                                }
-
-                                                break;
-                                            }
-                                    }
-
 
                                     #endregion
 
@@ -9504,21 +9264,7 @@ namespace Continental.Project.Adam.UI
 
                                     #endregion
 
-                                    switch (_modelGVL.GVL_T24.iTipoGrafico)
-                                    {
-                                        case 0:
-                                            {
-                                                devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2 });
-                                                break;
-                                            }
-                                        case 1:
-                                        case 2:
-                                            {
-                                                devChart.Series.AddRange(new Series[] { series1, PontosChart1 });
-                                                break;
-                                            }
-
-                                    }
+                                    devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2 });
                                 }
                                 catch (Exception ex)
                                 {
@@ -9534,7 +9280,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 try
                                 {
-                                    if (_modelGVL.GVL_T27.iTipoGrafico == 0)
+                                    if (_modelGVL.GVL_Parametros.iTipoGrafico_T27 == 0)
                                     {
                                         #region  Serie de Valores
 
@@ -9562,53 +9308,35 @@ namespace Continental.Project.Adam.UI
                                         //GVL_Graficos.strNomeEixoY1 = "Input Force (N)";
                                         //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
                                         //GVL_Graficos.strNomeEixoY3 = "Piston Travel (mm)";
-                                        //GVL_Graficos.strNomeEixoY4 = "Velocity (mm/s)";
-                                        //GVL_Graficos.strNomeEixoY5 = "Power (W);
-
-                                        double rDeslocamentoInicial = 0;
-                                        double rTempoInicial = 0;
-                                        int iPosDeslocamentoInicial = 0;
+                                        //GVL_Graficos.strNomeEixoY4 = "Diff. Travel (mm)";
 
                                         for (i = 0; i <= totalPointsCount - 1; i++)
                                         {
-                                            if (lstAnalogCh05_TravelPiston[i] > 0.1)
-                                            {
-                                                rTempoInicial = lstAnalogCh00_Timestamp[i];
-                                                rDeslocamentoInicial = lstAnalogCh05_TravelPiston[i];
-                                                iPosDeslocamentoInicial = i;
-                                                break;
-                                            }
-                                        }
-
-
-
-
-
-                                        for (i = iPosDeslocamentoInicial; i <= totalPointsCount - 1; i++)
-                                        {
-                                            //Calcula a velocidade
-                                            if (lstAnalogCh00_Timestamp[i] > 0)
-                                                lstAnalogCh11_Velocity[i] = (lstAnalogCh05_TravelPiston[i] - rDeslocamentoInicial) / (lstAnalogCh00_Timestamp[i] - rTempoInicial);
-                                            else
-                                                lstAnalogCh11_Velocity[i] = 0;
-
-                                            //Calcula a potencia
-                                            lstAnalogCh12_Power[i] = ((lstAnalogCh11_Velocity[i] / 1000) * lstAnalogCh02_InputForce1[i]);
-
-                                            series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh02_InputForce1[i]));
-                                            series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh07_PressurePC[i]));
-                                            series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh05_TravelPiston[i]));
-                                            series4.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh11_Velocity[i]));
-                                            series5.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh12_Power[i]));
+                                            series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh02_InputForce1[i]));
+                                            series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
+                                            series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh05_TravelPiston[i]));
+                                            series4.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh01_DiffTravel[i]));
                                         }
 
                                         #endregion
 
                                         #region  Serie Pontos de Interesse
 
+
+
+
+
+
+
+
+
+
+
+
+
                                         #endregion
 
-                                        devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2, series3, PontosChart3, series4, PontosChart4, series5, PontosChart5 });
+                                        devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2, series3, PontosChart3, series4, PontosChart4 });
                                     }
                                 }
                                 catch (Exception ex)
@@ -9625,7 +9353,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 try
                                 {
-                                    if (_modelGVL.GVL_T28.iTipoGrafico == 0)
+                                    if (_modelGVL.GVL_Parametros.iTipoGrafico_T28 == 0)
                                     {
                                         #region  Serie de Valores
 
@@ -9634,7 +9362,7 @@ namespace Continental.Project.Adam.UI
 
                                         for (i = 0; i <= totalPointsCount - 1; i++)
                                         {
-                                            series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh03_OutputForce[i]));
+                                            series1.Points.Add(new SeriesPoint(lstAnalogCh02_InputForce1[i], lstAnalogCh07_PressurePC[i]));
                                         }
 
                                         #endregion
@@ -9651,56 +9379,73 @@ namespace Continental.Project.Adam.UI
 
                                         //GVL_Graficos.strNomeEixoX = "Time (s)";
                                         //GVL_Graficos.strNomeEixoY1 = "Input Force (N)";
-                                        //GVL_Graficos.strNomeEixoY2 = "Output Force (N)";
+                                        //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
                                         //GVL_Graficos.strNomeEixoY3 = "Piston Travel (mm)";
-                                        //GVL_Graficos.strNomeEixoY4 = "Velocity (mm/s)";
-                                        //GVL_Graficos.strNomeEixoY5 = "Power (W);
-
-                                        double rDeslocamentoInicial = 0;
-                                        double rTempoInicial = 0;
-                                        int iPosDeslocamentoInicial = 0;
+                                        //GVL_Graficos.strNomeEixoY4 = "Diff. Travel (mm)";
 
                                         for (i = 0; i <= totalPointsCount - 1; i++)
                                         {
-                                            if (lstAnalogCh05_TravelPiston[i] > 0.1)
-                                            {
-                                                rTempoInicial = lstAnalogCh00_Timestamp[i];
-                                                rDeslocamentoInicial = lstAnalogCh05_TravelPiston[i];
-                                                iPosDeslocamentoInicial = i;
-                                                break;
-                                            }
-                                        }
-
-
-
-
-
-                                        for (i = iPosDeslocamentoInicial; i <= totalPointsCount - 1; i++)
-                                        {
-                                            //Calcula a velocidade
-                                            if (lstAnalogCh00_Timestamp[i] > 0)
-                                                lstAnalogCh11_Velocity[i] = (lstAnalogCh05_TravelPiston[i] - rDeslocamentoInicial) / (lstAnalogCh00_Timestamp[i] - rTempoInicial);
-                                            else
-                                                lstAnalogCh11_Velocity[i] = 0;
-
-                                            //Calcula a potencia
-                                            lstAnalogCh12_Power[i] = ((lstAnalogCh11_Velocity[i] / 1000) * lstAnalogCh02_InputForce1[i]);
-
-                                            series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh02_InputForce1[i]));
-                                            series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh03_OutputForce[i]));
-                                            series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh05_TravelPiston[i]));
-                                            series4.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh11_Velocity[i]));
-                                            series5.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i] - rTempoInicial, lstAnalogCh12_Power[i]));
+                                            series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh02_InputForce1[i]));
+                                            series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
+                                            series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh05_TravelPiston[i]));
+                                            series4.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh01_DiffTravel[i]));
                                         }
 
                                         #endregion
 
                                         #region  Serie Pontos de Interesse
 
+
+
+
+
+
+
+
+
+
+
+
                                         #endregion
 
-                                        devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2, series3, PontosChart3, series4, PontosChart4, series5, PontosChart5 });
+                                        devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2, series3, PontosChart3, series4, PontosChart4 });
                                     }
+                                }
+                                catch (Exception ex)
+                                {
+                                    var err = i;
+                                    bCharSeriesOK = false;
+
+                                    MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    throw;
+                                }
+                            }
+                            break;
+                        case 29:    //Bleed
+                            {
+                                try
+                                {
+                                    #region  Serie de Valores
+
+                                    //GVL_Graficos.strNomeEixoX = "Time (s)";
+                                    //GVL_Graficos.strNomeEixoY1 = "Input Force (N)";
+                                    //GVL_Graficos.strNomeEixoY2 = "Pressure PC (bar)";
+                                    //GVL_Graficos.strNomeEixoY3 = "Pressure SC (bar)";
+
+                                    for (i = 0; i <= totalPointsCount - 1; i++)
+                                    {
+                                        series1.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh02_InputForce1[i]));
+                                        series2.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh07_PressurePC[i]));
+                                        series3.Points.Add(new SeriesPoint(lstAnalogCh00_Timestamp[i], lstAnalogCh06_PressureSC[i]));
+                                    }
+
+                                    #endregion
+
+                                    #region  Serie Pontos de Interesse
+
+                                    #endregion
+
+                                    devChart.Series.AddRange(new Series[] { series1, PontosChart1, series2, PontosChart2, series3, PontosChart3 });
                                 }
                                 catch (Exception ex)
                                 {
@@ -10230,219 +9975,213 @@ namespace Continental.Project.Adam.UI
         }
         private void HBM_SaveAquisitionTxtData()
         {
-            try
+            _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
+
+            LOG_TestSequence("Evento - HBM_ReadValues");
+
+            String path = @"D:\HBM_SaveAquisitionTxtData.txt";
+            List<string> lstStr = new List<string>();
+            string formTimestamp = string.Empty;
+
+            List<double> lstTms = new List<double>();
+            List<double> lstVal = new List<double>();
+
+            List<string> lstStrCh = new List<string>();
+            List<string> lstStrTimestamp = new List<string>();
+            List<double> lstTmsCh = new List<double>();
+            List<double>[] lstCh = new List<double>[12];
+
+            int iUpdatedValueCount = 0;
+            int k = 0;
+            int i = 0;
+            int j = 0;
+
+            string strLinha = string.Empty;
+
+            if (_helperHBM.PreparedContinuousMeasurement && _helperHBM.Status)
             {
-                _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
+                _myDevice = _comHBM._myDevice;
+                _daqMeasurement = _comHBM._daqMeasurement;
+                _signalsToMeasure = _comHBM._signalsToMeasure;
+                _daqEnvironment = _comHBM._daqEnvironment;
 
-                LOG_TestSequence("Evento - HBM_ReadValues");
-
-                //String path = string.Concat(@"D:\", _helperApp.AppTests_DefaultNameData,".txt");
-                List<string> lstStr = new List<string>();
-                string formTimestamp = string.Empty;
-
-                List<double> lstTms = new List<double>();
-                List<double> lstVal = new List<double>();
-
-                List<string> lstStrCh = new List<string>();
-                List<string> lstStrTimestamp = new List<string>();
-                List<double> lstTmsCh = new List<double>();
-                List<double>[] lstCh = new List<double>[12];
-
-                int iUpdatedValueCount = 0;
-                int k = 0;
-                int i = 0;
-                int j = 0;
-
-                string strLinha = string.Empty;
-
-                if (_helperHBM.PreparedContinuousMeasurement && _helperHBM.Status)
+                try
                 {
-                    _myDevice = _comHBM._myDevice;
-                    _daqMeasurement = _comHBM._daqMeasurement;
-                    _signalsToMeasure = _comHBM._signalsToMeasure;
-                    _daqEnvironment = _comHBM._daqEnvironment;
+                    if (!_runMeasurement)
+                    {
+                        // add the chosen signals to the measurement
+                        _daqMeasurement.AddSignals(_myDevice, _signalsToMeasure);
+
+                        _daqMeasurement.PrepareDaq(5000, 10, 1000, false, false);
+
+                        // run continuous measurement with the signals that were added to the measurement
+                        // if (_signalsToMeasure.Count > 0)
+                        _daqMeasurement.StartDaq(DataAcquisitionMode.TimestampSynchronized); //DataAcquisitionMode.Unsynchronized
+
+                        _runMeasurement = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, ex.ToString());
+                }
+
+                //try
+                //{
+                if (_runMeasurement)
+                {
+                    // update measurement values of the signals that were added to the measurement:
+                    _daqMeasurement.FillMeasurementValues();
+
+                    // FillMeasurements updates the ContinuousMeasurementValues of all signals that
+                    // were added to the measurement
+                    // The next call of FillMeasurementValues will overwrite them again with new values....
+
+                    // check the signals that were added to the measurement for new measurement values...
+                    //foreach (Signal signal in _signalsToMeasure)
+                    //{
+                    for (k = 0; k < _signalsToMeasure.Count; k++)
+                    {
+                        try
+                        {
+                            signal = _signalsToMeasure[k];
+
+                            // this is the way you get the measurement values (as doubles) from ALL signals (no matter what type of signal)
+                            // that take part in the measurement (check Signal.ContinuousMeasurementValues)
+                            if (signal.ContinuousMeasurementValues.UpdatedValueCount > 0)
+                            {
+                                //AddToProtocol("-------------------------");
+
+                                //var data = string.Format("CH {0} has {1} new measurement values",
+                                //                            signal.Name,
+                                //                            signal.ContinuousMeasurementValues.UpdatedValueCount //Number of new measurement values filled into Values[0..n]
+                                //                            );
+
+                                //AddToProtocol(data);       //this is an array of doubles containing the measurement values
+
+                                //// have a look at the continuousMeasurementValues in the property grid (see tab "MeasurementValues...") during execution
+                                //MeasurmentValuesPg.SelectedObject = signal.ContinuousMeasurementValues;
+
+                                formTimestamp = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss.ffff",
+                                        CultureInfo.InvariantCulture);
+
+                                string nms = signal.Name;
+
+
+                                lstStrTimestamp.Clear();
+                                lstTms.Clear();
+                                lstVal.Clear();
+                                lstTmsCh.Clear();
+
+                                iUpdatedValueCount = signal.ContinuousMeasurementValues.UpdatedValueCount;
+                                lstTms = signal.ContinuousMeasurementValues.Timestamps.ToList();
+                                lstVal = signal.ContinuousMeasurementValues.Values.ToList();
+
+
+                                lstCh[k] = new List<double>();
+
+                                for (i = 1; i < iUpdatedValueCount - 1; i++)
+                                {
+                                    lstCh[k].Add(Math.Round(lstVal[i], 3));
+                                    lstTmsCh.Add(Math.Round(lstTms[i], 5));
+                                    //lstStrTimestamp.Add(formTimestamp);
+
+                                    //lstTmsCh.Add(Math.Round(lstTms[i],4));
+                                }
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            var abc = k;
+                            MessageBox.Show(ex.Message, _helperApp.appMsg_Error);
+                        }
+                    }
+
+                    int idx = 0;
 
                     try
                     {
-                        if (!_runMeasurement)
+                        lstStrCh.Clear();
+                        //lstTmsCh.Clear();
+
+                        //lstTmsCh = lstTms;
+
+                        if (lstCh[0].Count() < iUpdatedValueCount)
+                            iUpdatedValueCount = lstCh[0].Count() - 1;
+
+                        try
                         {
-                            // add the chosen signals to the measurement
-                            _daqMeasurement.AddSignals(_myDevice, _signalsToMeasure);
+                            for (j = 0; j < iUpdatedValueCount; j++)
+                            {
+                                idx = j;
 
-                            _daqMeasurement.PrepareDaq(5000, 10, 1000, false, false);
+                                string row = string.Empty;
 
-                            // run continuous measurement with the signals that were added to the measurement
-                            // if (_signalsToMeasure.Count > 0)
-                            _daqMeasurement.StartDaq(DataAcquisitionMode.TimestampSynchronized); //DataAcquisitionMode.Unsynchronized
+                                //row = string.Format("{0}\t\t" +
+                                //"{1}\t\t {2}\t\t {3}\t\t {4}\t\t {5}\t\t {6}\t\t " +
+                                //"{7}\t\t {8}\t\t {9}\t\t {10}\t\t {11}\t\t {12}\t\t\n ",
 
-                            _runMeasurement = true;
+                                row = string.Format("{0}\t" +
+                               "{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t" +
+                               "{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t",
+
+                               lstTmsCh[j].ToString(),
+                                lstCh[0][j].ToString(), lstCh[1][j].ToString(), lstCh[2][j].ToString(), lstCh[3][j].ToString(), lstCh[4][j].ToString(), lstCh[5][j].ToString(),
+                                lstCh[6][j].ToString(), lstCh[7][j].ToString(), lstCh[8][j].ToString(), lstCh[9][j].ToString(), lstCh[10][j].ToString(), lstCh[11][j].ToString());
+
+                                lstStrCh.Add(row + Environment.NewLine);
+
+                                if (lstStrCh.Count() > 0)
+                                    sbinterno.Append(row + Environment.NewLine);
+
+                            }
+
+                            if (lstStrCh.Count() > 0)
+                            {
+                                sbexterno.Append(sbinterno.ToString());
+                                sbinterno.Clear();
+                            }
+
+
+                            var sbMaxCap = (sbexterno.MaxCapacity * 0.1);
+
+                            if (sbexterno.Length > sbMaxCap || timerHBM.Enabled == false)
+                                TXTFileHBM_Create();
                         }
+                        catch (Exception ex)
+                        {
+                            var err = string.Concat("ex : ", idx, ex.Message);
+
+                            throw;
+                        }
+
+                        //timerHBM.Enabled = true;
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, ex.ToString());
+                        var err = string.Concat("numero : ", idx, ex.Message);
+
+                        throw;
                     }
-
-                    //try
-                    //{
-                    if (_runMeasurement)
-                    {
-                        // update measurement values of the signals that were added to the measurement:
-                        _daqMeasurement.FillMeasurementValues();
-
-                        // FillMeasurements updates the ContinuousMeasurementValues of all signals that
-                        // were added to the measurement
-                        // The next call of FillMeasurementValues will overwrite them again with new values....
-
-                        // check the signals that were added to the measurement for new measurement values...
-                        //foreach (Signal signal in _signalsToMeasure)
-                        //{
-                        for (k = 0; k < _signalsToMeasure.Count; k++)
-                        {
-                            try
-                            {
-                                signal = _signalsToMeasure[k];
-
-                                // this is the way you get the measurement values (as doubles) from ALL signals (no matter what type of signal)
-                                // that take part in the measurement (check Signal.ContinuousMeasurementValues)
-                                if (signal.ContinuousMeasurementValues.UpdatedValueCount > 0)
-                                {
-                                    //AddToProtocol("-------------------------");
-
-                                    //var data = string.Format("CH {0} has {1} new measurement values",
-                                    //                            signal.Name,
-                                    //                            signal.ContinuousMeasurementValues.UpdatedValueCount //Number of new measurement values filled into Values[0..n]
-                                    //                            );
-
-                                    //AddToProtocol(data);       //this is an array of doubles containing the measurement values
-
-                                    //// have a look at the continuousMeasurementValues in the property grid (see tab "MeasurementValues...") during execution
-                                    //MeasurmentValuesPg.SelectedObject = signal.ContinuousMeasurementValues;
-
-                                    formTimestamp = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss.ffff",
-                                            CultureInfo.InvariantCulture);
-
-                                    string nms = signal.Name;
-
-                                    lstStrTimestamp.Clear();
-                                    lstTms.Clear();
-                                    lstVal.Clear();
-                                    lstTmsCh.Clear();
-
-                                    iUpdatedValueCount = signal.ContinuousMeasurementValues.UpdatedValueCount;
-                                    lstTms = signal.ContinuousMeasurementValues.Timestamps.ToList();
-                                    lstVal = signal.ContinuousMeasurementValues.Values.ToList();
-
-                                    lstCh[k] = new List<double>();
-
-                                    if (iUpdatedValueCount > 0)
-                                    {
-                                        for (i = 1; i < iUpdatedValueCount - 1; i++)
-                                        {
-                                            lstCh[k].Add(Math.Round(lstVal[i], 3));
-                                            lstTmsCh.Add(Math.Round(lstTms[i], 5));
-                                            //lstStrTimestamp.Add(formTimestamp);					   
-                                            //lstTmsCh.Add(Math.Round(lstTms[i],4));
-                                        }
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                var abc = k;
-                                MessageBox.Show(ex.Message, _helperApp.appMsg_Error);
-                            }
-                        }
-
-                        int idx = 0;
-
-                        if (iUpdatedValueCount > 0)
-                        {
-                            try
-                            {
-                                lstStrCh.Clear();
-                                //lstTmsCh.Clear();
-
-                                //lstTmsCh = lstTms;
-
-                                if (lstCh[0].Count() < iUpdatedValueCount)
-                                    iUpdatedValueCount = lstCh[0].Count() - 1;
-
-                                try
-                                {
-                                    for (j = 0; j < iUpdatedValueCount; j++)
-                                    {
-                                        idx = j;
-
-                                        string row = string.Empty;
-
-                                        //row = string.Format("{0}\t\t" +
-                                        //"{1}\t\t {2}\t\t {3}\t\t {4}\t\t {5}\t\t {6}\t\t " +
-                                        //"{7}\t\t {8}\t\t {9}\t\t {10}\t\t {11}\t\t {12}\t\t\n ",
-
-                                        row = string.Format("{0}\t" +
-                                       "{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t" +
-                                       "{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t",
-
-                                       lstTmsCh[j].ToString(),
-                                        lstCh[0][j].ToString(), lstCh[1][j].ToString(), lstCh[2][j].ToString(), lstCh[3][j].ToString(), lstCh[4][j].ToString(), lstCh[5][j].ToString(),
-                                        lstCh[6][j].ToString(), lstCh[7][j].ToString(), lstCh[8][j].ToString(), lstCh[9][j].ToString(), lstCh[10][j].ToString(), lstCh[11][j].ToString());
-
-                                        lstStrCh.Add(row + Environment.NewLine);
-
-                                        if (lstStrCh.Count() > 0)
-                                            sbinterno.Append(row + Environment.NewLine);
-                                    }
-
-                                    if (lstStrCh.Count() > 0)
-                                    {
-                                        sbexterno.Append(sbinterno.ToString());
-                                        sbinterno.Clear();
-                                    }
-
-                                    var sbMaxCap = (sbexterno.MaxCapacity * 0.1);
-
-                                    if (sbexterno.Length > sbMaxCap || timerHBM.Enabled == false)
-                                        TXTFileHBM_Create();
-                                }
-                                catch (Exception ex)
-                                {
-                                    var err = string.Concat("ex : ", idx, ex.Message);
-
-                                    throw;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                var err = string.Concat("numero : ", idx, ex.Message);
-
-                                throw;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        timerHBM.Enabled = false;
-                    }
-                    //    }
-                    //        catch (Exception ex)
-                    //    {
-                    //        MessageBox.Show(ex.Message, ex.ToString());
-                    //        this.StopContinuousMeasurementBt.PerformClick();
-                    //    }
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    MessageBox.Show(ex.Message, ex.ToString());
-                    //    this.StopContinuousMeasurementBt.PerformClick();
-                    //}
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, _helperApp.appMsg_Error);
+                else
+                {
+                    timerHBM.Enabled = false;
+                }
+                //    }
+                //        catch (Exception ex)
+                //    {
+                //        MessageBox.Show(ex.Message, ex.ToString());
+                //        this.StopContinuousMeasurementBt.PerformClick();
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show(ex.Message, ex.ToString());
+                //    this.StopContinuousMeasurementBt.PerformClick();
+                //}
 
-                throw;
             }
         }
 
@@ -10490,7 +10229,7 @@ namespace Continental.Project.Adam.UI
                 HelperTestBase.dblAnalogVar03 = HelperHBM.rPressurePC;
                 HelperTestBase.dblAnalogVar04 = HelperHBM.rPressureSC;
 
-                _prjTestFilename = string.Concat(_initialDirPathTestFile, _helperApp.AppTests_DefaultNameData, ".txt");
+                _prjTestFilename = string.Concat(_initialDirPathTestFile, "HBM_SaveAquisitionTxtData.txt");
 
                 using (StreamWriter sw = new StreamWriter(_prjTestFilename, true, Encoding.UTF8, 65536))
                 {
@@ -10621,8 +10360,7 @@ namespace Continental.Project.Adam.UI
             lvLog.Clear();
             lst_MemoEventLog.Items.Clear();
 
-            if (HelperTestBase.ProjectTestConcluded.Project != null)
-                HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
+            HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
         }
 
         #endregion
@@ -10685,6 +10423,153 @@ namespace Continental.Project.Adam.UI
         }
 
         #endregion
+
+        #region TODO
+        //TODO
+        public void SaveCurrentMeasurement()
+        {
+            if (HelperTestBase.eExamType == eEXAMTYPE.ET_NONE)
+                MessageBox.Show("No test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                //DialogToParams(&(current_exam.base_params),
+                //                                &(current_exam.add_params));
+
+                //currentTestFile.base_params = current_exam.base_params;
+                //currentTestFile.add_params = current_exam.add_params;
+                //currentTestFile.results = current_exam.Batch()->Results();
+                //currentTestFile.graph_data = current_exam.Batch()->GraphData();
+
+                //currentTestFile.header.ExamType = current_exam.base_type;
+
+                //if (!database.SaveExam(&currentTestFile))
+                //    MessageBox.Show("Error while saving to database!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //else
+                //    MessageBox.Show("Ok!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            //if (current_exam.base_type == ET_NONE)
+            //    FormErrorMessage->ShowModal("No test selected!");
+            //else
+            //{
+            //    DialogToParams(&(current_exam.base_params),
+            //                                    &(current_exam.add_params));
+
+            //    currentTestFile.base_params = current_exam.base_params;
+            //    currentTestFile.add_params = current_exam.add_params;
+            //    currentTestFile.results = current_exam.Batch()->Results();
+            //    currentTestFile.graph_data = current_exam.Batch()->GraphData();
+
+            //    currentTestFile.header.ExamType = current_exam.base_type;
+
+            //    if (!database.SaveExam(&currentTestFile))
+            //        FormErrorMessage->ShowModal("Error while saving to database!");
+            //    else
+            //        FormOkSplash->Show();
+            //}
+        }
+        //TODO
+        public void SetNewTestProgram(eEXAMTYPE examtype, string udt_filename)
+        {
+            // pre-check
+            if (examtype == eEXAMTYPE.ET_NONE)
+                return;
+
+            //// set main information label & dropdown-list for test-selection
+            mcbo_tabActParam_GenSettings_CoBSelectTest.DataSource = null;
+            //current_exam.base_type = eEXAMTYPE.ET_NONE;
+            //current_exam.user_defined_ix = 0;
+
+            if (examtype != eEXAMTYPE.ET_USER_DEFINED)
+            {
+                //    AnsiString label = examdefs.ExamName(examtype);
+
+                //    CoBSelectTest->Items->Add(label);
+                //    CoBSelectTest->Items->Objects[0] = (TObject*)examtype;
+
+                //    current_exam.is_user_defined = false;
+
+                //    // preset with default values
+                //    current_exam.base_params = *(current_exam.batch[examtype]->DefaultBaseParams());
+
+                //    SBEvaluation->Visible = false;                  // reduce flickering
+                //    SBEvaluation->Update();
+                //    current_exam.batch[examtype]->InitPanels();     // to initialize the add_param_fifo...
+                //    SBEvaluation->Visible = true;                     // reduce flickering
+                //    current_exam.add_params.Flush();
+                //    unsigned int n_avail = current_exam.batch[examtype]->AddParams().DataAvail();
+                //    for (unsigned int add_param_ix = 0; add_param_ix < n_avail; add_param_ix++)
+                //    {
+                //        current_exam.batch[examtype]->AddParams()[add_param_ix]->value = 0.0;
+                //        current_exam.add_params.DoExpPut(current_exam.batch[examtype]->AddParams()[add_param_ix]);
+                //    }
+            }
+            else
+            {
+                //    // load test
+                //    current_exam.user_defined.Filename(udt_filename.c_str());
+
+                //    // setup all basic-tests
+                //    for (unsigned int i = 0; i < current_exam.user_defined.Params().DataAvail(); i++)
+                //    {
+                //        eEXAMTYPE et = (*(current_exam.user_defined.Params()[i]))->examtype;
+
+
+                //        AnsiString label = examdefs.ExamName(et);
+
+                //        CoBSelectTest->Items->Add(label);
+                //        CoBSelectTest->Items->Objects[i] = (TObject*)et;
+
+                //        // preset with default values
+                //        (*(current_exam.user_defined.Params()[i]))->base_params = *(current_exam.batch[et]->DefaultBaseParams());
+
+                //        SBEvaluation->Visible = false;            // reduce flickering
+                //        SBEvaluation->Update();
+                //        current_exam.batch[et]->InitPanels();       // to initialize the add_param_fifo...
+                //        SBEvaluation->Visible = true;               // reduce flickering
+                //        (*(current_exam.user_defined.Params()[i]))->add_params.Flush();
+                //        unsigned int n_avail = current_exam.batch[et]->AddParams().DataAvail();
+                //        for (unsigned int add_param_ix = 0; add_param_ix < n_avail; add_param_ix++)
+                //        {
+                //            current_exam.batch[et]->AddParams()[add_param_ix]->value = 0.0;
+                //            (*(current_exam.user_defined.Params()[i]))->add_params.DoExpPut(current_exam.batch[et]->AddParams()[add_param_ix]);
+                //        }
+                //    }
+
+                //    current_exam.is_user_defined = true;
+            }
+
+            if (mcbo_tabActParam_GenSettings_CoBSelectTest.Items.Count > 0)
+            {
+                mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = 0;
+                //    CoBSelectTestChange(0);         // simulate "selection changed"
+            }
+
+            //// update the access-status
+            //cCX_ACCESSBASE accessbase;
+            //accessbase.Refresh();
+        }
+
+        #endregion
+        private void mTile_LCurrentSelectedTest_Click(object sender, EventArgs e)
+        {
+            if (_helperApp.AppUseSimulateLocal)
+                if (!_bAppStart)
+                {
+                    HelperTestBase.ProjectTestConcluded.Project.is_OnLIne = true;
+
+                    if (TXTFileHBM_LoadData())
+                        if (TXTFileHBM_HeaderCreate(_helperApp.lstStrReturnReadFileLines, HelperTestBase.Model_GVL))
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
+                        else
+                            MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+        }
+
+        private void mbtn_BGlobalWarning_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Click OK", _helperApp.appMsg_Error);
+        }
 
         #endregion
 

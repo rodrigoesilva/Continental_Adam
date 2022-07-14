@@ -122,7 +122,7 @@ namespace Continental.Project.Adam.UI
 
                 model.Project.Identification = !string.IsNullOrEmpty(mtxt_EIdent.Text) ? mtxt_EIdent.Text.Trim() : nullValue;
                 model.Project.PartNumber = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "_|_", model.Project.Identification);
-;               model.Project.CustomerType = !string.IsNullOrEmpty(mtxt_ECustomer.Text) ? mtxt_ECustomer.Text.Trim() : nullValue;
+                ; model.Project.CustomerType = !string.IsNullOrEmpty(mtxt_ECustomer.Text) ? mtxt_ECustomer.Text.Trim() : nullValue;
                 model.Project.Booster = !string.IsNullOrEmpty(mtxt_Booster.Text) ? mtxt_Booster.Text.Trim() : nullValue;
                 model.Project.TMC = !string.IsNullOrEmpty(mtxt_Tmc.Text) ? mtxt_Tmc.Text.Trim() : nullValue;
                 model.Project.ProductionDate = !string.IsNullOrEmpty(mtxt_ProductionDate.Text) ? mtxt_ProductionDate.Text.Trim() : nullValue;
@@ -216,9 +216,11 @@ namespace Continental.Project.Adam.UI
                         if (idProjectInsert > 0)
                         {
                             HelperTestBase.ProjectTestConcluded.IdProject = idProjectInsert;
+
                             HelperApp.uiProjectSelecionado = idProjectInsert;
 
                             modelPrjTestConcluded.Project.IdProject = idProjectInsert;
+
                             HelperTestBase.ProjectTestConcluded.Project = modelPrjTestConcluded.Project;
 
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
@@ -379,7 +381,7 @@ namespace Continental.Project.Adam.UI
                                     HeaderDataToDialog(modelOperationalProjectTestConcluded.Project);
 
                                     EnableButtons();
-                                } 
+                                }
                             }
                             else
                                 selected_entry = false;
@@ -549,7 +551,7 @@ namespace Continental.Project.Adam.UI
                 if (gvModelProjectTestConcluded.IdProjectTestConcluded != 0)
                 {
                     gvModelProjectTestConcluded.Project.examtype = _helperApp.SelectedExamType(gvModelProjectTestConcluded.Project.IdProject);
-                    
+
                     strIdProjectTestConcluded = gvModelProjectTestConcluded.IdProjectTestConcluded.ToString();
 
                     if (!string.IsNullOrEmpty(strIdProjectTestConcluded))
@@ -564,7 +566,7 @@ namespace Continental.Project.Adam.UI
                         gvModelProjectTestConcluded.TestDateTime = !string.IsNullOrEmpty(gvModelProjectTestConcluded.TestDateTime) ? gvModelProjectTestConcluded.TestDateTime : gvModelProjectTestConcluded.Project.TestingDate.ToString();
                         gvModelProjectTestConcluded.TestTypeName = !string.IsNullOrEmpty(gvModelProjectTestConcluded.TestTypeName) ? gvModelProjectTestConcluded.TestTypeName : gvModelProjectTestConcluded.Project.examtype.ToString();
                         gvModelProjectTestConcluded.TestIdentName = !string.IsNullOrEmpty(gvModelProjectTestConcluded.TestIdentName) ? gvModelProjectTestConcluded.TestIdentName : gvModelProjectTestConcluded.Project.Identification.ToString();
-                        
+
                         HelperApp.uiProjectSelecionado = Convert.ToInt32(strIdProjectSelect);
                         HelperApp.uiTesteSelecionado = Convert.ToInt32(strIdTestSelect);
 
@@ -580,6 +582,12 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
 
+            if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded == 0 && HelperTestBase.ProjectTestConcluded.IdProject == 0)
+            {
+                MessageBox.Show("Error no valid IdProjectTestConcluded selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
             return gvModelProjectTestConcluded;
         }
         ///---------------------------------------------------------------------------
@@ -588,7 +596,8 @@ namespace Continental.Project.Adam.UI
 
         #region BUTTONS
 
-        private void EnableButtons() {
+        private void EnableButtons()
+        {
 
             mbtn_BDeleteTest.Enabled = true;
             mbtn_BLoadTest.Enabled = true;
@@ -606,7 +615,7 @@ namespace Continental.Project.Adam.UI
             {
                 if (selected_entry)
                 {
-                    if (HelperTestBase.ProjectTestConcluded.Project.IdProject != null)
+                    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
                     {
                         if (DialogResult.Yes == MessageBox.Show($"      You want the selected Project data  \n\n\t {HelperTestBase.ProjectTestConcluded.Project.Identification} \n\n    and all it´s measurement data ? \n\n        Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         {
@@ -656,6 +665,11 @@ namespace Continental.Project.Adam.UI
                         AvailableProject_GetInfoData();
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Error no valid Test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -679,6 +693,11 @@ namespace Continental.Project.Adam.UI
 
                         AvailableProject_GetInfoData();
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Error no valid Test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
             catch (Exception ex)
