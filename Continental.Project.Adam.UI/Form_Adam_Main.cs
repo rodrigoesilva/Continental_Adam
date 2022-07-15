@@ -467,6 +467,8 @@ namespace Continental.Project.Adam.UI
         {
             //_helperAdam.SMExportExcelClick(sender);
 
+            TXTFileHBM_HeaderUnion();
+
             MessageBox.Show("subMenu_Project_ExportExcel_Click !", _helperApp.appMsg_Name);
         }
 
@@ -1301,7 +1303,7 @@ namespace Continental.Project.Adam.UI
                         mChkBox.CheckedChanged += TAB_TableResults_CheckBoxes_CheckedChanged;
                         mChkBox.Tag = i.ToString();
                         mChkBox.Name = !string.IsNullOrEmpty(strResultParam_Name) ? strResultParam_Name : string.Concat("tab_TableResults_Chk", i);
-                        mChkBox.Text = strResultParam_Caption.Replace(".",",");
+                        mChkBox.Text = strResultParam_Caption.Replace(".", ",");
                         mChkBox.AutoSize = true;
                         mChkBox.Font = new Font("", 8.0f, FontStyle.Bold);
                         mChkBox.Location = new Point(15, (i + 3) * 23); //vertical
@@ -6624,88 +6626,96 @@ namespace Continental.Project.Adam.UI
 
                 #region load data
 
-                if (string.IsNullOrEmpty(fileName))
+                if (string.IsNullOrEmpty(fileName) || !string.IsNullOrEmpty(pathWithFileName))
                 {
-                    MessageBox.Show("Failed, error path project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed, error fileName or pathWithFileName project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
                 else
                 {
-                    string[] strArray = Regex.Replace(fileName, @"\n|\r|", "").Split(char.Parse("#"));
-
-                    if (strArray.Length > 1)
+                    if (!_helperApp.CheckFileExists(pathWithFileName))
                     {
-                        HelperApp.uiTesteSelecionado = Convert.ToInt32(strArray[1]);
-                        HelperTestBase.ProjectTestConcluded.TestDateTime = string.IsNullOrWhiteSpace(HelperTestBase.ProjectTestConcluded.TestDateTime) ? strArray[0].ToString() : HelperTestBase.ProjectTestConcluded.TestDateTime;
-                        HelperTestBase.ProjectTestConcluded.Project.TestingDate = string.IsNullOrWhiteSpace(HelperTestBase.ProjectTestConcluded.Project.TestingDate) ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : HelperTestBase.ProjectTestConcluded.TestDateTime;
-                        HelperTestBase.ProjectTestConcluded.Project.Identification = string.IsNullOrWhiteSpace(HelperTestBase.ProjectTestConcluded.Project.Identification) ? strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty) : HelperTestBase.ProjectTestConcluded.Project.Identification;
-                    }
-
-                    lstStrChReadFileArr = _helperApp.ReadTXTFileHBM(fileName, pathWithFileName);
-
-                    if (lstStrChReadFileArr[0]?.Count() > 0)
-                    {
-                        _bRunTestExecuted = true;
-
-                        lstDblChReadFileArr = _helperApp.lstDblReturnReadFile;
-
-                        #region CALC TEST
-
-                        bool bReturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
-
-                        if (!bReturnCalcStep)
-                        {
-                            string strMsg = "Failed, calc step test -  not calculated !";
-
-                            LOG_TestSequence(strMsg);
-
-                            MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
-                        else
-                            _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
-
-                        #endregion
-
-                        if (!_modelGVL.GVL_Graficos.bDadosCalculados)
-                        {
-                            TAB_Disable();
-
-                            string strMsg = "Failed, test information not calculated !";
-
-                            LOG_TestSequence(strMsg);
-
-                            MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
-                        else
-                        {
-                            LOG_TestSequence("TESTE CALC CONCLUDED");
-
-                            if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
-                                MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            else
-                            {
-                                if (!CHART_LoadActualTestComplete())
-                                    MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-
-                            TAB_Enable();
-
-                            HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
-
-                            if (_modelGVL.GVL_Graficos.bDadosCalculados)
-                                HelperTestBase.Model_GVL = _modelGVL;
-
-                            LOG_TestSequence("TESTE SEQUENCE STOP AND CONCLUDED");
-                        }
+                        MessageBox.Show("Test file TXTFileHBM_LoadDataConcluded NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
                     }
                     else
                     {
-                        TAB_Disable();
+                        string[] strArray = Regex.Replace(fileName, @"\n|\r|", "").Split(char.Parse("#"));
 
-                        MessageBox.Show("Failed lstStrChReadFileArr[0]?.Count() , reloading project in TXTFileHBM_LoadDataConcluded !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
+                        if (strArray.Length > 1)
+                        {
+                            HelperApp.uiTesteSelecionado = Convert.ToInt32(strArray[1]);
+                            HelperTestBase.ProjectTestConcluded.TestDateTime = string.IsNullOrWhiteSpace(HelperTestBase.ProjectTestConcluded.TestDateTime) ? strArray[0].ToString() : HelperTestBase.ProjectTestConcluded.TestDateTime;
+                            HelperTestBase.ProjectTestConcluded.Project.TestingDate = string.IsNullOrWhiteSpace(HelperTestBase.ProjectTestConcluded.Project.TestingDate) ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : HelperTestBase.ProjectTestConcluded.TestDateTime;
+                            HelperTestBase.ProjectTestConcluded.Project.Identification = string.IsNullOrWhiteSpace(HelperTestBase.ProjectTestConcluded.Project.Identification) ? strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty) : HelperTestBase.ProjectTestConcluded.Project.Identification;
+                        }
+                    
+                        lstStrChReadFileArr = _helperApp.ReadTXTFileHBM(fileName, pathWithFileName);
+
+                        if (lstStrChReadFileArr[0]?.Count() > 0)
+                        {
+                            _bRunTestExecuted = true;
+
+                            lstDblChReadFileArr = _helperApp.lstDblReturnReadFile;
+
+                            #region CALC TEST
+
+                            bool bReturnCalcStep = _helperApp.CalcInfoTestByStep(HelperApp.uiTesteSelecionado);
+
+                            if (!bReturnCalcStep)
+                            {
+                                string strMsg = "Failed, calc step test -  not calculated !";
+
+                                LOG_TestSequence(strMsg);
+
+                                MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return false;
+                            }
+                            else
+                                _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
+
+                            #endregion
+
+                            if (!_modelGVL.GVL_Graficos.bDadosCalculados)
+                            {
+                                TAB_Disable();
+
+                                string strMsg = "Failed, test information not calculated !";
+
+                                LOG_TestSequence(strMsg);
+
+                                MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return false;
+                            }
+                            else
+                            {
+                                LOG_TestSequence("TESTE CALC CONCLUDED");
+
+                                if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
+                                    MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                else
+                                {
+                                    if (!CHART_LoadActualTestComplete())
+                                        MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+
+                                TAB_Enable();
+
+                                HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+
+                                if (_modelGVL.GVL_Graficos.bDadosCalculados)
+                                    HelperTestBase.Model_GVL = _modelGVL;
+
+                                LOG_TestSequence("TESTE SEQUENCE STOP AND CONCLUDED");
+                            }
+                        }
+                        else
+                        {
+                            TAB_Disable();
+
+                            MessageBox.Show("Failed lstStrChReadFileArr[0]?.Count() , reloading project in TXTFileHBM_LoadDataConcluded !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
                     }
                 }
                 #endregion
@@ -6734,19 +6744,18 @@ namespace Continental.Project.Adam.UI
                 #region Header Name File Test
 
                 string strHeader = _helperApp.AppTests_DefaultNameHeader;
-                string strUnion = _helperApp.AppTests_DefaultNameUnion;
 
                 _prjTestFilename = !string.IsNullOrEmpty(_prjTestFilename) ? _prjTestFilename : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
 
                 string strFileName = _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
                 string strHeaderTestFilename = string.Concat(strFileName.Replace(_helperApp.AppTests_DefaultNameData, string.Empty), strHeader, _helperApp.AppTests_DefaultExtension);
-                string strTestFilenameUnion = string.Concat(strFileName.Replace(_helperApp.AppTests_DefaultNameData, string.Empty), strUnion, _helperApp.AppTests_DefaultExtension);
 
                 _prjTestHeaderFilename = Path.Combine(_initialDirPathTestFile, strHeaderTestFilename);
-                _prjTestFilenameUnion = Path.Combine(_initialDirPathTestFile, strTestFilenameUnion);
 
                 #endregion
+
+                #region Write Union File Test
 
                 if (_helperApp.CheckFileExists(_prjTestFilename))
                 {
@@ -6754,29 +6763,25 @@ namespace Continental.Project.Adam.UI
                     {
                         lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
 
+                        ////Get Info Grid Param
                         HelperApp.lstEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
+                        ////Get Info Header Param
                         _helperApp.TXTFileHBM_HeaderAppendDataProjectParameters(HelperApp.uiTesteSelecionado, model_GVL);
 
                         if (!string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
                         {
                             var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
 
+                            ////Get Info Header Table Result
                             _helperApp.TXTFileHBM_HeaderAppendTableResults(HelperApp.uiTesteSelecionado).ToString();
 
+                            ////Insert Curve Names
                             string strSbHeaderResults_CurverNames = String.Concat(HelperTestBase.sbHeaderResultsAppendTxtData, Environment.NewLine);
 
-                            var strUnionHeader = string.Concat(strSbHeader, strSbHeaderResults_CurverNames);
+                            var strCurverNamesHeader = string.Concat(strSbHeader, strSbHeaderResults_CurverNames);
 
-                            File.WriteAllText(_prjTestHeaderFilename, strUnionHeader);
-
-                            ////Create File Union Acquisition
-                            if (_helperApp.CheckFileExists(_prjTestHeaderFilename))
-                            {
-                                var strUnionAll = string.Concat(strUnionHeader, sbDataFile.ToString());
-
-                                File.WriteAllText(_prjTestFilenameUnion, strUnionAll);
-                            }
+                            File.WriteAllText(_prjTestHeaderFilename, strCurverNamesHeader);
                         }
                     }
                     else
@@ -6790,7 +6795,10 @@ namespace Continental.Project.Adam.UI
                     MessageBox.Show("Test file NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
+
+                #endregion
             }
+            #region Exceptions
             catch (DirectoryNotFoundException dirNotFoundException)
             {
                 var err = string.Concat("DirectoryNotFoundException : ", dirNotFoundException.Message);
@@ -6815,91 +6823,115 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+            #endregion
 
             return true;
         }
-        public bool TXTFileHBM_HeaderInsert(List<string> lstFiledata)
+        public bool TXTFileHBM_HeaderUnion()
         {
             try
             {
-                #region Name File Test
-
-                string testTypeName = HelperApp.uiTesteSelecionado == 0 ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperTestBase.eExamType.ToString()).ToString() : EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString();
-
-                string testIdentName = _helperApp.AppTests_DefaultNameData;
-
-                string prjTestFilename = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension);
-
-                _prjTestFilename = Path.Combine(_initialDirPathTestFile, prjTestFilename);
-
-                #endregion
-
-                #region Write File Test
-
-                try
+                if (TXTFileHBM_LoadData())
                 {
-                    if (!_helperApp.CheckFileExists(_prjTestFilename))
+                    #region Name Union File Test
+
+                    string strUnion = _helperApp.AppTests_DefaultNameUnion;
+                    string strFileName = _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+
+                    string strTestFilenameUnion = string.Concat(strFileName.Replace(_helperApp.AppTests_DefaultNameData, string.Empty), strUnion, _helperApp.AppTests_DefaultExtension);
+
+                    _prjTestFilenameUnion = Path.Combine(_initialDirPathTestFile, strTestFilenameUnion);
+
+                    #endregion
+
+                    #region Write Union File Test
+
+                    if (_helperApp.CheckFileExists(_prjTestFilename))
                     {
-                        lstFiledata.ForEach(item => sbDataFile.Append(item + "\r\n"));
-
-                        // _helperApp.TXTFileHBM_HeaderAppendData(HelperApp.uiTesteSelecionado, model_GVL);
-
-                        if (!string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
+                        if (!_helperApp.CheckFileExists(_prjTestHeaderFilename))
                         {
-                            var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
+                            _helperApp.lstStrReturnReadFileLines.ForEach(item => sbDataFile.Append(item + "\r\n"));
 
-                            sbDataFile.Insert(0, strSbHeader);
+                            ////Get Info Grid Param
+                            HelperApp.lstEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
-                            string strSbHeaderResults_CurverNames = _helperApp.TXTFileHBM_HeaderAppendTableResults(HelperApp.uiTesteSelecionado).ToString();
+                            ////Get Info Header Param
+                            _helperApp.TXTFileHBM_HeaderAppendDataProjectParameters(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL);
 
-                            sbDataFile.Insert(strSbHeader.ToString().Split('\n').Length, String.Concat(strSbHeaderResults_CurverNames, Environment.NewLine));
+                            if (!string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
+                            {
+                                var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
 
-                            ////Create File Acquisition
-                            _prjTestFilename = Path.Combine(_initialDirPathTestFile, "novo.txt");
-                            File.WriteAllText(_prjTestFilename, sbDataFile.ToString());
+                                ////Get Info Header Table Result
+                                _helperApp.TXTFileHBM_HeaderAppendTableResults(HelperApp.uiTesteSelecionado).ToString();
+
+                                ////Insert Curve Names
+                                string strSbHeaderResults_CurverNames = String.Concat(HelperTestBase.sbHeaderResultsAppendTxtData, Environment.NewLine);
+
+                                var strCurverNamesHeader = string.Concat(strSbHeader, strSbHeaderResults_CurverNames);
+
+                                File.WriteAllText(_prjTestHeaderFilename, strCurverNamesHeader);
+
+                                ////Create File Union Acquisition
+                                if (_helperApp.CheckFileExists(_prjTestHeaderFilename))
+                                {
+                                    var strUnionAll = string.Concat(strCurverNamesHeader, sbDataFile.ToString());
+
+                                    File.WriteAllText(_prjTestFilenameUnion, strUnionAll);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed, Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
                         }
                     }
                     else
-                        MessageBox.Show("Failed, Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                catch (DirectoryNotFoundException dirNotFoundException)
-                {
-                    var err = string.Concat("DirectoryNotFoundException : ", dirNotFoundException.Message);
-                    MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    // Show a message to the user
-                }
-                catch (UnauthorizedAccessException unauthorizedAccessException)
-                {
-                    var err = string.Concat("UnauthorizedAccessException : ", unauthorizedAccessException.Message);
-                    MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    // Show a message to the user
-                }
-                catch (IOException ioException)
-                {
-                    var err = string.Concat("IOException : ", ioException.Message);
-                    MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    // Show a message to the user
-                }
-                catch (Exception ex)
-                {
-                    var err = string.Concat("Exception : ", ex.Message);
-                    MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                    {
+                        MessageBox.Show("Test file NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
 
-                #endregion
+                    #endregion
+                }
+                else
+                {
+                    _bRunTestExecuted = false;
+                    TAB_Disable();
+                    MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                //clean data test file
-                sbexterno.Clear();
-
-                HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = _prjTestFilename;
+                    return false;
+                }
+            }
+            #region Exceptions
+            catch (DirectoryNotFoundException dirNotFoundException)
+            {
+                var err = string.Concat("DirectoryNotFoundException : ", dirNotFoundException.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (UnauthorizedAccessException unauthorizedAccessException)
+            {
+                var err = string.Concat("UnauthorizedAccessException : ", unauthorizedAccessException.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (IOException ioException)
+            {
+                var err = string.Concat("IOException : ", ioException.Message);
+                MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
             catch (Exception ex)
             {
                 var err = string.Concat("Exception : ", ex.Message);
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
+            #endregion
 
-            return HelperTestBase.ProjectTestConcluded.Project.is_Created = _helperApp.CheckFileExists(_prjTestFilename);
+            return true;
         }
 
         #endregion

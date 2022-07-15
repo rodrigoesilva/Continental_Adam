@@ -93,6 +93,48 @@ namespace Continental.Project.Adam.UI.BLL
             }
         }
 
+        public DataTable GetChildTestsByProjectAndTestType(string idProject, string strTestTypeName)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT");
+                sb.Append(" PTC.*");
+                sb.Append(" ,PR.*");
+                sb.Append(" ,SU.[UName]");
+                sb.Append(" ,SU.[ULogin]");
+                sb.Append(" ,TA.[Test]");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestConcluded] PTC");
+                sb.Append(" INNER JOIN [Operational_Project] PR ON PR.[IdProject] = PTC.[IdProject]");
+                sb.Append(" INNER JOIN [Security_User] SU ON SU.[IdUser] = PR.[IdUserTester]");
+                sb.Append(" INNER JOIN [Manager_TestAvailable] TA ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
+                sb.Append(" WHERE");
+                sb.Append(" PR.[IdProject] = " + idProject.Trim());
+                sb.Append(" AND");
+                sb.Append(" TA.[Test]  = '" + strTestTypeName.Trim() + "'");
+                sb.Append(" ORDER BY");
+                sb.Append(" PTC.[IdProjectTestConcluded]");
+
+                string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                if (dt != null)
+                {
+                    return dt;
+                }
+                else
+                    return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetChildTestsByProject : " + ex.Message);
+                throw (ex);
+            }
+        }
+
         public DataTable GetProject_TestConcluded(string idProject, string IdTestAvailable)
         {
             try

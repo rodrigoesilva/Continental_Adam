@@ -322,8 +322,11 @@ namespace Continental.Project.Adam.UI
                         if (selected.Parent != null)
                         {
                             string idProject = selected.Tag.ToString();
+                            string strTestTypeName = selected.Text?.ToString()?.Trim();
 
-                            DataTable dt = bll_Project.GetChildTestsByProject(idProject);
+                           // DataTable dt = bll_Project.GetChildTestsByProject(idProject);
+
+                            DataTable dt = bll_Project.GetChildTestsByProjectAndTestType(idProject, strTestTypeName);
 
                             GridView_Populate(dt);
 
