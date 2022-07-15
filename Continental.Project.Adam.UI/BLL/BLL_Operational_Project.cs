@@ -146,6 +146,7 @@ namespace Continental.Project.Adam.UI.BLL
                 {
                     sb.Append(" PTC.[IdProject] as Id");
                     sb.Append(" ,TA.[Test] as Name");
+                    sb.Append(" ,TA.[IdTestAvailable]");
                 }
                 else
                 {
@@ -154,13 +155,11 @@ namespace Continental.Project.Adam.UI.BLL
                 }
                 sb.Append(" FROM");
                 sb.Append(" [Operational_Project_TestConcluded] PTC");
-                sb.Append(" INNER JOIN");
-                sb.Append(" [Manager_TestAvailable] TA");
-                sb.Append(" ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
+                sb.Append(" INNER JOIN [Manager_TestAvailable] TA ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
                 sb.Append(" WHERE");
                 sb.Append(" PTC.[IdProject] = " + idProject.Trim());
                 sb.Append(" ORDER BY");
-                sb.Append(" PTC.[IdProject]");
+                sb.Append(" TA.[IdTestAvailable]");
 
                 string sql = sb.ToString();
 
@@ -242,7 +241,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
         }
 
-        public Model_Operational_Project GetHelperProjectById(string strIdPrj)
+        public Model_Operational_Project GetHelperProjectByIdPrjTestConcluded(string strIdPrjTestConcluded)
         {
             try
             {
@@ -256,19 +255,11 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append(" ,TA.[Test]");
                 sb.Append(" FROM");
                 sb.Append(" [Operational_Project_TestConcluded] PTC");
-                sb.Append(" INNER JOIN");
-                sb.Append(" [Operational_Project] PR");
-                sb.Append(" ON PR.[IdProject] = PTC.[IdProject]");
-                sb.Append(" INNER JOIN");
-                sb.Append(" [Security_User] SU");
-                sb.Append(" ON SU.[IdUser] = PR.[IdUserTester]");
-                sb.Append(" INNER JOIN");
-                sb.Append(" [Manager_TestAvailable] TA");
-                sb.Append(" ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
+                sb.Append(" INNER JOIN [Operational_Project] PR ON PR.[IdProject] = PTC.[IdProject]");
+                sb.Append(" INNER JOIN [Security_User] SU ON SU.[IdUser] = PR.[IdUserTester]");
+                sb.Append(" INNER JOIN [Manager_TestAvailable] TA ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
                 sb.Append(" WHERE");
-                sb.Append(" PR.[IdProject] = " + strIdPrj.Trim());
-                sb.Append(" ORDER BY");
-                sb.Append(" PTC.[IdProjectTestConcluded]");
+                sb.Append(" PTC.[IdProjectTestConcluded] = " + strIdPrjTestConcluded.Trim());
 
                 string sql = sb.ToString();
 
@@ -285,7 +276,7 @@ namespace Continental.Project.Adam.UI.BLL
                                 IdProjectTestConcluded = row.Field<long>("IdProjectTestConcluded"),
                                 IdProject = row.Field<long>("IdProject"),
                                 IdTestAvailable = row.Field<long>("IdTestAvailable"),
-                                TestDateTime = row.Field<string>("TestingDate")?.ToString()?.Trim(),
+                                TestDateTime = row.Field<string>("TestDateTime")?.ToString()?.Trim(),
                                 TestTypeName = row.Field<string>("TestTypeName")?.ToString()?.Trim(),
                                 TestIdentName = row.Field<string>("TestIdentName")?.ToString()?.Trim(),
                                 TestFileName = row.Field<string>("TestFileName")?.ToString()?.Trim(),
@@ -308,6 +299,7 @@ namespace Continental.Project.Adam.UI.BLL
                                     TestAvailable = new Model_Manager_TestAvailable()
                                     {
                                         IdTestAvailable = row.Field<long>("IdTestAvailable"),
+                                        Test = row.Field<string>("Test")?.ToString()?.Trim()
                                     },
 
                                     User = new Model_SecurityUser()

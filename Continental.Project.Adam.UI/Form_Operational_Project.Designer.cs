@@ -50,18 +50,19 @@ namespace Continental.Project.Adam.UI
             this.mlbl_TO = new MetroFramework.Controls.MetroLabel();
             this.mtxt_Tester = new MetroFramework.Controls.MetroTextBox();
             this.mlbl_Tester = new MetroFramework.Controls.MetroLabel();
-            this.mtxt_EIdent = new MetroFramework.Controls.MetroTextBox();
+            this.mtxt_TestTypeName = new MetroFramework.Controls.MetroTextBox();
+            this.mtxt_Ident = new MetroFramework.Controls.MetroTextBox();
+            this.mlbl_TestTypeName = new MetroFramework.Controls.MetroLabel();
             this.mtxt_TestingDate = new MetroFramework.Controls.MetroTextBox();
             this.mlbl_Ident = new MetroFramework.Controls.MetroLabel();
             this.mlbl_CustomerType = new MetroFramework.Controls.MetroLabel();
             this.mtxt_TO = new MetroFramework.Controls.MetroTextBox();
-            this.mtxt_ECustomer = new MetroFramework.Controls.MetroTextBox();
+            this.mtxt_Customer = new MetroFramework.Controls.MetroTextBox();
             this.mtxt_ProductionDate = new MetroFramework.Controls.MetroTextBox();
             this.mtxt_Booster = new MetroFramework.Controls.MetroTextBox();
             this.mtxt_Tmc = new MetroFramework.Controls.MetroTextBox();
             this.mpnl_AvailableProjects = new MetroFramework.Controls.MetroPanel();
             this.grid_ProjectTest = new System.Windows.Forms.DataGridView();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.mTile_AvailableProjects = new MetroFramework.Controls.MetroTile();
             this.tree_Projects = new System.Windows.Forms.TreeView();
             this.ILExplorer = new System.Windows.Forms.ImageList(this.components);
@@ -222,12 +223,14 @@ namespace Continental.Project.Adam.UI
             this.mpnl_CurrentProject.Controls.Add(this.mlbl_TO);
             this.mpnl_CurrentProject.Controls.Add(this.mtxt_Tester);
             this.mpnl_CurrentProject.Controls.Add(this.mlbl_Tester);
-            this.mpnl_CurrentProject.Controls.Add(this.mtxt_EIdent);
+            this.mpnl_CurrentProject.Controls.Add(this.mtxt_TestTypeName);
+            this.mpnl_CurrentProject.Controls.Add(this.mtxt_Ident);
+            this.mpnl_CurrentProject.Controls.Add(this.mlbl_TestTypeName);
             this.mpnl_CurrentProject.Controls.Add(this.mtxt_TestingDate);
             this.mpnl_CurrentProject.Controls.Add(this.mlbl_Ident);
             this.mpnl_CurrentProject.Controls.Add(this.mlbl_CustomerType);
             this.mpnl_CurrentProject.Controls.Add(this.mtxt_TO);
-            this.mpnl_CurrentProject.Controls.Add(this.mtxt_ECustomer);
+            this.mpnl_CurrentProject.Controls.Add(this.mtxt_Customer);
             this.mpnl_CurrentProject.Controls.Add(this.mtxt_ProductionDate);
             this.mpnl_CurrentProject.Controls.Add(this.mtxt_Booster);
             this.mpnl_CurrentProject.Controls.Add(this.mtxt_Tmc);
@@ -246,7 +249,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.mlbl_TestingDate.AutoSize = true;
             this.mlbl_TestingDate.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.mlbl_TestingDate.Location = new System.Drawing.Point(5, 514);
+            this.mlbl_TestingDate.Location = new System.Drawing.Point(7, 511);
             this.mlbl_TestingDate.Name = "mlbl_TestingDate";
             this.mlbl_TestingDate.Size = new System.Drawing.Size(91, 19);
             this.mlbl_TestingDate.TabIndex = 26;
@@ -272,7 +275,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.mlbl_Booster.AutoSize = true;
             this.mlbl_Booster.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.mlbl_Booster.Location = new System.Drawing.Point(5, 227);
+            this.mlbl_Booster.Location = new System.Drawing.Point(7, 261);
             this.mlbl_Booster.Name = "mlbl_Booster";
             this.mlbl_Booster.Size = new System.Drawing.Size(73, 19);
             this.mlbl_Booster.TabIndex = 25;
@@ -282,7 +285,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.mlbl_ProductionDate.AutoSize = true;
             this.mlbl_ProductionDate.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.mlbl_ProductionDate.Location = new System.Drawing.Point(5, 343);
+            this.mlbl_ProductionDate.Location = new System.Drawing.Point(7, 361);
             this.mlbl_ProductionDate.Name = "mlbl_ProductionDate";
             this.mlbl_ProductionDate.Size = new System.Drawing.Size(118, 19);
             this.mlbl_ProductionDate.TabIndex = 23;
@@ -292,7 +295,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.mlbl_Tmc.AutoSize = true;
             this.mlbl_Tmc.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.mlbl_Tmc.Location = new System.Drawing.Point(5, 285);
+            this.mlbl_Tmc.Location = new System.Drawing.Point(7, 311);
             this.mlbl_Tmc.Name = "mlbl_Tmc";
             this.mlbl_Tmc.Size = new System.Drawing.Size(51, 19);
             this.mlbl_Tmc.TabIndex = 24;
@@ -302,7 +305,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.mlbl_TO.AutoSize = true;
             this.mlbl_TO.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.mlbl_TO.Location = new System.Drawing.Point(5, 401);
+            this.mlbl_TO.Location = new System.Drawing.Point(5, 411);
             this.mlbl_TO.Name = "mlbl_TO";
             this.mlbl_TO.Size = new System.Drawing.Size(46, 19);
             this.mlbl_TO.TabIndex = 22;
@@ -324,7 +327,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_Tester.CustomButton.Visible = false;
             this.mtxt_Tester.FontSize = MetroFramework.MetroTextBoxSize.Tall;
             this.mtxt_Tester.Lines = new string[0];
-            this.mtxt_Tester.Location = new System.Drawing.Point(138, 448);
+            this.mtxt_Tester.Location = new System.Drawing.Point(142, 450);
             this.mtxt_Tester.MaxLength = 32767;
             this.mtxt_Tester.Name = "mtxt_Tester";
             this.mtxt_Tester.PasswordChar = '\0';
@@ -343,42 +346,86 @@ namespace Continental.Project.Adam.UI
             // 
             this.mlbl_Tester.AutoSize = true;
             this.mlbl_Tester.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.mlbl_Tester.Location = new System.Drawing.Point(5, 459);
+            this.mlbl_Tester.Location = new System.Drawing.Point(5, 461);
             this.mlbl_Tester.Name = "mlbl_Tester";
             this.mlbl_Tester.Size = new System.Drawing.Size(49, 19);
             this.mlbl_Tester.TabIndex = 21;
             this.mlbl_Tester.Text = "Tester";
             // 
-            // mtxt_EIdent
+            // mtxt_TestTypeName
             // 
             // 
             // 
             // 
-            this.mtxt_EIdent.CustomButton.Image = null;
-            this.mtxt_EIdent.CustomButton.Location = new System.Drawing.Point(172, 2);
-            this.mtxt_EIdent.CustomButton.Name = "";
-            this.mtxt_EIdent.CustomButton.Size = new System.Drawing.Size(25, 25);
-            this.mtxt_EIdent.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxt_EIdent.CustomButton.TabIndex = 1;
-            this.mtxt_EIdent.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxt_EIdent.CustomButton.UseSelectable = true;
-            this.mtxt_EIdent.CustomButton.Visible = false;
-            this.mtxt_EIdent.FontSize = MetroFramework.MetroTextBoxSize.Tall;
-            this.mtxt_EIdent.Lines = new string[0];
-            this.mtxt_EIdent.Location = new System.Drawing.Point(138, 100);
-            this.mtxt_EIdent.MaxLength = 32767;
-            this.mtxt_EIdent.Name = "mtxt_EIdent";
-            this.mtxt_EIdent.PasswordChar = '\0';
-            this.mtxt_EIdent.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxt_EIdent.SelectedText = "";
-            this.mtxt_EIdent.SelectionLength = 0;
-            this.mtxt_EIdent.SelectionStart = 0;
-            this.mtxt_EIdent.ShortcutsEnabled = true;
-            this.mtxt_EIdent.Size = new System.Drawing.Size(200, 30);
-            this.mtxt_EIdent.TabIndex = 11;
-            this.mtxt_EIdent.UseSelectable = true;
-            this.mtxt_EIdent.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxt_EIdent.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mtxt_TestTypeName.CustomButton.Image = null;
+            this.mtxt_TestTypeName.CustomButton.Location = new System.Drawing.Point(307, 2);
+            this.mtxt_TestTypeName.CustomButton.Name = "";
+            this.mtxt_TestTypeName.CustomButton.Size = new System.Drawing.Size(25, 25);
+            this.mtxt_TestTypeName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mtxt_TestTypeName.CustomButton.TabIndex = 1;
+            this.mtxt_TestTypeName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mtxt_TestTypeName.CustomButton.UseSelectable = true;
+            this.mtxt_TestTypeName.CustomButton.Visible = false;
+            this.mtxt_TestTypeName.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.mtxt_TestTypeName.Lines = new string[0];
+            this.mtxt_TestTypeName.Location = new System.Drawing.Point(7, 100);
+            this.mtxt_TestTypeName.MaxLength = 32767;
+            this.mtxt_TestTypeName.Name = "mtxt_TestTypeName";
+            this.mtxt_TestTypeName.PasswordChar = '\0';
+            this.mtxt_TestTypeName.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mtxt_TestTypeName.SelectedText = "";
+            this.mtxt_TestTypeName.SelectionLength = 0;
+            this.mtxt_TestTypeName.SelectionStart = 0;
+            this.mtxt_TestTypeName.ShortcutsEnabled = true;
+            this.mtxt_TestTypeName.Size = new System.Drawing.Size(335, 30);
+            this.mtxt_TestTypeName.Style = MetroFramework.MetroColorStyle.Orange;
+            this.mtxt_TestTypeName.TabIndex = 11;
+            this.mtxt_TestTypeName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mtxt_TestTypeName.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.mtxt_TestTypeName.UseSelectable = true;
+            this.mtxt_TestTypeName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mtxt_TestTypeName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // mtxt_Ident
+            // 
+            // 
+            // 
+            // 
+            this.mtxt_Ident.CustomButton.Image = null;
+            this.mtxt_Ident.CustomButton.Location = new System.Drawing.Point(172, 2);
+            this.mtxt_Ident.CustomButton.Name = "";
+            this.mtxt_Ident.CustomButton.Size = new System.Drawing.Size(25, 25);
+            this.mtxt_Ident.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mtxt_Ident.CustomButton.TabIndex = 1;
+            this.mtxt_Ident.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mtxt_Ident.CustomButton.UseSelectable = true;
+            this.mtxt_Ident.CustomButton.Visible = false;
+            this.mtxt_Ident.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.mtxt_Ident.Lines = new string[0];
+            this.mtxt_Ident.Location = new System.Drawing.Point(142, 150);
+            this.mtxt_Ident.MaxLength = 32767;
+            this.mtxt_Ident.Name = "mtxt_Ident";
+            this.mtxt_Ident.PasswordChar = '\0';
+            this.mtxt_Ident.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mtxt_Ident.SelectedText = "";
+            this.mtxt_Ident.SelectionLength = 0;
+            this.mtxt_Ident.SelectionStart = 0;
+            this.mtxt_Ident.ShortcutsEnabled = true;
+            this.mtxt_Ident.Size = new System.Drawing.Size(200, 30);
+            this.mtxt_Ident.TabIndex = 11;
+            this.mtxt_Ident.UseSelectable = true;
+            this.mtxt_Ident.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mtxt_Ident.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // mlbl_TestTypeName
+            // 
+            this.mlbl_TestTypeName.AutoSize = true;
+            this.mlbl_TestTypeName.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.mlbl_TestTypeName.Location = new System.Drawing.Point(118, 78);
+            this.mlbl_TestTypeName.Name = "mlbl_TestTypeName";
+            this.mlbl_TestTypeName.Size = new System.Drawing.Size(115, 19);
+            this.mlbl_TestTypeName.TabIndex = 12;
+            this.mlbl_TestTypeName.Text = "Test Type Name";
             // 
             // mtxt_TestingDate
             // 
@@ -396,7 +443,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_TestingDate.CustomButton.Visible = false;
             this.mtxt_TestingDate.FontSize = MetroFramework.MetroTextBoxSize.Tall;
             this.mtxt_TestingDate.Lines = new string[0];
-            this.mtxt_TestingDate.Location = new System.Drawing.Point(138, 506);
+            this.mtxt_TestingDate.Location = new System.Drawing.Point(142, 500);
             this.mtxt_TestingDate.MaxLength = 32767;
             this.mtxt_TestingDate.Name = "mtxt_TestingDate";
             this.mtxt_TestingDate.PasswordChar = '\0';
@@ -415,7 +462,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.mlbl_Ident.AutoSize = true;
             this.mlbl_Ident.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.mlbl_Ident.Location = new System.Drawing.Point(5, 111);
+            this.mlbl_Ident.Location = new System.Drawing.Point(5, 161);
             this.mlbl_Ident.Name = "mlbl_Ident";
             this.mlbl_Ident.Size = new System.Drawing.Size(55, 19);
             this.mlbl_Ident.TabIndex = 12;
@@ -425,7 +472,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.mlbl_CustomerType.AutoSize = true;
             this.mlbl_CustomerType.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.mlbl_CustomerType.Location = new System.Drawing.Point(5, 169);
+            this.mlbl_CustomerType.Location = new System.Drawing.Point(7, 211);
             this.mlbl_CustomerType.Name = "mlbl_CustomerType";
             this.mlbl_CustomerType.Size = new System.Drawing.Size(132, 19);
             this.mlbl_CustomerType.TabIndex = 13;
@@ -447,7 +494,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_TO.CustomButton.Visible = false;
             this.mtxt_TO.FontSize = MetroFramework.MetroTextBoxSize.Tall;
             this.mtxt_TO.Lines = new string[0];
-            this.mtxt_TO.Location = new System.Drawing.Point(138, 390);
+            this.mtxt_TO.Location = new System.Drawing.Point(142, 400);
             this.mtxt_TO.MaxLength = 32767;
             this.mtxt_TO.Name = "mtxt_TO";
             this.mtxt_TO.PasswordChar = '\0';
@@ -462,36 +509,36 @@ namespace Continental.Project.Adam.UI
             this.mtxt_TO.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.mtxt_TO.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // mtxt_ECustomer
+            // mtxt_Customer
             // 
             // 
             // 
             // 
-            this.mtxt_ECustomer.CustomButton.Image = null;
-            this.mtxt_ECustomer.CustomButton.Location = new System.Drawing.Point(172, 2);
-            this.mtxt_ECustomer.CustomButton.Name = "";
-            this.mtxt_ECustomer.CustomButton.Size = new System.Drawing.Size(25, 25);
-            this.mtxt_ECustomer.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.mtxt_ECustomer.CustomButton.TabIndex = 1;
-            this.mtxt_ECustomer.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.mtxt_ECustomer.CustomButton.UseSelectable = true;
-            this.mtxt_ECustomer.CustomButton.Visible = false;
-            this.mtxt_ECustomer.FontSize = MetroFramework.MetroTextBoxSize.Tall;
-            this.mtxt_ECustomer.Lines = new string[0];
-            this.mtxt_ECustomer.Location = new System.Drawing.Point(138, 158);
-            this.mtxt_ECustomer.MaxLength = 32767;
-            this.mtxt_ECustomer.Name = "mtxt_ECustomer";
-            this.mtxt_ECustomer.PasswordChar = '\0';
-            this.mtxt_ECustomer.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.mtxt_ECustomer.SelectedText = "";
-            this.mtxt_ECustomer.SelectionLength = 0;
-            this.mtxt_ECustomer.SelectionStart = 0;
-            this.mtxt_ECustomer.ShortcutsEnabled = true;
-            this.mtxt_ECustomer.Size = new System.Drawing.Size(200, 30);
-            this.mtxt_ECustomer.TabIndex = 14;
-            this.mtxt_ECustomer.UseSelectable = true;
-            this.mtxt_ECustomer.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.mtxt_ECustomer.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.mtxt_Customer.CustomButton.Image = null;
+            this.mtxt_Customer.CustomButton.Location = new System.Drawing.Point(172, 2);
+            this.mtxt_Customer.CustomButton.Name = "";
+            this.mtxt_Customer.CustomButton.Size = new System.Drawing.Size(25, 25);
+            this.mtxt_Customer.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.mtxt_Customer.CustomButton.TabIndex = 1;
+            this.mtxt_Customer.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.mtxt_Customer.CustomButton.UseSelectable = true;
+            this.mtxt_Customer.CustomButton.Visible = false;
+            this.mtxt_Customer.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.mtxt_Customer.Lines = new string[0];
+            this.mtxt_Customer.Location = new System.Drawing.Point(142, 200);
+            this.mtxt_Customer.MaxLength = 32767;
+            this.mtxt_Customer.Name = "mtxt_Customer";
+            this.mtxt_Customer.PasswordChar = '\0';
+            this.mtxt_Customer.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.mtxt_Customer.SelectedText = "";
+            this.mtxt_Customer.SelectionLength = 0;
+            this.mtxt_Customer.SelectionStart = 0;
+            this.mtxt_Customer.ShortcutsEnabled = true;
+            this.mtxt_Customer.Size = new System.Drawing.Size(200, 30);
+            this.mtxt_Customer.TabIndex = 14;
+            this.mtxt_Customer.UseSelectable = true;
+            this.mtxt_Customer.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.mtxt_Customer.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // mtxt_ProductionDate
             // 
@@ -509,7 +556,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_ProductionDate.CustomButton.Visible = false;
             this.mtxt_ProductionDate.FontSize = MetroFramework.MetroTextBoxSize.Tall;
             this.mtxt_ProductionDate.Lines = new string[0];
-            this.mtxt_ProductionDate.Location = new System.Drawing.Point(138, 332);
+            this.mtxt_ProductionDate.Location = new System.Drawing.Point(142, 350);
             this.mtxt_ProductionDate.MaxLength = 32767;
             this.mtxt_ProductionDate.Name = "mtxt_ProductionDate";
             this.mtxt_ProductionDate.PasswordChar = '\0';
@@ -540,7 +587,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_Booster.CustomButton.Visible = false;
             this.mtxt_Booster.FontSize = MetroFramework.MetroTextBoxSize.Tall;
             this.mtxt_Booster.Lines = new string[0];
-            this.mtxt_Booster.Location = new System.Drawing.Point(138, 216);
+            this.mtxt_Booster.Location = new System.Drawing.Point(142, 250);
             this.mtxt_Booster.MaxLength = 32767;
             this.mtxt_Booster.Name = "mtxt_Booster";
             this.mtxt_Booster.PasswordChar = '\0';
@@ -571,7 +618,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_Tmc.CustomButton.Visible = false;
             this.mtxt_Tmc.FontSize = MetroFramework.MetroTextBoxSize.Tall;
             this.mtxt_Tmc.Lines = new string[0];
-            this.mtxt_Tmc.Location = new System.Drawing.Point(138, 274);
+            this.mtxt_Tmc.Location = new System.Drawing.Point(142, 300);
             this.mtxt_Tmc.MaxLength = 32767;
             this.mtxt_Tmc.Name = "mtxt_Tmc";
             this.mtxt_Tmc.PasswordChar = '\0';
@@ -589,7 +636,6 @@ namespace Continental.Project.Adam.UI
             // mpnl_AvailableProjects
             // 
             this.mpnl_AvailableProjects.Controls.Add(this.grid_ProjectTest);
-            this.mpnl_AvailableProjects.Controls.Add(this.progressBar);
             this.mpnl_AvailableProjects.Controls.Add(this.mTile_AvailableProjects);
             this.mpnl_AvailableProjects.Controls.Add(this.tree_Projects);
             this.mpnl_AvailableProjects.HorizontalScrollbarBarColor = true;
@@ -614,16 +660,9 @@ namespace Continental.Project.Adam.UI
             this.grid_ProjectTest.RowHeadersWidth = 51;
             this.grid_ProjectTest.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.grid_ProjectTest.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grid_ProjectTest.Size = new System.Drawing.Size(580, 400);
+            this.grid_ProjectTest.Size = new System.Drawing.Size(580, 436);
             this.grid_ProjectTest.TabIndex = 94;
             this.grid_ProjectTest.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grid_ProjectTest_CellMouseClick);
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(5, 514);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(937, 23);
-            this.progressBar.TabIndex = 23;
             // 
             // mTile_AvailableProjects
             // 
@@ -646,7 +685,7 @@ namespace Continental.Project.Adam.UI
             this.tree_Projects.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tree_Projects.Location = new System.Drawing.Point(5, 100);
             this.tree_Projects.Name = "tree_Projects";
-            this.tree_Projects.Size = new System.Drawing.Size(350, 400);
+            this.tree_Projects.Size = new System.Drawing.Size(350, 436);
             this.tree_Projects.TabIndex = 3;
             this.tree_Projects.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_Projects_NodeMouseClick);
             this.tree_Projects.TabIndexChanged += new System.EventHandler(this.tree_Projects_TabIndexChanged);
@@ -724,7 +763,7 @@ namespace Continental.Project.Adam.UI
         private MetroFramework.Controls.MetroLabel mlbl_Comment;
         private MetroFramework.Controls.MetroTextBox mtxt_Comment;
         private MetroFramework.Controls.MetroPanel mpnl_CurrentProject;
-        private MetroFramework.Controls.MetroTextBox mtxt_EIdent;
+        private MetroFramework.Controls.MetroTextBox mtxt_Ident;
         private MetroFramework.Controls.MetroPanel mpnl_AvailableProjects;
         private System.Windows.Forms.TreeView tree_Projects;
         private MetroFramework.Controls.MetroLabel mlbl_TestingDate;
@@ -739,16 +778,17 @@ namespace Continental.Project.Adam.UI
         private MetroFramework.Controls.MetroTextBox mtxt_ProductionDate;
         private MetroFramework.Controls.MetroTextBox mtxt_Tmc;
         private MetroFramework.Controls.MetroTextBox mtxt_Booster;
-        private MetroFramework.Controls.MetroTextBox mtxt_ECustomer;
+        private MetroFramework.Controls.MetroTextBox mtxt_Customer;
         private MetroFramework.Controls.MetroLabel mlbl_CustomerType;
         private MetroFramework.Controls.MetroLabel mlbl_Ident;
         private MetroFramework.Controls.MetroTile mTileCurrentProject;
         private MetroFramework.Controls.MetroTile mTile_AvailableProjects;
         private System.Windows.Forms.ImageList ILExplorer;
-        private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.OpenFileDialog DlgOpenFile;
         private System.Windows.Forms.SaveFileDialog DlgSaveFile;
         private System.Windows.Forms.DataGridView grid_ProjectTest;
         private MetroFramework.Controls.MetroButton mbtn_BDeleteProject;
+        private MetroFramework.Controls.MetroTextBox mtxt_TestTypeName;
+        private MetroFramework.Controls.MetroLabel mlbl_TestTypeName;
     }
 }

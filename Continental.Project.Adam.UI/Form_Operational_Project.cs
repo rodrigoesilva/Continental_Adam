@@ -4,14 +4,9 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Linq;
 using Continental.Project.Adam.UI.Models.Operational;
 using Continental.Project.Adam.UI.Enum;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using Continental.Project.Adam.UI.Models.Security;
-using Continental.Project.Adam.UI.Helper.Com;
 using Continental.Project.Adam.UI.Helper.Tests;
 using Continental.Project.Adam.UI.Models.Manager;
 
@@ -82,8 +77,9 @@ namespace Continental.Project.Adam.UI
         #region Methods
         private void CurrentProjectData_Clear()
         {
-            mtxt_EIdent.Text = string.Empty;
-            mtxt_ECustomer.Text = string.Empty;
+            mtxt_TestTypeName.Text = string.Empty;
+            mtxt_Ident.Text = string.Empty;
+            mtxt_Customer.Text = string.Empty;
             mtxt_Booster.Text = string.Empty;
             mtxt_Tmc.Text = string.Empty;
             mtxt_ProductionDate.Text = string.Empty;
@@ -93,19 +89,20 @@ namespace Continental.Project.Adam.UI
             mtxt_Comment.Text = string.Empty;
         }
         ///---------------------------------------------------------------------------
-        private void HeaderDataToDialog(Model_Operational_Project model)
+        private void HeaderDataToDialog(Model_Operational_Project_TestConcluded model)
         {
             try
             {
-                mtxt_EIdent.Text = model.Identification?.ToString()?.Trim();
-                mtxt_ECustomer.Text = model.CustomerType?.ToString()?.Trim();
-                mtxt_Booster.Text = model.Booster?.ToString()?.Trim();
-                mtxt_Tmc.Text = model.TMC?.ToString()?.Trim();
-                mtxt_ProductionDate.Text = model.ProductionDate?.ToString()?.Trim();
-                mtxt_TO.Text = model.T_O?.ToString()?.Trim();
-                mtxt_Tester.Text = model?.User?.UName?.ToString()?.Trim();
-                mtxt_TestingDate.Text = model.TestingDate?.ToString()?.Trim();
-                mtxt_Comment.Text = model.Comment?.ToString()?.Trim();
+                mtxt_TestTypeName.Text = model?.Project?.TestAvailable?.Test?.ToString()?.Trim();
+                mtxt_Ident.Text = model?.Project?.Identification?.ToString()?.Trim();
+                mtxt_Customer.Text = model?.Project?.CustomerType?.ToString()?.Trim();
+                mtxt_Booster.Text = model?.Project?.Booster?.ToString()?.Trim();
+                mtxt_Tmc.Text = model?.Project?.TMC?.ToString()?.Trim();
+                mtxt_ProductionDate.Text = model?.Project?.ProductionDate?.ToString()?.Trim();
+                mtxt_TO.Text = model?.Project?.T_O?.ToString()?.Trim();
+                mtxt_Tester.Text = model?.Project?.User?.UName?.ToString()?.Trim();
+                mtxt_TestingDate.Text = model?.Project?.TestingDate?.ToString()?.Trim();
+                mtxt_Comment.Text = model?.Project?.Comment?.ToString()?.Trim();
             }
             catch (Exception ex)
             {
@@ -120,9 +117,9 @@ namespace Continental.Project.Adam.UI
             {
                 string nullValue = "NULL";
 
-                model.Project.Identification = !string.IsNullOrEmpty(mtxt_EIdent.Text) ? mtxt_EIdent.Text.Trim() : nullValue;
+                model.Project.Identification = !string.IsNullOrEmpty(mtxt_Ident.Text) ? mtxt_Ident.Text.Trim() : nullValue;
                 model.Project.PartNumber = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "_|_", model.Project.Identification);
-                ; model.Project.CustomerType = !string.IsNullOrEmpty(mtxt_ECustomer.Text) ? mtxt_ECustomer.Text.Trim() : nullValue;
+                model.Project.CustomerType = !string.IsNullOrEmpty(mtxt_Customer.Text) ? mtxt_Customer.Text.Trim() : nullValue;
                 model.Project.Booster = !string.IsNullOrEmpty(mtxt_Booster.Text) ? mtxt_Booster.Text.Trim() : nullValue;
                 model.Project.TMC = !string.IsNullOrEmpty(mtxt_Tmc.Text) ? mtxt_Tmc.Text.Trim() : nullValue;
                 model.Project.ProductionDate = !string.IsNullOrEmpty(mtxt_ProductionDate.Text) ? mtxt_ProductionDate.Text.Trim() : nullValue;
@@ -173,6 +170,8 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
+                mtxt_TestTypeName.ReadOnly = true;
+
                 mtxt_Tester.Text = _helperApp.GetUserName(HelperApp.UserId)?.ToUpper();
                 mtxt_Tester.ReadOnly = true;
 
@@ -196,7 +195,7 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                if (string.IsNullOrEmpty(mtxt_EIdent.Text.Trim()))
+                if (string.IsNullOrEmpty(mtxt_Ident.Text.Trim()))
                 {
                     MessageBox.Show("Inform IDENT Test !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -253,7 +252,7 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                int iExists = bll_Project.CheckProjectByIdent(mtxt_EIdent.Text.Trim());
+                int iExists = bll_Project.CheckProjectByIdent(mtxt_Ident.Text.Trim());
 
                 if (iExists > 0)
                     return true;
@@ -324,7 +323,7 @@ namespace Continental.Project.Adam.UI
                             string idProject = selected.Tag.ToString();
                             string strTestTypeName = selected.Text?.ToString()?.Trim();
 
-                           // DataTable dt = bll_Project.GetChildTestsByProject(idProject);
+                           //DataTable dt = bll_Project.GetChildTestsByProject(idProject);
 
                             DataTable dt = bll_Project.GetChildTestsByProjectAndTestType(idProject, strTestTypeName);
 
@@ -381,7 +380,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (selected_entry && modelOperationalProjectTestConcluded.IdProjectTestConcluded > 0)
                                 {
-                                    HeaderDataToDialog(modelOperationalProjectTestConcluded.Project);
+                                    HeaderDataToDialog(modelOperationalProjectTestConcluded);
 
                                     EnableButtons();
                                 }
@@ -436,10 +435,10 @@ namespace Continental.Project.Adam.UI
                 grid_ProjectTest.Columns["CustomerType"].Width = 150;
                 grid_ProjectTest.Columns["CustomerType"].DisplayIndex = 0;
 
-                grid_ProjectTest.Columns["TestingDate"].HeaderText = "Testing Date";
-                grid_ProjectTest.Columns["TestingDate"].Visible = true;
-                grid_ProjectTest.Columns["TestingDate"].Width = 150;
-                grid_ProjectTest.Columns["TestingDate"].DisplayIndex = 1;
+                grid_ProjectTest.Columns["TestDateTime"].HeaderText = "Testing Date";
+                grid_ProjectTest.Columns["TestDateTime"].Visible = true;
+                grid_ProjectTest.Columns["TestDateTime"].Width = 150;
+                grid_ProjectTest.Columns["TestDateTime"].DisplayIndex = 1;
 
                 grid_ProjectTest.Columns["Booster"].HeaderText = "Booster #";
                 grid_ProjectTest.Columns["Booster"].Visible = true;
@@ -484,6 +483,12 @@ namespace Continental.Project.Adam.UI
                 grid_ProjectTest.Columns["IdProject"].DefaultCellStyle.BackColor = Color.White;
                 grid_ProjectTest.Columns["IdProject"].DefaultCellStyle.ForeColor = Color.White;
                 grid_ProjectTest.Columns["IdProject"].DisplayIndex = 9;
+
+                grid_ProjectTest.Columns["Test"].Visible = true;
+                grid_ProjectTest.Columns["Test"].Width = 0;
+                grid_ProjectTest.Columns["Test"].DefaultCellStyle.BackColor = Color.White;
+                grid_ProjectTest.Columns["Test"].DefaultCellStyle.ForeColor = Color.White;
+                grid_ProjectTest.Columns["Test"].DisplayIndex = 9;
 
                 ////Changes grid's column's header's font size to 10.
                 grid_ProjectTest.ColumnHeadersDefaultCellStyle.Font = new Font("", 10.0f, FontStyle.Bold);
@@ -536,26 +541,29 @@ namespace Continental.Project.Adam.UI
                         ProductionDate = gvRow.Cells["ProductionDate"].Value?.ToString()?.Trim(),
                         T_O = gvRow.Cells["T_O"].Value?.ToString()?.Trim(),
                         IdUserTester = (long)gvRow.Cells["IdUserTester"].Value,
-                        TestingDate = gvRow.Cells["TestingDate"].Value?.ToString()?.Trim(),
+                        TestingDate = gvRow.Cells["TestDateTime"].Value?.ToString()?.Trim(),
                         Comment = gvRow.Cells["Comment"].Value?.ToString()?.Trim(),
-                        TestAvailable = new Model_Manager_TestAvailable()
-                        {
-                            IdTestAvailable = (long)gvRow.Cells["IdTestAvailable"].Value
-                        },
+                        examtype = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(gvRow.Cells["TestTypeName"].Value?.ToString()?.Trim()),
+                        
                         User = new Model_SecurityUser()
                         {
                             IdUser = (long)gvRow.Cells["IdUserTester"].Value,
                             ULogin = gvRow.Cells["ULogin"].Value?.ToString()?.Trim(),
                             UName = gvRow.Cells["UName"].Value.ToString()?.Trim()
+                        },
+
+                        TestAvailable = new Model_Manager_TestAvailable()
+                        {
+                            IdTestAvailable = (long)gvRow.Cells["IdTestAvailable"].Value,
+                            Test = gvRow.Cells["Test"].Value?.ToString()?.Trim()
                         }
                     }
                 };
 
                 if (gvModelProjectTestConcluded.IdProjectTestConcluded != 0)
                 {
-                    gvModelProjectTestConcluded.Project.examtype = _helperApp.SelectedExamType(gvModelProjectTestConcluded.Project.IdProject);
-
                     strIdProjectTestConcluded = gvModelProjectTestConcluded.IdProjectTestConcluded.ToString();
+                    HelperApp.uiProjectTestConcludedSelecionado = Convert.ToInt32(strIdProjectTestConcluded);
 
                     if (!string.IsNullOrEmpty(strIdProjectTestConcluded))
                     {
@@ -571,6 +579,7 @@ namespace Continental.Project.Adam.UI
                         gvModelProjectTestConcluded.TestIdentName = !string.IsNullOrEmpty(gvModelProjectTestConcluded.TestIdentName) ? gvModelProjectTestConcluded.TestIdentName : gvModelProjectTestConcluded.Project.Identification.ToString();
 
                         HelperApp.uiProjectSelecionado = Convert.ToInt32(strIdProjectSelect);
+                        
                         HelperApp.uiTesteSelecionado = Convert.ToInt32(strIdTestSelect);
 
                         HelperTestBase.ProjectTestConcluded = gvModelProjectTestConcluded;
@@ -622,14 +631,13 @@ namespace Continental.Project.Adam.UI
                     {
                         if (DialogResult.Yes == MessageBox.Show($"      You want the selected Project data  \n\n\t {HelperTestBase.ProjectTestConcluded.Project.Identification} \n\n    and all it´s measurement data ? \n\n        Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         {
-
-                            delegateFnLoadTestConcluded(false);
-
                             HelperApp.uiProjectSelecionado = !string.IsNullOrEmpty(strIdProjectSelect) ? Convert.ToInt32(strIdProjectSelect) : 0;
 
                             HelperApp.uiProjectTestSelecionado = !string.IsNullOrEmpty(strIdTestSelect) ? Convert.ToInt32(strIdTestSelect) : 0;
 
                             HelperTestBase.ProjectTest = HelperTestBase.ProjectTestConcluded.Project;
+
+                            HelperApp.bLoadPrjTestOffLine = true;
 
                             this.Close();
                         }
@@ -637,12 +645,17 @@ namespace Continental.Project.Adam.UI
                 }
                 else
                 {
+                    HelperApp.bLoadPrjTestOffLine = false;
+                    delegateFnLoadTestConcluded(false);
+
                     MessageBox.Show("Error no valid Test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
             catch (Exception ex)
             {
+                HelperApp.bLoadPrjTestOffLine = false;
+
                 delegateFnLoadTestConcluded(false);
 
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -728,8 +741,10 @@ namespace Continental.Project.Adam.UI
         }
         private void mbtn_Ok_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(mtxt_EIdent.Text.Trim()))
+            if (string.IsNullOrEmpty(mtxt_Ident.Text.Trim()))
             {
+                HelperApp.bLoadPrjTestOffLine = false;
+
                 delegateFnLoadTestConcluded(false);
                 this.Close();
             }
@@ -758,6 +773,8 @@ namespace Continental.Project.Adam.UI
                         }
                     }
                 }
+
+                HelperApp.bLoadPrjTestOffLine = false;
 
                 delegateFnLoadTestConcluded(false);
                 this.Close();

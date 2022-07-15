@@ -18685,10 +18685,11 @@ namespace Continental.Project.Adam.UI.Helper
         #region Session Project
 
         private static int _uiProjectSelecionado;
-        private static string _strIdentProjectSelecionado;
+        private static int _uiProjectTestConcludedSelecionado;
 
         private static int _uiProjectTestSelecionado;
         private static string _strProjectTestSelecionado;
+        public static bool _bLoadPrjTestOffLine { get; set; }
 
         //get e set
         public static int uiProjectSelecionado
@@ -18696,10 +18697,10 @@ namespace Continental.Project.Adam.UI.Helper
             get { return HelperApp._uiProjectSelecionado; }
             set { HelperApp._uiProjectSelecionado = value; }
         }
-        public static string strIdentProjectSelecionado
+        public static int uiProjectTestConcludedSelecionado
         {
-            get { return HelperApp._strIdentProjectSelecionado; }
-            set { HelperApp._strIdentProjectSelecionado = value; }
+            get { return HelperApp._uiProjectTestConcludedSelecionado; }
+            set { HelperApp._uiProjectTestConcludedSelecionado = value; }
         }
 
         public static int uiProjectTestSelecionado
@@ -18712,7 +18713,11 @@ namespace Continental.Project.Adam.UI.Helper
             get { return HelperApp._strProjectTestSelecionado; }
             set { HelperApp._strProjectTestSelecionado = value; }
         }
-
+        public static bool bLoadPrjTestOffLine
+        {
+            get { return HelperApp._bLoadPrjTestOffLine; }
+            set { HelperApp._bLoadPrjTestOffLine = value; }
+        }
         #endregion
 
         #region Session Test
