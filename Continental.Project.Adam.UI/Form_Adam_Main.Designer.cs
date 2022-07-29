@@ -166,7 +166,6 @@ namespace Continental.Project.Adam.UI
             this.subMenu_Project_Project = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.subMenu_Project_PrintGraphics = new System.Windows.Forms.ToolStripMenuItem();
-            this.subMenu_Project_PrintParamList = new System.Windows.Forms.ToolStripMenuItem();
             this.subMenu_Project_SetupPrinter = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.subMenu_Project_ExportExcel = new System.Windows.Forms.ToolStripMenuItem();
@@ -2639,7 +2638,6 @@ namespace Continental.Project.Adam.UI
             this.subMenu_Project_Project,
             this.toolStripSeparator1,
             this.subMenu_Project_PrintGraphics,
-            this.subMenu_Project_PrintParamList,
             this.subMenu_Project_SetupPrinter,
             this.toolStripSeparator2,
             this.subMenu_Project_ExportExcel});
@@ -2653,45 +2651,38 @@ namespace Continental.Project.Adam.UI
             // 
             this.subMenu_Project_Project.Name = "subMenu_Project_Project";
             this.subMenu_Project_Project.ShortcutKeyDisplayString = "";
-            this.subMenu_Project_Project.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_Project.Size = new System.Drawing.Size(180, 22);
             this.subMenu_Project_Project.Text = "Project";
             this.subMenu_Project_Project.Click += new System.EventHandler(this.subMenu_Project_Project_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(179, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // subMenu_Project_PrintGraphics
             // 
             this.subMenu_Project_PrintGraphics.Name = "subMenu_Project_PrintGraphics";
-            this.subMenu_Project_PrintGraphics.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_PrintGraphics.Size = new System.Drawing.Size(180, 22);
             this.subMenu_Project_PrintGraphics.Text = "Print Graphics";
             this.subMenu_Project_PrintGraphics.Click += new System.EventHandler(this.subMenu_Project_PrintGraphics_Click);
-            // 
-            // subMenu_Project_PrintParamList
-            // 
-            this.subMenu_Project_PrintParamList.Name = "subMenu_Project_PrintParamList";
-            this.subMenu_Project_PrintParamList.Size = new System.Drawing.Size(182, 22);
-            this.subMenu_Project_PrintParamList.Text = "Print Parameters List";
-            this.subMenu_Project_PrintParamList.Click += new System.EventHandler(this.subMenu_Project_PrintParamList_Click);
             // 
             // subMenu_Project_SetupPrinter
             // 
             this.subMenu_Project_SetupPrinter.Name = "subMenu_Project_SetupPrinter";
-            this.subMenu_Project_SetupPrinter.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_SetupPrinter.Size = new System.Drawing.Size(180, 22);
             this.subMenu_Project_SetupPrinter.Text = "Setup Printer";
             this.subMenu_Project_SetupPrinter.Click += new System.EventHandler(this.subMenu_Project_SetupPrinter_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // subMenu_Project_ExportExcel
             // 
             this.subMenu_Project_ExportExcel.Name = "subMenu_Project_ExportExcel";
-            this.subMenu_Project_ExportExcel.Size = new System.Drawing.Size(182, 22);
+            this.subMenu_Project_ExportExcel.Size = new System.Drawing.Size(180, 22);
             this.subMenu_Project_ExportExcel.Text = "Export -> MS Excel";
             this.subMenu_Project_ExportExcel.Click += new System.EventHandler(this.subMenu_Project_ExportExcel_Click);
             // 
@@ -3096,7 +3087,6 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.ToolStripMenuItem subMenu_Project_Project;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem subMenu_Project_PrintGraphics;
-        private System.Windows.Forms.ToolStripMenuItem subMenu_Project_PrintParamList;
         private System.Windows.Forms.ToolStripMenuItem subMenu_Project_SetupPrinter;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem subMenu_Project_ExportExcel;

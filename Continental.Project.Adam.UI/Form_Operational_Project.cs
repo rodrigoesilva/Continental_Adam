@@ -307,6 +307,11 @@ namespace Continental.Project.Adam.UI
             }
         }
         ///---------------------------------------------------------------------------
+        private void tree_Projects_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
+        ///---------------------------------------------------------------------------
         private void tree_Projects_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             try
@@ -320,17 +325,17 @@ namespace Continental.Project.Adam.UI
                     {
                         if (selected.Parent != null)
                         {
-                            string idProject = selected.Tag.ToString();
-                            string strTestTypeName = selected.Text?.ToString()?.Trim();
+                            if (!string.IsNullOrEmpty(selected.Tag?.ToString()))
+                            {
+                                strIdProjectSelect = selected.Tag.ToString();
+                                string strTestTypeName = selected.Text?.ToString()?.Trim();
 
-                           //DataTable dt = bll_Project.GetChildTestsByProject(idProject);
+                                DataTable dt = bll_Project.GetChildTestsByProjectAndTestType(strIdProjectSelect, strTestTypeName);
 
-                            DataTable dt = bll_Project.GetChildTestsByProjectAndTestType(idProject, strTestTypeName);
+                                GridView_Populate(dt);
 
-                            GridView_Populate(dt);
-
-                            mbtn_BDeleteTest.Enabled = true;
-                            mbtn_BLoadTest.Enabled = true;
+                                mbtn_BDeleteProject.Enabled = false;
+                            }
                         }
                         else
                         {
@@ -339,6 +344,12 @@ namespace Continental.Project.Adam.UI
                                 strIdProjectSelect = selected.Tag?.ToString()?.Trim();
 
                                 mbtn_BDeleteProject.Enabled = true;
+                            }
+                            else
+                            {
+                                strIdProjectSelect = string.Empty;
+
+                                mbtn_BDeleteProject.Enabled = false;
                             }
                         }
                     }
@@ -610,7 +621,6 @@ namespace Continental.Project.Adam.UI
 
         private void EnableButtons()
         {
-
             mbtn_BDeleteTest.Enabled = true;
             mbtn_BLoadTest.Enabled = true;
         }

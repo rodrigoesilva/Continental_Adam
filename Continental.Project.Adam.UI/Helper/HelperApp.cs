@@ -38,6 +38,7 @@ using iText.Kernel.Geom;
 using iText.Kernel.Colors;
 using iText.Layout.Borders;
 using iText.IO.Image;
+using iText.Svg.Converter;
 
 #endregion
 
@@ -16251,6 +16252,7 @@ namespace Continental.Project.Adam.UI.Helper
             leg.Docking = Docking.Bottom;
             leg.Alignment = StringAlignment.Center;
             leg.LegendStyle = LegendStyle.Table;
+            leg.Font = new Font("Tahoma", 10.25F, FontStyle.Regular);
             //leg.BackColor = Color.Green;
             //leg.ForeColor = Color.Black;
             //leg.DockedToChartArea = "ChartArea1"; // quando hablitado coloca a legenda DENTRO do grafico
@@ -16270,8 +16272,8 @@ namespace Continental.Project.Adam.UI.Helper
             legCells2.Add(new LegendCellColumn("", LegendCellColumnType.Text, legValues, ContentAlignment.MiddleCenter));
             legCells2[k].MinimumWidth = 1000;
             legCells2[k].MaximumWidth = 1900;
-            legCells2[k].HeaderFont = new Font("Microsoft Sans Serif", 10.25F, FontStyle.Bold);
-            legCells2[k].Font = new Font("Microsoft Sans Serif", 10.25F, FontStyle.Bold);
+            legCells2[k].HeaderFont = new Font("Tahoma", 10.25F, FontStyle.Bold);
+            legCells2[k].Font = new Font("Tahoma", 10.25F, FontStyle.Bold);
             legCells2[k].Alignment = ContentAlignment.MiddleLeft; //.TopLeft;nt
             legCells2[k].Margins = new Margins(30, 30, 50, 30);
             legCells2[k].ForeColor = poinColor;//Color.Black;
@@ -16991,6 +16993,8 @@ namespace Continental.Project.Adam.UI.Helper
 
                         case 28:    //ADAM - Switching Point Without TMC
                             {
+                                #region StringBuilder AppendTxtData_Header_ActuationType
+
                                 sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
@@ -17018,12 +17022,7 @@ namespace Continental.Project.Adam.UI.Helper
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"\r\n");
 
-                                break;
-                            }
-
-                        case 29:    //Bleed
-                            {
-
+                                #endregion
 
                                 break;
                             }
@@ -17070,7 +17069,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 1:     //Force Diagrams - Force/Pressure With Vacuum
                     case 3:     //Force Diagrams - Force/Pressure Without Vacuum
                     case 13:    //Check Sensors - Pressure Difference
-                    case 25:    //Force Diagrams - Force/Pressure Dual Ratio
                         {
                             #region StringBuilder AppendTxtData_Header_Results
 
@@ -17105,10 +17103,10 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"|- CURVES -|");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]" );
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17120,18 +17118,14 @@ namespace Continental.Project.Adam.UI.Helper
                         }
 
                     case 2:     //Force Diagrams - Force/Force With Vacuum
-                    case 4:     //Force Diagrams - Force/Force Without Vacuum
-                    case 26:    //Force Diagrams - Force/Force Dual Ratio
                         {
                             #region StringBuilder AppendTxtData_Header_Results
-
-                            #region Common_Header_Results_Header
 
                             #region Common_Header_Results
 
                             for (int i = 0; i < dicResultParam.Count; i++)
                             {
-                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T02_", "")?.Trim();
 
                                 string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
 
@@ -17152,169 +17146,50 @@ namespace Continental.Project.Adam.UI.Helper
 
                             #endregion
 
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
                             #endregion
 
-                            #region Common_Header_Results_Case
+                            #endregion
 
-                            //2 //Force Diagrams - Force/Force With Vacuum
-                            var helperTestBase_Jumper = 0;
-                            var helperTestBase_OutputForceAt200N = 0;
-                            var helperTestBase_OutputForceAt400N = 0;
-                            var helperTestBase_OutputForceAt1000N = 0;
-                            var helperTestBase_OutputForceAt1500N = 0;
-                            var helperTestBase_OutputForceRunout = 0;
-                            var helperTestBase_OutputInputRatio = 0;
-                            var helperTestBase_CutInForce = 0;
-                            var helperTestBase_ReleaseForce = 0;
-                            var helperTestBase_HysteresiAt50PercentOut = 0;
-                            var helperTestBase_ReleaseForceAt020mm = 0;
-                            var helperTestBase_AuxiliaryPressure = 0;
-                            var helperTestBase_OutputForceAt90Percent = 0;
-                            var helperTestBase_OutputForceAt70Percent = 0;
-                            var helperTestBase_JumperGradient = 0;
+                            break;
+                        }
 
-                            //4 //Force Diagrams - Force/Force Without Vacuum
-                            //var helperTestBase_OutputForceAt200N = 10;
-                            //var helperTestBase_OutputForceAt400N = 10;
-                            //var helperTestBase_OutputInputRatio = 10;
-                            //var helperTestBase_CutInForce = 10;
-                            //var helperTestBase_ReleaseForce = 10;
-                            var helperTestBase_ReleaseForceAt010mm = 0;
+                    case 4:     //Force Diagrams - Force/Force Without Vacuum
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
 
-                            //26 //Force Diagrams - Force/Force Dual Ratio
-                            //var helperTestBase_Jumper = 10;
-                            var helperTestBase_OutputForceAt120N = 0;
-                            //var helperTestBase_OutputForceAt200N = 10;
-                            var helperTestBase_OutputForceAt250N = 0;
-                            var helperTestBase_OutputForceAt300N = 0;
-                            //var helperTestBase_OutputForceRunout = 10;
-                            var helperTestBase_RunoutForce = 0;
-                            //var helperTestBase_OutputInputRatio = 10;
-                            //var helperTestBase_CutInForce = 10;
-                            //var helperTestBase_ReleaseForce = 10;
-                            //var helperTestBase_HysteresiAt50PercentOut = 10;
-                            //var helperTestBase_ReleaseForceAt020mm = 10;
-                            var helperTestBase_DRSwitchPointF = 0;
-                            var helperTestBase_DRSwitchPointFout = 0;
-                            var helperTestBase_DRGradientIeff1 = 0;
-                            var helperTestBase_DRGradientIeff2 = 0;
+                            #region Common_Header_Results
 
-                            switch (iTesteSelecionado)
+                            for (int i = 0; i < dicResultParam.Count; i++)
                             {
-                                case 2: //Force Diagrams - Force/Force With Vacuum
-                                    #region Force Diagrams - Force/Pressure With Vacuum
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T04_", "")?.Trim();
 
-                                    sbHeaderResults.Append($"Jumper                         : {helperTestBase_Jumper} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 200.0 N        : {helperTestBase_OutputForceAt200N} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 400.0 N        : {helperTestBase_OutputForceAt400N} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 1000.0 N       : {helperTestBase_OutputForceAt1000N} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 1500.0 N       : {helperTestBase_OutputForceAt1500N} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force Runout            : {helperTestBase_OutputForceRunout} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Input Ratio             : {helperTestBase_OutputInputRatio}");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Cut - In Force                 : {helperTestBase_CutInForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force                  : {helperTestBase_ReleaseForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Hysteresis at 50.0 % p out     : {helperTestBase_HysteresiAt50PercentOut} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force at 0.20 mm       : {helperTestBase_ReleaseForceAt020mm} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Auxiliary Pressure             : {helperTestBase_AuxiliaryPressure} bar");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 90.0 %         : {helperTestBase_OutputForceAt90Percent} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 70.0 %         : {helperTestBase_OutputForceAt70Percent} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Jumper Gradient                : {helperTestBase_JumperGradient} N / bar");
-                                    sbHeaderResults.Append($"\r\n");
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
 
-                                    #endregion
-                                    break;
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
 
-                                case 4:  //Force Diagrams - Force/Force Without Vacuum
-                                    #region Force Diagrams - Force/Pressure Without Vacuum
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
 
-                                    sbHeaderResults.Append($"Output Force at 200.0 N        : {helperTestBase_OutputForceAt200N} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 400.0 N        : {helperTestBase_OutputForceAt400N} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Input Ratio             : {helperTestBase_OutputInputRatio}");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Cut - In Force                 : {helperTestBase_CutInForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force                  : {helperTestBase_ReleaseForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force at 0.10 mm       : {helperTestBase_ReleaseForceAt010mm} N");
-                                    sbHeaderResults.Append($"\r\n");
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
 
-                                    #endregion
-                                    break;
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
 
-                                case 26: //Force Diagrams - Force/Force Dual Ratio
-                                    #region Force Diagrams - Force/Pressure Dual Ratio
-
-                                    sbHeaderResults.Append($"Jumper                         : {helperTestBase_Jumper} N");
                                     sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 120.0 N        : {helperTestBase_OutputForceAt120N} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 200.0 N        : {helperTestBase_OutputForceAt200N} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 250.0 N        : {helperTestBase_OutputForceAt250N} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force at 300.0 N        : {helperTestBase_OutputForceAt300N} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Force Runout            : {helperTestBase_OutputForceRunout} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Runout Force                   : {helperTestBase_RunoutForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Output Input Ratio             : {helperTestBase_OutputInputRatio}");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Cut - In Force                 : {helperTestBase_CutInForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force                  : {helperTestBase_ReleaseForce} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Hysteresis at 50.0 % p out     : {helperTestBase_HysteresiAt50PercentOut} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"Release Force at 0.20 mm       : {helperTestBase_ReleaseForceAt020mm} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"DR Switch Point F              : {helperTestBase_DRSwitchPointF} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"DR Switch Point Fout           : {helperTestBase_DRSwitchPointFout} N");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"DR Gradient I eff 1            : {helperTestBase_DRGradientIeff1} #");
-                                    sbHeaderResults.Append($"\r\n");
-                                    sbHeaderResults.Append($"DR Gradient I eff 2            : {helperTestBase_DRGradientIeff2} #");
-                                    sbHeaderResults.Append($"\r\n");
-
-                                    #endregion
-                                    break;
-
-                                default:
-                                    break;
+                                }
                             }
-
-                            #endregion
-
-                            #region Common_Header_Results_Footer
-
-                            var helperTestBase_PCHoseConsumer = 12;
-                            var helperTestBase_SCHoseConsumer = 12;
-                            var helperTestBase_RoomTemperature = HelperMODBUS.CS_dwTemperaturaAmbiente_C_LW.ToString("N2");
-
-                            sbHeaderResults.Append($"PC Hose Consumers              : {helperTestBase_PCHoseConsumer} #");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"SC Hose Consumers              : {helperTestBase_SCHoseConsumer} #");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Room Temperature               : {helperTestBase_RoomTemperature} °C");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"\r\n");
 
                             #endregion
 
@@ -17322,10 +17197,10 @@ namespace Continental.Project.Adam.UI.Helper
 
                             sbHeaderResults.Append($"Curves");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Output Force [N]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17376,7 +17251,7 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Vacuum Pressure [bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17424,10 +17299,10 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"|- CURVES -|");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Vacuum Pressure [bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17475,14 +17350,10 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"|- CURVES -|");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 143 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 143 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            if (iTesteSelecionado == 11)
-                                sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]");
-                            else
-                                sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure SC [bar]\t Hydraulic Pressure PC [bar]");
-
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17542,10 +17413,10 @@ namespace Continental.Project.Adam.UI.Helper
 
                             sbHeaderResults.Append($"Curves");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t TMC Travel [m]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17585,10 +17456,10 @@ namespace Continental.Project.Adam.UI.Helper
 
                             sbHeaderResults.Append($"Curves");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17635,10 +17506,10 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"|- CURVES -|");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17683,10 +17554,10 @@ namespace Continental.Project.Adam.UI.Helper
 
                             sbHeaderResults.Append($"Curves");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 143 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 143 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Pneumatic Test Pressure [bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17703,7 +17574,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                             for (int i = 0; i < dicResultParam.Count; i++)
                             {
-                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T21_", "")?.Trim();
 
                                 string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
 
@@ -17730,10 +17601,10 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"|- CURVES -|");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17748,7 +17619,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                             for (int i = 0; i < dicResultParam.Count; i++)
                             {
-                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T22_", "")?.Trim();
 
                                 string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
 
@@ -17773,10 +17644,10 @@ namespace Continental.Project.Adam.UI.Helper
 
                             sbHeaderResults.Append($"Curves");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC [bar]\t Hydraulic Pressure SC [bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17816,10 +17687,10 @@ namespace Continental.Project.Adam.UI.Helper
 
                             sbHeaderResults.Append($"Curves");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Fill Pressure [bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17834,7 +17705,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                             for (int i = 0; i < dicResultParam.Count; i++)
                             {
-                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T24_", "")?.Trim();
 
                                 string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
 
@@ -17859,12 +17730,108 @@ namespace Continental.Project.Adam.UI.Helper
 
                             sbHeaderResults.Append($"Curves");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC[bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 25:    //Force Diagrams - Force/Pressure Dual Ratio
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T25_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"|- CURVES -|");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 26:    //Force Diagrams - Force/Force Dual Ratio
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T26_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Name) ? lstResultParam.Where(x => x.ResultParam_Name.Equals(keyResultParam_Name)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
 
                             #endregion
 
@@ -17877,7 +17844,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                             for (int i = 0; i < dicResultParam.Count; i++)
                             {
-                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T27_", "")?.Trim();
 
                                 string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
 
@@ -17902,10 +17869,10 @@ namespace Continental.Project.Adam.UI.Helper
 
                             sbHeaderResults.Append($"Curves");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC[bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17920,7 +17887,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                             for (int i = 0; i < dicResultParam.Count; i++)
                             {
-                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+                                string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T28_", "")?.Trim();
 
                                 string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
 
@@ -17945,10 +17912,10 @@ namespace Continental.Project.Adam.UI.Helper
 
                             sbHeaderResults.Append($"Curves");
                             sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
-                            sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time [s]\t Input Force 1 [N]\t Input Travel [m]\t Hydraulic Pressure PC[bar]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -18116,7 +18083,7 @@ namespace Continental.Project.Adam.UI.Helper
         #endregion
 
         #region REPORT PDF
-        public void Report_CreatePDF(string strImgChart, string strFileName, DataGridViewRowCollection gridResultRows)
+        public void Report_CreatePDF(string strImgChart, string strImgChartsvg, string strFileName, DataGridViewRowCollection gridResultRows)
         {
             try
             {
@@ -18126,9 +18093,11 @@ namespace Continental.Project.Adam.UI.Helper
 
                 string reportProfile = string.Concat(dirReportResources, "sRGB_CS_profile.icm");
                 string reportFont = string.Concat(dirReportResources, "FreeSans.ttf");
+                string chartFont = string.Concat(dirReportResources, "Tahoma.ttf");
                 string reportFontBold = string.Concat(dirReportResources, "FreeSansBold.ttf");
                 string reportImgLogo = string.Concat(dirReportResources, "img_ReportLogoContinenal.png");
                 string reportImgChart = !string.IsNullOrEmpty(strImgChart) ? strImgChart : string.Concat(dirReportResources, "img_ReportChart.jpg");
+                string reportImgChartsvg = !string.IsNullOrEmpty(strImgChartsvg) ? strImgChartsvg : string.Concat(dirReportResources, "img_ReportChart.jpg");
 
                 //Path to Store PDF file
                 string dirReportTestPath = AppReport_PathTests.Trim(); //System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppReport_PathTests);
@@ -18188,11 +18157,9 @@ namespace Continental.Project.Adam.UI.Helper
 
                 #region REPORT - Define Document
 
-                PdfADocument pdfDoc = new PdfADocument(
-                    new PdfWriter(outputFile),
-                    PdfAConformanceLevel.PDF_A_1B,
-                    new PdfOutputIntent("Custom", "", "http://www.color.org", "sRGB IEC61966-2.1",
-                    new FileStream(reportProfile, FileMode.Open, FileAccess.Read)));
+                PdfWriter writer = new PdfWriter(outputFile);
+
+                PdfDocument pdfDoc = new PdfDocument(writer);
 
 
                 PdfFont font = PdfFontFactory.CreateFont(reportFont, PdfEncodings.WINANSI,
@@ -18201,9 +18168,14 @@ namespace Continental.Project.Adam.UI.Helper
                 PdfFont fontBold = PdfFontFactory.CreateFont(reportFontBold, PdfEncodings.WINANSI,
                 PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED);
 
+                PdfFont Font2 = PdfFontFactory.CreateFont(chartFont, PdfEncodings.WINANSI,
+                PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED);
+
                 PageSize pageSize = PageSize.A4.Rotate();   // Set the page size and landscape
                 Document document = new Document(pdfDoc, pageSize)
                     .SetFont(font);
+
+                pdfDoc.AddNewPage();
 
                 document.SetMargins(5, 10, 5, 10);
 
@@ -18213,15 +18185,14 @@ namespace Continental.Project.Adam.UI.Helper
 
                 iText.Layout.Element.Image imgTest_Logo = new iText.Layout.Element.Image(ImageDataFactory.Create(reportImgLogo));
 
-                iText.Layout.Element.Image imgTest_Chart = new iText.Layout.Element.Image(ImageDataFactory.Create(reportImgChart));
+                FileStream svgPath = File.Open(reportImgChartsvg, FileMode.Open);
 
-                imgTest_Chart
-                  //.SetAutoScale(true)
-                  //.SetFixedPosition(20, 50)
-                  .SetHeight(maxSizeChartImage)
-                  .SetWidth(maxSizeChartImage)
-                  .SetTextAlignment(TextAlignment.CENTER)
-                  .SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
+                iText.Layout.Element.Image imagechartsvg = SvgConverter.ConvertToImage(svgPath, pdfDoc);
+
+                imagechartsvg.SetFont(font)
+                                .SetWidth(440)
+                                .SetHeight(430)
+                                .SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
 
                 #endregion
 
@@ -18329,9 +18300,11 @@ namespace Continental.Project.Adam.UI.Helper
                     .SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER)
                     .SetVerticalAlignment(VerticalAlignment.MIDDLE)
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .Add(imgTest_Chart);
+                    .Add(imagechartsvg);
 
                 table.AddCell(cell_Chart);
+
+                svgPath.Close();
 
                 #endregion
 

@@ -407,7 +407,6 @@ namespace Continental.Project.Adam.UI
         {
             subMenu_Project_Project.Enabled = true;
             subMenu_Project_PrintGraphics.Enabled = true;
-            subMenu_Project_PrintParamList.Enabled = true;
             subMenu_Project_ExportExcel.Enabled = true;
         }
         private void Menu_Disable()
@@ -422,7 +421,6 @@ namespace Continental.Project.Adam.UI
         private void SubMenuProject_Disable()
         {
             subMenu_Project_PrintGraphics.Enabled = false;
-            subMenu_Project_PrintParamList.Enabled = false;
             subMenu_Project_ExportExcel.Enabled = false;
         }
 
@@ -495,11 +493,8 @@ namespace Continental.Project.Adam.UI
         }
         private void subMenu_Project_ExportExcel_Click(object sender, EventArgs e)
         {
-            //_helperAdam.SMExportExcelClick(sender);
-
-            TXTFileHBM_HeaderUnion();
-
-            MessageBox.Show("subMenu_Project_ExportExcel_Click !", _helperApp.appMsg_Name);
+            if(TXTFileHBM_HeaderUnion())
+                MessageBox.Show($"Test with file Ident # - [ { HelperTestBase.ProjectTestConcluded.Project.Identification} ] exported!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #endregion
@@ -657,7 +652,8 @@ namespace Continental.Project.Adam.UI
         }
         private void mtbn_BExportTestToXLS_Click(object sender, EventArgs e)
         {
-            //_helperAdam.SMPrintGraphicsClick(sender);
+            if (TXTFileHBM_HeaderUnion())
+                MessageBox.Show($"Test with file Ident # - [ { HelperTestBase.ProjectTestConcluded.Project.Identification} ] exported!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void mbtn_BReportPDF_Click(object sender, EventArgs e)
@@ -956,9 +952,8 @@ namespace Continental.Project.Adam.UI
                 Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[3];
 
                 //data info Grid Results
-                BLL_Main_Tab_TableResults _bll_Main_TableResults = new BLL_Main_Tab_TableResults();
 
-                DataTable dtTableResults = _bll_Main_TableResults.PopulateGridTableResultsByTest(strIdxTestSelected);
+                DataTable dtTableResults = new BLL_Main_Tab_TableResults().PopulateGridTableResultsByTest(strIdxTestSelected);
 
                 if (dtTableResults.Rows.Count == 0)
                 {
@@ -1039,15 +1034,15 @@ namespace Continental.Project.Adam.UI
 
                             return false;
                         }
+
+                        if (dicReturnReadFileHeader[0]?.Count() == 0)
+                        {
+                            MessageBox.Show("Error, dicReturnReadFileHeader result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return false;
+                        }
                     }
 
-                    if (dicReturnReadFileHeader[0]?.Count() > 0)
-                        listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam, dicReturnReadFileHeader);
-                    else
-                    {
-                        MessageBox.Show("Error, dicReturnReadFileHeader result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
-                    }
+                    listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam, dicReturnReadFileHeader);
 
                     if (listResultParam?.Count() == 0 || listResultParam == null)
                     {
@@ -5625,7 +5620,7 @@ namespace Continental.Project.Adam.UI
                 {
                     if (HelperApp.uiProjectSelecionado == 0)
                     {
-                        if (DialogResult.Yes == MessageBox.Show("\tPROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                        if (DialogResult.No == MessageBox.Show("\tPROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                             subMenu_Project_Project_Click(null, null);
                     }
                     //else
@@ -6112,6 +6107,8 @@ namespace Continental.Project.Adam.UI
 
                             TAB_Enable();
 
+                            SubMenuProject_Enable();
+
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
                             TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
@@ -6123,6 +6120,8 @@ namespace Continental.Project.Adam.UI
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
 
                             TAB_Disable();
+
+                            SubMenuProject_Disable();
 
                             MessageBox.Show("Error TEST_Concluded_Command, failed conclude data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -6137,6 +6136,10 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
+                TAB_Disable();
+
+                SubMenuProject_Disable();
+
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
@@ -6230,7 +6233,7 @@ namespace Continental.Project.Adam.UI
 
                 modelPrjTestConcluded = new Model_Operational_Project_TestConcluded()
                 {
-                    IdProject = HelperTestBase.ProjectTestConcluded.IdProject,
+                    IdProject = HelperTestBase.ProjectTestConcluded.Project.IdProject,
                     IdTestAvailable = HelperApp.uiTesteSelecionado,
                     TestDateTime = HelperTestBase.ProjectTestConcluded.Project.TestingDate,
                     TestTypeName = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString(),
@@ -6239,10 +6242,19 @@ namespace Continental.Project.Adam.UI
                     LastUpdate = DateTime.Now.ToString()
                 };
 
+                HelperTestBase.ProjectTestConcluded.Project.TestAvailable = new Model_Manager_TestAvailable()
+                {
+                    IdTestAvailable = HelperApp.uiTesteSelecionado,
+                    //Test = HelperApp.strNomeTesteSelecionado.ToString()?.Trim()
+                };
+
                 int idProjectTestConcludedInsert = new BLL_Operational_Project().AddProjectTestConcluded(modelPrjTestConcluded);
 
                 if (idProjectTestConcludedInsert > 0)
+                {
+                    HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded = idProjectTestConcludedInsert;
                     return true;
+                } 
                 else
                 {
                     MessageBox.Show("Failed, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -6376,7 +6388,7 @@ namespace Continental.Project.Adam.UI
 
             #endregion
 
-            #region WRite File Test
+            #region Write File Test
 
             try
             {
@@ -6482,10 +6494,13 @@ namespace Continental.Project.Adam.UI
 
                     if (strArray.Length > 1)
                     {
+                        HelperTestBase.ProjectTestConcluded.Project = new BLL_Operational_Project().GetHelperProjectByIdProject(HelperApp.uiProjectSelecionado.ToString());
+
+
                         HelperApp.uiTesteSelecionado = Convert.ToInt32(strArray[1]);
                         HelperTestBase.ProjectTestConcluded.TestDateTime = strArray[0].ToString();
-                        HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.Project.IdProject > 0 ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : HelperTestBase.ProjectTestConcluded.TestDateTime;
-                        HelperTestBase.ProjectTestConcluded.Project.Identification = HelperTestBase.ProjectTestConcluded.Project.IdProject > 0 ? HelperTestBase.ProjectTestConcluded.Project.Identification : strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+                        //HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.Project.IdProject > 0 ?  HelperTestBase.ProjectTestConcluded.TestDateTime : HelperTestBase.ProjectTestConcluded.Project.TestingDate;
+                        //HelperTestBase.ProjectTestConcluded.Project.Identification = HelperTestBase.ProjectTestConcluded.Project.IdProject > 0 ? HelperTestBase.ProjectTestConcluded.Project.Identification : strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
                     }
 
                     lstStrChReadFileArr = _helperApp.ReadTXTFileHBM(fileName, pathWithFileName);
@@ -6524,6 +6539,15 @@ namespace Continental.Project.Adam.UI
                         else
                         {
                             LOG_TestSequence("TESTE CALC CONCLUDED");
+
+                            if (HelperTestBase.ProjectTestConcluded.Project == null)
+                            {
+                                HelperTestBase.ProjectTestConcluded.Project = new Model_Operational_Project();
+                                HelperTestBase.ProjectTestConcluded.Project.User = new Model_SecurityUser();
+                                HelperTestBase.ProjectTestConcluded.Project.TestAvailable = new Model_Manager_TestAvailable();
+                            }
+
+                            HelperTestBase.ProjectTestConcluded.Project.is_OnLIne = true;
 
                             if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
                             {
@@ -6574,20 +6598,37 @@ namespace Continental.Project.Adam.UI
 
                 if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.TestFileName))
                 {
+                    var strTestDateFormat = string.Empty;
+                         var strTestHoureFormat = string.Empty;
+
                     HelperTestBase.ProjectTestConcluded.Project = new BLL_Operational_Project().GetHelperProjectByIdPrjTestConcluded(HelperApp.uiProjectTestConcludedSelecionado.ToString());
 
-                    var arrTestDate = HelperTestBase.ProjectTestConcluded.TestDateTime.Substring(0, 10).Split('/');
-                    var arrTestHour = HelperTestBase.ProjectTestConcluded.TestDateTime.Substring(13, 8).Split(':');
+                    string prjTestFilename = HelperTestBase.ProjectTestConcluded?.TestFileName?.Trim();
 
-                    var strTestDateFormat = arrTestDate.Count() == 0 ? HelperTestBase.ProjectTestConcluded.Project.PartNumber.Substring(0, 8) : string.Concat(arrTestDate[2], arrTestDate[0], arrTestDate[1]);
-                    var strTestHoureFormat = arrTestHour.Count() == 0 ? HelperTestBase.ProjectTestConcluded.Project.PartNumber.Substring(9, 6) : string.Concat(arrTestHour[0], arrTestHour[1], arrTestHour[2]); ;
+                    var arrTestDate = HelperTestBase.ProjectTestConcluded.TestDateTime.Substring(0, 10).Split('/');
+                    var arrTestHour = HelperTestBase.ProjectTestConcluded.TestDateTime.Substring(11, 8).Split(':');
+
+                    if (arrTestDate.Count() > 0 && arrTestHour.Count() > 0 && !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.TestFileName?.Trim()))
+                    {
+                        var strFileName = HelperTestBase.ProjectTestConcluded?.TestFileName?.Trim();
+                        var strTestDate = string.Concat(arrTestDate[2], arrTestDate[0], arrTestDate[1]);
+                        var strTestHour = string.Concat(arrTestHour[0], arrTestHour[1], arrTestHour[2]);
+
+                        strTestDateFormat = !strFileName.Substring(0, 8).Equals(strTestDate) ? strFileName.Substring(0, 8) : strTestDate;
+                        strTestHoureFormat = !strFileName.Substring(9, 6).Equals(strTestHour) ? strFileName.Substring(9, 6) : strTestHour;
+                    }
+                    else
+                    {
+                        strTestDateFormat = arrTestDate.Count() == 0 ? HelperTestBase.ProjectTestConcluded?.Project?.PartNumber?.Trim().Substring(0, 8) : string.Concat(arrTestDate[2], arrTestDate[0], arrTestDate[1]);
+                        strTestHoureFormat = arrTestHour.Count() == 0 ? HelperTestBase.ProjectTestConcluded?.Project?.PartNumber?.Trim().Substring(9, 6) : string.Concat(arrTestHour[0], arrTestHour[1], arrTestHour[2]);
+                    }
 
                     HelperTestBase.ProjectTestConcluded.Project.examtype = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado);
                     string testTypeName = HelperTestBase.ProjectTestConcluded.Project.examtype == eEXAMTYPE.ET_NONE ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString() : HelperTestBase.ProjectTestConcluded.Project.examtype.ToString();
 
                     string testIdentName = !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.Identification) ? HelperTestBase.ProjectTestConcluded?.Project?.Identification.Trim() : _helperApp.AppTests_DefaultNameData;
 
-                    string prjTestFilename = !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.TestDateTime) ? string.Concat(strTestDateFormat, "_", strTestHoureFormat, "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension) : string.Empty;
+                    prjTestFilename = !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.TestDateTime) ? string.Concat(strTestDateFormat, "_", strTestHoureFormat, "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension) : string.Empty;
 
                     HelperTestBase.ProjectTestConcluded.TestFileName = prjTestFilename.Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
                 }
@@ -6732,7 +6773,7 @@ namespace Continental.Project.Adam.UI
             {
                 TAB_Disable();
 
-                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Concat("Catch TXTFileHBM_LoadDataConcluded - ", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
 
                 throw;
@@ -6859,8 +6900,6 @@ namespace Continental.Project.Adam.UI
 
                     _prjTestHeaderFilename = Path.Combine(_initialDirPathTestFile, string.Concat(strFileName.Replace(_helperApp.AppTests_DefaultNameData, string.Empty), _helperApp.AppTests_DefaultNameHeader, _helperApp.AppTests_DefaultExtension));
 
-                    _prjTestFilenameUnion = Path.Combine(_initialDirPathTestFile, strTestFilenameUnion);
-
                     #endregion
 
                     #region Write Union File Test
@@ -6906,16 +6945,36 @@ namespace Continental.Project.Adam.UI
 
                                 var strUnionAll = string.Concat(strHeaderComplete, sbDataFile.ToString());
 
-                                //File.WriteAllText(_prjTestHeaderFilename, strHeaderComplete);
+                                #region dialog user path
 
-                                ////Create File Union Acquisition
-                                if (_helperApp.CheckFileExists(_prjTestFilenameUnion))
+                                SaveFileDialog theDialog = new SaveFileDialog();
+                                theDialog.Title = "Save Export File";
+                                theDialog.Filter = "TXT files|*.txt;*.tst";
+                                theDialog.FileName = strTestFilenameUnion;
+                                theDialog.InitialDirectory = string.Concat(_initialDirPathTestFile, "TestsExport\\");
+                                theDialog.RestoreDirectory = true;
+
+                                if (theDialog.ShowDialog() == DialogResult.OK)
                                 {
-                                    MessageBox.Show("Failed, Union Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    return false;
+                                    _prjTestFilenameUnion = theDialog.FileName;
+
+                                    ////Create File Union Acquisition
+                                    if (_helperApp.CheckFileExists(_prjTestFilenameUnion))
+                                    {
+                                        MessageBox.Show("Failed, Union Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return false;
+                                    }
+                                    else
+                                        File.WriteAllText(_prjTestFilenameUnion, strUnionAll);
                                 }
                                 else
-                                    File.WriteAllText(_prjTestFilenameUnion, strUnionAll);
+                                {
+                                    MessageBox.Show("User Canceled action!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    return false;
+                                }
+
+                                #endregion
+                                
                             }
                         }
 
@@ -7021,9 +7080,11 @@ namespace Continental.Project.Adam.UI
 
                         string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, strFileName, _helperApp.AppPath_ChartImageExtension);
 
+                        string dirReportChartImagehWithFileNamesvg = string.Concat(dirReportChartImagePath, strFileName, @".svg");
+
                         DataGridViewRowCollection gridResultRows = TAB_TableResult_Grid.Rows;
 
-                        _helperApp.Report_CreatePDF(dirReportChartImagehWithFileName, strFileName, gridResultRows);
+                        _helperApp.Report_CreatePDF(dirReportChartImagehWithFileName, dirReportChartImagehWithFileNamesvg, strFileName, gridResultRows);
                     }
                     else
                     {
@@ -7146,19 +7207,19 @@ namespace Continental.Project.Adam.UI
             {
                 #region Variable
 
-                if (!HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
-                {
-                    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                        _helperApp.GVL_Graficos = HelperTestBase.Model_GVL.GVL_Graficos;
-                }
-                else
-                {
+                //if (!HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
+                //{
+                //    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
+                //        _helperApp.GVL_Graficos = HelperTestBase.Model_GVL.GVL_Graficos;
+                //}
+                //else
+                //{
                     List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                     _helperApp.GVL_Graficos = _helperApp.ChartValidate(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL.GVL_Graficos.iOutput, lstInfoEvaluationParameters);
 
                     HelperTestBase.Model_GVL.GVL_Graficos = _helperApp.GVL_Graficos;
-                }
+               // }
 
                 modelChartGVL = HelperTestBase.Model_GVL.GVL_Graficos;
 
@@ -7198,6 +7259,9 @@ namespace Continental.Project.Adam.UI
 
                             // Access the type-specific options of the diagram.
                             diagram.EnableAxisXZooming = true;
+                            //diagram.EnableAxisXScrolling = true;
+                            //diagram.EnableAxisYZooming = true;
+                            //diagram.EnableAxisYScrolling = true;
 
                             #endregion
 
@@ -7208,7 +7272,7 @@ namespace Continental.Project.Adam.UI
                             Color setColor = Color.Black;
 
                             //diagram.AxisX.Title.EnableAntialiasing = DefaultBoolean.False;
-                            //diagram.AxisX.Title.Font = new Font("Tahoma", 8, FontStyle.Regular);
+                            diagram.AxisX.Title.Font = new Font("Tahoma", 12, FontStyle.Regular);
 
                             diagram.AxisX.Title.Text = chartGVL.strNomeEixoX;  //@"nome eixo X";
                             diagram.AxisX.Title.Visibility = DefaultBoolean.True;
@@ -7278,7 +7342,7 @@ namespace Continental.Project.Adam.UI
                             setColor = serieY1.View.Color;
 
                             //diagram.AxisY.Title.EnableAntialiasing = DefaultBoolean.False;
-                            //diagram.AxisY.Title.Font = new Font("Tahoma", 8, FontStyle.Regular);
+                            diagram.AxisY.Title.Font = new Font("Tahoma", 12, FontStyle.Regular);
 
                             diagram.AxisY.Title.Text = chartGVL.iOutput == 2 ? chartGVL.strNomeEixoY2 : chartGVL.strNomeEixoY1;
                             diagram.AxisY.Title.Visibility = DefaultBoolean.True;
@@ -7351,6 +7415,8 @@ namespace Continental.Project.Adam.UI
 
                                     //// Create two secondary axes, and add them to the chart's Diagram.
                                     SecondaryAxisY EixoY2 = new SecondaryAxisY(chartGVL.strNomeEixoY2);
+                                    EixoY2.Title.Font = new Font("Tahoma", 12, FontStyle.Regular);
+
                                     diagram.SecondaryAxesY.Add(EixoY2);
 
                                     //// Assign the series2 to the created axes.
@@ -7404,6 +7470,8 @@ namespace Continental.Project.Adam.UI
 
                                     //// Create two secondary axes, and add them to the chart's Diagram.
                                     SecondaryAxisY EixoY3 = new SecondaryAxisY(chartGVL.strNomeEixoY3);
+                                    EixoY3.Title.Font = new Font("Tahoma", 12, FontStyle.Regular);
+
                                     diagram.SecondaryAxesY.Add(EixoY3);
 
                                     //// Assign the series3 to the created axes.
@@ -7458,6 +7526,8 @@ namespace Continental.Project.Adam.UI
 
                                     //// Assign the series4 to the created axes.
                                     ((LineSeriesView)serieY4.View).AxisY = EixoY4;
+                                    EixoY4.Title.Font = new Font("Tahoma", 12, FontStyle.Regular);
+
                                     ((PointSeriesView)seriePontosChart.View).AxisY = EixoY4;
 
                                     EixoY4.Title.Text = chartGVL.strNomeEixoY4;
@@ -7503,6 +7573,8 @@ namespace Continental.Project.Adam.UI
 
                                     //// Create two secondary axes, and add them to the chart's Diagram.
                                     SecondaryAxisY EixoY5 = new SecondaryAxisY(chartGVL.strNomeEixoY5);
+                                    EixoY5.Title.Font = new Font("Tahoma", 12, FontStyle.Regular);
+
                                     diagram.SecondaryAxesY.Add(EixoY5);
 
                                     //// Assign the series4 to the created axes.
@@ -7602,7 +7674,7 @@ namespace Continental.Project.Adam.UI
 
                         // Customize a title's appearance.
                         //ChartTitle.Antialiasing = true;
-                        //ChartTitle.Font = new Font("Tahoma", 14, FontStyle.Bold);
+                        ChartTitle.Font = new Font("Tahoma", 18, FontStyle.Bold);
                         //ChartTitle.TextColor = Color.Red;
                         //ChartTitle  .Indent = 10;
 
@@ -9794,24 +9866,91 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                if (HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName != null)
+                if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.PrjTestFileName))
                 {
-                    string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
+                    if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.TestFileName))
+                    {
+                        var strTestDateFormat = string.Empty;
+                        var strTestHoureFormat = string.Empty;
+
+                        HelperApp.uiProjectTestConcludedSelecionado = HelperApp.uiProjectTestConcludedSelecionado == 0 ? Convert.ToInt32(HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded) : HelperApp.uiProjectTestConcludedSelecionado;
+
+                        HelperTestBase.ProjectTestConcluded.Project = new BLL_Operational_Project().GetHelperProjectByIdPrjTestConcluded(HelperApp.uiProjectTestConcludedSelecionado.ToString());
+
+                        string prjTestFilename = HelperTestBase.ProjectTestConcluded?.TestFileName?.Trim();
+
+                        var arrTestDate = HelperTestBase.ProjectTestConcluded.TestDateTime.Substring(0, 10).Split('/');
+                        var arrTestHour = HelperTestBase.ProjectTestConcluded.TestDateTime.Substring(11, 8).Split(':');
+
+                        if (arrTestDate.Count() > 0 && arrTestHour.Count() > 0 && !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.TestFileName?.Trim()))
+                        {
+                            var strFileName = HelperTestBase.ProjectTestConcluded?.TestFileName?.Trim();
+                            var strTestDate = string.Concat(arrTestDate[2], arrTestDate[0], arrTestDate[1]);
+                            var strTestHour = string.Concat(arrTestHour[0], arrTestHour[1], arrTestHour[2]);
+
+                            strTestDateFormat = !strFileName.Substring(0, 8).Equals(strTestDate) ? strFileName.Substring(0, 8) : strTestDate;
+                            strTestHoureFormat = !strFileName.Substring(9, 6).Equals(strTestHour) ? strFileName.Substring(9, 6) : strTestHour;
+                        }
+                        else
+                        {
+                            strTestDateFormat = arrTestDate.Count() == 0 ? HelperTestBase.ProjectTestConcluded?.Project?.PartNumber?.Trim().Substring(0, 8) : string.Concat(arrTestDate[2], arrTestDate[0], arrTestDate[1]);
+                            strTestHoureFormat = arrTestHour.Count() == 0 ? HelperTestBase.ProjectTestConcluded?.Project?.PartNumber?.Trim().Substring(9, 6) : string.Concat(arrTestHour[0], arrTestHour[1], arrTestHour[2]);
+                        }
+
+                        HelperTestBase.ProjectTestConcluded.Project.examtype = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado);
+                        string testTypeName = HelperTestBase.ProjectTestConcluded.Project.examtype == eEXAMTYPE.ET_NONE ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString() : HelperTestBase.ProjectTestConcluded.Project.examtype.ToString();
+
+                        string testIdentName = !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.Identification) ? HelperTestBase.ProjectTestConcluded?.Project?.Identification.Trim() : _helperApp.AppTests_DefaultNameData;
+
+                        prjTestFilename = !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.TestDateTime) ? string.Concat(strTestDateFormat, "_", strTestHoureFormat, "#", HelperApp.uiTesteSelecionado, "#", testTypeName, "#", testIdentName, _helperApp.AppTests_DefaultExtension) : string.Empty;
+
+                        HelperTestBase.ProjectTestConcluded.TestFileName = prjTestFilename;
+                    }
+
+                    string prjConcluded_FileName = string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), _helperApp.AppTests_DefaultExtension);
+
+                    string prjConcluded_PathWithFileName = Path.Combine(_initialDirPathTestFile, HelperTestBase.ProjectTestConcluded.TestFileName.Trim());
+
+                    HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = prjConcluded_PathWithFileName;
+
+                    _prjTestFilename = prjConcluded_PathWithFileName;
+                }
+
+                    string dirReportChartImagePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
 
                     string fileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, _helperApp.AppPath_ChartImageExtension);
+                    
+                    string fileNamesvg = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, @".svg");
+
 
                     string dirReportChartImagehWithFileName = string.Concat(dirReportChartImagePath, fileName);
+
+                    string dirReportChartImagehWithFileNamesvg = string.Concat(dirReportChartImagePath, fileNamesvg);
 
                     if (_helperApp.CheckFileExists(dirReportChartImagehWithFileName))
                         File.Delete(dirReportChartImagehWithFileName);
 
+                    if (_helperApp.CheckFileExists(dirReportChartImagehWithFileNamesvg))
+                        File.Delete(dirReportChartImagehWithFileNamesvg);
+
                     devChart.ExportToImage(dirReportChartImagehWithFileName, ImageFormat.Jpeg);
-                }
-                else
-                {
-                    MessageBox.Show("Failed, currentProjectTest NOT NAME !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
+
+                    //Exporta a imagem em formato .svg
+                    devChart.ExportToSvg(dirReportChartImagehWithFileNamesvg);
+
+                    //Faz a leitura do arquivo
+                    string imgTest_Chartsvg = File.ReadAllText(dirReportChartImagehWithFileNamesvg);
+
+                    //Substitui o Line Stroke de 2 para 0.01 para melhor qualidade de imagem gerada pelo iText (eliminar spikes)
+                    imgTest_Chartsvg = imgTest_Chartsvg.Replace(@"stroke-width=""2""", @"stroke-width=""0.01""");
+
+                    //Substitui a fonta Tahoma por Helvetica (Fonte padrao do PDF)
+                    imgTest_Chartsvg = imgTest_Chartsvg.Replace(@"Tahoma", @"Helvetica");
+
+                    //Salva o arquivo novamente.
+                    File.WriteAllText(dirReportChartImagehWithFileNamesvg, imgTest_Chartsvg);
+
+                    imgTest_Chartsvg = string.Empty;
             }
             catch (Exception ex)
             {
@@ -9826,19 +9965,36 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                if (HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName != null)
+                if (!devChart.IsPrintingAvailable)
                 {
-                    PrintableComponentLink pcl = new PrintableComponentLink(new PrintingSystem());
-                    devChart.OptionsPrint.SizeMode = DevExpress.XtraCharts.Printing.PrintSizeMode.Stretch;
-                    pcl.Component = devChart;
-                    pcl.Landscape = true;
-                    pcl.PaperKind = PaperKind.A4;
-                    pcl.ShowPreviewDialog();
+                    MessageBox.Show("The 'DevExpress.XtraPrinting' is not found", "Error");
+                    return false;
                 }
                 else
                 {
-                    MessageBox.Show("Failed, currentProjectTest NOT NAME !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
+                    if (HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName != null)
+                    {
+                        PrintableComponentLink pcl = new PrintableComponentLink(new PrintingSystem());
+                        devChart.OptionsPrint.SizeMode = DevExpress.XtraCharts.Printing.PrintSizeMode.Stretch;
+                        devChart.OptionsPrint.ImageFormat = DevExpress.XtraCharts.Printing.PrintImageFormat.Metafile;
+                        
+
+                        pcl.Component = devChart;                 
+                        pcl.Landscape = true;
+                        pcl.PaperKind = PaperKind.A4;
+                       
+                        PdfExportOptions pdfOptions = new PdfExportOptions();
+                        pdfOptions.ConvertImagesToJpeg = false;
+                        
+                        pcl.Print();
+
+                        //pcl.ShowPreviewDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed, currentProjectTest NOT NAME !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
                 }
             }
             catch (Exception ex)

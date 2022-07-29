@@ -241,6 +241,72 @@ namespace Continental.Project.Adam.UI.BLL
             }
         }
 
+        public Model_Operational_Project GetHelperProjectByIdProject(string strIdProject)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT");
+                sb.Append(" PR.*");
+                sb.Append(" ,SU.[UName]");
+                sb.Append(" ,SU.[ULogin]");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project] PR");
+                sb.Append(" INNER JOIN [Security_User] SU ON SU.[IdUser] = PR.[IdUserTester]");
+                sb.Append(" WHERE");
+                sb.Append(" PR.[IdProject] = " + strIdProject.Trim());
+
+                string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow row = dt.Rows[0];
+
+                        HelperTestBase.ProjectTestConcluded = new Model_Operational_Project_TestConcluded()
+                        {
+                            Project = new Model_Operational_Project()
+                            {
+                                IdProject = row.Field<long>("IdProject"),
+                                PartNumber = row.Field<string>("PartNumber")?.ToString()?.Trim(),
+                                Identification = row.Field<string>("Identification")?.ToString()?.Trim(),
+                                CustomerType = row.Field<string>("CustomerType")?.ToString()?.Trim(),
+                                Booster = row.Field<string>("Booster")?.ToString()?.Trim(),
+                                TMC = row.Field<string>("TMC")?.ToString()?.Trim(),
+                                ProductionDate = row.Field<string>("ProductionDate")?.ToString()?.Trim(),
+                                T_O = row.Field<string>("T_O")?.ToString()?.Trim(),
+                                IdUserTester = row.Field<long>("IdUserTester"),
+                                TestingDate = row.Field<string>("TestingDate")?.ToString()?.Trim(),
+                                Comment = row.Field<string>("Comment")?.ToString()?.Trim(),
+
+                                User = new Model_SecurityUser()
+                                {
+                                    IdUser = row.Field<long>("IdUserTester"),
+                                    ULogin = row.Field<string>("ULogin")?.ToString()?.Trim(),
+                                    UName = row.Field<string>("UName")?.ToString()?.Trim()
+                                }
+                            }
+                        };
+
+                        return HelperTestBase.ProjectTestConcluded.Project;
+                    }
+
+                    return null;
+                }
+                else
+                    return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetProjectByIdent : " + ex.Message);
+                throw (ex);
+            }
+        }
+
         public Model_Operational_Project GetHelperProjectByIdPrjTestConcluded(string strIdPrjTestConcluded)
         {
             try
