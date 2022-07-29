@@ -18554,9 +18554,7 @@ namespace Continental.Project.Adam.UI.Helper
             if (id <= 0)
                 return string.Empty;
 
-            BLL_Security_User _bll_Security_User = new BLL_Security_User();
-
-            DataTable dt = _bll_Security_User.GetUserById(id);
+            DataTable dt = new BLL_Security_User().GetUserById(id);
 
             string _userName = (string)dt.Rows[0].Field<string>("ULogin");
 
@@ -18568,9 +18566,7 @@ namespace Continental.Project.Adam.UI.Helper
             if (string.IsNullOrEmpty(username))
                 return 0;
 
-            BLL_Security_User _bll_Security_User = new BLL_Security_User();
-
-            DataTable dt = _bll_Security_User.GetUserByName(username.Trim().ToLower());
+            DataTable dt = new BLL_Security_User().GetUserByName(username.Trim().ToLower());
 
             long _userId = (long)dt.Rows[0].Field<long>("IdUser");
 
@@ -18582,9 +18578,7 @@ namespace Continental.Project.Adam.UI.Helper
             if (id <= 0)
                 return null;
 
-            BLL_Security_User _bll_Security_User = new BLL_Security_User();
-
-            DataTable dt = _bll_Security_User.GetUserById(id);
+            DataTable dt = new BLL_Security_User().GetUserById(id);
 
             Model_SecurityUser modelUser = new Model_SecurityUser()
             {

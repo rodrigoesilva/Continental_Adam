@@ -59,16 +59,14 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append(" FROM");
                 sb.Append(" [Security_User] SU");
                 sb.Append(" WHERE");
-                sb.Append(" SU.[ULogin] = '" + name + "'");
+                sb.Append(" SU.[UName] = '" + name + "'");
 
                 string sql = sb.ToString();
 
                 DataTable dt = db.GetDataTable(sql);
 
                 if (dt != null)
-                {
                     return dt;
-                }
                 else
                     return null;
             }

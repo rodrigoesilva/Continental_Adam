@@ -89,7 +89,7 @@ namespace Continental.Project.Adam.UI
             mtxt_Comment.Text = string.Empty;
         }
         ///---------------------------------------------------------------------------
-        private void HeaderDataToDialog(Model_Operational_Project_TestConcluded model)
+        private void ModelToHeaderData(Model_Operational_Project_TestConcluded model)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace Continental.Project.Adam.UI
             }
         }
         ///---------------------------------------------------------------------------
-        private Model_Operational_Project_TestConcluded DialogToHeaderData(Model_Operational_Project_TestConcluded model)
+        private Model_Operational_Project_TestConcluded HeaderDataToModel(Model_Operational_Project_TestConcluded model)
         {
             try
             {
@@ -206,7 +206,7 @@ namespace Continental.Project.Adam.UI
 
                     modelPrjTestConcluded.Project = new Model_Operational_Project();
 
-                    modelPrjTestConcluded = DialogToHeaderData(modelPrjTestConcluded);
+                    modelPrjTestConcluded = HeaderDataToModel(modelPrjTestConcluded);
 
                     if (DialogResult.Yes == MessageBox.Show($"      Are you sure you want to create project \n\n\t\t {modelPrjTestConcluded.Project.Identification} \n\n\t and all it´s measurement data? \n\n\t  Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                     {
@@ -214,17 +214,11 @@ namespace Continental.Project.Adam.UI
 
                         if (idProjectInsert > 0)
                         {
-                            HelperTestBase.ProjectTestConcluded.IdProject = idProjectInsert;
-
-                            HelperApp.uiProjectSelecionado = idProjectInsert;
-
                             modelPrjTestConcluded.Project.IdProject = idProjectInsert;
 
-                            HelperTestBase.ProjectTestConcluded.Project = modelPrjTestConcluded.Project;
+                            HelperTestBase.ProjectTestConcluded = modelPrjTestConcluded;
 
-                            HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
-
-                            HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.Project?.Identification, " ]");
+                            HelperTestBase.ProjectTestConcluded.IdProject = idProjectInsert;
                         }
                         else
                         {
@@ -391,7 +385,7 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (selected_entry && modelOperationalProjectTestConcluded.IdProjectTestConcluded > 0)
                                 {
-                                    HeaderDataToDialog(modelOperationalProjectTestConcluded);
+                                    ModelToHeaderData(modelOperationalProjectTestConcluded);
 
                                     EnableButtons();
                                 }
@@ -760,18 +754,33 @@ namespace Continental.Project.Adam.UI
             }
             else
             {
-                if (!selected_entry)
+                if (selected_entry)
                 {
                     if (CheckProjectExists())
                     {
-                        MessageBox.Show("Failed, Project Exist!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        Model_Operational_Project_TestConcluded modelPrjTestConcluded = new Model_Operational_Project_TestConcluded();
+
+                        HelperTestBase.ProjectTestConcluded = modelPrjTestConcluded;
+
+                        HelperTestBase.ProjectTestConcluded.Project = new Model_Operational_Project();
+
+                        HelperTestBase.ProjectTestConcluded = HeaderDataToModel(modelPrjTestConcluded);
+
+                        var abc = HelperApp.uiProjectSelecionado;
                     }
                     else
                     {
                         if (SaveProjectData())
                         {
+                            var idProjectInsert = HelperTestBase.ProjectTestConcluded.IdProject;
+
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
+
+                            HelperTestBase.ProjectTestConcluded.IdProject = idProjectInsert;
+
+                            HelperApp.uiProjectSelecionado = (int)idProjectInsert;
+
+                            HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.Project?.Identification, " ]");
 
                             MessageBox.Show("Success, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }

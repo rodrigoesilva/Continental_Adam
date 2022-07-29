@@ -734,6 +734,8 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TABS
+
+        #region TABS Methods
         public void TAB_Enable()
         {
             tab_ChartEnable = true;
@@ -746,6 +748,8 @@ namespace Continental.Project.Adam.UI
 
             _bRunTestExecuted = false;
         }
+
+        #endregion
 
         #region TAB - Main
         private void TAB_Main_Selecting(object sender, TabControlCancelEventArgs e)
@@ -2380,7 +2384,8 @@ namespace Continental.Project.Adam.UI
             TAB_Disable();
 
             if (!_bAppStart)
-                TEST_Concluded_ClearData();
+                if (HelperApp.uiProjectSelecionado == 0)
+                    TEST_Concluded_ClearData();
             //{
             //        if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
             //            lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
