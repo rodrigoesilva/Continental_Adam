@@ -309,7 +309,7 @@ namespace Continental.Project.Adam.UI
 
             SubMenuProject_Disable();
 
-            TAB_Disable();
+            TAB_Disable(_helperApp.GetMethodName());
 
             TAB_Main_ActivePage(2, _helperApp.GetMethodName());
 
@@ -642,7 +642,7 @@ namespace Continental.Project.Adam.UI
         #region BUTTONS HEADER
         private void mbtn_BStart_Click(object sender, EventArgs e)
         {
-            TAB_Disable();
+            TAB_Disable(_helperApp.GetMethodName());
 
             TEST_Start_Command();
         }
@@ -736,12 +736,12 @@ namespace Continental.Project.Adam.UI
         #region TABS
 
         #region TABS Methods
-        public void TAB_Enable()
+        public void TAB_Enable(string origin)
         {
             tab_ChartEnable = true;
             tab_TableResultsEnable = true;
         }
-        public void TAB_Disable()
+        public void TAB_Disable(string origin)
         {
             tab_TableResultsEnable = false;
             tab_ChartEnable = false;
@@ -850,37 +850,6 @@ namespace Continental.Project.Adam.UI
             else
                 MessageBox.Show("Error, invalid test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
-        private void OpenURLInBrowser(string url)
-        {
-            try
-            {
-                TAB_Main.SuspendLayout();
-
-                ChromiumWebBrowser webBrowser = new ChromiumWebBrowser(url);
-
-                var tabWebVisuCPX = new TabPage(url)
-                {
-                    Dock = DockStyle.Fill,
-                    Text = "CPX_Visu",
-                    Name = "tab_CPX_Visu"
-                };
-
-                tabWebVisuCPX.Controls.Add(webBrowser);
-
-                if (TAB_Main.TabPages["tab_CPX_Visu"] == null)
-                    TAB_Main.TabPages.Add(tabWebVisuCPX);
-
-                //TAB_Main.SelectedTab = tabWebVisuCPX;
-
-                TAB_Main.ResumeLayout(true);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
-            }
-        }
-
         #endregion
 
         #region TAB - TableResults
@@ -890,10 +859,10 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                if (!tab_TableResultsEnable && !_bRunTestExecuted)
-                    return false;
-                else
-                {
+                //if (!tab_TableResultsEnable && !_bRunTestExecuted)
+                //    return false;
+                //else
+                //{
                     if (HelperApp.uiTesteSelecionado != 0)
                     {
                         //grid
@@ -929,7 +898,7 @@ namespace Continental.Project.Adam.UI
 
                         return false;
                     }
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -953,8 +922,6 @@ namespace Continental.Project.Adam.UI
 
                 #region Get Grids Info
 
-                Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[3];
-
                 //data info Grid Results
 
                 DataTable dtTableResults = new BLL_Main_Tab_TableResults().PopulateGridTableResultsByTest(strIdxTestSelected);
@@ -977,55 +944,13 @@ namespace Continental.Project.Adam.UI
                     {
                         if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
                         {
-                            #region load existent file project
+                            #region load existent Header File project
 
-                            #region Define
-
-                            string fileNameHeader = string.Empty;
-
-                            string pathWithFileNameHeader = string.Empty;
-
-                            #endregion
-
-                            #region Header Name File Test
-
-                            string strHeader = _helperApp.AppTests_DefaultNameHeader;
-
-                            if (!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName))
-                            {
-                                pathWithFileNameHeader = (HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Contains(_helperApp.AppTests_DefaultNameData) ? HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_helperApp.AppTests_DefaultNameData, strHeader) : string.Concat(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_helperApp.AppTests_DefaultExtension, string.Empty), strHeader, _helperApp.AppTests_DefaultExtension));
-                                fileNameHeader = string.Concat(pathWithFileNameHeader.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty), _helperApp.AppTests_DefaultExtension);
-                            }
-
-                            #endregion
-
-                            #region load data
-
-                            if (_helperApp.CheckFileExists(pathWithFileNameHeader))
-                            {
-                                if (string.IsNullOrEmpty(fileNameHeader))
-                                {
-                                    MessageBox.Show("Failed, error fileNameHeader project null !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    return false;
-                                }
-                                else
-                                {
-                                    if (fileNameHeader.Contains(strHeader))
-                                        dicReturnReadFileHeader = _helperApp.ReadTXTFileHeaderHBM(fileNameHeader, pathWithFileNameHeader);
-                                    else
-                                    {
-                                        MessageBox.Show("Failed, error fileNameHeader project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        return false;
-                                    }
-                                }
-                            }
-                            else
+                            if (!_helperApp.ReadTXTFileHeaderHBM())
                             {
                                 MessageBox.Show("Failed, error pathWithFileNameHeader project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return false;
                             }
-
-                            #endregion
 
                             #endregion
                         }
@@ -1039,14 +964,14 @@ namespace Continental.Project.Adam.UI
                             return false;
                         }
 
-                        if (dicReturnReadFileHeader[0]?.Count() == 0)
+                        if (HelperApp.dicReadFileHeader[0]?.Count() == 0)
                         {
                             MessageBox.Show("Error, dicReturnReadFileHeader result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return false;
                         }
                     }
 
-                    listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam, dicReturnReadFileHeader);
+                    listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam, HelperApp.dicReadFileHeader);
 
                     if (listResultParam?.Count() == 0 || listResultParam == null)
                     {
@@ -1641,9 +1566,7 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                BLL_Main_Tab_ActuationParameters _bll_Main_Tab_ActionParameters = new BLL_Main_Tab_ActuationParameters();
-
-                DataTable dtActionParameter = _bll_Main_Tab_ActionParameters.PopulateActionParametersByTest(strIdxTestSelected);
+                DataTable dtActionParameter = new BLL_Main_Tab_ActuationParameters().PopulateActionParametersByTest(strIdxTestSelected);
 
                 if (dtActionParameter.Rows.Count == 0)
                 {
@@ -1707,7 +1630,7 @@ namespace Continental.Project.Adam.UI
 
                     #region Evaluation Parameters
 
-                    DataTable dtGridEvalParameters = _bll_Main_Tab_ActionParameters.PopulateGridEvalParametersByTest(strIdxTestSelected);
+                    DataTable dtGridEvalParameters = new BLL_Main_Tab_ActuationParameters().PopulateGridEvalParametersByTest(strIdxTestSelected);
 
                     if (dtGridEvalParameters == null)
                     {
@@ -1716,7 +1639,6 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        Dictionary<string, string>[] dicReturnReadFileHeader = new Dictionary<string, string>[4];
                         List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = new List<ActuationParameters_EvaluationParameters>();
 
                         if (dtGridEvalParameters.Rows.Count > 0)
@@ -1733,6 +1655,15 @@ namespace Continental.Project.Adam.UI
                                         {
                                             if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
                                                 lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
+
+                                            for (int i = 0; i < lstInfoEvaluationParameters.Count; i++)
+                                            {
+                                                string strGridParam_Name = grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Name"].Value?.ToString();
+
+                                                string strGridParamHeaderFile_Value = lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals(strGridParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString("F2")?.Trim();
+
+                                                grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Hi"].Value = strGridParamHeaderFile_Value;
+                                            }
                                         }
                                         else
                                             lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
@@ -2381,7 +2312,7 @@ namespace Continental.Project.Adam.UI
         private void mcbo_GeneralSettings_CoBSelectTest_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            TAB_Disable();
+            TAB_Disable(_helperApp.GetMethodName());
 
             if (!_bAppStart)
                 if (HelperApp.uiProjectSelecionado == 0)
@@ -2574,14 +2505,14 @@ namespace Continental.Project.Adam.UI
                     {
                         if (HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
                         {
-                            if (TXTFileHBM_LoadData())
+                            if (TXTFileHBM_LoadData(_helperApp.GetMethodName()))
                             {
-                                TAB_Enable();
+                                TAB_Enable(_helperApp.GetMethodName());
                                 TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                             }
                             else
                             {
-                                TAB_Disable();
+                                TAB_Disable(_helperApp.GetMethodName());
                                 TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
                                 MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
@@ -2591,14 +2522,14 @@ namespace Continental.Project.Adam.UI
                         {
                             //if (!_bPrjTestOffLineCarregado)
                             //{
-                            if (TXTFileHBM_LoadDataConcluded())
+                            if (TXTFileHBM_LoadDataConcluded(_helperApp.GetMethodName()))
                             {
-                                TAB_Enable();
+                                TAB_Enable(_helperApp.GetMethodName());
                                 TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                             }
                             else
                             {
-                                TAB_Disable();
+                                TAB_Disable(_helperApp.GetMethodName());
                                 TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
                                 MessageBox.Show("Error TXTFileHBM_LoadDataConcluded, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
@@ -2635,9 +2566,9 @@ namespace Continental.Project.Adam.UI
                     {
                         if (HelperTestBase.ProjectTestConcluded.Project.is_OnLIne)
                         {
-                            if (TXTFileHBM_LoadData())
+                            if (TXTFileHBM_LoadData(_helperApp.GetMethodName()))
                             {
-                                TAB_Enable();
+                                TAB_Enable(_helperApp.GetMethodName());
                                 TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                             }
                             else
@@ -2647,9 +2578,9 @@ namespace Continental.Project.Adam.UI
                         {
                             //if (!_bPrjTestOffLineCarregado)
                             //{
-                            if (TXTFileHBM_LoadDataConcluded())
+                            if (TXTFileHBM_LoadDataConcluded(_helperApp.GetMethodName()))
                             {
-                                TAB_Enable();
+                                TAB_Enable(_helperApp.GetMethodName());
                                 TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                             }
                             else
@@ -5531,6 +5462,36 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
         }
+        private void OpenURLInBrowser(string url)
+        {
+            try
+            {
+                TAB_Main.SuspendLayout();
+
+                ChromiumWebBrowser webBrowser = new ChromiumWebBrowser(url);
+
+                var tabWebVisuCPX = new TabPage(url)
+                {
+                    Dock = DockStyle.Fill,
+                    Text = "CPX_Visu",
+                    Name = "tab_CPX_Visu"
+                };
+
+                tabWebVisuCPX.Controls.Add(webBrowser);
+
+                if (TAB_Main.TabPages["tab_CPX_Visu"] == null)
+                    TAB_Main.TabPages.Add(tabWebVisuCPX);
+
+                //TAB_Main.SelectedTab = tabWebVisuCPX;
+
+                TAB_Main.ResumeLayout(true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
 
         #endregion
 
@@ -6110,7 +6071,7 @@ namespace Continental.Project.Adam.UI
 
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
-                            TAB_Enable();
+                            TAB_Enable(_helperApp.GetMethodName());
 
                             SubMenuProject_Enable();
 
@@ -6124,7 +6085,7 @@ namespace Continental.Project.Adam.UI
 
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
 
-                            TAB_Disable();
+                            TAB_Disable(_helperApp.GetMethodName());
 
                             SubMenuProject_Disable();
 
@@ -6141,7 +6102,7 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                TAB_Disable();
+                TAB_Disable(_helperApp.GetMethodName());
 
                 SubMenuProject_Disable();
 
@@ -6175,7 +6136,7 @@ namespace Continental.Project.Adam.UI
 
                     HelperTestBase.ProjectTestConcluded.Project.is_OnLIne = true;
 
-                    if (TXTFileHBM_LoadData())
+                    if (TXTFileHBM_LoadData(_helperApp.GetMethodName()))
                     {
                         _modelGVL = HelperTestBase.Model_GVL;
 
@@ -6189,7 +6150,7 @@ namespace Continental.Project.Adam.UI
                                 {
                                     _bRunTestExecuted = false;
 
-                                    TAB_Disable();
+                                    TAB_Disable(_helperApp.GetMethodName());
 
                                     MessageBox.Show("Error TEST_Concluded_SaveData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -6202,7 +6163,7 @@ namespace Continental.Project.Adam.UI
                         else
                         {
                             _bRunTestExecuted = false;
-                            TAB_Disable();
+                            TAB_Disable(_helperApp.GetMethodName());
                             MessageBox.Show("Error TXTFileHBM_HeaderCreate, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                             return false;
@@ -6211,7 +6172,7 @@ namespace Continental.Project.Adam.UI
                     else
                     {
                         _bRunTestExecuted = false;
-                        TAB_Disable();
+                        TAB_Disable(_helperApp.GetMethodName());
                         MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         return false;
@@ -6221,7 +6182,7 @@ namespace Continental.Project.Adam.UI
             catch (Exception ex)
             {
                 _bRunTestExecuted = false;
-                TAB_Disable();
+                TAB_Disable(_helperApp.GetMethodName());
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
@@ -6249,20 +6210,29 @@ namespace Continental.Project.Adam.UI
 
                 HelperTestBase.ProjectTestConcluded.Project.TestAvailable = new Model_Manager_TestAvailable()
                 {
-                    IdTestAvailable = HelperApp.uiTesteSelecionado,
-                    //Test = HelperApp.strNomeTesteSelecionado.ToString()?.Trim()
+                    IdTestAvailable = HelperApp.uiTesteSelecionado
                 };
 
-                int idProjectTestConcludedInsert = new BLL_Operational_Project().AddProjectTestConcluded(modelPrjTestConcluded);
-
-                if (idProjectTestConcludedInsert > 0)
+                //Update Project data
+                if (new BLL_Operational_Project().UpdateProject(modelPrjTestConcluded.IdProject, modelPrjTestConcluded.TestDateTime))
                 {
-                    HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded = idProjectTestConcludedInsert;
-                    return true;
-                } 
+                    //Save Project Concluded Data
+                    int idProjectTestConcludedInsert = new BLL_Operational_Project().AddProjectTestConcluded(modelPrjTestConcluded);
+
+                    if (idProjectTestConcludedInsert > 0)
+                    {
+                        HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded = idProjectTestConcludedInsert;
+                        return true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
                 else
                 {
-                    MessageBox.Show("Failed, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed, update project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
@@ -6316,7 +6286,7 @@ namespace Continental.Project.Adam.UI
 
                     //TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName());
 
-                    TXTFileHBM_LoadDataConcluded();
+                    TXTFileHBM_LoadDataConcluded(_helperApp.GetMethodName());
 
                     TAB_Main_ActivePage(2, _helperApp.GetMethodName());
 
@@ -6445,7 +6415,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TXT File Load
-        private bool TXTFileHBM_LoadData()
+        private bool TXTFileHBM_LoadData(string origin)
         {
             try
             {
@@ -6481,7 +6451,7 @@ namespace Continental.Project.Adam.UI
                 {
                     fileName = string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName) ? _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty) : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, string.Empty);
 
-                    pathWithFileName = string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName) ? _prjTestFilename : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
+                    pathWithFileName = !string.IsNullOrEmpty(_prjTestFilename) ? _prjTestFilename : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
                 }
 
                 #endregion
@@ -6501,11 +6471,12 @@ namespace Continental.Project.Adam.UI
                     {
                         HelperTestBase.ProjectTestConcluded.Project = new BLL_Operational_Project().GetHelperProjectByIdProject(HelperApp.uiProjectSelecionado.ToString());
 
-
                         HelperApp.uiTesteSelecionado = Convert.ToInt32(strArray[1]);
                         HelperTestBase.ProjectTestConcluded.TestDateTime = strArray[0].ToString();
-                        //HelperTestBase.ProjectTestConcluded.Project.TestingDate = HelperTestBase.ProjectTestConcluded.Project.IdProject > 0 ?  HelperTestBase.ProjectTestConcluded.TestDateTime : HelperTestBase.ProjectTestConcluded.Project.TestingDate;
-                        //HelperTestBase.ProjectTestConcluded.Project.Identification = HelperTestBase.ProjectTestConcluded.Project.IdProject > 0 ? HelperTestBase.ProjectTestConcluded.Project.Identification : strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
+
+                        if (HelperTestBase.ProjectTestConcluded.Project != null)
+                            if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.PrjTestFileName))
+                                HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName) ? _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty) : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, string.Empty);
                     }
 
                     lstStrChReadFileArr = _helperApp.ReadTXTFileHBM(fileName, pathWithFileName);
@@ -6566,7 +6537,7 @@ namespace Continental.Project.Adam.UI
                                 return false;
                             }
 
-                            TAB_Disable();
+                            TAB_Enable(_helperApp.GetMethodName());
 
                             HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
@@ -6578,6 +6549,8 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
+                        TAB_Disable(_helperApp.GetMethodName());
+
                         MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
@@ -6595,7 +6568,7 @@ namespace Continental.Project.Adam.UI
             return true;
         }
 
-        private bool TXTFileHBM_LoadDataConcluded()
+        private bool TXTFileHBM_LoadDataConcluded(string origin)
         {
             try
             {
@@ -6704,6 +6677,10 @@ namespace Continental.Project.Adam.UI
                             HelperTestBase.ProjectTestConcluded.Project.Identification = string.IsNullOrWhiteSpace(HelperTestBase.ProjectTestConcluded.Project.Identification) ? strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty) : HelperTestBase.ProjectTestConcluded.Project.Identification;
                         }
 
+                        //Read Test File Header
+                        lstStrChReadFileArr = _helperApp.ReadTXTFileHBM(prjConcluded_FileName, prjConcluded_PathWithFileName);
+
+                        //Read Test File Data
                         lstStrChReadFileArr = _helperApp.ReadTXTFileHBM(prjConcluded_FileName, prjConcluded_PathWithFileName);
 
                         if (lstStrChReadFileArr[0]?.Count() > 0)
@@ -6732,7 +6709,7 @@ namespace Continental.Project.Adam.UI
 
                             if (!_modelGVL.GVL_Graficos.bDadosCalculados)
                             {
-                                TAB_Disable();
+                                TAB_Disable(_helperApp.GetMethodName());
 
                                 string strMsg = "Failed, test information not calculated !";
 
@@ -6753,7 +6730,7 @@ namespace Continental.Project.Adam.UI
                                         MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
 
-                                TAB_Enable();
+                                TAB_Enable(_helperApp.GetMethodName());
 
                                 HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
 
@@ -6765,7 +6742,7 @@ namespace Continental.Project.Adam.UI
                         }
                         else
                         {
-                            TAB_Disable();
+                            TAB_Disable(_helperApp.GetMethodName());
 
                             MessageBox.Show("Failed lstStrChReadFileArr[0]?.Count() , reloading project in TXTFileHBM_LoadDataConcluded !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return false;
@@ -6776,7 +6753,7 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                TAB_Disable();
+                TAB_Disable(_helperApp.GetMethodName());
 
                 MessageBox.Show(string.Concat("Catch TXTFileHBM_LoadDataConcluded - ", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -6809,7 +6786,7 @@ namespace Continental.Project.Adam.UI
 
                 #endregion
 
-                #region Write Union File Test
+                #region Write Header File Test
 
                 if (_helperApp.CheckFileExists(_prjTestFilename))
                 {
@@ -6890,111 +6867,117 @@ namespace Continental.Project.Adam.UI
             try
             {
                 if (!_bPrjTestOffLineCarregado)
-                    TXTFileHBM_LoadData();
-
-                if (HelperApp.uiTesteSelecionado > 0)
-                {
-                    #region Name Union File Test
-
-                    _prjTestFilename = !string.IsNullOrEmpty(_prjTestFilename) ? _prjTestFilename : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
-
-                    string strUnion = _helperApp.AppTests_DefaultNameUnion;
-                    string strFileName = _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
-
-                    string strTestFilenameUnion = string.Concat(strFileName.Replace(_helperApp.AppTests_DefaultNameData, string.Empty), strUnion, _helperApp.AppTests_DefaultExtension);
-
-                    _prjTestHeaderFilename = Path.Combine(_initialDirPathTestFile, string.Concat(strFileName.Replace(_helperApp.AppTests_DefaultNameData, string.Empty), _helperApp.AppTests_DefaultNameHeader, _helperApp.AppTests_DefaultExtension));
-
-                    #endregion
-
-                    #region Write Union File Test
-
-                    if (!_helperApp.CheckFileExists(_prjTestFilename))
+                    if(!TXTFileHBM_LoadData(_helperApp.GetMethodName()))
                     {
-                        MessageBox.Show("Test file NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Failed, TXTFileHBM_LoadData project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
                     else
-                    {
-                        if (!_helperApp.CheckFileExists(_prjTestHeaderFilename))
+                    {                
+                        if (HelperApp.uiTesteSelecionado > 0)
                         {
-                            MessageBox.Show("Failed, Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
-                        else
-                        {
-                            _helperApp.lstStrReturnReadFileLines.ForEach(item => sbDataFile.Append(item + "\r\n"));
+                            #region Name Union File Test
 
-                            ////Get Info Grid Param
-                            HelperApp.lstEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+                            _prjTestFilename = !string.IsNullOrEmpty(_prjTestFilename) ? _prjTestFilename : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
 
-                            ////Get Info Header Param
-                            _helperApp.TXTFileHBM_HeaderAppendDataProjectParameters(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL);
+                            string strUnion = _helperApp.AppTests_DefaultNameUnion;
+                            string strFileName = _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty).Replace(_helperApp.AppTests_DefaultExtension, string.Empty);
 
-                            if (string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
+                            string strTestFilenameUnion = string.Concat(strFileName.Replace(_helperApp.AppTests_DefaultNameData, string.Empty), strUnion, _helperApp.AppTests_DefaultExtension);
+
+                            _prjTestHeaderFilename = Path.Combine(_initialDirPathTestFile, string.Concat(strFileName.Replace(_helperApp.AppTests_DefaultNameData, string.Empty), _helperApp.AppTests_DefaultNameHeader, _helperApp.AppTests_DefaultExtension));
+
+                            #endregion
+
+                            #region Write Union File Test
+
+                            if (!_helperApp.CheckFileExists(_prjTestFilename))
                             {
-                                MessageBox.Show("Failed, Union Header Test File sbHeaderAppendTxtData lost data !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Test file NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return false;
                             }
                             else
                             {
-                                var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
-
-                                ////Get Info Header Table Result
-                                _helperApp.TXTFileHBM_HeaderAppendTableResults(HelperApp.uiTesteSelecionado).ToString();
-
-                                ////Insert Curve Names
-                                string strSbHeaderResults_CurverNames = String.Concat(HelperTestBase.sbHeaderResultsAppendTxtData, Environment.NewLine);
-
-                                var strHeaderComplete = string.Concat(strSbHeader, strSbHeaderResults_CurverNames);
-
-                                var strUnionAll = string.Concat(strHeaderComplete, sbDataFile.ToString());
-
-                                #region dialog user path
-
-                                SaveFileDialog theDialog = new SaveFileDialog();
-                                theDialog.Title = "Save Export File";
-                                theDialog.Filter = "TXT files|*.txt;*.tst";
-                                theDialog.FileName = strTestFilenameUnion;
-                                theDialog.InitialDirectory = string.Concat(_initialDirPathTestFile, "TestsExport\\");
-                                theDialog.RestoreDirectory = true;
-
-                                if (theDialog.ShowDialog() == DialogResult.OK)
+                                if (!_helperApp.CheckFileExists(_prjTestHeaderFilename))
                                 {
-                                    _prjTestFilenameUnion = theDialog.FileName;
-
-                                    ////Create File Union Acquisition
-                                    if (_helperApp.CheckFileExists(_prjTestFilenameUnion))
-                                    {
-                                        MessageBox.Show("Failed, Union Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        return false;
-                                    }
-                                    else
-                                        File.WriteAllText(_prjTestFilenameUnion, strUnionAll);
+                                    MessageBox.Show("Failed, Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return false;
                                 }
                                 else
                                 {
-                                    MessageBox.Show("User Canceled action!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    return false;
+                                    _helperApp.lstStrReturnReadFileLines.ForEach(item => sbDataFile.Append(item + "\r\n"));
+
+                                    ////Get Info Grid Param
+                                    HelperApp.lstEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+
+                                    ////Get Info Header Param
+                                    _helperApp.TXTFileHBM_HeaderAppendDataProjectParameters(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL);
+
+                                    if (string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
+                                    {
+                                        MessageBox.Show("Failed, Union Header Test File sbHeaderAppendTxtData lost data !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
+
+                                        ////Get Info Header Table Result
+                                        _helperApp.TXTFileHBM_HeaderAppendTableResults(HelperApp.uiTesteSelecionado).ToString();
+
+                                        ////Insert Curve Names
+                                        string strSbHeaderResults_CurverNames = String.Concat(HelperTestBase.sbHeaderResultsAppendTxtData, Environment.NewLine);
+
+                                        var strHeaderComplete = string.Concat(strSbHeader, strSbHeaderResults_CurverNames);
+
+                                        var strUnionAll = string.Concat(strHeaderComplete, sbDataFile.ToString());
+
+                                        #region dialog user path
+
+                                        SaveFileDialog theDialog = new SaveFileDialog();
+                                        theDialog.Title = "Save Export File";
+                                        theDialog.Filter = "TXT files|*.txt;*.tst";
+                                        theDialog.FileName = strTestFilenameUnion;
+                                        theDialog.InitialDirectory = string.Concat(_initialDirPathTestFile, "TestsExport\\");
+                                        theDialog.RestoreDirectory = true;
+
+                                        if (theDialog.ShowDialog() == DialogResult.OK)
+                                        {
+                                            _prjTestFilenameUnion = theDialog.FileName;
+
+                                            ////Create File Union Acquisition
+                                            if (_helperApp.CheckFileExists(_prjTestFilenameUnion))
+                                            {
+                                                MessageBox.Show("Failed, Union Header Test File existing !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return false;
+                                            }
+                                            else
+                                                File.WriteAllText(_prjTestFilenameUnion, strUnionAll);
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("User Canceled action!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                            return false;
+                                        }
+
+                                        #endregion
+                                
+                                    }
                                 }
 
-                                #endregion
-                                
                             }
+
+                            #endregion
                         }
+                        else
+                        {
+                            _bRunTestExecuted = false;
+                            TAB_Disable(_helperApp.GetMethodName());
+                            MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+                            return false;
+                        }
                     }
-
-                    #endregion
-                }
-                else
-                {
-                    _bRunTestExecuted = false;
-                    TAB_Disable();
-                    MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                    return false;
-                }
             }
             #region Exceptions
             catch (DirectoryNotFoundException dirNotFoundException)
@@ -7077,8 +7060,14 @@ namespace Continental.Project.Adam.UI
             {
                 if (HelperApp.uiTesteSelecionado != 0)
                 {
-                    if (HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName != null)
+                    HelperTestBase.ProjectTestConcluded.Project = new BLL_Operational_Project().GetHelperProjectByIdProject(HelperApp.uiProjectSelecionado.ToString());
+
+                    if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName))
                     {
+                        HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName) ? _prjTestFilename.Replace(_initialDirPathTestFile, string.Empty) : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, string.Empty);
+
+                        var pathWithFileName = string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName) ? _prjTestFilename : HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName;
+
                         string dirReportChartImagePath = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppPath_ChartImageTests);
 
                         string strFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(_initialDirPathTestFile, "").Replace(_helperApp.AppTests_DefaultExtension, string.Empty);

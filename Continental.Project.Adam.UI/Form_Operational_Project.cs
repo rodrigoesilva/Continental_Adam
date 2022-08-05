@@ -125,7 +125,7 @@ namespace Continental.Project.Adam.UI
                 model.Project.ProductionDate = !string.IsNullOrEmpty(mtxt_ProductionDate.Text) ? mtxt_ProductionDate.Text.Trim() : nullValue;
                 model.Project.T_O = !string.IsNullOrEmpty(mtxt_TO.Text) ? mtxt_TO.Text.Trim() : nullValue;
                 model.Project.IdUserTester = !string.IsNullOrEmpty(mtxt_Tester.Text) ? _helperApp.GetUserIdByName(mtxt_Tester.Text) : HelperApp.UserId;
-                model.Project.TestingDate = !string.IsNullOrEmpty(mtxt_TestingDate?.Text) ? mtxt_TestingDate.Text.Trim() : nullValue;
+                model.Project.TestingDate = selected_entry ? !string.IsNullOrEmpty(mtxt_TestingDate?.Text) ? mtxt_TestingDate.Text.Trim() : nullValue : nullValue;
                 model.Project.Comment = !string.IsNullOrEmpty(mtxt_Comment.Text) ? mtxt_Comment.Text.Trim() : nullValue;
 
                 if (model.Project.IdUserTester != 0)
@@ -173,10 +173,10 @@ namespace Continental.Project.Adam.UI
                 mtxt_TestTypeName.ReadOnly = true;
 
                 mtxt_Tester.Text = _helperApp.GetUserName(HelperApp.UserId)?.ToUpper();
+
                 mtxt_Tester.ReadOnly = true;
 
-                string strTestingDateFormat = string.Concat("MM/dd/yyyy", " - ", "HH:mm:ss");
-                mtxt_TestingDate.Text = DateTime.Now.ToString(strTestingDateFormat);
+                mtxt_TestingDate.Text = DateTime.Now.ToString("MM/dd/yyyy");
             }
             catch (Exception ex)
             {
@@ -706,6 +706,9 @@ namespace Continental.Project.Adam.UI
                     if (DialogResult.Yes == MessageBox.Show("Are you sure to drop the selected test and all it´s measurement data?" + "\n" + "Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
                     {
                         //delet project test
+                        //delete [DB_ADAM].[dbo].[Operational_Project_TestConcluded] where [IdProject] = 10072
+                        //--delete[DB_ADAM].[dbo].[Operational_Project] where[IdProject] = 10072
+
                         if (!bll_Project.DeleteProjectTestConcluded(strIdProjectTestConcluded, strIdProjectSelect))
                             MessageBox.Show("Error drop select Test item", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         else
@@ -754,8 +757,8 @@ namespace Continental.Project.Adam.UI
             }
             else
             {
-                if (selected_entry)
-                {
+                //if (selected_entry)
+                //{
                     if (CheckProjectExists())
                     {
                         Model_Operational_Project_TestConcluded modelPrjTestConcluded = new Model_Operational_Project_TestConcluded();
@@ -766,7 +769,7 @@ namespace Continental.Project.Adam.UI
 
                         HelperTestBase.ProjectTestConcluded = HeaderDataToModel(modelPrjTestConcluded);
 
-                        var abc = HelperApp.uiProjectSelecionado;
+                        HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.Project?.Identification, " ]");
                     }
                     else
                     {
@@ -791,7 +794,7 @@ namespace Continental.Project.Adam.UI
                             CurrentProjectData_Clear();
                         }
                     }
-                }
+               // }
 
                 HelperApp.bLoadPrjTestOffLine = false;
 

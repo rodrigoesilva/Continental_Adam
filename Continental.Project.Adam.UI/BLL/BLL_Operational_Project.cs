@@ -46,7 +46,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public DataTable GetChildTestsByProject(string idProject)
         {
             try
@@ -92,7 +91,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public DataTable GetChildTestsByProjectAndTestType(string idProject, string strTestTypeName)
         {
             try
@@ -134,7 +132,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public DataTable GetProject_TestConcluded(string idProject, string IdTestAvailable)
         {
             try
@@ -178,7 +175,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public DataTable GetProjectByIdent(string strIdent)
         {
             try
@@ -209,7 +205,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public DataTable GetProjectById(string strIdPrj)
         {
             try
@@ -240,7 +235,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public Model_Operational_Project GetHelperProjectByIdProject(string strIdProject)
         {
             try
@@ -306,7 +300,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public Model_Operational_Project GetHelperProjectByIdPrjTestConcluded(string strIdPrjTestConcluded)
         {
             try
@@ -391,7 +384,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public DataTable GetNodeAvailableTests(string idTestGroup)
         {
             try
@@ -427,7 +419,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public DataTable GetUserDefinedTests()
         {
             try
@@ -707,6 +698,41 @@ namespace Continental.Project.Adam.UI.BLL
             }
 
             return retProjTestConcluded;
+        }
+
+        #endregion
+
+        #region UPDATE
+        public bool UpdateProject(long idProject, string strTestDateTime)
+        {
+            string sql = string.Empty;
+
+            bool retUpdateProject = false;
+
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("UPDATE");
+                sb.Append(" [Operational_Project]");
+                sb.Append(" SET");
+                sb.Append(" [TestingDate] = '" + strTestDateTime.Trim() + "'");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProject] = '" + idProject + "'");
+
+                sql = sb.ToString();
+
+                int retUpdate = db.ExecuteNonQuery(sql);
+
+                retUpdateProject = retUpdate > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - UpdateProject : " + ex.Message);
+                throw ex;
+            }
+
+            return retUpdateProject;
         }
 
         #endregion

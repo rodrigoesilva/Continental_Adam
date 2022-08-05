@@ -3138,87 +3138,47 @@ namespace Continental.Project.Adam.UI.Helper
         }
         public List<ActuationParameters_EvaluationParameters> GridView_GetValuesEvalParamOffLineByFile(DataGridView grid)
         {
-            #region Define
-
             //Setup list object
             var lstParamAnalog = new List<ActuationParameters_EvaluationParameters>();
 
-            string fileName = string.Empty;
-
-            string pathWithFileName = string.Empty;
-
-            #endregion
-
             try
             {
-                #region load existent file project
 
-                #region Header Name File Test
-
-                string strHeader = AppTests_DefaultNameHeader;
-
-                string _initialDirPathTestFile = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppTests_Path);
-
-                AppTests_Path = _initialDirPathTestFile;
-
-
-                if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName))
-                {
-                    fileName = string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), AppTests_DefaultExtension);
-
-                    pathWithFileName = System.IO.Path.Combine(_initialDirPathTestFile, fileName);
-
-                    HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = pathWithFileName;
-
-                    pathWithFileName = HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName.Replace(AppTests_DefaultNameData, strHeader);
-                    fileName = string.Concat(pathWithFileName.Replace(_initialDirPathTestFile, string.Empty).Replace(AppTests_DefaultExtension, string.Empty), AppTests_DefaultExtension);
-                }
-
-                #endregion
-
-                #region load data
-
-                if (!string.IsNullOrEmpty(fileName))
-                    dicReturnReadFileHeader = ReadTXTFileHeaderHBM(fileName, pathWithFileName);
-                else
+               if(!ReadTXTFileHeaderHBM())
                 {
                     MessageBox.Show("Failed, error path project !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return null;
                 }
-
-                #endregion
-
-                #endregion
-
-                var dicReturnReadFileHeaderParamGrid = dicReturnReadFileHeader[1];
-
-                //Loop through datagridview rows
-                for (int i = 0; i < dicReturnReadFileHeaderParamGrid.Count(); i++)
+                else
                 {
-                    DataGridViewRow row = grid.Rows[i];
+                    var dicReturnReadFileHeaderParamGrid = HelperApp.dicReadFileHeader[1];
 
-                    if (row.Cells.Count > 0)
+                    for (int i = 0; i < dicReturnReadFileHeaderParamGrid.Count(); i++)
                     {
-                        var obj = new ActuationParameters_EvaluationParameters()
+                        DataGridViewRow row = grid.Rows[i];
+
+                        if (row.Cells.Count > 0)
                         {
-                            IdEvalParam = !string.IsNullOrEmpty(row.Cells["IdEvalParam"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdEvalParam"]?.Value) : 0,
-                            EvalParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
-                            //EvalParam_Caption = !string.IsNullOrEmpty(row.Cells["EvalParam_Caption"]?.Value?.ToString()) ? row.Cells["EvalParam_Caption"]?.Value?.ToString()?.Trim() : string.Empty,
-                            EvalParam_Caption = !string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()) ? dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()?.Trim() : string.Empty,
-                            EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
-                            //EvalParam_Hi = !string.IsNullOrEmpty(row.Cells["EvalParam_Hi"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Hi"]?.Value) : 0,
-                            EvalParam_Hi = !string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value?.ToString()) ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value) * -1 : 0,
-                            EvalParam_Mksunit = !string.IsNullOrEmpty(row.Cells["UnitSymbol"]?.Value?.ToString()) ? row.Cells["UnitSymbol"]?.Value?.ToString()?.Trim() : string.Empty
-                        };
+                            var obj = new ActuationParameters_EvaluationParameters()
+                            {
+                                IdEvalParam = !string.IsNullOrEmpty(row.Cells["IdEvalParam"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdEvalParam"]?.Value) : 0,
+                                EvalParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
+                                //EvalParam_Caption = !string.IsNullOrEmpty(row.Cells["EvalParam_Caption"]?.Value?.ToString()) ? row.Cells["EvalParam_Caption"]?.Value?.ToString()?.Trim() : string.Empty,
+                                EvalParam_Caption = !string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()) ? dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()?.Trim() : string.Empty,
+                                EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
+                                //EvalParam_Hi = !string.IsNullOrEmpty(row.Cells["EvalParam_Hi"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Hi"]?.Value) : 0,
+                                EvalParam_Hi = !string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value?.ToString()) ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value) * -1 : 0,
+                                EvalParam_Mksunit = !string.IsNullOrEmpty(row.Cells["UnitSymbol"]?.Value?.ToString()) ? row.Cells["UnitSymbol"]?.Value?.ToString()?.Trim() : string.Empty
+                            };
 
-                        if (obj.IdEvalParam > 0)
-                            lstParamAnalog.Add(obj);
+                            if (obj.IdEvalParam > 0)
+                                lstParamAnalog.Add(obj);
+                        }
                     }
+
+                    HelperApp.lstEvaluationParameters.Clear();
+                    HelperApp.lstEvaluationParameters = lstParamAnalog;
                 }
-
-
-                HelperApp.lstEvaluationParameters.Clear();
-                HelperApp.lstEvaluationParameters = lstParamAnalog;
             }
             catch (Exception ex)
             {
@@ -3276,23 +3236,39 @@ namespace Continental.Project.Adam.UI.Helper
 
         #endregion
 
-        #region Methods TESTS
-        public Dictionary<string, string>[] ReadTXTFileHeaderHBM(string fileName, string pathWithFileName)
+        #region Methods TXT TESTS
+        
+        public bool ReadTXTFileHeaderHBM()
         {
             List<string> lstReturnRead = new List<string>();
 
             int k = 0;
             string line = string.Empty;
+            string fileNameHeader = string.Empty;
+            string pathWithFileNameHeader = string.Empty;
 
             try
             {
-                if (!string.IsNullOrEmpty(fileName) && !string.IsNullOrEmpty(pathWithFileName))
-                {
-                    // Read the file as one string.
-                    if (File.Exists(pathWithFileName))
+                #region Header Name File Test
+
+                    string _initialDirPathTestFile = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppTests_Path);
+
+                    AppTests_Path = _initialDirPathTestFile;
+
+                    HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = System.IO.Path.Combine(_initialDirPathTestFile, string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), AppTests_DefaultExtension));
+
+                    fileNameHeader = string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), AppTests_DefaultNameHeader, AppTests_DefaultExtension);
+
+                    pathWithFileNameHeader = System.IO.Path.Combine(_initialDirPathTestFile, fileNameHeader);
+
+                    #endregion
+
+                #region Read the file as one string
+
+                if (File.Exists(pathWithFileNameHeader))
                     {
                         // Read a text file line by line.
-                        string[] lines = File.ReadAllLines(pathWithFileName);
+                        string[] lines = File.ReadAllLines(pathWithFileNameHeader);
 
                         //project 5->13
                         //parameters grid 18-> depend of test
@@ -3420,7 +3396,8 @@ namespace Continental.Project.Adam.UI.Helper
 
                         #endregion
                     }
-                }
+                
+                #endregion
             }
             catch (Exception ex)
             {
@@ -3428,12 +3405,17 @@ namespace Continental.Project.Adam.UI.Helper
                 var defe = line;
 
                 var err = ex.Message;
-                throw;
+
+                return false;
             }
 
-            HelperApp.dicReadFileHeader = dicReturnReadFileHeader;
-
-            return dicReturnReadFileHeader;
+            if (dicReturnReadFileHeader[0].Count() >  0)
+            {
+                HelperApp.dicReadFileHeader = dicReturnReadFileHeader;
+                return true;
+            }
+            else
+                return false;
         }
         public List<string>[] ReadTXTFileHBM(string fileName, string pathWithFileName)
         {
@@ -18556,7 +18538,7 @@ namespace Continental.Project.Adam.UI.Helper
 
             DataTable dt = new BLL_Security_User().GetUserById(id);
 
-            string _userName = (string)dt.Rows[0].Field<string>("ULogin");
+            string _userName = (string)dt.Rows[0].Field<string>("UName");
 
             return _userName;
         }
@@ -18566,7 +18548,7 @@ namespace Continental.Project.Adam.UI.Helper
             if (string.IsNullOrEmpty(username))
                 return 0;
 
-            DataTable dt = new BLL_Security_User().GetUserByName(username.Trim().ToLower());
+            DataTable dt = new BLL_Security_User().GetUserByName(username.Trim().ToUpper());
 
             long _userId = (long)dt.Rows[0].Field<long>("IdUser");
 
