@@ -60,6 +60,20 @@ namespace Continental.Project.Adam.UI.Helper.Tests
             set { HelperTestBase._eExamType = value; }
         }
 
+        private static Model_Operational_Project _projectTest = new Model_Operational_Project();
+        public static Model_Operational_Project ProjectTest
+        {
+            get { return HelperTestBase._projectTest; }
+            set { HelperTestBase._projectTest = value; }
+        }
+
+        private static Model_Operational_Project_TestSample _projectTestSample = new Model_Operational_Project_TestSample();
+        public static Model_Operational_Project_TestSample ProjectTestSample
+        {
+            get { return HelperTestBase._projectTestSample; }
+            set { HelperTestBase._projectTestSample = value; }
+        }
+
         private static Model_Operational_Project_TestConcluded _projectTestConcluded = new Model_Operational_Project_TestConcluded();
         public static Model_Operational_Project_TestConcluded ProjectTestConcluded
         {
@@ -67,12 +81,7 @@ namespace Continental.Project.Adam.UI.Helper.Tests
             set { HelperTestBase._projectTestConcluded = value; }
         }
 
-        private static Model_Operational_Project _projectTest = new Model_Operational_Project();
-        public static Model_Operational_Project ProjectTest
-        {
-            get { return HelperTestBase._projectTest; }
-            set { HelperTestBase._projectTest = value; }
-        }
+        
 
         //StringBuilder AppendTxtData_Header_ActuationType
         private static StringBuilder _sbHeaderAppendTxtData;

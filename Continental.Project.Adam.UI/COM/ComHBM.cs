@@ -768,7 +768,8 @@ namespace Continental.Project.Adam.UI.COM
         {
             String path = !string.IsNullOrEmpty(pathTestFile) ? pathTestFile : string.Concat(@"D:\", _helperApp.AppTests_DefaultNameData, ".txt");
 
-            HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = path;
+            HelperTestBase.ProjectTestConcluded.ProjectTestFileName = path;
+
             //
             //this.RunContinuousMeasurementBt.Enabled = false;
             List<string> lstStr = new List<string>();
@@ -956,7 +957,7 @@ namespace Continental.Project.Adam.UI.COM
                                 else
                                     File.AppendAllLines(path, _helperApp.sbexterno.ToString().Split(Environment.NewLine.ToCharArray()));
 
-                                HelperTestBase.ProjectTestConcluded.Project.is_Created = _helperApp.CheckFileExists(path);
+                                HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = _helperApp.CheckFileExists(path);
 
                                 _helperApp.sbexterno.Clear();
                             }

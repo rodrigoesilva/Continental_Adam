@@ -67,7 +67,7 @@ namespace Continental.Project.Adam.UI
         ///---------------------------------------------------------------------------
         private void Form_Operational_Project_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (HelperApp.uiProjectSelecionado > 0 && HelperApp.uiProjectSelecionado > 0)
+            if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestSample.IdProjectTestSample > 0)
                 delegateFnLoadTestConcluded(true);
         }
         ///---------------------------------------------------------------------------
@@ -93,16 +93,17 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                mtxt_TestTypeName.Text = model?.Project?.TestAvailable?.Test?.ToString()?.Trim();
-                mtxt_Ident.Text = model?.Project?.Identification?.ToString()?.Trim();
-                mtxt_Customer.Text = model?.Project?.CustomerType?.ToString()?.Trim();
-                mtxt_Booster.Text = model?.Project?.Booster?.ToString()?.Trim();
-                mtxt_Tmc.Text = model?.Project?.TMC?.ToString()?.Trim();
-                mtxt_ProductionDate.Text = model?.Project?.ProductionDate?.ToString()?.Trim();
-                mtxt_TO.Text = model?.Project?.T_O?.ToString()?.Trim();
-                mtxt_Tester.Text = model?.Project?.User?.UName?.ToString()?.Trim();
-                mtxt_TestingDate.Text = model?.Project?.TestingDate?.ToString()?.Trim();
-                mtxt_Comment.Text = model?.Project?.Comment?.ToString()?.Trim();
+                mtxt_Ident.Text = model?.ProjectTestSample?.Project?.Identification?.ToString()?.Trim();
+
+                mtxt_TestTypeName.Text = model?.ProjectTestSample?.TestAvailable?.Test?.ToString()?.Trim();
+                mtxt_Customer.Text = model?.ProjectTestSample?.CustomerType?.ToString()?.Trim();
+                mtxt_Booster.Text = model?.ProjectTestSample?.Booster?.ToString()?.Trim();
+                mtxt_Tmc.Text = model?.ProjectTestSample?.TMC?.ToString()?.Trim();
+                mtxt_ProductionDate.Text = model?.ProjectTestSample?.ProductionDate?.ToString()?.Trim();
+                mtxt_TO.Text = model?.ProjectTestSample?.T_O?.ToString()?.Trim();
+                mtxt_Tester.Text = model?.ProjectTestSample?.User?.UName?.ToString()?.Trim();
+                mtxt_TestingDate.Text = model?.ProjectTestSample?.TestingDate?.ToString()?.Trim();
+                mtxt_Comment.Text = model?.ProjectTestSample?.Comment?.ToString()?.Trim();
             }
             catch (Exception ex)
             {
@@ -116,23 +117,29 @@ namespace Continental.Project.Adam.UI
             try
             {
                 string nullValue = "NULL";
+                string strTimeStamp = DateTime.Now.ToString();
 
-                model.Project.Identification = !string.IsNullOrEmpty(mtxt_Ident.Text) ? mtxt_Ident.Text.Trim() : nullValue;
-                model.Project.PartNumber = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "_|_", model.Project.Identification);
-                model.Project.CustomerType = !string.IsNullOrEmpty(mtxt_Customer.Text) ? mtxt_Customer.Text.Trim() : nullValue;
-                model.Project.Booster = !string.IsNullOrEmpty(mtxt_Booster.Text) ? mtxt_Booster.Text.Trim() : nullValue;
-                model.Project.TMC = !string.IsNullOrEmpty(mtxt_Tmc.Text) ? mtxt_Tmc.Text.Trim() : nullValue;
-                model.Project.ProductionDate = !string.IsNullOrEmpty(mtxt_ProductionDate.Text) ? mtxt_ProductionDate.Text.Trim() : nullValue;
-                model.Project.T_O = !string.IsNullOrEmpty(mtxt_TO.Text) ? mtxt_TO.Text.Trim() : nullValue;
-                model.Project.IdUserTester = !string.IsNullOrEmpty(mtxt_Tester.Text) ? _helperApp.GetUserIdByName(mtxt_Tester.Text) : HelperApp.UserId;
-                model.Project.TestingDate = selected_entry ? !string.IsNullOrEmpty(mtxt_TestingDate?.Text) ? mtxt_TestingDate.Text.Trim() : nullValue : nullValue;
-                model.Project.Comment = !string.IsNullOrEmpty(mtxt_Comment.Text) ? mtxt_Comment.Text.Trim() : nullValue;
+                //project Data
+                model.ProjectTestSample.Project.Identification = !string.IsNullOrEmpty(mtxt_Ident.Text) ? mtxt_Ident.Text.Trim() : nullValue;
+                model.ProjectTestSample.Project.PartNumber = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "_|_", model.ProjectTestSample.Project.Identification);
+                model.ProjectTestSample.Project.LastUpdatePRJ = strTimeStamp;
 
-                if (model.Project.IdUserTester != 0)
+                //project sample data
+                model.ProjectTestSample.CustomerType = !string.IsNullOrEmpty(mtxt_Customer.Text) ? mtxt_Customer.Text.Trim() : nullValue;
+                model.ProjectTestSample.Booster = !string.IsNullOrEmpty(mtxt_Booster.Text) ? mtxt_Booster.Text.Trim() : nullValue;
+                model.ProjectTestSample.TMC = !string.IsNullOrEmpty(mtxt_Tmc.Text) ? mtxt_Tmc.Text.Trim() : nullValue;
+                model.ProjectTestSample.ProductionDate = !string.IsNullOrEmpty(mtxt_ProductionDate.Text) ? mtxt_ProductionDate.Text.Trim() : nullValue;
+                model.ProjectTestSample.T_O = !string.IsNullOrEmpty(mtxt_TO.Text) ? mtxt_TO.Text.Trim() : nullValue;
+                model.ProjectTestSample.IdUser = !string.IsNullOrEmpty(mtxt_Tester.Text) ? _helperApp.GetUserIdByName(mtxt_Tester.Text) : HelperApp.UserId;
+                model.ProjectTestSample.TestingDate = selected_entry ? !string.IsNullOrEmpty(mtxt_TestingDate?.Text) ? mtxt_TestingDate.Text.Trim() : nullValue : nullValue;
+                model.ProjectTestSample.Comment = !string.IsNullOrEmpty(mtxt_Comment.Text) ? mtxt_Comment.Text.Trim() : nullValue;
+                model.ProjectTestSample.LastUpdatePTS = strTimeStamp;
+
+                if (model.ProjectTestSample.IdUser != 0)
                 {
-                    var user = _helperApp.GetUser(model.Project.IdUserTester);
+                    var user = _helperApp.GetUser(model.ProjectTestSample.IdUser);
 
-                    model.Project.User = new Model_SecurityUser()
+                    model.ProjectTestSample.User = new Model_SecurityUser()
                     {
                         IdUser = (long)user.IdUser,
                         ULogin = user.ULogin?.ToString()?.Trim(),
@@ -143,7 +150,6 @@ namespace Continental.Project.Adam.UI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
             }
 
             return model;
@@ -204,33 +210,109 @@ namespace Continental.Project.Adam.UI
                 {
                     Model_Operational_Project_TestConcluded modelPrjTestConcluded = new Model_Operational_Project_TestConcluded();
 
-                    modelPrjTestConcluded.Project = new Model_Operational_Project();
+                    modelPrjTestConcluded.ProjectTestSample = new Model_Operational_Project_TestSample();
+
+                    modelPrjTestConcluded.ProjectTestSample.Project = new Model_Operational_Project();
 
                     modelPrjTestConcluded = HeaderDataToModel(modelPrjTestConcluded);
 
-                    if (DialogResult.Yes == MessageBox.Show($"      Are you sure you want to create project \n\n\t\t {modelPrjTestConcluded.Project.Identification} \n\n\t and all it´s measurement data? \n\n\t  Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                    if (DialogResult.Yes == MessageBox.Show($"      Are you sure you want to create project \n\n\t      {modelPrjTestConcluded.ProjectTestSample.Project.Identification} \n\n            and all it´s measurement data? \n\n\t Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                     {
-                        int idProjectInsert = bll_Project.AddProject(modelPrjTestConcluded.Project);
+                        int idProjectInsert = bll_Project.AddProject(modelPrjTestConcluded.ProjectTestSample.Project);
 
                         if (idProjectInsert > 0)
                         {
-                            modelPrjTestConcluded.Project.IdProject = idProjectInsert;
+                            modelPrjTestConcluded.ProjectTestSample.Project.IdProject = idProjectInsert;
+                            modelPrjTestConcluded.ProjectTestSample.IdProject = idProjectInsert;
+                            modelPrjTestConcluded.ProjectTestSample.SampleSequence = modelPrjTestConcluded.ProjectTestSample.SampleSequence + 1;
 
-                            HelperTestBase.ProjectTestConcluded = modelPrjTestConcluded;
+                            int idProjectTestSampleInsert = bll_Project.AddProjectTestSample(modelPrjTestConcluded.ProjectTestSample);
 
-                            HelperTestBase.ProjectTestConcluded.IdProject = idProjectInsert;
+                            if (idProjectTestSampleInsert > 0)
+                            {
+                                modelPrjTestConcluded.ProjectTestSample.IdProjectTestSample = idProjectTestSampleInsert;
+                                HelperTestBase.ProjectTestConcluded = modelPrjTestConcluded;
+                            }
+                            else
+                            {
+                                HelperApp.lblstsbar03 = string.Empty;
+
+                                HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
+
+                                MessageBox.Show("Failed, create Project Test Sample!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                return false;
+                            }
                         }
                         else
                         {
                             HelperApp.lblstsbar03 = string.Empty;
 
-                            HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
 
-                            MessageBox.Show("Failed, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Failed, created project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            return false;
                         }
                     }
                     else
                         return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception Occured while releasing object " + ex.ToString(), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+        ///---------------------------------------------------------------------------
+        private bool SaveProjectTestSampleData()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(mtxt_Ident.Text.Trim()))
+                {
+                    MessageBox.Show("Inform IDENT Test !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                else
+                {
+                    Model_Operational_Project_TestConcluded modelPrjTestConcluded = new Model_Operational_Project_TestConcluded();
+                    //modelPrjTestConcluded = HelperTestBase.ProjectTestConcluded;
+
+                    Model_Operational_Project_TestSample modelPrjTestSample = new Model_Operational_Project_TestSample();
+
+                    modelPrjTestConcluded.ProjectTestSample = new Model_Operational_Project_TestSample();
+
+                    modelPrjTestConcluded.ProjectTestSample.Project = new Model_Operational_Project();
+
+                    modelPrjTestConcluded = HeaderDataToModel(modelPrjTestConcluded);
+
+                    modelPrjTestConcluded.ProjectTestSample.Project.IdProject = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject;
+                    modelPrjTestConcluded.ProjectTestSample.IdProject = HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject;
+                    modelPrjTestConcluded.ProjectTestSample.SampleSequence = HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence;
+                    modelPrjTestConcluded.ProjectTestSample.SampleSequence = modelPrjTestConcluded.ProjectTestSample.SampleSequence + 1;
+
+                    int idProjectTestSampleInsert = bll_Project.AddProjectTestSample(modelPrjTestConcluded.ProjectTestSample);
+
+                    if (idProjectTestSampleInsert > 0)
+                    {
+                        modelPrjTestConcluded.ProjectTestSample.IdProjectTestSample = idProjectTestSampleInsert;
+                        modelPrjTestConcluded.IdProjectTestSample = idProjectTestSampleInsert;
+                        HelperTestBase.ProjectTestConcluded = modelPrjTestConcluded;
+                    }
+                    else
+                    {
+                        HelperApp.lblstsbar03 = string.Empty;
+
+                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
+
+                        MessageBox.Show("Failed, create Project Test Sample!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        return false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -352,7 +434,6 @@ namespace Continental.Project.Adam.UI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
             }
         }
         ///---------------------------------------------------------------------------
@@ -407,7 +488,6 @@ namespace Continental.Project.Adam.UI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
             }
         }
         ///---------------------------------------------------------------------------
@@ -435,65 +515,137 @@ namespace Continental.Project.Adam.UI
 
                 //show grid's column's
 
+                grid_ProjectTest.Columns["SampleSequence"].HeaderText = "Sample";
+                grid_ProjectTest.Columns["SampleSequence"].Visible = true;
+                grid_ProjectTest.Columns["SampleSequence"].Width = 75;
+                grid_ProjectTest.Columns["SampleSequence"].DisplayIndex = 0;
+
+                grid_ProjectTest.Columns["LastUpdatePTS"].HeaderText = "Testing Date";
+                grid_ProjectTest.Columns["LastUpdatePTS"].Visible = true;
+                grid_ProjectTest.Columns["LastUpdatePTS"].Width = 150;
+                grid_ProjectTest.Columns["LastUpdatePTS"].DisplayIndex = 1;
+
                 grid_ProjectTest.Columns["CustomerType"].HeaderText = "Customer/Type";
                 grid_ProjectTest.Columns["CustomerType"].Visible = true;
                 grid_ProjectTest.Columns["CustomerType"].Width = 150;
-                grid_ProjectTest.Columns["CustomerType"].DisplayIndex = 0;
-
-                grid_ProjectTest.Columns["TestDateTime"].HeaderText = "Testing Date";
-                grid_ProjectTest.Columns["TestDateTime"].Visible = true;
-                grid_ProjectTest.Columns["TestDateTime"].Width = 150;
-                grid_ProjectTest.Columns["TestDateTime"].DisplayIndex = 1;
+                grid_ProjectTest.Columns["CustomerType"].DisplayIndex = 2;
 
                 grid_ProjectTest.Columns["Booster"].HeaderText = "Booster #";
                 grid_ProjectTest.Columns["Booster"].Visible = true;
                 grid_ProjectTest.Columns["Booster"].Width = 130;
-                grid_ProjectTest.Columns["Booster"].DisplayIndex = 2;
+                grid_ProjectTest.Columns["Booster"].DisplayIndex = 3;
 
                 grid_ProjectTest.Columns["TMC"].HeaderText = "TMC #";
                 grid_ProjectTest.Columns["TMC"].Visible = true;
                 grid_ProjectTest.Columns["TMC"].Width = 150;
-                grid_ProjectTest.Columns["TMC"].DisplayIndex = 3;
+                grid_ProjectTest.Columns["TMC"].DisplayIndex = 4;
 
                 grid_ProjectTest.Columns["ProductionDate"].HeaderText = "Production Date";
                 grid_ProjectTest.Columns["ProductionDate"].Visible = true;
                 grid_ProjectTest.Columns["ProductionDate"].Width = 170;
-                grid_ProjectTest.Columns["ProductionDate"].DisplayIndex = 4;
+                grid_ProjectTest.Columns["ProductionDate"].DisplayIndex = 5;
 
                 grid_ProjectTest.Columns["UName"].HeaderText = "Operator";
                 grid_ProjectTest.Columns["UName"].Visible = true;
                 grid_ProjectTest.Columns["UName"].Width = 150;
-                grid_ProjectTest.Columns["UName"].DisplayIndex = 5;
+                grid_ProjectTest.Columns["UName"].DisplayIndex = 6;
 
                 grid_ProjectTest.Columns["Comment"].HeaderText = "Comment";
                 grid_ProjectTest.Columns["Comment"].Visible = true;
                 grid_ProjectTest.Columns["Comment"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 grid_ProjectTest.Columns["Comment"].Width = 300;
-                grid_ProjectTest.Columns["Comment"].DisplayIndex = 6;
+                grid_ProjectTest.Columns["Comment"].DisplayIndex = 7;
 
                 grid_ProjectTest.Columns["IdProjectTestConcluded"].Visible = true;
                 grid_ProjectTest.Columns["IdProjectTestConcluded"].Width = 0;
                 grid_ProjectTest.Columns["IdProjectTestConcluded"].DefaultCellStyle.BackColor = Color.White;
                 grid_ProjectTest.Columns["IdProjectTestConcluded"].DefaultCellStyle.ForeColor = Color.White;
-                grid_ProjectTest.Columns["IdProjectTestConcluded"].DisplayIndex = 7;
+                grid_ProjectTest.Columns["IdProjectTestConcluded"].DisplayIndex = 8;
 
                 grid_ProjectTest.Columns["PartNumber"].Visible = true;
                 grid_ProjectTest.Columns["PartNumber"].Width = 0;
                 grid_ProjectTest.Columns["PartNumber"].DefaultCellStyle.BackColor = Color.White;
                 grid_ProjectTest.Columns["PartNumber"].DefaultCellStyle.ForeColor = Color.White;
-                grid_ProjectTest.Columns["PartNumber"].DisplayIndex = 8;
+                grid_ProjectTest.Columns["PartNumber"].DisplayIndex = 9;
 
                 grid_ProjectTest.Columns["IdProject"].Visible = true;
                 grid_ProjectTest.Columns["IdProject"].Width = 0;
                 grid_ProjectTest.Columns["IdProject"].DefaultCellStyle.BackColor = Color.White;
                 grid_ProjectTest.Columns["IdProject"].DefaultCellStyle.ForeColor = Color.White;
-                grid_ProjectTest.Columns["IdProject"].DisplayIndex = 9;
+                grid_ProjectTest.Columns["IdProject"].DisplayIndex = 10;
+
+                grid_ProjectTest.Columns["IdProjectTestSample"].Visible = true;
+                grid_ProjectTest.Columns["IdProjectTestSample"].Width = 0;
+                grid_ProjectTest.Columns["IdProjectTestSample"].DefaultCellStyle.BackColor = Color.White;
+                grid_ProjectTest.Columns["IdProjectTestSample"].DefaultCellStyle.ForeColor = Color.White;
+                grid_ProjectTest.Columns["IdProjectTestSample"].DisplayIndex = 11;
 
                 grid_ProjectTest.Columns["Test"].Visible = true;
                 grid_ProjectTest.Columns["Test"].Width = 0;
                 grid_ProjectTest.Columns["Test"].DefaultCellStyle.BackColor = Color.White;
                 grid_ProjectTest.Columns["Test"].DefaultCellStyle.ForeColor = Color.White;
-                grid_ProjectTest.Columns["Test"].DisplayIndex = 9;
+                grid_ProjectTest.Columns["Test"].DisplayIndex = 12;
+
+
+                //grid_ProjectTest.Columns["CustomerType"].HeaderText = "Customer/Type";
+                //grid_ProjectTest.Columns["CustomerType"].Visible = true;
+                //grid_ProjectTest.Columns["CustomerType"].Width = 150;
+                //grid_ProjectTest.Columns["CustomerType"].DisplayIndex = 0;
+
+                //grid_ProjectTest.Columns["TestDateTime"].HeaderText = "Testing Date";
+                //grid_ProjectTest.Columns["TestDateTime"].Visible = true;
+                //grid_ProjectTest.Columns["TestDateTime"].Width = 150;
+                //grid_ProjectTest.Columns["TestDateTime"].DisplayIndex = 1;
+
+                //grid_ProjectTest.Columns["Booster"].HeaderText = "Booster #";
+                //grid_ProjectTest.Columns["Booster"].Visible = true;
+                //grid_ProjectTest.Columns["Booster"].Width = 130;
+                //grid_ProjectTest.Columns["Booster"].DisplayIndex = 2;
+
+                //grid_ProjectTest.Columns["TMC"].HeaderText = "TMC #";
+                //grid_ProjectTest.Columns["TMC"].Visible = true;
+                //grid_ProjectTest.Columns["TMC"].Width = 150;
+                //grid_ProjectTest.Columns["TMC"].DisplayIndex = 3;
+
+                //grid_ProjectTest.Columns["ProductionDate"].HeaderText = "Production Date";
+                //grid_ProjectTest.Columns["ProductionDate"].Visible = true;
+                //grid_ProjectTest.Columns["ProductionDate"].Width = 170;
+                //grid_ProjectTest.Columns["ProductionDate"].DisplayIndex = 4;
+
+                //grid_ProjectTest.Columns["UName"].HeaderText = "Operator";
+                //grid_ProjectTest.Columns["UName"].Visible = true;
+                //grid_ProjectTest.Columns["UName"].Width = 150;
+                //grid_ProjectTest.Columns["UName"].DisplayIndex = 5;
+
+                //grid_ProjectTest.Columns["Comment"].HeaderText = "Comment";
+                //grid_ProjectTest.Columns["Comment"].Visible = true;
+                //grid_ProjectTest.Columns["Comment"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                //grid_ProjectTest.Columns["Comment"].Width = 300;
+                //grid_ProjectTest.Columns["Comment"].DisplayIndex = 6;
+
+                //grid_ProjectTest.Columns["IdProjectTestConcluded"].Visible = true;
+                //grid_ProjectTest.Columns["IdProjectTestConcluded"].Width = 0;
+                //grid_ProjectTest.Columns["IdProjectTestConcluded"].DefaultCellStyle.BackColor = Color.White;
+                //grid_ProjectTest.Columns["IdProjectTestConcluded"].DefaultCellStyle.ForeColor = Color.White;
+                //grid_ProjectTest.Columns["IdProjectTestConcluded"].DisplayIndex = 7;
+
+                //grid_ProjectTest.Columns["PartNumber"].Visible = true;
+                //grid_ProjectTest.Columns["PartNumber"].Width = 0;
+                //grid_ProjectTest.Columns["PartNumber"].DefaultCellStyle.BackColor = Color.White;
+                //grid_ProjectTest.Columns["PartNumber"].DefaultCellStyle.ForeColor = Color.White;
+                //grid_ProjectTest.Columns["PartNumber"].DisplayIndex = 8;
+
+                //grid_ProjectTest.Columns["IdProject"].Visible = true;
+                //grid_ProjectTest.Columns["IdProject"].Width = 0;
+                //grid_ProjectTest.Columns["IdProject"].DefaultCellStyle.BackColor = Color.White;
+                //grid_ProjectTest.Columns["IdProject"].DefaultCellStyle.ForeColor = Color.White;
+                //grid_ProjectTest.Columns["IdProject"].DisplayIndex = 9;
+
+                //grid_ProjectTest.Columns["Test"].Visible = true;
+                //grid_ProjectTest.Columns["Test"].Width = 0;
+                //grid_ProjectTest.Columns["Test"].DefaultCellStyle.BackColor = Color.White;
+                //grid_ProjectTest.Columns["Test"].DefaultCellStyle.ForeColor = Color.White;
+                //grid_ProjectTest.Columns["Test"].DisplayIndex = 9;
 
                 ////Changes grid's column's header's font size to 10.
                 grid_ProjectTest.ColumnHeadersDefaultCellStyle.Font = new Font("", 10.0f, FontStyle.Bold);
@@ -527,32 +679,37 @@ namespace Continental.Project.Adam.UI
                 gvModelProjectTestConcluded = new Model_Operational_Project_TestConcluded()
                 {
                     IdProjectTestConcluded = (long)gvRow.Cells["IdProjectTestConcluded"].Value,
-                    IdProject = (long)gvRow.Cells["IdProject"].Value,
+                    IdProjectTestSample = (long)gvRow.Cells["IdProjectTestSample"].Value,
                     IdTestAvailable = (long)gvRow.Cells["IdTestAvailable"].Value,
-                    TestDateTime = gvRow.Cells["TestDateTime"].Value?.ToString()?.Trim(),
-                    TestTypeName = gvRow.Cells["TestTypeName"].Value?.ToString()?.Trim(), //Test
-                    TestIdentName = gvRow.Cells["TestIdentName"].Value?.ToString()?.Trim(),
-                    TestFileName = gvRow.Cells["TestFileName"].Value?.ToString()?.Trim(),
-                    LastUpdate = gvRow.Cells["LastUpdate"].Value != null ? gvRow.Cells["LastUpdate"].Value?.ToString()?.Trim() : DateTime.Now.ToString(),
+                    ProjectTestFileName = gvRow.Cells["ProjectTestFileName"].Value?.ToString()?.Trim(),
+                    LastUpdatePTC = gvRow.Cells["LastUpdatePTC"].Value != null ? gvRow.Cells["LastUpdatePTC"].Value?.ToString()?.Trim() : DateTime.Now.ToString(),
 
-                    Project = new Model_Operational_Project()
+                    ProjectTestSample = new Model_Operational_Project_TestSample()
                     {
-                        IdProject = (long)gvRow.Cells["IdProject1"].Value,
-                        PartNumber = gvRow.Cells["PartNumber"].Value?.ToString()?.Trim(),
-                        Identification = gvRow.Cells["Identification"].Value?.ToString()?.Trim(),
+                        IdProjectTestSample = (long)gvRow.Cells["IdProjectTestSample"].Value,
+                        IdProject = (long)gvRow.Cells["IdProject"].Value,
+                        SampleSequence = (long)gvRow.Cells["SampleSequence"].Value,                        
                         CustomerType = gvRow.Cells["CustomerType"].Value?.ToString()?.Trim(),
                         Booster = gvRow.Cells["Booster"].Value?.ToString()?.Trim(),
                         TMC = gvRow.Cells["TMC"].Value?.ToString()?.Trim(),
                         ProductionDate = gvRow.Cells["ProductionDate"].Value?.ToString()?.Trim(),
                         T_O = gvRow.Cells["T_O"].Value?.ToString()?.Trim(),
-                        IdUserTester = (long)gvRow.Cells["IdUserTester"].Value,
-                        TestingDate = gvRow.Cells["TestDateTime"].Value?.ToString()?.Trim(),
+                        IdUser = (long)gvRow.Cells["IdUser"].Value,
+                        TestingDate = gvRow.Cells["TestingDate"].Value?.ToString()?.Trim(),
                         Comment = gvRow.Cells["Comment"].Value?.ToString()?.Trim(),
-                        examtype = EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(gvRow.Cells["TestTypeName"].Value?.ToString()?.Trim()),
-                        
+                        LastUpdatePTS = gvRow.Cells["LastUpdatePTS"].Value != null ? gvRow.Cells["LastUpdatePTS"].Value?.ToString()?.Trim() : DateTime.Now.ToString(),
+
+                        Project = new Model_Operational_Project()
+                        {
+                            IdProject = (long)gvRow.Cells["IdProject"].Value,
+                            PartNumber = gvRow.Cells["PartNumber"].Value?.ToString()?.Trim(),
+                            Identification = gvRow.Cells["Identification"].Value?.ToString()?.Trim(),
+                            LastUpdatePRJ = gvRow.Cells["LastUpdatePRJ"].Value != null ? gvRow.Cells["LastUpdatePRJ"].Value?.ToString()?.Trim() : DateTime.Now.ToString()
+                        },
+
                         User = new Model_SecurityUser()
                         {
-                            IdUser = (long)gvRow.Cells["IdUserTester"].Value,
+                            IdUser = (long)gvRow.Cells["IdUser"].Value,
                             ULogin = gvRow.Cells["ULogin"].Value?.ToString()?.Trim(),
                             UName = gvRow.Cells["UName"].Value.ToString()?.Trim()
                         },
@@ -566,40 +723,14 @@ namespace Continental.Project.Adam.UI
                 };
 
                 if (gvModelProjectTestConcluded.IdProjectTestConcluded != 0)
-                {
-                    strIdProjectTestConcluded = gvModelProjectTestConcluded.IdProjectTestConcluded.ToString();
-                    HelperApp.uiProjectTestConcludedSelecionado = Convert.ToInt32(strIdProjectTestConcluded);
-
-                    if (!string.IsNullOrEmpty(strIdProjectTestConcluded))
-                    {
-                        HelperTestBase.ProjectTest = gvModelProjectTestConcluded?.Project;
-
-                        strIdProjectSelect = gvModelProjectTestConcluded?.Project?.IdProject.ToString();
-                        strIdTestSelect = gvModelProjectTestConcluded?.Project?.TestAvailable?.IdTestAvailable.ToString();
-
-                        gvModelProjectTestConcluded.IdProject = !string.IsNullOrEmpty(gvModelProjectTestConcluded.IdProject.ToString()) ? gvModelProjectTestConcluded.IdProject : gvModelProjectTestConcluded.Project.IdProject;
-                        gvModelProjectTestConcluded.IdTestAvailable = !string.IsNullOrEmpty(gvModelProjectTestConcluded.IdTestAvailable.ToString()) ? gvModelProjectTestConcluded.IdTestAvailable : (long)gvModelProjectTestConcluded?.Project.TestAvailable.IdTestAvailable;
-                        gvModelProjectTestConcluded.TestDateTime = !string.IsNullOrEmpty(gvModelProjectTestConcluded.TestDateTime) ? gvModelProjectTestConcluded.TestDateTime : gvModelProjectTestConcluded.Project.TestingDate.ToString();
-                        gvModelProjectTestConcluded.TestTypeName = !string.IsNullOrEmpty(gvModelProjectTestConcluded.TestTypeName) ? gvModelProjectTestConcluded.TestTypeName : gvModelProjectTestConcluded.Project.examtype.ToString();
-                        gvModelProjectTestConcluded.TestIdentName = !string.IsNullOrEmpty(gvModelProjectTestConcluded.TestIdentName) ? gvModelProjectTestConcluded.TestIdentName : gvModelProjectTestConcluded.Project.Identification.ToString();
-
-                        HelperApp.uiProjectSelecionado = Convert.ToInt32(strIdProjectSelect);
-                        
-                        HelperApp.uiTesteSelecionado = Convert.ToInt32(strIdTestSelect);
-
-                        HelperTestBase.ProjectTestConcluded = gvModelProjectTestConcluded;
-                    }
-
                     selected_entry = true;
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
             }
 
-            if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded == 0 && HelperTestBase.ProjectTestConcluded.IdProject == 0)
+            if (gvModelProjectTestConcluded.IdProjectTestConcluded == 0)
             {
                 MessageBox.Show("Error no valid IdProjectTestConcluded selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
@@ -631,16 +762,51 @@ namespace Continental.Project.Adam.UI
             {
                 if (selected_entry)
                 {
-                    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
+                    if (modelOperationalProjectTestConcluded != null)
                     {
-                        if (DialogResult.Yes == MessageBox.Show($"      You want the selected Project data  \n\n\t {HelperTestBase.ProjectTestConcluded.Project.Identification} \n\n    and all it´s measurement data ? \n\n        Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                        if (selected_entry && modelOperationalProjectTestConcluded.IdProjectTestConcluded > 0)
                         {
-                            HelperApp.uiProjectSelecionado = !string.IsNullOrEmpty(strIdProjectSelect) ? Convert.ToInt32(strIdProjectSelect) : 0;
+                            HelperApp.uiTesteSelecionado = (int)modelOperationalProjectTestConcluded.IdTestAvailable;
 
-                            HelperApp.uiProjectTestSelecionado = !string.IsNullOrEmpty(strIdTestSelect) ? Convert.ToInt32(strIdTestSelect) : 0;
+                            if (modelOperationalProjectTestConcluded?.ProjectTestSample != null)
+                            {
+                                if (HelperApp.uiProjectTestSampleSelecionado == 0 && HelperTestBase.ProjectTestSample.SampleSequence == 0)
+                                {
+                                    HelperTestBase.ProjectTestSample = modelOperationalProjectTestConcluded?.ProjectTestSample;
+                                    HelperApp.uiProjectTestSampleSelecionado = (long)modelOperationalProjectTestConcluded?.ProjectTestSample.IdProjectTestSample;
+                                }
+                                else
+                                {
+                                    if (HelperTestBase.ProjectTestSample.SampleSequence == modelOperationalProjectTestConcluded?.ProjectTestSample.SampleSequence)
+                                    {
+                                        selected_entry = false;
 
-                            HelperTestBase.ProjectTest = HelperTestBase.ProjectTestConcluded.Project;
+                                        MessageBox.Show("Error sample sequence already selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        HelperTestBase.ProjectTestSample = modelOperationalProjectTestConcluded?.ProjectTestSample;
+                                        HelperApp.uiProjectTestSampleSelecionado = (long)modelOperationalProjectTestConcluded?.ProjectTestSample.IdProjectTestSample;
+                                    }
+                                }
+                            }
 
+                            if (modelOperationalProjectTestConcluded?.ProjectTestSample?.Project != null)
+                            {
+                                HelperApp.uiProjectSelecionado = (long)modelOperationalProjectTestConcluded?.ProjectTestSample?.Project.IdProject;
+                                HelperTestBase.ProjectTest = modelOperationalProjectTestConcluded?.ProjectTestSample?.Project;
+                            }
+
+                            HelperTestBase.ProjectTestConcluded = modelOperationalProjectTestConcluded;
+                            HelperApp.uiProjectTestConcludedSelecionado = modelOperationalProjectTestConcluded.IdProjectTestConcluded;
+                        }
+                    }
+
+                    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestSample?.Project?.IdProject > 0)
+                    {
+                        if (DialogResult.Yes == MessageBox.Show($"      You want the selected Project data  \n\n\t {HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.Identification} \n\n    and all it´s measurement data ? \n\n        Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                        {
                             HelperApp.bLoadPrjTestOffLine = true;
 
                             this.Close();
@@ -757,44 +923,35 @@ namespace Continental.Project.Adam.UI
             }
             else
             {
-                //if (selected_entry)
-                //{
-                    if (CheckProjectExists())
+                if (CheckProjectExists())
+                {
+                    if (SaveProjectTestSampleData())
+                        HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]");
+                    else
                     {
-                        Model_Operational_Project_TestConcluded modelPrjTestConcluded = new Model_Operational_Project_TestConcluded();
+                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
+                        CurrentProjectData_Clear();
+                    }
+                }
+                else
+                {
+                    if (SaveProjectData())
+                    {
+                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = true;
 
-                        HelperTestBase.ProjectTestConcluded = modelPrjTestConcluded;
+                        HelperApp.uiProjectSelecionado = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject;
 
-                        HelperTestBase.ProjectTestConcluded.Project = new Model_Operational_Project();
+                        HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]");
 
-                        HelperTestBase.ProjectTestConcluded = HeaderDataToModel(modelPrjTestConcluded);
-
-                        HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.Project?.Identification, " ]");
+                        MessageBox.Show("Success, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        if (SaveProjectData())
-                        {
-                            var idProjectInsert = HelperTestBase.ProjectTestConcluded.IdProject;
+                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
 
-                            HelperTestBase.ProjectTestConcluded.Project.is_Created = true;
-
-                            HelperTestBase.ProjectTestConcluded.IdProject = idProjectInsert;
-
-                            HelperApp.uiProjectSelecionado = (int)idProjectInsert;
-
-                            HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.Project?.Identification, " ]");
-
-                            MessageBox.Show("Success, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            HelperTestBase.ProjectTestConcluded.Project.is_Created = false;
-
-                            CurrentProjectData_Clear();
-                        }
+                        CurrentProjectData_Clear();
                     }
-               // }
+                }
 
                 HelperApp.bLoadPrjTestOffLine = false;
 

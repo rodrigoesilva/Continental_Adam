@@ -33,61 +33,11 @@ namespace Continental.Project.Adam.UI.BLL
 
                 DataTable dt = db.GetDataTable(sql);
 
-                if (dt != null)
-                {
-                    return dt;
-                }
-                else
-                    return null;
+                return dt != null ? dt : null;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetAvailableProjects : " + ex.Message);
-                throw (ex);
-            }
-        }
-        public DataTable GetChildTestsByProject(string idProject)
-        {
-            try
-            {
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append("SELECT");
-                sb.Append(" PTC.*");
-                sb.Append(" ,PR.*");
-                sb.Append(" ,SU.[UName]");
-                sb.Append(" ,SU.[ULogin]");
-                sb.Append(" ,TA.[Test]");
-                sb.Append(" FROM");
-                sb.Append(" [Operational_Project_TestConcluded] PTC");
-                sb.Append(" INNER JOIN");
-                sb.Append(" [Operational_Project] PR");
-                sb.Append(" ON PR.[IdProject] = PTC.[IdProject]");
-                sb.Append(" INNER JOIN");
-                sb.Append(" [Security_User] SU");
-                sb.Append(" ON SU.[IdUser] = PR.[IdUserTester]");
-                sb.Append(" INNER JOIN");
-                sb.Append(" [Manager_TestAvailable] TA");
-                sb.Append(" ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
-                sb.Append(" WHERE");
-                sb.Append(" PR.[IdProject] = " + idProject.Trim());
-                sb.Append(" ORDER BY");
-                sb.Append(" PTC.[IdProjectTestConcluded]");
-
-                string sql = sb.ToString();
-
-                DataTable dt = db.GetDataTable(sql);
-
-                if (dt != null)
-                {
-                    return dt;
-                }
-                else
-                    return null;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetChildTestsByProject : " + ex.Message);
                 throw (ex);
             }
         }
@@ -97,19 +47,23 @@ namespace Continental.Project.Adam.UI.BLL
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append("SELECT");
+                sb.Append("SELECT DISTINCT");
                 sb.Append(" PTC.*");
-                sb.Append(" ,PR.*");
+                sb.Append(" ,PTS.*");
+                sb.Append(" ,PRJ.*");
                 sb.Append(" ,SU.[UName]");
                 sb.Append(" ,SU.[ULogin]");
                 sb.Append(" ,TA.[Test]");
                 sb.Append(" FROM");
                 sb.Append(" [Operational_Project_TestConcluded] PTC");
-                sb.Append(" INNER JOIN [Operational_Project] PR ON PR.[IdProject] = PTC.[IdProject]");
-                sb.Append(" INNER JOIN [Security_User] SU ON SU.[IdUser] = PR.[IdUserTester]");
+                sb.Append(" INNER JOIN [Operational_Project_TestSample] PTS ON PTS.IdProjectTestSample = PTC.IdProjectTestSample");
+                sb.Append(" INNER JOIN [Operational_Project] PRJ ON PRJ.[IdProject] = PTS.[IdProject]");
+                sb.Append(" INNER JOIN [Security_User] SU ON SU.[IdUser] = PTS.[IdUser]");
                 sb.Append(" INNER JOIN [Manager_TestAvailable] TA ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
                 sb.Append(" WHERE");
-                sb.Append(" PR.[IdProject] = " + idProject.Trim());
+                sb.Append(" PRJ.[IdProject] = " + idProject.Trim());
+                sb.Append(" AND");
+                sb.Append(" PTS.[IdProject] = " + idProject.Trim());
                 sb.Append(" AND");
                 sb.Append(" TA.[Test]  = '" + strTestTypeName.Trim() + "'");
                 sb.Append(" ORDER BY");
@@ -119,12 +73,7 @@ namespace Continental.Project.Adam.UI.BLL
 
                 DataTable dt = db.GetDataTable(sql);
 
-                if (dt != null)
-                {
-                    return dt;
-                }
-                else
-                    return null;
+                return dt != null ? dt : null;
             }
             catch (Exception ex)
             {
@@ -141,20 +90,21 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append("SELECT DISTINCT");
                 if (string.IsNullOrEmpty(IdTestAvailable))
                 {
-                    sb.Append(" PTC.[IdProject] as Id");
+                    sb.Append(" PTS.[IdProject] as Id");
                     sb.Append(" ,TA.[Test] as Name");
                     sb.Append(" ,TA.[IdTestAvailable]");
                 }
                 else
                 {
-                    sb.Append(" PTC.[IdProject]");
+                    sb.Append(" PTS.[IdProject]");
                     sb.Append(" ,TA.*");
                 }
                 sb.Append(" FROM");
                 sb.Append(" [Operational_Project_TestConcluded] PTC");
+                sb.Append(" INNER JOIN [Operational_Project_TestSample] PTS ON PTS.[IdProjectTestSample] = PTC.[IdProjectTestSample]");
                 sb.Append(" INNER JOIN [Manager_TestAvailable] TA ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
                 sb.Append(" WHERE");
-                sb.Append(" PTC.[IdProject] = " + idProject.Trim());
+                sb.Append(" PTS.[IdProject] = " + idProject.Trim());
                 sb.Append(" ORDER BY");
                 sb.Append(" TA.[IdTestAvailable]");
 
@@ -162,76 +112,11 @@ namespace Continental.Project.Adam.UI.BLL
 
                 DataTable dt = db.GetDataTable(sql);
 
-                if (dt != null)
-                {
-                    return dt;
-                }
-                else
-                    return null;
+                return dt != null ? dt : null;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetProject_TestConcluded : " + ex.Message);
-                throw (ex);
-            }
-        }
-        public DataTable GetProjectByIdent(string strIdent)
-        {
-            try
-            {
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append("SELECT");
-                sb.Append(" Count(*)");
-                sb.Append(" FROM");
-                sb.Append(" [Operational_Project]");
-                sb.Append(" WHERE");
-                sb.Append(" [Identification] = '" + strIdent.Trim() + "'");
-
-                string sql = sb.ToString();
-
-                DataTable dt = db.GetDataTable(sql);
-
-                if (dt != null)
-                {
-                    return dt;
-                }
-                else
-                    return null;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetProjectByIdent : " + ex.Message);
-                throw (ex);
-            }
-        }
-        public DataTable GetProjectById(string strIdPrj)
-        {
-            try
-            {
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append("SELECT");
-                sb.Append(" *");
-                sb.Append(" FROM");
-                sb.Append(" [Operational_Project]");
-                sb.Append(" WHERE");
-                sb.Append(" [IdProject] = '" + strIdPrj.Trim() + "'");
-
-                string sql = sb.ToString();
-
-                DataTable dt = db.GetDataTable(sql);
-
-                if (dt != null)
-                {
-                    return dt;
-                }
-                else
-                    return null;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetProjectByIdent : " + ex.Message);
                 throw (ex);
             }
         }
@@ -241,15 +126,23 @@ namespace Continental.Project.Adam.UI.BLL
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append("SELECT");
-                sb.Append(" PR.*");
+                sb.Append("SELECT DISTINCT");
+                sb.Append(" PTC.*");
+                sb.Append(" ,PTS.*");
+                sb.Append(" ,PRJ.*");
                 sb.Append(" ,SU.[UName]");
                 sb.Append(" ,SU.[ULogin]");
+                sb.Append(" ,TA.[Test]");
                 sb.Append(" FROM");
-                sb.Append(" [Operational_Project] PR");
-                sb.Append(" INNER JOIN [Security_User] SU ON SU.[IdUser] = PR.[IdUserTester]");
+                sb.Append(" [Operational_Project_TestConcluded] PTC");
+                sb.Append(" INNER JOIN [Operational_Project_TestSample] PTS ON PTS.IdProjectTestSample = PTC.IdProjectTestSample");
+                sb.Append(" INNER JOIN [Operational_Project] PRJ ON PRJ.[IdProject] = PTS.[IdProject]");
+                sb.Append(" INNER JOIN [Security_User] SU ON SU.[IdUser] = PTS.[IdUser]");
+                sb.Append(" INNER JOIN [Manager_TestAvailable] TA ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
                 sb.Append(" WHERE");
-                sb.Append(" PR.[IdProject] = " + strIdProject.Trim());
+                sb.Append(" PRJ.[IdProject] = " + strIdProject.Trim());
+                sb.Append(" AND");
+                sb.Append(" PTS.[IdProject] = " + strIdProject.Trim());
 
                 string sql = sb.ToString();
 
@@ -263,30 +156,45 @@ namespace Continental.Project.Adam.UI.BLL
 
                         HelperTestBase.ProjectTestConcluded = new Model_Operational_Project_TestConcluded()
                         {
-                            Project = new Model_Operational_Project()
+                            IdProjectTestConcluded = row.Field<long>("IdProjectTestConcluded"),
+                            IdProjectTestSample = row.Field<long>("IdProjectTestSample"),
+                            IdTestAvailable = row.Field<long>("IdTestAvailable"),
+                            ProjectTestFileName = row.Field<string>("ProjectTestFileName"),
+                            LastUpdatePTC = row.Field<string>("LastUpdatePTC"),
+
+                            ProjectTestSample = new Model_Operational_Project_TestSample()
                             {
+                                IdProjectTestSample = row.Field<long>("IdProjectTestSample"),
                                 IdProject = row.Field<long>("IdProject"),
-                                PartNumber = row.Field<string>("PartNumber")?.ToString()?.Trim(),
-                                Identification = row.Field<string>("Identification")?.ToString()?.Trim(),
+                                SampleSequence = row.Field<long>("SampleSequence"),
                                 CustomerType = row.Field<string>("CustomerType")?.ToString()?.Trim(),
                                 Booster = row.Field<string>("Booster")?.ToString()?.Trim(),
                                 TMC = row.Field<string>("TMC")?.ToString()?.Trim(),
                                 ProductionDate = row.Field<string>("ProductionDate")?.ToString()?.Trim(),
                                 T_O = row.Field<string>("T_O")?.ToString()?.Trim(),
-                                IdUserTester = row.Field<long>("IdUserTester"),
+                                IdUser = row.Field<long>("IdUser"),
                                 TestingDate = row.Field<string>("TestingDate")?.ToString()?.Trim(),
                                 Comment = row.Field<string>("Comment")?.ToString()?.Trim(),
+                                LastUpdatePTS = row.Field<string>("LastUpdatePTS")?.ToString()?.Trim(),
+
+                                Project = new Model_Operational_Project()
+                                {
+                                    IdProject = row.Field<long>("IdProject"),
+                                    PartNumber = row.Field<string>("PartNumber")?.ToString()?.Trim(),
+                                    Identification = row.Field<string>("Identification")?.ToString()?.Trim(),
+                                    LastUpdatePRJ = row.Field<string>("LastUpdatePRJ")?.ToString()?.Trim(),
+                                },
 
                                 User = new Model_SecurityUser()
                                 {
-                                    IdUser = row.Field<long>("IdUserTester"),
+                                    IdUser = row.Field<long>("IdUser"),
                                     ULogin = row.Field<string>("ULogin")?.ToString()?.Trim(),
                                     UName = row.Field<string>("UName")?.ToString()?.Trim()
                                 }
                             }
                         };
 
-                        return HelperTestBase.ProjectTestConcluded.Project;
+                        return HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project;
                     }
 
                     return null;
@@ -306,16 +214,18 @@ namespace Continental.Project.Adam.UI.BLL
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append("SELECT");
+                sb.Append("SELECT DISTINCT");
                 sb.Append(" PTC.*");
-                sb.Append(" ,PR.*");
+                sb.Append(" ,PTS.*");
+                sb.Append(" ,PRJ.*");
                 sb.Append(" ,SU.[UName]");
                 sb.Append(" ,SU.[ULogin]");
                 sb.Append(" ,TA.[Test]");
                 sb.Append(" FROM");
                 sb.Append(" [Operational_Project_TestConcluded] PTC");
-                sb.Append(" INNER JOIN [Operational_Project] PR ON PR.[IdProject] = PTC.[IdProject]");
-                sb.Append(" INNER JOIN [Security_User] SU ON SU.[IdUser] = PR.[IdUserTester]");
+                sb.Append(" INNER JOIN [Operational_Project_TestSample] PTS ON PTS.IdProjectTestSample = PTC.IdProjectTestSample");
+                sb.Append(" INNER JOIN [Operational_Project] PRJ ON PRJ.[IdProject] = PTS.[IdProject]");
+                sb.Append(" INNER JOIN [Security_User] SU ON SU.[IdUser] = PTS.[IdUser]");
                 sb.Append(" INNER JOIN [Manager_TestAvailable] TA ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
                 sb.Append(" WHERE");
                 sb.Append(" PTC.[IdProjectTestConcluded] = " + strIdPrjTestConcluded.Trim());
@@ -330,47 +240,52 @@ namespace Continental.Project.Adam.UI.BLL
                     {
                         DataRow row = dt.Rows[0];
 
-                            HelperTestBase.ProjectTestConcluded = new Model_Operational_Project_TestConcluded()
+                        HelperTestBase.ProjectTestConcluded = new Model_Operational_Project_TestConcluded()
+                        {
+                            IdProjectTestConcluded = row.Field<long>("IdProjectTestConcluded"),
+                            IdProjectTestSample = row.Field<long>("IdProjectTestSample"),
+                            ProjectTestFileName = row.Field<string>("ProjectTestFileName")?.ToString()?.Trim(),
+                            LastUpdatePTC = row.Field<string>("LastUpdatePTC")?.ToString()?.Trim(),
+
+                            ProjectTestSample = new Model_Operational_Project_TestSample()
                             {
-                                IdProjectTestConcluded = row.Field<long>("IdProjectTestConcluded"),
+                                IdProjectTestSample = row.Field<long>("IdProjectTestSample"),
                                 IdProject = row.Field<long>("IdProject"),
-                                IdTestAvailable = row.Field<long>("IdTestAvailable"),
-                                TestDateTime = row.Field<string>("TestDateTime")?.ToString()?.Trim(),
-                                TestTypeName = row.Field<string>("TestTypeName")?.ToString()?.Trim(),
-                                TestIdentName = row.Field<string>("TestIdentName")?.ToString()?.Trim(),
-                                TestFileName = row.Field<string>("TestFileName")?.ToString()?.Trim(),
-                                LastUpdate = row.Field<string>("LastUpdate")?.ToString()?.Trim(),
+                                SampleSequence = row.Field<long>("SampleSequence"),
+                                CustomerType = row.Field<string>("CustomerType")?.ToString()?.Trim(),
+                                Booster = row.Field<string>("Booster")?.ToString()?.Trim(),
+                                TMC = row.Field<string>("TMC")?.ToString()?.Trim(),
+                                ProductionDate = row.Field<string>("ProductionDate")?.ToString()?.Trim(),
+                                T_O = row.Field<string>("T_O")?.ToString()?.Trim(),
+                                IdUser = row.Field<long>("IdUser"),
+                                TestingDate = row.Field<string>("TestingDate")?.ToString()?.Trim(),
+                                Comment = row.Field<string>("Comment")?.ToString()?.Trim(),
+                                LastUpdatePTS = row.Field<string>("LastUpdatePTS")?.ToString()?.Trim(),
 
                                 Project = new Model_Operational_Project()
                                 {
                                     IdProject = row.Field<long>("IdProject"),
                                     PartNumber = row.Field<string>("PartNumber")?.ToString()?.Trim(),
                                     Identification = row.Field<string>("Identification")?.ToString()?.Trim(),
-                                    CustomerType = row.Field<string>("CustomerType")?.ToString()?.Trim(),
-                                    Booster = row.Field<string>("Booster")?.ToString()?.Trim(),
-                                    TMC = row.Field<string>("TMC")?.ToString()?.Trim(),
-                                    ProductionDate = row.Field<string>("ProductionDate")?.ToString()?.Trim(),
-                                    T_O = row.Field<string>("T_O")?.ToString()?.Trim(),
-                                    IdUserTester = row.Field<long>("IdUserTester"),
-                                    TestingDate = row.Field<string>("TestingDate")?.ToString()?.Trim(),
-                                    Comment = row.Field<string>("Comment")?.ToString()?.Trim(),
+                                    LastUpdatePRJ = row.Field<string>("LastUpdatePRJ")?.ToString()?.Trim(),
+                                },
 
-                                    TestAvailable = new Model_Manager_TestAvailable()
-                                    {
-                                        IdTestAvailable = row.Field<long>("IdTestAvailable"),
-                                        Test = row.Field<string>("Test")?.ToString()?.Trim()
-                                    },
+                                TestAvailable = new Model_Manager_TestAvailable()
+                                {
+                                    IdTestAvailable = row.Field<long>("IdTestAvailable"),
+                                    Test = row.Field<string>("Test")?.ToString()?.Trim()
+                                },
 
-                                    User = new Model_SecurityUser()
-                                    {
-                                        IdUser = row.Field<long>("IdUserTester"),
-                                        ULogin = row.Field<string>("ULogin")?.ToString()?.Trim(),
-                                        UName = row.Field<string>("UName")?.ToString()?.Trim()
-                                    }
+                                User = new Model_SecurityUser()
+                                {
+                                    IdUser = row.Field<long>("IdUser"),
+                                    ULogin = row.Field<string>("ULogin")?.ToString()?.Trim(),
+                                    UName = row.Field<string>("UName")?.ToString()?.Trim()
                                 }
-                            };
+                            }
+                        };
 
-                        return HelperTestBase.ProjectTestConcluded.Project;
+                        return HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project;
                     }
 
                     return null;
@@ -406,12 +321,7 @@ namespace Continental.Project.Adam.UI.BLL
 
                 DataTable dt = db.GetDataTable(sql);
 
-                if (dt != null)
-                {
-                    return dt;
-                }
-                else
-                    return null;
+                return dt != null ? dt : null;
             }
             catch (Exception ex)
             {
@@ -434,12 +344,7 @@ namespace Continental.Project.Adam.UI.BLL
 
                 DataTable dt = db.GetDataTable(sql);
 
-                if (dt != null)
-                {
-                    return dt;
-                }
-                else
-                    return null;
+                return dt != null ? dt : null;
             }
             catch (Exception ex)
             {
@@ -450,7 +355,123 @@ namespace Continental.Project.Adam.UI.BLL
 
         #endregion
 
+        #region DELETE ORFHAN
+
+        public bool DeleteProjectTestConcludedOrphan()
+        {
+            int retExec = 0;
+
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT");
+                sb.Append(" PTC.IdProjectTestConcluded");
+                sb.Append(" ,PTC.IdProjectTestSample");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestConcluded] PTC");
+                sb.Append(" LEFT JOIN [Operational_Project_TestSample] PTS ON PTS.IdProjectTestSample = PTC.IdProjectTestSample");
+                sb.Append(" WHERE");
+                sb.Append(" PTS.IdProjectTestSample IS NULL");
+
+                string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                if(dt != null)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        string strIdProjectTestConcludedOrphan = row["IdProjectTestConcluded"].ToString();
+                        string strIdProjectTestSampleOrphan = row["IdProjectTestSample"].ToString();
+
+                        sb.Clear();
+
+                        sb.Append("DELETE");
+                        sb.Append(" FROM");
+                        sb.Append(" [Operational_Project_TestConcluded]");
+                        sb.Append(" WHERE");
+                        sb.Append(" [IdProjectTestConcluded] = " + strIdProjectTestConcludedOrphan.Trim());
+                        sb.Append(" AND");
+                        sb.Append(" [IdProjectTestSample] = " + strIdProjectTestSampleOrphan.Trim());
+
+                        sql = sb.ToString();
+
+                        retExec = db.ExecuteNonQuery(sql);
+                    }
+                }
+                return retExec != 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - DeleteProjectTestConcludedOrphan : " + ex.Message);
+                throw (ex);
+            }
+        }
+
+        public bool DeleteProjectTestSampleOrphan()
+        {
+            int retExec = 0;
+
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT");
+                sb.Append(" PTS.IdProjectTestSample");
+                sb.Append(" ,PTS.IdProject");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestSample] PTS");
+                sb.Append(" WHERE");
+                sb.Append(" PTS.IdProjectTestSample");
+                sb.Append(" NOT IN");
+                sb.Append(" (");
+                sb.Append(" SELECT");
+                sb.Append(" PTC.IdProjectTestSample");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestConcluded] PTC");
+                sb.Append(" )");
+
+                string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                if (dt != null)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        
+                        string strIdProjectTestSampleOrphan = row["IdProjectTestSample"].ToString();
+                        string strIdProjectOrphan = row["IdProject"].ToString();
+
+                        sb.Clear();
+
+                        sb.Append("DELETE");
+                        sb.Append(" FROM");
+                        sb.Append(" [Operational_Project_TestSample]");
+                        sb.Append(" WHERE");
+                        sb.Append(" [IdProjectTestSample] = " + strIdProjectTestSampleOrphan.Trim());
+                        sb.Append(" AND");
+                        sb.Append(" [IdProject] = " + strIdProjectOrphan.Trim());
+
+                        sql = sb.ToString();
+
+                        retExec = db.ExecuteNonQuery(sql);
+                    }
+                }
+                return retExec != 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - DeleteProjectTestSampleOrphan : " + ex.Message);
+                throw (ex);
+            }
+        }
+
+        #endregion
+
         #region DELETE
+
         public bool DeleteProjectTestConcluded(string idProjectTestConcluded, string idProject)
         {
             try
@@ -473,16 +494,36 @@ namespace Continental.Project.Adam.UI.BLL
 
                 int retExec = db.ExecuteNonQuery(sql);
 
-                if (retExec != 0)
-                {
-                    return true;
-                }
-                else
-                    return false;
+                return retExec != 0 ? true : false;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("**** | Error | ****  BLL_Operational_Project - DeleteProjectTestConcluded : " + ex.Message);
+                throw (ex);
+            }
+        }
+
+        public bool DeleteProjectTestSample(string idProjectTestSample)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("DELETE");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestSample]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProjectTestSample] = " + idProjectTestSample.Trim());
+
+                string sql = sb.ToString();
+
+                int retExec = db.ExecuteNonQuery(sql);
+
+                return retExec != 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - DeleteProjectTestSample : " + ex.Message);
                 throw (ex);
             }
         }
@@ -502,12 +543,7 @@ namespace Continental.Project.Adam.UI.BLL
 
                 int retExec = db.ExecuteNonQuery(sql);
 
-                if (retExec != 0)
-                {
-                    return true;
-                }
-                else
-                    return false;
+                return retExec != 0 ? true : false;
             }
             catch (Exception ex)
             {
@@ -531,12 +567,7 @@ namespace Continental.Project.Adam.UI.BLL
 
                 int retExec = db.ExecuteNonQuery(sql);
 
-                if (retExec != 0)
-                {
-                    return true;
-                }
-                else
-                    return false;
+                return retExec != 0 ? true : false;
             }
             catch (Exception ex)
             {
@@ -592,27 +623,13 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append(" (");
                 sb.Append(" [PartNumber]");
                 sb.Append(" ,[Identification]");
-                sb.Append(" ,[CustomerType]");
-                sb.Append(" ,[Booster]");
-                sb.Append(" ,[TMC]");
-                sb.Append(" ,[ProductionDate]");
-                sb.Append(" ,[T_O]");
-                sb.Append(" ,[IdUserTester]");
-                sb.Append(" ,[TestingDate]");
-                sb.Append(" ,[Comment]");
+                sb.Append(" ,[LastUpdatePRJ]");
                 sb.Append(")");
                 sb.Append(" VALUES");
                 sb.Append(" (");
                 sb.Append($" '{model.PartNumber}'");
                 sb.Append($" ,'{model.Identification}'");
-                sb.Append($" ,'{model.CustomerType}'");
-                sb.Append($" ,'{model.Booster}'");
-                sb.Append($" ,'{model.TMC}'");
-                sb.Append($" ,'{model.ProductionDate}'");
-                sb.Append($" ,'{model.T_O}'");
-                sb.Append($" ,'{model.IdUserTester}'");
-                sb.Append($" ,'{model.TestingDate}'");
-                sb.Append($" ,'{model.Comment}'");
+                sb.Append($" ,'{model.LastUpdatePRJ}'");
                 sb.Append(" )");
 
                 sql = sb.ToString();
@@ -630,7 +647,7 @@ namespace Continental.Project.Adam.UI.BLL
 
                     sql = sb.ToString();
 
-                   retProj = db.ExecuteScalar(sql);
+                    retProj = db.ExecuteScalar(sql);
                 }
             }
             catch (Exception ex)
@@ -641,6 +658,74 @@ namespace Continental.Project.Adam.UI.BLL
 
             return retProj;
         }
+
+        public int AddProjectTestSample(Model_Operational_Project_TestSample model)
+        {
+            string sql = string.Empty;
+
+            int retProj = 0;
+
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("INSERT INTO");
+                sb.Append(" [Operational_Project_TestSample]");
+                sb.Append(" (");
+                sb.Append(" [IdProject]");
+                sb.Append(" ,[SampleSequence]");
+                sb.Append(" ,[CustomerType]");
+                sb.Append(" ,[Booster]");
+                sb.Append(" ,[TMC]");
+                sb.Append(" ,[ProductionDate]");
+                sb.Append(" ,[T_O]");
+                sb.Append(" ,[IdUser]");
+                sb.Append(" ,[TestingDate]");
+                sb.Append(" ,[Comment]");
+                sb.Append(" ,[LastUpdatePTS]");
+                sb.Append(")");
+                sb.Append(" VALUES");
+                sb.Append(" (");
+                sb.Append($" '{model.IdProject}'");
+                sb.Append($" ,'{model.SampleSequence}'");
+                sb.Append($" ,'{model.CustomerType}'");
+                sb.Append($" ,'{model.Booster}'");
+                sb.Append($" ,'{model.TMC}'");
+                sb.Append($" ,'{model.ProductionDate}'");
+                sb.Append($" ,'{model.T_O}'");
+                sb.Append($" ,'{model.IdUser}'");
+                sb.Append($" ,'{model.TestingDate}'");
+                sb.Append($" ,'{model.Comment}'");
+                sb.Append($" ,'{model.LastUpdatePTS}'");
+                sb.Append(" )");
+
+                sql = sb.ToString();
+
+                int retInsert = db.ExecuteNonQuery(sql);
+
+                if (retInsert > 0)
+                {
+                    sb.Clear();
+
+                    sb.Append("SELECT");
+                    sb.Append(" Max(IdProjectTestSample)");
+                    sb.Append(" FROM");
+                    sb.Append(" [Operational_Project_TestSample]");
+
+                    sql = sb.ToString();
+
+                    retProj = db.ExecuteScalar(sql);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - AddProject : " + ex.Message);
+                throw ex;
+            }
+
+            return retProj;
+        }
+
         public int AddProjectTestConcluded(Model_Operational_Project_TestConcluded model)
         {
             string sql = string.Empty;
@@ -654,24 +739,41 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append("INSERT INTO");
                 sb.Append(" [Operational_Project_TestConcluded]");
                 sb.Append(" (");
-                sb.Append(" [IdProject]");
+                sb.Append(" [IdProjectTestSample]");
                 sb.Append(" ,[IdTestAvailable]");
-                sb.Append(" ,[TestDateTime]");
-                sb.Append(" ,[TestTypeName]");
-                sb.Append(" ,[TestIdentName]");
-                sb.Append(" ,[TestFileName]");
-                sb.Append(" ,[LastUpdate]");
+                sb.Append(" ,[ProjectTestFileName]");
+                sb.Append(" ,[LastUpdatePTC]");
                 sb.Append(")");
                 sb.Append(" VALUES");
                 sb.Append(" (");
-                sb.Append($" '{model.IdProject}'");
+                sb.Append($" '{model.IdProjectTestSample}'");
                 sb.Append($" ,'{model.IdTestAvailable}'");
-                sb.Append($" ,'{model.TestDateTime}'");
-                sb.Append($" ,'{model.TestTypeName}'");
-                sb.Append($" ,'{model.TestIdentName}'");
-                sb.Append($" ,'{model.TestFileName}'");
-                sb.Append($" ,'{model.LastUpdate}'");
+                sb.Append($" ,'{model.ProjectTestFileName}'");
+                sb.Append($" ,'{model.LastUpdatePTC}'");
                 sb.Append(" )");
+
+
+                //sb.Append("INSERT INTO");
+                //sb.Append(" [Operational_Project_TestConcluded]");
+                //sb.Append(" (");
+                //sb.Append(" [IdProject]");
+                //sb.Append(" ,[IdTestAvailable]");
+                //sb.Append(" ,[TestDateTime]");
+                //sb.Append(" ,[TestTypeName]");
+                //sb.Append(" ,[TestIdentName]");
+                //sb.Append(" ,[TestFileName]");
+                //sb.Append(" ,[LastUpdate]");
+                //sb.Append(")");
+                //sb.Append(" VALUES");
+                //sb.Append(" (");
+                //sb.Append($" '{model.IdProject}'");
+                //sb.Append($" ,'{model.IdTestAvailable}'");
+                //sb.Append($" ,'{model.TestDateTime}'");
+                //sb.Append($" ,'{model.TestTypeName}'");
+                //sb.Append($" ,'{model.TestIdentName}'");
+                //sb.Append($" ,'{model.TestFileName}'");
+                //sb.Append($" ,'{model.LastUpdate}'");
+                //sb.Append(" )");
 
                 sql = sb.ToString();
 
@@ -703,7 +805,7 @@ namespace Continental.Project.Adam.UI.BLL
         #endregion
 
         #region UPDATE
-        public bool UpdateProject(long idProject, string strTestDateTime)
+        public bool UpdateProjectTestSample(long idProjectTestSample, long sampleSequence, string strTestDateTime)
         {
             string sql = string.Empty;
 
@@ -714,11 +816,13 @@ namespace Continental.Project.Adam.UI.BLL
                 StringBuilder sb = new StringBuilder();
 
                 sb.Append("UPDATE");
-                sb.Append(" [Operational_Project]");
+                sb.Append(" [Operational_Project_TestSample]");
                 sb.Append(" SET");
                 sb.Append(" [TestingDate] = '" + strTestDateTime.Trim() + "'");
                 sb.Append(" WHERE");
-                sb.Append(" [IdProject] = '" + idProject + "'");
+                sb.Append(" [IdProjectTestSample] = '" + idProjectTestSample + "'");
+                sb.Append(" AND");
+                sb.Append(" [SampleSequence] = " + sampleSequence);
 
                 sql = sb.ToString();
 
@@ -728,7 +832,7 @@ namespace Continental.Project.Adam.UI.BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - UpdateProject : " + ex.Message);
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - UpdateProjectTestSample : " + ex.Message);
                 throw ex;
             }
 

@@ -416,6 +416,7 @@
     <Compile Include="Models\Operational\Model_Operational_ManualActuation.cs" />
     <Compile Include="Models\Operational\Model_Operational_Project.cs" />
     <Compile Include="Models\Operational\Model_Operational_Project_TestConcluded.cs" />
+    <Compile Include="Models\Operational\Model_Operational_Project_TestSample.cs" />
     <Compile Include="Models\Operational\Model_Operational_TestTableParameters.cs" />
     <Compile Include="Models\Security\SecurityCrypto.cs" />
     <Compile Include="Models\Security\Model_SecurityPassword.cs" />

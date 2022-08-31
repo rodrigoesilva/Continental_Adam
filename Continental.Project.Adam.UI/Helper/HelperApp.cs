@@ -201,11 +201,9 @@ namespace Continental.Project.Adam.UI.Helper
         #region FORM MAIN  - TABS
 
         #region tab_TableParameters
-        public List<Model_Operational_TestTableParameters> TabTableParameters_GetTableParam(DataTable dtTableResults, DataGridView grid_tabActionParam_EvalParam, Dictionary<string, string>[] dicReturnReadFileHeader)
+        public List<Model_Operational_TestTableParameters> TabTableParameters_GetTableParam(DataTable dtTableResults, DataGridView grid_tabActionParam_EvalParam)
         {
             Dictionary<string, string> dicResultParam = new Dictionary<string, string>();
-
-            List<Model_Operational_TestTableParameters> listResultParam = new List<Model_Operational_TestTableParameters>();
 
             try
             {
@@ -217,162 +215,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 1:     //Force Diagrams - Force/Pressure With Vacuum
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParamGrid = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[2];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[3];
-
-                                #region File Data Results
-
-                                #region Results_FileHeader_Project
-
-                                HelperTestBase.ProjectTestConcluded.Project.Identification = dicReturnReadFileHeaderPrj.ContainsKey("Ident") ? dicReturnReadFileHeaderPrj["Ident"].ToString()?.Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.CustomerType = dicReturnReadFileHeaderPrj.ContainsKey("Customer/Type") ? dicReturnReadFileHeaderPrj["Customer/Type"].ToString()?.Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.Booster = dicReturnReadFileHeaderPrj.ContainsKey("Booster") ? dicReturnReadFileHeaderPrj["Booster"].ToString()?.Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.TMC = dicReturnReadFileHeaderPrj.ContainsKey("TMC") ? dicReturnReadFileHeaderPrj["TMC"].ToString()?.Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.ProductionDate = dicReturnReadFileHeaderPrj.ContainsKey("Production Date") ? dicReturnReadFileHeaderPrj["Production Date"].ToString()?.Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.T_O = dicReturnReadFileHeaderPrj.ContainsKey("T.O.") ? dicReturnReadFileHeaderPrj["T.O."].ToString()?.Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.User.UName = dicReturnReadFileHeaderPrj.ContainsKey("Operator") ? dicReturnReadFileHeaderPrj["Operator"].ToString()?.Trim()?.ToUpper() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.TestingDate = dicReturnReadFileHeaderPrj.ContainsKey("Testing Date") ? dicReturnReadFileHeaderPrj["Testing Date"].ToString()?.Trim() : string.Empty;
-                                HelperTestBase.ProjectTestConcluded.Project.Comment = dicReturnReadFileHeaderPrj.ContainsKey("Comment") ? dicReturnReadFileHeaderPrj["Comment"].ToString()?.Trim() : string.Empty;
-
-                                #endregion
-
-                                #region Results_FileHeader_Param_Grid
-
-                                HelperTestBase.Model_GVL.GVL_T01.rForca_E1 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E3)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E3)"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rForca_E2 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E4)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E4)"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rForca_P1 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E5)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E5)"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rForca_P2 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E6)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E6)"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rDeslocamentoNaPressao = dicReturnReadFileHeaderParamGrid.ContainsKey("Travel at Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Travel at Pressure"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressaoCutIn_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Actuation Force at Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Actuation Force at Pressure"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMin_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force min") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force min"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMax_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force max") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force max"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_pout = dicReturnReadFileHeaderParamGrid.ContainsKey("Hysteresis at Pressure (%)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Hysteresis at Pressure (%)"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Hysteresis at Pressure (bar)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Hysteresis at Pressure (bar)"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force Remaining at") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force Remaining at"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("TMC Diameter PC") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["TMC Diameter PC"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("TMC Diameter SC") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["TMC Diameter SC"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Jumper Gradient P1") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Jumper Gradient P1"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Jumper Gradient P2") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Jumper Gradient P2"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_FileHeader_Param 
-
-                                HelperApp.strActuationMode = dicReturnReadFileHeaderParam.ContainsKey("Actuation Type") ? dicReturnReadFileHeaderParam["Actuation Type"].ToString().Trim() : string.Empty;
-                                HelperTestBase.iOutputType = dicReturnReadFileHeaderParam.ContainsKey("Output Type") ? dicReturnReadFileHeaderParam["Output Type"].ToString().Trim().Equals("PC") ? 1 : 2 : 0;
-                                HelperTestBase.VacuumMin = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (min)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (min)"]) * -1 : 0;
-                                HelperTestBase.VacuumMax = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (max)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (max)"]) * -1 : 0;
-                                HelperTestBase.Vacuum = dicReturnReadFileHeaderParam.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum"]) * -1 : 0;
-                                HelperTestBase.chkPistonLock = dicReturnReadFileHeaderParam.ContainsKey("Lock Piston") ? dicReturnReadFileHeaderParam["Lock Piston"].ToString().Trim().Equals("Yes") ? true : false : false;
-                                HelperTestBase.ForceGradient = dicReturnReadFileHeaderParam.ContainsKey("Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Gradient"]) * -1 : 0;
-                                HelperTestBase.MaxForce = dicReturnReadFileHeaderParam.ContainsKey("Max. Force") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Max. Force"]) * -1 : 0;
-                                HelperTestBase.iTipoConsumidores = dicReturnReadFileHeaderParam.ContainsKey("Consumer") ? dicReturnReadFileHeaderParam["Consumer"].ToString().Trim().Equals("Original Consumer") ? 1 : 2 : 0;
-                                HelperTestBase.iSumHoseConsumerPC = dicReturnReadFileHeaderParam.ContainsKey("Hose Consumer PC") ? Convert.ToInt32(dicReturnReadFileHeaderParam["Hose Consumer PC"]) : 0;
-                                HelperTestBase.iSumHoseConsumerSC = dicReturnReadFileHeaderParam.ContainsKey("Hose Consumer SC") ? Convert.ToInt32(dicReturnReadFileHeaderParam["Hose Consumer SC"]) : 0;
-
-                                #endregion
-
-                                #region #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T01.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                //recupera VARIOS itens que contenham o memso texto e guarda a qtd
-                                var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
-                                                             where k.Key.Contains("Pressure at")
-                                                             select new
-                                                             {
-                                                                 k.Key,
-                                                                 k.Value
-                                                             };
-
-                                HelperTestBase.Model_GVL.GVL_T01.rPressao_E1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[0].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressao_E2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[1].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressao_P1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[2].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressao_P2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[3].Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rRunOutPressure_Real_Bar = dicReturnReadFileHeaderResults.ContainsKey("Runout Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Pressure"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-in Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-in Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rHysterese_Xpout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 % p out"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rHysterese_Xbar_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 bar"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Realease Force at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Realease Force at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressaoAuxiliar_P3_Bar = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Radio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Radio"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressao_90pout_bar = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 90.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 90.0 %")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rPressao_70pout_bar = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 70.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
-
-                                //define captions data
-                                HelperTestBase.Model_GVL.GVL_T01.rForca_90pout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 90.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 90.0 %")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Replace("Pressure at 90.0 %", "").Replace("(=", "").Replace("N)", "").Trim()) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rForca_70pout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 70.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Replace("Pressure at 70.0 %", "").Replace("(=", "").Replace("N)", "").Trim()) * -1 : 0;
-
-                                //jumper gradient
-                                //HelperTestBase.Model_GVL.GVL_T01.rGradientJumper = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
-
-                                var strJumpGrad = dicReturnReadFileHeaderResults
-                                    .ElementAt(dicReturnReadFileHeaderResults.Keys
-                                    .Select(x => x.Contains("Jumper Gradient ("))
-                                                    .ToList()
-                                                    .FindIndex(a => a.Equals(true))
-                                                    )
-                                    .Key
-                                    .ToString();
-
-                                if (!string.IsNullOrEmpty(strJumpGrad))
-                                {
-                                    var strJumpGradClear = string.Concat(strJumpGrad.Substring(strJumpGrad.Trim().IndexOf("(") + 1, strJumpGrad.Trim().IndexOf(")") - strJumpGrad.Trim().IndexOf("(") - 1).Where(c => !char.IsWhiteSpace(c)));
-
-                                    var splJumpGradClear = strJumpGradClear?.Split('/');
-
-                                    var strP2_JumpGradClear = splJumpGradClear[0];
-                                    var p2_1 = strP2_JumpGradClear.Substring(0, strP2_JumpGradClear.IndexOf("N"));
-                                    var p2_2 = strP2_JumpGradClear.Remove(strP2_JumpGradClear.Length - 3).Substring(strP2_JumpGradClear.IndexOf("N") + 2);
-
-                                    var strP1_JumpGradClear = splJumpGradClear[1];
-                                    var p1_1 = strP1_JumpGradClear.Substring(0, strP1_JumpGradClear.IndexOf("N"));
-                                    var p1_2 = strP1_JumpGradClear.Remove(strP1_JumpGradClear.Length - 3).Substring(strP1_JumpGradClear.IndexOf("N") + 2);
-
-                                    HelperTestBase.Model_GVL.GVL_T01.rForcaP2Jumper_N = NumberDoubleCheck(p2_1) * -1;
-                                    HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = NumberDoubleCheck(p2_2) * -1;
-                                    HelperTestBase.Model_GVL.GVL_T01.rForcaP1Jumper_N = NumberDoubleCheck(p1_1) * -1;
-                                    HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = NumberDoubleCheck(p1_2) * -1;
-                                }
-
-                                //TEMPORARIO rRunOutForce para T06/07/08
-                                HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutForce_Real_N = HelperTestBase.Model_GVL.GVL_T01.rRunOutForce_Real_N;
-                                HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutPressure_Real_Bar = HelperTestBase.Model_GVL.GVL_T01.rRunOutPressure_Real_Bar;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T01.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T01.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -441,84 +283,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T02.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                //recupera VARIOS itens que contenham o memso texto e guarda a qtd
-                                var matchesOutputForceAt = from k in dicReturnReadFileHeaderResults
-                                                           where k.Key.Contains("Output Force at")
-                                                           select new
-                                                           {
-                                                               k.Key,
-                                                               k.Value
-                                                           };
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaOutJumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForca_E1 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForca_E2 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForca_P1 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForca_P2 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rRunOutForceOut_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force Runout"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Ratio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Ratio"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaFOutCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rHysterese_XFout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at {0} % f out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at {0} % f out"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaAuxiliar_P3_N = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Force"]) * -1 : 0;
-
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_90Fout_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at 90.0 %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at 90.0 %"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_70Fout_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at 70.0 %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at 70.0 %"]) * -1 : 0;
-
-                                //define captions data ??
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_90Fout_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vacuum"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rForcaOut_70Fout_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vacuum"]) * -1 : 0;
-                                //??
-
-                                //jumper gradient, precisa verificar
-                                HelperTestBase.Model_GVL.GVL_T02.rGradientJumper = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
-                                //HelperTestBase.Model_GVL.GVL_T02.rForcaP2Jumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
-                                //HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P2_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
-                                //HelperTestBase.Model_GVL.GVL_T02.rForcaP1Jumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
-                                //HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P1_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
-
-
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T02.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_T02_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T02.rVacuoInicial, 3).ToString());
@@ -575,62 +339,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T03.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                //dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))
-                                var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
-                                                             where k.Key.Contains("Pressure at")
-                                                             select new
-                                                             {
-                                                                 k.Key,
-                                                                 k.Value
-                                                             };
-
-                                HelperTestBase.Model_GVL.GVL_T03.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Realease Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Realease Force at {0} mm"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rPressao_E1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rPressao_E2_Bar = dicReturnReadFileHeaderResults.ContainsKey("RPressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["RPressure at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rPressao_P1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rPressao_P2_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T03.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T03.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T03.rVacuoInicial, 3).ToString());
@@ -672,61 +380,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T04.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                //recupera VARIOS itens que contenham o memso texto e guarda a qtd
-                                var matchesOutputForceAt = from k in dicReturnReadFileHeaderResults
-                                                           where k.Key.Contains("Output Force at")
-                                                           select new
-                                                           {
-                                                               k.Key,
-                                                               k.Value
-                                                           };
-                                HelperTestBase.Model_GVL.GVL_T04.rForca_E1 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rForca_E2 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Ratio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Ratio"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rForcaFOutCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) * -1 : 0;
-
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T04.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T04.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_T04_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T04.rVacuoInicial, 3).ToString());
@@ -767,40 +420,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T05.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-
-                                #endregion
-
-                                #region Results
-                                HelperTestBase.Model_GVL.GVL_T05.rTempoTotal = dicReturnReadFileHeaderResults.ContainsKey("Total Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Total Time"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T05.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T05.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T05.rVacuoInicial, 3).ToString());
@@ -829,45 +448,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 6: //Vacuum Leakage - Fully Applied Position
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T06.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T06.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results
-                                HelperTestBase.Model_GVL.GVL_T06.rRunOutForceRef = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T06.rDeslocamentoEmFmax = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T06.rTempoTotal = dicReturnReadFileHeaderResults.ContainsKey("Total Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Total Time"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T06.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T06.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T06.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T06.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -901,69 +481,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 7: //Vacuum Leakage - Lap Position
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T07.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-
-                                #endregion
-
-                                #region Results
-                                //recupera VARIOS itens que contenham o memso texto e guarda a qtd
-                                var matchesActuationForceAt = from k in dicReturnReadFileHeaderResults
-                                                              where k.Key.Contains("Actuation Force")
-                                                              select new
-                                                              {
-                                                                  k.Key,
-                                                                  k.Value
-                                                              };
-
-                                HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaFinal = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
-
-                                HelperTestBase.Model_GVL.GVL_T07.rRunOutForceRef = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-
-                                var matchesTravelAtAt = from k in dicReturnReadFileHeaderResults
-                                                        where k.Key.Contains("Travel at")
-                                                        select new
-                                                        {
-                                                            k.Key,
-                                                            k.Value
-                                                        };
-
-                                HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaFinal = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
-
-                                HelperTestBase.Model_GVL.GVL_T07.rTempoTotal = dicReturnReadFileHeaderResults.ContainsKey("Total Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Total Time"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T07.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T07.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -1001,47 +518,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T08.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T08.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T08.rRunOutForceRef = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T08.rDeslocamentoEmFMax = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T08.rPerdaPressaoCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss PC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss PC while testing"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T08.rPerdaPressaoCS = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss SC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss SC while testing"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T08.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T08.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T08.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T08.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_T08_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T08.rVacuoInicial, 3).ToString());
@@ -1075,47 +551,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 9:     //Hydraulic Leakage - At Low Pressure
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T09.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T09.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure PC"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T09.rDeslocamentoEmPMax = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T09.rPerdaPressaoCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss PC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss PC while testing"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T09.rPerdaPressaoCS = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss SC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss SC while testing"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T09.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T09.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T09.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T09.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -1151,47 +586,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T10.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T10.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure PC"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T10.rDeslocamentoEmPMax = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T10.rPerdaPressaoCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss PC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss PC while testing"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T10.rPerdaPressaoCS = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss SC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss SC while testing"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T10.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T10.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T10.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T10.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T10.rVacuoInicial, 3).ToString());
@@ -1226,44 +620,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T11.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T11.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T11.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T11.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T11.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T11.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T11.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T11.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T11.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T11.rVacuoInicial, 3).ToString());
@@ -1296,52 +652,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 12:    //Adjustment - Actuation Fast
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T12.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-
-                                HelperTestBase.Model_GVL.GVL_T12.rDeslocamentoMaximo = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rTempoAtuacao = dicReturnReadFileHeaderResults.ContainsKey("Actuation Time {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Time {0} %"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rTempoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Release Time {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Time {0} %"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rPressaoMaximaCP_bar = dicReturnReadFileHeaderResults.ContainsKey("Max. Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Max. Pressure PC"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rPressaoMaximaCS_bar = dicReturnReadFileHeaderResults.ContainsKey("Max. pressure SC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Max. pressure SC"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T12.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T12.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -1382,59 +692,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T13.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-                                //recupera VARIOS itens que contenham o memso texto e guarda a qtd
-                                var matchesDifferenceAtForce = from k in dicReturnReadFileHeaderResults
-                                                               where k.Key.Contains("Difference at")
-                                                               select new
-                                                               {
-                                                                   k.Key,
-                                                                   k.Value
-                                                               };
-
-
-                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP1_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) FW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) FW"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP2_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) FW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) FW"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP3_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) BW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) BW"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP4_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) BW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) BW"]) : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T13.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T13.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T13.rVacuoInicial, 3).ToString());
@@ -1473,48 +730,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T14.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T14.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T14.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T14.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T14.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T14.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T14.rDeslocamentoMaximo = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T14.rCursoMorto_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T14.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T14.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T14.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T14.rVacuoInicial, 3).ToString());
@@ -1551,45 +766,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T15.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T15.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T15.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T15.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T15.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T15.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T15.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T15.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T15.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T15.rVacuoInicial, 3).ToString());
@@ -1622,48 +798,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 16:    //Adjustment - Hose Consumer
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T16.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T16.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T16.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T16.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T16.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T16.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoMaximo_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel at {0} bar"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T16.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T16.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T16.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -1700,60 +834,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 17:    //Lost Travel ACU - Hydraulic
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T17.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                //dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))
-                                var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
-                                                             where k.Key.Contains("Travel At")
-                                                             select new
-                                                             {
-                                                                 k.Key,
-                                                                 k.Value
-                                                             };
-
-                                HelperTestBase.Model_GVL.GVL_T17.rCursoMorto_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao1_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao2_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao3_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao4_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T17.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T17.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -1794,57 +874,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T18.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                //dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))
-                                var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
-                                                             where k.Key.Contains("Travel At")
-                                                             select new
-                                                             {
-                                                                 k.Key,
-                                                                 k.Value
-                                                             };
-
-                                HelperTestBase.Model_GVL.GVL_T18.rCursoMorto_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao1_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao2_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao3_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao4_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T18.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T18.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_T18_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T18.rVacuoInicial, 3).ToString());
@@ -1881,45 +910,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T19.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T19.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T19.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T19.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaFechadoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with closed system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with closed system"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaAbertoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with opened system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with opened system"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel Closing Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel Closing Travel"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T19.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T19.rVacuoInicial, 3).ToString());
@@ -1953,45 +943,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T20.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T20.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T20.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T20.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaFechadoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with closed system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with closed system"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaAbertoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with opened system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with opened system"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel Closing Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel Closing Travel"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T20.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T20.rVacuoInicial, 3).ToString());
@@ -2024,54 +975,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 21:    //Pedal Feeling Characteristics
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T21.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T21.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T21.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T21.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-
-                                HelperTestBase.Model_GVL.GVL_T21.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T21.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T21.rForcaNoJumper_N = dicReturnReadFileHeaderResults.ContainsKey("Input force at jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input force at jumper"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T21.rDeslocamentoNoJumper_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at jumper"]) * -1 : 0;
-
-                                //verificar
-                                HelperTestBase.Model_GVL.GVL_T21.rForcaNaPressao_N = dicReturnReadFileHeaderResults.ContainsKey("Force at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force at {0} bar"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T21.rForcaNaPressao_N = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
-                                //
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T21.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T21.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T21.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -2110,65 +1013,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 22:    //Actuation / Release - Mechanical Actuation
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T22.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoMaximo = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rTempoAtuacao_s = dicReturnReadFileHeaderResults.ContainsKey("Actuation Time {0} % Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Time {0} % Runout"]) * -1 : 0;
-
-                                //recupera VARIOS itens que contenham o memso texto e guarda a qtd
-                                var matchesReleaseTime = from k in dicReturnReadFileHeaderResults
-                                                         where k.Key.Contains("Release Time")
-                                                         select new
-                                                         {
-                                                             k.Key,
-                                                             k.Value
-                                                         };
-
-                                HelperTestBase.Model_GVL.GVL_T22.rTempoRetorno_s = dicReturnReadFileHeaderResults.ContainsKey("Release Time {0} % Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Time {0} % Runout"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rTempoRetornoNoDeslocamento_s = dicReturnReadFileHeaderResults.ContainsKey("Release Time to {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Time to {0} mm"]) * -1 : 0;
-
-                                HelperTestBase.Model_GVL.GVL_T22.rDiferencaPressaoPCSC_bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure Difference PC SC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Difference PC SC"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rPressaoAuxiliarRef = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel at {0} % Pout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel at {0} % Pout"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T22.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rGradientePressao = dicReturnReadFileHeaderResults.ContainsKey("Pressure Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T22.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -2212,50 +1056,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T23.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T23.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T23.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T23.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T23.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T23.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-
-                                HelperTestBase.Model_GVL.GVL_T23.rDeslocamentoMaximo_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaAbertura_Bar = dicReturnReadFileHeaderResults.ContainsKey("Testing Pressure at Aperture") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Testing Pressure at Aperture"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaRespiro_Bar = dicReturnReadFileHeaderResults.ContainsKey("Filling Pressure at Breather") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Filling Pressure at Breather"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T23.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T23.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T23.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T23.rVacuoInicial, 3).ToString());
@@ -2292,46 +1092,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T24.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaSlow = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force Slow") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force Slow"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaFast = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force Fast") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force Fast"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoSlow = dicReturnReadFileHeaderResults.ContainsKey("Pressure Gradient Slow") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Gradient Slow"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoFast = dicReturnReadFileHeaderResults.ContainsKey("Pressure Gradient Fast") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Gradient Fast"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T24.rEficiencia = dicReturnReadFileHeaderResults.ContainsKey("Efficiency at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Efficiency at {0} N"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T24.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T24.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T24.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_T24_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T24.rVacuoInicial, 3).ToString());
@@ -2365,72 +1125,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 25:    //Force Diagrams - Force/Pressure Dual Ratio
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T25.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                //recupera VARIOS itens que contenham o memso texto e guarda a qtd
-                                var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
-                                                             where k.Key.Contains("Pressure at")
-                                                             select new
-                                                             {
-                                                                 k.Key,
-                                                                 k.Value
-                                                             };
-
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_E1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_E2_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_P1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressao_P2_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rRunOutPressure_Real_Bar = dicReturnReadFileHeaderResults.ContainsKey("Runout Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Pressure"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} % p out"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rHysterese_Xpout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at {0} % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at {0} % p out"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rPressaoAuxiliar_P3_Bar = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointF_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point F") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point F"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointP_Bar = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point P") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point P"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff1 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 1") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 1"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff2 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 2") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 2"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T25.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T25.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -2483,72 +1177,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T26.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaOutJumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
-
-                                //recupera VARIOS itens que contenham o memso texto e guarda a qtd
-                                var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
-                                                             where k.Key.Contains("Output Force at")
-                                                             select new
-                                                             {
-                                                                 k.Key,
-                                                                 k.Value
-                                                             };
-
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_E1_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_E2_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_P1_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaOut_P2_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rRunOutForceOut_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force Runout"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Ratio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Ratio"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rHysterese_XFout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at {0} % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at {0} % p out"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rDualRatioSwithcPointF_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point F") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point F"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rDualRatioSwithcPointFout_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point Fout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point Fout"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rDualRatioGradiente1Eff1 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 1") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 1"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rDualRatioGradiente1Eff2 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 2") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 2"]) : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T26.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T26.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_T26_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T26.rVacuoInicial, 3).ToString());
@@ -2599,50 +1227,6 @@ namespace Continental.Project.Adam.UI.Helper
                         {
                             #region Results
 
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T27.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T27.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T27.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T27.rPressaoMaxima_bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure PC"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T27.rPotenciaAtuacao_W = dicReturnReadFileHeaderResults.ContainsKey("Actuation Power") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Power"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T27.rDeslocamentoDiferencialMax_mm = dicReturnReadFileHeaderResults.ContainsKey("Max. Diff. Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Max. Diff. Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T27.rVelocidadeAtuacao2Pontos_mms = dicReturnReadFileHeaderResults.ContainsKey("Act. Velocity 2 Point") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Velocity 2 Point"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T27.rForcaMaximaAtuacao_N = dicReturnReadFileHeaderResults.ContainsKey("Act. Force max") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Force max"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T27.rPotenciaAtuacao2Pontos_W = dicReturnReadFileHeaderResults.ContainsKey("Act. Power 2 Point") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Power 2 Point"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T27.rVelocidadeNominal_mms = dicReturnReadFileHeaderResults.ContainsKey("Nominal Velocity") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Nominal Velocity"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T27.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T27.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T27.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
-
                             #region #region Results_Header
 
                             dicResultParam.Add("resultCalcTestParam_T27_Vacuum", Math.Round(HelperTestBase.Model_GVL.GVL_T27.rVacuoInicial, 3).ToString());
@@ -2680,47 +1264,6 @@ namespace Continental.Project.Adam.UI.Helper
                     case 28:    //ADAM - Switching Point Without TMC
                         {
                             #region Results
-
-                            #region Resuls Load Offline
-
-                            if (dicReturnReadFileHeader[0]?.Count() > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProject > 0)
-                            {
-                                var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-                                var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[1];
-                                var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[2];
-
-                                #region Results
-
-                                #region Results_Header
-
-                                HelperTestBase.Model_GVL.GVL_T28.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
-                                HelperTestBase.Model_GVL.GVL_T28.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T28.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results
-
-                                HelperTestBase.Model_GVL.GVL_T28.rPotenciaAtuacao_W = dicReturnReadFileHeaderResults.ContainsKey("Actuation Power") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Power"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T28.rDeslocamentoDiferencialMax_mm = dicReturnReadFileHeaderResults.ContainsKey("Max. Diff. Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Max. Diff. Travel"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T28.rVelocidadeAtuacao2Pontos_mms = dicReturnReadFileHeaderResults.ContainsKey("Act. Velocity 2 Point") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Velocity 2 Point"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T28.rForcaMaximaAtuacao_N = dicReturnReadFileHeaderResults.ContainsKey("Act. Force max") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Force max"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T28.rPotenciaAtuacao2Pontos_W = dicReturnReadFileHeaderResults.ContainsKey("Act. Power 2 Point") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Power 2 Point"]) * -1 : 0;
-                                HelperTestBase.Model_GVL.GVL_T28.rVelocidadeNominal_mms = dicReturnReadFileHeaderResults.ContainsKey("Nominal Velocity") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Nominal Velocity"]) * -1 : 0;
-
-                                #endregion
-
-                                #region Results_Footer
-
-                                HelperTestBase.Model_GVL.GVL_T28.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
-
-                                #endregion
-
-                                #endregion
-
-                            }
-
-                            #endregion
 
                             #region #region Results_Header
 
@@ -2762,12 +1305,1452 @@ namespace Continental.Project.Adam.UI.Helper
 
                 List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
-                listResultParam = TabTableParameters_FormatResultParam(dtTableResults, lstInfoEvaluationParameters, dicResultParam);
+                return TabTableParameters_FormatResultParam(dtTableResults, lstInfoEvaluationParameters, dicResultParam);
 
                 //HelperApp.lstEvaluationParameters
             }
             catch (Exception ex)
             {
+                var err = ex.Message;
+                throw;
+            }
+        }
+
+        public List<Model_Operational_TestTableParameters> TabTableParameters_GetTableParamOffLineByFile(DataTable dtTableResults, DataGridView grid_tabActionParam_EvalParam, Dictionary<string, string>[] dicReturnReadFileHeader)
+        {
+            List<Model_Operational_TestTableParameters> listResultParam = new List<Model_Operational_TestTableParameters>();
+
+            var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
+            var dicReturnReadFileHeaderParamGrid = dicReturnReadFileHeader[1];
+            var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[2];
+            var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[3];
+
+            try
+            {
+                #region Check TEST Results
+
+                switch (HelperApp.uiTesteSelecionado)
+                {
+                    case 1:     //Force Diagrams - Force/Pressure With Vacuum
+                        {
+                            #region Resuls Load Offline
+
+                            #region File Data Results
+
+                            #region Results_FileHeader_Project
+
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.Identification = dicReturnReadFileHeaderPrj.ContainsKey("Ident") ? dicReturnReadFileHeaderPrj["Ident"].ToString()?.Trim() : string.Empty;
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.CustomerType = dicReturnReadFileHeaderPrj.ContainsKey("Customer/Type") ? dicReturnReadFileHeaderPrj["Customer/Type"].ToString()?.Trim() : string.Empty;
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.Booster = dicReturnReadFileHeaderPrj.ContainsKey("Booster") ? dicReturnReadFileHeaderPrj["Booster"].ToString()?.Trim() : string.Empty;
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.TMC = dicReturnReadFileHeaderPrj.ContainsKey("TMC") ? dicReturnReadFileHeaderPrj["TMC"].ToString()?.Trim() : string.Empty;
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.ProductionDate = dicReturnReadFileHeaderPrj.ContainsKey("Production Date") ? dicReturnReadFileHeaderPrj["Production Date"].ToString()?.Trim() : string.Empty;
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.T_O = dicReturnReadFileHeaderPrj.ContainsKey("T.O.") ? dicReturnReadFileHeaderPrj["T.O."].ToString()?.Trim() : string.Empty;
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.User.UName = dicReturnReadFileHeaderPrj.ContainsKey("Operator") ? dicReturnReadFileHeaderPrj["Operator"].ToString()?.Trim()?.ToUpper() : string.Empty;
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.TestingDate = dicReturnReadFileHeaderPrj.ContainsKey("Testing Date") ? dicReturnReadFileHeaderPrj["Testing Date"].ToString()?.Trim() : string.Empty;
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.Comment = dicReturnReadFileHeaderPrj.ContainsKey("Comment") ? dicReturnReadFileHeaderPrj["Comment"].ToString()?.Trim() : string.Empty;
+
+                            #endregion
+
+                            #region Results_FileHeader_Param_Grid
+
+                            HelperTestBase.Model_GVL.GVL_T01.rForca_E1 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E3)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E3)"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rForca_E2 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E4)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E4)"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rForca_P1 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E5)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E5)"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rForca_P2 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E6)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E6)"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rDeslocamentoNaPressao = dicReturnReadFileHeaderParamGrid.ContainsKey("Travel at Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Travel at Pressure"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rPressaoCutIn_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Actuation Force at Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Actuation Force at Pressure"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMin_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force min") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force min"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMax_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force max") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force max"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_pout = dicReturnReadFileHeaderParamGrid.ContainsKey("Hysteresis at Pressure (%)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Hysteresis at Pressure (%)"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Hysteresis at Pressure (bar)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Hysteresis at Pressure (bar)"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force Remaining at") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force Remaining at"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("TMC Diameter PC") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["TMC Diameter PC"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("TMC Diameter SC") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["TMC Diameter SC"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Jumper Gradient P1") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Jumper Gradient P1"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Jumper Gradient P2") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Jumper Gradient P2"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_FileHeader_Param 
+
+                            HelperApp.strActuationMode = dicReturnReadFileHeaderParam.ContainsKey("Actuation Type") ? dicReturnReadFileHeaderParam["Actuation Type"].ToString().Trim() : string.Empty;
+                            HelperTestBase.iOutputType = dicReturnReadFileHeaderParam.ContainsKey("Output Type") ? dicReturnReadFileHeaderParam["Output Type"].ToString().Trim().Equals("PC") ? 1 : 2 : 0;
+                            HelperTestBase.VacuumMin = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (min)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (min)"]) * -1 : 0;
+                            HelperTestBase.VacuumMax = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (max)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (max)"]) * -1 : 0;
+                            HelperTestBase.Vacuum = dicReturnReadFileHeaderParam.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum"]) * -1 : 0;
+                            HelperTestBase.chkPistonLock = dicReturnReadFileHeaderParam.ContainsKey("Lock Piston") ? dicReturnReadFileHeaderParam["Lock Piston"].ToString().Trim().Equals("Yes") ? true : false : false;
+                            HelperTestBase.ForceGradient = dicReturnReadFileHeaderParam.ContainsKey("Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Gradient"]) * -1 : 0;
+                            HelperTestBase.MaxForce = dicReturnReadFileHeaderParam.ContainsKey("Max. Force") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Max. Force"]) * -1 : 0;
+                            HelperTestBase.iTipoConsumidores = dicReturnReadFileHeaderParam.ContainsKey("Consumer") ? dicReturnReadFileHeaderParam["Consumer"].ToString().Trim().Equals("Original Consumer") ? 1 : 2 : 0;
+                            HelperTestBase.iSumHoseConsumerPC = dicReturnReadFileHeaderParam.ContainsKey("Hose Consumer PC") ? Convert.ToInt32(dicReturnReadFileHeaderParam["Hose Consumer PC"]) : 0;
+                            HelperTestBase.iSumHoseConsumerSC = dicReturnReadFileHeaderParam.ContainsKey("Hose Consumer SC") ? Convert.ToInt32(dicReturnReadFileHeaderParam["Hose Consumer SC"]) : 0;
+
+                            #endregion
+
+                            #region #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T01.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            //recupera VARIOS itens que contenham o memso texto e guarda a qtd
+                            var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
+                                                         where k.Key.Contains("Pressure at")
+                                                         select new
+                                                         {
+                                                             k.Key,
+                                                             k.Value
+                                                         };
+
+                            HelperTestBase.Model_GVL.GVL_T01.rPressao_E1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[0].Value) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rPressao_E2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[1].Value) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rPressao_P1_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[2].Value) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rPressao_P2_Bar = matchesPressureAtForce.Count() > 0 ? NumberDoubleCheck(matchesPressureAtForce.ToList()[3].Value) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rRunOutPressure_Real_Bar = dicReturnReadFileHeaderResults.ContainsKey("Runout Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Pressure"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Travel at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Travel at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-in Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-in Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rHysterese_Xpout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 % p out"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rHysterese_Xbar_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at 50 bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at 50 bar"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Realease Force at")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Realease Force at")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rPressaoAuxiliar_P3_Bar = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Radio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Radio"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rPressao_90pout_bar = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 90.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 90.0 %")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rPressao_70pout_bar = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 70.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Value) * -1 : 0;
+
+                            //define captions data
+                            HelperTestBase.Model_GVL.GVL_T01.rForca_90pout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 90.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 90.0 %")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Replace("Pressure at 90.0 %", "").Replace("(=", "").Replace("N)", "").Trim()) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rForca_70pout_N = dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Pressure at 70.0 %")) ? NumberDoubleCheck(dicReturnReadFileHeaderResults.ElementAt(dicReturnReadFileHeaderResults.Keys.Select(x => x.Contains("Pressure at 70.0 %")).ToList().FindIndex(a => a.Equals(true))).Key.ToString().Replace("Pressure at 70.0 %", "").Replace("(=", "").Replace("N)", "").Trim()) * -1 : 0;
+
+                            //jumper gradient
+                            //HelperTestBase.Model_GVL.GVL_T01.rGradientJumper = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+
+                            var strJumpGrad = dicReturnReadFileHeaderResults
+                                .ElementAt(dicReturnReadFileHeaderResults.Keys
+                                .Select(x => x.Contains("Jumper Gradient ("))
+                                                .ToList()
+                                                .FindIndex(a => a.Equals(true))
+                                                )
+                                .Key
+                                .ToString();
+
+                            if (!string.IsNullOrEmpty(strJumpGrad))
+                            {
+                                var strJumpGradClear = string.Concat(strJumpGrad.Substring(strJumpGrad.Trim().IndexOf("(") + 1, strJumpGrad.Trim().IndexOf(")") - strJumpGrad.Trim().IndexOf("(") - 1).Where(c => !char.IsWhiteSpace(c)));
+
+                                var splJumpGradClear = strJumpGradClear?.Split('/');
+
+                                var strP2_JumpGradClear = splJumpGradClear[0];
+                                var p2_1 = strP2_JumpGradClear.Substring(0, strP2_JumpGradClear.IndexOf("N"));
+                                var p2_2 = strP2_JumpGradClear.Remove(strP2_JumpGradClear.Length - 3).Substring(strP2_JumpGradClear.IndexOf("N") + 2);
+
+                                var strP1_JumpGradClear = splJumpGradClear[1];
+                                var p1_1 = strP1_JumpGradClear.Substring(0, strP1_JumpGradClear.IndexOf("N"));
+                                var p1_2 = strP1_JumpGradClear.Remove(strP1_JumpGradClear.Length - 3).Substring(strP1_JumpGradClear.IndexOf("N") + 2);
+
+                                HelperTestBase.Model_GVL.GVL_T01.rForcaP2Jumper_N = NumberDoubleCheck(p2_1) * -1;
+                                HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = NumberDoubleCheck(p2_2) * -1;
+                                HelperTestBase.Model_GVL.GVL_T01.rForcaP1Jumper_N = NumberDoubleCheck(p1_1) * -1;
+                                HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = NumberDoubleCheck(p1_2) * -1;
+                            }
+
+                            //TEMPORARIO rRunOutForce para T06/07/08
+                            HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutForce_Real_N = HelperTestBase.Model_GVL.GVL_T01.rRunOutForce_Real_N;
+                            HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutPressure_Real_Bar = HelperTestBase.Model_GVL.GVL_T01.rRunOutPressure_Real_Bar;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T01.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T01.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T01;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 2:     //Force Diagrams - Force/Force With Vacuum
+                        {
+
+                            #region Resuls Load Offline
+
+                            HelperTestBase.Model_GVL.GVL_T02 = new GVL_T02();
+
+                            #region Results
+
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T02.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            //recupera VARIOS itens que contenham o memso texto e guarda a qtd
+                            var matchesOutputForceAt = from k in dicReturnReadFileHeaderResults
+                                                       where k.Key.Contains("Output Force at")
+                                                       select new
+                                                       {
+                                                           k.Key,
+                                                           k.Value
+                                                       };
+                            HelperTestBase.Model_GVL.GVL_T02.rForcaOutJumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rForca_E1 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rForca_E2 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rForca_P1 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rForca_P2 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rRunOutForceOut_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force Runout"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Ratio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Ratio"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rForcaFOutCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rHysterese_XFout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at {0} % f out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at {0} % f out"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rForcaAuxiliar_P3_N = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Force"]) * -1 : 0;
+
+                            HelperTestBase.Model_GVL.GVL_T02.rForcaOut_90Fout_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at 90.0 %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at 90.0 %"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rForcaOut_70Fout_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at 70.0 %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at 70.0 %"]) * -1 : 0;
+
+                            //define captions data ??
+                            HelperTestBase.Model_GVL.GVL_T02.rForcaOut_90Fout_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vacuum"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rForcaOut_70Fout_N = dicReturnReadFileHeaderResults.ContainsKey("") ? Convert.ToDouble(dicReturnReadFileHeaderResults["Vacuum"]) * -1 : 0;
+                            //??
+
+                            //jumper gradient, precisa verificar
+                            HelperTestBase.Model_GVL.GVL_T02.rGradientJumper = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+                            //HelperTestBase.Model_GVL.GVL_T02.rForcaP2Jumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+                            //HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P2_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+                            //HelperTestBase.Model_GVL.GVL_T02.rForcaP1Jumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+                            //HelperTestBase.Model_GVL.GVL_T02.rGradienteJumper_P1_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper Gradient"]) * -1 : 0;
+
+
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T02.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T02;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 3:     //Force Diagrams - Force/Pressure Without Vacuum
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T03.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            //dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))
+                            var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
+                                                         where k.Key.Contains("Pressure at")
+                                                         select new
+                                                         {
+                                                             k.Key,
+                                                             k.Value
+                                                         };
+
+                            HelperTestBase.Model_GVL.GVL_T03.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Realease Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Realease Force at {0} mm"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rPressao_E1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rPressao_E2_Bar = dicReturnReadFileHeaderResults.ContainsKey("RPressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["RPressure at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rPressao_P1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rPressao_P2_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T03.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T03.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T03;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 4:     //Force Diagrams - Force/Force Without Vacuum
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T04.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            //recupera VARIOS itens que contenham o memso texto e guarda a qtd
+                            var matchesOutputForceAt = from k in dicReturnReadFileHeaderResults
+                                                       where k.Key.Contains("Output Force at")
+                                                       select new
+                                                       {
+                                                           k.Key,
+                                                           k.Value
+                                                       };
+                            HelperTestBase.Model_GVL.GVL_T04.rForca_E1 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.rForca_E2 = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T02.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Ratio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Ratio"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.rForcaFOutCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) * -1 : 0;
+
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T04.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T04.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T04;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 5: //Vacuum Leakage - Released Position
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T05.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+
+                            #endregion
+
+                            #region Results
+                            HelperTestBase.Model_GVL.GVL_T05.rTempoTotal = dicReturnReadFileHeaderResults.ContainsKey("Total Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Total Time"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T05.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T05.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T05;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 6: //Vacuum Leakage - Fully Applied Position
+                        {
+                            #region Resuls Load Offline
+
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T06.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T06.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results
+                            HelperTestBase.Model_GVL.GVL_T06.rRunOutForceRef = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T06.rDeslocamentoEmFmax = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T06.rTempoTotal = dicReturnReadFileHeaderResults.ContainsKey("Total Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Total Time"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T06.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T06.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T06.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T06.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T06;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 7: //Vacuum Leakage - Lap Position
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T07.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+
+                            #endregion
+
+                            #region Results
+                            //recupera VARIOS itens que contenham o memso texto e guarda a qtd
+                            var matchesActuationForceAt = from k in dicReturnReadFileHeaderResults
+                                                          where k.Key.Contains("Actuation Force")
+                                                          select new
+                                                          {
+                                                              k.Key,
+                                                              k.Value
+                                                          };
+
+                            HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaFinal = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
+
+                            HelperTestBase.Model_GVL.GVL_T07.rRunOutForceRef = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
+
+                            var matchesTravelAtAt = from k in dicReturnReadFileHeaderResults
+                                                    where k.Key.Contains("Travel at")
+                                                    select new
+                                                    {
+                                                        k.Key,
+                                                        k.Value
+                                                    };
+
+                            HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T07.rDeslocamentoEmFRelativaFinal = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
+
+                            HelperTestBase.Model_GVL.GVL_T07.rTempoTotal = dicReturnReadFileHeaderResults.ContainsKey("Total Time") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Total Time"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T07.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T07.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T07.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T07.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T07;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 8:     //Hydraulic Leakage - Fully Applied Position
+                        {
+
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T08.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T08.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force {0} %"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T08.rRunOutForceRef = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T08.rDeslocamentoEmFMax = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} %"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T08.rPerdaPressaoCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss PC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss PC while testing"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T08.rPerdaPressaoCS = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss SC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss SC while testing"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T08.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T08.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T08.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T08.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T08;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 9:     //Hydraulic Leakage - At Low Pressure
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T09.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T09.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T09.rPressaoInicialCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure PC"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T09.rDeslocamentoEmPMax = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T09.rPerdaPressaoCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss PC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss PC while testing"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T09.rPerdaPressaoCS = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss SC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss SC while testing"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T09.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T09.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T09.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T09.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T09;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 10:    //Hydraulic Leakage - At High Pressure
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T10.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T10.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T10.rPressaoInicialCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure PC"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T10.rDeslocamentoEmPMax = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T10.rPerdaPressaoCP = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss PC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss PC while testing"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T10.rPerdaPressaoCS = dicReturnReadFileHeaderResults.ContainsKey("Pressure Loss SC while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Loss SC while testing"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T10.rPerdaVacuo = dicReturnReadFileHeaderResults.ContainsKey("Vacuum Loss while testing") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum Loss while testing"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T10.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T10.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T10.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T10;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 11:    //Adjustment - Actuation Slow
+                        {
+
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T11.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T11.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T11.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T11.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T11.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T11.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T11.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T11.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T11.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T11;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 12:    //Adjustment - Actuation Fast
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T12.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+
+                            HelperTestBase.Model_GVL.GVL_T12.rDeslocamentoMaximo = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.rTempoAtuacao = dicReturnReadFileHeaderResults.ContainsKey("Actuation Time {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Time {0} %"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.rTempoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Release Time {0} %") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Time {0} %"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.rPressaoMaximaCP_bar = dicReturnReadFileHeaderResults.ContainsKey("Max. Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Max. Pressure PC"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.rPressaoMaximaCS_bar = dicReturnReadFileHeaderResults.ContainsKey("Max. pressure SC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Max. pressure SC"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T12.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T12.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T12;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 13:    //Check Sensors - Pressure Difference
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T13.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T13.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T13.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T13.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T13.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T13.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+                            //recupera VARIOS itens que contenham o memso texto e guarda a qtd
+                            var matchesDifferenceAtForce = from k in dicReturnReadFileHeaderResults
+                                                           where k.Key.Contains("Difference at")
+                                                           select new
+                                                           {
+                                                               k.Key,
+                                                               k.Value
+                                                           };
+
+
+                            HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP1_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) FW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) FW"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP2_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) FW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) FW"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP3_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) BW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) BW"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T13.rDiferencaPressaoP4_bar = dicReturnReadFileHeaderResults.ContainsKey("Difference at {0} bar (PC-SC) BW") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Difference at {0} bar (PC-SC) BW"]) : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T13.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T13.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T13.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T13;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 14:    //Check Sensors - Input/Output Travel
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T14.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T14.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T14.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T14.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T14.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T14.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T14.rDeslocamentoMaximo = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T14.rCursoMorto_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T14.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T14.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T14.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T14;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 15:    //Adjustment - Input Travel VS Input Force
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T15.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T15.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T15.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T15.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T15.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T15.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T15.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T15.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T15.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T15;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 16:    //Adjustment - Hose Consumer
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T16.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T16.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T16.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T16.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T16.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T16.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoMaximo_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T16.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel at {0} bar"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T16.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T16.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T16.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T16;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 17:    //Lost Travel ACU - Hydraulic
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T17.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            //dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))
+                            var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
+                                                         where k.Key.Contains("Travel At")
+                                                         select new
+                                                         {
+                                                             k.Key,
+                                                             k.Value
+                                                         };
+
+                            HelperTestBase.Model_GVL.GVL_T17.rCursoMorto_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao1_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao2_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao3_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.rCursoNaPressao4_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T17.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T17.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T17;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T18.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T18.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T18.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            //dicReturnReadFileHeaderResults.Keys.Any(k => k.StartsWith("Jumper Gradient ("))
+                            var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
+                                                         where k.Key.Contains("Travel At")
+                                                         select new
+                                                         {
+                                                             k.Key,
+                                                             k.Value
+                                                         };
+
+                            HelperTestBase.Model_GVL.GVL_T18.rCursoMorto_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao1_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao2_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao3_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T18.rCursoNaPressao4_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T18.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T18.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T18.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T18;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 19:    //Lost Travel ACU - Pneumatic Primary
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T19.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T19.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T19.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T19.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaFechadoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with closed system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with closed system"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaAbertoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with opened system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with opened system"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel Closing Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel Closing Travel"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T19.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T19;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 20:    //Lost Travel ACU - Pneumatic Secondary
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T20.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T20.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T20.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T20.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaFechadoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with closed system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with closed system"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaAbertoReal_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure with opened system") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure with opened system"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Lost Travel Closing Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Lost Travel Closing Travel"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T20.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T20;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 21:    //Pedal Feeling Characteristics
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T21.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T21.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T21.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T21.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+
+                            HelperTestBase.Model_GVL.GVL_T21.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T21.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T21.rForcaNoJumper_N = dicReturnReadFileHeaderResults.ContainsKey("Input force at jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input force at jumper"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T21.rDeslocamentoNoJumper_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at jumper"]) * -1 : 0;
+
+                            //verificar
+                            HelperTestBase.Model_GVL.GVL_T21.rForcaNaPressao_N = dicReturnReadFileHeaderResults.ContainsKey("Force at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force at {0} bar"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T21.rForcaNaPressao_N = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} bar") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} bar"]) * -1 : 0;
+                            //
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T21.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T21.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T21.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T21;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 22:    //Actuation / Release - Mechanical Actuation
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T22.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoMaximo = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rTempoAtuacao_s = dicReturnReadFileHeaderResults.ContainsKey("Actuation Time {0} % Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Time {0} % Runout"]) * -1 : 0;
+
+                            //recupera VARIOS itens que contenham o memso texto e guarda a qtd
+                            var matchesReleaseTime = from k in dicReturnReadFileHeaderResults
+                                                     where k.Key.Contains("Release Time")
+                                                     select new
+                                                     {
+                                                         k.Key,
+                                                         k.Value
+                                                     };
+
+                            HelperTestBase.Model_GVL.GVL_T22.rTempoRetorno_s = dicReturnReadFileHeaderResults.ContainsKey("Release Time {0} % Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Time {0} % Runout"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rTempoRetornoNoDeslocamento_s = dicReturnReadFileHeaderResults.ContainsKey("Release Time to {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Time to {0} mm"]) * -1 : 0;
+
+                            HelperTestBase.Model_GVL.GVL_T22.rDiferencaPressaoPCSC_bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure Difference PC SC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Difference PC SC"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rPressaoAuxiliarRef = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel at {0} % Pout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel at {0} % Pout"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T22.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rGradientePressao = dicReturnReadFileHeaderResults.ContainsKey("Pressure Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T22.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T22;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 23:    //Breather Hole / Central Valve open
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T23.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T23.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T23.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T23.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T23.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T23.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+
+                            HelperTestBase.Model_GVL.GVL_T23.rDeslocamentoMaximo_mm = dicReturnReadFileHeaderResults.ContainsKey("Input Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Input Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaAbertura_Bar = dicReturnReadFileHeaderResults.ContainsKey("Testing Pressure at Aperture") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Testing Pressure at Aperture"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaRespiro_Bar = dicReturnReadFileHeaderResults.ContainsKey("Filling Pressure at Breather") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Filling Pressure at Breather"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T23.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T23.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T23.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T23;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 24:    //Efficiency
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T24.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaSlow = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force Slow") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force Slow"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T24.rForcaMaximaFast = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force Fast") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force Fast"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoSlow = dicReturnReadFileHeaderResults.ContainsKey("Pressure Gradient Slow") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Gradient Slow"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T24.rGradientePressaoFast = dicReturnReadFileHeaderResults.ContainsKey("Pressure Gradient Fast") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure Gradient Fast"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T24.rEficiencia = dicReturnReadFileHeaderResults.ContainsKey("Efficiency at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Efficiency at {0} N"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T24.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T24.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T24.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T24;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 25:    //Force Diagrams - Force/Pressure Dual Ratio
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T25.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            //recupera VARIOS itens que contenham o memso texto e guarda a qtd
+                            var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
+                                                         where k.Key.Contains("Pressure at")
+                                                         select new
+                                                         {
+                                                             k.Key,
+                                                             k.Value
+                                                         };
+
+                            HelperTestBase.Model_GVL.GVL_T25.rPressao_E1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rPressao_E2_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rPressao_P1_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rPressao_P2_Bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure at {0} N"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rRunOutPressure_Real_Bar = dicReturnReadFileHeaderResults.ContainsKey("Runout Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Pressure"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rDeslocamentoNaPressao_mm = dicReturnReadFileHeaderResults.ContainsKey("Travel at {0} % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Travel at {0} % p out"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rPressaoJumper_Bar = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rHysterese_Xpout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at {0} % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at {0} % p out"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rPressaoAuxiliar_P3_Bar = dicReturnReadFileHeaderResults.ContainsKey("Auxiliary Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Auxiliary Pressure"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointF_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point F") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point F"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rDualRatioSwithcPointP_Bar = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point P") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point P"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff1 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 1") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 1"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rDualRatioGradiente1Eff2 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 2") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 2"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T25.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T25.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T25;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 26:    //Force Diagrams - Force/Force Dual Ratio
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T26.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rGradienteForcaAvanco = dicReturnReadFileHeaderResults.ContainsKey("Force Increase Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Increase Gradient"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rGradienteForcaRetorno = dicReturnReadFileHeaderResults.ContainsKey("Force Decrease Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Force Decrease Gradient"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rGradienteDeslocamentoRetorno = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Backward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Backward"]) : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T26.rForcaOutJumper_N = dicReturnReadFileHeaderResults.ContainsKey("Jumper") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Jumper"]) * -1 : 0;
+
+                            //recupera VARIOS itens que contenham o memso texto e guarda a qtd
+                            var matchesPressureAtForce = from k in dicReturnReadFileHeaderResults
+                                                         where k.Key.Contains("Output Force at")
+                                                         select new
+                                                         {
+                                                             k.Key,
+                                                             k.Value
+                                                         };
+
+                            HelperTestBase.Model_GVL.GVL_T26.rForcaOut_E1_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rForcaOut_E2_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rForcaOut_P1_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rForcaOut_P2_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force at {0} N") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force at {0} N"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rRunOutForceOut_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Output Force Runout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Force Runout"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rRunOutForce_Real_N = dicReturnReadFileHeaderResults.ContainsKey("Runout Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Runout Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rTaxaAmplificacao = dicReturnReadFileHeaderResults.ContainsKey("Output Input Ratio") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Output Input Ratio"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rForcaCutIn_N = dicReturnReadFileHeaderResults.ContainsKey("Cut-In Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Cut-In Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rReleaseForce_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rHysterese_XFout_N = dicReturnReadFileHeaderResults.ContainsKey("Hysteresis at {0} % p out") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Hysteresis at {0} % p out"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rReleaseForceAt_N = dicReturnReadFileHeaderResults.ContainsKey("Release Force at {0} mm") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Release Force at {0} mm"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rDualRatioSwithcPointF_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point F") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point F"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rDualRatioSwithcPointFout_N = dicReturnReadFileHeaderResults.ContainsKey("DR Switch Point Fout") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Switch Point Fout"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rDualRatioGradiente1Eff1 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 1") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 1"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rDualRatioGradiente1Eff2 = dicReturnReadFileHeaderResults.ContainsKey("DR Gradient I eff 2") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["DR Gradient I eff 2"]) : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T26.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T26.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T26;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 27:    //ADAM - Find Switching Point With TMC                        
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T27.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T27.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T27.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T27.rPressaoMaxima_bar = dicReturnReadFileHeaderResults.ContainsKey("Pressure PC") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Pressure PC"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T27.rPotenciaAtuacao_W = dicReturnReadFileHeaderResults.ContainsKey("Actuation Power") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Power"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T27.rDeslocamentoDiferencialMax_mm = dicReturnReadFileHeaderResults.ContainsKey("Max. Diff. Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Max. Diff. Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T27.rVelocidadeAtuacao2Pontos_mms = dicReturnReadFileHeaderResults.ContainsKey("Act. Velocity 2 Point") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Velocity 2 Point"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T27.rForcaMaximaAtuacao_N = dicReturnReadFileHeaderResults.ContainsKey("Act. Force max") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Force max"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T27.rPotenciaAtuacao2Pontos_W = dicReturnReadFileHeaderResults.ContainsKey("Act. Power 2 Point") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Power 2 Point"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T27.rVelocidadeNominal_mms = dicReturnReadFileHeaderResults.ContainsKey("Nominal Velocity") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Nominal Velocity"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T27.iConsumidoresCP = dicReturnReadFileHeaderResults.ContainsKey("PC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["PC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T27.iConsumidoresCS = dicReturnReadFileHeaderResults.ContainsKey("SC Hose Consumers") ? Convert.ToInt32(dicReturnReadFileHeaderResults["SC Hose Consumers"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T27.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T27;
+
+                            #endregion
+
+                            break;
+                        }
+                    case 28:    //ADAM - Switching Point Without TMC
+                        {
+                            #region Resuls Load Offline
+
+                            #region Results
+
+                            #region Results_Header
+
+                            HelperTestBase.Model_GVL.GVL_T28.rVacuoInicial = dicReturnReadFileHeaderResults.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Vacuum"]) : 0;
+                            HelperTestBase.Model_GVL.GVL_T28.rGradienteDeslocamentoAvanco = dicReturnReadFileHeaderResults.ContainsKey("Actuation Gradient Forward") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Gradient Forward"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T28.rForcaMaxima = dicReturnReadFileHeaderResults.ContainsKey("Actuation Force") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Force"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results
+
+                            HelperTestBase.Model_GVL.GVL_T28.rPotenciaAtuacao_W = dicReturnReadFileHeaderResults.ContainsKey("Actuation Power") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Actuation Power"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T28.rDeslocamentoDiferencialMax_mm = dicReturnReadFileHeaderResults.ContainsKey("Max. Diff. Travel") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Max. Diff. Travel"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T28.rVelocidadeAtuacao2Pontos_mms = dicReturnReadFileHeaderResults.ContainsKey("Act. Velocity 2 Point") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Velocity 2 Point"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T28.rForcaMaximaAtuacao_N = dicReturnReadFileHeaderResults.ContainsKey("Act. Force max") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Force max"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T28.rPotenciaAtuacao2Pontos_W = dicReturnReadFileHeaderResults.ContainsKey("Act. Power 2 Point") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Act. Power 2 Point"]) * -1 : 0;
+                            HelperTestBase.Model_GVL.GVL_T28.rVelocidadeNominal_mms = dicReturnReadFileHeaderResults.ContainsKey("Nominal Velocity") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Nominal Velocity"]) * -1 : 0;
+
+                            #endregion
+
+                            #region Results_Footer
+
+                            HelperTestBase.Model_GVL.GVL_T28.rTemperaturaInicial = dicReturnReadFileHeaderResults.ContainsKey("Room Temperature") ? NumberDoubleCheck(dicReturnReadFileHeaderResults["Room Temperature"]) * -1 : 0;
+
+                            #endregion
+
+                            #endregion
+
+                            HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T28;
+
+                            #endregion
+
+                            break;
+                        }
+
+                    default:
+                        break;
+                }
+
+                #endregion
+
+                List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
+
+                listResultParam = TabTableParameters_FormatResultParam(dtTableResults, lstInfoEvaluationParameters, null);                
+            }
+            catch (Exception ex)
+            {
+                listResultParam = null;
                 var err = ex.Message;
                 throw;
             }
@@ -2810,255 +2793,273 @@ namespace Continental.Project.Adam.UI.Helper
 
                     #endregion
 
-                    #region Format Data Captions And Results
+                    #region Format Data Captions And Results 
 
-                    string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
-
-                    string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
-
-                    char ch = '{';
-
-                    if (strResultParam_Caption.Contains(ch))
+                    if (dicResultParam != null)
                     {
-                        int numStrFormat = strResultParam_Caption.Where(x => (x == ch)).Count();
+                        #region Resuls Data Online
 
-                        if (keyResultParam_Name.Equals(strResultParam_Name))
+                        string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+
+                        string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                        char ch = '{';
+
+                        if (strResultParam_Caption.Contains(ch))
                         {
-                            switch (strResultParam_Name.Trim())
+                            int numStrFormat = strResultParam_Caption.Where(x => (x == ch)).Count();
+
+                            if (keyResultParam_Name.Equals(strResultParam_Name))
                             {
-                                #region T01
+                                switch (strResultParam_Name.Trim())
+                                {
+                                    #region T01
 
-                                case "PressureAt90Percent": //T01
-                                    {
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_ForcaAt90Percent"])?.Trim();
-                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_PressureAt90Percent"]?.Trim();
-                                        break;
-                                    }
-                                case "PressureAt70Percent": //T01
-                                    {
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_ForcaAt70Percent"])?.Trim();
-                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_PressureAt70Percent"]?.Trim();
-                                        break;
-                                    }
-                                case "JumperGradient": //T01
-                                    {
-                                        string str01_ForcaP2Jumper_N = dicResultParam["resultCalcTestParam_ForcaP2Jumper_N"]?.Trim();
-                                        string str02_GradienteJumper_P2_Bar = dicResultParam["resultCalcTestParam_GradienteJumper_P2_Bar"]?.Trim();
-                                        string str03_ForcaP1Jumper_N = dicResultParam["resultCalcTestParam_ForcaP1Jumper_N"]?.Trim();
-                                        string str04_GradienteJumper_P1_Bar = dicResultParam["resultCalcTestParam_GradienteJumper_P1_Bar"]?.Trim();
-
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, str01_ForcaP2Jumper_N, str02_GradienteJumper_P2_Bar, str03_ForcaP1Jumper_N, str04_GradienteJumper_P1_Bar);
-                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim();
-                                        //strResultParam_Measured = dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim() == "NaN" ? "-" : dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim();
-                                    }
-                                    break;
-
-                                #endregion
-
-                                #region T02
-
-                                case "T02_ForceAt90Percent": //T02
-                                    {
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T02_ForceAt90Percent"])?.Trim();
-                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_ForceAt90Percent"]?.Trim();
-                                        break;
-                                    }
-                                case "T02_ForceAt70Percent": //T02
-                                    {
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T02_ForceAt70Percent"])?.Trim();
-                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_ForceAt70Percent"]?.Trim();
-                                        break;
-                                    }
-                                case "T02_JumperGradient": //T02
-                                    {
-                                        string str01_ForcaP2Jumper_N = dicResultParam["resultCalcTestParam_T02_ForcaP2Jumper_N"]?.Trim();
-                                        string str02_GradienteJumper_P2_Bar = dicResultParam["resultCalcTestParam_T02_GradienteJumper_P2_Bar"]?.Trim();
-                                        string str03_ForcaP1Jumper_N = dicResultParam["resultCalcTestParam_T02_ForcaP1Jumper_N"]?.Trim();
-                                        string str04_GradienteJumper_P1_Bar = dicResultParam["resultCalcTestParam_T02_GradienteJumper_P1_Bar"]?.Trim();
-
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, str01_ForcaP2Jumper_N, str02_GradienteJumper_P2_Bar, str03_ForcaP1Jumper_N, str04_GradienteJumper_P1_Bar);
-                                        strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_JumperGradient"]?.Trim();
-                                    }
-                                    break;
-
-                                #endregion
-
-                                #region T06
-
-                                case "ActuationForceXX":
-                                case "TravelAtXX":
-                                    {
-                                        strResultParam_Name = "ForcePercentEout";
-                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
-
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
-                                        strResultParam_Measured = keyResultParam_Value;
-                                        break;
-                                    }
-
-                                #endregion
-
-                                #region T07
-
-                                case "T07_ActuationForce1": //T07_
-                                case "T07_TravelAt1": //T07_
-                                    {
-                                        var tempParmName = strResultParam_Name;
-                                        strResultParam_Name = "T07_ActuationForceAt1";
-
-                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
-
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
-                                        strResultParam_Measured = keyResultParam_Value;
-
-                                        strResultParam_Name = tempParmName.Equals("T07_ActuationForceAt1") ? "T07_ActuationForceAt1" : "T07_TravelAt1";
-                                        break;
-                                    }
-                                case "T07_ActuationForce2": //T07_
-                                case "T07_TravelAt2": //T07_
-                                    {
-                                        var tempParmName = strResultParam_Name;
-                                        strResultParam_Name = "T07_ActuationForceAt2";
-                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
-
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
-                                        strResultParam_Measured = keyResultParam_Value;
-
-                                        strResultParam_Name = tempParmName.Equals("T07_ActuationForceAt2") ? "T07_ActuationForceAt2" : "T07_TravelAt2";
-                                        break;
-                                    }
-                                case "T07_ActuationForce3": //T07_
-                                case "T07_TravelAt3": //T07_
-                                    {
-                                        var tempParmName = strResultParam_Name;
-                                        strResultParam_Name = "T07_ActuationForceAt3";
-                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
-
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
-                                        strResultParam_Measured = keyResultParam_Value;
-
-                                        strResultParam_Name = tempParmName.Equals("T07_ActuationForceAt3") ? "T07_ActuationForceAt3" : "T07_TravelAt3";
-                                        break;
-                                    }
-                                #endregion
-
-                                #region T08
-
-                                case "T08_ActuationForce": //T08_
-                                case "T08_TravelAt": //T08_
-                                    {
-                                        var tempParmName = strResultParam_Name;
-                                        strResultParam_Name = "T08_ActuationForce";
-                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
-
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
-                                        strResultParam_Measured = keyResultParam_Value;
-
-                                        strResultParam_Name = tempParmName.Equals("T08_ActuationForce") ? "T08_ActuationForce" : "T08_TravelAt";
-                                        break;
-                                    }
-
-                                #endregion
-
-                                #region T12
-
-                                case "ActuationTime": //T12_
-                                    {
-                                        strResultParam_Name = "ActuationTimePercent";
-                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
-
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
-                                        strResultParam_Measured = keyResultParam_Value;
-                                        break;
-                                    }
-                                case "ReleaseTime": //T12_
-                                    {
-                                        strResultParam_Name = "ReleaseTimePercent";
-                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
-
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
-                                        strResultParam_Measured = keyResultParam_Value;
-                                        break;
-                                    }
-
-                                #endregion
-
-                                #region T21
-
-                                case "T21_ForceAtXXbar": //T21_
-                                case "T21_TravelAtXXbar": //T21_
-                                    {
-                                        var tempParmName = strResultParam_Name;
-
-                                        strResultParam_Name = "T21_LostTravel";
-                                        string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
-
-                                        strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
-                                        strResultParam_Measured = keyResultParam_Value;
-
-                                        strResultParam_Name = tempParmName.Equals("T21_ForceAtXXbar") ? "T21_ForceAtXXbar" : "T21_TravelAtXXbar";
-                                        break;
-                                    }
-
-                                #endregion
-
-                                default:
-                                    {
-                                        for (int j = 0; j < numStrFormat; j++)
+                                    case "PressureAt90Percent": //T01
                                         {
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_ForcaAt90Percent"])?.Trim();
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_PressureAt90Percent"]?.Trim();
+                                            break;
+                                        }
+                                    case "PressureAt70Percent": //T01
+                                        {
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_ForcaAt70Percent"])?.Trim();
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_PressureAt70Percent"]?.Trim();
+                                            break;
+                                        }
+                                    case "JumperGradient": //T01
+                                        {
+                                            string str01_ForcaP2Jumper_N = dicResultParam["resultCalcTestParam_ForcaP2Jumper_N"]?.Trim();
+                                            string str02_GradienteJumper_P2_Bar = dicResultParam["resultCalcTestParam_GradienteJumper_P2_Bar"]?.Trim();
+                                            string str03_ForcaP1Jumper_N = dicResultParam["resultCalcTestParam_ForcaP1Jumper_N"]?.Trim();
+                                            string str04_GradienteJumper_P1_Bar = dicResultParam["resultCalcTestParam_GradienteJumper_P1_Bar"]?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, str01_ForcaP2Jumper_N, str02_GradienteJumper_P2_Bar, str03_ForcaP1Jumper_N, str04_GradienteJumper_P1_Bar);
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim();
+                                            //strResultParam_Measured = dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim() == "NaN" ? "-" : dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim();
+                                        }
+                                        break;
+
+                                    #endregion
+
+                                    #region T02
+
+                                    case "T02_ForceAt90Percent": //T02
+                                        {
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T02_ForceAt90Percent"])?.Trim();
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_ForceAt90Percent"]?.Trim();
+                                            break;
+                                        }
+                                    case "T02_ForceAt70Percent": //T02
+                                        {
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T02_ForceAt70Percent"])?.Trim();
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_ForceAt70Percent"]?.Trim();
+                                            break;
+                                        }
+                                    case "T02_JumperGradient": //T02
+                                        {
+                                            string str01_ForcaP2Jumper_N = dicResultParam["resultCalcTestParam_T02_ForcaP2Jumper_N"]?.Trim();
+                                            string str02_GradienteJumper_P2_Bar = dicResultParam["resultCalcTestParam_T02_GradienteJumper_P2_Bar"]?.Trim();
+                                            string str03_ForcaP1Jumper_N = dicResultParam["resultCalcTestParam_T02_ForcaP1Jumper_N"]?.Trim();
+                                            string str04_GradienteJumper_P1_Bar = dicResultParam["resultCalcTestParam_T02_GradienteJumper_P1_Bar"]?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, str01_ForcaP2Jumper_N, str02_GradienteJumper_P2_Bar, str03_ForcaP1Jumper_N, str04_GradienteJumper_P1_Bar);
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_JumperGradient"]?.Trim();
+                                        }
+                                        break;
+
+                                    #endregion
+
+                                    #region T06
+
+                                    case "ActuationForceXX":
+                                    case "TravelAtXX":
+                                        {
+                                            strResultParam_Name = "ForcePercentEout";
                                             string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
 
                                             strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
                                             strResultParam_Measured = keyResultParam_Value;
+                                            break;
                                         }
-                                    }
-                                    break;
+
+                                    #endregion
+
+                                    #region T07
+
+                                    case "T07_ActuationForce1": //T07_
+                                    case "T07_TravelAt1": //T07_
+                                        {
+                                            var tempParmName = strResultParam_Name;
+                                            strResultParam_Name = "T07_ActuationForceAt1";
+
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+
+                                            strResultParam_Name = tempParmName.Equals("T07_ActuationForceAt1") ? "T07_ActuationForceAt1" : "T07_TravelAt1";
+                                            break;
+                                        }
+                                    case "T07_ActuationForce2": //T07_
+                                    case "T07_TravelAt2": //T07_
+                                        {
+                                            var tempParmName = strResultParam_Name;
+                                            strResultParam_Name = "T07_ActuationForceAt2";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+
+                                            strResultParam_Name = tempParmName.Equals("T07_ActuationForceAt2") ? "T07_ActuationForceAt2" : "T07_TravelAt2";
+                                            break;
+                                        }
+                                    case "T07_ActuationForce3": //T07_
+                                    case "T07_TravelAt3": //T07_
+                                        {
+                                            var tempParmName = strResultParam_Name;
+                                            strResultParam_Name = "T07_ActuationForceAt3";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+
+                                            strResultParam_Name = tempParmName.Equals("T07_ActuationForceAt3") ? "T07_ActuationForceAt3" : "T07_TravelAt3";
+                                            break;
+                                        }
+                                    #endregion
+
+                                    #region T08
+
+                                    case "T08_ActuationForce": //T08_
+                                    case "T08_TravelAt": //T08_
+                                        {
+                                            var tempParmName = strResultParam_Name;
+                                            strResultParam_Name = "T08_ActuationForce";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+
+                                            strResultParam_Name = tempParmName.Equals("T08_ActuationForce") ? "T08_ActuationForce" : "T08_TravelAt";
+                                            break;
+                                        }
+
+                                    #endregion
+
+                                    #region T12
+
+                                    case "ActuationTime": //T12_
+                                        {
+                                            strResultParam_Name = "ActuationTimePercent";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+                                            break;
+                                        }
+                                    case "ReleaseTime": //T12_
+                                        {
+                                            strResultParam_Name = "ReleaseTimePercent";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+                                            break;
+                                        }
+
+                                    #endregion
+
+                                    #region T21
+
+                                    case "T21_ForceAtXXbar": //T21_
+                                    case "T21_TravelAtXXbar": //T21_
+                                        {
+                                            var tempParmName = strResultParam_Name;
+
+                                            strResultParam_Name = "T21_LostTravel";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+
+                                            strResultParam_Name = tempParmName.Equals("T21_ForceAtXXbar") ? "T21_ForceAtXXbar" : "T21_TravelAtXXbar";
+                                            break;
+                                        }
+
+                                    #endregion
+
+                                    default:
+                                        {
+                                            for (int j = 0; j < numStrFormat; j++)
+                                            {
+                                                string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                                strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                                strResultParam_Measured = keyResultParam_Value;
+                                            }
+                                        }
+                                        break;
+                                }
                             }
                         }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(strResultParam_Name))
+                            {
+                                var tempResultParam_Name = strResultParam_Name;
+
+                                strResultParam_Name = strResultParam_Name.Replace("resultCalcTestParam_", "")?.Trim();
+
+                                strResultParam_Name = strResultParam_Name.Contains("_") ? strResultParam_Name.Substring(strResultParam_Name.IndexOf("_") + 1) : strResultParam_Name;
+
+                                string strInputTableParamVal = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                var strDicResultFind = string.Concat("resultCalcTestParam_", tempResultParam_Name);
+
+                                switch (strResultParam_Name.Trim())
+                                {
+                                    case "PCHoseConsumers":
+                                        {
+                                            //strResultParam_Measured = dicResultParam["resultCalcTestParam_PCHoseConsumers"]?.Trim();
+                                            strResultParam_Measured = dicResultParam[strDicResultFind]?.Trim();
+                                            break;
+                                        }
+                                    case "SCHoseConsumers":
+                                        {
+                                            strResultParam_Measured = dicResultParam[strDicResultFind]?.Trim();
+                                            break;
+                                        }
+                                    case "RoomTemperature":
+                                        {
+                                            //strResultParam_Measured = dicResultParam["resultCalcTestParam_RoomTemperature"]?.Trim();
+                                            strResultParam_Measured = dicResultParam[strDicResultFind]?.Trim();
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            strResultParam_Measured = Convert.ToBoolean(dicResultParam[strDicResultFind]?.Trim().Equals("0")) ? String.Format("{0:#,0.000}", Convert.ToDecimal(dicResultParam[strDicResultFind]?.Trim())).ToString() : dicResultParam[strDicResultFind]?.Trim();
+                                            //strResultParam_Measured = keyResultParam_Value;
+                                            break;
+                                        }
+                                }
+                            }
+                        }
+
+                        #endregion
                     }
                     else
                     {
-                        if (!string.IsNullOrEmpty(strResultParam_Name))
-                        {
-                            var tempResultParam_Name = strResultParam_Name;
+                        #region Resuls Data Offline
 
-                            strResultParam_Name = strResultParam_Name.Replace("resultCalcTestParam_", "")?.Trim();
+                        var dicReturnReadFileHeaderResults = HelperApp.dicReadFileHeader[3];
 
-                            strResultParam_Name = strResultParam_Name.Contains("_") ? strResultParam_Name.Substring(strResultParam_Name.IndexOf("_") + 1) : strResultParam_Name;
+                        strResultParam_Caption = dicReturnReadFileHeaderResults.ElementAt(i).Key?.Trim();
 
-                            string strInputTableParamVal = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+                        strResultParam_Measured = Convert.ToBoolean(dicReturnReadFileHeaderResults.ElementAt(i).Value?.Trim().Equals("0")) ? String.Format("{0:#,0.000}", Convert.ToDecimal(dicReturnReadFileHeaderResults.ElementAt(i).Value?.Trim())).ToString() : dicReturnReadFileHeaderResults.ElementAt(i).Value?.Trim();
 
-                            var strDicResultFind = string.Concat("resultCalcTestParam_", tempResultParam_Name);
-
-                            switch (strResultParam_Name.Trim())
-                            {
-                                case "PCHoseConsumers":
-                                    {
-                                        //strResultParam_Measured = dicResultParam["resultCalcTestParam_PCHoseConsumers"]?.Trim();
-                                        strResultParam_Measured = dicResultParam[strDicResultFind]?.Trim();
-                                        break;
-                                    }
-                                case "SCHoseConsumers":
-                                    {
-                                        strResultParam_Measured = dicResultParam[strDicResultFind]?.Trim();
-                                        break;
-                                    }
-                                case "RoomTemperature":
-                                    {
-                                        //strResultParam_Measured = dicResultParam["resultCalcTestParam_RoomTemperature"]?.Trim();
-                                        strResultParam_Measured = dicResultParam[strDicResultFind]?.Trim();
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        strResultParam_Measured = Convert.ToBoolean(dicResultParam[strDicResultFind]?.Trim().Equals("0")) ? String.Format("{0:#,0.000}", Convert.ToDecimal(dicResultParam[strDicResultFind]?.Trim())).ToString() : dicResultParam[strDicResultFind]?.Trim();
-                                        //strResultParam_Measured = keyResultParam_Value;
-                                        break;
-                                    }
-                            }
-                        }
+                        #endregion
                     }
-
 
                     #endregion
 
@@ -3084,17 +3085,411 @@ namespace Continental.Project.Adam.UI.Helper
                 throw;
             }
 
-            HelperApp.lstResultParamFormated.Clear();
+            
+            if (HelperApp.dicResultParam != null)
+                HelperApp.dicResultParam.Clear();
 
-            HelperApp.dicResultParam = dicResultParam;
+            HelperApp.dicResultParam = dicResultParam != null ? dicResultParam : HelperApp.dicReadFileHeader[3];
+
+            HelperApp.lstResultParamFormated.Clear();            
+            HelperApp.lstResultParamFormated = listResultParamFormated;
+
+            return listResultParamFormated;
+        }
+        public List<Model_Operational_TestTableParameters> TabTableParameters_FormatResultParamOffLineByFile(DataTable dtTableResults, List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters, Dictionary<string, string> dicResultParam)
+        {
+            int i = 0;
+
+            List<Model_Operational_TestTableParameters> listResultParamFormated = new List<Model_Operational_TestTableParameters>();
+
+            try
+            {
+                //if (lstInfoEvaluationParameters.Count() != dicResultParam.Count())
+                //{
+                //    MessageBox.Show("Error, Parm result data error!", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    return null;
+                //}
+
+                for (i = 0; i < dtTableResults.Rows.Count; i++)
+                {
+                    #region Get BD List Results
+
+                    DataRow row = dtTableResults.Rows[i];
+
+
+                    string strResultParam_Id = row.Field<int>("IdResultParam").ToString()?.Trim();
+
+                    string strResultParam_Name = row.Field<string>("ResultParam_Name")?.ToString()?.Trim();
+
+                    string strResultParam_Caption = row.Field<string>("ResultParam_Caption")?.ToString()?.Trim();
+
+                    string strResultParam_Nominal = row.Field<string>("ResultParam_Nominal")?.ToString()?.Trim();
+
+                    string strResultParam_Measured = row.Field<string>("ResultParam_Measured")?.ToString()?.Trim();
+
+                    string strResultParam_Unit = row.Field<string>("UnitSymbol")?.ToString()?.Trim();
+
+                    #endregion
+
+                    #region Format Data Captions And Results 
+
+                    if (dicResultParam != null)
+                    {
+                        #region Resuls Data Online
+
+                        string keyResultParam_Name = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+
+                        string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                        char ch = '{';
+
+                        if (strResultParam_Caption.Contains(ch))
+                        {
+                            int numStrFormat = strResultParam_Caption.Where(x => (x == ch)).Count();
+
+                            if (keyResultParam_Name.Equals(strResultParam_Name))
+                            {
+                                switch (strResultParam_Name.Trim())
+                                {
+                                    #region T01
+
+                                    case "PressureAt90Percent": //T01
+                                        {
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_ForcaAt90Percent"])?.Trim();
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_PressureAt90Percent"]?.Trim();
+                                            break;
+                                        }
+                                    case "PressureAt70Percent": //T01
+                                        {
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_ForcaAt70Percent"])?.Trim();
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_PressureAt70Percent"]?.Trim();
+                                            break;
+                                        }
+                                    case "JumperGradient": //T01
+                                        {
+                                            string str01_ForcaP2Jumper_N = dicResultParam["resultCalcTestParam_ForcaP2Jumper_N"]?.Trim();
+                                            string str02_GradienteJumper_P2_Bar = dicResultParam["resultCalcTestParam_GradienteJumper_P2_Bar"]?.Trim();
+                                            string str03_ForcaP1Jumper_N = dicResultParam["resultCalcTestParam_ForcaP1Jumper_N"]?.Trim();
+                                            string str04_GradienteJumper_P1_Bar = dicResultParam["resultCalcTestParam_GradienteJumper_P1_Bar"]?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, str01_ForcaP2Jumper_N, str02_GradienteJumper_P2_Bar, str03_ForcaP1Jumper_N, str04_GradienteJumper_P1_Bar);
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim();
+                                            //strResultParam_Measured = dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim() == "NaN" ? "-" : dicResultParam["resultCalcTestParam_JumperGradient"]?.Trim();
+                                        }
+                                        break;
+
+                                    #endregion
+
+                                    #region T02
+
+                                    case "T02_ForceAt90Percent": //T02
+                                        {
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T02_ForceAt90Percent"])?.Trim();
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_ForceAt90Percent"]?.Trim();
+                                            break;
+                                        }
+                                    case "T02_ForceAt70Percent": //T02
+                                        {
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, dicResultParam["resultCalcTestParam_T02_ForceAt70Percent"])?.Trim();
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_ForceAt70Percent"]?.Trim();
+                                            break;
+                                        }
+                                    case "T02_JumperGradient": //T02
+                                        {
+                                            string str01_ForcaP2Jumper_N = dicResultParam["resultCalcTestParam_T02_ForcaP2Jumper_N"]?.Trim();
+                                            string str02_GradienteJumper_P2_Bar = dicResultParam["resultCalcTestParam_T02_GradienteJumper_P2_Bar"]?.Trim();
+                                            string str03_ForcaP1Jumper_N = dicResultParam["resultCalcTestParam_T02_ForcaP1Jumper_N"]?.Trim();
+                                            string str04_GradienteJumper_P1_Bar = dicResultParam["resultCalcTestParam_T02_GradienteJumper_P1_Bar"]?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, str01_ForcaP2Jumper_N, str02_GradienteJumper_P2_Bar, str03_ForcaP1Jumper_N, str04_GradienteJumper_P1_Bar);
+                                            strResultParam_Measured = dicResultParam["resultCalcTestParam_T02_JumperGradient"]?.Trim();
+                                        }
+                                        break;
+
+                                    #endregion
+
+                                    #region T06
+
+                                    case "ActuationForceXX":
+                                    case "TravelAtXX":
+                                        {
+                                            strResultParam_Name = "ForcePercentEout";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+                                            break;
+                                        }
+
+                                    #endregion
+
+                                    #region T07
+
+                                    case "T07_ActuationForce1": //T07_
+                                    case "T07_TravelAt1": //T07_
+                                        {
+                                            var tempParmName = strResultParam_Name;
+                                            strResultParam_Name = "T07_ActuationForceAt1";
+
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+
+                                            strResultParam_Name = tempParmName.Equals("T07_ActuationForceAt1") ? "T07_ActuationForceAt1" : "T07_TravelAt1";
+                                            break;
+                                        }
+                                    case "T07_ActuationForce2": //T07_
+                                    case "T07_TravelAt2": //T07_
+                                        {
+                                            var tempParmName = strResultParam_Name;
+                                            strResultParam_Name = "T07_ActuationForceAt2";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+
+                                            strResultParam_Name = tempParmName.Equals("T07_ActuationForceAt2") ? "T07_ActuationForceAt2" : "T07_TravelAt2";
+                                            break;
+                                        }
+                                    case "T07_ActuationForce3": //T07_
+                                    case "T07_TravelAt3": //T07_
+                                        {
+                                            var tempParmName = strResultParam_Name;
+                                            strResultParam_Name = "T07_ActuationForceAt3";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+
+                                            strResultParam_Name = tempParmName.Equals("T07_ActuationForceAt3") ? "T07_ActuationForceAt3" : "T07_TravelAt3";
+                                            break;
+                                        }
+                                    #endregion
+
+                                    #region T08
+
+                                    case "T08_ActuationForce": //T08_
+                                    case "T08_TravelAt": //T08_
+                                        {
+                                            var tempParmName = strResultParam_Name;
+                                            strResultParam_Name = "T08_ActuationForce";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+
+                                            strResultParam_Name = tempParmName.Equals("T08_ActuationForce") ? "T08_ActuationForce" : "T08_TravelAt";
+                                            break;
+                                        }
+
+                                    #endregion
+
+                                    #region T12
+
+                                    case "ActuationTime": //T12_
+                                        {
+                                            strResultParam_Name = "ActuationTimePercent";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+                                            break;
+                                        }
+                                    case "ReleaseTime": //T12_
+                                        {
+                                            strResultParam_Name = "ReleaseTimePercent";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+                                            break;
+                                        }
+
+                                    #endregion
+
+                                    #region T21
+
+                                    case "T21_ForceAtXXbar": //T21_
+                                    case "T21_TravelAtXXbar": //T21_
+                                        {
+                                            var tempParmName = strResultParam_Name;
+
+                                            strResultParam_Name = "T21_LostTravel";
+                                            string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                            strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                            strResultParam_Measured = keyResultParam_Value;
+
+                                            strResultParam_Name = tempParmName.Equals("T21_ForceAtXXbar") ? "T21_ForceAtXXbar" : "T21_TravelAtXXbar";
+                                            break;
+                                        }
+
+                                    #endregion
+
+                                    default:
+                                        {
+                                            for (int j = 0; j < numStrFormat; j++)
+                                            {
+                                                string strInputTableParam = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                                strResultParam_Caption = String.Format(strResultParam_Caption, strInputTableParam);
+                                                strResultParam_Measured = keyResultParam_Value;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(strResultParam_Name))
+                            {
+                                var tempResultParam_Name = strResultParam_Name;
+
+                                strResultParam_Name = strResultParam_Name.Replace("resultCalcTestParam_", "")?.Trim();
+
+                                strResultParam_Name = strResultParam_Name.Contains("_") ? strResultParam_Name.Substring(strResultParam_Name.IndexOf("_") + 1) : strResultParam_Name;
+
+                                string strInputTableParamVal = lstInfoEvaluationParameters.Where(x => x.EvalParam_ResultParam_Name.Equals(strResultParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString()?.Trim();
+
+                                var strDicResultFind = string.Concat("resultCalcTestParam_", tempResultParam_Name);
+
+                                switch (strResultParam_Name.Trim())
+                                {
+                                    case "PCHoseConsumers":
+                                        {
+                                            //strResultParam_Measured = dicResultParam["resultCalcTestParam_PCHoseConsumers"]?.Trim();
+                                            strResultParam_Measured = dicResultParam[strDicResultFind]?.Trim();
+                                            break;
+                                        }
+                                    case "SCHoseConsumers":
+                                        {
+                                            strResultParam_Measured = dicResultParam[strDicResultFind]?.Trim();
+                                            break;
+                                        }
+                                    case "RoomTemperature":
+                                        {
+                                            //strResultParam_Measured = dicResultParam["resultCalcTestParam_RoomTemperature"]?.Trim();
+                                            strResultParam_Measured = dicResultParam[strDicResultFind]?.Trim();
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            strResultParam_Measured = Convert.ToBoolean(dicResultParam[strDicResultFind]?.Trim().Equals("0")) ? String.Format("{0:#,0.000}", Convert.ToDecimal(dicResultParam[strDicResultFind]?.Trim())).ToString() : dicResultParam[strDicResultFind]?.Trim();
+                                            //strResultParam_Measured = keyResultParam_Value;
+                                            break;
+                                        }
+                                }
+                            }
+                        }
+
+                        #endregion
+                    }
+                    else
+                    {
+                        #region Resuls Data Offline
+
+                        var dicReturnReadFileHeaderResults = HelperApp.dicReadFileHeader[3];
+
+                        strResultParam_Caption = dicReturnReadFileHeaderResults.ElementAt(i).Key?.Trim();
+
+                        strResultParam_Measured = Convert.ToBoolean(dicReturnReadFileHeaderResults.ElementAt(i).Value?.Trim().Equals("0")) ? String.Format("{0:#,0.000}", Convert.ToDecimal(dicReturnReadFileHeaderResults.ElementAt(i).Value?.Trim())).ToString() : dicReturnReadFileHeaderResults.ElementAt(i).Value?.Trim();
+
+                        #endregion
+                    }
+
+                    #endregion
+
+                    #region List Data
+
+                    listResultParamFormated.Add(new Model_Operational_TestTableParameters()
+                    {
+                        IdResultParam = Convert.ToInt32(strResultParam_Id),
+                        ResultParam_Name = strResultParam_Name,
+                        ResultParam_Caption = strResultParam_Caption,
+                        ResultParam_Nominal = strResultParam_Nominal,
+                        ResultParam_Measured = strResultParam_Measured,
+                        ResultParam_Unit = strResultParam_Unit
+                    });
+
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                var iErrorIdx = i;
+                var err = ex.Message;
+                throw;
+            }
+
+
+            if (HelperApp.dicResultParam != null)
+                HelperApp.dicResultParam.Clear();
+
+            HelperApp.dicResultParam = dicResultParam != null ? dicResultParam : HelperApp.dicReadFileHeader[3];
+
+            HelperApp.lstResultParamFormated.Clear();
             HelperApp.lstResultParamFormated = listResultParamFormated;
 
             return listResultParamFormated;
         }
 
+
         #endregion
 
         #region tab_ActionParameters
+
+        public bool TAB_ActuationParameters_GetValuesEvalParamOffLineByFile()
+        {
+            try
+            {
+                if (HelperApp.dicReadFileHeader[2] != null)
+                {
+                    var dicReturnReadFileHeaderParam = HelperApp.dicReadFileHeader[2];
+
+                    HelperApp.strActuationMode = dicReturnReadFileHeaderParam.ContainsKey("Actuation Type") ? dicReturnReadFileHeaderParam["Actuation Type"].ToString().Trim() : string.Empty;
+
+                    switch (HelperApp.strActuationMode)
+                    {
+                        case "Pneumatic Slow":
+                            HelperTestBase.iActuaionMode = 1;
+                            break;
+                        case "Pneumatic Fast":
+                            HelperTestBase.iActuaionMode = 2;
+                            break;
+                        case "E-Motor":
+                            HelperTestBase.iActuaionMode = 3;
+                            break;
+                        default:
+                            HelperTestBase.iActuaionMode = 0;
+                            break;
+                    }
+                    //HelperTestBase.iActuaionMode = EnumExtensionMethods.GetEnumValue<E_TestActuationType>(HelperApp.strActuationMode.ToString()).ToString();
+                    HelperTestBase.iOutputType = dicReturnReadFileHeaderParam.ContainsKey("Output Type") ? dicReturnReadFileHeaderParam["Output Type"].ToString().Trim().Equals("PC") ? 1 : 2 : 0;
+                    HelperTestBase.VacuumMin = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (min)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (min)"]) * -1 : 0;
+                    HelperTestBase.VacuumMax = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (max)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (max)"]) * -1 : 0;
+                    HelperTestBase.Vacuum = dicReturnReadFileHeaderParam.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum"]) * -1 : 0;
+                    HelperTestBase.chkPistonLock = dicReturnReadFileHeaderParam.ContainsKey("Lock Piston") ? dicReturnReadFileHeaderParam["Lock Piston"].ToString().Trim().Equals("Yes") ? true : false : false;
+                    HelperTestBase.ForceGradient = dicReturnReadFileHeaderParam.ContainsKey("Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Gradient"]) * -1 : 0;
+                    HelperTestBase.MaxForce = dicReturnReadFileHeaderParam.ContainsKey("Max. Force") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Max. Force"]) * -1 : 0;
+                    HelperTestBase.iTipoConsumidores = dicReturnReadFileHeaderParam.ContainsKey("Consumer") ? dicReturnReadFileHeaderParam["Consumer"].ToString().Trim().Equals("Original Consumer") ? 1 : 2 : 0;
+                    HelperTestBase.iSumHoseConsumerPC = dicReturnReadFileHeaderParam.ContainsKey("Hose Consumer PC") ? Convert.ToInt32(dicReturnReadFileHeaderParam["Hose Consumer PC"]) : 0;
+                    HelperTestBase.iSumHoseConsumerSC = dicReturnReadFileHeaderParam.ContainsKey("Hose Consumer SC") ? Convert.ToInt32(dicReturnReadFileHeaderParam["Hose Consumer SC"]) : 0;
+
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var err = ex.Message;
+                return false;
+                throw;
+            }
+
+        }
         public List<ActuationParameters_EvaluationParameters> GridView_GetValuesEvalParam(DataGridView grid)
         {
             //Setup list object
@@ -3139,12 +3534,11 @@ namespace Continental.Project.Adam.UI.Helper
         public List<ActuationParameters_EvaluationParameters> GridView_GetValuesEvalParamOffLineByFile(DataGridView grid)
         {
             //Setup list object
-            var lstParamAnalog = new List<ActuationParameters_EvaluationParameters>();
+            HelperApp.lstEvaluationParameters.Clear();
 
-            try
-            {
-
-               if(!ReadTXTFileHeaderHBM())
+            try 
+            { 
+                if (!ReadTXTFileHeaderHBM())
                 {
                     MessageBox.Show("Failed, error path project !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return null;
@@ -3172,12 +3566,9 @@ namespace Continental.Project.Adam.UI.Helper
                             };
 
                             if (obj.IdEvalParam > 0)
-                                lstParamAnalog.Add(obj);
+                                HelperApp.lstEvaluationParameters.Add(obj);
                         }
                     }
-
-                    HelperApp.lstEvaluationParameters.Clear();
-                    HelperApp.lstEvaluationParameters = lstParamAnalog;
                 }
             }
             catch (Exception ex)
@@ -3186,7 +3577,7 @@ namespace Continental.Project.Adam.UI.Helper
                 throw;
             }
 
-            return lstParamAnalog;
+            return HelperApp.lstEvaluationParameters;
         }
 
         #endregion
@@ -3237,7 +3628,6 @@ namespace Continental.Project.Adam.UI.Helper
         #endregion
 
         #region Methods TXT TESTS
-        
         public bool ReadTXTFileHeaderHBM()
         {
             List<string> lstReturnRead = new List<string>();
@@ -3247,156 +3637,168 @@ namespace Continental.Project.Adam.UI.Helper
             string fileNameHeader = string.Empty;
             string pathWithFileNameHeader = string.Empty;
 
+            dicReturnReadFileHeader = new Dictionary<string, string>[4];
+            HelperApp.dicReadFileHeader = new Dictionary<string, string>[4];
+
             try
             {
                 #region Header Name File Test
 
-                    string _initialDirPathTestFile = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppTests_Path);
+                string _initialDirPathTestFile = System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AppTests_Path);
 
-                    AppTests_Path = _initialDirPathTestFile;
+                AppTests_Path = _initialDirPathTestFile;
 
-                    HelperTestBase.ProjectTestConcluded.Project.PrjTestFileName = System.IO.Path.Combine(_initialDirPathTestFile, string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), AppTests_DefaultExtension));
+                if (string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.ProjectTestFileName))
+                    HelperTestBase.ProjectTestConcluded.ProjectTestFileName = System.IO.Path.Combine(_initialDirPathTestFile, string.Concat(HelperTestBase.ProjectTestConcluded.ProjectTestFileName.Trim(), AppTests_DefaultExtension));
 
-                    fileNameHeader = string.Concat(HelperTestBase.ProjectTestConcluded.TestFileName.Trim(), AppTests_DefaultNameHeader, AppTests_DefaultExtension);
+                fileNameHeader = string.Concat(HelperTestBase.ProjectTestConcluded.ProjectTestFileName.Trim(), AppTests_DefaultNameHeader, AppTests_DefaultExtension);
 
-                    pathWithFileNameHeader = System.IO.Path.Combine(_initialDirPathTestFile, fileNameHeader);
+                pathWithFileNameHeader = System.IO.Path.Combine(_initialDirPathTestFile, fileNameHeader);
 
-                    #endregion
+                #endregion
 
                 #region Read the file as one string
 
                 if (File.Exists(pathWithFileNameHeader))
+                {
+                    // Read a text file line by line.
+                    string[] lines = File.ReadAllLines(pathWithFileNameHeader);
+
+                    //project 5->13
+                    //parameters grid 18-> depend of test
+                    //parameters 17->27
+                    //results 32->58
+
+                    #region HEADER - PROJECT
+
+                    var lstProject = lines
+                        .SkipWhile(lin => !lin.Contains("|-"))
+                        .Skip(1)
+                        .TakeWhile(lin => !lin.Contains("|-"))
+                        .ToList();
+
+                    Dictionary<string, string> dicReturnReadFileHeaderPrj = new Dictionary<string, string>();
+
+                    foreach (var headerItem in lstProject)
                     {
-                        // Read a text file line by line.
-                        string[] lines = File.ReadAllLines(pathWithFileNameHeader);
-
-                        //project 5->13
-                        //parameters grid 18-> depend of test
-                        //parameters 17->27
-                        //results 32->58
-
-                        #region HEADER - PROJECT
-
-                        var lstProject = lines
-                            .SkipWhile(lin => !lin.Contains("|-"))
-                            .Skip(1)
-                            .TakeWhile(lin => !lin.Contains("|-"))
-                            .ToList();
-
-                        Dictionary<string, string> dicReturnReadFileHeaderPrj = new Dictionary<string, string>();
-
-                        foreach (var headerItem in lstProject)
+                        if (!string.IsNullOrWhiteSpace(headerItem))
                         {
-                            if (!string.IsNullOrWhiteSpace(headerItem))
+                            string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
+
+                            if (strArray.Length > 0)
                             {
-                                string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
+                                var headerVariableName = strArray[0]?.Trim();
+                                var headerVariableValue = strArray[1]?.Trim();
 
-                                if (strArray.Length > 0)
-                                {
-                                    var headerVariableName = strArray[0]?.Trim();
-                                    var headerVariableValue = strArray[1]?.Trim();
-
-                                    dicReturnReadFileHeaderPrj.Add(headerVariableName, headerVariableValue);
-                                }
+                                dicReturnReadFileHeaderPrj.Add(headerVariableName, headerVariableValue);
                             }
                         }
-
-                        #endregion
-
-                        #region HEADER - PARAMETERS GRID
-
-                        var lstParamGrid = lines
-                            .SkipWhile(lin1 => !lin1.Contains("|-"))
-                            .Skip(lstProject.Count() + 2)
-                            .TakeWhile(lin1 => !lin1.Contains("|-"))
-                            .ToList();
-
-                        Dictionary<string, string> dicReturnReadFileHeaderParamGrid = new Dictionary<string, string>();
-
-                        foreach (var headerItem in lstParamGrid)
-                        {
-                            if (!string.IsNullOrWhiteSpace(headerItem))
-                            {
-                                string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
-
-                                if (strArray.Length > 0)
-                                {
-                                    var headerVariableName = strArray[0]?.Trim();
-                                    var headerVariableValue = !string.IsNullOrEmpty(strArray[1]) ? strArray[1].Substring(0, strArray[1].IndexOf("[")).Trim() : strArray[1]?.Trim();
-
-                                    dicReturnReadFileHeaderParamGrid.Add(headerVariableName, headerVariableValue);
-                                }
-                            }
-                        }
-
-                        #endregion
-
-                        #region HEADER - PARAMETERS
-
-                        var lstParam = lines
-                            .SkipWhile(lin1 => !lin1.Contains("|-"))
-                            .Skip(lstProject.Count() + lstParamGrid.Count() + 3)
-                            .TakeWhile(lin1 => !lin1.Contains("|-"))
-                            .ToList();
-
-                        Dictionary<string, string> dicReturnReadFileHeaderParam = new Dictionary<string, string>();
-
-                        foreach (var headerItem in lstParam)
-                        {
-                            if (!string.IsNullOrWhiteSpace(headerItem))
-                            {
-                                string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
-
-                                if (strArray.Length > 0)
-                                {
-                                    var headerVariableName = strArray[0]?.Trim();
-                                    var headerVariableValue = strArray[1]?.Trim();
-
-                                    dicReturnReadFileHeaderParam.Add(headerVariableName, headerVariableValue);
-                                }
-                            }
-                        }
-
-                        #endregion
-
-                        #region HEADER - RESULTS
-
-                        var lstResults = lines
-                            .SkipWhile(lin => !lin.Contains("|-"))
-                            .Skip(lstProject.Count() + lstParamGrid.Count() + lstParam.Count() + 4)
-                            .TakeWhile(lin => !lin.Contains("|-"))
-                            .ToList();
-
-                        Dictionary<string, string> dicReturnReadFileHeaderResults = new Dictionary<string, string>();
-
-                        foreach (var headerItem in lstResults)
-                        {
-                            if (!string.IsNullOrWhiteSpace(headerItem))
-                            {
-                                string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
-
-                                if (strArray.Length > 0)
-                                {
-                                    var headerVariableName = strArray[0]?.Trim();
-                                    var headerVariableValue = !string.IsNullOrEmpty(strArray[1]) ? strArray[1].Substring(0, strArray[1].IndexOf("[")).Trim() : strArray[1]?.Trim();
-
-                                    dicReturnReadFileHeaderResults.Add(headerVariableName, headerVariableValue);
-                                }
-                            }
-                        }
-
-                        #endregion
-
-                        #region HEADER - DICTIONARY
-
-                        dicReturnReadFileHeader[0] = dicReturnReadFileHeaderPrj;
-                        dicReturnReadFileHeader[1] = dicReturnReadFileHeaderParamGrid;
-                        dicReturnReadFileHeader[2] = dicReturnReadFileHeaderParam;
-                        dicReturnReadFileHeader[3] = dicReturnReadFileHeaderResults;
-
-                        #endregion
                     }
-                
+
+                    #endregion
+
+                    #region HEADER - PARAMETERS GRID
+
+                    var lstParamGrid = lines
+                        .SkipWhile(lin1 => !lin1.Contains("|-"))
+                        .Skip(lstProject.Count() + 2)
+                        .TakeWhile(lin1 => !lin1.Contains("|-"))
+                        .ToList();
+
+                    Dictionary<string, string> dicReturnReadFileHeaderParamGrid = new Dictionary<string, string>();
+
+                    foreach (var headerItem in lstParamGrid)
+                    {
+                        if (!string.IsNullOrWhiteSpace(headerItem))
+                        {
+                            string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
+
+                            if (strArray.Length > 0)
+                            {
+                                var headerVariableName = strArray[0]?.Trim();
+                                var headerVariableValue = !string.IsNullOrEmpty(strArray[1]) ? strArray[1].Substring(0, strArray[1].IndexOf("[")).Trim() : strArray[1]?.Trim();
+
+                                dicReturnReadFileHeaderParamGrid.Add(headerVariableName, headerVariableValue);
+                            }
+                        }
+                    }
+
+                    #endregion
+
+                    #region HEADER - PARAMETERS
+
+                    var lstParam = lines
+                        .SkipWhile(lin1 => !lin1.Contains("|-"))
+                        .Skip(lstProject.Count() + lstParamGrid.Count() + 3)
+                        .TakeWhile(lin1 => !lin1.Contains("|-"))
+                        .ToList();
+
+                    Dictionary<string, string> dicReturnReadFileHeaderParam = new Dictionary<string, string>();
+
+                    foreach (var headerItem in lstParam)
+                    {
+                        if (!string.IsNullOrWhiteSpace(headerItem))
+                        {
+                            string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
+
+                            if (strArray.Length > 0)
+                            {
+                                var headerVariableName = strArray[0]?.Trim();
+                                var headerVariableValue = strArray[1]?.Trim();
+
+                                dicReturnReadFileHeaderParam.Add(headerVariableName, headerVariableValue);
+                            }
+                        }
+                    }
+
+                    #endregion
+
+                    #region HEADER - RESULTS
+
+                    var lstResults = lines
+                        .SkipWhile(lin => !lin.Contains("|-"))
+                        .Skip(lstProject.Count() + lstParamGrid.Count() + lstParam.Count() + 4)
+                        .TakeWhile(lin => !lin.Contains("|-"))
+                        .ToList();
+
+                    Dictionary<string, string> dicReturnReadFileHeaderResults = new Dictionary<string, string>();
+
+                    foreach (var headerItem in lstResults)
+                    {
+                        if (!string.IsNullOrWhiteSpace(headerItem))
+                        {
+                            string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
+
+                            if (strArray.Length > 0)
+                            {
+                                var headerVariableName = strArray[0]?.Trim();
+                                var headerVariableValue = !string.IsNullOrEmpty(strArray[1]) ? strArray[1].Substring(0, strArray[1].IndexOf("[")).Trim() : strArray[1]?.Trim();
+
+                                dicReturnReadFileHeaderResults.Add(headerVariableName, headerVariableValue);
+                            }
+                        }
+                    }
+
+                    #endregion
+
+                    #region HEADER - DICTIONARY
+
+                    if (dicReturnReadFileHeader[0] != null)
+                        dicReturnReadFileHeader = new Dictionary<string, string>[4];
+
+                    dicReturnReadFileHeader[0] = dicReturnReadFileHeaderPrj;
+                    dicReturnReadFileHeader[1] = dicReturnReadFileHeaderParamGrid;
+                    dicReturnReadFileHeader[2] = dicReturnReadFileHeaderParam;
+                    dicReturnReadFileHeader[3] = dicReturnReadFileHeaderResults;
+
+                    if (HelperApp.dicReadFileHeader[0] != null)
+                        HelperApp.dicReadFileHeader = new Dictionary<string, string>[4];
+
+                    HelperApp.dicReadFileHeader = dicReturnReadFileHeader;
+
+                    #endregion
+                }
+
                 #endregion
             }
             catch (Exception ex)
@@ -3409,13 +3811,7 @@ namespace Continental.Project.Adam.UI.Helper
                 return false;
             }
 
-            if (dicReturnReadFileHeader[0].Count() >  0)
-            {
-                HelperApp.dicReadFileHeader = dicReturnReadFileHeader;
-                return true;
-            }
-            else
-                return false;
+            return dicReturnReadFileHeader[0].Count() > 0 ? true : false;
         }
         public List<string>[] ReadTXTFileHBM(string fileName, string pathWithFileName)
         {
@@ -3429,6 +3825,7 @@ namespace Continental.Project.Adam.UI.Helper
                 {
                     using (StreamReader file = new StreamReader(pathWithFileName))
                     {
+                        lstStrReturnReadFileLines = new List<string>();
                         lstStrReturnReadFileLines = File.ReadLines(pathWithFileName).ToList();
 
                         for (k = 0; k < lstStrReturnReadFileLines.Count; k++)
@@ -3458,6 +3855,8 @@ namespace Continental.Project.Adam.UI.Helper
 
                         file.Close();
                     }
+
+                    lstStrReturnReadFile = new List<string>[13];
 
                     lstStrReturnReadFile[0] = lstStrTimestamp;       //  Time [s]
                     lstStrReturnReadFile[1] = lstStrAnalogCh01;    //ch9.1 - HelperHBM._rDiffTravel - Transdutor Deslocamento Desvio Linearidade - 0-10 mm (Linearizado)
@@ -3643,16 +4042,14 @@ namespace Continental.Project.Adam.UI.Helper
 
                 _modelGVLCalc.GVL_Graficos.uiTesteSelecionado = iTesteSelecionado;
 
-
                 HelperTestBase.Model_GVL = _modelGVLCalc;
-
             }
             catch (Exception ex)
             {
-
                 var err = ex.Message;
                 throw;
             }
+
             return _modelGVLCalc;
         }
         public bool CalcInfoTestByStep(int iTesteSelecionado)
@@ -4108,8 +4505,6 @@ namespace Continental.Project.Adam.UI.Helper
                     diUbound = _modelGVL.GVL_Graficos.diBuffer - 1;
 
                     #region Loop para identificar a forca maxima do teste, e armazenar o ponto de inflexao do teste (quando o atuador comeca a retornar)
-                    //========================================================================================================================================================
-
                     //for (di = 0; di < diUbound; di++)
                     //{
                     //    if (_modelGVL.GVL_Graficos.arrVarX[di] > _modelGVL.GVL_T01.rForcaMaxima)
@@ -4126,14 +4521,11 @@ namespace Continental.Project.Adam.UI.Helper
 
                     _modelGVL.GVL_T01.diPosicaoForcaMaxima = lstInputForce1.IndexOf(_modelGVL.GVL_T01.rForcaMaxima); //34272 //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
 
-                    HelperTestBase.MaxForce = _modelGVL.GVL_T01.rForcaMaxima; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                    //HelperTestBase.MaxForce = _modelGVL.GVL_T01.rForcaMaxima; //Atualiza o valor de forca maxima com o maior valor obtido no array
 
-                    //========================================================================================================================================================
                     #endregion
 
                     #region Calculo do gradiente de aplicacao de força no avanço
-                    //========================================================================================================================================================
-
                     //Busca no array o momento em que a forca comecou a subir (forca >= 100N) e o tempo decorrido desta forca
 
                     //for (di = 0; di <= _modelGVL.GVL_T01.diPosicaoForcaMaxima; di++)
@@ -4164,8 +4556,6 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Calculo do gradiente de aplicacao de força no retorno
-                    //========================================================================================================================================================
-
                     //Busca no array o momento em que a forca caiu abaixo de 100N (forca <= 100N) e o tempo decorrido desta forca
 
                     //Busca no array o momento em que a forca caiu abaixo de 100N (forca <= 100N) e o tempo decorrido desta forca
@@ -4192,11 +4582,9 @@ namespace Continental.Project.Adam.UI.Helper
                     //Calcula o gradiente de aplicacao de forca no retorno
                     _modelGVL.GVL_T01.rGradienteForcaRetorno = Math.Round((rForcaFinalGradiente - rForcaInicialGradiente) / (rTempoFinalGradiente - rTempoInicialGradiente), 2); //	-1140.663 / 8.38424	= -136.05
 
-                    //========================================================================================================================================================
                     #endregion
 
                     #region Calculo do gradiente de avanço 
-                    //========================================================================================================================================================
 
                     //Busca no array o momento em que o deslocamento comecou a variar (deslocamento >= 1)
                     for (di = 0; di <= _modelGVL.GVL_T01.diPosicaoForcaMaxima; di++)
@@ -4251,7 +4639,6 @@ namespace Continental.Project.Adam.UI.Helper
 
                     #region Pega os valores de pressão no cruzamento com as forças solicitadas: P1
 
-                    //========================================================================================================================================================
                     for (di = 0; di < diUbound; di++)
                     {
                         if (_modelGVL.GVL_Graficos.arrVarX[di] >= _modelGVL.GVL_T01.rForca_P1) //Encontrou a forca >= parametro definido
@@ -4313,7 +4700,6 @@ namespace Continental.Project.Adam.UI.Helper
                     #endregion
 
                     #region Calculo do runout point por intersecção linear (cruzamento das retas 1 (amplificação) e 2 (saturação)
-                    //========================================================================================================================================================
 
                     //Reta 1 tambem chamada de L1
                     // Y = m.X + n onde:
@@ -4336,7 +4722,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     _modelGVL.GVL_T01.rRunOutForce_LinearInt_N = ((rCoeficienteLinear_L1 - rCoeficienteLinear_L2) / (rCoeficienteAngular_L1 - rCoeficienteAngular_L2)) * -1;
                     _modelGVL.GVL_T01.rRunOutPressure_LinearInt_Bar = (rCoeficienteAngular_L1 * _modelGVL.GVL_T01.rRunOutForce_LinearInt_N) + rCoeficienteLinear_L1;
-                    //========================================================================================================================================================
+
                     #endregion
 
                     #region Calculo do auxiliary pressure P3, pressao auxiliar para calculo do runout point real (vide norma continental)
@@ -4638,8 +5024,6 @@ namespace Continental.Project.Adam.UI.Helper
 
                     #region Calcula a hysterese (diferenca de forca na ida e na volta, com pontos de pressao iguais
 
-                    //========================================================================================================================================================
-
                     _modelGVL.GVL_T01.rPressaoHysteresePout_Bar = _modelGVL.GVL_T01.rRunOutPressure_Real_Bar * (_modelGVL.GVL_T01.rPressaoHysterese_pout / 100);
 
                     //Obtem a forca relacionada a pressao x% pout no avanco
@@ -4691,7 +5075,6 @@ namespace Continental.Project.Adam.UI.Helper
 
                     //Calculo do hysterese (diferenca de forca no avanco e no retorno, no mesmo ponto de pressao)
                     _modelGVL.GVL_T01.rHysterese_Xbar_N = _modelGVL.GVL_T01.rForcaAvanco_Xbar_N - _modelGVL.GVL_T01.rForcaRetorno_Xbar_N;
-                    //========================================================================================================================================================
 
                     #endregion
 
@@ -4770,7 +5153,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     _modelGVL.GVL_Graficos.bDadosCalculados = true;
                 }
-
+                
                 HelperTestBase.Model_GVL.helperTestBase_ModelGVL_Test = HelperTestBase.Model_GVL.GVL_T01;
 
                 HelperTestBase.Model_GVL = _modelGVL;
@@ -11539,7 +11922,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     _modelGVL.GVL_T22.diPosicaoForcaMaxima = lstInputForce1.IndexOf(_modelGVL.GVL_T22.rForcaMaxima);
 
-                    HelperTestBase.MaxForce = _modelGVL.GVL_T22.rForcaMaxima; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                    //HelperTestBase.MaxForce = _modelGVL.GVL_T22.rForcaMaxima; //Atualiza o valor de forca maxima com o maior valor obtido no array
 
                     #endregion
 
@@ -12905,7 +13288,7 @@ namespace Continental.Project.Adam.UI.Helper
 
                     _modelGVL.GVL_T25.diPosicaoForcaMaxima = lstInputForce1.IndexOf(_modelGVL.GVL_T25.rForcaMaxima); //34272 //Indica em qual posicao do array esta a forca maxima (pico do grafico, aonde comeca o retorno do atuador)
 
-                    HelperTestBase.MaxForce = _modelGVL.GVL_T25.rForcaMaxima; //Atualiza o valor de forca maxima com o maior valor obtido no array
+                    //HelperTestBase.MaxForce = _modelGVL.GVL_T25.rForcaMaxima; //Atualiza o valor de forca maxima com o maior valor obtido no array
 
                     #endregion
 
@@ -16360,23 +16743,23 @@ namespace Continental.Project.Adam.UI.Helper
                     sbHeader.Append($"|- PROJECT -|");
                     sbHeader.Append($"\r\n");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Ident\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.Identification) ? HelperTestBase.ProjectTestConcluded.Project.Identification : strVarProj)}");
+                    sbHeader.Append($"Ident\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestSample.Project?.Identification) ? HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.Identification : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Customer/Type\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.CustomerType) ? HelperTestBase.ProjectTestConcluded.Project.CustomerType : strVarProj)}");
+                    sbHeader.Append($"Customer/Type\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.CustomerType) ? HelperTestBase.ProjectTestConcluded.ProjectTestSample.CustomerType : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Booster\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.Booster) ? HelperTestBase.ProjectTestConcluded.Project.Booster : strVarProj)}");
+                    sbHeader.Append($"Booster\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.Booster) ? HelperTestBase.ProjectTestConcluded.ProjectTestSample.Booster : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"TMC\t\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project.TMC) ? HelperTestBase.ProjectTestConcluded.Project.TMC : strVarProj)}");
+                    sbHeader.Append($"TMC\t\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.TMC) ? HelperTestBase.ProjectTestConcluded.ProjectTestSample.TMC : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Production Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.ProductionDate) ? HelperTestBase.ProjectTestConcluded.Project.ProductionDate : strVarProj)}");
+                    sbHeader.Append($"Production Date\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.ProductionDate) ? HelperTestBase.ProjectTestConcluded.ProjectTestSample.ProductionDate : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"T.O.\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.T_O) ? HelperTestBase.ProjectTestConcluded.Project.T_O : strVarProj)}");
+                    sbHeader.Append($"T.O.\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.T_O) ? HelperTestBase.ProjectTestConcluded.ProjectTestSample.T_O : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Operator\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.User?.UName) ? HelperTestBase.ProjectTestConcluded.Project.User.UName : strVarProj)}");
+                    sbHeader.Append($"Operator\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.User?.UName) ? HelperTestBase.ProjectTestConcluded.ProjectTestSample.User.UName : strVarProj)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Testing Date\t {strCharSplit_TXTHeader_Data}\t{(string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.TestingDate) ? HelperTestBase.ProjectTestConcluded.Project.TestingDate : strTimeStamp)}");
+                    sbHeader.Append($"Testing Date\t {strCharSplit_TXTHeader_Data}\t{(string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.TestingDate) ? HelperTestBase.ProjectTestConcluded.ProjectTestSample.TestingDate : strTimeStamp)}");
                     sbHeader.Append($"\r\n");
-                    sbHeader.Append($"Comment\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.Project?.Comment) ? HelperTestBase.ProjectTestConcluded.Project.Comment : strVarProj)}");
+                    sbHeader.Append($"Comment\t\t\t {strCharSplit_TXTHeader_Data}\t{(!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.Comment) ? HelperTestBase.ProjectTestConcluded.ProjectTestSample.Comment : strVarProj)}");
                     sbHeader.Append($"\r\n");
                     sbHeader.Append($"\r\n");
 
@@ -16660,30 +17043,30 @@ namespace Continental.Project.Adam.UI.Helper
                             {
                                 #region StringBuilder AppendTxtData_Header_ActuationType
 
-                                HelperTestBase.ETestActuationType = E_TestActuationType.PneumaticSlow;
-                                HelperTestBase.VacuumMin = -0.82;
-                                HelperTestBase.VacuumMax = -0.78;
-                                HelperTestBase.Vacuum = -0.8;
-                                HelperTestBase.chkPistonLock = false;
-                                HelperTestBase.ForceGradient = 100;
-                                HelperTestBase.MaxForce = 1500;
-                                HelperTestBase.radHoseConsumer = false;
-
-                                sbHeader.Append($"Actuation Type      : {HelperTestBase.ETestActuationType}");
+                                sbHeader.Append($"Actuation Type \t {strCharSplit_TXTHeader_Data}\t {HelperApp.strActuationMode}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Vacuum (min)        : {HelperTestBase.VacuumMin}");
+                                sbHeader.Append($"Output Type \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iOutputType == 1 ? "PC" : "SC")}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Vacuum (max)        : {HelperTestBase.VacuumMax}");
+                                sbHeader.Append($"Vacuum (min) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMin, 2)}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Vacuum              : {HelperTestBase.Vacuum}");
+                                sbHeader.Append($"Vacuum (max) \t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.VacuumMax, 2)}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Lock Piston         : {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
+                                sbHeader.Append($"Vacuum  \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.Vacuum, 2)}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Gradient            : {HelperTestBase.ForceGradient}");
+                                sbHeader.Append($"Lock Piston \t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.chkPistonLock ? "Yes" : "No")}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Max. Force          : {HelperTestBase.MaxForce}");
+                                sbHeader.Append($"Gradient \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.ForceGradient, 2)}");
                                 sbHeader.Append($"\r\n");
-                                sbHeader.Append($"Consumer            : {(HelperTestBase.radHoseConsumer ? "Tube Consumer" : (HelperTestBase.radOriginalConsumer ? "Original Consumer" : "None"))}");
+                                sbHeader.Append($"Max. Force \t\t {strCharSplit_TXTHeader_Data}\t {Math.Round(HelperTestBase.MaxForce, 2)}");
+                                sbHeader.Append($"\r\n");
+                                if (HelperTestBase.iTipoConsumidores > 0)
+                                    sbHeader.Append($"Consumer \t\t {strCharSplit_TXTHeader_Data}\t {(HelperTestBase.iTipoConsumidores == 1 ? "Original Consumer" : "Tube Consumer")}");
+                                else
+                                    sbHeader.Append($"Consumer \t {strCharSplit_TXTHeader_Data}\t None");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer PC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerPC}");
+                                sbHeader.Append($"\r\n");
+                                sbHeader.Append($"Hose Consumer SC {strCharSplit_TXTHeader_Data}\t {HelperTestBase.iSumHoseConsumerSC}");
                                 sbHeader.Append($"\r\n");
                                 sbHeader.Append($"\r\n");
 
@@ -17088,7 +17471,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]" );
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar]\t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17135,7 +17518,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17182,7 +17565,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17233,7 +17616,7 @@ namespace Continental.Project.Adam.UI.Helper
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17284,7 +17667,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17335,7 +17718,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 143 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17398,7 +17781,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17441,7 +17824,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17491,7 +17874,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17539,7 +17922,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 143 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17586,7 +17969,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17629,7 +18012,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17672,7 +18055,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17715,7 +18098,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17762,7 +18145,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17809,7 +18192,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17854,7 +18237,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17897,7 +18280,7 @@ namespace Continental.Project.Adam.UI.Helper
                             //sbHeaderResults.Append($"\r\n");
                             //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
                             sbHeaderResults.Append($"\r\n");
-                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
                             sbHeaderResults.Append($"\r\n");
                             sbHeaderResults.Append($"\r\n");
 
@@ -17910,6 +18293,903 @@ namespace Continental.Project.Adam.UI.Helper
                         break;
                 }
             }
+
+            if (HelperTestBase.sbHeaderResultsAppendTxtData != null)
+                HelperTestBase.sbHeaderResultsAppendTxtData.Clear();
+
+            HelperTestBase.sbHeaderResultsAppendTxtData = sbHeaderResults;
+
+            return _helperTestBase;
+        }
+        public HelperTestBase TXTFileHBM_HeaderAppendTableResultsOffLineByFile(int iTesteSelecionado)
+        {
+            StringBuilder sbHeaderResults = new StringBuilder();
+
+            if (iTesteSelecionado > 0)
+            {
+                //set Variables
+                HelperApp.uiTesteSelecionado = iTesteSelecionado;
+
+                var lstResultParam = HelperApp.lstResultParam;
+
+                var dicResultParam = HelperApp.dicResultParam;
+
+                #region StringBuilder TxtData_Header - Type Test
+
+                sbHeaderResults.Append($"|- RESULTS -|");
+                sbHeaderResults.Append($"\r\n");
+                sbHeaderResults.Append($"\r\n");
+
+                #endregion
+
+                switch (iTesteSelecionado)
+                {
+
+                    case 1:     //Force Diagrams - Force/Pressure With Vacuum
+                    case 3:     //Force Diagrams - Force/Pressure Without Vacuum
+                    case 13:    //Check Sensors - Pressure Difference
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"|- CURVES -|");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar]\t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 2:     //Force Diagrams - Force/Force With Vacuum
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T02_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 4:     //Force Diagrams - Force/Force Without Vacuum
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T04_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 5: //Vacuum Leakage - Released Position
+                    case 6: //Vacuum Leakage - Fully Applied Position
+                    case 7: //Vacuum Leakage - Lap Position
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"|- CURVES -|");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 8:     //Hydraulic Leakage - Fully Applied Position
+                    case 9:     //Hydraulic Leakage - At Low Pressure
+                    case 10:    //Hydraulic Leakage - At High Pressure
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            #region Common_Header_Results_Header
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"|- CURVES -|");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 125 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 11:    //Adjustment - Actuation Slow
+                    case 12:    //Adjustment - Actuation Fast
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"|- CURVES -|");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 143 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 14:    //Check Sensors - Input/Output Travel
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            var helperTestBase_Vacuum = 0;
+                            var helperTestBase_ForceIncreaseGradient = 0;
+                            var helperTestBase_ActuationGradientForward = 0;
+                            var helperTestBase_ActuationForce = 0;
+                            var helperTestBase_ForceDecreaseGradient = 0;
+                            var helperTestBase_ActuationGradientBackward = 0;
+                            var helperTestBase_InputTravel = 10;
+                            var helperTestBase_LostTravel = 0;
+                            var helperTestBase_PCHoseConsumer = 12;
+                            var helperTestBase_SCHoseConsumer = 12;
+                            var helperTestBase_RoomTemperature = HelperMODBUS.CS_dwTemperaturaAmbiente_C_LW.ToString("N2");
+
+                            sbHeaderResults.Append($"Results");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Vacuum                         : {helperTestBase_Vacuum} bar");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Force Increase Gradient        : {helperTestBase_ForceIncreaseGradient} N / s");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Actuation Gradient Forward     : {helperTestBase_ActuationGradientForward} mm / s");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Actuation Force                : {helperTestBase_ActuationForce} N");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Force Decrease Gradient        : {helperTestBase_ForceDecreaseGradient} N / s");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Actuation Gradient Backward    : {helperTestBase_ActuationGradientBackward} mm / s");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Input Travel                   : {helperTestBase_InputTravel} mm");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Lost Travel                    : {helperTestBase_LostTravel} mm");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"PC Hose Consumers              : {helperTestBase_PCHoseConsumer} #");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"SC Hose Consumers              : {helperTestBase_SCHoseConsumer} #");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Room Temperature               : {helperTestBase_RoomTemperature} °C");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 15:    //Adjustment - Input Travel VS Input Force
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 16:    //Adjustment - Hose Consumer
+                    case 17:    //Lost Travel ACU - Hydraulic
+                    case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"|- CURVES -|");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 19:    //Lost Travel ACU - Pneumatic Primary
+                    case 20:    //Lost Travel ACU - Pneumatic Secondary
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            #region Common_Header_Results_Header
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 143 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 21:    //Pedal Feeling Characteristics
+                        {
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T21_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"|- CURVES -|");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 22:    //Actuation / Release - Mechanical Actuation
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T22_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 23:    //Breather Hole / Central Valve open
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 24:    //Efficiency
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T24_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 25:    //Force Diagrams - Force/Pressure Dual Ratio
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T25_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"|- CURVES -|");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 26:    //Force Diagrams - Force/Force Dual Ratio
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            #region Common_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T26_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 167 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 27:    //ADAM - Find Switching Point With TMC
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T27_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            break;
+                        }
+
+                    case 28:    //ADAM - Switching Point Without TMC
+                        {
+                            #region StringBuilder AppendTxtData_Header_Results
+
+                            for (int i = 0; i < dicResultParam.Count; i++)
+                            {
+                                string keyResultParam_Caption = dicResultParam.ElementAt(i).Key?.Replace("resultCalcTestParam_T28_", "")?.Trim();
+
+                                string keyResultParam_Value = dicResultParam.ElementAt(i).Value?.Trim();
+
+                                string strResultParam_Measured = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Measured)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strResultParam_Measured))
+                                {
+                                    string strResultParam_Caption = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Caption)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    string strResultParam_Unit = !string.IsNullOrEmpty(keyResultParam_Caption) ? lstResultParam.Where(x => x.ResultParam_Caption.Equals(keyResultParam_Caption)).Select(a => a.ResultParam_Unit)?.FirstOrDefault()?.ToString()?.Trim() : string.Empty;
+
+                                    if (!string.IsNullOrEmpty(strResultParam_Caption))
+                                        sbHeaderResults.Append($"{strResultParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {strResultParam_Measured} {strResultParam_Unit}");
+
+                                    sbHeaderResults.Append($"\r\n");
+                                }
+                            }
+
+                            #endregion
+
+                            #region Curves_Header_Results
+
+                            sbHeaderResults.Append($"Curves");
+                            sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"\r\n");
+                            //sbHeaderResults.Append($"NOTE: Sample rate reduced to approx. 111 Hz to fit to Excel-Limitation");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"Time[s]\t Diff.Travel[mm]\t Input_Force[N]\t Output_Force[N]\t TMC_Travel[mm]\t Piston_Travel[mm]\t Hydraulic_Pressure_SC[bar]\t Hydraulic_Pressure_PC[bar]\t TestPressure[bar]\t Hidr.FillPressure[bar]\t Vacuum[bar] \t Res.[-]\t Res.[-]");
+                            sbHeaderResults.Append($"\r\n");
+                            sbHeaderResults.Append($"\r\n");
+
+                            #endregion
+
+                            break;
+                        }
+
+                    default:
+                        break;
+                }
+            }
+
+            if (HelperTestBase.sbHeaderResultsAppendTxtData != null)
+                HelperTestBase.sbHeaderResultsAppendTxtData.Clear();
 
             HelperTestBase.sbHeaderResultsAppendTxtData = sbHeaderResults;
 
@@ -18065,7 +19345,7 @@ namespace Continental.Project.Adam.UI.Helper
         #endregion
 
         #region REPORT PDF
-        public void Report_CreatePDF(string strImgChart, string strImgChartsvg, string strFileName, DataGridViewRowCollection gridResultRows)
+        public bool Report_CreatePDF(string strImgChart, string strImgChartsvg, string strFileName, DataGridViewRowCollection gridResultRows)
         {
             try
             {
@@ -18130,7 +19410,7 @@ namespace Continental.Project.Adam.UI.Helper
                 if (CheckFileExists(outputFile))
                 {
                     if (DialogResult.No == MessageBox.Show("  File Report already exists!" + "\n\n\n" + "Do you want ovewrite report test ? ", appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
-                        return;
+                        return true;
                     else
                         File.Delete(outputFile);
                 }
@@ -18211,19 +19491,19 @@ namespace Continental.Project.Adam.UI.Helper
                 Cell cell_Ident = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Ident #: {HelperTestBase.ProjectTestConcluded.Project.Identification}"));
+                    .Add(new Paragraph($"Ident #: {HelperTestBase.ProjectTestConcluded.ProjectTestSample?.Project?.Identification}"));
                 table.AddCell(cell_Ident);
 
                 Cell cell_Booster = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Booster #: {HelperTestBase.ProjectTestConcluded.Project.Booster}"));
+                    .Add(new Paragraph($"Booster #: {HelperTestBase.ProjectTestConcluded.ProjectTestSample?.Booster}"));
                 table.AddCell(cell_Booster);
 
                 Cell cell_TestOrder = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Testorder #: {HelperTestBase.ProjectTestConcluded.Project.T_O}"));
+                    .Add(new Paragraph($"Testorder #: {HelperTestBase.ProjectTestConcluded.ProjectTestSample?.T_O}"));
                 table.AddCell(cell_TestOrder);
 
                 #endregion
@@ -18233,19 +19513,19 @@ namespace Continental.Project.Adam.UI.Helper
                 Cell cell_CustomerType = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Customer/Type : {HelperTestBase.ProjectTestConcluded.Project.CustomerType}"));
+                    .Add(new Paragraph($"Customer/Type : {HelperTestBase.ProjectTestConcluded.ProjectTestSample?.CustomerType}"));
                 table.AddCell(cell_CustomerType);
 
                 Cell cell_TMC = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"TMC #: {HelperTestBase.ProjectTestConcluded.Project.TMC}"));
+                    .Add(new Paragraph($"TMC #: {HelperTestBase.ProjectTestConcluded.ProjectTestSample?.TMC}"));
                 table.AddCell(cell_TMC);
 
                 Cell cell_Operator = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Operator: {HelperTestBase.ProjectTestConcluded.Project.User.UName}"));
+                    .Add(new Paragraph($"Operator: {HelperApp.UserName}"));
                 table.AddCell(cell_Operator);
 
                 #endregion
@@ -18255,13 +19535,13 @@ namespace Continental.Project.Adam.UI.Helper
                 Cell cell_ProductionDate = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Production Date: {HelperTestBase.ProjectTestConcluded.Project.ProductionDate}"));
+                    .Add(new Paragraph($"Production Date: {HelperTestBase.ProjectTestConcluded.ProjectTestSample?.ProductionDate}"));
                 table.AddCell(cell_ProductionDate);
 
                 Cell cell_TestingDate = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Testing Date: {HelperTestBase.ProjectTestConcluded.Project.TestingDate}"));
+                    .Add(new Paragraph($"Testing Date: {HelperTestBase.ProjectTestConcluded.ProjectTestSample?.LastUpdatePTS}"));
                 table.AddCell(cell_TestingDate);
 
                 Cell cell_PassedFailed = new Cell(1, 4)
@@ -18403,7 +19683,7 @@ namespace Continental.Project.Adam.UI.Helper
                 Cell cellTable_Footer = new Cell(1, 5)
                     .SetFontSize(7)
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .Add(new Paragraph($"{HelperTestBase.ProjectTestConcluded.Project.Comment}"));
+                    .Add(new Paragraph($"{HelperTestBase.ProjectTestConcluded.ProjectTestSample?.Comment}"));
                 table.AddCell(cellTable_Footer);
 
                 #endregion
@@ -18486,7 +19766,7 @@ namespace Continental.Project.Adam.UI.Helper
                     MessageBox.Show("Failed, create report file !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
                 {
-                    if (DialogResult.Yes == MessageBox.Show("\tFile Report Saved!" + "\n\n\n" + "Do you want Open report test ? ", appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                    if (DialogResult.Yes == MessageBox.Show("\t FILE REPORT CREATED!" + "\n\n\n" + "Do you want Open report test ? ", appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         System.Diagnostics.Process.Start(outputFile);
                 }
 
@@ -18495,7 +19775,10 @@ namespace Continental.Project.Adam.UI.Helper
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                return false;
             }
+
+            return true;
         }
 
         #endregion
@@ -18633,35 +19916,28 @@ namespace Continental.Project.Adam.UI.Helper
 
         #region Session Project
 
-        private static int _uiProjectSelecionado;
-        private static int _uiProjectTestConcludedSelecionado;
-
-        private static int _uiProjectTestSelecionado;
-        private static string _strProjectTestSelecionado;
+        private static long _uiProjectSelecionado;
+        private static long _uiProjectTestSampleSelecionado;
+        private static long _uiProjectTestConcludedSelecionado;
         public static bool _bLoadPrjTestOffLine { get; set; }
 
         //get e set
-        public static int uiProjectSelecionado
+        public static long uiProjectSelecionado
         {
             get { return HelperApp._uiProjectSelecionado; }
             set { HelperApp._uiProjectSelecionado = value; }
         }
-        public static int uiProjectTestConcludedSelecionado
+        public static long uiProjectTestSampleSelecionado
+        {
+            get { return HelperApp._uiProjectTestSampleSelecionado; }
+            set { HelperApp._uiProjectTestSampleSelecionado = value; }
+        }
+        public static long uiProjectTestConcludedSelecionado
         {
             get { return HelperApp._uiProjectTestConcludedSelecionado; }
             set { HelperApp._uiProjectTestConcludedSelecionado = value; }
         }
 
-        public static int uiProjectTestSelecionado
-        {
-            get { return HelperApp._uiProjectTestSelecionado; }
-            set { HelperApp._uiProjectTestSelecionado = value; }
-        }
-        public static string strProjectTestSelecionado
-        {
-            get { return HelperApp._strProjectTestSelecionado; }
-            set { HelperApp._strProjectTestSelecionado = value; }
-        }
         public static bool bLoadPrjTestOffLine
         {
             get { return HelperApp._bLoadPrjTestOffLine; }

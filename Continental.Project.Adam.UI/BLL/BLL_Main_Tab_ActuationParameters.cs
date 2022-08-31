@@ -70,11 +70,8 @@ namespace Continental.Project.Adam.UI.BLL
                 string sql = sb.ToString();
 
                 DataTable dt = db.GetDataTable(sql);
-
-                if (dt != null)
-                    return dt;
-                else
-                    return null;
+                
+                return dt != null ? dt : null;
             }
             catch (Exception ex)
             {
@@ -112,10 +109,7 @@ namespace Continental.Project.Adam.UI.BLL
 
                 DataTable dt = db.GetDataTable(sql);
 
-                if (dt != null)
-                    return dt;
-                else
-                    return null;
+                return dt != null ? dt : null;
             }
             catch (Exception ex)
             {
