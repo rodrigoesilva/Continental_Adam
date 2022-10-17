@@ -5,6 +5,7 @@ using Continental.Project.Adam.UI.Models.Manager;
 using Continental.Project.Adam.UI.Models.Operational;
 using Continental.Project.Adam.UI.Models.Security;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
@@ -91,7 +92,8 @@ namespace Continental.Project.Adam.UI.BLL
                 if (string.IsNullOrEmpty(IdTestAvailable))
                 {
                     sb.Append(" PTS.[IdProject] as Id");
-                    sb.Append(" ,TA.[Test] as Name");
+                    sb.Append(" ,CONCAT('T',TA.[IdTestAvailable],' - ',TA.[Test]) AS Name");
+                    //sb.Append(" ,TA.[Test] AS Name");
                     sb.Append(" ,TA.[IdTestAvailable]");
                 }
                 else
@@ -103,6 +105,7 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append(" [Operational_Project_TestConcluded] PTC");
                 sb.Append(" INNER JOIN [Operational_Project_TestSample] PTS ON PTS.[IdProjectTestSample] = PTC.[IdProjectTestSample]");
                 sb.Append(" INNER JOIN [Manager_TestAvailable] TA ON TA.[IdTestAvailable] = PTC.[IdTestAvailable]");
+                sb.Append(" INNER JOIN [Manager_TestGroup] TG ON TG.[IdTestGroup] = TA.[IdTestGroup]");
                 sb.Append(" WHERE");
                 sb.Append(" PTS.[IdProject] = " + idProject.Trim());
                 sb.Append(" ORDER BY");
@@ -352,6 +355,125 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
+        public int GetMaxProjectSampleTestByIdProject(string strIdProject)
+        {
+            int retMaxSampleSequence = 0;
+
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT");
+                sb.Append(" MAX(SampleSequence) AS MaxSampleSequence");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestSample]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProject] = '" + strIdProject.Trim() + "'");
+
+                string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                if (dt != null)
+                    retMaxSampleSequence = Convert.ToInt32(dt.Rows[0]["MaxSampleSequence"].ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetMaxProjectSampleTestByIdProject : " + ex.Message);
+                throw (ex);
+            }
+
+            return retMaxSampleSequence;
+        }
+
+        public int GetCountProjectSampleTestByIdProject(string strIdProject)
+        {
+            int retProj = 0;
+
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT");
+                sb.Append(" Count(*) AS ProjectTestSampleCount");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestSample]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProject] = '" + strIdProject.Trim() + "'");
+
+                string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                if (dt != null)
+                    retProj = Convert.ToInt32(dt.Rows[0]["ProjectTestSampleCount"].ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetCountProjectSampleTestByIdProject : " + ex.Message);
+                throw (ex);
+            }
+
+            return retProj;
+        }
+        public int CheckProjectByIdent(string strIdent)
+        {
+            int retProj = 0;
+
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT");
+                sb.Append(" Count(*) AS IdentCount");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project]");
+                sb.Append(" WHERE");
+                sb.Append(" [Identification] = '" + strIdent.Trim() + "'");
+
+                string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                if (dt != null)
+                    retProj = Convert.ToInt32(dt.Rows[0]["IdentCount"].ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - CheckProjectByIdent : " + ex.Message);
+                throw (ex);
+            }
+
+            return retProj;
+        }
+        public string GetProjectIdentificationByIdProject(string strIdProject)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT");
+                sb.Append(" [Identification]");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProject] = " + strIdProject.Trim());
+
+               string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                if (dt != null)
+                    return dt.Rows[0]["Identification"]?.ToString()?.Trim();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - GetProjectTestFileNameByIdProject : " + ex.Message);
+                throw (ex);
+            }
+
+            return string.Empty;
+        }
 
         #endregion
 
@@ -472,7 +594,8 @@ namespace Continental.Project.Adam.UI.BLL
 
         #region DELETE
 
-        public bool DeleteProjectTestConcluded(string idProjectTestConcluded, string idProject)
+        //public bool DeleteProjectTestConcluded(string idProjectTestConcluded, string idProjectTestSample, string idProject)
+        public bool DeleteProjectTestConcluded(string idProjectTestConcluded)
         {
             try
             {
@@ -484,11 +607,6 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append(" WHERE");
                 sb.Append(" [IdProjectTestConcluded] = " + idProjectTestConcluded.Trim());
 
-                sb.Append("; DELETE");
-                sb.Append(" FROM");
-                sb.Append(" [Operational_Project]");
-                sb.Append(" WHERE");
-                sb.Append(" [IdProject] = " + idProject.Trim());
 
                 string sql = sb.ToString();
 
@@ -502,7 +620,6 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-
         public bool DeleteProjectTestSample(string idProjectTestSample)
         {
             try
@@ -535,6 +652,27 @@ namespace Continental.Project.Adam.UI.BLL
 
                 sb.Append("DELETE");
                 sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestConcluded]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProjectTestConcluded]");
+                sb.Append(" IN");
+                sb.Append(" (");
+                sb.Append(" SELECT");
+                sb.Append(" [IdProjectTestSample]");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestSample]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProject] = '" + idProject.Trim() + "'");
+                sb.Append(" )");
+
+                sb.Append("; DELETE");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestSample]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProject] = '" + idProject.Trim() + "'");
+
+                sb.Append("; DELETE");
+                sb.Append(" FROM");
                 sb.Append(" [Operational_Project]");
                 sb.Append(" WHERE");
                 sb.Append(" [IdProject] = " + idProject.Trim());
@@ -551,7 +689,7 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-        public bool DeleteTest(string idTest)
+        public bool DeleteTest(string idProjectTestConcluded, string idProjectTestSample)
         {
             try
             {
@@ -559,9 +697,15 @@ namespace Continental.Project.Adam.UI.BLL
 
                 sb.Append("DELETE");
                 sb.Append(" FROM");
-                sb.Append(" [Operational_Project] OP");
+                sb.Append(" [Operational_Project_TestConcluded]");
                 sb.Append(" WHERE");
-                sb.Append(" [IdProject] = " + idTest.Trim());
+                sb.Append(" [IdProjectTestConcluded] = " + idProjectTestConcluded.Trim());
+
+                sb.Append("; DELETE");
+                sb.Append(" FROM");
+                sb.Append(" [Operational_Project_TestSample]");
+                sb.Append(" WHERE");
+                sb.Append(" [IdProjectTestSample] = " + idProjectTestSample.Trim());
 
                 string sql = sb.ToString();
 
@@ -575,36 +719,7 @@ namespace Continental.Project.Adam.UI.BLL
                 throw (ex);
             }
         }
-        public int CheckProjectByIdent(string strIdent)
-        {
-            int retProj = 0;
-
-            try
-            {
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append("SELECT");
-                sb.Append(" Count(*) AS IdentCount");
-                sb.Append(" FROM");
-                sb.Append(" [Operational_Project]");
-                sb.Append(" WHERE");
-                sb.Append(" [Identification] = '" + strIdent.Trim() + "'");
-
-                string sql = sb.ToString();
-
-                DataTable dt = db.GetDataTable(sql);
-
-                if (dt != null)
-                    retProj = Convert.ToInt32(dt.Rows[0]["IdentCount"].ToString());
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("**** | Error | ****  BLL_Operational_Project - CheckProjectByIdent : " + ex.Message);
-                throw (ex);
-            }
-
-            return retProj;
-        }
+        
         #endregion
 
         #region SAVE

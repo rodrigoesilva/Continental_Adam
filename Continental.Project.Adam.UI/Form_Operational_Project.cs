@@ -9,6 +9,7 @@ using Continental.Project.Adam.UI.Enum;
 using Continental.Project.Adam.UI.Models.Security;
 using Continental.Project.Adam.UI.Helper.Tests;
 using Continental.Project.Adam.UI.Models.Manager;
+using System.Collections.Generic;
 
 namespace Continental.Project.Adam.UI
 {
@@ -26,8 +27,10 @@ namespace Continental.Project.Adam.UI
         bool selected_entry = false;
 
         string strIdProjectTestConcluded = string.Empty;
+        string strIdProjectTestSampleSelect = string.Empty;
         string strIdProjectSelect = string.Empty;
-        string strIdTestSelect = string.Empty;
+
+        string _strTestSel = string.Empty;
 
         #endregion
 
@@ -47,16 +50,7 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                //	UpdateSQLSet();
-                AvailableProject_GetInfoData();
-
                 Load_StartInfoData();
-
-                DisableButtons();
-
-                mchk_CBPrintSeries.Checked = false;
-                mchk_CBExportBitmapSeries.Checked = false;
-                mchk_CBExportExcelSeries.Checked = false;
             }
             catch (Exception ex)
             {
@@ -159,11 +153,21 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
+                grid_ProjectTest.DataSource = new DataTable();
+
+                tree_Projects.BeginUpdate();
+                tree_Projects.CollapseAll();
+                tree_Projects.EndUpdate();
+
                 tree_Projects.Nodes.Clear();
 
                 DataTable dt = bll_Project.GetAvailableProjects();
 
                 TreeView_Populate(dt, 0, null);
+
+                CurrentProjectData_Clear();
+
+                mtxt_Ident.Focus();
             }
             catch (Exception ex)
             {
@@ -176,6 +180,8 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
+                AvailableProject_GetInfoData();
+
                 mtxt_TestTypeName.ReadOnly = true;
 
                 mtxt_Tester.Text = _helperApp.GetUserName(HelperApp.UserId)?.ToUpper();
@@ -183,6 +189,10 @@ namespace Continental.Project.Adam.UI
                 mtxt_Tester.ReadOnly = true;
 
                 mtxt_TestingDate.Text = DateTime.Now.ToString("MM/dd/yyyy");
+
+                DisableButtons();
+
+                DisableChecks();
             }
             catch (Exception ex)
             {
@@ -191,10 +201,34 @@ namespace Continental.Project.Adam.UI
             }
         }
         ///---------------------------------------------------------------------------
-        private void ClearExplorers()
+        private bool TEST_Concluded_DeleteFileData()
         {
-            tree_Projects.Nodes.Clear(); ;
-            grid_ProjectTest.DataSource = null;
+            try
+            {
+                string _initialDirPathTestFile = System.IO.Path.Combine(System.IO.Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppTests_Path);
+
+                string fileIdentificationTest =string.Empty;
+
+                if (modelOperationalProjectTestConcluded != null && !string.IsNullOrEmpty(strIdProjectTestSampleSelect)) //delete SAMPLE
+                    fileIdentificationTest = string.Concat('#', modelOperationalProjectTestConcluded.ProjectTestSample?.SampleSequence,'#', modelOperationalProjectTestConcluded.ProjectTestSample?.Project?.Identification?.Trim());
+                else
+                    fileIdentificationTest = bll_Project.GetProjectIdentificationByIdProject(strIdProjectSelect); //delete PROJECT
+
+                string[] allFiles = System.IO.Directory.GetFiles(_initialDirPathTestFile);
+
+                foreach (string file in allFiles)
+                {
+                    if (file.Contains(fileIdentificationTest.Trim()))
+                        System.IO.File.Delete(file);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception Occured while releasing object " + ex.ToString(), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
         }
         ///---------------------------------------------------------------------------
         private bool SaveProjectData()
@@ -290,8 +324,29 @@ namespace Continental.Project.Adam.UI
 
                     modelPrjTestConcluded = HeaderDataToModel(modelPrjTestConcluded);
 
+                    if (modelPrjTestConcluded.IdProjectTestConcluded == 0)
+                    {
+                        modelPrjTestConcluded.IdProjectTestConcluded = modelOperationalProjectTestConcluded.IdProjectTestConcluded;
+                        modelPrjTestConcluded.IdProjectTestSample = modelOperationalProjectTestConcluded.IdProjectTestSample;
+                        modelPrjTestConcluded.IdTestAvailable = modelOperationalProjectTestConcluded.IdTestAvailable;
+                        modelPrjTestConcluded.LastUpdatePTC = modelOperationalProjectTestConcluded.LastUpdatePTC;
+                        modelPrjTestConcluded.ProjectTestFileName = modelOperationalProjectTestConcluded.ProjectTestFileName;
+
+                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject = modelOperationalProjectTestConcluded.ProjectTestSample.Project.IdProject;
+                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject = modelOperationalProjectTestConcluded.ProjectTestSample.IdProject;
+                    }
+                    
                     modelPrjTestConcluded.ProjectTestSample.Project.IdProject = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject;
                     modelPrjTestConcluded.ProjectTestSample.IdProject = HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject;
+                    modelPrjTestConcluded.ProjectTestSample.IdProjectTestSample = modelOperationalProjectTestConcluded.IdProjectTestSample;
+                    modelPrjTestConcluded.ProjectTestSample.SampleSequence = modelOperationalProjectTestConcluded.ProjectTestSample.SampleSequence;
+                    modelPrjTestConcluded.ProjectTestSample.TestAvailable = modelOperationalProjectTestConcluded.ProjectTestSample.TestAvailable;
+
+                    //update max sample
+                    if (HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject > 0)
+                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = bll_Project.GetMaxProjectSampleTestByIdProject(HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject.ToString());
+
+
                     modelPrjTestConcluded.ProjectTestSample.SampleSequence = HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence;
                     modelPrjTestConcluded.ProjectTestSample.SampleSequence = modelPrjTestConcluded.ProjectTestSample.SampleSequence + 1;
 
@@ -404,13 +459,34 @@ namespace Continental.Project.Adam.UI
                             if (!string.IsNullOrEmpty(selected.Tag?.ToString()))
                             {
                                 strIdProjectSelect = selected.Tag.ToString();
-                                string strTestTypeName = selected.Text?.ToString()?.Trim();
 
-                                DataTable dt = bll_Project.GetChildTestsByProjectAndTestType(strIdProjectSelect, strTestTypeName);
+                                int idxTextRemove = selected.Text.ToString().IndexOf('-') + 2;
 
-                                GridView_Populate(dt);
+                                _strTestSel = selected.Text.Trim();
 
-                                mbtn_BDeleteProject.Enabled = false;
+                                string strTestTypeName = !string.IsNullOrEmpty(_strTestSel?.Trim()) ? _strTestSel?.ToString().Substring(idxTextRemove, _strTestSel.Length - idxTextRemove).Trim() : string.Empty;
+
+                                if (!string.IsNullOrEmpty(strTestTypeName))
+                                {
+                                    DataTable dt = bll_Project.GetChildTestsByProjectAndTestType(strIdProjectSelect, strTestTypeName);
+
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        GridView_Populate(dt);
+
+                                        mbtn_BDeleteProject.Enabled = false;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Projets not found with Test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Projets not found with Test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
                             }
                         }
                         else
@@ -418,6 +494,8 @@ namespace Continental.Project.Adam.UI
                             if (!string.IsNullOrEmpty(selected.Tag?.ToString()))
                             {
                                 strIdProjectSelect = selected.Tag?.ToString()?.Trim();
+
+                                DisableButtons();
 
                                 mbtn_BDeleteProject.Enabled = true;
                             }
@@ -468,6 +546,14 @@ namespace Continental.Project.Adam.UI
                                 {
                                     ModelToHeaderData(modelOperationalProjectTestConcluded);
 
+                                    strIdProjectTestConcluded = modelOperationalProjectTestConcluded.IdProjectTestConcluded.ToString();
+                                    strIdProjectTestSampleSelect = modelOperationalProjectTestConcluded.IdProjectTestSample.ToString();
+                                    strIdProjectSelect = !string.IsNullOrEmpty(strIdProjectSelect) ? strIdProjectSelect : modelOperationalProjectTestConcluded.ProjectTestSample.IdProject.ToString();
+
+                                    modelOperationalProjectTestConcluded.ProjectTestSample.Project.is_OnLIne = true;
+                                    modelOperationalProjectTestConcluded.ProjectTestSample.Project.is_OnLIne = false;
+
+                                    mbtn_BDeleteProject.Enabled = false;
                                     EnableButtons();
                                 }
                             }
@@ -742,17 +828,33 @@ namespace Continental.Project.Adam.UI
 
         #endregion
 
-        #region BUTTONS
+        #region Checks
 
+        private void EnableChecks()
+        {
+            mchk_CBPrintSeries.Checked = true;
+            mchk_CBExportBitmapSeries.Checked = true;
+            mchk_CBExportExcelSeries.Checked = true;
+        }
+
+        private void DisableChecks()
+        {
+            mchk_CBPrintSeries.Checked = false;
+            mchk_CBExportBitmapSeries.Checked = false;
+            mchk_CBExportExcelSeries.Checked = false;
+        }
+
+        #endregion
+
+        #region BUTTONS
         private void EnableButtons()
         {
             mbtn_BDeleteTest.Enabled = true;
             mbtn_BLoadTest.Enabled = true;
         }
-
         private void DisableButtons()
         {
-
+            mbtn_BDeleteProject.Enabled = false;
             mbtn_BDeleteTest.Enabled = false;
             mbtn_BLoadTest.Enabled = false;
         }
@@ -777,7 +879,8 @@ namespace Continental.Project.Adam.UI
                                 }
                                 else
                                 {
-                                    if (HelperTestBase.ProjectTestSample.SampleSequence == modelOperationalProjectTestConcluded?.ProjectTestSample.SampleSequence)
+                                    if (HelperTestBase.ProjectTestSample.Project.Identification.Equals(modelOperationalProjectTestConcluded?.ProjectTestSample.Project.Identification) && 
+                                        HelperTestBase.ProjectTestSample.SampleSequence.Equals(modelOperationalProjectTestConcluded?.ProjectTestSample.SampleSequence))
                                     {
                                         selected_entry = false;
 
@@ -805,7 +908,7 @@ namespace Continental.Project.Adam.UI
 
                     if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestSample?.Project?.IdProject > 0)
                     {
-                        if (DialogResult.Yes == MessageBox.Show($"      You want the selected Project data  \n\n\t {HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.Identification} \n\n    and all it´s measurement data ? \n\n        Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                        if (DialogResult.Yes == MessageBox.Show($"      You want the selected Project data  \n\n\t {HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.Identification} \n\n\t {_strTestSel} \n\n         all it´s measurement data ? \n\n        Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         {
                             HelperApp.bLoadPrjTestOffLine = true;
 
@@ -840,15 +943,25 @@ namespace Continental.Project.Adam.UI
             {
                 if (!string.IsNullOrEmpty(strIdProjectSelect))
                 {
-                    if (DialogResult.Yes == MessageBox.Show("Are you sure to drop the selected test and all it´s measurement data?" + "\n" + "Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                    if (DialogResult.Yes == MessageBox.Show("Are you sure to drop the selected test and all it´s measurement data?" + "\n\n" + "\t Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
                     {
-                        if (!bll_Project.DeleteTest(strIdProjectSelect))
+                        if (!bll_Project.DeleteTest(strIdProjectTestConcluded, strIdProjectTestSampleSelect))
+                        {
                             MessageBox.Show("Error drop select Test item", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                         else
-                            MessageBox.Show("Test data DELETED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        { 
+                            if(!TEST_Concluded_DeleteFileData())
+                            {
+                                MessageBox.Show("Error when deleting Test Files of select Test item", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
 
-                        //        UpdateSQLSet();
-                        AvailableProject_GetInfoData();
+                        Load_StartInfoData();
+
+                        MessageBox.Show("Test data sample DELETED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 else
@@ -867,25 +980,32 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                if (!string.IsNullOrEmpty(strIdProjectTestConcluded) && !string.IsNullOrEmpty(strIdProjectSelect))
+                if (!string.IsNullOrEmpty(strIdProjectSelect))
                 {
-                    if (DialogResult.Yes == MessageBox.Show("Are you sure to drop the selected test and all it´s measurement data?" + "\n" + "Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                    if (DialogResult.Yes == MessageBox.Show("Are you sure to drop the selected Project and all it´s measurement data?" + "\n\n" + "\t Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
                     {
-                        //delet project test
-                        //delete [DB_ADAM].[dbo].[Operational_Project_TestConcluded] where [IdProject] = 10072
-                        //--delete[DB_ADAM].[dbo].[Operational_Project] where[IdProject] = 10072
-
-                        if (!bll_Project.DeleteProjectTestConcluded(strIdProjectTestConcluded, strIdProjectSelect))
-                            MessageBox.Show("Error drop select Test item", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (!TEST_Concluded_DeleteFileData())
+                        {
+                            MessageBox.Show("Error when deleting Test Files of select Test item", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                         else
-                            MessageBox.Show("Project data DELETED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        {
+                            if (!bll_Project.DeleteProject(strIdProjectSelect))
+                            {
+                                MessageBox.Show("Error drop select Test item", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
 
-                        AvailableProject_GetInfoData();
+                        Load_StartInfoData();
+
+                        MessageBox.Show("Test data sample DELETED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Error no valid Test selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error no valid Project selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -925,12 +1045,32 @@ namespace Continental.Project.Adam.UI
             {
                 if (CheckProjectExists())
                 {
-                    if (SaveProjectTestSampleData())
-                        HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]");
+                    string strMsgProjectExists = String.Concat($"\t PROJECT { mtxt_Ident.Text.Trim() } EXISTS !", "\n\n\n", "\tDo you want SAVE NEW SAMPLE for Test ? ", "\n\n\n", $"\t\t {string.Concat("T",modelOperationalProjectTestConcluded.IdTestAvailable, " - ", modelOperationalProjectTestConcluded.ProjectTestSample.TestAvailable.Test)}");
+
+                    if (DialogResult.No == MessageBox.Show(strMsgProjectExists, _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                    {
+                        HelperApp.bLoadPrjTestOffLine = false;
+
+                        HelperApp.bPrjTestCreateNewSampleOnLine = false;
+
+                        delegateFnLoadTestConcluded(false);
+                        this.Close();
+                    }
                     else
                     {
-                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
-                        CurrentProjectData_Clear();
+                        if (SaveProjectTestSampleData())
+                        {
+                            HelperApp.bLoadPrjTestOffLine = false;
+
+                            HelperApp.bPrjTestCreateNewSampleOnLine = true;
+
+                            HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]", " - # Sample : ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence, "");
+                        }
+                        else
+                        {
+                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
+                            CurrentProjectData_Clear();
+                        }
                     }
                 }
                 else
@@ -939,9 +1079,11 @@ namespace Continental.Project.Adam.UI
                     {
                         HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = true;
 
+                        HelperApp.bPrjTestCreateNewSampleOnLine = true;
+
                         HelperApp.uiProjectSelecionado = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject;
 
-                        HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]");
+                        HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]", " - # Sample : ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence, "");
 
                         MessageBox.Show("Success, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -951,6 +1093,8 @@ namespace Continental.Project.Adam.UI
 
                         CurrentProjectData_Clear();
                     }
+
+                    //HelperApp.bPrjTestCreateNewSampleOnLine = false;
                 }
 
                 HelperApp.bLoadPrjTestOffLine = false;

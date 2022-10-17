@@ -1252,8 +1252,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rReleaseForceAt_mm;// : REAL; //Deslocamento para mostrar a forca no retorno.
         public double rPressaoCutIn_Bar;// : REAL; //Pressao na qual eh obtida a forca de cut-in, Padrao normalizado 0.2, mas como parametro pois pode mudar um dia.
 
-
-
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
         public double rTemperaturaInicial;// : REAL;
@@ -1303,7 +1301,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bEmCiclo;
         public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
-        //
         public bool bCalculaResultados;// : BOOL;
 
         //Parametros do teste
@@ -1315,8 +1312,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rReleaseForceFoutMax_N;// : REAL; //Forca Fout para calculo da forca no retorno, valor maximo
         public double rReleaseForceAt_mm;// : REAL; //Deslocamento para mostrar a forca no retorno.
         public double rPressaoCutIn_Bar;// : REAL; //Pressao na qual eh obtida a forca de cut-in, Padrao normalizado 0.2, mas como parametro pois pode mudar um dia.
-
-        //
 
         //Resultados do teste
         public double rVacuoInicial;// : REAL;
@@ -1369,7 +1364,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bEmCiclo;
         public int iMontagemArco = 0;   //0=irrelevante 1=sem arco 2=com arco
 
-        //
         public bool bCalculaResultados;// : BOOL;
 
         //Parametros e resultados do teste
@@ -1397,7 +1391,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public bool bEmCiclo;
         public int iMontagemArco = 1;   //0=irrelevante 1=sem arco 2=com arco
 
-        //
         public bool bCalculaResultados;// : BOOL;
 
         //Parametros do teste
@@ -1453,7 +1446,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rForcaMaximaAbsoluta_N;// : REAL;			//Forca maxima para o teste simples + absoluto
         public double rForcaMaximaRelativa;// : REAL;			//Forca maxima para o teste simples + relativo
         public double rForcaMaximaRelativa_N;// : REAL;			//Resultado Runout Force * rForcaMaximaRelativa
-
 
         public double rRunOutForceRef;// : REAL; 					// Run Out Force Utilizada como referencia do teste (Parametros e ao mesmo tempo mostrado como resultado)
 
@@ -2024,6 +2016,7 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rDeslocamentoNaPressao; // : REAL; //Obter o  valor do deslocamento na pressao definida aqui (em % de pout)
         public double rGradientePressaoMin_bar; // : REAL; //Pressao para calculo da forca no retorno, valor minimo
         public double rGradientePressaoMax_bar; // : REAL; //Pressao para calculo da forca no retorno, valor maximo
+
         #endregion
 
         #region Resultados do teste
@@ -2172,7 +2165,6 @@ namespace Continental.Project.Adam.UI.Models.COM
         public double rSwitchPointTolPos; //  ;REAL;
         public double rSwitchPointTolNeg; //  ;REAL;
         public double rDiametroCMD_mm; //  ;REAL; //Diametro do CMD
-
 
         //Resultados do teste
         public double rVacuoInicial; //  ;REAL;

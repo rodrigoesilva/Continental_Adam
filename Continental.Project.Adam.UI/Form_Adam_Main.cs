@@ -123,8 +123,6 @@ namespace Continental.Project.Adam.UI
         private bool _bAppStart = false;
         private bool _bCoBSelectTestSelected = false;
         private bool _bUseChkGrid = false;
-        bool bTabAccessOk = false;
-        private bool _bRunTestExecuted = false;
 
         private string _notReadValue = "NaN";
         private string _initialDirPathTestFile = string.Empty;
@@ -133,6 +131,8 @@ namespace Continental.Project.Adam.UI
         private string _prjTestFileNameWithPath = string.Empty;
         private string _prjTestHeaderFileNameWithPath = string.Empty;
         private string _prjTestUnionFileNameWithPath = string.Empty;
+
+        private int _prjTestMaxSampleSeq = 0;
 
         private string _strTimeStamp = DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
@@ -275,7 +275,7 @@ namespace Continental.Project.Adam.UI
 
                     //"Check Test Running";
                     //if (HelperMODBUS.CS_wEmCiclo)
-                    //    TEST_Stop_Command();
+                    TEST_Stop_Command();
 
                     //Check Database
                     new BLL_Operational_Project().DeleteProjectTestConcludedOrphan();
@@ -586,6 +586,10 @@ namespace Continental.Project.Adam.UI
 
             tStatusLabel02.Text = string.IsNullOrEmpty(HelperApp.lblstsbar02) ? HelperApp.UserName : HelperApp.lblstsbar02;
 
+            var _fakeRunTestMaxSampleSeq = HelperTestBase.running ? HelperTestBase.ProjectTestConcluded.ProjectTestSample?.SampleSequence + 1 : HelperTestBase.ProjectTestConcluded.ProjectTestSample?.SampleSequence;
+            HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]", " - # Sample : ", _fakeRunTestMaxSampleSeq, "");
+
+
             tStatusLabel03.Text = string.IsNullOrEmpty(HelperApp.lblstsbar03) ? string.Concat("Ident # - [ ", _notReadValue, " ]") : HelperApp.lblstsbar03;
 
             HelperApp.lblstsbar04 = DateTime.Now.ToString();
@@ -635,7 +639,7 @@ namespace Continental.Project.Adam.UI
         }
         private void mtbn_BExportTestToXLS_Click(object sender, EventArgs e)
         {
-            if (!_bRunTestExecuted)
+            if (!HelperApp.bRunTestExecuted)
             {
                 MessageBox.Show("Test data unavailable !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -651,7 +655,7 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                if (!_bRunTestExecuted)
+                if (!HelperApp.bRunTestExecuted)
                 {
                     MessageBox.Show("Report data unavailable !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -754,7 +758,7 @@ namespace Continental.Project.Adam.UI
             tab_TableResultsEnable = false;
             tab_ChartEnable = false;
 
-            _bRunTestExecuted = false;
+            HelperApp.bRunTestExecuted = false;
         }
 
         #endregion
@@ -769,10 +773,10 @@ namespace Continental.Project.Adam.UI
             switch (strTabSelected)
             {
                 case "tab_Diagram":
-                    bTabAccessOk = _bRunTestExecuted && tab_ChartEnable && HelperApp.uiTesteSelecionado > 0;
+                    bTabAccessOk = HelperApp.bRunTestExecuted && tab_ChartEnable && HelperApp.uiTesteSelecionado > 0;
                     break;
                 case "tab_TableResults":
-                    bTabAccessOk = _bRunTestExecuted && tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0;
+                    bTabAccessOk = HelperApp.bRunTestExecuted && tab_TableResultsEnable && HelperApp.uiTesteSelecionado > 0;
                     break;
                 case "Tab_ActuationParameters":
                     bTabAccessOk = true;
@@ -867,10 +871,6 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                //if (!tab_TableResultsEnable && !_bRunTestExecuted)
-                //    return false;
-                //else
-                //{
                 if (HelperApp.uiTesteSelecionado != 0)
                 {
                     //grid
@@ -906,7 +906,6 @@ namespace Continental.Project.Adam.UI
 
                     return false;
                 }
-                //}
             }
             catch (Exception ex)
             {
@@ -927,7 +926,6 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-
                 #region Get Grids Info
 
                 //data info Grid Results
@@ -1664,25 +1662,81 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (TAB_ActuationParameters_EvalParameters_Grid_Format())
                                 {
+                                    //OFF LINE
                                     if (HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.Project != null)
                                     {
-                                        lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+                                        //lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+
+                                        #region Update Data - PARAMETERS GRID -|
 
                                         if (!HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_OnLIne)
                                         {
                                             if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject > 0)
                                             {
-                                                //Update Data  OFF LINE |- PARAMETERS GRID -|
+                                                #region Update Data  OFF LINE |- PARAMETERS GRID -|
+
                                                 lstInfoEvaluationParameters = new List<ActuationParameters_EvaluationParameters>();
                                                 lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
 
-                                                for (int i = 0; i < lstInfoEvaluationParameters.Count; i++)
+                                                if (lstInfoEvaluationParameters == null)
                                                 {
-                                                    string strGridParam_Name = grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Name"].Value?.ToString();
+                                                    MessageBox.Show("Error, failed load rows data test - GetValuesEvalParamOffLineByFile!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                                    string strGridParamHeaderFile_Value = lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals(strGridParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString("F2")?.Trim();
+                                                    return false;
+                                                }
+                                                else
+                                                {
+                                                    for (int i = 0; i < lstInfoEvaluationParameters.Count; i++)
+                                                    {
+                                                        string strGridParam_Name = grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Name"].Value?.ToString();
 
-                                                    grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Hi"].Value = strGridParamHeaderFile_Value;
+                                                        string strGridParamHeaderFile_Value = !string.IsNullOrEmpty(strGridParam_Name) ? lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals(strGridParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString("F2")?.Trim() : string.Empty;
+
+                                                        if (!string.IsNullOrEmpty(strGridParam_Name))
+                                                            grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Hi"].Value = strGridParamHeaderFile_Value;
+                                                        else
+                                                        {
+                                                            switch (HelperApp.uiTesteSelecionado)
+                                                            {
+                                                                //Tests with blank line
+                                                                //Tests 1,2 check in last line
+                                                                case 5:
+                                                            case 6:
+                                                                case 7:
+                                                                case 8:
+                                                                case 9:
+                                                                case 10:
+                                                                case 13:
+                                                                case 14:
+                                                                case 17:
+                                                                case 18:
+                                                                case 19:
+                                                                case 20:
+                                                                case 21:
+                                                                case 22:
+                                                            case 23:
+                                                                case 24:
+                                                                case 25:
+                                                                case 26:
+                                                                case 27:
+                                                                case 28:
+                                                                    {
+                                                                        grid_tabActionParam_EvalParam.Rows[2].Cells["EvalParam_Hi"].ValueType = typeof(string); //blank line
+
+                                                                        grid_tabActionParam_EvalParam.Rows[2].Cells["EvalParam_Hi"].Style.ForeColor = Color.White;
+                                                                        grid_tabActionParam_EvalParam.Rows[2].Cells["EvalParam_Hi"].Style.BackColor = Color.White;
+                                                                        grid_tabActionParam_EvalParam.Rows[2].Cells["EvalParam_Hi"].Style.SelectionBackColor = Color.White;
+                                                                        grid_tabActionParam_EvalParam.Rows[2].Cells["EvalParam_Hi"].Style.SelectionForeColor = Color.White;
+
+                                                                        break;
+                                                                    }
+                                                                default:
+                                                                    {
+                                                                        break;
+                                                                    }
+                                                            }
+                                                        }
+                                                    }
                                                 }
 
                                                 //Update Data  OFF LINE |- PARAMETERS -|
@@ -1732,8 +1786,14 @@ namespace Continental.Project.Adam.UI
 
                                                     #endregion
                                                 }
+
+                                                #endregion
                                             }
+                                            else
+                                                lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
                                         }
+
+                                        #endregion
                                     }
                                     else
                                         lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
@@ -1749,7 +1809,6 @@ namespace Continental.Project.Adam.UI
                                         return false;
                                     }
                                 }
-
                                 else
                                 {
                                     MessageBox.Show("Error, failed Grid_Format rows data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1768,9 +1827,9 @@ namespace Continental.Project.Adam.UI
                             return false;
                         }
                     }
-                }
 
-                #endregion
+                    #endregion
+                }
             }
             catch (Exception ex)
             {
@@ -2378,18 +2437,25 @@ namespace Continental.Project.Adam.UI
         }
         private void mcbo_GeneralSettings_CoBSelectTest_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            TAB_Disable(_helperApp.GetMethodName());
-
-            if (!_bAppStart)
-                if (HelperApp.uiProjectSelecionado == 0)
-                    TEST_Concluded_ClearData();
-
-            if (!_bAppStart)
+            try
             {
-                int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
+                TAB_Disable(_helperApp.GetMethodName());
 
-                TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, _helperApp.GetMethodName());
+                if (!_bAppStart)
+                    if (HelperApp.uiProjectSelecionado == 0)
+                        TEST_Concluded_ClearData();
+
+                if (!_bAppStart)
+                {
+                    int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
+
+                    TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, _helperApp.GetMethodName());
+                }
+            }
+            catch (Exception ex)
+            {
+                var msgError = ex.Message;
+                throw;
             }
         }
         public void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(int idxSelected, string origin)
@@ -2451,6 +2517,35 @@ namespace Continental.Project.Adam.UI
                             _modelGVL.GVL_Graficos.iOutput = _modelGVL.GVL_Parametros.iOutput;
 
                             HelperTestBase.Model_GVL.GVL_Graficos = _modelGVL.GVL_Graficos;
+
+                            #endregion
+
+                            #region Consumers                            
+
+                            switch (idxSelected)
+                            {
+                                case 9:     //Hydraulic Leakage - At Low Pressure
+                                case 10:     //Hydraulic Leakage - At High Pressure
+                                    {
+                                        grpRadConsumer.Visible = false;
+
+                                        mtxt_GeneralSettings_ETubeConsumerPCPressSide.Enabled = false;
+                                        mtxt_GeneralSettings_ETubeConsumerSCPressSide.Enabled = false;
+                                        mbtn_GeneralSettings_BSelectTubeCons.Enabled = false;
+
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        grpRadConsumer.Visible = true;
+
+                                        mtxt_GeneralSettings_ETubeConsumerPCPressSide.Enabled = false;
+                                        mtxt_GeneralSettings_ETubeConsumerSCPressSide.Enabled = false;
+                                        mbtn_GeneralSettings_BSelectTubeCons.Enabled = true;
+
+                                        break;
+                                    }
+                            }
 
                             #endregion
 
@@ -3455,7 +3550,6 @@ namespace Continental.Project.Adam.UI
                                 break;
                             case "CREATE_ANALOG_INPUT":
                                 {
-
                                     iRowIndex = HelperApp.uiTesteSelecionado != 24 ? j : j - 4;
 
                                     strEvalParam_Name = row.Field<string>("EvalParam_Name")?.ToString()?.Trim();
@@ -3524,7 +3618,6 @@ namespace Continental.Project.Adam.UI
 
                                     DataGridViewCheckBoxCell CheckBoxCell = new DataGridViewCheckBoxCell();
                                     CheckBoxCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
 
 
                                     string[] arrEvalParam_Name = strEvalParam_Name.Split(';');
@@ -3627,43 +3720,6 @@ namespace Continental.Project.Adam.UI
                         }
                     }
 
-                    //for (int i = 0; i < dt.Rows.Count; i++)
-                    //{
-                    //    DataRow dr = dt.Rows[i];
-
-                    //    var isEmpty = dr.ItemArray.All(x => x == null || (x != null && string.IsNullOrWhiteSpace(x.ToString())));
-
-                    //    if (!isEmpty)
-                    //        listOfRows.Add(dr);
-                    //    else
-                    //    {
-                    //        if (i > countRows)
-                    //            dt.Rows.RemoveAt(i);
-                    //        else
-                    //            listOfRows.Add(dr);
-                    //    }
-                    //}
-
-                    //var dRowCount = dt.Rows.Count;
-                    //var lsRowCount = listOfRows.Count();
-
-                    //if (dRowCount != lsRowCount)
-                    //{
-                    //    //dt.AcceptChanges();
-
-                    //    for (int rowIdx = dRowCount - 1; rowIdx >= 0; rowIdx--)
-                    //    {
-                    //        DataRow dr = dt.Rows[rowIdx];
-
-                    //        if (string.IsNullOrEmpty(dr["EvalParam_Caption"].ToString()))
-                    //            if (rowIdx >= lsRowCount - 1)
-                    //                dr.Delete();
-                    //    }
-                    //    dt.AcceptChanges();
-
-                    //    grid_tabActionParam_EvalParam.DataSource = dt;
-                    //}
-                    //else
                     grid_tabActionParam_EvalParam.DataSource = dt;
                 }
 
@@ -3792,8 +3848,6 @@ namespace Continental.Project.Adam.UI
 
                         if (!string.IsNullOrEmpty(strName))
                             TAB_ActuationParameters_WriteComGridEvalParametersByTextName(strName, dblValue);
-                        else
-                            MessageBox.Show("Error, failed write rows data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -4081,7 +4135,6 @@ namespace Continental.Project.Adam.UI
 
                             switch (strName.Trim())
                             {
-
                                 case "ETimeScale":
                                     break;
 
@@ -4111,34 +4164,6 @@ namespace Continental.Project.Adam.UI
                     case 6: //Vacuum Leakage - Fully Applied Position
                         {
                             #region Case Param
-
-
-                            //0 "ETimeScale": Time Scaling
-                            //1 "EVacuumScale": Vacuum Scaling
-                            //2 "ETestingTime": Testing Time
-                            //3 "EStabTime": Vacuum Stabilization Time
-                            //4 "EForcePercentEout": Percent of Eout
-                            //5 "CBUseSingleInputForce" Use Single Input Force(instead of Eout)
-                            //6 "EInputForce": Input Force
-
-                            //case 2: //TESTING TIME
-                            //            //HelperTestBase.Model_GVL.GVL_T06.rTempoTeste = dblValue; já escreve no outro metodo
-                            //    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T06_LW }, dblValue);
-                            //    break;
-                            //case 3: //VACUUM STABILIZATION TIME
-                            //        //HelperTestBase.Model_GVL.GVL_T06.rTempoEstabilizacao = dblValue; já escreve no outro metodo
-                            //    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T06_LW }, dblValue);
-                            //    break;
-                            //case 4: //PERCENT OF EOUT
-                            //        //HelperTestBase.Model_GVL.GVL_T06.rForcaMaximaRelativa = dblValue; já escreve no outro metodo
-                            //    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T06_LW }, dblValue);
-                            //    break;
-                            //case 5: //INPUT FORCE
-                            //        //HelperTestBase.Model_GVL.GVL_T06.rForcaMaximaAbsoluta_N = dblValue; já escreve no outro metodo
-                            //    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T06_LW }, dblValue);
-                            //    break;
-                            //default:
-                            //    break;
 
                             switch (strName.Trim())
                             {
@@ -5305,11 +5330,11 @@ namespace Continental.Project.Adam.UI
                         switch (iRowIndex)
                         {
                             case 2://TESTING TIME
-                                //HelperTestBase.Model_GVL.GVL_T05.rTempoTeste = dblValue; já escreve no outro metodo
+                                   //HelperTestBase.Model_GVL.GVL_T05.rTempoTeste = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T05_LW }, dblValue);
                                 break;
                             case 3://VACUUM STABILIZATION TIME
-                                //HelperTestBase.Model_GVL.GVL_T05.rTempoEstabilizacao = dblValue; //já escreve no outro metodo
+                                   //HelperTestBase.Model_GVL.GVL_T05.rTempoEstabilizacao = dblValue; //já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T05_LW }, dblValue);
                                 break;
                             default:
@@ -5328,19 +5353,19 @@ namespace Continental.Project.Adam.UI
                             //6 "EInputForce": Input Force
 
                             case 2: //TESTING TIME
-                                //HelperTestBase.Model_GVL.GVL_T06.rTempoTeste = dblValue; já escreve no outro metodo
+                                    //HelperTestBase.Model_GVL.GVL_T06.rTempoTeste = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T06_LW }, dblValue);
                                 break;
                             case 3: //VACUUM STABILIZATION TIME
-                                //HelperTestBase.Model_GVL.GVL_T06.rTempoEstabilizacao = dblValue; já escreve no outro metodo
+                                    //HelperTestBase.Model_GVL.GVL_T06.rTempoEstabilizacao = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T06_LW }, dblValue);
                                 break;
                             case 4: //PERCENT OF EOUT
-                                //HelperTestBase.Model_GVL.GVL_T06.rForcaMaximaRelativa = dblValue; já escreve no outro metodo
+                                    //HelperTestBase.Model_GVL.GVL_T06.rForcaMaximaRelativa = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T06_LW }, dblValue);
                                 break;
                             case 5: //INPUT FORCE
-                                //HelperTestBase.Model_GVL.GVL_T06.rForcaMaximaAbsoluta_N = dblValue; já escreve no outro metodo
+                                    //HelperTestBase.Model_GVL.GVL_T06.rForcaMaximaAbsoluta_N = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T06_LW }, dblValue);
                                 break;
                             default:
@@ -5351,31 +5376,31 @@ namespace Continental.Project.Adam.UI
                         switch (iRowIndex)
                         {
                             case 2://TESTING TIME
-                                //HelperTestBase.Model_GVL.GVL_T07.rTempoTeste = dblValue; já escreve no outro metodo
+                                   //HelperTestBase.Model_GVL.GVL_T07.rTempoTeste = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T07_LW }, dblValue);
                                 break;
                             case 3://VACUUM STABILIZATION TIME
-                                //HelperTestBase.Model_GVL.GVL_T07.rTempoEstabilizacao = dblValue; já escreve no outro metodo
+                                   //HelperTestBase.Model_GVL.GVL_T07.rTempoEstabilizacao = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T07_LW }, dblValue);
                                 break;
                             case 4://RELATIVE INPUT FORCE 1
-                                //HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaAvanco = dblValue; já escreve no outro metodo
+                                   //HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaAvanco = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaAvanco_T07_LW }, dblValue);
                                 break;
                             case 5: //RELATIVE INPUT FORCE 2
-                                //HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaRetorno = dblValue; já escreve no outro metodo
+                                    //HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaRetorno = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaRetorno_T07_LW }, dblValue);
                                 break;
                             case 6: //RELATIVE INPUT FORCE 3
-                                //HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaFinal = dblValue; já escreve no outro metodo
+                                    //HelperTestBase.Model_GVL.GVL_T07.rForcaRelativaFinal = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaRelativaFinal_T07_LW }, dblValue);
                                 break;
                             case 8: //SINGLE INPUT FORCE
-                                //HelperTestBase.Model_GVL.GVL_T07.rForcaMaxima = dblValue; já escreve no outro metodo
+                                    //HelperTestBase.Model_GVL.GVL_T07.rForcaMaxima = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaRelativa_T07_LW }, dblValue);
                                 break;
                             case 9: //SINGLE INPUT FORCE (% EOUT)
-                                //HelperTestBase.Model_GVL.GVL_T07.rForcaMaximaAbsoluta_N = dblValue; já escreve no outro metodo
+                                    //HelperTestBase.Model_GVL.GVL_T07.rForcaMaximaAbsoluta_N = dblValue; já escreve no outro metodo
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwForcaMaximaAbsoluta_T07_LW }, dblValue);
                                 break;
                             default:
@@ -5439,15 +5464,15 @@ namespace Continental.Project.Adam.UI
                         switch (iRowIndex)
                         {
                             case 4: //TARGET PRESSURE PC
-                                //HelperTestBase.Model_GVL.GVL_T10.rPressaoTeste_Bar = dblValue;
+                                    //HelperTestBase.Model_GVL.GVL_T10.rPressaoTeste_Bar = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoTeste_T10_LW }, dblValue);
                                 break;
                             case 5://TESTING TIME
-                                //HelperTestBase.Model_GVL.GVL_T10.rTempoTeste = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T10.rTempoTeste = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoTeste_T10_LW }, dblValue);
                                 break;
                             case 6://STABILIZATION TIME
-                                //HelperTestBase.Model_GVL.GVL_T10.rTempoEstabilizacao = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T10.rTempoEstabilizacao = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoEstabilizacao_T10_LW }, dblValue);
                                 break;
                             default:
@@ -5458,19 +5483,19 @@ namespace Continental.Project.Adam.UI
                         switch (iRowIndex)
                         {
                             case 2: //BLOW OUT TIME
-                                //HelperTestBase.Model_GVL.GVL_T19.rTempoSopro = dblValue;
+                                    //HelperTestBase.Model_GVL.GVL_T19.rTempoSopro = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoSopro_T19_LW }, dblValue);
                                 break;
                             case 3://ACTUATION TRAVEL
-                                //HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoTeste = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T19.rDeslocamentoTeste = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwDeslocamentoTeste_T19_LW }, dblValue);
                                 break;
                             case 4://PRESSURE SYSTEM CLOSED
-                                //HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaFechado_Bar = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaFechado_Bar = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaFechado_T19_LW }, dblValue);
                                 break;
                             case 5://PRESSURE SYSTEM OPENED
-                                //HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaAberto_Bar = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T19.rPressaoSistemaAberto_Bar = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaAberto_T19_LW }, dblValue);
                                 break;
                             default:
@@ -5481,19 +5506,19 @@ namespace Continental.Project.Adam.UI
                         switch (iRowIndex)
                         {
                             case 1: //BLOW OUT TIME
-                                //HelperTestBase.Model_GVL.GVL_T20.rTempoSopro = dblValue;
+                                    //HelperTestBase.Model_GVL.GVL_T20.rTempoSopro = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwTempoSopro_T20_LW }, dblValue);
                                 break;
                             case 3://ACTUATION TRAVEL
-                                //HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoTeste = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T20.rDeslocamentoTeste = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwDeslocamentoTeste_T20_LW }, dblValue);
                                 break;
                             case 4://PRESSURE SYSTEM CLOSED
-                                //HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaFechado_Bar = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaFechado_Bar = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaFechado_T20_LW }, dblValue);
                                 break;
                             case 5://PRESSURE SYSTEM OPENED
-                                //HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaAberto_Bar = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T20.rPressaoSistemaAberto_Bar = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoSistemaAberto_T20_LW }, dblValue);
                                 break;
                             default:
@@ -5504,11 +5529,11 @@ namespace Continental.Project.Adam.UI
                         switch (iRowIndex)
                         {
                             case 1://Pressao Minima
-                                //HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMin_Bar = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMin_Bar = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoHidraulicaMin_T23_LW }, dblValue);
                                 break;
                             case 2://Pressao Maxima
-                                //HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMax_Bar = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T23.rPressaoHidraulicaMax_Bar = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwPressaoHidraulicaMax_T23_LW }, dblValue);
                                 break;
                             default:
@@ -5519,7 +5544,7 @@ namespace Continental.Project.Adam.UI
                         switch (iRowIndex)
                         {
                             case 4://intervalo
-                                //HelperTestBase.Model_GVL.GVL_T24.rIntervalo = dblValue;
+                                   //HelperTestBase.Model_GVL.GVL_T24.rIntervalo = dblValue;
                                 _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwIntervalo_T24_LW }, dblValue);
                                 break;
                             default:
@@ -5666,8 +5691,10 @@ namespace Continental.Project.Adam.UI
         #region TEST PROCESS
 
         #region START SEQUENCE PROCESS
-        public void TEST_Start_Command()
+        private void TEST_Start_Command()
         {
+            var abc = HelperApp.bPrjTestCreateNewSampleOnLine;
+
             try
             {
                 if (HelperMODBUS.CS_wPasso != 100)
@@ -5676,7 +5703,7 @@ namespace Continental.Project.Adam.UI
                     return;
                 }
 
-                if (HelperApp.uiTesteSelecionado == 9)
+                if (HelperApp.uiTesteSelecionado == 9 || HelperApp.strActuationMode == "E-Motor")
                 {
                     if (!HelperMODBUS.CS_wEixoReferenciado)
                     {
@@ -5695,16 +5722,9 @@ namespace Continental.Project.Adam.UI
                         if (DialogResult.No == MessageBox.Show("\t    PROJECT NOT CREATED!" + "\n\n\n" + "Do you want following without create a PROJECT TEST ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                             subMenu_Project_Project_Click(null, null);
                     }
-                    //else
-                    //{
-                    //    HelperTestBase.ProjectTestConcluded.Project = new BLL_Operational_Project().GetHelperProjectById(HelperApp.uiProjectSelecionado.ToString());
 
-                    //    if (DialogResult.No == MessageBox.Show("\tPROJECT CREATED!" + "\n\n\n" + "Do you want following with the PROJECT TEST ? " + "\n\n\n" + $"\t{HelperTestBase.ProjectTestConcluded.Project.Identification}", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
-                    //        return;
-
-                    //}
-
-                    string strMsg = String.Concat("\tSTART TEST PROCESS !", "\n\n\n", "         Do you want following with Test ? ", "\n\n\n", $"\t{EnumExtensionMethods.GetDescriptionEXAMTYPE(HelperTestBase.eExamType)}");
+                    string strTestExecute = string.Concat("T", HelperApp.uiTesteSelecionado, " - ", EnumExtensionMethods.GetDescriptionEXAMTYPE(HelperTestBase.eExamType));
+                    string strMsg = String.Concat("\tSTART TEST PROCESS !", "\n\n\n", "         Do you want following with Test ? ", "\n\n\n", $"\t{strTestExecute}");
 
                     if (DialogResult.No == MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         return;
@@ -5721,6 +5741,8 @@ namespace Continental.Project.Adam.UI
                         if (ComHBM.HBM_UseEnableCom)
                             HBM_Initialize();
 
+
+                    HelperTestBase.ProjectTest.is_OnLIne = true;
 
                     LOG_TestSequence(String.Concat(" TEST Start Sequence - ", HelperApp.uiTesteSelecionado, " Type - ", EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString()));
 
@@ -5750,7 +5772,7 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public bool TEST_Start_Sequence()
+        private bool TEST_Start_Sequence()
         {
             //// abort here, if nothing to do...
             if (HelperTestBase.eExamType == eEXAMTYPE.ET_NONE || HelperApp.uiTesteSelecionado == 0)
@@ -6006,7 +6028,7 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region STOP SEQUENCE PROCESS
-        public void TEST_Stop_Command()
+        private void TEST_Stop_Command()
         {
             try
             {
@@ -6033,6 +6055,16 @@ namespace Continental.Project.Adam.UI
                 CHART_Clear(devChart);
 
                 LOG_TestSequence("TESTE SEQUENCE STOP");
+
+                HelperApp.bRunTestExecuted = false;
+
+                HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
+
+                TAB_Disable(_helperApp.GetMethodName());
+
+                SubMenuProject_Disable();
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
             }
             catch (Exception ex)
             {
@@ -6040,7 +6072,7 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(err, _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public bool TEST_Stop_Sequence()
+        private bool TEST_Stop_Sequence()
         {
             LOG_TestSequence("BTN STOP"); ;
 
@@ -6121,47 +6153,51 @@ namespace Continental.Project.Adam.UI
                     LOG_TestSequence("CMD STOP RECORD DATA HBM ");
 
 
-                    if (HelperTestBase.ProjectTest == null || !HelperTestBase.ProjectTest.is_Created)
+                    HelperTestBase.ProjectTestConcluded.ProjectTestSample = HelperTestBase.ProjectTestConcluded.ProjectTestSample == null ? new Model_Operational_Project_TestSample() : HelperTestBase.ProjectTestConcluded.ProjectTestSample;
+
+                    HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project == null ? new Model_Operational_Project() : HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project;
+
+                    HBM_SaveAquisitionTxtData();
+
+                    if (TEST_Concluded_Command())
                     {
-                        HelperTestBase.ProjectTestConcluded.ProjectTestSample = HelperTestBase.ProjectTestConcluded.ProjectTestSample == null ? new Model_Operational_Project_TestSample() : HelperTestBase.ProjectTestConcluded.ProjectTestSample;
+                        HelperApp.bRunTestExecuted = true;
 
-                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project == null ? new Model_Operational_Project() : HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project;
+                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = true;
 
-                        HBM_SaveAquisitionTxtData();
+                        TAB_Enable(_helperApp.GetMethodName());
 
-                        if (TEST_Concluded_Command())
-                        {
-                            _bRunTestExecuted = true;
+                        SubMenuProject_Enable();
 
-                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = true;
+                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = true;
 
-                            TAB_Enable(_helperApp.GetMethodName());
+                        HelperApp.bPrjTestCreateNewSampleOnLine = false;
 
-                            SubMenuProject_Enable();
+                        HelperApp.bLoadPrjTestOffLine = false;
 
-                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = true;
-
-                            TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
-                        }
-                        else
-                        {
-                            _bRunTestExecuted = false;
-
-                            HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
-
-                            TAB_Disable(_helperApp.GetMethodName());
-
-                            SubMenuProject_Disable();
-
-                            MessageBox.Show("Error TEST_Concluded_Command, failed conclude data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            return;
-                        }
+                        TAB_Main.SelectedTab = TAB_Main.TabPages["tab_Diagram"];
                     }
                     else
-                        MessageBox.Show("Failed, test existing file !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    {
+                        HelperApp.bRunTestExecuted = false;
 
-                    //_helperApp.bgWorker.CancelAsync();
+                        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
+
+                        TAB_Disable(_helperApp.GetMethodName());
+
+                        SubMenuProject_Disable();
+
+                        if (HelperApp.bDeletedTestExecuted)
+                        {
+                            MessageBox.Show("Test Concluded Data DELETED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+                        }
+                        else
+                            MessageBox.Show("Error TEST_Concluded_Command, failed conclude data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        return;
+                    }
                 }
             }
             catch (Exception ex)
@@ -6184,41 +6220,79 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
+                HelperApp.bDeletedTestExecuted = false;
+
                 string strMsgConcluded = String.Concat("\t    TEST CONCLUDED !", "\n\n\n", "\tDo you want SAVE DATA this Test ? ", "\n\n\n", $"\t{HelperApp.strNomeTesteSelecionado}");
 
                 if (DialogResult.No == MessageBox.Show(strMsgConcluded, _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                 {
-                    if (!new BLL_Operational_Project().DeleteProjectTestSample(HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProjectTestSample.ToString()))
+                    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject > 0)
                     {
-                        MessageBox.Show("Test data DeleteProjectTestSample Fail !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
-                    }
-                    else
-                    {
-                        if (!new BLL_Operational_Project().DeleteProject(HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject.ToString()))
+                        int iCountProjectSampleTest = new BLL_Operational_Project().GetCountProjectSampleTestByIdProject(HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject.ToString());
+
+                        if (iCountProjectSampleTest == 1)
                         {
-                            MessageBox.Show("Test data DeleteProject Fail !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
-                        else
-                        {
-                            //delete files test
-                            if (!TEST_Concluded_DeleteData())
+                            if (!new BLL_Operational_Project().DeleteProject(HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject.ToString()))
                             {
-                                MessageBox.Show("Test data TEST_Concluded_DeleteData Fail !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Test data DeleteProject Fail !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return false;
                             }
                             else
                             {
-                                MessageBox.Show("Test data DELETED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                return true;
+                                //delete files test
+                                if (!TEST_Concluded_DeleteFileData(true))
+                                {
+                                    MessageBox.Show("Error when deleting Test Files of select Test item", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return false;
+                                }
+                                else
+                                {
+                                    HelperApp.bDeletedTestExecuted = true;
+                                    return false;
+                                }
                             }
+                        }
+                        else
+                        {
+                            //delete files test
+                            if (!TEST_Concluded_DeleteFileData(true))
+                            {
+                                MessageBox.Show("Error when deleting Test Files of select Test item", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return false;
+                            }
+                            else
+                            {
+                                HelperApp.bDeletedTestExecuted = true;
+                                return false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.ProjectTestFileName))
+                        {
+                            //delete files test
+                            if (!TEST_Concluded_DeleteFileData(false))
+                            {
+                                MessageBox.Show("Error when deleting Test Files of select Test item", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return false;
+                            }
+                            else
+                            {
+                                HelperApp.bDeletedTestExecuted = true;
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error when deleting Test Files of select Test item NOT FOUND !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
                         }
                     }
                 }
                 else
                 {
-                    _bRunTestExecuted = true;
+                    HelperApp.bRunTestExecuted = true;
 
                     if (TXTFileHBM_LoadData(_helperApp.GetMethodName()))
                     {
@@ -6232,7 +6306,7 @@ namespace Continental.Project.Adam.UI
                                     HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = true;
                                 else
                                 {
-                                    _bRunTestExecuted = false;
+                                    HelperApp.bRunTestExecuted = false;
 
                                     TAB_Disable(_helperApp.GetMethodName());
 
@@ -6241,12 +6315,10 @@ namespace Continental.Project.Adam.UI
                                     return false;
                                 }
                             }
-                            //else
-                            //    HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = true;
                         }
                         else
                         {
-                            _bRunTestExecuted = false;
+                            HelperApp.bRunTestExecuted = false;
                             TAB_Disable(_helperApp.GetMethodName());
                             MessageBox.Show("Error TXTFileHBM_HeaderCreate, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -6255,7 +6327,7 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
-                        _bRunTestExecuted = false;
+                        HelperApp.bRunTestExecuted = false;
                         TAB_Disable(_helperApp.GetMethodName());
                         MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -6265,7 +6337,7 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                _bRunTestExecuted = false;
+                HelperApp.bRunTestExecuted = false;
                 TAB_Disable(_helperApp.GetMethodName());
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
@@ -6311,8 +6383,6 @@ namespace Continental.Project.Adam.UI
                         HelperTestBase.ProjectTestConcluded = modelPrjTestConcluded;
 
                         HelperTestBase.ProjectTestConcluded.ProjectTestSample = modelPrjTestConcluded.ProjectTestSample;
-
-                        //HelperApp.uiProjectTestSampleSelecionado = HelperApp.uiProjectTestSampleSelecionado + 1;                    
                     }
                     else
                     {
@@ -6336,6 +6406,7 @@ namespace Continental.Project.Adam.UI
                     {
                         HelperApp.uiProjectTestConcludedSelecionado = idProjectTestConcludedInsert;
                         HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded = idProjectTestConcludedInsert;
+                        HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]", " - # Sample : ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence, "");
 
                         return true;
                     }
@@ -6358,11 +6429,39 @@ namespace Continental.Project.Adam.UI
                 throw;
             }
         }
-        private bool TEST_Concluded_DeleteData()
+        private bool TEST_Concluded_DeleteFileData(bool withProject)
         {
             try
             {
-                TXTFileHBM_DeleteData();
+                _initialDirPathTestFile = !string.IsNullOrEmpty(_initialDirPathTestFile) ? _initialDirPathTestFile : System.IO.Path.Combine(System.IO.Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppTests_Path);
+
+                string fileIdentificationTest = string.Empty;
+
+                string pathWithFileName = string.Empty;
+
+                if (!withProject)
+                {
+                    fileIdentificationTest = string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.ProjectTestFileName) ? _prjTestFileNameWithPath.Replace(_initialDirPathTestFile, string.Empty) : HelperTestBase.ProjectTestConcluded.ProjectTestFileName.Replace(_initialDirPathTestFile, string.Empty);
+
+                    pathWithFileName = !string.IsNullOrEmpty(_prjTestFileNameWithPath) ? _prjTestFileNameWithPath : HelperTestBase.ProjectTestConcluded.ProjectTestFileName;
+
+                    TXTFileHBM_DeleteData(fileIdentificationTest);
+                }
+                else
+                {
+                    if (HelperTestBase.ProjectTestConcluded != null && !string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded.ProjectTestSample?.IdProjectTestSample.ToString())) //delete SAMPLE
+                        fileIdentificationTest = string.Concat('#', HelperTestBase.ProjectTestConcluded.ProjectTestSample?.SampleSequence, '#', HelperTestBase.ProjectTestConcluded.ProjectTestSample?.Project?.Identification?.Trim());
+                    else
+                        fileIdentificationTest = new BLL_Operational_Project().GetProjectIdentificationByIdProject(HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded.ToString()); //delete PROJECT
+
+                    string[] allFiles = System.IO.Directory.GetFiles(_initialDirPathTestFile);
+
+                    foreach (string file in allFiles)
+                    {
+                        if (file.Contains(fileIdentificationTest.Trim()))
+                            TXTFileHBM_DeleteData(file);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -6401,25 +6500,30 @@ namespace Continental.Project.Adam.UI
 
                     mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex = HelperApp.uiTesteSelecionado;
 
-                    TXTFileHBM_LoadDataConcluded(_helperApp.GetMethodName());
+                    if (TXTFileHBM_LoadDataConcluded(_helperApp.GetMethodName()))
+                    {
+                        TAB_Main_ActivePage(2, _helperApp.GetMethodName());
 
-                    TAB_Main_ActivePage(2, _helperApp.GetMethodName());
+                        MessageBox.Show($"\t {string.Concat("    ", "Test sample")} \n\n\t {string.Concat("            ", "[ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence, " ]")} \n\n [ { HelperApp.strNomeTesteSelecionado } ] \n\n\t {string.Concat("         ", "Ident")}\n\n\t [ { HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.Identification} ] \n\n \t loaded successfully!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    MessageBox.Show($"Test with file Ident # - [ { HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.Identification} ] loaded!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]", " - # Sample : ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence, "");
 
-                    HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]");
-
-                    SubMenuProject_Enable();
+                        SubMenuProject_Enable();
+                    }
+                    else
+                    {
+                        _bPrjTestOffLineCarregado = false;
+                        return;
+                    }  
                 }
                 else
                 {
-                    //MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _bPrjTestOffLineCarregado = false;
                     return;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
                 throw;
             }
 
@@ -6452,20 +6556,26 @@ namespace Continental.Project.Adam.UI
 
             string strTestTimeStamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             string strTestTypeName = HelperApp.uiTesteSelecionado == 0 ? EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperTestBase.eExamType.ToString()).ToString() : EnumExtensionMethods.GetEnumValue<eEXAMTYPE>(HelperApp.uiTesteSelecionado).ToString();
-
-
-
-            if (_bPrjTestOffLineCarregado || HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0)
-                HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence + 1;
-            else
-                HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = HelperTestBase.ProjectTestConcluded.ProjectTestSample?.Project?.IdProject > 0 ? HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence : 1;
-
             string strTestIdentification = string.Empty;
 
-            if (HelperTestBase.ProjectTestConcluded.ProjectTestSample?.Project?.IdProject > 0)
+            if (HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.IdProject > 0)
             {
-                strTestIdentification = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.Identification;
+                _prjTestMaxSampleSeq = new BLL_Operational_Project().GetMaxProjectSampleTestByIdProject(HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject.ToString());
+
+                if (_prjTestMaxSampleSeq == HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence && (!HelperApp.bPrjTestCreateNewSampleOnLine || HelperApp.bDeletedTestExecuted))
+                    HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = _prjTestMaxSampleSeq + 1;
+                else if (_prjTestMaxSampleSeq != HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence && HelperApp.bPrjTestCreateNewSampleOnLine)
+                    HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence;
+                else if (HelperApp.bLoadPrjTestOffLine || HelperApp.bDeletedTestExecuted)
+                    HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = _prjTestMaxSampleSeq + 1;
+                else
+                    HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = _prjTestMaxSampleSeq;
             }
+            else
+                HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = _prjTestMaxSampleSeq;
+
+            if (HelperTestBase.ProjectTestConcluded.ProjectTestSample?.Project?.IdProject > 0)
+                strTestIdentification = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.Identification;
             else
             {
                 if (HelperTestBase.ProjectTestConcluded.ProjectTestSample == null)
@@ -6537,7 +6647,6 @@ namespace Continental.Project.Adam.UI
             //clean data test file
             sbexterno.Clear();
 
-
             return HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = _helperApp.CheckFileExists(_prjTestFileNameWithPath);
         }
 
@@ -6604,6 +6713,7 @@ namespace Continental.Project.Adam.UI
 
                         HelperApp.uiTesteSelecionado = Convert.ToInt32(strArray[1]);
                         HelperTestBase.ProjectTestConcluded.ProjectTestSample.TestingDate = strArray[0].ToString();
+
                         HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence == 0 ? Convert.ToInt64(strArray[3].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty)) : HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence;
 
                         if (HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project != null)
@@ -6807,15 +6917,13 @@ namespace Continental.Project.Adam.UI
                             HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence == 0 ? Convert.ToInt64(strArray[4].ToString().Replace(_helperApp.AppTests_DefaultExtension, string.Empty)) : HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence;
                         }
 
-                        //Read Test File Header
-                        // lstStrChReadFileArr = _helperApp.ReadTXTFileHBM(prjConcluded_FileName, prjConcluded_PathWithFileName);
 
                         //Read Test File Data
                         lstStrChReadFileArr = _helperApp.ReadTXTFileHBM(prjConcluded_FileName, prjConcluded_PathWithFileName);
 
                         if (lstStrChReadFileArr[0]?.Count() > 0)
                         {
-                            _bRunTestExecuted = true;
+                            HelperApp.bRunTestExecuted = true;
 
                             lstDblChReadFileArr = _helperApp.lstDblReturnReadFile;
 
@@ -6833,7 +6941,12 @@ namespace Continental.Project.Adam.UI
                                 return false;
                             }
                             else
-                                _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
+                            {
+                                if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
+                                    MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                else
+                                    _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
+                            }
 
                             #endregion
 
@@ -6852,13 +6965,8 @@ namespace Continental.Project.Adam.UI
                             {
                                 LOG_TestSequence("TESTE CALC CONCLUDED");
 
-                                if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
-                                    MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                else
-                                {
-                                    if (!CHART_LoadActualTestComplete())
-                                        MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
+                                if (!CHART_LoadActualTestComplete())
+                                    MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                                 TAB_Enable(_helperApp.GetMethodName());
 
@@ -6871,7 +6979,6 @@ namespace Continental.Project.Adam.UI
                                     MessageBox.Show("Error, failed load data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     return false;
                                 }
-
 
                                 HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = true;
 
@@ -7081,7 +7188,7 @@ namespace Continental.Project.Adam.UI
                                     var strSbHeader = String.Concat(HelperTestBase.sbHeaderAppendTxtData.ToString(), Environment.NewLine);
 
                                     ////Get Info Header Table Result
-                                    if (!_bPrjTestOffLineCarregado)
+                                    if (!_bPrjTestOffLineCarregado && HelperApp.bRunTestExecuted)
                                         _helperApp.TXTFileHBM_HeaderAppendTableResults(HelperApp.uiTesteSelecionado).ToString();
                                     else
                                         _helperApp.TXTFileHBM_HeaderAppendTableResultsOffLineByFile(HelperApp.uiTesteSelecionado).ToString();
@@ -7111,7 +7218,7 @@ namespace Continental.Project.Adam.UI
                 }
                 else
                 {
-                    _bRunTestExecuted = false;
+                    HelperApp.bRunTestExecuted = false;
                     TAB_Disable(_helperApp.GetMethodName());
                     MessageBox.Show("Error TXTFileHBM_LoadData, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -7151,14 +7258,19 @@ namespace Continental.Project.Adam.UI
         #endregion
 
         #region TXT File Delete
-        private void TXTFileHBM_DeleteData()
+        private void TXTFileHBM_DeleteData(string fileToDelete)
         {
             try
             {
-                if (!_helperApp.CheckFileExists(_prjTestFileNameWithPath))
+                if (_prjTestFileNameWithPath.Contains(fileToDelete))
                 {
-                    File.Delete(_prjTestFileNameWithPath);
-                    LOG_TestSequence("TXTFileHBM_DeleteData - WriteAllText");
+                    if (_helperApp.CheckFileExists(_prjTestFileNameWithPath))
+                    {
+                        File.Delete(_prjTestFileNameWithPath);
+                        LOG_TestSequence("TXTFileHBM_DeleteData - WriteAllText");
+                    }
+                    else
+                        MessageBox.Show("Test file NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                     MessageBox.Show("Test file NOT FOUND!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -7331,13 +7443,6 @@ namespace Continental.Project.Adam.UI
                         MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
-                    else
-                    {
-                        //if (!CHART_ExportImage())
-                        //    MessageBox.Show("Failed, Chart Export !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                        // ChartPointsAnnottion(HelperTestBase.Model_GVL.GVL_Graficos);
-                    }
                 }
                 else
                 {
@@ -7367,7 +7472,9 @@ namespace Continental.Project.Adam.UI
 
                 List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = new List<ActuationParameters_EvaluationParameters>();
 
-                if(!HelperTestBase.ProjectTest.is_OnLIne)
+                HelperTestBase.ProjectTest.is_OnLIne = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_OnLIne;
+
+                if (!HelperTestBase.ProjectTest.is_OnLIne)
                 {
                     if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestSample > 0)
                         lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
@@ -10388,6 +10495,8 @@ namespace Continental.Project.Adam.UI
                 {
                     LOG_TestSequence("Evento by CLP - CS_wFinalizaGravacao");
 
+                    HelperApp.bRunTestExecuted = true;
+
                     TEST_DataRecord_Stop();
                 }
                 else
@@ -10913,67 +11022,5 @@ namespace Continental.Project.Adam.UI
         }
 
         #endregion
-
-        #region Testes de execucao DEV
-
-        #region Background Worker
-        private void bgWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            //List<int> temp = new List<int>();
-            //for (int i = 0; i <= 10; i++)
-            //{
-            //    if (bgWorker.CancellationPending)
-            //    {
-            //        e.Cancel = true;
-            //        break;
-            //    }
-            //    bgWorker.ReportProgress(i * 10);
-            //    Thread.Sleep(500);
-            //    temp.Add(i);
-            //}
-            //e.Result = temp;
-
-            //if (!HelperTestBase.running)
-            //    HBM_SaveAquisitionTxtData();
-        }
-        private void bgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            this.progressBar1.Value = e.ProgressPercentage;
-        }
-        private void bgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Cancelled)
-            {
-                MessageBox.Show("Rotina Cancelada!!");
-            }
-            else
-            {
-                //MessageBox.Show("Rotina Completada!!");
-            }
-
-            //if (e.Cancelled)
-            //{
-            //    //toolStripStatusLabel1.Text = "Cancelado pelo usuáio...";
-            //    //toolStripProgressBar1.Value = 0;
-            //}
-            //// Verifica se ocorreu algum  erro no processo em background
-            //else if (e.Error != null)
-            //{
-            //    //toolStripStatusLabel1.Text = e.Error.Message;
-            //}
-            //else
-            //{
-            //    // A tarefa em BackGround foi completada sem erros
-            //    //toolStripStatusLabel1.Text = " Todos os registros foram carregados...";
-
-            //    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-            //    MessageBox.Show("Done");
-            //}
-        }
-
-        #endregion
-
-        #endregion
-
     }
 }

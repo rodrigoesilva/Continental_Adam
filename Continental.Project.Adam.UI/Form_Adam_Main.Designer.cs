@@ -68,7 +68,6 @@ namespace Continental.Project.Adam.UI
             this.mbtn_BClock = new MetroFramework.Controls.MetroButton();
             this.mbtn_BAlarm = new MetroFramework.Controls.MetroButton();
             this.mpnl_Eventlog = new MetroFramework.Controls.MetroPanel();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.mbtn_BHandshakePC = new MetroFramework.Controls.MetroButton();
             this.mbtn_BGlobalAlert = new MetroFramework.Controls.MetroButton();
             this.mbtn_BEMotorRef = new MetroFramework.Controls.MetroButton();
@@ -149,7 +148,6 @@ namespace Continental.Project.Adam.UI
             this.devChart = new DevExpress.XtraCharts.ChartControl();
             this.mTile_tabDiagram_GraphicalDisplay = new MetroFramework.Controls.MetroTile();
             this.TAB_Main = new System.Windows.Forms.TabControl();
-            this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.timerDateTime = new System.Windows.Forms.Timer(this.components);
             this.stsBar_STBMain = new System.Windows.Forms.StatusStrip();
             this.tStatusLabel01 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -983,7 +981,6 @@ namespace Continental.Project.Adam.UI
             // mpnl_Eventlog
             // 
             this.mpnl_Eventlog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mpnl_Eventlog.Controls.Add(this.progressBar1);
             this.mpnl_Eventlog.Controls.Add(this.mbtn_BHandshakePC);
             this.mpnl_Eventlog.Controls.Add(this.mbtn_BGlobalAlert);
             this.mpnl_Eventlog.Controls.Add(this.mbtn_BEMotorRef);
@@ -1008,13 +1005,6 @@ namespace Continental.Project.Adam.UI
             this.mpnl_Eventlog.VerticalScrollbarBarColor = true;
             this.mpnl_Eventlog.VerticalScrollbarHighlightOnWheel = false;
             this.mpnl_Eventlog.VerticalScrollbarSize = 10;
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(9, 330);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(432, 23);
-            this.progressBar1.TabIndex = 27;
             // 
             // mbtn_BHandshakePC
             // 
@@ -2516,14 +2506,6 @@ namespace Continental.Project.Adam.UI
             this.TAB_Main.SelectedIndexChanged += new System.EventHandler(this.TAB_Main_SelectedIndexChanged);
             this.TAB_Main.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.TAB_Main_Selecting);
             // 
-            // bgWorker
-            // 
-            this.bgWorker.WorkerReportsProgress = true;
-            this.bgWorker.WorkerSupportsCancellation = true;
-            this.bgWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorker_DoWork);
-            this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgressChanged);
-            this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_RunWorkerCompleted);
-            // 
             // timerDateTime
             // 
             this.timerDateTime.Enabled = true;
@@ -2651,38 +2633,38 @@ namespace Continental.Project.Adam.UI
             // 
             this.subMenu_Project_Project.Name = "subMenu_Project_Project";
             this.subMenu_Project_Project.ShortcutKeyDisplayString = "";
-            this.subMenu_Project_Project.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Project_Project.Size = new System.Drawing.Size(174, 22);
             this.subMenu_Project_Project.Text = "Project";
             this.subMenu_Project_Project.Click += new System.EventHandler(this.subMenu_Project_Project_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(171, 6);
             // 
             // subMenu_Project_PrintGraphics
             // 
             this.subMenu_Project_PrintGraphics.Name = "subMenu_Project_PrintGraphics";
-            this.subMenu_Project_PrintGraphics.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Project_PrintGraphics.Size = new System.Drawing.Size(174, 22);
             this.subMenu_Project_PrintGraphics.Text = "Print Graphics";
             this.subMenu_Project_PrintGraphics.Click += new System.EventHandler(this.subMenu_Project_PrintGraphics_Click);
             // 
             // subMenu_Project_SetupPrinter
             // 
             this.subMenu_Project_SetupPrinter.Name = "subMenu_Project_SetupPrinter";
-            this.subMenu_Project_SetupPrinter.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Project_SetupPrinter.Size = new System.Drawing.Size(174, 22);
             this.subMenu_Project_SetupPrinter.Text = "Setup Printer";
             this.subMenu_Project_SetupPrinter.Click += new System.EventHandler(this.subMenu_Project_SetupPrinter_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(171, 6);
             // 
             // subMenu_Project_ExportExcel
             // 
             this.subMenu_Project_ExportExcel.Name = "subMenu_Project_ExportExcel";
-            this.subMenu_Project_ExportExcel.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Project_ExportExcel.Size = new System.Drawing.Size(174, 22);
             this.subMenu_Project_ExportExcel.Text = "Export -> MS Excel";
             this.subMenu_Project_ExportExcel.Click += new System.EventHandler(this.subMenu_Project_ExportExcel_Click);
             // 
@@ -3059,8 +3041,6 @@ namespace Continental.Project.Adam.UI
         private MetroFramework.Controls.MetroTile mTile_tabDiagram_GraphicalDisplay;
         private System.Windows.Forms.TabControl TAB_Main;
         private MetroFramework.Controls.MetroButton mbtn_BHandshakePLC;
-        private System.ComponentModel.BackgroundWorker bgWorker;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private MetroFramework.Controls.MetroButton mbtn_BClock;
         private MetroFramework.Controls.MetroButton mbtn_BRun;
         private System.Windows.Forms.ListView lvLog;
