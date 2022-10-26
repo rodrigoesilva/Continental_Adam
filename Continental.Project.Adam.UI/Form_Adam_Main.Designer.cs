@@ -181,17 +181,14 @@ namespace Continental.Project.Adam.UI
             this.subMenu_TestProg_Bleed = new System.Windows.Forms.ToolStripMenuItem();
             this.subMenu_TestProg_SaveTest = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemToolStrip_Settings = new System.Windows.Forms.ToolStripMenuItem();
-            this.subMenu_Settings_SoftwareMaintenance = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.subMenu_Settings_Account = new System.Windows.Forms.ToolStripMenuItem();
-            this.subMenu_Account_SelectAccessLevel = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Settings_Security = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Security_SelectAccessLevel = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.subMenu_Account_NewPassword = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Security_NewPassword = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.subMenu_Account_UserAdd = new System.Windows.Forms.ToolStripMenuItem();
-            this.subMenu_Account_UserEdit = new System.Windows.Forms.ToolStripMenuItem();
-            this.subMenu_Account_UserDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.subMenu_Account_UserReport = new System.Windows.Forms.ToolStripMenuItem();
+            this.subMenu_Security_UserManagement = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.subMenu_Settings_SoftwareMaintenance = new System.Windows.Forms.ToolStripMenuItem();
             this.printDialog = new System.Windows.Forms.PrintDialog();
             this.mpnl_HeaderInfoAnalogInputVisu = new MetroFramework.Controls.MetroPanel();
             this.mpnl_HeaderInfoAnalogInput.SuspendLayout();
@@ -2767,13 +2764,61 @@ namespace Continental.Project.Adam.UI
             // menuItemToolStrip_Settings
             // 
             this.menuItemToolStrip_Settings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.subMenu_Settings_SoftwareMaintenance,
+            this.subMenu_Settings_Security,
             this.toolStripSeparator9,
-            this.subMenu_Settings_Account});
+            this.subMenu_Settings_SoftwareMaintenance});
             this.menuItemToolStrip_Settings.Enabled = false;
             this.menuItemToolStrip_Settings.Name = "menuItemToolStrip_Settings";
             this.menuItemToolStrip_Settings.Size = new System.Drawing.Size(69, 22);
             this.menuItemToolStrip_Settings.Text = "SETTINGS";
+            // 
+            // subMenu_Settings_Security
+            // 
+            this.subMenu_Settings_Security.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.subMenu_Security_SelectAccessLevel,
+            this.toolStripSeparator10,
+            this.subMenu_Security_NewPassword,
+            this.toolStripSeparator11,
+            this.subMenu_Security_UserManagement});
+            this.subMenu_Settings_Security.Name = "subMenu_Settings_Security";
+            this.subMenu_Settings_Security.Size = new System.Drawing.Size(192, 22);
+            this.subMenu_Settings_Security.Text = "Security";
+            // 
+            // subMenu_Security_SelectAccessLevel
+            // 
+            this.subMenu_Security_SelectAccessLevel.Name = "subMenu_Security_SelectAccessLevel";
+            this.subMenu_Security_SelectAccessLevel.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Security_SelectAccessLevel.Text = "Select Access Level";
+            this.subMenu_Security_SelectAccessLevel.Click += new System.EventHandler(this.subMenu_Account_SelectAccessLevel_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(177, 6);
+            // 
+            // subMenu_Security_NewPassword
+            // 
+            this.subMenu_Security_NewPassword.Name = "subMenu_Security_NewPassword";
+            this.subMenu_Security_NewPassword.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Security_NewPassword.Text = "New Password";
+            this.subMenu_Security_NewPassword.Click += new System.EventHandler(this.subMenu_Account_NewPassword_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(177, 6);
+            // 
+            // subMenu_Security_UserManagement
+            // 
+            this.subMenu_Security_UserManagement.Name = "subMenu_Security_UserManagement";
+            this.subMenu_Security_UserManagement.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Security_UserManagement.Text = "User Management";
+            this.subMenu_Security_UserManagement.Click += new System.EventHandler(this.subMenu_Security_UserManagement_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(189, 6);
             // 
             // subMenu_Settings_SoftwareMaintenance
             // 
@@ -2781,74 +2826,6 @@ namespace Continental.Project.Adam.UI
             this.subMenu_Settings_SoftwareMaintenance.Size = new System.Drawing.Size(192, 22);
             this.subMenu_Settings_SoftwareMaintenance.Text = "Software Maintenance";
             this.subMenu_Settings_SoftwareMaintenance.Click += new System.EventHandler(this.subMenu_Settings_SoftwareMaintenance_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(189, 6);
-            // 
-            // subMenu_Settings_Account
-            // 
-            this.subMenu_Settings_Account.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.subMenu_Account_SelectAccessLevel,
-            this.toolStripSeparator10,
-            this.subMenu_Account_NewPassword,
-            this.toolStripSeparator11,
-            this.subMenu_Account_UserAdd,
-            this.subMenu_Account_UserEdit,
-            this.subMenu_Account_UserDelete,
-            this.subMenu_Account_UserReport});
-            this.subMenu_Settings_Account.Name = "subMenu_Settings_Account";
-            this.subMenu_Settings_Account.Size = new System.Drawing.Size(192, 22);
-            this.subMenu_Settings_Account.Text = "USER";
-            // 
-            // subMenu_Account_SelectAccessLevel
-            // 
-            this.subMenu_Account_SelectAccessLevel.Name = "subMenu_Account_SelectAccessLevel";
-            this.subMenu_Account_SelectAccessLevel.Size = new System.Drawing.Size(180, 22);
-            this.subMenu_Account_SelectAccessLevel.Text = "Select Access Level";
-            this.subMenu_Account_SelectAccessLevel.Click += new System.EventHandler(this.subMenu_Account_SelectAccessLevel_Click);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(177, 6);
-            // 
-            // subMenu_Account_NewPassword
-            // 
-            this.subMenu_Account_NewPassword.Name = "subMenu_Account_NewPassword";
-            this.subMenu_Account_NewPassword.Size = new System.Drawing.Size(180, 22);
-            this.subMenu_Account_NewPassword.Text = "New Password";
-            this.subMenu_Account_NewPassword.Click += new System.EventHandler(this.subMenu_Account_NewPassword_Click);
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(177, 6);
-            // 
-            // subMenu_Account_UserAdd
-            // 
-            this.subMenu_Account_UserAdd.Name = "subMenu_Account_UserAdd";
-            this.subMenu_Account_UserAdd.Size = new System.Drawing.Size(180, 22);
-            this.subMenu_Account_UserAdd.Text = "toolStripMenuItem1";
-            // 
-            // subMenu_Account_UserEdit
-            // 
-            this.subMenu_Account_UserEdit.Name = "subMenu_Account_UserEdit";
-            this.subMenu_Account_UserEdit.Size = new System.Drawing.Size(180, 22);
-            this.subMenu_Account_UserEdit.Text = "toolStripMenuItem1";
-            // 
-            // subMenu_Account_UserDelete
-            // 
-            this.subMenu_Account_UserDelete.Name = "subMenu_Account_UserDelete";
-            this.subMenu_Account_UserDelete.Size = new System.Drawing.Size(180, 22);
-            this.subMenu_Account_UserDelete.Text = "toolStripMenuItem1";
-            // 
-            // subMenu_Account_UserReport
-            // 
-            this.subMenu_Account_UserReport.Name = "subMenu_Account_UserReport";
-            this.subMenu_Account_UserReport.Size = new System.Drawing.Size(180, 22);
-            this.subMenu_Account_UserReport.Text = "toolStripMenuItem1";
             // 
             // printDialog
             // 
@@ -3086,15 +3063,12 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.ToolStripMenuItem menuItemToolStrip_Settings;
         private System.Windows.Forms.ToolStripMenuItem subMenu_Settings_SoftwareMaintenance;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-        private System.Windows.Forms.ToolStripMenuItem subMenu_Settings_Account;
-        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_SelectAccessLevel;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Settings_Security;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Security_SelectAccessLevel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_NewPassword;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Security_NewPassword;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_UserAdd;
-        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_UserEdit;
-        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_UserDelete;
-        private System.Windows.Forms.ToolStripMenuItem subMenu_Account_UserReport;
+        private System.Windows.Forms.ToolStripMenuItem subMenu_Security_UserManagement;
         private System.Windows.Forms.PrintDialog printDialog;
         private MetroFramework.Controls.MetroPanel mpnl_HeaderInfoAnalogInputVisu;
         private MetroFramework.Controls.MetroButton mbtn_EoutRef;

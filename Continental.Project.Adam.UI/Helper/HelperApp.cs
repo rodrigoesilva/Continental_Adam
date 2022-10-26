@@ -1307,8 +1307,6 @@ namespace Continental.Project.Adam.UI.Helper
                 List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                 return TabTableParameters_FormatResultParam(dtTableResults, lstInfoEvaluationParameters, dicResultParam);
-
-                //HelperApp.lstEvaluationParameters
             }
             catch (Exception ex)
             {
@@ -1322,15 +1320,16 @@ namespace Continental.Project.Adam.UI.Helper
             List<Model_Operational_TestTableParameters> listResultParam = new List<Model_Operational_TestTableParameters>();
 
             var dicReturnReadFileHeaderPrj = dicReturnReadFileHeader[0];
-            var dicReturnReadFileHeaderParamGrid = dicReturnReadFileHeader[1];
-            var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[2];
-            var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[3];
+            var dicReturnReadFileHeaderParamGridData = dicReturnReadFileHeader[1];
+            var dicReturnReadFileHeaderParamGrid = dicReturnReadFileHeader[2];
+            var dicReturnReadFileHeaderParam = dicReturnReadFileHeader[3];
+            var dicReturnReadFileHeaderResults = dicReturnReadFileHeader[4];
 
             try
             {
-                #region Check TEST Results
+                #region Check TEST OFFLINE INFO BY FILE
 
-                #region Results_FileHeader_Project
+                #region OFFLINE INFO_FileHeader_Project
 
                 HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.Identification = dicReturnReadFileHeaderPrj.ContainsKey("Ident") ? dicReturnReadFileHeaderPrj["Ident"].ToString()?.Trim() : string.Empty;
                 HelperTestBase.ProjectTestConcluded.ProjectTestSample.CustomerType = dicReturnReadFileHeaderPrj.ContainsKey("Customer/Type") ? dicReturnReadFileHeaderPrj["Customer/Type"].ToString()?.Trim() : string.Empty;
@@ -1348,43 +1347,123 @@ namespace Continental.Project.Adam.UI.Helper
                 {
                     case 1:     //Force Diagrams - Force/Pressure With Vacuum
                         {
-                            #region Results OFFLINE
+                            #region GRID Parameters OFFLINE BY FILE
 
-                            #region Load Offline File Data Results
+                            #region Load Offline File Data GRID Parameters
 
-                            #region Results_FileHeader_Param_Grid
+                            #region FileHeader_Param_Grid
 
-                            HelperTestBase.Model_GVL.GVL_T01.rForca_E1 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E3)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E3)"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rForca_E2 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E4)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E4)"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rForca_P1 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E5)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E5)"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rForca_P2 = dicReturnReadFileHeaderParamGrid.ContainsKey("Pressure at Force (E6)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Pressure at Force (E6)"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rDeslocamentoNaPressao = dicReturnReadFileHeaderParamGrid.ContainsKey("Travel at Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Travel at Pressure"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rPressaoCutIn_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Actuation Force at Pressure") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Actuation Force at Pressure"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMin_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force min") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force min"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMax_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force max") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force max"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_pout = dicReturnReadFileHeaderParamGrid.ContainsKey("Hysteresis at Pressure (%)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Hysteresis at Pressure (%)"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Hysteresis at Pressure (bar)") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Hysteresis at Pressure (bar)"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("Release Force Remaining at") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Release Force Remaining at"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("TMC Diameter PC") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["TMC Diameter PC"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dicReturnReadFileHeaderParamGrid.ContainsKey("TMC Diameter SC") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["TMC Diameter SC"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Jumper Gradient P1") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Jumper Gradient P1"]) * -1 : 0;
-                            HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dicReturnReadFileHeaderParamGrid.ContainsKey("Jumper Gradient P2") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid["Jumper Gradient P2"]) * -1 : 0;
+                            for (int i = 0; i < dicReturnReadFileHeaderParamGridData.Count(); i++)
+                            {
+                                string strHeaderParamGridDataDicKey = dicReturnReadFileHeaderParamGridData.Keys.ToList()[i].Trim();
+                                double dHeaderParamGridDicValue = NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.Values.ToList()[i].Trim()) * -1;
+
+                                switch (strHeaderParamGridDataDicKey)
+                                {
+                                    case "EForceScale":
+                                        break;
+                                    case "EPressureScale":
+                                        break;
+                                    case "EP3AtForce":
+                                        HelperTestBase.Model_GVL.GVL_T01.rForca_E1 = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EP4AtForce":
+                                        HelperTestBase.Model_GVL.GVL_T01.rForca_E2 = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EP5AtForce":
+                                        HelperTestBase.Model_GVL.GVL_T01.rForca_P1 = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EP6AtForce":
+                                        HelperTestBase.Model_GVL.GVL_T01.rForca_P2 = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EPistonTravelAtPressure":
+                                        HelperTestBase.Model_GVL.GVL_T01.rDeslocamentoNaPressao = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EActuationForceAtPressure":
+                                        HelperTestBase.Model_GVL.GVL_T01.rPressaoCutIn_Bar = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EReleaseForceMin":
+                                        HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMin_Bar = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EReleaseForceMax":
+                                        HelperTestBase.Model_GVL.GVL_T01.rReleaseForcePressMax_Bar = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EHysteresisAtPressure":
+                                        HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_pout = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EHysteresisAtPressure2":
+                                        HelperTestBase.Model_GVL.GVL_T01.rPressaoHysterese_Bar = dHeaderParamGridDicValue;
+                                        break;
+                                    case "ERelForceRemainAtTravel":
+                                        HelperTestBase.Model_GVL.GVL_T01.rReleaseForceAt_mm = dHeaderParamGridDicValue;
+                                        break;
+                                    case "ETMCDiameterPC":
+                                        HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dHeaderParamGridDicValue;
+                                        break;
+                                    case "ETMCDiameterSC":
+                                        HelperTestBase.Model_GVL.GVL_T01.rDiametroCMD_mm = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EJumperGradientP1":
+                                        HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P1_Bar = dHeaderParamGridDicValue;
+                                        break;
+                                    case "EJumperGradientP2":
+                                        HelperTestBase.Model_GVL.GVL_T01.rGradienteJumper_P2_Bar = dHeaderParamGridDicValue;
+                                        break;
+                                    case "CBUseLinearIntersection":
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
 
                             #endregion
 
-                            #region Results_FileHeader_Param 
+                            #region FileHeader_Param_Commom
 
-                            HelperApp.strActuationMode = dicReturnReadFileHeaderParam.ContainsKey("Actuation Type") ? dicReturnReadFileHeaderParam["Actuation Type"].ToString().Trim() : string.Empty;
-                            HelperTestBase.iOutputType = dicReturnReadFileHeaderParam.ContainsKey("Output Type") ? dicReturnReadFileHeaderParam["Output Type"].ToString().Trim().Equals("PC") ? 1 : 2 : 0;
-                            HelperTestBase.VacuumMin = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (min)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (min)"]) * -1 : 0;
-                            HelperTestBase.VacuumMax = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (max)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (max)"]) * -1 : 0;
-                            HelperTestBase.Vacuum = dicReturnReadFileHeaderParam.ContainsKey("Vacuum") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum"]) * -1 : 0;
-                            HelperTestBase.chkPistonLock = dicReturnReadFileHeaderParam.ContainsKey("Lock Piston") ? dicReturnReadFileHeaderParam["Lock Piston"].ToString().Trim().Equals("Yes") ? true : false : false;
-                            HelperTestBase.ForceGradient = dicReturnReadFileHeaderParam.ContainsKey("Gradient") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Gradient"]) * -1 : 0;
-                            HelperTestBase.MaxForce = dicReturnReadFileHeaderParam.ContainsKey("Max. Force") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Max. Force"]) * -1 : 0;
-                            HelperTestBase.iTipoConsumidores = dicReturnReadFileHeaderParam.ContainsKey("Consumer") ? dicReturnReadFileHeaderParam["Consumer"].ToString().Trim().Equals("Original Consumer") ? 1 : 2 : 0;
-                            HelperTestBase.iSumHoseConsumerPC = dicReturnReadFileHeaderParam.ContainsKey("Hose Consumer PC") ? Convert.ToInt32(dicReturnReadFileHeaderParam["Hose Consumer PC"]) : 0;
-                            HelperTestBase.iSumHoseConsumerSC = dicReturnReadFileHeaderParam.ContainsKey("Hose Consumer SC") ? Convert.ToInt32(dicReturnReadFileHeaderParam["Hose Consumer SC"]) : 0;
+                            for (int i = 0; i < dicReturnReadFileHeaderParam.Count(); i++)
+                            {
+                                string keyFileHeaderParamDicKey = dicReturnReadFileHeaderParam.Keys.ToList()[i].Trim();
+                                var valFileHeaderParamDicValue = dicReturnReadFileHeaderParam.Values.ToList()[i].Trim();
+
+                                switch (keyFileHeaderParamDicKey)
+                                {
+                                    case "Actuation Type":
+                                        HelperApp.strActuationMode = valFileHeaderParamDicValue;
+                                        break;
+                                    case "Output Type":
+                                        HelperTestBase.iOutputType = valFileHeaderParamDicValue.Equals("PC") ? 1 : valFileHeaderParamDicValue.Equals("SC") ? 2 : 0;
+                                        break;
+                                    case "Vacuum (min)":
+                                        HelperTestBase.VacuumMin = NumberDoubleCheck(valFileHeaderParamDicValue);
+                                        break;
+                                    case "Vacuum (max)":
+                                        HelperTestBase.VacuumMax = NumberDoubleCheck(valFileHeaderParamDicValue);
+                                        break;
+                                    case "Vacuum":
+                                        HelperTestBase.Vacuum = NumberDoubleCheck(valFileHeaderParamDicValue);
+                                        break;
+                                    case "Lock Piston":
+                                        HelperTestBase.chkPistonLock = valFileHeaderParamDicValue.Equals("Yes") ? true : false;
+                                        break;
+                                    case "Gradient":
+                                        HelperTestBase.ForceGradient = NumberDoubleCheck(valFileHeaderParamDicValue) * -1;
+                                        break;
+                                    case "Max. Force":
+                                        HelperTestBase.MaxForce = NumberDoubleCheck(valFileHeaderParamDicValue) * -1;
+                                        break;
+                                    case "Consumer":
+                                        HelperTestBase.iTipoConsumidores = valFileHeaderParamDicValue.Equals("Original Consumer") ? 1 : 2;
+                                        break;
+                                    case "Hose Consumer PC":
+                                        HelperTestBase.iSumHoseConsumerPC = Convert.ToInt32(valFileHeaderParamDicValue);
+                                        break;
+                                    case "Hose Consumer SC":
+                                        HelperTestBase.iSumHoseConsumerSC = Convert.ToInt32(valFileHeaderParamDicValue);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
 
                             #endregion
 
@@ -2495,7 +2574,13 @@ namespace Continental.Project.Adam.UI.Helper
 
                 List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
 
-                listResultParam = TabTableParameters_FormatResultParamOffLineByFile(dtTableResults, lstInfoEvaluationParameters, null);
+                if (lstInfoEvaluationParameters.Count() == 0 || lstInfoEvaluationParameters == null)
+                {
+                    MessageBox.Show("Failed, error lstInfoEvaluationParameters Count !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+                else
+                    listResultParam = TabTableParameters_FormatResultParamOffLineByFile(dtTableResults, lstInfoEvaluationParameters, null);
             }
             catch (Exception ex)
             {
@@ -3056,76 +3141,87 @@ namespace Continental.Project.Adam.UI.Helper
         }
         public List<Model_Operational_TestTableParameters> TabTableParameters_FormatResultParamOffLineByFile(DataTable dtTableResults, List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters, Dictionary<string, string> dicResultParam)
         {
-            int i = 0;
-
             List<Model_Operational_TestTableParameters> listResultParamFormated = new List<Model_Operational_TestTableParameters>();
 
-            try
+            int i = 0;
+
+            if (HelperApp.dicReadFileHeader[4].Count() == 0 || HelperApp.dicReadFileHeader[4] == null) // Read RESULTS Session File Header
             {
-                for (i = 0; i < dtTableResults.Rows.Count; i++)
+                MessageBox.Show("Failed, error dicReadFileHeader Result Count !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            else
+            {
+                try
                 {
-                    #region Get BD List Results
+                    var lstResult = HelperApp.dicReadFileHeader[4].ToList();
 
-                    DataRow row = dtTableResults.Rows[i];
-
-
-                    string strResultParam_Id = row.Field<int>("IdResultParam").ToString()?.Trim();
-
-                    string strResultParam_Name = row.Field<string>("ResultParam_Name")?.ToString()?.Trim();
-
-                    string strResultParam_Caption = row.Field<string>("ResultParam_Caption")?.ToString()?.Trim();
-
-                    string strResultParam_Nominal = row.Field<string>("ResultParam_Nominal")?.ToString()?.Trim();
-
-                    string strResultParam_Measured = row.Field<string>("ResultParam_Measured")?.ToString()?.Trim();
-
-                    string strResultParam_Unit = row.Field<string>("UnitSymbol")?.ToString()?.Trim();
-
-                    #endregion
-
-                    #region Format Data Captions And Results 
-
-                    #region Resuls Data Offline
-
-                    var dicReturnReadFileHeaderResults = HelperApp.dicReadFileHeader[3];
-
-                    strResultParam_Caption = dicReturnReadFileHeaderResults.ElementAt(i).Key?.Trim();
-
-                    strResultParam_Measured = Convert.ToBoolean(dicReturnReadFileHeaderResults.ElementAt(i).Value?.Trim().Equals("0")) ? String.Format("{0:#,0.000}", Convert.ToDecimal(dicReturnReadFileHeaderResults.ElementAt(i).Value?.Trim())).ToString() : dicReturnReadFileHeaderResults.ElementAt(i).Value?.Trim();
-
-                    #endregion
-
-                    #region List Data
-
-                    listResultParamFormated.Add(new Model_Operational_TestTableParameters()
+                    for (i = 0; i < lstResult.Count(); i++)
                     {
-                        IdResultParam = Convert.ToInt32(strResultParam_Id),
-                        ResultParam_Name = strResultParam_Name,
-                        ResultParam_Caption = strResultParam_Caption,
-                        ResultParam_Nominal = strResultParam_Nominal,
-                        ResultParam_Measured = strResultParam_Measured,
-                        ResultParam_Unit = strResultParam_Unit
-                    });
+                        #region OffLine Get Data Results by File
 
-                    #endregion
+                        DataRow row = dtTableResults.Rows[i];
 
-                    #endregion
+                        string strResultParam_Id = row.Field<int>("IdResultParam").ToString()?.Trim();
+
+                        string strIdTestAvailable = HelperApp.uiTesteSelecionado.ToString();
+
+                        string strResultParam_Name = row.Field<string>("ResultParam_Name")?.ToString()?.Trim();
+
+                        string strResultParam_Caption = lstResult[i].Key?.ToString()?.Trim();
+
+                        string strResultParam_Nominal = row.Field<string>("ResultParam_Nominal")?.ToString()?.Trim();
+
+                        string strResultParam_Measured = lstResult[i].Value?.ToString()?.Trim();
+
+                        string strResultParam_Unit = row.Field<string>("UnitSymbol")?.ToString()?.Trim();
+
+                        #endregion
+
+                        #region Format Data Captions And Data Values Offline By RESULTS Session File Header
+
+                        #region Data Offline By RESULTS Session File Header
+
+                        var dicReadFileHeaderResults = HelperApp.dicReadFileHeader[4]; // Read RESULTS Session File Header
+
+                        strResultParam_Caption = dicReadFileHeaderResults.ElementAt(i).Key?.Trim();
+
+                        strResultParam_Measured = Convert.ToBoolean(dicReadFileHeaderResults.ElementAt(i).Value?.Trim().Equals("0")) ? String.Format("{0:#,0.000}", Convert.ToDecimal(dicReadFileHeaderResults.ElementAt(i).Value?.Trim())).ToString() : dicReadFileHeaderResults.ElementAt(i).Value?.Trim();
+
+                        #endregion
+
+                        #region List Data
+
+                        listResultParamFormated.Add(new Model_Operational_TestTableParameters()
+                        {
+                            IdResultParam = Convert.ToInt32(strResultParam_Id),
+                            ResultParam_Name = strResultParam_Name,
+                            ResultParam_Caption = strResultParam_Caption,
+                            ResultParam_Nominal = strResultParam_Nominal,
+                            ResultParam_Measured = strResultParam_Measured,
+                            ResultParam_Unit = strResultParam_Unit
+                        });
+
+                        #endregion
+
+                        #endregion
+                    }
                 }
+                catch (Exception ex)
+                {
+                    var iErrorIdx = i;
+                    var err = ex.Message;
+                    throw;
+                }
+
+                if (HelperApp.dicResultParam != null)
+                    HelperApp.dicResultParam.Clear();
+
+                HelperApp.dicResultParam = dicResultParam != null ? dicResultParam : HelperApp.dicReadFileHeader[3];
+
+                HelperApp.lstResultParamFormated.Clear();
+                HelperApp.lstResultParamFormated = listResultParamFormated;
             }
-            catch (Exception ex)
-            {
-                var iErrorIdx = i;
-                var err = ex.Message;
-                throw;
-            }
-
-            if (HelperApp.dicResultParam != null)
-                HelperApp.dicResultParam.Clear();
-
-            HelperApp.dicResultParam = dicResultParam != null ? dicResultParam : HelperApp.dicReadFileHeader[3];
-
-            HelperApp.lstResultParamFormated.Clear();
-            HelperApp.lstResultParamFormated = listResultParamFormated;
 
             return listResultParamFormated;
         }
@@ -3139,9 +3235,9 @@ namespace Continental.Project.Adam.UI.Helper
         {
             try
             {
-                if (HelperApp.dicReadFileHeader[2] != null)
+                if (HelperApp.dicReadFileHeader[3] != null) //|- PARAMETERS -| session
                 {
-                    var dicReturnReadFileHeaderParam = HelperApp.dicReadFileHeader[2];
+                    var dicReturnReadFileHeaderParam = HelperApp.dicReadFileHeader[3];
 
                     HelperApp.strActuationMode = dicReturnReadFileHeaderParam.ContainsKey("Actuation Type") ? dicReturnReadFileHeaderParam["Actuation Type"].ToString().Trim() : string.Empty;
 
@@ -3160,7 +3256,9 @@ namespace Continental.Project.Adam.UI.Helper
                             HelperTestBase.iActuaionMode = 0;
                             break;
                     }
-                    //HelperTestBase.iActuaionMode = EnumExtensionMethods.GetEnumValue<E_TestActuationType>(HelperApp.strActuationMode.ToString()).ToString();
+
+                    HelperApp.uiActuationMode = HelperTestBase.iActuaionMode;
+
                     HelperTestBase.iOutputType = dicReturnReadFileHeaderParam.ContainsKey("Output Type") ? dicReturnReadFileHeaderParam["Output Type"].ToString().Trim().Equals("PC") ? 1 : 2 : 0;
                     HelperTestBase.VacuumMin = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (min)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (min)"]) * -1 : 0;
                     HelperTestBase.VacuumMax = dicReturnReadFileHeaderParam.ContainsKey("Vacuum (max)") ? NumberDoubleCheck(dicReturnReadFileHeaderParam["Vacuum (max)"]) * -1 : 0;
@@ -3205,65 +3303,40 @@ namespace Continental.Project.Adam.UI.Helper
                             var obj = new ActuationParameters_EvaluationParameters()
                             {
                                 IdEvalParam = !string.IsNullOrEmpty(row.Cells["IdEvalParam"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdEvalParam"]?.Value) : 0,
-                                //IdTestAvailable = !!string.IsNullOrEmpty(row.Cells["IdTestAvailable"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdTestAvailable"]?.Value) : 0,
-                                //EvalParam_GridRowType = !string.IsNullOrEmpty(row.Cells["EvalParam_GridRowType"]?.Value?.ToString()) ? row.Cells["EvalParam_GridRowType"]?.Value?.ToString()?.Trim() : string.Empty,
+                                IdTestAvailable = HelperApp.uiTesteSelecionado,
+                                EvalParam_GridRowType = !string.IsNullOrEmpty(row.Cells["EvalParam_GridRowType"]?.Value?.ToString()) ? row.Cells["EvalParam_GridRowType"]?.Value?.ToString()?.Trim() : string.Empty,
                                 EvalParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
                                 EvalParam_Caption = !string.IsNullOrEmpty(row.Cells["EvalParam_Caption"]?.Value?.ToString()) ? row.Cells["EvalParam_Caption"]?.Value?.ToString()?.Trim() : string.Empty,
                                 EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
                                 EvalParam_Hi = !string.IsNullOrEmpty(row.Cells["EvalParam_Hi"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Hi"]?.Value) : 0,
-                                //EvalParam_Precision = !string.IsNullOrEmpty(row.Cells["EvalParam_Precision"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Precision"]?.Value) : 0,
-                                //EvalParam_Step = !string.IsNullOrEmpty(row.Cells["EvalParam_Step"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Step"]?.Value) : 0,
                                 EvalParam_Mksunit = !string.IsNullOrEmpty(row.Cells["UnitSymbol"]?.Value?.ToString()) ? row.Cells["UnitSymbol"]?.Value?.ToString()?.Trim() : string.Empty
                             };
 
-                            switch (HelperApp.uiTesteSelecionado)
-                            {
-                                case 5:
-                                case 7:
-                                case 8:
-                                case 9:
-                                case 10:
-                                    {
-                                        if (!obj.EvalParam_Name.StartsWith("CB"))
-                                            lstParamAnalog.Add(obj);
-
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        if (obj.IdEvalParam > 0 && !obj.EvalParam_Name.StartsWith("CB"))
-                                            lstParamAnalog.Add(obj);
-
-                                        break;
-                                    }
-                            }
+                            lstParamAnalog.Add(obj);
                         }
                     }
                 }
                 else
                 {
-                    //Loop through datagridview rows
-                    foreach (DataGridViewRow row in grid.Rows)
+                    for (int i = 0; i < dtGridEvalParameters.Rows.Count; i++)
                     {
-                        if (row.Cells.Count > 0)
-                        {
-                            var obj = new ActuationParameters_EvaluationParameters()
-                            {
-                                IdEvalParam = !string.IsNullOrEmpty(row.Cells["IdEvalParam"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdEvalParam"]?.Value) : 0,
-                                //IdTestAvailable = !!string.IsNullOrEmpty(row.Cells["IdTestAvailable"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdTestAvailable"]?.Value) : 0,
-                                //EvalParam_GridRowType = !string.IsNullOrEmpty(row.Cells["EvalParam_GridRowType"]?.Value?.ToString()) ? row.Cells["EvalParam_GridRowType"]?.Value?.ToString()?.Trim() : string.Empty,
-                                EvalParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
-                                EvalParam_Caption = !string.IsNullOrEmpty(row.Cells["EvalParam_Caption"]?.Value?.ToString()) ? row.Cells["EvalParam_Caption"]?.Value?.ToString()?.Trim() : string.Empty,
-                                EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
-                                EvalParam_Hi = !string.IsNullOrEmpty(row.Cells["EvalParam_Hi"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Hi"]?.Value) : 0,
-                                //EvalParam_Precision = !string.IsNullOrEmpty(row.Cells["EvalParam_Precision"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Precision"]?.Value) : 0,
-                                //EvalParam_Step = !string.IsNullOrEmpty(row.Cells["EvalParam_Step"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Step"]?.Value) : 0,
-                                EvalParam_Mksunit = !string.IsNullOrEmpty(row.Cells["UnitSymbol"]?.Value?.ToString()) ? row.Cells["UnitSymbol"]?.Value?.ToString()?.Trim() : string.Empty
-                            };
+                        DataRow row = dtGridEvalParameters.Rows[i];
 
-                            if (obj.IdEvalParam > 0)
-                                lstParamAnalog.Add(obj);
-                        }
+                        var obj = new ActuationParameters_EvaluationParameters()
+                        {
+                            IdEvalParam = row.Field<int>("IdEvalParam"),
+                            IdTestAvailable = HelperApp.uiTesteSelecionado,
+                            EvalParam_GridRowType = !string.IsNullOrEmpty(row.Field<string>("EvalParam_GridRowType")) ? row.Field<string>("EvalParam_GridRowType").ToString().Trim() : string.Empty,
+                            EvalParam_Name = !string.IsNullOrEmpty(row.Field<string>("EvalParam_Name")) ? row.Field<string>("EvalParam_Name").ToString().Trim() : string.Empty,
+                            EvalParam_Caption = !string.IsNullOrEmpty(row.Field<string>("EvalParam_Caption")) ? row.Field<string>("EvalParam_Caption").ToString().Trim() : string.Empty,
+                            EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Field<string>("EvalParam_ResultParam_Name")) ? row.Field<string>("EvalParam_ResultParam_Name").ToString().Trim() : string.Empty,
+                            EvalParam_Hi_Null = row.Field<decimal?>("EvalParam_Hi") != null ? row.Field<decimal?>("EvalParam_Hi") : 0,
+                            EvalParam_Mksunit = !string.IsNullOrEmpty(row.Field<string>("UnitSymbol")) ? row.Field<string>("UnitSymbol").ToString().Trim() : string.Empty
+                        };
+
+                        obj.EvalParam_Hi = NumberDoubleCheck(obj.EvalParam_Hi_Null.ToString()) * -1;
+
+                        lstParamAnalog.Add(obj);
                     }
                 }
             }
@@ -3283,130 +3356,167 @@ namespace Continental.Project.Adam.UI.Helper
             //Setup list object
             HelperApp.lstEvaluationParameters.Clear();
 
+            DataTable dtGridEvalParameters = new BLL_Main_Tab_ActuationParameters().PopulateGridEvalParametersByTest(HelperApp.uiTesteSelecionado.ToString());
+
+            var lstParamAnalog = new List<ActuationParameters_EvaluationParameters>();
+
             try
             {
-                if (!ReadTXTFileHeaderHBM())
+                int j = 0;
+                var dicReturnReadFileHeaderParamGridData = HelperApp.dicReadFileHeader[1];
+                var dicReturnReadFileHeaderParamGrid = HelperApp.dicReadFileHeader[2];
+                var obj = new ActuationParameters_EvaluationParameters();
+
+                if (dicReturnReadFileHeaderParamGridData.Count() != dicReturnReadFileHeaderParamGrid.Count())
                 {
-                    MessageBox.Show("Failed, error path project !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed, error dicReturnReadFileHeaderParamGridData Count !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return null;
                 }
-                else
+
+                if (HelperApp.uiTesteSelecionado != 24)
                 {
-                    int j = 0;
-                    bool bIsRowNull = false;
-                    bool bIsRowNullAux = false;
-                    var dicReturnReadFileHeaderParamGrid = HelperApp.dicReadFileHeader[1];
-                    var obj = new ActuationParameters_EvaluationParameters();
-
-                    if (HelperApp.uiTesteSelecionado != 24)
+                    //Loop through datatable bd rows
+                    for (int i = 0; i < dicReturnReadFileHeaderParamGridData.Count(); i++)
                     {
-                        //Loop through datatable bd rows
-                        for (int i = 0; i < dicReturnReadFileHeaderParamGrid.Count(); i++)
+                        DataRow row = dtGridEvalParameters.Rows[i];
+
+                        if (row.ItemArray.Count() > 0)
                         {
-                            DataGridViewRow row = grid.Rows[i];
+                            string strEvalParam_GridRowType = dicReturnReadFileHeaderParamGridData.ElementAt(i).Value.ToString().Trim();
 
-                            if (row.Cells.Count > 0)
+                            if (string.IsNullOrEmpty(strEvalParam_GridRowType) || (!strEvalParam_GridRowType.Equals("ADDINPUT_CREATE_VSPACE") && string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value?.ToString())))
                             {
-                                    obj = new ActuationParameters_EvaluationParameters()
-                                    {
-                                        IdEvalParam = !string.IsNullOrEmpty(row.Cells["IdEvalParam"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdEvalParam"]?.Value) : 0,
-                                        EvalParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
-                                        //EvalParam_Caption = !string.IsNullOrEmpty(row.Cells["EvalParam_Caption"]?.Value?.ToString()) ? row.Cells["EvalParam_Caption"]?.Value?.ToString()?.Trim() : string.Empty,
-                                        EvalParam_Caption = !string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()) ? dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()?.Trim() : string.Empty,
-                                        EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
-                                        //EvalParam_Hi = !string.IsNullOrEmpty(row.Cells["EvalParam_Hi"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Hi"]?.Value) : 0,
-                                        EvalParam_Hi = !string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value?.ToString()) ? dicReturnReadFileHeaderParamGrid.ElementAt(i).Value.Contains("-") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value) : NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value) * -1 : 0,
-                                        EvalParam_Mksunit = !string.IsNullOrEmpty(row.Cells["UnitSymbol"]?.Value?.ToString()) ? row.Cells["UnitSymbol"]?.Value?.ToString()?.Trim() : string.Empty
-                                    };
+                                MessageBox.Show("Failed, Null dicReturnReadFileHeaderParamGridData Count !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return null;
+                            }
+                            else
+                            {
+                                int iParamGrid_IdEvalParam = strEvalParam_GridRowType.Equals("CREATE_CHECKBOX_INPUT") ? i + 1 : row.Field<int>("IdEvalParam");
+                                string strParamGrid_EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Field<string>("EvalParam_ResultParam_Name")) ? row.Field<string>("EvalParam_ResultParam_Name").ToString()?.Trim() : string.Empty;
+                                string strParamGrid_UnitSymbol = !string.IsNullOrEmpty(row.Field<string>("UnitSymbol")) ? row.Field<string>("UnitSymbol").ToString()?.Trim() : string.Empty;
 
-                                switch (HelperApp.uiTesteSelecionado)
+                                switch (strEvalParam_GridRowType)
                                 {
-                                    //Tests with blank line
-                                    case 5:
-                                    case 7:
-                                    case 8:
-                                    case 9:
-                                    case 10:
-                                    case 13:
-                                    case 14:
-                                    case 17:
-                                    case 18:
-                                    case 19:
-                                    case 20:
-                                    case 21:
-                                    case 22:
-                                    case 24:
-                                    case 25:
-                                    case 26:
-                                    case 27:
-                                    case 28:
+                                    case "CREATE_ANALOG_INPUT":
                                         {
-                                            if (!obj.EvalParam_Name.StartsWith("CB"))
-                                                HelperApp.lstEvaluationParameters.Add(obj);
+                                            obj = new ActuationParameters_EvaluationParameters()
+                                            {
+                                                IdEvalParam = iParamGrid_IdEvalParam,
+                                                IdTestAvailable = HelperApp.uiTesteSelecionado,
+                                                EvalParam_Name = dicReturnReadFileHeaderParamGridData.ElementAt(i).Key?.ToString()?.Trim(),
+                                                EvalParam_GridRowType = dicReturnReadFileHeaderParamGridData.ElementAt(i).Value?.ToString()?.Trim(),
+                                                EvalParam_Caption = dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()?.Trim(),
+                                                EvalParam_ResultParam_Name = strParamGrid_EvalParam_ResultParam_Name,
+                                                EvalParam_Hi = dicReturnReadFileHeaderParamGrid.ElementAt(i).Value.Contains("-") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value) : NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value) * -1,
+                                                EvalParam_Mksunit = strParamGrid_UnitSymbol
+                                            };
+
+                                            break;
+                                        }
+                                    case "ADDINPUT_CREATE_VSPACE":
+                                        {
+                                            //Tests with blank line in midle grid
+                                            obj = new ActuationParameters_EvaluationParameters()
+                                            {
+                                                IdEvalParam = iParamGrid_IdEvalParam,
+                                                IdTestAvailable = HelperApp.uiTesteSelecionado,
+                                                EvalParam_Name = dicReturnReadFileHeaderParamGridData.ElementAt(i).Key?.ToString()?.Trim(),
+                                                EvalParam_GridRowType = dicReturnReadFileHeaderParamGridData.ElementAt(i).Value?.ToString()?.Trim(),
+                                                EvalParam_Caption = dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()?.Trim(),
+                                                EvalParam_ResultParam_Name = strParamGrid_EvalParam_ResultParam_Name,
+                                                EvalParam_Hi = NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value),
+                                                EvalParam_Mksunit = strParamGrid_UnitSymbol
+                                            };
+
+                                            break;
+                                        }
+                                    case "CREATE_CHECKBOX_INPUT":
+                                        {
+                                            //Tests with checkbox in midle grid
+                                            obj = new ActuationParameters_EvaluationParameters()
+                                            {
+                                                IdEvalParam = iParamGrid_IdEvalParam,
+                                                IdTestAvailable = HelperApp.uiTesteSelecionado,
+                                                EvalParam_Name = dicReturnReadFileHeaderParamGridData.ElementAt(i).Key?.ToString()?.Trim(),
+                                                EvalParam_GridRowType = dicReturnReadFileHeaderParamGridData.ElementAt(i).Value?.ToString()?.Trim(),
+                                                EvalParam_Caption = dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()?.Trim(),
+                                                EvalParam_ResultParam_Name = strParamGrid_EvalParam_ResultParam_Name,
+                                                EvalParam_Hi = dicReturnReadFileHeaderParamGrid.ElementAt(i).Value.Equals("True") ? 1 : 0,
+                                                EvalParam_Mksunit = strParamGrid_UnitSymbol
+                                            };
 
                                             break;
                                         }
                                     default:
                                         {
-                                            if (obj.IdEvalParam > 0 && !obj.EvalParam_Name.StartsWith("CB"))
-                                                HelperApp.lstEvaluationParameters.Add(obj);
-                                            else
-                                            {
-                                                //Testes with combo in midle grid
-                                                if (obj.EvalParam_Name.StartsWith("CB"))
-                                                    if (obj.EvalParam_Caption.Equals(dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()) && grid.Rows.Count > dicReturnReadFileHeaderParamGrid.Count())
-                                                    {
-                                                        j = i + 1;
-                                                        row = grid.Rows[j];
-
-                                                        obj = new ActuationParameters_EvaluationParameters()
-                                                        {
-                                                            IdEvalParam = !string.IsNullOrEmpty(row.Cells["IdEvalParam"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdEvalParam"]?.Value) : 0,
-                                                            EvalParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
-                                                            //EvalParam_Caption = !string.IsNullOrEmpty(row.Cells["EvalParam_Caption"]?.Value?.ToString()) ? row.Cells["EvalParam_Caption"]?.Value?.ToString()?.Trim() : string.Empty,
-                                                            EvalParam_Caption = !string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()) ? dicReturnReadFileHeaderParamGrid.ElementAt(i).Key?.ToString()?.Trim() : string.Empty,
-                                                            EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
-                                                            //EvalParam_Hi = !string.IsNullOrEmpty(row.Cells["EvalParam_Hi"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Hi"]?.Value) : 0,
-                                                            EvalParam_Hi = !string.IsNullOrEmpty(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value?.ToString()) ? dicReturnReadFileHeaderParamGrid.ElementAt(i).Value.Contains("-") ? NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value) : NumberDoubleCheck(dicReturnReadFileHeaderParamGrid.ElementAt(i).Value) * -1 : 0,
-                                                            EvalParam_Mksunit = !string.IsNullOrEmpty(row.Cells["UnitSymbol"]?.Value?.ToString()) ? row.Cells["UnitSymbol"]?.Value?.ToString()?.Trim() : string.Empty
-                                                        };
-
-                                                        HelperApp.lstEvaluationParameters.Add(obj);
-                                                    }   
-                                            }
-
+                                            MessageBox.Show("Failed, Null ParamGridData Count !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return null;
                                             break;
                                         }
                                 }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //Loop through datagridview rows
-                        foreach (DataGridViewRow row in grid.Rows)
-                        {
-                            if (row.Cells.Count > 0)
-                            {
-                                obj = new ActuationParameters_EvaluationParameters()
-                                {
-                                    IdEvalParam = !string.IsNullOrEmpty(row.Cells["IdEvalParam"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdEvalParam"]?.Value) : 0,
-                                    //IdTestAvailable = !!string.IsNullOrEmpty(row.Cells["IdTestAvailable"]?.Value?.ToString()) ? Convert.ToInt32(row.Cells["IdTestAvailable"]?.Value) : 0,
-                                    //EvalParam_GridRowType = !string.IsNullOrEmpty(row.Cells["EvalParam_GridRowType"]?.Value?.ToString()) ? row.Cells["EvalParam_GridRowType"]?.Value?.ToString()?.Trim() : string.Empty,
-                                    EvalParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
-                                    EvalParam_Caption = !string.IsNullOrEmpty(row.Cells["EvalParam_Caption"]?.Value?.ToString()) ? row.Cells["EvalParam_Caption"]?.Value?.ToString()?.Trim() : string.Empty,
-                                    EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()) ? row.Cells["EvalParam_ResultParam_Name"]?.Value?.ToString()?.Trim() : string.Empty,
-                                    EvalParam_Hi = !string.IsNullOrEmpty(row.Cells["EvalParam_Hi"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Hi"]?.Value) : 0,
-                                    //EvalParam_Precision = !string.IsNullOrEmpty(row.Cells["EvalParam_Precision"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Precision"]?.Value) : 0,
-                                    //EvalParam_Step = !string.IsNullOrEmpty(row.Cells["EvalParam_Step"]?.Value?.ToString()) ? Convert.ToDouble(row.Cells["EvalParam_Step"]?.Value) : 0,
-                                    EvalParam_Mksunit = !string.IsNullOrEmpty(row.Cells["UnitSymbol"]?.Value?.ToString()) ? row.Cells["UnitSymbol"]?.Value?.ToString()?.Trim() : string.Empty
-                                };
 
-                                if (obj.IdEvalParam > 0)
-                                    HelperApp.lstEvaluationParameters.Add(obj);
+                                HelperApp.lstEvaluationParameters.Add(obj);
                             }
                         }
                     }
+                }
+                else
+                {
+                    //Loop through datagridview rows
+                    for (int i = 0; i < dtGridEvalParameters.Rows.Count; i++)
+                    {
+                        DataRow row = dtGridEvalParameters.Rows[i];
+
+                        obj = new ActuationParameters_EvaluationParameters()
+                        {
+                            IdEvalParam = row.Field<int>("IdEvalParam"),
+                            IdTestAvailable = HelperApp.uiTesteSelecionado,
+                            EvalParam_GridRowType = !string.IsNullOrEmpty(row.Field<string>("EvalParam_GridRowType")) ? row.Field<string>("EvalParam_GridRowType").ToString().Trim() : string.Empty,
+                            EvalParam_Name = !string.IsNullOrEmpty(row.Field<string>("EvalParam_Name"))? row.Field<string>("EvalParam_Name").ToString().Trim() : string.Empty,
+                            EvalParam_Caption = !string.IsNullOrEmpty(row.Field<string>("EvalParam_Caption")) ? row.Field<string>("EvalParam_Caption").ToString().Trim() : string.Empty,
+                            EvalParam_ResultParam_Name = !string.IsNullOrEmpty(row.Field<string>("EvalParam_ResultParam_Name")) ? row.Field<string>("EvalParam_ResultParam_Name").ToString().Trim() : string.Empty,
+                            EvalParam_Hi_Null = row.Field<decimal?>("EvalParam_Hi") != null ? row.Field<decimal?>("EvalParam_Hi") : 0,
+                            EvalParam_Mksunit = !string.IsNullOrEmpty(row.Field<string>("UnitSymbol")) ? row.Field<string>("UnitSymbol").ToString().Trim() : string.Empty
+                        };
+
+                        obj.EvalParam_Hi = NumberDoubleCheck(obj.EvalParam_Hi_Null.ToString()) * -1;
+
+                        lstParamAnalog.Add(obj);
+                    }
+
+                    //Loop through datagridview rows
+                    var lstFileHeaderParamGridData = dicReturnReadFileHeaderParamGridData.ToList();
+                    var lstFileHeaderParamGrid = dicReturnReadFileHeaderParamGrid.ToList();
+
+                    for (int i = 0; i < lstFileHeaderParamGridData.Count(); i++)
+                    {                        
+                        var valOff_EvalParam_Name = lstFileHeaderParamGridData[i].Key;
+                        var valOff_EvalParam_GridRowType = lstFileHeaderParamGridData[i].Value;
+
+                        var valOff_EvalParam_Caption = lstFileHeaderParamGrid[i].Key;
+                        var valOff_EvalParam_Hi = valOff_EvalParam_GridRowType.Equals("CREATE_RADIO_INPUT") ? Convert.ToInt32(Convert.ToBoolean(lstFileHeaderParamGrid[i].Value)) : NumberDoubleCheck(lstFileHeaderParamGrid[i].Value) * -1;
+
+                        var valOff_IdEvalParam = lstParamAnalog.Where(n=>n.EvalParam_Name.Equals(valOff_EvalParam_Name)).Select(p=>p.IdEvalParam).FirstOrDefault();
+
+                        var valOff_EvalParam_ResultParam_Name = lstParamAnalog.Where(n => n.EvalParam_Name.Equals(valOff_EvalParam_Name)).Select(p => p.EvalParam_ResultParam_Name).FirstOrDefault();
+                        var valOff_EvalParam_Mksunit = lstParamAnalog.Where(n => n.EvalParam_Name.Equals(valOff_EvalParam_Name)).Select(p => p.EvalParam_Mksunit).FirstOrDefault();
+                        
+                        
+                        obj = new ActuationParameters_EvaluationParameters()
+                        {
+                            IdEvalParam = valOff_IdEvalParam,
+                            IdTestAvailable = HelperApp.uiTesteSelecionado,
+                            EvalParam_GridRowType = valOff_EvalParam_GridRowType,
+                            EvalParam_Name = valOff_EvalParam_Name,
+                            EvalParam_Caption = valOff_EvalParam_Caption,
+                            EvalParam_ResultParam_Name = valOff_EvalParam_ResultParam_Name,
+                            EvalParam_Hi = valOff_EvalParam_Hi,
+                            EvalParam_Mksunit = valOff_EvalParam_Mksunit
+                        };
+
+                        HelperApp.lstEvaluationParameters.Add(obj);
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -3414,6 +3524,7 @@ namespace Continental.Project.Adam.UI.Helper
                 var err = ex.Message;
                 throw;
             }
+
 
             return HelperApp.lstEvaluationParameters;
         }
@@ -3468,6 +3579,8 @@ namespace Continental.Project.Adam.UI.Helper
         #region Methods TXT TESTS
         public bool ReadTXTFileHeaderHBM()
         {
+            #region Declare Variables
+
             List<string> lstReturnRead = new List<string>();
 
             int k = 0;
@@ -3475,8 +3588,8 @@ namespace Continental.Project.Adam.UI.Helper
             string fileNameHeader = string.Empty;
             string pathWithFileNameHeader = string.Empty;
 
-            dicReturnReadFileHeader = new Dictionary<string, string>[4];
-            HelperApp.dicReadFileHeader = new Dictionary<string, string>[4];
+            dicReturnReadFileHeader = new Dictionary<string, string>[5];
+            HelperApp.dicReadFileHeader = new Dictionary<string, string>[5];
 
             List<string> lstProject = new List<string>();
             List<string> lstParamGrid = new List<string>();
@@ -3484,9 +3597,12 @@ namespace Continental.Project.Adam.UI.Helper
             List<string> lstResults = new List<string>();
 
             Dictionary<string, string> dicReturnReadFileHeaderPrj = new Dictionary<string, string>();
+            Dictionary<string, string> dicReturnReadFileHeaderParamGridData = new Dictionary<string, string>();
             Dictionary<string, string> dicReturnReadFileHeaderParamGrid = new Dictionary<string, string>();
             Dictionary<string, string> dicReturnReadFileHeaderParam = new Dictionary<string, string>();
             Dictionary<string, string> dicReturnReadFileHeaderResults = new Dictionary<string, string>();
+
+            #endregion
 
             try
             {
@@ -3527,7 +3643,7 @@ namespace Continental.Project.Adam.UI.Helper
                         .SkipWhile(lin => !lin.Contains("|-"))
                         .Skip(1)
                         .TakeWhile(lin => !lin.Contains("|-"))
-                        .ToList();                        
+                        .ToList();
 
                         foreach (var headerItem in lstProject)
                         {
@@ -3568,19 +3684,24 @@ namespace Continental.Project.Adam.UI.Helper
                         .TakeWhile(lin1 => !lin1.Contains("|-"))
                         .ToList();
 
-                        foreach (var headerItem in lstParamGrid)
+                        for (int i = 0; i < lstParamGrid.Count(); i++)
                         {
+                            var headerItem = lstParamGrid[i];
+
                             if (!string.IsNullOrWhiteSpace(headerItem))
                             {
                                 string[] strArray = Regex.Replace(headerItem.Trim(), @"\t|\n|\r|", "").Split(char.Parse(strCharSplit_TXTHeader_Data));
 
                                 if (strArray.Length > 0)
                                 {
-                                    var headerVariableName = strArray[0]?.Trim();
-                                    var posUnit = strArray[1].IndexOf("[");
-                                    var headerVariableValue = !string.IsNullOrEmpty(strArray[1]) ? posUnit > 0 ? strArray[1].Substring(0, posUnit).Trim() : strArray[1]?.Trim() : strArray[1]?.Trim();
+                                    var headerEvalParam_GridRowType = strArray[0]?.Trim();
+                                    var headerEvalParam_Name = headerEvalParam_GridRowType.Equals("ADDINPUT_CREATE_VSPACE") ? string.Concat("VSPACE_", i) : strArray[1]?.Trim();
+                                    var headerEvalParam_Caption = headerEvalParam_GridRowType.Equals("ADDINPUT_CREATE_VSPACE") ? string.Concat("VSPACE_", i) : strArray[2]?.Trim();
+                                    var posUnit = strArray[3].IndexOf("[");
+                                    var headerEvalParam_HiValue = !string.IsNullOrEmpty(strArray[3]) ? posUnit > 0 ? strArray[3].Substring(0, posUnit).Trim() : strArray[3]?.Trim() : strArray[3]?.Trim();
 
-                                    dicReturnReadFileHeaderParamGrid.Add(headerVariableName, headerVariableValue);
+                                    dicReturnReadFileHeaderParamGridData.Add(headerEvalParam_Name, headerEvalParam_GridRowType);
+                                    dicReturnReadFileHeaderParamGrid.Add(headerEvalParam_Caption, headerEvalParam_HiValue);
                                 }
                             }
                         }
@@ -3606,7 +3727,6 @@ namespace Continental.Project.Adam.UI.Helper
                         .Skip(lstProject.Count() + lstParamGrid.Count() + 3)
                         .TakeWhile(lin1 => !lin1.Contains("|-"))
                         .ToList();
-                        
 
                         foreach (var headerItem in lstParam)
                         {
@@ -3644,7 +3764,7 @@ namespace Continental.Project.Adam.UI.Helper
                         .SkipWhile(lin => !lin.Contains("|-"))
                         .Skip(lstProject.Count() + lstParamGrid.Count() + lstParam.Count() + 4)
                         .TakeWhile(lin => !lin.Contains("|-"))
-                        .ToList();                        
+                        .ToList();
 
                         foreach (var headerItem in lstResults)
                         {
@@ -3672,22 +3792,23 @@ namespace Continental.Project.Adam.UI.Helper
 
                         return false;
                     }
-                    
+
 
                     #endregion
 
                     #region HEADER - DICTIONARY
 
                     if (dicReturnReadFileHeader[0] != null)
-                        dicReturnReadFileHeader = new Dictionary<string, string>[4];
+                        dicReturnReadFileHeader = new Dictionary<string, string>[5];
 
                     dicReturnReadFileHeader[0] = dicReturnReadFileHeaderPrj;
-                    dicReturnReadFileHeader[1] = dicReturnReadFileHeaderParamGrid;
-                    dicReturnReadFileHeader[2] = dicReturnReadFileHeaderParam;
-                    dicReturnReadFileHeader[3] = dicReturnReadFileHeaderResults;
+                    dicReturnReadFileHeader[1] = dicReturnReadFileHeaderParamGridData;
+                    dicReturnReadFileHeader[2] = dicReturnReadFileHeaderParamGrid;
+                    dicReturnReadFileHeader[3] = dicReturnReadFileHeaderParam;
+                    dicReturnReadFileHeader[4] = dicReturnReadFileHeaderResults;
 
                     if (HelperApp.dicReadFileHeader[0] != null)
-                        HelperApp.dicReadFileHeader = new Dictionary<string, string>[4];
+                        HelperApp.dicReadFileHeader = new Dictionary<string, string>[5];
 
                     HelperApp.dicReadFileHeader = dicReturnReadFileHeader;
 
@@ -3706,13 +3827,21 @@ namespace Continental.Project.Adam.UI.Helper
                 return false;
             }
 
-            return dicReturnReadFileHeader[0].Count() > 0 ? true : false;
+
+            foreach (var dic in dicReturnReadFileHeader.ToList())
+            {
+                if (dic.Count() <= 0)
+                    return false;
+            }
+
+            return true;
         }
         public List<string>[] ReadTXTFileHBM(string fileName, string pathWithFileName)
         {
             int k = 0;
             int i = 0;
             string line = string.Empty;
+            lstStrReturnReadFile = new List<string>[13];
 
             try
             {
@@ -3751,8 +3880,6 @@ namespace Continental.Project.Adam.UI.Helper
                         file.Close();
                     }
 
-                    lstStrReturnReadFile = new List<string>[13];
-
                     lstStrReturnReadFile[0] = lstStrTimestamp;       //  Time [s]
                     lstStrReturnReadFile[1] = lstStrAnalogCh01;    //ch9.1 - HelperHBM._rDiffTravel - Transdutor Deslocamento Desvio Linearidade - 0-10 mm (Linearizado)
                     lstStrReturnReadFile[2] = lstStrAnalogCh02;    //ch9.2 - HelperHBM._rInputForce1 - Celula Carga Forca Entrada - 0-5 kN (Linearizada)
@@ -3767,10 +3894,8 @@ namespace Continental.Project.Adam.UI.Helper
                     lstStrReturnReadFile[11] = lstStrAnalogCh11;  //ch9.11 - RESERVA
                     lstStrReturnReadFile[12] = lstStrAnalogCh12;  //ch9.12 - RESERVA
 
-
                     for (i = 0; i < lstStrReturnReadFile.Length; i++)
                         lstDblReturnReadFile[i] = lstStrReturnReadFile[i].ConvertAll(item => double.Parse(item, CultureInfo.InvariantCulture));
-
                 }
             }
             catch (Exception ex)
@@ -16531,7 +16656,7 @@ namespace Continental.Project.Adam.UI.Helper
         }
 
         #region Aquisition Txt Data
-        public HelperTestBase TXTFileHBM_HeaderAppendDataProjectParameters(int iTesteSelecionado, Model_GVL modelGVL)
+        public HelperTestBase TXTFileHBM_HeaderAppendDataProjectParameters(int iTesteSelecionado, Model_GVL modelGVL, DataGridView grid)
         {
             try
             {
@@ -16593,57 +16718,71 @@ namespace Continental.Project.Adam.UI.Helper
 
                     for (int i = 0; i < lstInfoEvaluationParameters.Count; i++)
                     {
-                        string varGrid_EvalParam_Hi = !string.IsNullOrEmpty(lstInfoEvaluationParameters.ElementAt(i).EvalParam_Caption) ? lstInfoEvaluationParameters.ElementAt(i).EvalParam_Hi.ToString("F") : string.Empty;
+                        string varGrid_EvalParam_GridRowType = lstInfoEvaluationParameters.ElementAt(i).EvalParam_GridRowType?.ToString()?.Trim();
 
-                        switch (HelperApp.uiTesteSelecionado)
+                        string varGrid_EvalParam_Name = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Name?.ToString()?.Trim();
+
+                        string varGrid_EvalParam_Caption = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Caption?.ToString()?.Trim();
+
+                        string varGrid_EvalParam_Hi = string.Empty;
+
+                        switch (varGrid_EvalParam_GridRowType)
                         {
-                            //Tests with blank line
-                            case 5:
-                            case 7:
-                            case 8:
-                            case 9:
-                            case 10:
-                            case 13:
-                            case 14:
-                            case 17:
-                            case 18:
-                            case 19:
-                            case 20:
-                            case 21:
-                            case 22:
-                            case 24:
-                            case 25:
-                            case 26:
-                            case 27:
-                            case 28:
+                            case "CREATE_ANALOG_INPUT":
                                 {
-                                    string varGrid_EvalParam_Caption = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Caption?.ToString()?.Trim();
+                                    varGrid_EvalParam_Hi = !string.IsNullOrEmpty(lstInfoEvaluationParameters.ElementAt(i).EvalParam_Caption) ? lstInfoEvaluationParameters.ElementAt(i).EvalParam_Hi.ToString("F") : string.Empty;
 
-                                    string varGrid_EvalParam_Mksunit = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Mksunit?.ToString()?.Trim();
+                                    break;
+                                }
+                            case "ADDINPUT_CREATE_VSPACE":
+                                {
+                                    //Tests with blank line in midle grid
+                                    varGrid_EvalParam_Hi = string.Empty;
 
-                                    sbHeader.Append($"{varGrid_EvalParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {varGrid_EvalParam_Hi} {varGrid_EvalParam_Mksunit}");
+                                    break;
+                                }
+                            case "CREATE_CHECKBOX_INPUT":
+                                {
+                                    //Tests with checkbox in midle grid
+                                    DataGridViewCell gvCell = grid.Rows[i].Cells["IdEvalParam"];
 
-                                    sbHeader.Append($"\r\n");
+                                    if (gvCell.GetType() == typeof(DataGridViewCheckBoxCell))
+                                        varGrid_EvalParam_Hi = Convert.ToBoolean(gvCell.Value).ToString();
+
+                                    break;
+                                }
+                            case "CREATE_RADIO_INPUT":
+                                {
+                                    //Test 24 - Efficiency
+                                    if (HelperApp.uiTesteSelecionado == 24)
+                                    {
+                                        int iIdxRadioSel = HelperTestBase.Model_GVL.GVL_T24.iTipoGrafico;
+
+                                        varGrid_EvalParam_Hi = iIdxRadioSel.Equals(i) ? "True" : "False";
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Failed, Radio Input in not accept Test!", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return null;
+
+                                        break;
+                                    }
 
                                     break;
                                 }
                             default:
                                 {
-                                    if (!string.IsNullOrEmpty(varGrid_EvalParam_Hi))
-                                    {
-                                        string varGrid_EvalParam_Caption = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Caption?.ToString()?.Trim();
-
-                                        string varGrid_EvalParam_Mksunit = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Mksunit?.ToString()?.Trim();
-
-                                        if (!string.IsNullOrEmpty(varGrid_EvalParam_Caption))
-                                            sbHeader.Append($"{varGrid_EvalParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {varGrid_EvalParam_Hi} {varGrid_EvalParam_Mksunit}");
-
-                                        sbHeader.Append($"\r\n");
-                                    }
-
+                                    MessageBox.Show("Failed, Null ParamGridData Count !", appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return null;
                                     break;
                                 }
                         }
+
+                        string varGrid_EvalParam_Mksunit = lstInfoEvaluationParameters.ElementAt(i).EvalParam_Mksunit?.ToString()?.Trim();
+
+                        sbHeader.Append($"{varGrid_EvalParam_GridRowType}\t {strCharSplit_TXTHeader_Data}\t {varGrid_EvalParam_Name}\t {strCharSplit_TXTHeader_Data}\t {varGrid_EvalParam_Caption}\t {strCharSplit_TXTHeader_Data}\t {varGrid_EvalParam_Hi} {varGrid_EvalParam_Mksunit}");
+
+                        sbHeader.Append($"\r\n");
                     }
 
                     #endregion

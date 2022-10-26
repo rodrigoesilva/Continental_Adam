@@ -17,6 +17,30 @@ namespace Continental.Project.Adam.UI.BLL
         SecurityCrypto crypto = new SecurityCrypto();
 
         #endregion
+        public DataTable GetAllUserInfo()
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("SELECT u.*, pr.UProfile, pa.LastUpdate As LastUpdatePass");
+                sb.Append(" FROM Security_User u");
+                sb.Append(" INNER JOIN Security_Password pa on pa.IdUser = u.IdUser");
+                sb.Append(" INNER JOIN Security_Profile pr on pr.IdProfile = u.IdProfile");
+
+                string sql = sb.ToString();
+
+                DataTable dt = db.GetDataTable(sql);
+
+                return dt != null ? dt : null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("**** | Error | ****  BLL_Security_User GetAllUserInfo : " + ex.Message);
+                throw (ex);
+            }
+        }
+
         public DataTable GetUserById(long idUser)
         {
             try
@@ -34,12 +58,7 @@ namespace Continental.Project.Adam.UI.BLL
 
                 DataTable dt = db.GetDataTable(sql);
 
-                if (dt != null)
-                {
-                    return dt;
-                }
-                else
-                    return null;
+                return dt != null ? dt:  null;
             }
             catch (Exception ex)
             {

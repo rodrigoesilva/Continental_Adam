@@ -672,67 +672,6 @@ namespace Continental.Project.Adam.UI
                 grid_ProjectTest.Columns["Test"].DefaultCellStyle.ForeColor = Color.White;
                 grid_ProjectTest.Columns["Test"].DisplayIndex = 12;
 
-
-                //grid_ProjectTest.Columns["CustomerType"].HeaderText = "Customer/Type";
-                //grid_ProjectTest.Columns["CustomerType"].Visible = true;
-                //grid_ProjectTest.Columns["CustomerType"].Width = 150;
-                //grid_ProjectTest.Columns["CustomerType"].DisplayIndex = 0;
-
-                //grid_ProjectTest.Columns["TestDateTime"].HeaderText = "Testing Date";
-                //grid_ProjectTest.Columns["TestDateTime"].Visible = true;
-                //grid_ProjectTest.Columns["TestDateTime"].Width = 150;
-                //grid_ProjectTest.Columns["TestDateTime"].DisplayIndex = 1;
-
-                //grid_ProjectTest.Columns["Booster"].HeaderText = "Booster #";
-                //grid_ProjectTest.Columns["Booster"].Visible = true;
-                //grid_ProjectTest.Columns["Booster"].Width = 130;
-                //grid_ProjectTest.Columns["Booster"].DisplayIndex = 2;
-
-                //grid_ProjectTest.Columns["TMC"].HeaderText = "TMC #";
-                //grid_ProjectTest.Columns["TMC"].Visible = true;
-                //grid_ProjectTest.Columns["TMC"].Width = 150;
-                //grid_ProjectTest.Columns["TMC"].DisplayIndex = 3;
-
-                //grid_ProjectTest.Columns["ProductionDate"].HeaderText = "Production Date";
-                //grid_ProjectTest.Columns["ProductionDate"].Visible = true;
-                //grid_ProjectTest.Columns["ProductionDate"].Width = 170;
-                //grid_ProjectTest.Columns["ProductionDate"].DisplayIndex = 4;
-
-                //grid_ProjectTest.Columns["UName"].HeaderText = "Operator";
-                //grid_ProjectTest.Columns["UName"].Visible = true;
-                //grid_ProjectTest.Columns["UName"].Width = 150;
-                //grid_ProjectTest.Columns["UName"].DisplayIndex = 5;
-
-                //grid_ProjectTest.Columns["Comment"].HeaderText = "Comment";
-                //grid_ProjectTest.Columns["Comment"].Visible = true;
-                //grid_ProjectTest.Columns["Comment"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                //grid_ProjectTest.Columns["Comment"].Width = 300;
-                //grid_ProjectTest.Columns["Comment"].DisplayIndex = 6;
-
-                //grid_ProjectTest.Columns["IdProjectTestConcluded"].Visible = true;
-                //grid_ProjectTest.Columns["IdProjectTestConcluded"].Width = 0;
-                //grid_ProjectTest.Columns["IdProjectTestConcluded"].DefaultCellStyle.BackColor = Color.White;
-                //grid_ProjectTest.Columns["IdProjectTestConcluded"].DefaultCellStyle.ForeColor = Color.White;
-                //grid_ProjectTest.Columns["IdProjectTestConcluded"].DisplayIndex = 7;
-
-                //grid_ProjectTest.Columns["PartNumber"].Visible = true;
-                //grid_ProjectTest.Columns["PartNumber"].Width = 0;
-                //grid_ProjectTest.Columns["PartNumber"].DefaultCellStyle.BackColor = Color.White;
-                //grid_ProjectTest.Columns["PartNumber"].DefaultCellStyle.ForeColor = Color.White;
-                //grid_ProjectTest.Columns["PartNumber"].DisplayIndex = 8;
-
-                //grid_ProjectTest.Columns["IdProject"].Visible = true;
-                //grid_ProjectTest.Columns["IdProject"].Width = 0;
-                //grid_ProjectTest.Columns["IdProject"].DefaultCellStyle.BackColor = Color.White;
-                //grid_ProjectTest.Columns["IdProject"].DefaultCellStyle.ForeColor = Color.White;
-                //grid_ProjectTest.Columns["IdProject"].DisplayIndex = 9;
-
-                //grid_ProjectTest.Columns["Test"].Visible = true;
-                //grid_ProjectTest.Columns["Test"].Width = 0;
-                //grid_ProjectTest.Columns["Test"].DefaultCellStyle.BackColor = Color.White;
-                //grid_ProjectTest.Columns["Test"].DefaultCellStyle.ForeColor = Color.White;
-                //grid_ProjectTest.Columns["Test"].DisplayIndex = 9;
-
                 ////Changes grid's column's header's font size to 10.
                 grid_ProjectTest.ColumnHeadersDefaultCellStyle.Font = new Font("", 10.0f, FontStyle.Bold);
 

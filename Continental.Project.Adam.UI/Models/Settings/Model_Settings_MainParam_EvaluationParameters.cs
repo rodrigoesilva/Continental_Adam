@@ -76,5 +76,7 @@ namespace Continental.Project.Adam.UI.Models.Settings
         public double EvalParam_Precision { get; set; }
         public double EvalParam_Step { get; set; }
         public string EvalParam_Mksunit { get; set; }
+
+        public decimal? EvalParam_Hi_Null { get; set; }
     }
 }

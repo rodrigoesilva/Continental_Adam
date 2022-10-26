@@ -401,6 +401,12 @@
     <Compile Include="Form_Operational_Calibration.Designer.cs">
       <DependentUpon>Form_Operational_Calibration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_Security_User_Management.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Security_User_Management.Designer.cs">
+      <DependentUpon>Form_Security_User_Management.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper\Com\HelperHBM.cs" />
     <Compile Include="Helper\Com\HelperMODBUS.cs" />
     <Compile Include="Helper\Com\HelperAdam.cs" />
@@ -516,6 +522,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Manager_CreateEvalGroup.resx">
       <DependentUpon>Form_Manager_CreateEvalGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Security_User_Management.resx">
+      <DependentUpon>Form_Security_User_Management.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Operational_Project.resx">
       <DependentUpon>Form_Operational_Project.cs</DependentUpon>

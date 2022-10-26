@@ -120,6 +120,8 @@ namespace Continental.Project.Adam.UI
     {
         #region Define
 
+        #region Declare Variables
+
         private bool _bAppStart = false;
         private bool _bCoBSelectTestSelected = false;
         private bool _bUseChkGrid = false;
@@ -127,6 +129,7 @@ namespace Continental.Project.Adam.UI
         private string _notReadValue = "NaN";
         private string _initialDirPathTestFile = string.Empty;
 
+        private bool _bGetDataInfoCarregado = false;
         private bool _bPrjTestOffLineCarregado = false;
         private string _prjTestFileNameWithPath = string.Empty;
         private string _prjTestHeaderFileNameWithPath = string.Empty;
@@ -147,6 +150,7 @@ namespace Continental.Project.Adam.UI
 
         List<double>[] lstDblChReadFileArr = new List<double>[13];
 
+        #endregion
 
         #region General Settings
 
@@ -403,7 +407,7 @@ namespace Continental.Project.Adam.UI
             menuItemToolStrip_Project.Enabled = true;
             subMenu_Project_Project.Enabled = true;
             menuItemToolStrip_TestProgram.Enabled = true;
-            //menuItemToolStrip_Settings.Enabled = true;
+            menuItemToolStrip_Settings.Enabled = true;
         }
 
         private void SubMenuProject_Enable()
@@ -558,23 +562,27 @@ namespace Continental.Project.Adam.UI
         {
             //helperAdam.SMPreferencesClick(sender);
 
-            MessageBox.Show("subMenu_Settings_SoftwareMaintenance_Click !", _helperApp.appMsg_Name);
+            MessageBox.Show(_helperApp.AppMsg_Welcome, _helperApp.appMsg_Name);
 
             //  _helperApp.Form_Open(new Form_Adam_Preferences(), this);
         }
 
         #endregion
 
-        #region Menu - Account
+        #region Menu - Security
         private void subMenu_Account_SelectAccessLevel_Click(object sender, EventArgs e)
         {
-            _helperApp.Form_Open(new Form_Security_UserLevel(), this);
+           _helperApp.Form_Open(new Form_Security_UserLevel());
         }
         private void subMenu_Account_NewPassword_Click(object sender, EventArgs e)
         {
-            _helperApp.Form_Open(new Form_Security_NewPassword(), this);
+            _helperApp.Form_Open(new Form_Security_NewPassword());
         }
-
+        private void subMenu_Security_UserManagement_Click(object sender, EventArgs e)
+        {
+            _helperApp.Form_Open(new Form_Security_User_Management());
+        }
+        
         #endregion
 
         #endregion
@@ -929,87 +937,87 @@ namespace Continental.Project.Adam.UI
                 #region Get Grids Info
 
                 //data info Grid Results
-
                 DataTable dtTableResults = new BLL_Main_Tab_TableResults().PopulateGridTableResultsByTest(strIdxTestSelected);
 
-                if (dtTableResults.Rows.Count == 0)
+                #region CheckBoxes Result Parameters
+
+                List<Model_Operational_TestTableParameters> listResultParam = new List<Model_Operational_TestTableParameters>();
+
+                HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project = HelperTestBase.ProjectTestConcluded.ProjectTestSample?.Project == null ? new Model_Operational_Project() : HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project;
+
+                if (!HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_OnLIne)
                 {
-                    MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                    TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
-
-                    return false;
-                }
-                else
-                {
-                    #region CheckBoxes Result Parameters
-
-                    List<Model_Operational_TestTableParameters> listResultParam = new List<Model_Operational_TestTableParameters>();
-
-                    HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project = HelperTestBase.ProjectTestConcluded.ProjectTestSample?.Project == null ? new Model_Operational_Project() : HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project;
-
-                    if (!HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_OnLIne)
+                    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject > 0)
                     {
-                        if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject > 0)
+                        #region load existent Header File project
+
+                        if (!_helperApp.ReadTXTFileHeaderHBM())
                         {
-                            #region load existent Header File project
-
-                            if (!_helperApp.ReadTXTFileHeaderHBM())
-                            {
-                                MessageBox.Show("Failed, error pathWithFileNameHeader project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return false;
-                            }
-
-                            #endregion
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestFileName))
-                                MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                            TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
-
+                            MessageBox.Show("Failed, error pathWithFileNameHeader project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return false;
                         }
 
-                        if (HelperApp.dicReadFileHeader[0]?.Count() == 0)
-                        {
-                            MessageBox.Show("Error, dicReturnReadFileHeader result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return false;
-                        }
-
-                        if (HelperApp.dicReadFileHeader[0]?.Count() > 0)
-                            listResultParam = _helperApp.TabTableParameters_GetTableParamOffLineByFile(dtTableResults, grid_tabActionParam_EvalParam, HelperApp.dicReadFileHeader);
-                        else
-                        {
-                            MessageBox.Show("Error, .dicReadFileHeader result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return false;
-                        }
+                        #endregion
                     }
                     else
-                        listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam);
-
-                    if (listResultParam?.Count() == 0 || listResultParam == null)
                     {
-                        MessageBox.Show("Error, Parm result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        if (!string.IsNullOrEmpty(HelperTestBase.ProjectTestConcluded?.ProjectTestFileName))
+                            MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
                         return false;
                     }
 
-                    //TEMPORARIO rRunOutForce do T01 para T06/07/08
-                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwRunOutForceRef_LW }, HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutForce_Real_N);
-                    mbtn_EoutForce.Text = HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutForce_Real_N.ToString() + " N";
-                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwRunOutPressureRef_LW }, HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutPressure_Real_Bar);
-                    mbtn_EoutPressure.Text = HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutPressure_Real_Bar.ToString() + " bar";
+                    if (HelperApp.dicReadFileHeader[0]?.Count() == 0)
+                    {
+                        MessageBox.Show("Error, dicReturnReadFileHeader result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
 
-                    HelperApp.lstResultParam.Clear();
+                    if (HelperApp.dicReadFileHeader[0]?.Count() > 0)
+                        listResultParam = _helperApp.TabTableParameters_GetTableParamOffLineByFile(dtTableResults, grid_tabActionParam_EvalParam, HelperApp.dicReadFileHeader);
+                    else
+                    {
+                        MessageBox.Show("Error, .dicReadFileHeader result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (dtTableResults.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Error, failed load result data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                    HelperApp.lstResultParam = listResultParam;
+                        TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
-                    //bind Checkboxes Table Results
-                    TAB_TableResults_CheckBoxes(listResultParam);
+                        return false;
+                    }
+                    else
+                        listResultParam = _helperApp.TabTableParameters_GetTableParam(dtTableResults, grid_tabActionParam_EvalParam);
+                   
 
                     #endregion
                 }
+
+                if (listResultParam?.Count() == 0 || listResultParam == null)
+                {
+                    MessageBox.Show("Error, Parm result not load!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                //TEMPORARIO rRunOutForce do T01 para T06/07/08
+                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwRunOutForceRef_LW }, HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutForce_Real_N);
+                mbtn_EoutForce.Text = HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutForce_Real_N.ToString() + " N";
+                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_dwRunOutPressureRef_LW }, HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutPressure_Real_Bar);
+                mbtn_EoutPressure.Text = HelperTestBase.Model_GVL.GVL_T01.temp_rRunOutPressure_Real_Bar.ToString() + " bar";
+
+                HelperApp.lstResultParam.Clear();
+
+                HelperApp.lstResultParam = listResultParam;
+
+                //bind Checkboxes Table Results
+                TAB_TableResults_CheckBoxes(listResultParam);
 
                 #endregion
             }
@@ -1142,6 +1150,8 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                throw;
             }
         }
         private void TAB_TableResult_Grid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -1158,8 +1168,11 @@ namespace Continental.Project.Adam.UI
                         TAB_TableResults_Grid_WriteNominalParameters(row, strIdTestAvailable, strResultParam_Nominal);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
                 throw;
             }
@@ -1196,12 +1209,14 @@ namespace Continental.Project.Adam.UI
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
                 throw;
             }
-
         }
         private void TAB_TableResult_Grid_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
@@ -1427,10 +1442,10 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var exc = ex.Message;
-                MessageBox.Show(exc);
-
+                MessageBox.Show(string.Concat("Error - TAB_ActuationParameters_SetData : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+
+                throw;
             }
 
             return true;
@@ -1524,7 +1539,9 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var err = ex.Message;
+                MessageBox.Show(string.Concat("Error - TAB_ActuationParameters_WriteComInputTxt : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+
                 throw;
             }
         }
@@ -1555,13 +1572,23 @@ namespace Continental.Project.Adam.UI
 
                             if (!_bCoBSelectTestSelected)
                             {
-                                bool bReturn = TAB_ActuationParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
+                                bool bReturnDataInfo = false;
 
-                                if (bReturn)
+                                if (!HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_OnLIne)
+                                {
+                                    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject > 0)
+                                        bReturnDataInfo = TAB_ActuationParameters_GetDataInfoOffLineByFile(HelperApp.uiTesteSelecionado.ToString());
+                                    else
+                                        bReturnDataInfo = TAB_ActuationParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
+                                }
+                                else
+                                    bReturnDataInfo = TAB_ActuationParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
+
+                                if (bReturnDataInfo)
                                     _bCoBSelectTestSelected = true;
                                 else
                                 {
-                                    MessageBox.Show("Error, failed load data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Error, failed load data test \n\n TAB_ActuationParameters_PopulateData!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     return false;
                                 }
                             }
@@ -1571,9 +1598,10 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var exc = ex.Message;
-                MessageBox.Show(exc);
+                MessageBox.Show(string.Concat("Error - TAB_ActuationParameters_PopulateData : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+
+                throw;
             }
 
             return true;
@@ -1587,6 +1615,7 @@ namespace Continental.Project.Adam.UI
                 if (dtActionParameter.Rows.Count == 0)
                 {
                     MessageBox.Show("Error, failed load data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    _bGetDataInfoCarregado = false;
                     return false;
                 }
                 else
@@ -1649,6 +1678,9 @@ namespace Continental.Project.Adam.UI
                     if (dtGridEvalParameters == null)
                     {
                         MessageBox.Show("Error, failed load data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        _bGetDataInfoCarregado = false;
+
                         return false;
                     }
                     else
@@ -1662,146 +1694,14 @@ namespace Continental.Project.Adam.UI
                             {
                                 if (TAB_ActuationParameters_EvalParameters_Grid_Format())
                                 {
-                                    //OFF LINE
-                                    if (HelperTestBase.ProjectTestConcluded?.ProjectTestSample?.Project != null)
-                                    {
-                                        //lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
-
-                                        #region Update Data - PARAMETERS GRID -|
-
-                                        if (!HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_OnLIne)
-                                        {
-                                            if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject > 0)
-                                            {
-                                                #region Update Data  OFF LINE |- PARAMETERS GRID -|
-
-                                                lstInfoEvaluationParameters = new List<ActuationParameters_EvaluationParameters>();
-                                                lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
-
-                                                if (lstInfoEvaluationParameters == null)
-                                                {
-                                                    MessageBox.Show("Error, failed load rows data test - GetValuesEvalParamOffLineByFile!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                                                    return false;
-                                                }
-                                                else
-                                                {
-                                                    for (int i = 0; i < lstInfoEvaluationParameters.Count; i++)
-                                                    {
-                                                        string strGridParam_Name = grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Name"].Value?.ToString();
-
-                                                        string strGridParamHeaderFile_Value = !string.IsNullOrEmpty(strGridParam_Name) ? lstInfoEvaluationParameters.Where(x => x.EvalParam_Name.Equals(strGridParam_Name)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString("F2")?.Trim() : string.Empty;
-
-                                                        if (!string.IsNullOrEmpty(strGridParam_Name))
-                                                            grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Hi"].Value = strGridParamHeaderFile_Value;
-                                                        else
-                                                        {
-                                                            switch (HelperApp.uiTesteSelecionado)
-                                                            {
-                                                                //Tests with blank line
-                                                                //Tests 1,2 check in last line
-                                                                case 5:
-                                                            case 6:
-                                                                case 7:
-                                                                case 8:
-                                                                case 9:
-                                                                case 10:
-                                                                case 13:
-                                                                case 14:
-                                                                case 17:
-                                                                case 18:
-                                                                case 19:
-                                                                case 20:
-                                                                case 21:
-                                                                case 22:
-                                                            case 23:
-                                                                case 24:
-                                                                case 25:
-                                                                case 26:
-                                                                case 27:
-                                                                case 28:
-                                                                    {
-                                                                        grid_tabActionParam_EvalParam.Rows[2].Cells["EvalParam_Hi"].ValueType = typeof(string); //blank line
-
-                                                                        grid_tabActionParam_EvalParam.Rows[2].Cells["EvalParam_Hi"].Style.ForeColor = Color.White;
-                                                                        grid_tabActionParam_EvalParam.Rows[2].Cells["EvalParam_Hi"].Style.BackColor = Color.White;
-                                                                        grid_tabActionParam_EvalParam.Rows[2].Cells["EvalParam_Hi"].Style.SelectionBackColor = Color.White;
-                                                                        grid_tabActionParam_EvalParam.Rows[2].Cells["EvalParam_Hi"].Style.SelectionForeColor = Color.White;
-
-                                                                        break;
-                                                                    }
-                                                                default:
-                                                                    {
-                                                                        break;
-                                                                    }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-
-                                                //Update Data  OFF LINE |- PARAMETERS -|
-                                                if (_helperApp.TAB_ActuationParameters_GetValuesEvalParamOffLineByFile())
-                                                {
-                                                    #region General Settings
-
-                                                    //General Settings - CBO Actuation Mode
-                                                    HelperApp.uiActuationMode = HelperTestBase.iActuaionMode;
-                                                    _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wModo }, HelperApp.uiActuationMode);
-
-                                                    //General Settings - Panel Vacuum
-                                                    strVacuumValue = HelperTestBase.Vacuum.ToString();
-                                                    TAB_ActuationParameters_GeneralSettings_Vacuum_Change(strVacuumValue);
-
-                                                    //General Settings - Panel Consumers
-                                                    iConsumerType = HelperTestBase.iTipoConsumidores;
-                                                    iConsumerPC = HelperTestBase.iSumHoseConsumerPC;
-                                                    iConsumerSC = HelperTestBase.iSumHoseConsumerSC;
-                                                    bPistonLock = HelperTestBase.chkPistonLock;
-                                                    TAB_ActuationParameters_GeneralSettings_Consumers_Change(iConsumerType, iConsumerPC, iConsumerSC, bPistonLock);
-
-                                                    #endregion
-
-                                                    #region Actuation
-
-                                                    strName = string.Empty;
-
-                                                    strMaxForceValue = HelperTestBase.MaxForce.ToString();
-
-                                                    if (!string.IsNullOrEmpty(strMaxForceValue))
-                                                        TAB_ActuationParameters_Actuation_MaxForce_Change(strName, strMaxForceValue);
-                                                    else
-                                                        mtxt_Actuation_E1ParMaxForce.Text = _notReadValue;
-
-
-                                                    strGradientForceValue = HelperTestBase.ForceGradient.ToString();
-
-                                                    if (!string.IsNullOrEmpty(strGradientForceValue))
-                                                    {
-                                                        TAB_ActuationParameters_Actuation_GradientForce_Change(strName, strGradientForceValue);
-
-                                                        mtxt_Actuation_E1ParForceGrad.Text = strGradientForceValue;
-                                                    }
-                                                    else
-                                                        mtxt_Actuation_E1ParForceGrad.Text = _notReadValue;
-
-                                                    #endregion
-                                                }
-
-                                                #endregion
-                                            }
-                                            else
-                                                lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
-                                        }
-
-                                        #endregion
-                                    }
-                                    else
-                                        lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
+                                    lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                                     if (HelperApp.uiTesteSelecionado > 0)
                                         TAB_ActuationParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters, string.Empty, string.Empty);
                                     else
                                     {
+                                        _bGetDataInfoCarregado = false;
+
                                         MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                                         TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
@@ -1811,18 +1711,24 @@ namespace Continental.Project.Adam.UI
                                 }
                                 else
                                 {
+                                    _bGetDataInfoCarregado = false;
+
                                     MessageBox.Show("Error, failed Grid_Format rows data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     return false;
                                 }
                             }
                             else
                             {
+                                _bGetDataInfoCarregado = false;
+
                                 MessageBox.Show("Error, failed load GridRowType data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 return false;
                             }
                         }
                         else
                         {
+                            _bGetDataInfoCarregado = false;
+
                             MessageBox.Show("Error, failed load rows data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return false;
                         }
@@ -1833,14 +1739,261 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var exc = ex.Message;
-                MessageBox.Show(exc);
+                _bGetDataInfoCarregado = false;
+
+                MessageBox.Show(string.Concat("Error - TAB_ActuationParameters_GetDataInfo : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+
+                throw;
             }
 
             return true;
         }
 
+        private bool TAB_ActuationParameters_GetDataInfoOffLineByFile(string strIdxTestSelected)
+        {
+            try
+            {
+                if (!_helperApp.ReadTXTFileHeaderHBM())
+                {
+                    MessageBox.Show("Failed, error path project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                var dicReturnReadFileHeaderPrj = HelperApp.dicReadFileHeader[0];
+                var dicReturnReadFileHeaderParamGridData = HelperApp.dicReadFileHeader[1];
+                var dicReturnReadFileHeaderParamGrid = HelperApp.dicReadFileHeader[2];
+                var dicReturnReadFileHeaderParam = HelperApp.dicReadFileHeader[3];
+                var dicReturnReadFileHeaderResults = HelperApp.dicReadFileHeader[4];
+
+                DataTable dtActionParameter = new BLL_Main_Tab_ActuationParameters().PopulateActionParametersByTest(strIdxTestSelected);
+
+                if (!_helperApp.TAB_ActuationParameters_GetValuesEvalParamOffLineByFile())
+                {
+                    MessageBox.Show("Error, failed load data offline Eval Param test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                else
+                {
+                    #region Actuation Parameters
+
+                    #region General Settings
+
+                    //General Settings - CBO Actuation Mode
+                    IdActuationMode = HelperTestBase.iActuaionMode;
+                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(IdActuationMode);
+
+                    //General Settings - Panel Vacuum
+                    strVacuumValue = HelperTestBase.Vacuum.ToString();
+                    TAB_ActuationParameters_GeneralSettings_Vacuum_Change(strVacuumValue);
+
+                    //General Settings - Panel Consumers
+                    iConsumerType = HelperTestBase.iTipoConsumidores;
+                    iConsumerPC = HelperTestBase.iSumHoseConsumerPC;
+                    iConsumerSC = HelperTestBase.iSumHoseConsumerSC;
+                    bPistonLock = HelperTestBase.chkPistonLock;
+                    TAB_ActuationParameters_GeneralSettings_Consumers_Change(iConsumerType, iConsumerPC, iConsumerSC, bPistonLock);
+
+                    #endregion
+
+                    #region Actuation
+
+                    strName = string.Empty;
+
+                    strMaxForceValue = HelperTestBase.MaxForce.ToString();
+
+                    if (!string.IsNullOrEmpty(strMaxForceValue))
+                        TAB_ActuationParameters_Actuation_MaxForce_Change(strName, strMaxForceValue);
+                    else
+                        mtxt_Actuation_E1ParMaxForce.Text = _notReadValue;
+
+
+                    strGradientForceValue = HelperTestBase.ForceGradient.ToString();
+
+                    if (!string.IsNullOrEmpty(strGradientForceValue))
+                    {
+                        TAB_ActuationParameters_Actuation_GradientForce_Change(strName, strGradientForceValue);
+
+                        mtxt_Actuation_E1ParForceGrad.Text = strGradientForceValue;
+                    }
+                    else
+                        mtxt_Actuation_E1ParForceGrad.Text = _notReadValue;
+
+                    #endregion
+
+                    #endregion
+
+                    #region Evaluation Parameters
+
+                    if (dicReturnReadFileHeaderParamGridData == null || dicReturnReadFileHeaderParamGridData.Count == 0)
+                    {
+                        MessageBox.Show("Error, failed load data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                    else
+                    {
+                        List<ActuationParameters_EvaluationParameters> lstInfoEvaluationParameters = new List<ActuationParameters_EvaluationParameters>();
+
+                        //Rows Format
+                        if (TAB_ActuationParameters_EvalParameters_Grid_GridRowTypeOffLineByFile(dicReturnReadFileHeaderParamGridData, dicReturnReadFileHeaderParamGrid))
+                        {
+                            if (TAB_ActuationParameters_EvalParameters_Grid_Format())
+                            {
+                                #region Update Data  OFF LINE |- PARAMETERS GRID -|
+
+                                lstInfoEvaluationParameters = new List<ActuationParameters_EvaluationParameters>();
+                                lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
+
+                                if (lstInfoEvaluationParameters == null)
+                                {
+                                    MessageBox.Show("Error, failed load rows data test - GetValuesEvalParamOffLineByFile!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                                    return false;
+                                }
+                                else
+                                {
+                                   List<Control> lstGrpBoxRadioButton = new List<Control>();
+
+                                    for (int i = 0; i < lstInfoEvaluationParameters.Count; i++)
+                                    {
+                                        int iGrid_IdEvalParam = 0;
+
+                                        string strGrid_EvalParam_Caption = string.Empty;
+
+                                        string strGrid_ParamHeaderFile_EvalParam_Hi = string.Empty;
+
+                                        string strGrid_EvalParam_Mksunit = string.Empty;
+
+                                        string strGrid_EvalParam_ResultParam_Name = string.Empty;
+
+                                        string strGrid_EvalParam_Name = string.Empty;
+
+                                        string strGrid_EvalParam_GridRowType = lstInfoEvaluationParameters[i].EvalParam_GridRowType;
+
+                                        switch (strGrid_EvalParam_GridRowType)
+                                        {
+                                            case "ADDINPUT_CREATE_VSPACE":
+                                                {
+                                                    //if (HelperApp.uiTesteSelecionado != 24)
+                                                    //{
+                                                    //    iRowIndex = HelperApp.uiTesteSelecionado != 24 ? j : j - 3;
+
+                                                    //    grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex] = TextBoxCell_GridRowType;
+                                                    //    grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex].Value = strGridRowType;
+                                                    //    dt.Rows.Add(new object[iItemArrayCount]);
+                                                    //}
+                                                }
+                                                break;
+                                            case "CREATE_ANALOG_INPUT":
+                                                {
+                                                    iGrid_IdEvalParam = lstInfoEvaluationParameters[i].IdEvalParam;
+
+                                                    strGrid_EvalParam_Caption = lstInfoEvaluationParameters.Where(x => x.IdEvalParam.Equals(iGrid_IdEvalParam)).Select(a => a.EvalParam_Caption).FirstOrDefault();
+
+                                                    strGrid_ParamHeaderFile_EvalParam_Hi = lstInfoEvaluationParameters.Where(x => x.IdEvalParam.Equals(iGrid_IdEvalParam)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString("F2")?.Trim();
+
+                                                    strGrid_EvalParam_Mksunit = lstInfoEvaluationParameters.Where(x => x.IdEvalParam.Equals(iGrid_IdEvalParam)).Select(a => a.EvalParam_Mksunit).FirstOrDefault();
+
+                                                    strGrid_EvalParam_ResultParam_Name = lstInfoEvaluationParameters.Where(x => x.IdEvalParam.Equals(iGrid_IdEvalParam)).Select(a => a.EvalParam_ResultParam_Name).FirstOrDefault();
+
+                                                    strGrid_EvalParam_Name = lstInfoEvaluationParameters.Where(x => x.IdEvalParam.Equals(iGrid_IdEvalParam)).Select(a => a.EvalParam_Name).FirstOrDefault();
+
+                                                    int j = HelperApp.uiTesteSelecionado == 24 ? i - 4 : i;
+
+                                                    grid_tabActionParam_EvalParam.Rows[j].Cells["IdEvalParam"].Value = iGrid_IdEvalParam;
+                                                    grid_tabActionParam_EvalParam.Rows[j].Cells["EvalParam_Caption"].Value = strGrid_EvalParam_Caption;
+                                                    grid_tabActionParam_EvalParam.Rows[j].Cells["EvalParam_Hi"].ValueType = typeof(string);
+                                                    grid_tabActionParam_EvalParam.Rows[j].Cells["EvalParam_Hi"].Value = strGrid_ParamHeaderFile_EvalParam_Hi;
+                                                    grid_tabActionParam_EvalParam.Rows[j].Cells["UnitSymbol"].Value = strGrid_EvalParam_Mksunit;
+                                                    grid_tabActionParam_EvalParam.Rows[j].Cells["EvalParam_ResultParam_Name"].Value = strGrid_EvalParam_ResultParam_Name;
+                                                    grid_tabActionParam_EvalParam.Rows[j].Cells["EvalParam_Name"].Value = strGrid_EvalParam_Name;
+                                                }
+                                                break;
+                                            case "CREATE_CHECKBOX_INPUT":
+                                                {
+                                                    grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Hi"].ValueType = typeof(string); //blank line
+
+                                                    grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Hi"].Style.ForeColor = Color.White;
+                                                    grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Hi"].Style.BackColor = Color.White;
+                                                    grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Hi"].Style.SelectionBackColor = Color.White;
+                                                    grid_tabActionParam_EvalParam.Rows[i].Cells["EvalParam_Hi"].Style.SelectionForeColor = Color.White;
+
+                                                    bool chkStatus = Convert.ToBoolean(lstInfoEvaluationParameters[i].EvalParam_Hi);
+                                                    grid_tabActionParam_EvalParam.Rows[i].Cells[0].Value = chkStatus;
+                                                }
+                                                break;
+                                            case "CREATE_RADIO_INPUT":
+                                                {
+                                                    iGrid_IdEvalParam = lstInfoEvaluationParameters[i].IdEvalParam;
+
+                                                    strGrid_EvalParam_Caption = lstInfoEvaluationParameters.Where(x => x.IdEvalParam.Equals(iGrid_IdEvalParam)).Select(a => a.EvalParam_Caption).FirstOrDefault();
+
+                                                    strGrid_ParamHeaderFile_EvalParam_Hi = lstInfoEvaluationParameters.Where(x => x.IdEvalParam.Equals(iGrid_IdEvalParam)).Select(a => a.EvalParam_Hi).FirstOrDefault().ToString();
+
+                                                    strGrid_EvalParam_Mksunit = lstInfoEvaluationParameters.Where(x => x.IdEvalParam.Equals(iGrid_IdEvalParam)).Select(a => a.EvalParam_Mksunit).FirstOrDefault();
+
+                                                    strGrid_EvalParam_ResultParam_Name = lstInfoEvaluationParameters.Where(x => x.IdEvalParam.Equals(iGrid_IdEvalParam)).Select(a => a.EvalParam_ResultParam_Name).FirstOrDefault();
+
+                                                    strGrid_EvalParam_Name = lstInfoEvaluationParameters.Where(x => x.IdEvalParam.Equals(iGrid_IdEvalParam)).Select(a => a.EvalParam_Name).FirstOrDefault();
+
+                                                    Control grpBoxRadioButton = CONTROLS_GetAll(this, typeof(GroupBox)).Find(a => a.Name == "grpRadio_T24_Efficiency");
+
+                                                    foreach (var ctrl in grpBoxRadioButton.Controls)
+                                                    {
+                                                        if (ctrl.GetType() == typeof(RadioButton))
+                                                        {
+                                                            if (((Control)ctrl).Name.Equals(strGrid_EvalParam_Name))
+                                                                ((RadioButton)ctrl).Checked = strGrid_ParamHeaderFile_EvalParam_Hi.Equals("0") ? false : true;
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                }
+                                #endregion
+
+                                if (HelperApp.uiTesteSelecionado > 0)
+                                    TAB_ActuationParameters_WriteComGridEvalParameters(lstInfoEvaluationParameters, string.Empty, string.Empty);
+                                else
+                                {
+                                    MessageBox.Show("Error no valid Test selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                    TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, failed Grid_Format rows data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error, failed load GridRowType data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return false;
+                        }
+                    }
+
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Concat("Error - TAB_ActuationParameters_GetDataInfoOffLineByFile : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+
+                throw;
+            }
+
+            return true;
+        }
+
+        //GridView_GetValuesEvalParamOffLineByFile
         #endregion
 
         #region TAB - ActuationParameters - Panel General Settings
@@ -1861,8 +2014,11 @@ namespace Continental.Project.Adam.UI
                 mcbo_tabActParam_GenSettings_CoBActuationMode.DisplayMember = "Name";
                 mcbo_tabActParam_GenSettings_CoBActuationMode.DataSource = dt;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
                 throw;
             }
@@ -1871,540 +2027,563 @@ namespace Continental.Project.Adam.UI
         {
             int idxSelected = mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex;
 
-            if (!_bAppStart)
+            try
             {
-                if (idxSelected != 0)
+                if (!_bAppStart)
                 {
-                    #region Verificacao do tipo de atuacao
-
-                    switch (HelperApp.uiTesteSelecionado)
+                    if (idxSelected != 0)
                     {
-                        case 1:     //Force Diagrams - Force/Pressure With Vacuum 
-                            {
-                                if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor //slow ou emotor
+                        #region Verificacao do tipo de atuacao
+
+                        switch (HelperApp.uiTesteSelecionado)
+                        {
+                            case 1:     //Force Diagrams - Force/Pressure With Vacuum 
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor //slow ou emotor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 2:     //Force Diagrams - Force/Force With Vacuum //slow ou emotor
-                            {
-                                if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 2:     //Force Diagrams - Force/Force With Vacuum //slow ou emotor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 3:     //Force Diagrams - Force/Pressure Without Vacuum //slow ou emotor
-                            {
-                                if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 3:     //Force Diagrams - Force/Pressure Without Vacuum //slow ou emotor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 4:     //Force Diagrams - Force/Force Without Vacuum //slow ou emotor
-                            {
-                                if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 4:     //Force Diagrams - Force/Force Without Vacuum //slow ou emotor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 5: //Vacuum Leakage - Released Position //nao tem acionamento
-                            {
-                                //indiferente
-                                break;
-                            }
-                        case 6: //Vacuum Leakage - Fully Applied Position //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 5: //Vacuum Leakage - Released Position //nao tem acionamento
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
-
-                                    return;
+                                    //indiferente
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 7: //Vacuum Leakage - Lap Position //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 6: //Vacuum Leakage - Fully Applied Position //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 8:     //Hydraulic Leakage - Fully Applied Position //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 7: //Vacuum Leakage - Lap Position //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 9:     //Hydraulic Leakage - At Low Pressure //somente emotor
-                            {
-                                if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 8:     //Hydraulic Leakage - Fully Applied Position //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 10:    //Hydraulic Leakage - At High Pressure //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 9:     //Hydraulic Leakage - At Low Pressure //somente emotor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 11:    //Adjustment - Actuation Slow //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 10:    //Hydraulic Leakage - At High Pressure //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 12:    //Adjustment - Actuation Fast //somente fast
-                            {
-                                if (idxSelected != 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 11:    //Adjustment - Actuation Slow //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 13:    //Check Sensors - Pressure Difference //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 12:    //Adjustment - Actuation Fast //somente fast
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 14:    //Check Sensors - Input/Output Travel //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 13:    //Check Sensors - Pressure Difference //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 15:    //Adjustment - Input Travel VS Input Force //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 14:    //Check Sensors - Input/Output Travel //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 16:    //Adjustment - Hose Consumer //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 15:    //Adjustment - Input Travel VS Input Force //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 17:    //Lost Travel ACU - Hydraulic //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 16:    //Adjustment - Hose Consumer //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation //somente emotor
-                            {
-                                if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 17:    //Lost Travel ACU - Hydraulic //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 19:    //Lost Travel ACU - Pneumatic Primary //somente emotor
-                            {
-                                if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 18:    //Lost Travel ACU - Hydraulic Electrical Actuation //somente emotor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 20:    //Lost Travel ACU - Pneumatic Secondary //somente emotor
-                            {
-                                if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 19:    //Lost Travel ACU - Pneumatic Primary //somente emotor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 21:    //Pedal Feeling Characteristics //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 20:    //Lost Travel ACU - Pneumatic Secondary //somente emotor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 22:    //Actuation / Release - Mechanical Actuation //somente fast
-                            {
-                                if (idxSelected != 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 21:    //Pedal Feeling Characteristics //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 23:    //Breather Hole / Central Valve open //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 22:    //Actuation / Release - Mechanical Actuation //somente fast
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 24:    //Efficiency  //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 23:    //Breather Hole / Central Valve open //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 25:    //Force Diagrams - Force/Pressure Dual Ratio //slow ou emotor
-                            {
-                                if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 24:    //Efficiency  //somente slow
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 26:    //Force Diagrams - Force/Force Dual Ratio //slow ou emotor
-                            {
-                                if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 25:    //Force Diagrams - Force/Pressure Dual Ratio //slow ou emotor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 27:    //ADAM - Find Switching Point With TMC //somente e-motor
-                            {
-                                if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 26:    //Force Diagrams - Force/Force Dual Ratio //slow ou emotor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected == 0 || idxSelected == 2) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 28:    //ADAM - Switching Point Without TMC //somente e-motor
-                            {
-                                if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 27:    //ADAM - Find Switching Point With TMC //somente e-motor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
-
-                                break;
-                            }
-                        case 29: //Bleed //somente slow
-                            {
-                                if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                            case 28:    //ADAM - Switching Point Without TMC //somente e-motor
                                 {
-                                    MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    if (idxSelected != 3) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                                    mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
 
-                                    return;
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
                                 }
-                                else
-                                    TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+                            case 29: //Bleed //somente slow
+                                {
+                                    if (idxSelected != 1) //0-Off 1-Slow 2- Fast -3 E-motor
+                                    {
+                                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+                                        mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = IdActuationMode;
+
+                                        return;
+                                    }
+                                    else
+                                        TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(idxSelected);
+
+                                    break;
+                                }
+                            default:
                                 break;
-                            }
-                        default:
-                            break;
+                        }
+                        #endregion
                     }
-                    #endregion
-                }
-                else
-                {
-                    if (HelperApp.uiTesteSelecionado != 5)
+                    else
                     {
-                        MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
+                        if (HelperApp.uiTesteSelecionado != 5)
+                        {
+                            MessageBox.Show("Warning, ActuationMode invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                throw;
             }
         }
         private void TAB_ActuationParameters_GeneralSettings_CoBActuationMode_Change(int idxSelected)
         {
-            mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = idxSelected;
-
-            if (!string.IsNullOrEmpty(strMaxForceValue) && !strMaxForceValue.Equals(_notReadValue))
+            try
             {
-                var dblValue = _helperApp.NumberDoubleCheck(strMaxForceValue);
+                mcbo_tabActParam_GenSettings_CoBActuationMode.SelectedIndex = idxSelected;
 
-                if (dblValue < 0)
-                    dblValue = (dblValue * -1);
+                if (!string.IsNullOrEmpty(strMaxForceValue) && !strMaxForceValue.Equals(_notReadValue))
+                {
+                    var dblValue = _helperApp.NumberDoubleCheck(strMaxForceValue);
 
-                if (dblValue != HelperTestBase.MaxForce)
-                    HelperTestBase.MaxForce = Math.Round(Convert.ToDouble(strMaxForceValue), 2);
+                    if (dblValue < 0)
+                        dblValue = (dblValue * -1);
+
+                    if (dblValue != HelperTestBase.MaxForce)
+                        HelperTestBase.MaxForce = Math.Round(Convert.ToDouble(strMaxForceValue), 2);
+                }
+
+                if (!string.IsNullOrEmpty(strGradientForceValue) && !strGradientForceValue.Equals(_notReadValue))
+                {
+                    var dblValue = _helperApp.NumberDoubleCheck(strGradientForceValue);
+
+                    if (dblValue < 0)
+                        dblValue = (dblValue * -1);
+
+                    if (dblValue != HelperTestBase.ForceGradient)
+                        HelperTestBase.ForceGradient = Math.Round(Convert.ToDouble(strGradientForceValue), 2);
+                }
+
+                HelperApp.uiActuationMode = idxSelected;
+                HelperTestBase.ActuationType = idxSelected;
+                HelperTestBase.iActuaionMode = idxSelected;
+
+                HelperApp.strActuationMode = mcbo_tabActParam_GenSettings_CoBActuationMode.Text.Trim();
+
+                //set title name
+                mTile_tabActParam_Actuation.Text = HelperApp.strActuationMode;
+
+                _modelGVL.GVL_Parametros.rForcaMaxima_N = HelperTestBase.MaxForce;
+
+                switch (HelperApp.uiActuationMode)
+                {
+                    case 1://ActuationMode - Pneumatic Slow
+                        {
+                            _modelGVL.GVL_Parametros.rGradienteForca_Ns = HelperTestBase.ForceGradient;
+
+                            _modelGVL.GVL_Parametros.iModo = 1;
+                            mtxt_Actuation_E1ParForceGrad.Text = _modelGVL.GVL_Parametros.rGradienteForca_Ns.ToString();
+                            mtxt_Actuation_Unit_E1ParMaxForce.Text = "N";
+                            mtxt_Actuation_Unit_E1ParForceGrad.Text = "N/s";
+
+                            break;
+                        }
+                    case 2://ActuationMode - Pneumatic Fast
+                        {
+                            _modelGVL.GVL_Parametros.rGradienteForca = HelperTestBase.ForceGradient;
+
+                            _modelGVL.GVL_Parametros.iModo = 2;
+                            mtxt_Actuation_E1ParForceGrad.Text = _modelGVL.GVL_Parametros.rGradienteForca.ToString();
+                            mtxt_Actuation_Unit_E1ParMaxForce.Text = "N";
+                            mtxt_Actuation_Unit_E1ParForceGrad.Text = "%";
+                            break;
+                        }
+                    case 3://ActuationMode - E-Motor
+                        {
+                            //set defaulty value
+                            _modelGVL.GVL_Parametros.rVelocidadeAtuacao_mm_s = 1; //HelperTestBase.ForceGradient
+
+                            _modelGVL.GVL_Parametros.iModo = 3;
+                            mtxt_Actuation_E1ParForceGrad.Text = _modelGVL.GVL_Parametros.rVelocidadeAtuacao_mm_s.ToString();
+                            mtxt_Actuation_Unit_E1ParMaxForce.Text = "N";
+                            mtxt_Actuation_Unit_E1ParForceGrad.Text = "mm/s";
+                            break;
+                        }
+                    default:
+                        {
+                            _modelGVL.GVL_Parametros.iModo = 0;
+                            mtxt_Actuation_E1ParForceGrad.Text = _notReadValue;
+                            mtxt_Actuation_Unit_E1ParMaxForce.Text = "---";
+                            mtxt_Actuation_Unit_E1ParForceGrad.Text = "---";
+                            break;
+                        }
+                }
+
+                HelperApp.uiActuationMode = _modelGVL.GVL_Parametros.iModo;
+                HelperTestBase.ActuationType = HelperApp.uiActuationMode;
+
+                HelperTestBase.Model_GVL.GVL_Parametros.iModo = HelperTestBase.ActuationType;
+
+                _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wModo }, HelperApp.uiActuationMode);
             }
-
-            if (!string.IsNullOrEmpty(strGradientForceValue) && !strGradientForceValue.Equals(_notReadValue))
+            catch (Exception ex)
             {
-                var dblValue = _helperApp.NumberDoubleCheck(strGradientForceValue);
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                if (dblValue < 0)
-                    dblValue = (dblValue * -1);
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
 
-                if (dblValue != HelperTestBase.ForceGradient)
-                    HelperTestBase.ForceGradient = Math.Round(Convert.ToDouble(strGradientForceValue), 2);
+                throw;
             }
-
-            HelperApp.uiActuationMode = idxSelected;
-            HelperTestBase.ActuationType = HelperApp.uiActuationMode;
-
-            HelperApp.strActuationMode = mcbo_tabActParam_GenSettings_CoBActuationMode.Text.Trim();
-
-            //set title name
-            mTile_tabActParam_Actuation.Text = HelperApp.strActuationMode;
-
-            _modelGVL.GVL_Parametros.rForcaMaxima_N = HelperTestBase.MaxForce;
-
-            switch (HelperApp.uiActuationMode)
-            {
-                case 1://ActuationMode - Pneumatic Slow
-                    {
-                        _modelGVL.GVL_Parametros.rGradienteForca_Ns = HelperTestBase.ForceGradient;
-
-                        _modelGVL.GVL_Parametros.iModo = 1;
-                        mtxt_Actuation_E1ParForceGrad.Text = _modelGVL.GVL_Parametros.rGradienteForca_Ns.ToString();
-                        mtxt_Actuation_Unit_E1ParMaxForce.Text = "N";
-                        mtxt_Actuation_Unit_E1ParForceGrad.Text = "N/s";
-
-                        break;
-                    }
-                case 2://ActuationMode - Pneumatic Fast
-                    {
-                        _modelGVL.GVL_Parametros.rGradienteForca = HelperTestBase.ForceGradient;
-
-                        _modelGVL.GVL_Parametros.iModo = 2;
-                        mtxt_Actuation_E1ParForceGrad.Text = _modelGVL.GVL_Parametros.rGradienteForca.ToString();
-                        mtxt_Actuation_Unit_E1ParMaxForce.Text = "N";
-                        mtxt_Actuation_Unit_E1ParForceGrad.Text = "%";
-                        break;
-                    }
-                case 3://ActuationMode - E-Motor
-                    {
-                        //set defaulty value
-                        _modelGVL.GVL_Parametros.rVelocidadeAtuacao_mm_s = 1; //HelperTestBase.ForceGradient
-
-                        _modelGVL.GVL_Parametros.iModo = 3;
-                        mtxt_Actuation_E1ParForceGrad.Text = _modelGVL.GVL_Parametros.rVelocidadeAtuacao_mm_s.ToString();
-                        mtxt_Actuation_Unit_E1ParMaxForce.Text = "N";
-                        mtxt_Actuation_Unit_E1ParForceGrad.Text = "mm/s";
-                        break;
-                    }
-                default:
-                    {
-                        _modelGVL.GVL_Parametros.iModo = 0;
-                        mtxt_Actuation_E1ParForceGrad.Text = _notReadValue;
-                        mtxt_Actuation_Unit_E1ParMaxForce.Text = "---";
-                        mtxt_Actuation_Unit_E1ParForceGrad.Text = "---";
-                        break;
-                    }
-            }
-
-            HelperApp.uiActuationMode = _modelGVL.GVL_Parametros.iModo;
-            HelperTestBase.ActuationType = HelperApp.uiActuationMode;
-
-            HelperTestBase.Model_GVL.GVL_Parametros.iModo = HelperTestBase.ActuationType;
-
-            _helperMODBUS.HelperMODBUS_WriteTagModbus(new { HelperMODBUS.CS_wModo }, HelperApp.uiActuationMode);
         }
 
         #endregion
@@ -2431,7 +2610,10 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var msgError = ex.Message;
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
                 throw;
             }
         }
@@ -2449,16 +2631,24 @@ namespace Continental.Project.Adam.UI
                 {
                     int idxSelected = mcbo_tabActParam_GenSettings_CoBSelectTest.SelectedIndex;
 
-                    TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, _helperApp.GetMethodName());
+                    if(!TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(idxSelected, _helperApp.GetMethodName()))
+                    {
+                        MessageBox.Show("Error , Fail TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+                    }
                 }
             }
             catch (Exception ex)
             {
-                var msgError = ex.Message;
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
                 throw;
             }
         }
-        public void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(int idxSelected, string origin)
+        public bool TAB_ActuationParameters_GeneralSettings_CoBSelectTest_Change(int idxSelected, string origin)
         {
             try
             {
@@ -2473,7 +2663,8 @@ namespace Continental.Project.Adam.UI
                         DisableButtonStart();
 
                         MessageBox.Show("Warning, Change SelectTest invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
+
+                        return false;
                     }
                     else
                     {
@@ -2549,7 +2740,18 @@ namespace Continental.Project.Adam.UI
 
                             #endregion
 
-                            TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado);
+                            if (!TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(HelperApp.uiTesteSelecionado))
+                            {
+                                MessageBox.Show("Error , Fail TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                                _bCoBSelectTestSelected = false;
+
+                                DisableButtonStart();
+
+                                return false;
+                            }
 
                             _bCoBSelectTestSelected = true;
 
@@ -2560,11 +2762,18 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var msgError = ex.Message;
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                return false;
+
                 throw;
             }
+
+            return true;
         }
-        public void TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(int idTest)
+        public bool TAB_ActuationParameters_GeneralSettings_CoBSelectTest_SetChange(int idTest)
         {
             try
             {
@@ -2575,7 +2784,7 @@ namespace Continental.Project.Adam.UI
                     _bCoBSelectTestSelected = false;
 
                     MessageBox.Show("Warning, Set SelectTest invalid option!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    return false;
                 }
                 else
                 {
@@ -2639,7 +2848,13 @@ namespace Continental.Project.Adam.UI
                         tab_TableResultsEnable = false;
                         _bCoBSelectTestSelected = false;
 
-                        TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName());
+                        if(!TAB_ActuationParameters_PopulateData(HelperApp.uiTesteSelecionado, _helperApp.GetMethodName()))
+                        {
+                            MessageBox.Show("Error, PopulateData!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+                            return false;
+                        }
 
                         last_sel_ix = HelperApp.uiTesteSelecionado;
                     }
@@ -2649,9 +2864,16 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var msgError = ex.Message;
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                TAB_Main.SelectedTab = TAB_Main.TabPages["Tab_ActuationParameters"];
+
+                return false;
+
                 throw;
             }
+
+            return true;
         }
 
         #endregion
@@ -3238,7 +3460,10 @@ namespace Continental.Project.Adam.UI
             string strValue = ((System.Windows.Forms.DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
 
             if (row == null)
+            {
                 MessageBox.Show("Error, failed selected row data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }  
             else
             {
                 if (!string.IsNullOrEmpty(strValue) && !string.IsNullOrEmpty(strName) && HelperApp.uiTesteSelecionado > 0)
@@ -3419,10 +3644,10 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var exc = ex.Message;
-                MessageBox.Show(exc);
-
+                MessageBox.Show(string.Concat("Error - TAB_ActuationParameters_EvalParameters_Grid_Format : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+
+                throw;
             }
 
             return true;
@@ -3431,6 +3656,7 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
+                // DataGridViewRow gvRow = grid_tabActionParam_EvalParam.Rows[iRowIndex];
                 if (rbChecked)
                 {
                     switch (rbName)
@@ -3451,10 +3677,10 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var exc = ex.Message;
-                MessageBox.Show(exc);
-
+                MessageBox.Show(string.Concat("Error - TAB_ActuationParameters_EvalParameters_Grid_FormatRadioGroup : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+
+                throw;
             }
 
             return true;
@@ -3472,6 +3698,8 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
+                #region Declare Variables
+
                 string strGridRowType = string.Empty;
                 string strEvalParam_Name = string.Empty;
 
@@ -3485,6 +3713,7 @@ namespace Continental.Project.Adam.UI
                 var listOfCols = new List<DataColumn>();
                 var listOfRows = new List<DataRow>();
 
+                #endregion
 
                 #region SET COLUMNS
 
@@ -3511,22 +3740,30 @@ namespace Continental.Project.Adam.UI
                 {
                     //int dtRowsCount = dt.Rows.Count();
 
-                    int iItemArrayCount = dtGridEvalParameters.Rows[0].ItemArray.Count();
-
                     //// Create and initialize a GroupBox and a Button control.
                     GroupBox grpBox = new GroupBox();
+                    var metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mPnl_tabActParam_EvaluationParameters");
+
+                    int iItemArrayCount = dtGridEvalParameters.Rows[0].ItemArray.Count();
 
                     for (int j = 0; j < countRows; j++)
                     {
+                        #region Set Variable 
+
                         iRowIndex = j;
+
                         DataRow row = dtGridEvalParameters.Rows[iRowIndex];
 
-                        if (!row.ItemArray[3].ToString().StartsWith("RB"))
+                        if (!row.ItemArray[3].ToString().StartsWith("RB")) ///"EvalParam_Name"
                             dt.Rows.Add(new object[iItemArrayCount]);
 
                         DataGridViewTextBoxCell TextBoxCell_Id = new DataGridViewTextBoxCell();
                         int idxCol_Id = row.Table.Columns["IdEvalParam"].Ordinal;
                         int iEvalParam_Id = row.Field<int>("IdEvalParam");
+
+                        DataGridViewTextBoxCell TextBoxCell_GridRowType = new DataGridViewTextBoxCell();
+                        int idxCol_GridRowType = row.Table.Columns["EvalParam_GridRowType"].Ordinal;
+                        strGridRowType = row.Field<string>("EvalParam_GridRowType").ToString();
 
                         DataGridViewTextBoxCell TextBoxCell_Name = new DataGridViewTextBoxCell();
                         int idxCol_Name = row.Table.Columns["EvalParam_Name"].Ordinal;
@@ -3539,13 +3776,20 @@ namespace Continental.Project.Adam.UI
                         int idxCol_Caption = row.Table.Columns["EvalParam_Caption"].Ordinal;
                         string strEvalParam_Caption = string.Empty;
 
-                        strGridRowType = row.Field<string>("EvalParam_GridRowType").ToString();
+                        #endregion
 
                         switch (strGridRowType)
                         {
                             case "ADDINPUT_CREATE_VSPACE":
                                 {
-                                    dt.Rows.Add(new object[iItemArrayCount]);
+                                    if (HelperApp.uiTesteSelecionado != 24)
+                                    {
+                                        iRowIndex = HelperApp.uiTesteSelecionado != 24 ? j : j - 3;
+
+                                        grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex] = TextBoxCell_GridRowType;
+                                        grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex].Value = strGridRowType;
+                                        dt.Rows.Add(new object[iItemArrayCount]);
+                                    }
                                 }
                                 break;
                             case "CREATE_ANALOG_INPUT":
@@ -3566,6 +3810,9 @@ namespace Continental.Project.Adam.UI
 
                                     grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex] = TextBoxCell_Id;
                                     grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex].Value = iEvalParam_Id;
+
+                                    grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex] = TextBoxCell_GridRowType;
+                                    grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex].Value = strGridRowType;
 
                                     grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = TextBoxCell_Caption;
                                     grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = strEvalParam_Caption;
@@ -3595,6 +3842,9 @@ namespace Continental.Project.Adam.UI
                                     grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex] = TextBoxCell_Id;
                                     grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex].Value = iEvalParam_Id;
 
+                                    grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex] = TextBoxCell_GridRowType;
+                                    grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex].Value = strGridRowType;
+
                                     grid_tabActionParam_EvalParam[0, iRowIndex] = CheckBoxCell;
                                     grid_tabActionParam_EvalParam[0, iRowIndex].Value = false;
 
@@ -3610,61 +3860,6 @@ namespace Continental.Project.Adam.UI
                                     _bUseChkGrid = true;
                                 }
                                 break;
-                            case "CREATE_MULTICHECKBOX_INPUT":
-                                {
-                                    strEvalParam_Name = row.Field<string>("EvalParam_Name")?.ToString()?.Trim();
-                                    strEvalParam_Caption = row.Field<string>("EvalParam_Caption")?.ToString()?.Trim();
-                                    strEvalParam_ResultParam_Name = row.Field<string>("EvalParam_ResultParam_Name")?.ToString()?.Trim();
-
-                                    DataGridViewCheckBoxCell CheckBoxCell = new DataGridViewCheckBoxCell();
-                                    CheckBoxCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-
-                                    string[] arrEvalParam_Name = strEvalParam_Name.Split(';');
-                                    string[] arrEvalParam_Caption = strEvalParam_Caption.Split(';');
-                                    string[] arrEvalParam_ResultParam_Name = strEvalParam_Caption.Split(';');
-
-                                    if (arrEvalParam_Name?.Count() > 0)
-                                    {
-                                        if (arrEvalParam_Name?.Count() != arrEvalParam_Caption?.Count())
-                                            return false;
-                                        else
-                                        {
-                                            //for (int i = 0; i < arrEvalParam_Name.Count(); i++)
-                                            //{
-                                            //iRowIndex
-
-                                            string strLastRow_Caption = grid_tabActionParam_EvalParam["EvalParam_Caption", iRowIndex].Value.ToString();
-                                            string strLastRow_ResultParam_Name = grid_tabActionParam_EvalParam.Rows[iRowIndex].Cells["EvalParam_Name"].Value.ToString();
-                                            string strLastRow_Type = grid_tabActionParam_EvalParam["EvalParam_GridRowType", iRowIndex].EditType.Name.ToString();
-
-                                            // strEvalParam_Caption = (i == 0 && arrEvalParam_Name[i].StartsWith("CB")) ? arrEvalParam_Caption[i]?.Trim() : string.Concat(arrEvalParam_Caption[i - 1]?.Trim(), " | ", arrEvalParam_Caption[i]?.Trim());
-
-                                            grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex] = TextBoxCell_Id;
-                                            grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex].Value = iEvalParam_Id;
-
-                                            grid_tabActionParam_EvalParam[4, iRowIndex] = CheckBoxCell;
-                                            grid_tabActionParam_EvalParam[4, iRowIndex].Value = false;
-
-                                            grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = TextBoxCell_Caption;
-                                            grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = strEvalParam_Caption;
-
-                                            grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex] = TextBoxCell_Name;
-                                            grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex].Value = strEvalParam_Name;
-
-                                            grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex] = TextBoxCell_EvalParam_ResultParam_Name;
-                                            grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex].Value = strEvalParam_ResultParam_Name;
-
-                                            _bUseChkGrid = true;
-
-                                            //  grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex] = TextBoxCell_Name;
-                                            //grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex].Value = arrEvalParam_Name[i];
-
-                                            // }
-                                        }
-                                    }
-                                }
-                                break;
                             case "CREATE_RADIO_INPUT":
                                 {
                                     strEvalParam_Name = row.Field<string>("EvalParam_Name")?.ToString()?.Trim();
@@ -3673,8 +3868,6 @@ namespace Continental.Project.Adam.UI
 
                                     grid_tabActionParam_EvalParam.Height = 400;
                                     grid_tabActionParam_EvalParam.Top = 170;
-
-                                    var metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mPnl_tabActParam_EvaluationParameters");
 
                                     if (strEvalParam_Name.StartsWith("RB"))
                                     {
@@ -3702,23 +3895,18 @@ namespace Continental.Project.Adam.UI
                                     grpBox.FlatStyle = FlatStyle.Standard;
                                     grpBox.Width = grid_tabActionParam_EvalParam.Width;
 
-                                    metroPnl.AddControl(grpBox);
-                                }
-                                break;
-                            case "CREATE_COMBO_INPUT":
-                                {
-                                    DataGridViewComboBoxCell ComboBoxCell = new DataGridViewComboBoxCell();
-                                    ComboBoxCell.Items.AddRange(new string[] { "aaa", "bbb", "ccc" });
-
-                                    iRowIndex = 0;
-                                    grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = ComboBoxCell;
-                                    grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = "bbb";
                                 }
                                 break;
                             default:
                                 break;
                         }
                     }
+
+                    // Set the name of the GroupBox and Add in main Panel.
+                    grpBox.Name = "grpRadio_T24_Efficiency";
+                    metroPnl.AddControl(grpBox);
+
+                    grid_tabActionParam_EvalParam.DataSource = dt;
 
                     grid_tabActionParam_EvalParam.DataSource = dt;
                 }
@@ -3727,10 +3915,238 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
-                var exc = ex.Message;
-                MessageBox.Show(exc);
-
+                MessageBox.Show(string.Concat("Error - TAB_ActuationParameters_EvalParameters_Grid_GridRowType : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+
+                throw;
+            }
+
+            return true;
+        }
+        private bool TAB_ActuationParameters_EvalParameters_Grid_GridRowTypeOffLineByFile(Dictionary<string, string> dicReturnReadFileHeaderParamGridData, Dictionary<string, string> dicReturnReadFileHeaderParamGrid)
+        {
+            try
+            {
+                #region Declare Variables
+
+                DataTable dtGridEvalParameters = new BLL_Main_Tab_ActuationParameters().PopulateGridEvalParametersByTest(HelperApp.uiTesteSelecionado.ToString());
+
+                string strGridRowType = string.Empty;
+                string strEvalParam_Name = string.Empty;
+
+                int countColumns = dtGridEvalParameters.Columns.Count;
+                int countRows = dicReturnReadFileHeaderParamGridData.Count();
+                var columnSpec = new DataColumn();
+
+                int iRowIndex = 0;
+
+                DataTable dt = new DataTable();
+                var listOfCols = new List<DataColumn>();
+                var listOfRows = new List<DataRow>();
+
+                #endregion
+
+                #region SET COLUMNS
+
+                for (int k = 0; k < countColumns; k++)
+                {
+                    columnSpec = new DataColumn
+                    {
+                        DataType = dtGridEvalParameters.Columns[k].DataType, // This is of type System.Type
+                        ColumnName = dtGridEvalParameters.Columns[k].ColumnName // This is of type string
+                    };
+
+                    dt.Columns.Add(columnSpec);
+
+                    listOfCols.Add(columnSpec);
+                }
+
+                grid_tabActionParam_EvalParam.DataSource = dt;
+
+                #endregion
+
+                #region SET ROWS
+
+                if (dtGridEvalParameters.Columns.Count > 0)
+                {
+                    int iItemArrayCount = dtGridEvalParameters.Rows[0].ItemArray.Count();
+                    var lstFileHeaderParamGridData = dicReturnReadFileHeaderParamGridData.ToList();
+                    var lstFileHeaderParamGrid = dicReturnReadFileHeaderParamGrid.ToList();
+
+                    //// Create and initialize a GroupBox and a Button control.
+                    GroupBox grpBox = new GroupBox();
+                    var metroPnl = CONTROLS_GetAll(this, typeof(MetroPanel)).Find(a => a.Name == "mPnl_tabActParam_EvaluationParameters");
+
+                    for (int j = 0; j < countRows; j++)
+                    {
+                        #region Set Variables
+
+                        //iRowIndex = j;
+                        iRowIndex = HelperApp.uiTesteSelecionado != 24 ? j : j == 0 ? j : j - 4;
+
+                        iRowIndex = HelperApp.uiTesteSelecionado != 24 ? j : iRowIndex <= 0 || j <= countRows ? j : j - 4;
+
+                        DataRow row = dtGridEvalParameters.Rows[iRowIndex];
+
+                        // if (!row.ItemArray[3].ToString().StartsWith("RB") && HelperApp.uiTesteSelecionado != 24) ///"EvalParam_Name"
+                        dt.Rows.Add(new object[iItemArrayCount]);
+
+                        DataGridViewTextBoxCell TextBoxCell_Id = new DataGridViewTextBoxCell();
+                        int idxCol_Id = row.Table.Columns["IdEvalParam"].Ordinal;
+                        int iEvalParam_Id = row.Field<int>("IdEvalParam");
+
+                        DataGridViewTextBoxCell TextBoxCell_GridRowType = new DataGridViewTextBoxCell();
+                        int idxCol_GridRowType = row.Table.Columns["EvalParam_GridRowType"].Ordinal;
+                        strGridRowType = lstFileHeaderParamGridData[iRowIndex].Value.ToString();
+
+                        DataGridViewTextBoxCell TextBoxCell_Name = new DataGridViewTextBoxCell();
+                        int idxCol_Name = row.Table.Columns["EvalParam_Name"].Ordinal;
+
+                        DataGridViewTextBoxCell TextBoxCell_EvalParam_ResultParam_Name = new DataGridViewTextBoxCell();
+                        int idxCol_EvalParam_ResultParam_Name = row.Table.Columns["EvalParam_ResultParam_Name"].Ordinal;
+                        string strEvalParam_ResultParam_Name = string.Empty;
+
+                        DataGridViewTextBoxCell TextBoxCell_Caption = new DataGridViewTextBoxCell();
+                        int idxCol_Caption = row.Table.Columns["EvalParam_Caption"].Ordinal;
+                        string strEvalParam_Caption = string.Empty;
+
+                        #endregion
+
+                        switch (strGridRowType)
+                        {
+                            case "ADDINPUT_CREATE_VSPACE":
+                                {
+                                    if (HelperApp.uiTesteSelecionado != 24)
+                                    {
+                                        grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex] = TextBoxCell_GridRowType;
+                                        grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex].Value = strGridRowType;
+                                        dt.Rows.Add(new object[iItemArrayCount]);
+                                    }
+                                }
+                                break;
+                            case "CREATE_ANALOG_INPUT":
+                                {
+                                    strEvalParam_Name = lstFileHeaderParamGridData[iRowIndex].Key.ToString()?.Trim();
+                                    strEvalParam_Caption = lstFileHeaderParamGrid[iRowIndex].Key?.ToString()?.Trim();
+                                    strEvalParam_ResultParam_Name = row.Field<string>("EvalParam_ResultParam_Name")?.ToString()?.Trim();
+
+                                    DataGridViewTextBoxCell TextBoxCell_Hi = new DataGridViewTextBoxCell();
+                                    int idxCol_Hi = row.Table.Columns["EvalParam_Hi"].Ordinal;
+                                    double dblEvalParam_Hi = _helperApp.NumberDoubleCheck(lstFileHeaderParamGrid[iRowIndex].Value?.ToString()?.Trim()) * -1;
+
+                                    DataGridViewTextBoxCell TextBoxCell_UnitSymbol = new DataGridViewTextBoxCell();
+                                    int idxCol_UnitSymbol = row.Table.Columns["UnitSymbol"].Ordinal;
+                                    string strEvalParam_UnitSymbol = row.Field<string>("UnitSymbol")?.ToString()?.Trim();
+
+                                    grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex] = TextBoxCell_Id;
+                                    grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex].Value = iEvalParam_Id;
+
+                                    grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex] = TextBoxCell_GridRowType;
+                                    grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex].Value = strGridRowType;
+
+                                    grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = TextBoxCell_Caption;
+                                    grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = strEvalParam_Caption;
+
+                                    grid_tabActionParam_EvalParam[idxCol_Hi, iRowIndex] = TextBoxCell_Hi;
+                                    grid_tabActionParam_EvalParam[idxCol_Hi, iRowIndex].Value = dblEvalParam_Hi;
+
+                                    grid_tabActionParam_EvalParam[idxCol_UnitSymbol, iRowIndex] = TextBoxCell_UnitSymbol;
+                                    grid_tabActionParam_EvalParam[idxCol_UnitSymbol, iRowIndex].Value = strEvalParam_UnitSymbol;
+
+                                    grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex] = TextBoxCell_Name;
+                                    grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex].Value = strEvalParam_Name;
+
+                                    grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex] = TextBoxCell_EvalParam_ResultParam_Name;
+                                    grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex].Value = strEvalParam_ResultParam_Name;
+                                }
+                                break;
+                            case "CREATE_CHECKBOX_INPUT":
+                                {
+                                    strEvalParam_Name = lstFileHeaderParamGridData[iRowIndex].Key.ToString()?.Trim();
+                                    strEvalParam_Caption = lstFileHeaderParamGrid[iRowIndex].Key?.ToString()?.Trim();
+                                    strEvalParam_ResultParam_Name = row.Field<string>("EvalParam_ResultParam_Name")?.ToString()?.Trim();
+                                    bool chkStatus = Convert.ToBoolean(lstFileHeaderParamGrid[iRowIndex].Value?.ToString()?.Trim());
+
+                                    DataGridViewCheckBoxCell CheckBoxCell = new DataGridViewCheckBoxCell();
+                                    CheckBoxCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                                    grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex] = TextBoxCell_Id;
+                                    grid_tabActionParam_EvalParam[idxCol_Id, iRowIndex].Value = iEvalParam_Id;
+
+                                    grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex] = TextBoxCell_GridRowType;
+                                    grid_tabActionParam_EvalParam[idxCol_GridRowType, iRowIndex].Value = strGridRowType;
+
+                                    grid_tabActionParam_EvalParam[0, iRowIndex] = CheckBoxCell;
+                                    grid_tabActionParam_EvalParam[0, iRowIndex].Value = chkStatus;
+
+                                    grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex] = TextBoxCell_Caption;
+                                    grid_tabActionParam_EvalParam[idxCol_Caption, iRowIndex].Value = strEvalParam_Caption;
+
+                                    grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex] = TextBoxCell_Name;
+                                    grid_tabActionParam_EvalParam[idxCol_Name, iRowIndex].Value = strEvalParam_Name;
+
+                                    grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex] = TextBoxCell_EvalParam_ResultParam_Name;
+                                    grid_tabActionParam_EvalParam[idxCol_EvalParam_ResultParam_Name, iRowIndex].Value = strEvalParam_ResultParam_Name;
+
+                                    _bUseChkGrid = true;
+                                }
+                                break;
+                            case "CREATE_RADIO_INPUT":
+                                {
+                                    strEvalParam_Name = lstFileHeaderParamGridData[iRowIndex].Key.ToString()?.Trim();
+                                    strEvalParam_Caption = lstFileHeaderParamGrid[iRowIndex].Key?.ToString()?.Trim();
+                                    strEvalParam_ResultParam_Name = row.Field<string>("EvalParam_ResultParam_Name")?.ToString()?.Trim();
+
+                                    grid_tabActionParam_EvalParam.Height = 400;
+                                    grid_tabActionParam_EvalParam.Top = 170;                                    
+
+                                    if (strEvalParam_Name.StartsWith("RB"))
+                                    {
+                                        RadioButton radBtn = new RadioButton();
+
+                                        radBtn.Location = new Point(20, (j + 1) * 20);
+                                        radBtn.CheckedChanged += TAB_ActuationParameters_EvalParameters_RadioButton_CheckedChanged;
+                                        radBtn.Tag = j.ToString();
+                                        radBtn.Name = !string.IsNullOrEmpty(strEvalParam_Name) ? strEvalParam_Name : string.Concat("mPnl_tabActParam_EvaluationParameters_T24_Rb", j);
+                                        radBtn.Text = strEvalParam_Caption;
+                                        radBtn.AutoSize = true;
+
+                                        grpBox.Location = new Point(5, 50);
+
+                                        // Add the Button to the GroupBox.
+                                        grpBox.Controls.Add(radBtn);
+
+                                        //dt.AcceptChanges();
+                                        // DataRow dr = dt.Rows[iRowIndex];
+                                        //         dr.Delete();
+                                        // dt.AcceptChanges();
+                                    }
+                                    // Set the FlatStyle of the GroupBox.
+                                    grpBox.FlatStyle = FlatStyle.Standard;
+                                    grpBox.Width = grid_tabActionParam_EvalParam.Width;
+                                }
+
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    // Set the name of the GroupBox and Add in main Panel.
+                    grpBox.Name ="grpRadio_T24_Efficiency";
+                    metroPnl.AddControl(grpBox);
+
+                    grid_tabActionParam_EvalParam.DataSource = dt;
+                }
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Concat("Error - TAB_ActuationParameters_EvalParameters_Grid_GridRowTypeOffLineByFile : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+
+                throw;
             }
 
             return true;
@@ -3836,7 +4252,7 @@ namespace Continental.Project.Adam.UI
 
                         var itemEvalParam = lstInfoEvaluationParameters[i];
 
-                        double dblValue = itemEvalParam.EvalParam_Hi;
+                        double dblValue = (double)itemEvalParam.EvalParam_Hi;
 
                         strValue = itemEvalParam.EvalParam_Hi.ToString();
 
@@ -6483,7 +6899,6 @@ namespace Continental.Project.Adam.UI
             if (bLoasTestConcluded)
                 TEST_FileDataConcluded_SetData();
         }
-
         public void TEST_FileDataConcluded_SetData()
         {
             try
@@ -6512,9 +6927,11 @@ namespace Continental.Project.Adam.UI
                     }
                     else
                     {
+                        MessageBox.Show("Failed, error TXTFileHBM_LoadDataConcluded in TEST_FileDataConcluded_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                         _bPrjTestOffLineCarregado = false;
                         return;
-                    }  
+                    }
                 }
                 else
                 {
@@ -6524,12 +6941,16 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
+                _bPrjTestOffLineCarregado = false;
+
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+
                 throw;
             }
 
             _bPrjTestOffLineCarregado = true;
         }
-
         private void TEST_Concluded_ClearData()
         {
             HelperApp.lblstsbar03 = string.Empty;
@@ -6943,7 +7364,10 @@ namespace Continental.Project.Adam.UI
                             else
                             {
                                 if (!TAB_TableResult_SetData(_helperApp.GetMethodName()))
+                                {
                                     MessageBox.Show("Failed, TAB_TableResult_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return false;
+                                }
                                 else
                                     _modelGVL = _helperApp.CalcGraphData(HelperApp.uiTesteSelecionado, lstDblChReadFileArr);
                             }
@@ -6952,6 +7376,8 @@ namespace Continental.Project.Adam.UI
 
                             if (!_modelGVL.GVL_Graficos.bDadosCalculados)
                             {
+                                _bPrjTestOffLineCarregado = false;
+
                                 TAB_Disable(_helperApp.GetMethodName());
 
                                 string strMsg = "Failed, test information not calculated !";
@@ -6966,17 +7392,48 @@ namespace Continental.Project.Adam.UI
                                 LOG_TestSequence("TESTE CALC CONCLUDED");
 
                                 if (!CHART_LoadActualTestComplete())
-                                    MessageBox.Show("Failed, Chart Create !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                {
+                                    _bPrjTestOffLineCarregado = false;
+
+                                    TAB_Disable(_helperApp.GetMethodName());
+
+                                    string strMsg = "Failed, Chart Create !";
+
+                                    LOG_TestSequence(strMsg);
+
+                                    MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                    return false;
+                                }
 
                                 TAB_Enable(_helperApp.GetMethodName());
 
-                                bool bReturn = TAB_ActuationParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
+                                bool bReturnDataInfo = false;
 
-                                if (bReturn)
+                                if (!HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_OnLIne)
+                                {
+                                    if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject > 0)
+                                        bReturnDataInfo = TAB_ActuationParameters_GetDataInfoOffLineByFile(HelperApp.uiTesteSelecionado.ToString());
+                                    else
+                                        bReturnDataInfo = TAB_ActuationParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
+                                }
+                                else
+                                    bReturnDataInfo = TAB_ActuationParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
+
+                                if (bReturnDataInfo)
                                     _bCoBSelectTestSelected = true;
                                 else
                                 {
-                                    MessageBox.Show("Error, failed load data test!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    _bPrjTestOffLineCarregado = false;
+
+                                    TAB_Disable(_helperApp.GetMethodName());
+
+                                    string strMsg = "Error, failed load data test!";
+
+                                    LOG_TestSequence(strMsg);
+
+                                    MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                                     return false;
                                 }
 
@@ -6990,9 +7447,16 @@ namespace Continental.Project.Adam.UI
                         }
                         else
                         {
+                            _bPrjTestOffLineCarregado = false;
+
                             TAB_Disable(_helperApp.GetMethodName());
 
-                            MessageBox.Show("Failed lstStrChReadFileArr[0]?.Count() , reloading project in TXTFileHBM_LoadDataConcluded !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            string strMsg = "$Failed lstStrChReadFileArr[0]?.Count() \n\n Reloading project in TXTFileHBM_LoadDataConcluded !";
+
+                            LOG_TestSequence(strMsg);
+
+                            MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                             return false;
                         }
                     }
@@ -7001,9 +7465,16 @@ namespace Continental.Project.Adam.UI
             }
             catch (Exception ex)
             {
+                _bPrjTestOffLineCarregado = false;
+
                 TAB_Disable(_helperApp.GetMethodName());
 
-                MessageBox.Show(string.Concat("Catch TXTFileHBM_LoadDataConcluded - ", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string strMsg = string.Concat("$Catch TXTFileHBM_LoadDataConcluded \n\n", ex.Message);
+
+                LOG_TestSequence(strMsg);
+
+                MessageBox.Show(strMsg, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 return false;
 
                 throw;
@@ -7047,7 +7518,7 @@ namespace Continental.Project.Adam.UI
                         HelperApp.lstEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                         ////Get Info Header Param
-                        _helperApp.TXTFileHBM_HeaderAppendDataProjectParameters(HelperApp.uiTesteSelecionado, model_GVL);
+                        _helperApp.TXTFileHBM_HeaderAppendDataProjectParameters(HelperApp.uiTesteSelecionado, model_GVL, grid_tabActionParam_EvalParam);
 
                         if (!string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
                         {
@@ -7159,7 +7630,7 @@ namespace Continental.Project.Adam.UI
                             HelperApp.lstEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
 
                             ////Get Info Header Param
-                            _helperApp.TXTFileHBM_HeaderAppendDataProjectParameters(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL);
+                            _helperApp.TXTFileHBM_HeaderAppendDataProjectParameters(HelperApp.uiTesteSelecionado, HelperTestBase.Model_GVL, grid_tabActionParam_EvalParam);
 
                             if (string.IsNullOrEmpty(HelperTestBase.sbHeaderAppendTxtData?.ToString()))
                             {
@@ -7449,7 +7920,7 @@ namespace Continental.Project.Adam.UI
                     for (int i = 0; i < lstStrChReadFileArr.Length; i++)
                         lstStrChReadFileArr[i].Clear();
 
-                    MessageBox.Show("Failed, reloading project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed, CHART_LoadActualTestComplete !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     return false;
                 }
@@ -7478,6 +7949,13 @@ namespace Continental.Project.Adam.UI
                 {
                     if (HelperTestBase.ProjectTestConcluded.IdProjectTestConcluded > 0 && HelperTestBase.ProjectTestConcluded.IdProjectTestSample > 0)
                         lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParamOffLineByFile(grid_tabActionParam_EvalParam);
+
+                    if (lstInfoEvaluationParameters == null)
+                    {
+                        MessageBox.Show("Error, failed load rows data test - GridView_GetValuesEvalParamOffLineByFile!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        return false;
+                    }
                 }
                 else
                     lstInfoEvaluationParameters = _helperApp.GridView_GetValuesEvalParam(grid_tabActionParam_EvalParam);
@@ -7516,7 +7994,6 @@ namespace Continental.Project.Adam.UI
                             MessageBox.Show("Failed, loading XYDiagram !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         else
                         {
-
                             CHART_ClearAxes(diagram);
 
                             #region Zoom
@@ -11022,5 +11499,7 @@ namespace Continental.Project.Adam.UI
         }
 
         #endregion
+
+        
     }
 }
