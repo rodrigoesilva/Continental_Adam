@@ -867,29 +867,6 @@ namespace Continental.Project.Adam.UI.BLL
                 sb.Append($" ,'{model.LastUpdatePTC}'");
                 sb.Append(" )");
 
-
-                //sb.Append("INSERT INTO");
-                //sb.Append(" [Operational_Project_TestConcluded]");
-                //sb.Append(" (");
-                //sb.Append(" [IdProject]");
-                //sb.Append(" ,[IdTestAvailable]");
-                //sb.Append(" ,[TestDateTime]");
-                //sb.Append(" ,[TestTypeName]");
-                //sb.Append(" ,[TestIdentName]");
-                //sb.Append(" ,[TestFileName]");
-                //sb.Append(" ,[LastUpdate]");
-                //sb.Append(")");
-                //sb.Append(" VALUES");
-                //sb.Append(" (");
-                //sb.Append($" '{model.IdProject}'");
-                //sb.Append($" ,'{model.IdTestAvailable}'");
-                //sb.Append($" ,'{model.TestDateTime}'");
-                //sb.Append($" ,'{model.TestTypeName}'");
-                //sb.Append($" ,'{model.TestIdentName}'");
-                //sb.Append($" ,'{model.TestFileName}'");
-                //sb.Append($" ,'{model.LastUpdate}'");
-                //sb.Append(" )");
-
                 sql = sb.ToString();
 
                 int retInsert = db.ExecuteNonQuery(sql);

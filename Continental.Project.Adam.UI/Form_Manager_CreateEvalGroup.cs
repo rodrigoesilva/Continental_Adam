@@ -332,7 +332,7 @@ namespace Continental.Project.Adam.UI
             if (DlgSave.ShowDialog() == DialogResult.OK)
             {
                 string udtFilename = DlgSave.FileName.ToString();
-                string udtHeaderFile = string.Concat("UDTFileGenerated_", DateTime.Now.ToString("yyyyMMdd_HHmmss"), "_", HelperApp.UserName, splitterTestChar);
+                string udtHeaderFile = string.Concat("UDTFileGenerated_", DateTime.Now.ToString("yyyyMMdd_HHmmss"), "_", HelperApp.UserApp.UName, splitterTestChar);
 
                 if (!string.IsNullOrEmpty(udtFilename))
                 {

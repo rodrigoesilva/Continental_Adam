@@ -124,7 +124,7 @@ namespace Continental.Project.Adam.UI
                 model.ProjectTestSample.TMC = !string.IsNullOrEmpty(mtxt_Tmc.Text) ? mtxt_Tmc.Text.Trim() : nullValue;
                 model.ProjectTestSample.ProductionDate = !string.IsNullOrEmpty(mtxt_ProductionDate.Text) ? mtxt_ProductionDate.Text.Trim() : nullValue;
                 model.ProjectTestSample.T_O = !string.IsNullOrEmpty(mtxt_TO.Text) ? mtxt_TO.Text.Trim() : nullValue;
-                model.ProjectTestSample.IdUser = !string.IsNullOrEmpty(mtxt_Tester.Text) ? _helperApp.GetUserIdByName(mtxt_Tester.Text) : HelperApp.UserId;
+                model.ProjectTestSample.IdUser = !string.IsNullOrEmpty(mtxt_Tester.Text) ? _helperApp.GetUserIdByName(mtxt_Tester.Text) : HelperApp.UserApp.IdUser;
                 model.ProjectTestSample.TestingDate = selected_entry ? !string.IsNullOrEmpty(mtxt_TestingDate?.Text) ? mtxt_TestingDate.Text.Trim() : nullValue : nullValue;
                 model.ProjectTestSample.Comment = !string.IsNullOrEmpty(mtxt_Comment.Text) ? mtxt_Comment.Text.Trim() : nullValue;
                 model.ProjectTestSample.LastUpdatePTS = strTimeStamp;
@@ -184,7 +184,7 @@ namespace Continental.Project.Adam.UI
 
                 mtxt_TestTypeName.ReadOnly = true;
 
-                mtxt_Tester.Text = _helperApp.GetUserName(HelperApp.UserId)?.ToUpper();
+                mtxt_Tester.Text = _helperApp.GetUserName(HelperApp.UserApp.IdUser)?.ToUpper();
 
                 mtxt_Tester.ReadOnly = true;
 

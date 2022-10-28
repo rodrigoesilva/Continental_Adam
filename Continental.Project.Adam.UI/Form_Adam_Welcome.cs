@@ -5,6 +5,9 @@ using Continental.Project.Adam.UI.Helper;
 using System.Drawing;
 using Continental.Project.Adam.UI.BLL;
 using System.Linq;
+using System.Collections.Generic;
+using System.Data;
+using Continental.Project.Adam.UI.Models.Security;
 
 namespace Continental.Project.Adam.UI
 {
@@ -18,6 +21,8 @@ namespace Continental.Project.Adam.UI
 
         private void Form_Adam_Welcome_Load(object sender, EventArgs e)
         {
+            Execute_Logout();
+
             this.MaximizeBox = false;
             this.MinimizeBox = false;
 
@@ -77,30 +82,48 @@ namespace Continental.Project.Adam.UI
                     MessageBox.Show("Enter Login Password !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 else
                 {
-                    BLL_Security_Login login = new BLL_Security_Login();
+                    DataTable dtUser = new BLL_Security().Login(txtname.Text.Trim(), txtpass.Text.Trim());
 
-                    var _userDT = login.Login(txtname.Text, txtpass.Text);
-
-                    if (_userDT?.Count > 0)
+                    if (dtUser?.Rows.Count > 0)
                     {
-                        var uId = _userDT.ElementAt(0);
-                        var uName = _userDT.ElementAt(2);
+                        DataRow row = dtUser.Rows[0];
 
-                        HelperApp.UserId = Convert.ToInt64(uId);
-                        HelperApp.UserName = uName;
+                        HelperApp.UserApp = new Model_SecurityUser()
+                        {
+                            IdUser = row.Field<long>("IdUser"),
+                            ULogin = row.Field<string>("ULogin")?.ToString()?.Trim(),
+                            UName = row.Field<string>("UName")?.ToString()?.Trim(),
+                            ChangePassword = row.Field<bool>("ChangePassword"),
+                            Status = row.Field<bool>("Status"),
+                            IdProfile = row.Field<long>("IdProfile")
+                        };
 
-                        HelperApp.lblstsbar01 = _helperApp.AppMsg_Welcome;
+                        if (!HelperApp.UserApp.Status)
+                        {
+                            MessageBox.Show("User Deactivated !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
 
-                        Itens_Hide();
+                        if (HelperApp.UserApp.ChangePassword)
+                        {
+                            MessageBox.Show("User need Change Password !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            
+                            _helperApp.Form_Open(new Form_Security_NewPassword());
+                        }
+                        else
+                        {
+                            HelperApp.lblstsbar01 = _helperApp.AppMsg_Welcome;
 
-                        HelperApp.IsLoggedIn = true;
+                            Itens_Hide();
 
-                        this.Hide();
+                            HelperApp.IsLoggedIn = true;
 
-                        var formMain = new Form_Adam_Main();
-                        formMain.Closed += (s, args) => this.Close();
-                        formMain.Show();
+                            this.Hide();
 
+                            var formMain = new Form_Adam_Main();
+                            formMain.Closed += (s, args) => this.Close();
+                            formMain.Show();
+                        }
                     }
                     else
                     {
@@ -127,7 +150,6 @@ namespace Continental.Project.Adam.UI
             txtname.Text = string.Empty;
             txtpass.Text = string.Empty;
         }
-
         private void Itens_Hide()
         {
             picContinental.Visible = false;

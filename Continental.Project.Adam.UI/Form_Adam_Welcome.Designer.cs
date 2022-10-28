@@ -146,9 +146,9 @@ namespace Continental.Project.Adam.UI
             this.lbl_LoginName.ForeColor = System.Drawing.Color.DarkOrange;
             this.lbl_LoginName.Location = new System.Drawing.Point(192, 175);
             this.lbl_LoginName.Name = "lbl_LoginName";
-            this.lbl_LoginName.Size = new System.Drawing.Size(147, 26);
+            this.lbl_LoginName.Size = new System.Drawing.Size(84, 26);
             this.lbl_LoginName.TabIndex = 0;
-            this.lbl_LoginName.Text = "LoginName :";
+            this.lbl_LoginName.Text = "Login :";
             // 
             // Form_Adam_Welcome
             // 

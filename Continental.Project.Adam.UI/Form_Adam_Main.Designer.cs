@@ -2051,7 +2051,6 @@ namespace Continental.Project.Adam.UI
             this.grid_tabActionParam_EvalParam.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellClick);
             this.grid_tabActionParam_EvalParam.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellContentClick);
             this.grid_tabActionParam_EvalParam.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_tabActionParam_EvalParam_CellEndEdit);
-            this.grid_tabActionParam_EvalParam.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.grid_tabActionParam_EvalParam_CellPainting);
             // 
             // mTile_tabActParam_EvaluationParameters
             // 
@@ -2775,11 +2774,11 @@ namespace Continental.Project.Adam.UI
             // subMenu_Settings_Security
             // 
             this.subMenu_Settings_Security.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.subMenu_Security_SelectAccessLevel,
+            this.subMenu_Security_UserManagement,
             this.toolStripSeparator10,
-            this.subMenu_Security_NewPassword,
+            this.subMenu_Security_SelectAccessLevel,
             this.toolStripSeparator11,
-            this.subMenu_Security_UserManagement});
+            this.subMenu_Security_NewPassword});
             this.subMenu_Settings_Security.Name = "subMenu_Settings_Security";
             this.subMenu_Settings_Security.Size = new System.Drawing.Size(192, 22);
             this.subMenu_Settings_Security.Text = "Security";
@@ -2787,31 +2786,31 @@ namespace Continental.Project.Adam.UI
             // subMenu_Security_SelectAccessLevel
             // 
             this.subMenu_Security_SelectAccessLevel.Name = "subMenu_Security_SelectAccessLevel";
-            this.subMenu_Security_SelectAccessLevel.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Security_SelectAccessLevel.Size = new System.Drawing.Size(174, 22);
             this.subMenu_Security_SelectAccessLevel.Text = "Select Access Level";
             this.subMenu_Security_SelectAccessLevel.Click += new System.EventHandler(this.subMenu_Account_SelectAccessLevel_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(171, 6);
             // 
             // subMenu_Security_NewPassword
             // 
             this.subMenu_Security_NewPassword.Name = "subMenu_Security_NewPassword";
-            this.subMenu_Security_NewPassword.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Security_NewPassword.Size = new System.Drawing.Size(171, 22);
             this.subMenu_Security_NewPassword.Text = "New Password";
             this.subMenu_Security_NewPassword.Click += new System.EventHandler(this.subMenu_Account_NewPassword_Click);
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(171, 6);
             // 
             // subMenu_Security_UserManagement
             // 
             this.subMenu_Security_UserManagement.Name = "subMenu_Security_UserManagement";
-            this.subMenu_Security_UserManagement.Size = new System.Drawing.Size(180, 22);
+            this.subMenu_Security_UserManagement.Size = new System.Drawing.Size(174, 22);
             this.subMenu_Security_UserManagement.Text = "User Management";
             this.subMenu_Security_UserManagement.Click += new System.EventHandler(this.subMenu_Security_UserManagement_Click);
             // 

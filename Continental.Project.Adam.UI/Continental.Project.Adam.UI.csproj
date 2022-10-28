@@ -359,8 +359,7 @@
     <Compile Include="BLL\BLL_Main_Tab_TableResults.cs" />
     <Compile Include="BLL\BLL_Manager_TestAvailable.cs" />
     <Compile Include="BLL\BLL_Operational_Project.cs" />
-    <Compile Include="BLL\BLL_Security_Login.cs" />
-    <Compile Include="BLL\BLL_Security_User.cs" />
+    <Compile Include="BLL\BLL_Security.cs" />
     <Compile Include="COM\ComHBM.cs" />
     <Compile Include="COM\ComModbusTCP.cs" />
     <Compile Include="DAL\ComDB .cs" />
@@ -473,11 +472,11 @@
     <Compile Include="Form_Security_NewPassword.Designer.cs">
       <DependentUpon>Form_Security_NewPassword.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_Security_UserLevel.cs">
+    <Compile Include="Form_Security_UserProfile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_Security_UserLevel.Designer.cs">
-      <DependentUpon>Form_Security_UserLevel.cs</DependentUpon>
+    <Compile Include="Form_Security_UserProfile.Designer.cs">
+      <DependentUpon>Form_Security_UserProfile.cs</DependentUpon>
     </Compile>
     <Compile Include="Form_Operational_SelectTubeConsumers.cs">
       <SubType>Form</SubType>
@@ -538,8 +537,8 @@
     <EmbeddedResource Include="Form_Security_NewPassword.resx">
       <DependentUpon>Form_Security_NewPassword.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form_Security_UserLevel.resx">
-      <DependentUpon>Form_Security_UserLevel.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Security_UserProfile.resx">
+      <DependentUpon>Form_Security_UserProfile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Operational_SelectTubeConsumers.resx">
       <DependentUpon>Form_Operational_SelectTubeConsumers.cs</DependentUpon>

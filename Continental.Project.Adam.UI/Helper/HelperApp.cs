@@ -140,7 +140,8 @@ namespace Continental.Project.Adam.UI.Helper
         public string AppPath_ChartImageExtension = ConfigurationManager.AppSettings["AppPath_ChartImageExtension"].ToString();
 
         //Security        
-        public string appCrypto_Key = ConfigurationManager.AppSettings["AppCrypto_Key"].ToString();
+        public string AppSecurity_CryptoKey = ConfigurationManager.AppSettings["AppSecurity_CryptoKey"].ToString();
+        public string AppSecurity_PassDefault = ConfigurationManager.AppSettings["AppSecurity_PassDefault"].ToString();
 
         #endregion
 
@@ -19846,7 +19847,7 @@ namespace Continental.Project.Adam.UI.Helper
                 Cell cell_Operator = new Cell(1, 4)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(sizeFont_RowsHeader)
-                    .Add(new Paragraph($"Operator: {HelperApp.UserName}"));
+                    .Add(new Paragraph($"Operator: {HelperApp.UserApp.UName}"));
                 table.AddCell(cell_Operator);
 
                 #endregion
@@ -20107,30 +20108,20 @@ namespace Continental.Project.Adam.UI.Helper
         #region Session USER LOGGIN
 
         //user info
-        private static long _userId;
-
-        private static string _userName;
+        private static Model_SecurityUser _userApp;
 
         private static bool _isLoggedIn;
 
         //get e set
-        public static long UserId
+
+        public static Model_SecurityUser UserApp
         {
-
-            get { return HelperApp._userId; }
-            set { HelperApp._userId = value; }
-        }
-
-        public static string UserName
-        {
-
-            get { return HelperApp._userName; }
-            set { HelperApp._userName = value; }
+            get { return HelperApp._userApp; }
+            set { HelperApp._userApp = value; }
         }
 
         public static bool IsLoggedIn
         {
-
             get { return HelperApp._isLoggedIn; }
             set { HelperApp._isLoggedIn = value; }
         }
@@ -20140,7 +20131,7 @@ namespace Continental.Project.Adam.UI.Helper
             if (id <= 0)
                 return string.Empty;
 
-            DataTable dt = new BLL_Security_User().GetUserById(id);
+            DataTable dt = new BLL_Security().GetUserById(id);
 
             string _userName = (string)dt.Rows[0].Field<string>("UName");
 
@@ -20152,7 +20143,7 @@ namespace Continental.Project.Adam.UI.Helper
             if (string.IsNullOrEmpty(username))
                 return 0;
 
-            DataTable dt = new BLL_Security_User().GetUserByName(username.Trim().ToUpper());
+            DataTable dt = new BLL_Security().GetUserByName(username.Trim().ToUpper());
 
             long _userId = (long)dt.Rows[0].Field<long>("IdUser");
 
@@ -20164,7 +20155,7 @@ namespace Continental.Project.Adam.UI.Helper
             if (id <= 0)
                 return null;
 
-            DataTable dt = new BLL_Security_User().GetUserById(id);
+            DataTable dt = new BLL_Security().GetUserById(id);
 
             Model_SecurityUser modelUser = new Model_SecurityUser()
             {
@@ -20172,7 +20163,7 @@ namespace Continental.Project.Adam.UI.Helper
                 ULogin = (string)dt.Rows[0].Field<string>("ULogin"),
                 UName = (string)dt.Rows[0].Field<string>("UName"),
                 ChangePassword = (bool)dt.Rows[0].Field<bool>("ChangePassword"),
-                BlockedAt = (DateTime)dt.Rows[0].Field<DateTime>("BlockedAt"),
+                LastUpdate = (DateTime)dt.Rows[0].Field<DateTime>("LastUpdate"),
                 Status = (bool)dt.Rows[0].Field<bool>("Status"),
                 IdProfile = (long)dt.Rows[0].Field<long>("IdProfile")
             };

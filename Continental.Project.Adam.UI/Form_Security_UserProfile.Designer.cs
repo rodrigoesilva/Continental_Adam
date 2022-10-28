@@ -1,7 +1,7 @@
 ﻿
 namespace Continental.Project.Adam.UI
 {
-    partial class Form_Security_UserLevel
+    partial class Form_Security_UserProfile
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@ namespace Continental.Project.Adam.UI
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Security_UserLevel));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Security_UserProfile));
             this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.mlbl_LPassword = new MetroFramework.Controls.MetroLabel();
@@ -187,10 +187,10 @@ namespace Continental.Project.Adam.UI
             this.mTile.ActiveControl = null;
             this.mTile.Location = new System.Drawing.Point(2, 2);
             this.mTile.Name = "mTile";
-            this.mTile.Size = new System.Drawing.Size(500, 60);
+            this.mTile.Size = new System.Drawing.Size(484, 60);
             this.mTile.Style = MetroFramework.MetroColorStyle.Orange;
             this.mTile.TabIndex = 20;
-            this.mTile.Text = "User Level";
+            this.mTile.Text = "User Profile";
             this.mTile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mTile.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.mTile.TileTextFontSize = MetroFramework.MetroTileTextSize.Tall;
@@ -230,7 +230,7 @@ namespace Continental.Project.Adam.UI
             this.mtxt_EUser.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.mtxt_EUser.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // Form_Security_UserLevel
+            // Form_Security_UserProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -244,9 +244,9 @@ namespace Continental.Project.Adam.UI
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form_Security_UserLevel";
-            this.Text = "Continental - ADAM Functional Test Bench - User Level";
-            this.Load += new System.EventHandler(this.Form_Security_UserLevel_Load);
+            this.Name = "Form_Security_UserProfile";
+            this.Text = "Continental - ADAM Functional Test Bench - User Profile";
+            this.Load += new System.EventHandler(this.Form_Security_UserProfile_Load);
             this.metroPanel2.ResumeLayout(false);
             this.metroPanel2.PerformLayout();
             this.groupBox1.ResumeLayout(false);

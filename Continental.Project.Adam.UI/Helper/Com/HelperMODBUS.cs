@@ -354,10 +354,10 @@ namespace Continental.Project.Adam.UI.Helper.Com
                                 //HelperMODBUS.CS_wSens_S0701 = Convert.ToBoolean(signalValue);
                                 break;
                             case 51:
-                                //HelperMODBUS.CS_wSens_S0702 = Convert.ToBoolean(signalValue);
+                                HelperMODBUS.CS_wSens_S0702 = Convert.ToBoolean(signalValue);
                                 break;
                             case 52:
-                                //HelperMODBUS.CS_wSens_S0703 = Convert.ToBoolean(signalValue);
+                                HelperMODBUS.CS_wSens_S0703 = Convert.ToBoolean(signalValue);
                                 break;
                             case 53:
                                 //HelperMODBUS.CS_wDisjuntorBombaVacuo_Q003 = Convert.ToBoolean(signalValue);

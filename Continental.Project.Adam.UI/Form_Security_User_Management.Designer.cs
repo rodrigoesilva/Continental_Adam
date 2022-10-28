@@ -35,9 +35,10 @@ namespace Continental.Project.Adam.UI
             this.DlgOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.DlgSaveFile = new System.Windows.Forms.SaveFileDialog();
             this.mbtn_Close = new MetroFramework.Controls.MetroButton();
-            this.tbc_UsersManagement = new System.Windows.Forms.TabControl();
+            this.TAB_UsersManagement = new System.Windows.Forms.TabControl();
             this.tab_UserView = new System.Windows.Forms.TabPage();
             this.tab_UserAdd_grpUserView = new System.Windows.Forms.GroupBox();
+            this.grid_Users = new System.Windows.Forms.DataGridView();
             this.tab_UserAdd = new System.Windows.Forms.TabPage();
             this.tab_UserAdd_grpUserAdd = new System.Windows.Forms.GroupBox();
             this.tab_UserAdd_mcbo_Profile = new MetroFramework.Controls.MetroComboBox();
@@ -45,7 +46,7 @@ namespace Continental.Project.Adam.UI
             this.tab_UserAdd_mlbl_Name = new MetroFramework.Controls.MetroLabel();
             this.tab_UserAdd_mlbl_Profile = new MetroFramework.Controls.MetroLabel();
             this.tab_UserAdd_mtxt_ULogin = new MetroFramework.Controls.MetroTextBox();
-            this.tab_UserAdd_mlbl_UserName = new MetroFramework.Controls.MetroLabel();
+            this.tab_UserAdd_mlbl_UserLogin = new MetroFramework.Controls.MetroLabel();
             this.tab_UserAdd_mtxt_UPass = new MetroFramework.Controls.MetroTextBox();
             this.tab_UserAdd_mtxt_UName = new MetroFramework.Controls.MetroTextBox();
             this.tab_UserAdd_mbtn_UserAdd = new MetroFramework.Controls.MetroButton();
@@ -53,28 +54,27 @@ namespace Continental.Project.Adam.UI
             this.tab_UserAdd_grpUserEdit = new System.Windows.Forms.GroupBox();
             this.tab_UserEdit_mcbo_UserName = new MetroFramework.Controls.MetroComboBox();
             this.tab_UserEdit_mlbl_UserName = new MetroFramework.Controls.MetroLabel();
-            this.metroTextBox1 = new MetroFramework.Controls.MetroTextBox();
+            this.tab_UserEdit_mtxt_Name = new MetroFramework.Controls.MetroTextBox();
             this.tab_UserEdit_mlbl_Name = new MetroFramework.Controls.MetroLabel();
-            this.mbtn_UserEdit = new MetroFramework.Controls.MetroButton();
-            this.mbtn_UserEditEnable = new MetroFramework.Controls.MetroButton();
+            this.tab_UserEdit_mbtn_UserEdit = new MetroFramework.Controls.MetroButton();
+            this.tab_UserEdit_mbtn_UserEditEnable = new MetroFramework.Controls.MetroButton();
             this.tab_UserDelete = new System.Windows.Forms.TabPage();
             this.tab_UserAdd_grpUserDelete = new System.Windows.Forms.GroupBox();
             this.tab_UserDelete_mcbo_UserName = new MetroFramework.Controls.MetroComboBox();
             this.tab_UserDelete_mlbl_UserName = new MetroFramework.Controls.MetroLabel();
-            this.mbtn_UserDelete = new MetroFramework.Controls.MetroButton();
+            this.tab_UserDelete_mbtn_UserDelete = new MetroFramework.Controls.MetroButton();
             this.mTile = new MetroFramework.Controls.MetroTile();
             this.mtxt_Information = new MetroFramework.Controls.MetroTextBox();
-            this.grid_Users = new System.Windows.Forms.DataGridView();
-            this.tbc_UsersManagement.SuspendLayout();
+            this.TAB_UsersManagement.SuspendLayout();
             this.tab_UserView.SuspendLayout();
             this.tab_UserAdd_grpUserView.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grid_Users)).BeginInit();
             this.tab_UserAdd.SuspendLayout();
             this.tab_UserAdd_grpUserAdd.SuspendLayout();
             this.tab_UserUpdate.SuspendLayout();
             this.tab_UserAdd_grpUserEdit.SuspendLayout();
             this.tab_UserDelete.SuspendLayout();
             this.tab_UserAdd_grpUserDelete.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grid_Users)).BeginInit();
             this.SuspendLayout();
             // 
             // ILExplorer
@@ -97,27 +97,31 @@ namespace Continental.Project.Adam.UI
             this.mbtn_Close.UseSelectable = true;
             this.mbtn_Close.Click += new System.EventHandler(this.mbtn_Close_Click);
             // 
-            // tbc_UsersManagement
+            // TAB_UsersManagement
             // 
-            this.tbc_UsersManagement.Controls.Add(this.tab_UserView);
-            this.tbc_UsersManagement.Controls.Add(this.tab_UserAdd);
-            this.tbc_UsersManagement.Controls.Add(this.tab_UserUpdate);
-            this.tbc_UsersManagement.Controls.Add(this.tab_UserDelete);
-            this.tbc_UsersManagement.Location = new System.Drawing.Point(10, 110);
-            this.tbc_UsersManagement.Name = "tbc_UsersManagement";
-            this.tbc_UsersManagement.SelectedIndex = 0;
-            this.tbc_UsersManagement.Size = new System.Drawing.Size(765, 392);
-            this.tbc_UsersManagement.TabIndex = 25;
+            this.TAB_UsersManagement.Controls.Add(this.tab_UserView);
+            this.TAB_UsersManagement.Controls.Add(this.tab_UserAdd);
+            this.TAB_UsersManagement.Controls.Add(this.tab_UserUpdate);
+            this.TAB_UsersManagement.Controls.Add(this.tab_UserDelete);
+            this.TAB_UsersManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TAB_UsersManagement.Location = new System.Drawing.Point(10, 110);
+            this.TAB_UsersManagement.Name = "TAB_UsersManagement";
+            this.TAB_UsersManagement.SelectedIndex = 0;
+            this.TAB_UsersManagement.Size = new System.Drawing.Size(765, 392);
+            this.TAB_UsersManagement.TabIndex = 25;
+            this.TAB_UsersManagement.SelectedIndexChanged += new System.EventHandler(this.TAB_UsersManagement_SelectedIndexChanged);
             // 
             // tab_UserView
             // 
+            this.tab_UserView.BackColor = System.Drawing.Color.LightGray;
+            this.tab_UserView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tab_UserView.Controls.Add(this.tab_UserAdd_grpUserView);
-            this.tab_UserView.Location = new System.Drawing.Point(4, 22);
+            this.tab_UserView.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.tab_UserView.Location = new System.Drawing.Point(4, 27);
             this.tab_UserView.Name = "tab_UserView";
-            this.tab_UserView.Size = new System.Drawing.Size(757, 366);
+            this.tab_UserView.Size = new System.Drawing.Size(757, 361);
             this.tab_UserView.TabIndex = 3;
             this.tab_UserView.Text = "User View";
-            this.tab_UserView.UseVisualStyleBackColor = true;
             // 
             // tab_UserAdd_grpUserView
             // 
@@ -130,14 +134,28 @@ namespace Continental.Project.Adam.UI
             this.tab_UserAdd_grpUserView.TabStop = false;
             this.tab_UserAdd_grpUserView.Text = "VIEW USER";
             // 
+            // grid_Users
+            // 
+            this.grid_Users.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.grid_Users.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grid_Users.Location = new System.Drawing.Point(7, 30);
+            this.grid_Users.MultiSelect = false;
+            this.grid_Users.Name = "grid_Users";
+            this.grid_Users.ReadOnly = true;
+            this.grid_Users.RowHeadersWidth = 51;
+            this.grid_Users.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.grid_Users.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.grid_Users.Size = new System.Drawing.Size(735, 300);
+            this.grid_Users.TabIndex = 95;
+            // 
             // tab_UserAdd
             // 
             this.tab_UserAdd.Controls.Add(this.tab_UserAdd_grpUserAdd);
             this.tab_UserAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tab_UserAdd.Location = new System.Drawing.Point(4, 22);
+            this.tab_UserAdd.Location = new System.Drawing.Point(4, 27);
             this.tab_UserAdd.Name = "tab_UserAdd";
             this.tab_UserAdd.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_UserAdd.Size = new System.Drawing.Size(757, 366);
+            this.tab_UserAdd.Size = new System.Drawing.Size(757, 361);
             this.tab_UserAdd.TabIndex = 0;
             this.tab_UserAdd.Text = "User Add";
             this.tab_UserAdd.UseVisualStyleBackColor = true;
@@ -149,7 +167,7 @@ namespace Continental.Project.Adam.UI
             this.tab_UserAdd_grpUserAdd.Controls.Add(this.tab_UserAdd_mlbl_Name);
             this.tab_UserAdd_grpUserAdd.Controls.Add(this.tab_UserAdd_mlbl_Profile);
             this.tab_UserAdd_grpUserAdd.Controls.Add(this.tab_UserAdd_mtxt_ULogin);
-            this.tab_UserAdd_grpUserAdd.Controls.Add(this.tab_UserAdd_mlbl_UserName);
+            this.tab_UserAdd_grpUserAdd.Controls.Add(this.tab_UserAdd_mlbl_UserLogin);
             this.tab_UserAdd_grpUserAdd.Controls.Add(this.tab_UserAdd_mtxt_UPass);
             this.tab_UserAdd_grpUserAdd.Controls.Add(this.tab_UserAdd_mtxt_UName);
             this.tab_UserAdd_grpUserAdd.Controls.Add(this.tab_UserAdd_mbtn_UserAdd);
@@ -172,6 +190,7 @@ namespace Continental.Project.Adam.UI
             this.tab_UserAdd_mcbo_Profile.Style = MetroFramework.MetroColorStyle.Orange;
             this.tab_UserAdd_mcbo_Profile.TabIndex = 123;
             this.tab_UserAdd_mcbo_Profile.UseSelectable = true;
+            this.tab_UserAdd_mcbo_Profile.SelectedIndexChanged += new System.EventHandler(this.tab_UserAdd_mcbo_Profile_SelectedIndexChanged);
             // 
             // tab_UserAdd_mlbl_Password
             // 
@@ -234,15 +253,15 @@ namespace Continental.Project.Adam.UI
             this.tab_UserAdd_mtxt_ULogin.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.tab_UserAdd_mtxt_ULogin.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // tab_UserAdd_mlbl_UserName
+            // tab_UserAdd_mlbl_UserLogin
             // 
-            this.tab_UserAdd_mlbl_UserName.AutoSize = true;
-            this.tab_UserAdd_mlbl_UserName.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.tab_UserAdd_mlbl_UserName.Location = new System.Drawing.Point(130, 170);
-            this.tab_UserAdd_mlbl_UserName.Name = "tab_UserAdd_mlbl_UserName";
-            this.tab_UserAdd_mlbl_UserName.Size = new System.Drawing.Size(87, 19);
-            this.tab_UserAdd_mlbl_UserName.TabIndex = 33;
-            this.tab_UserAdd_mlbl_UserName.Text = "UserName :";
+            this.tab_UserAdd_mlbl_UserLogin.AutoSize = true;
+            this.tab_UserAdd_mlbl_UserLogin.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.tab_UserAdd_mlbl_UserLogin.Location = new System.Drawing.Point(130, 170);
+            this.tab_UserAdd_mlbl_UserLogin.Name = "tab_UserAdd_mlbl_UserLogin";
+            this.tab_UserAdd_mlbl_UserLogin.Size = new System.Drawing.Size(54, 19);
+            this.tab_UserAdd_mlbl_UserLogin.TabIndex = 33;
+            this.tab_UserAdd_mlbl_UserLogin.Text = "Login :";
             // 
             // tab_UserAdd_mtxt_UPass
             // 
@@ -320,10 +339,10 @@ namespace Continental.Project.Adam.UI
             // 
             this.tab_UserUpdate.Controls.Add(this.tab_UserAdd_grpUserEdit);
             this.tab_UserUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tab_UserUpdate.Location = new System.Drawing.Point(4, 22);
+            this.tab_UserUpdate.Location = new System.Drawing.Point(4, 27);
             this.tab_UserUpdate.Name = "tab_UserUpdate";
             this.tab_UserUpdate.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_UserUpdate.Size = new System.Drawing.Size(757, 366);
+            this.tab_UserUpdate.Size = new System.Drawing.Size(757, 361);
             this.tab_UserUpdate.TabIndex = 1;
             this.tab_UserUpdate.Text = "User Update";
             this.tab_UserUpdate.UseVisualStyleBackColor = true;
@@ -332,10 +351,10 @@ namespace Continental.Project.Adam.UI
             // 
             this.tab_UserAdd_grpUserEdit.Controls.Add(this.tab_UserEdit_mcbo_UserName);
             this.tab_UserAdd_grpUserEdit.Controls.Add(this.tab_UserEdit_mlbl_UserName);
-            this.tab_UserAdd_grpUserEdit.Controls.Add(this.metroTextBox1);
+            this.tab_UserAdd_grpUserEdit.Controls.Add(this.tab_UserEdit_mtxt_Name);
             this.tab_UserAdd_grpUserEdit.Controls.Add(this.tab_UserEdit_mlbl_Name);
-            this.tab_UserAdd_grpUserEdit.Controls.Add(this.mbtn_UserEdit);
-            this.tab_UserAdd_grpUserEdit.Controls.Add(this.mbtn_UserEditEnable);
+            this.tab_UserAdd_grpUserEdit.Controls.Add(this.tab_UserEdit_mbtn_UserEdit);
+            this.tab_UserAdd_grpUserEdit.Controls.Add(this.tab_UserEdit_mbtn_UserEditEnable);
             this.tab_UserAdd_grpUserEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tab_UserAdd_grpUserEdit.Location = new System.Drawing.Point(2, 15);
             this.tab_UserAdd_grpUserEdit.Name = "tab_UserAdd_grpUserEdit";
@@ -355,6 +374,7 @@ namespace Continental.Project.Adam.UI
             this.tab_UserEdit_mcbo_UserName.Style = MetroFramework.MetroColorStyle.Orange;
             this.tab_UserEdit_mcbo_UserName.TabIndex = 127;
             this.tab_UserEdit_mcbo_UserName.UseSelectable = true;
+            this.tab_UserEdit_mcbo_UserName.SelectedIndexChanged += new System.EventHandler(this.tab_UserEdit_mcbo_UserName_SelectedIndexChanged);
             // 
             // tab_UserEdit_mlbl_UserName
             // 
@@ -366,36 +386,36 @@ namespace Continental.Project.Adam.UI
             this.tab_UserEdit_mlbl_UserName.TabIndex = 126;
             this.tab_UserEdit_mlbl_UserName.Text = "UserName :";
             // 
-            // metroTextBox1
+            // tab_UserEdit_mtxt_Name
             // 
             // 
             // 
             // 
-            this.metroTextBox1.CustomButton.Image = null;
-            this.metroTextBox1.CustomButton.Location = new System.Drawing.Point(172, 2);
-            this.metroTextBox1.CustomButton.Name = "";
-            this.metroTextBox1.CustomButton.Size = new System.Drawing.Size(25, 25);
-            this.metroTextBox1.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox1.CustomButton.TabIndex = 1;
-            this.metroTextBox1.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox1.CustomButton.UseSelectable = true;
-            this.metroTextBox1.CustomButton.Visible = false;
-            this.metroTextBox1.FontSize = MetroFramework.MetroTextBoxSize.Tall;
-            this.metroTextBox1.Lines = new string[0];
-            this.metroTextBox1.Location = new System.Drawing.Point(265, 120);
-            this.metroTextBox1.MaxLength = 32767;
-            this.metroTextBox1.Name = "metroTextBox1";
-            this.metroTextBox1.PasswordChar = '\0';
-            this.metroTextBox1.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.metroTextBox1.SelectedText = "";
-            this.metroTextBox1.SelectionLength = 0;
-            this.metroTextBox1.SelectionStart = 0;
-            this.metroTextBox1.ShortcutsEnabled = true;
-            this.metroTextBox1.Size = new System.Drawing.Size(200, 30);
-            this.metroTextBox1.TabIndex = 124;
-            this.metroTextBox1.UseSelectable = true;
-            this.metroTextBox1.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox1.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.tab_UserEdit_mtxt_Name.CustomButton.Image = null;
+            this.tab_UserEdit_mtxt_Name.CustomButton.Location = new System.Drawing.Point(172, 2);
+            this.tab_UserEdit_mtxt_Name.CustomButton.Name = "";
+            this.tab_UserEdit_mtxt_Name.CustomButton.Size = new System.Drawing.Size(25, 25);
+            this.tab_UserEdit_mtxt_Name.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.tab_UserEdit_mtxt_Name.CustomButton.TabIndex = 1;
+            this.tab_UserEdit_mtxt_Name.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.tab_UserEdit_mtxt_Name.CustomButton.UseSelectable = true;
+            this.tab_UserEdit_mtxt_Name.CustomButton.Visible = false;
+            this.tab_UserEdit_mtxt_Name.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.tab_UserEdit_mtxt_Name.Lines = new string[0];
+            this.tab_UserEdit_mtxt_Name.Location = new System.Drawing.Point(265, 120);
+            this.tab_UserEdit_mtxt_Name.MaxLength = 32767;
+            this.tab_UserEdit_mtxt_Name.Name = "tab_UserEdit_mtxt_Name";
+            this.tab_UserEdit_mtxt_Name.PasswordChar = '\0';
+            this.tab_UserEdit_mtxt_Name.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.tab_UserEdit_mtxt_Name.SelectedText = "";
+            this.tab_UserEdit_mtxt_Name.SelectionLength = 0;
+            this.tab_UserEdit_mtxt_Name.SelectionStart = 0;
+            this.tab_UserEdit_mtxt_Name.ShortcutsEnabled = true;
+            this.tab_UserEdit_mtxt_Name.Size = new System.Drawing.Size(200, 30);
+            this.tab_UserEdit_mtxt_Name.TabIndex = 124;
+            this.tab_UserEdit_mtxt_Name.UseSelectable = true;
+            this.tab_UserEdit_mtxt_Name.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.tab_UserEdit_mtxt_Name.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // tab_UserEdit_mlbl_Name
             // 
@@ -407,32 +427,32 @@ namespace Continental.Project.Adam.UI
             this.tab_UserEdit_mlbl_Name.TabIndex = 125;
             this.tab_UserEdit_mlbl_Name.Text = "Name :";
             // 
-            // mbtn_UserEdit
+            // tab_UserEdit_mbtn_UserEdit
             // 
-            this.mbtn_UserEdit.Location = new System.Drawing.Point(300, 270);
-            this.mbtn_UserEdit.Name = "mbtn_UserEdit";
-            this.mbtn_UserEdit.Size = new System.Drawing.Size(135, 45);
-            this.mbtn_UserEdit.TabIndex = 27;
-            this.mbtn_UserEdit.Text = "&Update User";
-            this.mbtn_UserEdit.UseSelectable = true;
-            this.mbtn_UserEdit.Click += new System.EventHandler(this.mbtn_UserEdit_Click);
+            this.tab_UserEdit_mbtn_UserEdit.Location = new System.Drawing.Point(300, 270);
+            this.tab_UserEdit_mbtn_UserEdit.Name = "tab_UserEdit_mbtn_UserEdit";
+            this.tab_UserEdit_mbtn_UserEdit.Size = new System.Drawing.Size(135, 45);
+            this.tab_UserEdit_mbtn_UserEdit.TabIndex = 27;
+            this.tab_UserEdit_mbtn_UserEdit.Text = "&Update User";
+            this.tab_UserEdit_mbtn_UserEdit.UseSelectable = true;
+            this.tab_UserEdit_mbtn_UserEdit.Click += new System.EventHandler(this.tab_UserEdit_mbtn_UserEdit_Click);
             // 
-            // mbtn_UserEditEnable
+            // tab_UserEdit_mbtn_UserEditEnable
             // 
-            this.mbtn_UserEditEnable.Location = new System.Drawing.Point(471, 90);
-            this.mbtn_UserEditEnable.Name = "mbtn_UserEditEnable";
-            this.mbtn_UserEditEnable.Size = new System.Drawing.Size(135, 45);
-            this.mbtn_UserEditEnable.TabIndex = 27;
-            this.mbtn_UserEditEnable.Text = "&Edit";
-            this.mbtn_UserEditEnable.UseSelectable = true;
-            this.mbtn_UserEditEnable.Click += new System.EventHandler(this.mbtn_UserEditEnable_Click);
+            this.tab_UserEdit_mbtn_UserEditEnable.Location = new System.Drawing.Point(471, 90);
+            this.tab_UserEdit_mbtn_UserEditEnable.Name = "tab_UserEdit_mbtn_UserEditEnable";
+            this.tab_UserEdit_mbtn_UserEditEnable.Size = new System.Drawing.Size(135, 45);
+            this.tab_UserEdit_mbtn_UserEditEnable.TabIndex = 27;
+            this.tab_UserEdit_mbtn_UserEditEnable.Text = "&Edit";
+            this.tab_UserEdit_mbtn_UserEditEnable.UseSelectable = true;
+            this.tab_UserEdit_mbtn_UserEditEnable.Click += new System.EventHandler(this.tab_UserEdit_mbtn_UserEditEnable_Click);
             // 
             // tab_UserDelete
             // 
             this.tab_UserDelete.Controls.Add(this.tab_UserAdd_grpUserDelete);
-            this.tab_UserDelete.Location = new System.Drawing.Point(4, 22);
+            this.tab_UserDelete.Location = new System.Drawing.Point(4, 27);
             this.tab_UserDelete.Name = "tab_UserDelete";
-            this.tab_UserDelete.Size = new System.Drawing.Size(757, 366);
+            this.tab_UserDelete.Size = new System.Drawing.Size(757, 361);
             this.tab_UserDelete.TabIndex = 2;
             this.tab_UserDelete.Text = "User Delete";
             this.tab_UserDelete.UseVisualStyleBackColor = true;
@@ -441,7 +461,7 @@ namespace Continental.Project.Adam.UI
             // 
             this.tab_UserAdd_grpUserDelete.Controls.Add(this.tab_UserDelete_mcbo_UserName);
             this.tab_UserAdd_grpUserDelete.Controls.Add(this.tab_UserDelete_mlbl_UserName);
-            this.tab_UserAdd_grpUserDelete.Controls.Add(this.mbtn_UserDelete);
+            this.tab_UserAdd_grpUserDelete.Controls.Add(this.tab_UserDelete_mbtn_UserDelete);
             this.tab_UserAdd_grpUserDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tab_UserAdd_grpUserDelete.Location = new System.Drawing.Point(2, 15);
             this.tab_UserAdd_grpUserDelete.Name = "tab_UserAdd_grpUserDelete";
@@ -461,6 +481,7 @@ namespace Continental.Project.Adam.UI
             this.tab_UserDelete_mcbo_UserName.Style = MetroFramework.MetroColorStyle.Orange;
             this.tab_UserDelete_mcbo_UserName.TabIndex = 129;
             this.tab_UserDelete_mcbo_UserName.UseSelectable = true;
+            this.tab_UserDelete_mcbo_UserName.SelectedIndexChanged += new System.EventHandler(this.tab_UserDelete_mcbo_UserName_SelectedIndexChanged);
             // 
             // tab_UserDelete_mlbl_UserName
             // 
@@ -472,15 +493,15 @@ namespace Continental.Project.Adam.UI
             this.tab_UserDelete_mlbl_UserName.TabIndex = 128;
             this.tab_UserDelete_mlbl_UserName.Text = "UserName :";
             // 
-            // mbtn_UserDelete
+            // tab_UserDelete_mbtn_UserDelete
             // 
-            this.mbtn_UserDelete.Location = new System.Drawing.Point(300, 270);
-            this.mbtn_UserDelete.Name = "mbtn_UserDelete";
-            this.mbtn_UserDelete.Size = new System.Drawing.Size(135, 45);
-            this.mbtn_UserDelete.TabIndex = 27;
-            this.mbtn_UserDelete.Text = "&Delete User";
-            this.mbtn_UserDelete.UseSelectable = true;
-            this.mbtn_UserDelete.Click += new System.EventHandler(this.mbtn_UserDelete_Click);
+            this.tab_UserDelete_mbtn_UserDelete.Location = new System.Drawing.Point(300, 270);
+            this.tab_UserDelete_mbtn_UserDelete.Name = "tab_UserDelete_mbtn_UserDelete";
+            this.tab_UserDelete_mbtn_UserDelete.Size = new System.Drawing.Size(135, 45);
+            this.tab_UserDelete_mbtn_UserDelete.TabIndex = 27;
+            this.tab_UserDelete_mbtn_UserDelete.Text = "&Delete User";
+            this.tab_UserDelete_mbtn_UserDelete.UseSelectable = true;
+            this.tab_UserDelete_mbtn_UserDelete.Click += new System.EventHandler(this.tab_UserDelete_mbtn_UserDelete_Click);
             // 
             // mTile
             // 
@@ -531,20 +552,6 @@ namespace Continental.Project.Adam.UI
             this.mtxt_Information.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.mtxt_Information.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // grid_Users
-            // 
-            this.grid_Users.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.grid_Users.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grid_Users.Location = new System.Drawing.Point(7, 30);
-            this.grid_Users.MultiSelect = false;
-            this.grid_Users.Name = "grid_Users";
-            this.grid_Users.ReadOnly = true;
-            this.grid_Users.RowHeadersWidth = 51;
-            this.grid_Users.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.grid_Users.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grid_Users.Size = new System.Drawing.Size(735, 300);
-            this.grid_Users.TabIndex = 95;
-            // 
             // Form_Security_User_Management
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -553,7 +560,7 @@ namespace Continental.Project.Adam.UI
             this.ControlBox = false;
             this.Controls.Add(this.mtxt_Information);
             this.Controls.Add(this.mbtn_Close);
-            this.Controls.Add(this.tbc_UsersManagement);
+            this.Controls.Add(this.TAB_UsersManagement);
             this.Controls.Add(this.mTile);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -563,9 +570,10 @@ namespace Continental.Project.Adam.UI
             this.Text = "Continental - ADAM Functional Test Bench - Management User";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_Operational_Project_FormClosed);
             this.Load += new System.EventHandler(this.Form_Operational_Project_Load);
-            this.tbc_UsersManagement.ResumeLayout(false);
+            this.TAB_UsersManagement.ResumeLayout(false);
             this.tab_UserView.ResumeLayout(false);
             this.tab_UserAdd_grpUserView.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grid_Users)).EndInit();
             this.tab_UserAdd.ResumeLayout(false);
             this.tab_UserAdd_grpUserAdd.ResumeLayout(false);
             this.tab_UserAdd_grpUserAdd.PerformLayout();
@@ -575,7 +583,6 @@ namespace Continental.Project.Adam.UI
             this.tab_UserDelete.ResumeLayout(false);
             this.tab_UserAdd_grpUserDelete.ResumeLayout(false);
             this.tab_UserAdd_grpUserDelete.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grid_Users)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -585,7 +592,7 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.OpenFileDialog DlgOpenFile;
         private System.Windows.Forms.SaveFileDialog DlgSaveFile;
         private MetroFramework.Controls.MetroButton mbtn_Close;
-        private System.Windows.Forms.TabControl tbc_UsersManagement;
+        private System.Windows.Forms.TabControl TAB_UsersManagement;
         private System.Windows.Forms.TabPage tab_UserAdd;
         private System.Windows.Forms.TabPage tab_UserUpdate;
         private MetroFramework.Controls.MetroTile mTile;
@@ -595,23 +602,23 @@ namespace Continental.Project.Adam.UI
         private System.Windows.Forms.GroupBox tab_UserAdd_grpUserEdit;
         private System.Windows.Forms.GroupBox tab_UserAdd_grpUserDelete;
         private System.Windows.Forms.GroupBox tab_UserAdd_grpUserView;
-        private MetroFramework.Controls.MetroButton mbtn_UserDelete;
+        private MetroFramework.Controls.MetroButton tab_UserDelete_mbtn_UserDelete;
         private MetroFramework.Controls.MetroButton tab_UserAdd_mbtn_UserAdd;
-        private MetroFramework.Controls.MetroButton mbtn_UserEdit;
+        private MetroFramework.Controls.MetroButton tab_UserEdit_mbtn_UserEdit;
         private MetroFramework.Controls.MetroLabel tab_UserAdd_mlbl_Password;
         private MetroFramework.Controls.MetroLabel tab_UserAdd_mlbl_Name;
         private MetroFramework.Controls.MetroLabel tab_UserAdd_mlbl_Profile;
         private MetroFramework.Controls.MetroTextBox tab_UserAdd_mtxt_ULogin;
-        private MetroFramework.Controls.MetroLabel tab_UserAdd_mlbl_UserName;
+        private MetroFramework.Controls.MetroLabel tab_UserAdd_mlbl_UserLogin;
         private MetroFramework.Controls.MetroTextBox tab_UserAdd_mtxt_UPass;
         private MetroFramework.Controls.MetroTextBox tab_UserAdd_mtxt_UName;
         private MetroFramework.Controls.MetroComboBox tab_UserAdd_mcbo_Profile;
         private MetroFramework.Controls.MetroTextBox mtxt_Information;
         private MetroFramework.Controls.MetroComboBox tab_UserEdit_mcbo_UserName;
         private MetroFramework.Controls.MetroLabel tab_UserEdit_mlbl_UserName;
-        private MetroFramework.Controls.MetroTextBox metroTextBox1;
+        private MetroFramework.Controls.MetroTextBox tab_UserEdit_mtxt_Name;
         private MetroFramework.Controls.MetroLabel tab_UserEdit_mlbl_Name;
-        private MetroFramework.Controls.MetroButton mbtn_UserEditEnable;
+        private MetroFramework.Controls.MetroButton tab_UserEdit_mbtn_UserEditEnable;
         private MetroFramework.Controls.MetroComboBox tab_UserDelete_mcbo_UserName;
         private MetroFramework.Controls.MetroLabel tab_UserDelete_mlbl_UserName;
         private System.Windows.Forms.DataGridView grid_Users;

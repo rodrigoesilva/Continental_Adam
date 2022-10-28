@@ -572,7 +572,7 @@ namespace Continental.Project.Adam.UI
         #region Menu - Security
         private void subMenu_Account_SelectAccessLevel_Click(object sender, EventArgs e)
         {
-           _helperApp.Form_Open(new Form_Security_UserLevel());
+           _helperApp.Form_Open(new Form_Security_UserProfile());
         }
         private void subMenu_Account_NewPassword_Click(object sender, EventArgs e)
         {
@@ -592,7 +592,7 @@ namespace Continental.Project.Adam.UI
         {
             tStatusLabel01.Text = HelperApp.lblstsbar01;
 
-            tStatusLabel02.Text = string.IsNullOrEmpty(HelperApp.lblstsbar02) ? HelperApp.UserName : HelperApp.lblstsbar02;
+            tStatusLabel02.Text = string.IsNullOrEmpty(HelperApp.lblstsbar02) ? HelperApp.UserApp.UName : HelperApp.lblstsbar02;
 
             var _fakeRunTestMaxSampleSeq = HelperTestBase.running ? HelperTestBase.ProjectTestConcluded.ProjectTestSample?.SampleSequence + 1 : HelperTestBase.ProjectTestConcluded.ProjectTestSample?.SampleSequence;
             HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]", " - # Sample : ", _fakeRunTestMaxSampleSeq, "");
@@ -1461,17 +1461,6 @@ namespace Continental.Project.Adam.UI
                 return true;
 
             return false;
-        }
-        private void TAB_ActuationParameters_ValidateInputBtnMinPlus(string strName, string strValue, double paramStep, string strTypeAction)
-        {
-            if (!string.IsNullOrEmpty(strValue))
-            {
-                var dblValue = Convert.ToDouble(strValue.Replace(",", "."));
-
-                strValue = (dblValue < 0 ? (dblValue + paramStep) : (dblValue - paramStep)).ToString("N2");
-
-                TAB_ActuationParameters_WriteComInputTxt(strName, strValue);
-            }
         }
         private void TAB_ActuationParameters_WriteComInputTxt(string strName, string strValue)
         {
@@ -2595,9 +2584,7 @@ namespace Continental.Project.Adam.UI
             {
                 _bAppStart = true;
 
-                BLL_Manager_TestAvailable _bll_Manager_SelectEvalProgram = new BLL_Manager_TestAvailable();
-
-                DataTable dt = _bll_Manager_SelectEvalProgram.GetAvailableTests();
+                DataTable dt = new BLL_Manager_TestAvailable().GetAvailableTests();
 
                 DataRow dr = dt.NewRow();
                 dr.ItemArray = new object[] { 0, "-- No Selection Test --" };
@@ -3455,9 +3442,9 @@ namespace Continental.Project.Adam.UI
         #region TAB - ActuationParameters - Evaluation Parameters - Grid
         private void grid_tabActionParam_EvalParam_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            var row = ((System.Windows.Forms.DataGridView)sender).CurrentRow;
-            string strName = ((System.Windows.Forms.DataGridView)sender).CurrentRow.Cells["EvalParam_Name"].Value.ToString();
-            string strValue = ((System.Windows.Forms.DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
+            var row = ((DataGridView)sender).CurrentRow;
+            string strName = ((DataGridView)sender).CurrentRow.Cells["EvalParam_Name"].Value.ToString();
+            string strValue = ((DataGridView)sender).CurrentCell.EditedFormattedValue.ToString();
 
             if (row == null)
             {
@@ -3500,73 +3487,6 @@ namespace Continental.Project.Adam.UI
                         }
                     }
                 }
-            }
-        }
-        private void grid_tabActionParam_EvalParam_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            switch (HelperApp.uiTesteSelecionado)
-            {
-                case 222: //CREATE_MULTICHECKBOX_INPUT
-                    {
-                        //mering all cells in a first row
-                        //if (e.RowIndex == 8)
-                        if (false)
-                        {
-                            if (e.ColumnIndex == 0)
-                            {
-                                e.PaintBackground(e.ClipBounds, true);
-                                Rectangle r = e.CellBounds;
-
-                                for (int i = 1; i < (sender as DataGridView).ColumnCount; i++)
-                                    r.Width += (sender as DataGridView).GetCellDisplayRectangle(i, 0, true).Width;
-
-                                r.Width -= 1;
-                                r.Height -= 1;
-
-                                using (SolidBrush brBk = new SolidBrush(e.CellStyle.BackColor))
-                                using (SolidBrush brFr = new SolidBrush(e.CellStyle.ForeColor))
-                                {
-                                    e.Graphics.FillRectangle(brBk, r);
-                                    StringFormat sf = new StringFormat();
-                                    sf.Alignment = StringAlignment.Center;
-                                    sf.LineAlignment = StringAlignment.Center;
-                                    e.Graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-                                    e.Graphics.DrawString(e.Value.ToString(), e.CellStyle.Font, brFr, r, sf);
-                                }
-
-                                e.Handled = true;
-                            }
-                            else
-                                if (e.ColumnIndex > 0)
-                            {
-                                using (Pen p = new Pen((sender as DataGridView).GridColor))
-                                {
-                                    //bottom line of a cell 
-                                    e.Graphics.DrawLine(p, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right, e.CellBounds.Bottom - 1);
-                                    //right vertical line of a last cell in a row
-                                    if (e.ColumnIndex == (sender as DataGridView).ColumnCount - 1)
-                                        e.Graphics.DrawLine(p, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
-                                }
-
-                                e.Handled = true;
-                            }
-                        }
-
-                        //bool bReturn = TAB_ActuationParameters_GetDataInfo(HelperApp.uiTesteSelecionado.ToString());
-                    }
-                    break;
-                case 224: //CREATE_RADIO_INPUT
-                    {
-
-                    }
-                    break;
-                case 227: //CREATE_MULTICHECKBOX_INPUT
-                    {
-
-                    }
-                    break;
-                default:
-                    break;
             }
         }
         private void grid_tabActionParam_EvalParam_Scroll(object sender, ScrollEventArgs e)
@@ -3687,10 +3607,10 @@ namespace Continental.Project.Adam.UI
         }
         private void TAB_ActuationParameters_EvalParameters_RadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            int rbId = Convert.ToInt32(((System.Windows.Forms.Control)sender).Tag?.ToString()?.Trim());
-            string rbName = ((System.Windows.Forms.Control)sender).Name?.ToString()?.Trim();
-            string rbText = ((System.Windows.Forms.ButtonBase)sender).Text?.ToString()?.Trim();
-            bool rbChecked = ((System.Windows.Forms.RadioButton)sender).Checked;
+            int rbId = Convert.ToInt32(((Control)sender).Tag?.ToString()?.Trim());
+            string rbName = ((Control)sender).Name?.ToString()?.Trim();
+            string rbText = ((ButtonBase)sender).Text?.ToString()?.Trim();
+            bool rbChecked = ((RadioButton)sender).Checked;
 
             TAB_ActuationParameters_EvalParameters_Grid_FormatRadioGroup(rbId, rbName, rbChecked);
         }
@@ -3884,15 +3804,11 @@ namespace Continental.Project.Adam.UI
 
                                         // Add the Button to the GroupBox.
                                         grpBox.Controls.Add(radBtn);
-
-
-                                        //dt.AcceptChanges();
-                                        // DataRow dr = dt.Rows[iRowIndex];
-                                        //         dr.Delete();
-                                        // dt.AcceptChanges();
                                     }
+
                                     // Set the FlatStyle of the GroupBox.
-                                    grpBox.FlatStyle = FlatStyle.Standard;
+                                    grpBox.FlatStyle = FlatStyle.Popup;
+                                    //grpBox.BackColor = Color.Blue;
                                     grpBox.Width = grid_tabActionParam_EvalParam.Width;
 
                                 }
@@ -3903,10 +3819,14 @@ namespace Continental.Project.Adam.UI
                     }
 
                     // Set the name of the GroupBox and Add in main Panel.
-                    grpBox.Name = "grpRadio_T24_Efficiency";
-                    metroPnl.AddControl(grpBox);
+                    if (HelperApp.uiTesteSelecionado == 24)
+                    {
+                        grpBox.Name = "grpRadio_T24_Efficiency";
 
-                    grid_tabActionParam_EvalParam.DataSource = dt;
+                        var lstPnl = CONTROLS_GetAll(this, typeof(MetroPanel));
+
+                        metroPnl.AddControl(grpBox);
+                    }
 
                     grid_tabActionParam_EvalParam.DataSource = dt;
                 }
@@ -6119,13 +6039,29 @@ namespace Continental.Project.Adam.UI
                     return;
                 }
 
-                if (HelperApp.uiTesteSelecionado == 9 || HelperApp.strActuationMode == "E-Motor")
+                if (HelperApp.strActuationMode == "E-Motor")
                 {
                     if (!HelperMODBUS.CS_wEixoReferenciado)
                     {
                         MessageBox.Show("TEST NOT STARTED!" + "\n\n\n" + "NOT EMotor Ref. ", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
+                    }
+                }
 
+                if (HelperApp.uiTesteSelecionado == 27 || HelperApp.uiTesteSelecionado == 28)
+                {
+                    if (!HelperMODBUS.CS_wSens_S0702 || !HelperMODBUS.CS_wSens_S0703)
+                    {
+                        MessageBox.Show("TEST NOT STARTED!" + "\n\n\n" + "Fast Movement Not Allowed (Protection Bow Mounted) ", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+                else
+                {
+                    if (HelperMODBUS.CS_wSens_S0702 || HelperMODBUS.CS_wSens_S0703)
+                    {
+                        MessageBox.Show("TEST NOT STARTED!" + "\n\n\n" + "Slow Movement Not Allowed (Protection Bow Not Mounted) ", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
                     }
                 }
 
@@ -11486,7 +11422,7 @@ namespace Continental.Project.Adam.UI
 
             ListViewItem LVI = new ListViewItem(_strTimeStamp);
             LVI.SubItems.Add(msg.Trim());
-            LVI.SubItems.Add(HelperApp.UserName);
+            LVI.SubItems.Add(HelperApp.UserApp.UName);
             lvLog.Items.Add(LVI);
         }
         public void LOG_Clear()

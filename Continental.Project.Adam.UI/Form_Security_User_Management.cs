@@ -5,11 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using Continental.Project.Adam.UI.Models.Operational;
-using Continental.Project.Adam.UI.Enum;
 using Continental.Project.Adam.UI.Models.Security;
-using Continental.Project.Adam.UI.Helper.Tests;
-using Continental.Project.Adam.UI.Models.Manager;
-using System.Collections.Generic;
 
 namespace Continental.Project.Adam.UI
 {
@@ -20,22 +16,16 @@ namespace Continental.Project.Adam.UI
 
         HelperApp _helperApp = new HelperApp();
 
-        BLL_Security_User bll_User = new BLL_Security_User();
+        BLL_Security bll_User = new BLL_Security();
+        Model_SecurityUser User = new Model_SecurityUser();
 
-        Model_Operational_Project_TestConcluded modelOperationalProjectTestConcluded = new Model_Operational_Project_TestConcluded();
-
-        bool selected_entry = false;
-
-        string strIdProjectTestConcluded = string.Empty;
-        string strIdProjectTestSampleSelect = string.Empty;
-        string strIdProjectSelect = string.Empty;
-
-        string _strTestSel = string.Empty;
+        bool bPassBlank = false;
+        long idUsertSelect = 0;
+        long idUserProfileSelect = 0;
 
         #endregion
 
         #region Construtor
-
         public Form_Security_User_Management()
         {
             InitializeComponent();
@@ -49,7 +39,22 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                Load_StartInfoData();
+                if (HelperApp.IsLoggedIn)
+                {
+                    Load_StartInfoData();
+                }
+                else
+                {
+                    HelperApp.IsLoggedIn = false;
+
+                    MessageBox.Show("Not Found LoginName OR Password !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    _helperApp.Form_Close(this);
+
+                    var formWelcome = new Form_Adam_Welcome();
+                    formWelcome.Closed += (s, args) => this.Close();
+                    formWelcome.Show();
+                }
             }
             catch (Exception ex)
             {
@@ -71,17 +76,13 @@ namespace Continental.Project.Adam.UI
         {
             try
             {
-                AvailableUsers_GetInfoData();
+                TAB_UsersManagement_ActivePage(0, _helperApp.GetMethodName());
 
                 mtxt_Information.ReadOnly = true;
 
-                mtxt_Information.Text = string.Concat("Actual User  - ", HelperApp.UserName.ToUpper());
+                mtxt_Information.Text = string.Concat("Actual User  - ", HelperApp.UserApp.UName.ToUpper());
 
                 grid_Users.ReadOnly = true;
-
-                DisableButtons();
-
-                DisableChecks();
             }
             catch (Exception ex)
             {
@@ -90,87 +91,163 @@ namespace Continental.Project.Adam.UI
             }
         }
         ///---------------------------------------------------------------------------
-        private void CurrentProjectData_Clear()
-        {
-            //mtxt_TestTypeName.Text = string.Empty;
-            //mtxt_Ident.Text = string.Empty;
-            //mtxt_Customer.Text = string.Empty;
-            //mtxt_Booster.Text = string.Empty;
-            //mtxt_Tmc.Text = string.Empty;
-            //mtxt_ProductionDate.Text = string.Empty;
-            //mtxt_TO.Text = string.Empty;
-            //mtxt_Tester.Text = string.Empty;
-            //mtxt_TestingDate.Text = string.Empty;
-            //mtxt_Comment.Text = string.Empty;
-        }
-        ///---------------------------------------------------------------------------
-        private void ModelToHeaderData(Model_Operational_Project_TestConcluded model)
+        private bool CheckUserExists(string userName)
         {
             try
             {
-                //mtxt_Ident.Text = model?.ProjectTestSample?.Project?.Identification?.ToString()?.Trim();
+                var dt = new BLL_Security().GetUserByName(tab_UserAdd_mtxt_UName.Text.Trim());
 
-                //mtxt_TestTypeName.Text = model?.ProjectTestSample?.TestAvailable?.Test?.ToString()?.Trim();
-                //mtxt_Customer.Text = model?.ProjectTestSample?.CustomerType?.ToString()?.Trim();
-                //mtxt_Booster.Text = model?.ProjectTestSample?.Booster?.ToString()?.Trim();
-                //mtxt_Tmc.Text = model?.ProjectTestSample?.TMC?.ToString()?.Trim();
-                //mtxt_ProductionDate.Text = model?.ProjectTestSample?.ProductionDate?.ToString()?.Trim();
-                //mtxt_TO.Text = model?.ProjectTestSample?.T_O?.ToString()?.Trim();
-                //mtxt_Tester.Text = model?.ProjectTestSample?.User?.UName?.ToString()?.Trim();
-                //mtxt_TestingDate.Text = model?.ProjectTestSample?.TestingDate?.ToString()?.Trim();
-                //mtxt_Comment.Text = model?.ProjectTestSample?.Comment?.ToString()?.Trim();
+                return dt.Rows.Count > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception Occured while releasing object " + ex.ToString(), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+        ///---------------------------------------------------------------------------
+        ///
+        #endregion
+
+        #region TABS
+
+        #region TABS Methods Common
+        public bool TAB_LoadUserName(string origin)
+        {
+            try
+            {
+                DataTable dt = bll_User.GetAllUserLogin();
+
+                DataRow dr = dt.NewRow();
+                dr.ItemArray = new object[] { 0, "-- No Selection User --" };
+                dt.Rows.InsertAt(dr, 0);
+
+                if (origin.Equals("TAB_UserUpdate_SetData"))
+                {
+                    tab_UserEdit_mcbo_UserName.ValueMember = "Id";
+
+                    tab_UserEdit_mcbo_UserName.DisplayMember = "Name";
+                    tab_UserEdit_mcbo_UserName.DataSource = dt;
+                }
+                else
+                {
+                    tab_UserDelete_mcbo_UserName.ValueMember = "Id";
+
+                    tab_UserDelete_mcbo_UserName.DisplayMember = "Name";
+                    tab_UserDelete_mcbo_UserName.DataSource = dt;
+                }
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        #region TAB - UsersManagement
+        private void TAB_UsersManagement_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            bool bTabAccessOk = false;
+
+            var strTabSelected = e.TabPage.Name.ToString();
+
+            switch (strTabSelected)
+            {
+                case "tab_UserAdd":
+                    bTabAccessOk = true;
+                    break;
+                case "tab_UserUpdate":
+                    bTabAccessOk = true;
+                    break;
+                case "tab_UserDelete":
+                    bTabAccessOk = true;
+                    break;
+                default:
+                    bTabAccessOk = false;
+                    break;
+            }
+
+            if (!bTabAccessOk)
+                e.Cancel = true;
+        }
+        private void TAB_UsersManagement_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TAB_UsersManagement_ActivePage(TAB_UsersManagement.SelectedIndex, _helperApp.GetMethodName());
+        }
+        public void TAB_UsersManagement_ActivePage(int tabIdx, string origin)
+        {
+            try
+            {
+                switch (tabIdx)
+                {
+                    case 0://tab_UserView
+                        {
+                            TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserView"];
+
+                            TAB_UserView_SetData(_helperApp.GetMethodName());
+                            break;
+                        }
+                    case 1://tab_UserAdd
+                        {
+                            TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserAdd"];
+
+                            if (!TAB_UserAdd_SetData(_helperApp.GetMethodName()))
+                            {
+                                MessageBox.Show("Failed, TAB_UserAdd_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserView"];
+                            }
+
+                            break;
+                        }
+                    case 2://tab_UserUpdate
+                        {
+                            TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserUpdate"];
+
+                            if (!TAB_UserUpdate_SetData(_helperApp.GetMethodName()))
+                            {
+                                MessageBox.Show("Failed, TAB_UserUpdate_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserView"];
+
+                            }
+
+                            break;
+                        }
+                    case 3://tab_UserDelete
+                        {
+                            TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserDelete"];
+
+                            if (!TAB_UserDelete_SetData(_helperApp.GetMethodName()))
+                            {
+                                MessageBox.Show("Failed, TAB_UserDelete_SetData !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserView"];
+                            }
+
+                            break;
+                        }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 throw;
             }
         }
-        ///---------------------------------------------------------------------------
-        private Model_Operational_Project_TestConcluded HeaderDataToModel(Model_Operational_Project_TestConcluded model)
-        {
-            try
-            {
-                //string nullValue = "NULL";
-                //string strTimeStamp = DateTime.Now.ToString();
 
-                ////project Data
-                //model.ProjectTestSample.Project.Identification = !string.IsNullOrEmpty(mtxt_Ident.Text) ? mtxt_Ident.Text.Trim() : nullValue;
-                //model.ProjectTestSample.Project.PartNumber = string.Concat(DateTime.Now.ToString("yyyyMMdd_HHmmss"), "_|_", model.ProjectTestSample.Project.Identification);
-                //model.ProjectTestSample.Project.LastUpdatePRJ = strTimeStamp;
+        #endregion
 
-                ////project sample data
-                //model.ProjectTestSample.CustomerType = !string.IsNullOrEmpty(mtxt_Customer.Text) ? mtxt_Customer.Text.Trim() : nullValue;
-                //model.ProjectTestSample.Booster = !string.IsNullOrEmpty(mtxt_Booster.Text) ? mtxt_Booster.Text.Trim() : nullValue;
-                //model.ProjectTestSample.TMC = !string.IsNullOrEmpty(mtxt_Tmc.Text) ? mtxt_Tmc.Text.Trim() : nullValue;
-                //model.ProjectTestSample.ProductionDate = !string.IsNullOrEmpty(mtxt_ProductionDate.Text) ? mtxt_ProductionDate.Text.Trim() : nullValue;
-                //model.ProjectTestSample.T_O = !string.IsNullOrEmpty(mtxt_TO.Text) ? mtxt_TO.Text.Trim() : nullValue;
-                //model.ProjectTestSample.IdUser = !string.IsNullOrEmpty(mtxt_Tester.Text) ? _helperApp.GetUserIdByName(mtxt_Tester.Text) : HelperApp.UserId;
-                //model.ProjectTestSample.TestingDate = selected_entry ? !string.IsNullOrEmpty(mtxt_TestingDate?.Text) ? mtxt_TestingDate.Text.Trim() : nullValue : nullValue;
-                //model.ProjectTestSample.Comment = !string.IsNullOrEmpty(mtxt_Comment.Text) ? mtxt_Comment.Text.Trim() : nullValue;
-                //model.ProjectTestSample.LastUpdatePTS = strTimeStamp;
+        #region TAB - UserView
 
-                //if (model.ProjectTestSample.IdUser != 0)
-                //{
-                //    var user = _helperApp.GetUser(model.ProjectTestSample.IdUser);
-
-                //    model.ProjectTestSample.User = new Model_SecurityUser()
-                //    {
-                //        IdUser = (long)user.IdUser,
-                //        ULogin = user.ULogin?.ToString()?.Trim(),
-                //        UName = user.UName?.ToString()?.Trim()
-                //    };
-                //}
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            return model;
-        }
-        ///---------------------------------------------------------------------------
-        private void AvailableUsers_GetInfoData()
+        #region TAB - UserView - Common
+        private bool TAB_UserView_SetData(string origin)
         {
             try
             {
@@ -178,226 +255,36 @@ namespace Continental.Project.Adam.UI
 
                 DataTable dt = bll_User.GetAllUserInfo();
 
-                GridView_Populate(dt);
+                if (!TAB_UserView_Grid_GetData(dt))
+                {
+                    MessageBox.Show("Error, failed load user data!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                CurrentProjectData_Clear();
+                    _helperApp.Form_Close(this);
+
+                    return false;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
-            }
-        }        
-        ///---------------------------------------------------------------------------
-        private bool TEST_Concluded_DeleteFileData()
-        {
-            try
-            {
-                //string _initialDirPathTestFile = System.IO.Path.Combine(System.IO.Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.FullName, _helperApp.AppTests_Path);
 
-                //string fileIdentificationTest =string.Empty;
+                TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserView"];
 
-                //if (modelOperationalProjectTestConcluded != null && !string.IsNullOrEmpty(strIdProjectTestSampleSelect)) //delete SAMPLE
-                //    fileIdentificationTest = string.Concat('#', modelOperationalProjectTestConcluded.ProjectTestSample?.SampleSequence,'#', modelOperationalProjectTestConcluded.ProjectTestSample?.Project?.Identification?.Trim());
-                //else
-                //    fileIdentificationTest = bll_Project.GetProjectIdentificationByIdProject(strIdProjectSelect); //delete PROJECT
-
-                //string[] allFiles = System.IO.Directory.GetFiles(_initialDirPathTestFile);
-
-                //foreach (string file in allFiles)
-                //{
-                //    if (file.Contains(fileIdentificationTest.Trim()))
-                //        System.IO.File.Delete(file);
-                //}
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception Occured while releasing object " + ex.ToString(), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             return true;
         }
-        ///---------------------------------------------------------------------------
-        private bool SaveProjectData()
-        {
-            try
-            {
-            //    if (string.IsNullOrEmpty(mtxt_Ident.Text.Trim()))
-            //    {
-            //        MessageBox.Show("Inform IDENT Test !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        return false;
-            //    }
-            //    else
-            //    {
-            //        Model_Operational_Project_TestConcluded modelPrjTestConcluded = new Model_Operational_Project_TestConcluded();
 
-            //        modelPrjTestConcluded.ProjectTestSample = new Model_Operational_Project_TestSample();
-
-            //        modelPrjTestConcluded.ProjectTestSample.Project = new Model_Operational_Project();
-
-            //        modelPrjTestConcluded = HeaderDataToModel(modelPrjTestConcluded);
-
-            //        if (DialogResult.Yes == MessageBox.Show($"      Are you sure you want to create project \n\n\t      {modelPrjTestConcluded.ProjectTestSample.Project.Identification} \n\n            and all it´s measurement data? \n\n\t Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
-            //        {
-            //            int idProjectInsert = bll_Project.AddProject(modelPrjTestConcluded.ProjectTestSample.Project);
-
-            //            if (idProjectInsert > 0)
-            //            {
-            //                modelPrjTestConcluded.ProjectTestSample.Project.IdProject = idProjectInsert;
-            //                modelPrjTestConcluded.ProjectTestSample.IdProject = idProjectInsert;
-            //                modelPrjTestConcluded.ProjectTestSample.SampleSequence = modelPrjTestConcluded.ProjectTestSample.SampleSequence + 1;
-
-            //                int idProjectTestSampleInsert = bll_Project.AddProjectTestSample(modelPrjTestConcluded.ProjectTestSample);
-
-            //                if (idProjectTestSampleInsert > 0)
-            //                {
-            //                    modelPrjTestConcluded.ProjectTestSample.IdProjectTestSample = idProjectTestSampleInsert;
-            //                    HelperTestBase.ProjectTestConcluded = modelPrjTestConcluded;
-            //                }
-            //                else
-            //                {
-            //                    HelperApp.lblstsbar03 = string.Empty;
-
-            //                    HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
-
-            //                    MessageBox.Show("Failed, create Project Test Sample!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            //                    return false;
-            //                }
-            //            }
-            //            else
-            //            {
-            //                HelperApp.lblstsbar03 = string.Empty;
-
-            //                HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
-
-            //                MessageBox.Show("Failed, created project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            //                return false;
-            //            }
-            //        }
-            //        else
-                        return false;
-            //    }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception Occured while releasing object " + ex.ToString(), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            return true;
-        }
-        ///---------------------------------------------------------------------------
-        private bool SaveProjectTestSampleData()
-        {
-            try
-            {
-                //if (string.IsNullOrEmpty(mtxt_Ident.Text.Trim()))
-                //{
-                //    MessageBox.Show("Inform IDENT Test !", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    return false;
-                //}
-                //else
-                //{
-                //    Model_Operational_Project_TestConcluded modelPrjTestConcluded = new Model_Operational_Project_TestConcluded();
-                //    //modelPrjTestConcluded = HelperTestBase.ProjectTestConcluded;
-
-                //    Model_Operational_Project_TestSample modelPrjTestSample = new Model_Operational_Project_TestSample();
-
-                //    modelPrjTestConcluded.ProjectTestSample = new Model_Operational_Project_TestSample();
-
-                //    modelPrjTestConcluded.ProjectTestSample.Project = new Model_Operational_Project();
-
-                //    modelPrjTestConcluded = HeaderDataToModel(modelPrjTestConcluded);
-
-                //    if (modelPrjTestConcluded.IdProjectTestConcluded == 0)
-                //    {
-                //        modelPrjTestConcluded.IdProjectTestConcluded = modelOperationalProjectTestConcluded.IdProjectTestConcluded;
-                //        modelPrjTestConcluded.IdProjectTestSample = modelOperationalProjectTestConcluded.IdProjectTestSample;
-                //        modelPrjTestConcluded.IdTestAvailable = modelOperationalProjectTestConcluded.IdTestAvailable;
-                //        modelPrjTestConcluded.LastUpdatePTC = modelOperationalProjectTestConcluded.LastUpdatePTC;
-                //        modelPrjTestConcluded.ProjectTestFileName = modelOperationalProjectTestConcluded.ProjectTestFileName;
-
-                //        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject = modelOperationalProjectTestConcluded.ProjectTestSample.Project.IdProject;
-                //        HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject = modelOperationalProjectTestConcluded.ProjectTestSample.IdProject;
-                //    }
-                    
-                //    modelPrjTestConcluded.ProjectTestSample.Project.IdProject = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject;
-                //    modelPrjTestConcluded.ProjectTestSample.IdProject = HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject;
-                //    modelPrjTestConcluded.ProjectTestSample.IdProjectTestSample = modelOperationalProjectTestConcluded.IdProjectTestSample;
-                //    modelPrjTestConcluded.ProjectTestSample.SampleSequence = modelOperationalProjectTestConcluded.ProjectTestSample.SampleSequence;
-                //    modelPrjTestConcluded.ProjectTestSample.TestAvailable = modelOperationalProjectTestConcluded.ProjectTestSample.TestAvailable;
-
-                //    //update max sample
-                //    if (HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject > 0)
-                //        HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence = bll_Project.GetMaxProjectSampleTestByIdProject(HelperTestBase.ProjectTestConcluded.ProjectTestSample.IdProject.ToString());
-
-
-                //    modelPrjTestConcluded.ProjectTestSample.SampleSequence = HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence;
-                //    modelPrjTestConcluded.ProjectTestSample.SampleSequence = modelPrjTestConcluded.ProjectTestSample.SampleSequence + 1;
-
-                //    int idProjectTestSampleInsert = bll_Project.AddProjectTestSample(modelPrjTestConcluded.ProjectTestSample);
-
-                //    if (idProjectTestSampleInsert > 0)
-                //    {
-                //        modelPrjTestConcluded.ProjectTestSample.IdProjectTestSample = idProjectTestSampleInsert;
-                //        modelPrjTestConcluded.IdProjectTestSample = idProjectTestSampleInsert;
-                //        HelperTestBase.ProjectTestConcluded = modelPrjTestConcluded;
-                //    }
-                //    else
-                //    {
-                //        HelperApp.lblstsbar03 = string.Empty;
-
-                //        HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
-
-                //        MessageBox.Show("Failed, create Project Test Sample!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                       return false;
-                //    }
-                //}
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception Occured while releasing object " + ex.ToString(), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            return true;
-        }
-        ///---------------------------------------------------------------------------
-        private bool CheckProjectExists()
-        {
-            try
-            {
-                //int iExists = bll_Project.CheckProjectByIdent(mtxt_Ident.Text.Trim());
-
-                //if (iExists > 0)
-                    return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception Occured while releasing object " + ex.ToString(), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            return false;
-        }
-        ///---------------------------------------------------------------------------
-        ///
         #endregion
 
-        #region GRIDVIEW
-        private void grid_Users_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-
-        }
-        ///---------------------------------------------------------------------------
-        private void GridView_Populate(DataTable dt)
+        #region TAB - UserView - Grid
+        private bool TAB_UserView_Grid_GetData(DataTable dt)
         {
             try
             {
+                grid_Users.AllowUserToAddRows = false;
+
                 grid_Users.DataSource = dt;
 
                 ////columns
@@ -433,7 +320,7 @@ namespace Continental.Project.Adam.UI
                 grid_Users.Columns["UProfile"].Width = 120;
                 grid_Users.Columns["UProfile"].DisplayIndex = 2;
 
-                grid_Users.Columns["Status"].HeaderText = "Status";
+                grid_Users.Columns["Status"].HeaderText = "Active";
                 grid_Users.Columns["Status"].Visible = true;
                 grid_Users.Columns["Status"].Width = 80;
                 grid_Users.Columns["Status"].DisplayIndex = 3;
@@ -466,6 +353,9 @@ namespace Continental.Project.Adam.UI
                 grid_Users.DefaultCellStyle.SelectionBackColor = Color.LightGray;
                 grid_Users.DefaultCellStyle.SelectionForeColor = Color.Black;
 
+                if (dt.Rows.Count < grid_Users.Rows.Count)
+                    grid_Users.Rows.RemoveAt(grid_Users.Rows.Count - 1);
+
                 grid_Users.ClearSelection();
             }
             catch (Exception ex)
@@ -473,209 +363,480 @@ namespace Continental.Project.Adam.UI
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
-        }
-        ///---------------------------------------------------------------------------
-        private Model_Operational_Project_TestConcluded GridView_GetSelectedProjectTestItem(DataGridViewRow gvRow)
-        {
-            Model_Operational_Project_TestConcluded gvModelProjectTestConcluded = new Model_Operational_Project_TestConcluded();
 
+            return true;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region TAB - UserAdd
+        private bool TAB_UserAdd_SetData(string origin)
+        {
             try
             {
-                CurrentProjectData_Clear();
-
-                gvModelProjectTestConcluded = new Model_Operational_Project_TestConcluded()
+                if (!TAB_UserAdd_LoadProfile())
                 {
-                    IdProjectTestConcluded = (long)gvRow.Cells["IdProjectTestConcluded"].Value,
-                    IdProjectTestSample = (long)gvRow.Cells["IdProjectTestSample"].Value,
-                    IdTestAvailable = (long)gvRow.Cells["IdTestAvailable"].Value,
-                    ProjectTestFileName = gvRow.Cells["ProjectTestFileName"].Value?.ToString()?.Trim(),
-                    LastUpdatePTC = gvRow.Cells["LastUpdatePTC"].Value != null ? gvRow.Cells["LastUpdatePTC"].Value?.ToString()?.Trim() : DateTime.Now.ToString(),
+                    MessageBox.Show("Failed, TAB_UserAdd_LoadProfile !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                    ProjectTestSample = new Model_Operational_Project_TestSample()
-                    {
-                        IdProjectTestSample = (long)gvRow.Cells["IdProjectTestSample"].Value,
-                        IdProject = (long)gvRow.Cells["IdProject"].Value,
-                        SampleSequence = (long)gvRow.Cells["SampleSequence"].Value,                        
-                        CustomerType = gvRow.Cells["CustomerType"].Value?.ToString()?.Trim(),
-                        Booster = gvRow.Cells["Booster"].Value?.ToString()?.Trim(),
-                        TMC = gvRow.Cells["TMC"].Value?.ToString()?.Trim(),
-                        ProductionDate = gvRow.Cells["ProductionDate"].Value?.ToString()?.Trim(),
-                        T_O = gvRow.Cells["T_O"].Value?.ToString()?.Trim(),
-                        IdUser = (long)gvRow.Cells["IdUser"].Value,
-                        TestingDate = gvRow.Cells["TestingDate"].Value?.ToString()?.Trim(),
-                        Comment = gvRow.Cells["Comment"].Value?.ToString()?.Trim(),
-                        LastUpdatePTS = gvRow.Cells["LastUpdatePTS"].Value != null ? gvRow.Cells["LastUpdatePTS"].Value?.ToString()?.Trim() : DateTime.Now.ToString(),
+                    TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserView"];
+                }
+                else
+                {
+                    tab_UserAdd_mtxt_UName.Text = string.Empty;
 
-                        Project = new Model_Operational_Project()
-                        {
-                            IdProject = (long)gvRow.Cells["IdProject"].Value,
-                            PartNumber = gvRow.Cells["PartNumber"].Value?.ToString()?.Trim(),
-                            Identification = gvRow.Cells["Identification"].Value?.ToString()?.Trim(),
-                            LastUpdatePRJ = gvRow.Cells["LastUpdatePRJ"].Value != null ? gvRow.Cells["LastUpdatePRJ"].Value?.ToString()?.Trim() : DateTime.Now.ToString()
-                        },
+                    tab_UserAdd_mcbo_Profile.SelectedIndex = 0;
 
-                        User = new Model_SecurityUser()
-                        {
-                            IdUser = (long)gvRow.Cells["IdUser"].Value,
-                            ULogin = gvRow.Cells["ULogin"].Value?.ToString()?.Trim(),
-                            UName = gvRow.Cells["UName"].Value.ToString()?.Trim()
-                        },
+                    tab_UserAdd_mtxt_ULogin.Text = string.Empty;
 
-                        TestAvailable = new Model_Manager_TestAvailable()
-                        {
-                            IdTestAvailable = (long)gvRow.Cells["IdTestAvailable"].Value,
-                            Test = gvRow.Cells["Test"].Value?.ToString()?.Trim()
-                        }
-                    }
-                };
+                    tab_UserAdd_mtxt_UPass.Text = string.Empty;
 
-                if (gvModelProjectTestConcluded.IdProjectTestConcluded != 0)
-                    selected_entry = true;
+                    tab_UserAdd_mbtn_UserAdd.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
-            if (gvModelProjectTestConcluded.IdProjectTestConcluded == 0)
-            {
-                MessageBox.Show("Error no valid IdProjectTestConcluded selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-
-            return gvModelProjectTestConcluded;
+            return true;
         }
-        ///---------------------------------------------------------------------------
+        private bool TAB_UserAdd_LoadProfile()
+        {
+            try
+            {
+                DataTable dt = bll_User.GetAllUserProfile();
 
+                DataRow dr = dt.NewRow();
+                dr.ItemArray = new object[] { 0, "-- No Selection Profile --" };
+                dt.Rows.InsertAt(dr, 0);
+
+                tab_UserAdd_mcbo_Profile.ValueMember = "Id";
+
+                tab_UserAdd_mcbo_Profile.DisplayMember = "Name";
+                tab_UserAdd_mcbo_Profile.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private void tab_UserAdd_mcbo_Profile_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tab_UserAdd_mcbo_Profile.SelectedIndex > 0)
+            {
+                idUserProfileSelect = tab_UserAdd_mcbo_Profile.SelectedIndex;
+
+                tab_UserAdd_mbtn_UserAdd.Enabled = true;
+            }
+            else
+            {
+                idUserProfileSelect = 0;
+
+                tab_UserAdd_mtxt_UName.Text = string.Empty;
+
+                tab_UserAdd_mcbo_Profile.SelectedIndex = 0;
+
+                tab_UserAdd_mtxt_ULogin.Text = string.Empty;
+
+                tab_UserAdd_mtxt_UPass.Text = string.Empty;
+
+                tab_UserAdd_mbtn_UserAdd.Enabled = false;
+            }
+        }
+        private bool TAB_UserAdd_Validate()
+        {
+            try
+            {
+                #region User Name
+
+                if (string.IsNullOrEmpty(tab_UserAdd_mtxt_UName.Text))
+                {
+                    MessageBox.Show("Error no valid User Name!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                else
+                {
+                    //stroe the every caharter u enter in the textbox
+                    char[] testarr = tab_UserAdd_mtxt_UName.Text.ToCharArray();
+                    //to check the symbols in the given input through for loop
+
+                    for (int i = 0; i < testarr.Length; i++)
+                    {
+                        //Isletter property of char is using to chek the special charcters
+
+                        if (!char.IsLetter(testarr[i]))
+                        {
+                            MessageBox.Show("Error no valid User Name - Symbols are not allowed!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+
+                        if (char.IsWhiteSpace(testarr[i]))
+                        {
+                            MessageBox.Show("Error no valid User Name - space in the end of the text is not allowed!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                    }
+                }
+                #endregion
+
+                #region User Profile
+
+                if (tab_UserAdd_mcbo_Profile.SelectedIndex <= 0)
+                {
+                    MessageBox.Show("Error no valid User Login!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                #endregion
+
+                #region User Login
+
+                if (string.IsNullOrEmpty(tab_UserAdd_mtxt_ULogin.Text))
+                {
+                    MessageBox.Show("Error no valid User Login!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                else
+                {
+                    //stroe the every caharter u enter in the textbox
+                    char[] testarr = tab_UserAdd_mtxt_ULogin.Text.ToCharArray();
+                    //to check the symbols in the given input through for loop
+
+                    for (int i = 0; i < testarr.Length; i++)
+                    {
+                        //Isletter property of char is using to chek the special charcters
+
+                        if (!char.IsLetter(testarr[i]))
+                        {
+                            MessageBox.Show("Error no valid User Login - Symbols are not allowed!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+
+                        if (char.IsWhiteSpace(testarr[i]))
+                        {
+                            MessageBox.Show("Error no valid User Login - space in the end of the text is not allowed!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                    }
+                }
+
+                #endregion
+
+                #region User Password
+
+                if (string.IsNullOrEmpty(tab_UserAdd_mtxt_UPass.Text))
+                {
+                    if (DialogResult.Yes == MessageBox.Show("\t Password not provided\n\n Want to use system default password?\n\n", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                        bPassBlank = true;
+                    else
+                    {
+                        MessageBox.Show("Error no valid User Password!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Concat("Error - TAB_UserAdd_Validate : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool TAB_UserAdd_Save()
+        {
+            try
+            {
+                if (!TAB_UserAdd_Validate())
+                {
+                    tab_UserAdd_mtxt_UName.Text = string.Empty;
+
+                    tab_UserAdd_mcbo_Profile.SelectedIndex = 0;
+
+                    tab_UserAdd_mtxt_ULogin.Text = string.Empty;
+
+                    tab_UserAdd_mtxt_UPass.Text = string.Empty;
+
+                    tab_UserAdd_mbtn_UserAdd.Enabled = false;
+
+                    return false;
+                }
+                else
+                {
+                    User = new Model_SecurityUser()
+                    {
+                        ULogin = tab_UserAdd_mtxt_ULogin.Text?.Trim()?.ToLower(),
+                        UName = tab_UserAdd_mtxt_UName.Text?.Trim(),
+                        ChangePassword = bPassBlank ? true : false,
+                        LastUpdate = DateTime.Now,
+                        Status = true,
+                        IdProfile = tab_UserAdd_mcbo_Profile.SelectedIndex
+                    };
+
+                    long idUserCreated = new BLL_Security().AddUser(User);
+
+                    if (idUserCreated > 0)
+                    {
+                        User.IdUser = idUserCreated;
+
+                        var Password = new Model_SecurityPassword()
+                        {
+                            UPass = bPassBlank ? new SecurityCrypto().clsCrypt(_helperApp.AppSecurity_PassDefault, true) : new SecurityCrypto().clsCrypt(tab_UserAdd_mtxt_UName.Text, true),
+                            LastUpdate = DateTime.Now,
+                            IdUser = idUserCreated,
+                            User = User
+                        };
+
+                        long idPassCreated = new BLL_Security().AddUserPassword(Password);
+
+                        if (idPassCreated > 0)
+                            return true;
+                        else
+                        {
+                            MessageBox.Show("Error save password for User!", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error save User!", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Concat("Error - TAB_UserAdd_Save : \n\n", ex.Message), _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+        private void tab_UserAdd_mbtn_UserAdd_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tab_UserAdd_mtxt_UName.Text))
+            {
+                if (!CheckUserExists(tab_UserAdd_mtxt_UName.Text))
+                {
+                    if (!TAB_UserAdd_Save())
+                    {
+                        MessageBox.Show("Error Add New User!", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    Load_StartInfoData();
+
+                    MessageBox.Show("New User SAVED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("User already exists !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error no valid User Name!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
         #endregion
 
-        #region Checks
-
-        private void EnableChecks()
+        #region TAB - UserUpdate
+        private bool TAB_UserUpdate_SetData(string origin)
         {
-            //mchk_CBPrintSeries.Checked = true;
-            //mchk_CBExportBitmapSeries.Checked = true;
-            //mchk_CBExportExcelSeries.Checked = true;
-        }
+            try
+            {
+                if (!TAB_LoadUserName(_helperApp.GetMethodName()))
+                {
+                    MessageBox.Show("Failed, TAB_LoadUserName !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-        private void DisableChecks()
-        {
-            //mchk_CBPrintSeries.Checked = false;
-            //mchk_CBExportBitmapSeries.Checked = false;
-            //mchk_CBExportExcelSeries.Checked = false;
+                    TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserView"];
+                }
+                else
+                {
+                    tab_UserEdit_mcbo_UserName.SelectedIndex = 0;
+
+                    tab_UserEdit_mtxt_Name.Text = string.Empty;
+
+                    tab_UserEdit_mbtn_UserEditEnable.Visible = false;
+
+                    tab_UserEdit_mbtn_UserEdit.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
         }
+        private void tab_UserEdit_mcbo_UserName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tab_UserEdit_mcbo_UserName.SelectedIndex > 0)
+            {
+                tab_UserEdit_mbtn_UserEditEnable.Visible = true;
+
+                idUsertSelect = Convert.ToInt64(tab_UserEdit_mcbo_UserName.SelectedValue);
+
+                DataTable dt = bll_User.GetUserById(idUsertSelect);
+
+                if (dt?.Rows.Count > 0)
+                {
+                    DataRow row = dt.Rows[0];
+
+                    User = new Model_SecurityUser()
+                    {
+                        IdUser = row.Field<long>("IdUser"),
+                        ULogin = row.Field<string>("ULogin")?.ToString()?.Trim(),
+                        UName = row.Field<string>("UName")?.ToString()?.Trim()
+                    };
+
+                    tab_UserEdit_mtxt_Name.Text = User.UName;
+
+                    tab_UserEdit_mtxt_Name.Enabled = false;
+                }
+            }
+        }
+        private void tab_UserEdit_mbtn_UserEditEnable_Click(object sender, EventArgs e)
+        {
+            if (idUsertSelect > 0 && !string.IsNullOrEmpty(tab_UserEdit_mtxt_Name.Text))
+            {
+                tab_UserEdit_mtxt_Name.Enabled = true;
+
+                tab_UserEdit_mbtn_UserEdit.Enabled = true;
+            }
+        }
+        private void tab_UserEdit_mbtn_UserEdit_Click(object sender, EventArgs e)
+        {
+            if (idUsertSelect > 0 && !string.IsNullOrEmpty(tab_UserEdit_mtxt_Name.Text))
+            {
+                if (DialogResult.Yes == MessageBox.Show("Are you sure you want to Update Name the selected User?" + "\n\n" + "\t Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                {
+                    if (!bll_User.UpdateUserName(tab_UserEdit_mtxt_Name.Text.Trim(), idUsertSelect))
+                    {
+                        MessageBox.Show("Error update name select User!", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    Load_StartInfoData();
+
+                    MessageBox.Show("Name of user UPDATED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    tab_UserEdit_mcbo_UserName.SelectedIndex = 0;
+
+                    tab_UserEdit_mtxt_Name.Text = string.Empty;
+
+                    tab_UserEdit_mtxt_Name.Enabled = false;
+
+                    tab_UserEdit_mbtn_UserEdit.Enabled = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error no valid data for User selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+        #endregion
+
+        #region TAB - UserDelete
+        private bool TAB_UserDelete_SetData(string origin)
+        {
+            try
+            {
+                if (!TAB_LoadUserName(_helperApp.GetMethodName()))
+                {
+                    MessageBox.Show("Failed, TAB_LoadUserName !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    TAB_UsersManagement.SelectedTab = TAB_UsersManagement.TabPages["tab_UserView"];
+                }
+                else
+                {
+                    tab_UserDelete_mbtn_UserDelete.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private void tab_UserDelete_mcbo_UserName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tab_UserDelete_mcbo_UserName.SelectedIndex > 0)
+            {
+                tab_UserDelete_mbtn_UserDelete.Enabled = true;
+
+                idUsertSelect = Convert.ToInt64(tab_UserDelete_mcbo_UserName.SelectedValue);
+            }
+        }
+        private void tab_UserDelete_mbtn_UserDelete_Click(object sender, EventArgs e)
+        {
+            if (idUsertSelect > 0)
+            {
+                if (idUsertSelect == HelperApp.UserApp.IdUser)
+                {
+                    MessageBox.Show("Error select user is Logged!", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    tab_UserDelete_mcbo_UserName.SelectedIndex = 0;
+
+                    tab_UserDelete_mbtn_UserDelete.Enabled = false;
+
+                    return;
+                }
+
+                if (DialogResult.Yes == MessageBox.Show("Are you sure you want to delete the selected User?" + "\n\n" + "\t Do you want to Continue ? ", _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                {
+                    if (!bll_User.DeleteUser(idUsertSelect))
+                    {
+                        MessageBox.Show("Error drop select User!", _helperApp.appMsg_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        tab_UserDelete_mcbo_UserName.SelectedIndex = 0;
+
+                        tab_UserDelete_mbtn_UserDelete.Enabled = false;
+
+                        return;
+                    }
+
+                    Load_StartInfoData();
+
+                    MessageBox.Show("Test data sample DELETED !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    tab_UserDelete_mcbo_UserName.SelectedIndex = 0;
+
+                    tab_UserDelete_mbtn_UserDelete.Enabled = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error no valid User selected!", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+        #endregion
 
         #endregion
 
         #region BUTTONS
-        private void EnableButtons()
-        {
-        //    mbtn_BDeleteTest.Enabled = true;
-        //    mbtn_BLoadTest.Enabled = true;
-        }
-        private void DisableButtons()
-        {
-            //mbtn_BDeleteProject.Enabled = false;
-            //mbtn_BDeleteTest.Enabled = false;
-            //mbtn_BLoadTest.Enabled = false;
-        }
-        private void tab_UserAdd_mbtn_UserAdd_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mbtn_UserEdit_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mbtn_UserEditEnable_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mbtn_UserDelete_Click(object sender, EventArgs e)
-        {
-
-        }
         private void mbtn_Close_Click(object sender, EventArgs e)
         {
-
             this.Close();
-
-            //if (string.IsNullOrEmpty(mtxt_Ident.Text.Trim()))
-            //{
-            //    HelperApp.bLoadPrjTestOffLine = false;
-
-            //    delegateFnLoadTestConcluded(false);
-            //    this.Close();
-            //}
-            //else
-            //{
-            //    if (CheckProjectExists())
-            //    {
-            //        string strMsgProjectExists = String.Concat($"\t PROJECT { mtxt_Ident.Text.Trim() } EXISTS !", "\n\n\n", "\tDo you want SAVE NEW SAMPLE for Test ? ", "\n\n\n", $"\t\t {string.Concat("T", modelOperationalProjectTestConcluded.IdTestAvailable, " - ", modelOperationalProjectTestConcluded.ProjectTestSample.TestAvailable.Test)}");
-
-            //        if (DialogResult.No == MessageBox.Show(strMsgProjectExists, _helperApp.appMsg_Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
-            //        {
-            //            HelperApp.bLoadPrjTestOffLine = false;
-
-            //            HelperApp.bPrjTestCreateNewSampleOnLine = false;
-
-            //            delegateFnLoadTestConcluded(false);
-            //            this.Close();
-            //        }
-            //        else
-            //        {
-            //            if (SaveProjectTestSampleData())
-            //            {
-            //                HelperApp.bLoadPrjTestOffLine = false;
-
-            //                HelperApp.bPrjTestCreateNewSampleOnLine = true;
-
-            //                HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]", " - # Sample : ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence, "");
-            //            }
-            //            else
-            //            {
-            //                HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
-            //                CurrentProjectData_Clear();
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (SaveProjectData())
-            //        {
-            //            HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = true;
-
-            //            HelperApp.bPrjTestCreateNewSampleOnLine = true;
-
-            //            HelperApp.uiProjectSelecionado = HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.IdProject;
-
-            //            HelperApp.lblstsbar03 = string.Concat("Ident # - [ ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project?.Identification, " ]", " - # Sample : ", HelperTestBase.ProjectTestConcluded.ProjectTestSample.SampleSequence, "");
-
-            //            MessageBox.Show("Success, create project !", _helperApp.appMsg_Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //        }
-            //        else
-            //        {
-            //            HelperTestBase.ProjectTestConcluded.ProjectTestSample.Project.is_Created = false;
-
-            //            CurrentProjectData_Clear();
-            //        }
-
-            //        //HelperApp.bPrjTestCreateNewSampleOnLine = false;
-            //    }
-
-            //    HelperApp.bLoadPrjTestOffLine = false;
-
-            //    delegateFnLoadTestConcluded(false);
-            //    this.Close();
-            //}
         }
-
 
         #endregion
 
-        
+
     }
 }
